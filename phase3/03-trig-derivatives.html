@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Derivatives of Sine and Cosine — Phase 2</title>
+<title>Derivatives of Sine and Cosine — Phase 3</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -18,7 +18,7 @@
 <body>
 
 <h1>Derivatives of Sine and Cosine</h1>
-<p class="subtitle">Phase 2 — Calculus, Page 3</p>
+<p class="subtitle">Phase 3 — Calculus, Page 3</p>
 
 <div class="problem-box">
   <div class="label">The problem</div>
@@ -67,7 +67,7 @@
 </div>
 
 <p>
-  <em>Note:</em> In Phase 3, we will re-derive these algebraically from the power series
+  <em>Note:</em> In Phase 4, we will re-derive these algebraically from the power series
   definitions of sine and cosine. For now, the geometric proof is rigorous.
 </p>
 
@@ -75,7 +75,7 @@
 
 <p>
   This is the crux. Everything else follows from it. We prove it using the geometric
-  squeeze argument — combining the unit circle (Phase 0) with the squeeze theorem (Phase 1).
+  squeeze argument — combining the unit circle (Phase 0) with the squeeze theorem (Phase 2).
 </p>
 
 <p>
@@ -115,7 +115,7 @@
     converge to $1$.
   </p>
   <p>
-    By the squeeze theorem (Phase 1):
+    By the squeeze theorem (Phase 2):
   </p>
   <div class="display-math">$$\lim_{\theta \to 0^+} \frac{\sin\theta}{\theta} = 1$$</div>
   <p>
@@ -130,7 +130,7 @@
 
 <p>
   Observe the dependency chain: unit circle geometry (Phase 0) gave us the area inequality.
-  The squeeze theorem (Phase 1) converted that inequality into a limit. No black boxes.
+  The squeeze theorem (Phase 2) converted that inequality into a limit. No black boxes.
 </p>
 
 <h2>3. The second key limit: $\lim_{\theta \to 0} \frac{\cos\theta - 1}{\theta} = 0$</h2>
@@ -214,7 +214,7 @@
 
 <p>
   Since $\tan x = \frac{\sin x}{\cos x}$, we apply the quotient rule
-  (Phase 2, page 2):
+  (Phase 3, page 2):
 </p>
 
 <div class="display-math">$$\frac{d}{dx}\tan(x) = \frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x} = \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x}$$</div>
@@ -236,8 +236,8 @@
 <ol>
   <li><strong>Unit circle definition of $\sin$ and $\cos$</strong> (Phase 0, page 5) — gave us the area comparison and the Pythagorean identity.</li>
   <li><strong>$|\sin\theta| \leq 1$</strong> (Phase 0, page 5) — from $\sin^2\theta + \cos^2\theta = 1$.</li>
-  <li><strong>Squeeze theorem</strong> (Phase 1, page 2) — converted the geometric inequality into $\frac{\sin\theta}{\theta} \to 1$.</li>
-  <li><strong>Limit definition of the derivative</strong> (Phase 2, page 1) — the framework within which $\frac{d}{dx}\sin x$ is even a meaningful question.</li>
+  <li><strong>Squeeze theorem</strong> (Phase 2, page 2) — converted the geometric inequality into $\frac{\sin\theta}{\theta} \to 1$.</li>
+  <li><strong>Limit definition of the derivative</strong> (Phase 3, page 1) — the framework within which $\frac{d}{dx}\sin x$ is even a meaningful question.</li>
 </ol>
 
 <p>
@@ -247,7 +247,7 @@
 </p>
 
 <p>
-  <strong>The IOU:</strong> In Phase 3 (Taylor series), we will define $\sin$ and $\cos$ purely
+  <strong>The IOU:</strong> In Phase 4 (Taylor series), we will define $\sin$ and $\cos$ purely
   arithmetically as convergent power series. The derivative will then follow from
   term-by-term differentiation — no geometry at all. The geometric approach here is
   rigorous but depends on the unit circle. The series approach will be self-contained.

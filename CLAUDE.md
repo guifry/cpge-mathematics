@@ -12,10 +12,11 @@ The curriculum follows a **hybrid approach**: Bourbaki rigour (everything proved
 index.html                     # Table of contents, links all phases
 style.css                      # Shared CSS for all pages (dark theme, box styles)
 phase0/                        # Phase 0: Geometry and Measurement (6 pages)
-phase1/                        # Phase 1: Limits and Basic Convergence (7 pages)
-phase2/                        # Phase 2: Calculus (9 pages)
+phase1/                        # Phase 1: Number Theory and Arithmetic (coming soon)
+phase2/                        # Phase 2: Limits and Basic Convergence (7 pages)
+phase3/                        # Phase 3: Calculus (9 pages)
 LEARNING_APPROACH.md           # How the learner's brain works, pedagogical principles
-CPGE_HYBRID_CURRICULUM.md      # 13-phase curriculum with content plan per phase
+CPGE_HYBRID_CURRICULUM.md      # 15-phase curriculum with content plan per phase
 CPGE_MATHEMATICS_ROADMAP.md    # Original CPGE-ordered theorem list
 ```
 
@@ -124,7 +125,7 @@ Examples of good openings:
 
 Every tool must be proved or defined from first principles before use. If a concept depends on something not yet established:
 - **If it's from an earlier phase**: reference it explicitly ("We proved in Phase 0, page 5 that $|\sin\theta| \leq 1$").
-- **If it's from a later phase**: flag it as an explicit **IOU** ("This uses $e^x$ which we'll define from its power series in Phase 3").
+- **If it's from a later phase**: flag it as an explicit **IOU** ("This uses $e^x$ which we'll define from its power series in Phase 4").
 - Never silently assume something unproved.
 
 ### 3. Ground-up definitions
@@ -175,7 +176,7 @@ No HTML comments unless absolutely necessary. British English only throughout al
 ### 11. IOUs
 
 When a page must reference something not yet proved (e.g. using $e^x$ before Phase 3 defines it), flag it clearly:
-- In the text: "(IOU: this will be proved in Phase 3 from the power series definition)"
+- In the text: "(IOU: this will be proved in Phase 4 from the power series definition)"
 - Never let an unproved fact pass silently
 
 ---
@@ -198,7 +199,7 @@ When a page must reference something not yet proved (e.g. using $e^x$ before Pha
 2. Create `phaseN/` directory
 3. Write all pages following the structure above
 4. Update `index.html` to add the phase section with linked entries (see existing phases for the pattern: `phase-label`, intro paragraph in `<em>`, `index-list` with `<a>` and `.desc`)
-5. Replace the "Phases N-13 coming..." placeholder to reflect remaining phases
+5. Replace the "Phases N-15 coming..." placeholder to reflect remaining phases
 6. Commit: `feat: Phase N — Topic Name (M pages)`
 7. Push to `master`
 
@@ -207,7 +208,7 @@ When a page must reference something not yet proved (e.g. using $e^x$ before Pha
 ## Key documents
 
 - `LEARNING_APPROACH.md` — how the learner's brain works, the three pedagogical approaches, practical teaching rules
-- `CPGE_HYBRID_CURRICULUM.md` — the full 13-phase curriculum with theorems, content plans, time estimates, and rationale for reordering
+- `CPGE_HYBRID_CURRICULUM.md` — the full 15-phase curriculum with theorems, content plans, time estimates, and rationale for reordering
 - `CPGE_MATHEMATICS_ROADMAP.md` — the original CPGE-ordered theorem list with "what broke" narratives
 
 Read these before writing any new content. They define what to teach and in what order.

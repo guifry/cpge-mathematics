@@ -27,7 +27,35 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
 
 ---
 
-## Phase 1 — The Infinite: Limits and Basic Convergence
+## Phase 1 — Number Theory and Arithmetic
+
+*The Pythagoreans (6th century BC) worshipped whole numbers. They discovered that some numbers cannot be divided evenly, that every number has a unique prime factorisation, and that solving equations in whole numbers is a profoundly different challenge from solving them in the reals. This is the oldest mathematics — counting, dividing, and the structure hidden in the integers.*
+
+**The problem:** which numbers divide which? When can you solve an equation in whole numbers? What are the atoms of arithmetic?
+
+### What to study
+
+1. **Divisibility and the Euclidean algorithm** — GCD, LCM, the division algorithm. Euclid's algorithm (300 BC) finds the GCD without factoring — and proves that it exists as a linear combination (Bézout's identity).
+
+2. **Prime numbers and the Fundamental Theorem of Arithmetic** — every integer > 1 factors uniquely into primes. Euclid's proof that infinitely many primes exist. The sieve of Eratosthenes.
+
+3. **Modular arithmetic** — clock arithmetic. Congruences, residue classes, arithmetic mod $n$. The language that makes divisibility problems tractable.
+
+4. **Fermat's little theorem** — if $p$ is prime and $\gcd(a, p) = 1$, then $a^{p-1} \equiv 1 \pmod{p}$. The first deep result connecting primes to exponentiation. Used in RSA cryptography.
+
+5. **Euler's totient function and theorem** — generalises Fermat to composite moduli. $\varphi(n)$ counts integers coprime to $n$. Euler's theorem: $a^{\varphi(n)} \equiv 1 \pmod{n}$.
+
+6. **Chinese Remainder Theorem** — solving simultaneous congruences. If moduli are coprime, the system has a unique solution mod their product. The first "structure theorem" in algebra.
+
+7. **Diophantine equations** — equations in integers. Linear Diophantine equations (solvable iff GCD divides RHS). Pythagorean triples as a preview of deeper number theory.
+
+**Why this comes now:** historically, number theory preceded analysis. The Pythagoreans and Euclid worked with whole numbers centuries before anyone formalised limits. The √2 crisis (Phase 0) showed that rationals have holes — number theory explains what structure the integers DO have. Bézout's identity and the Chinese Remainder Theorem reappear in Phase 10 (algebra) when studying polynomial rings and group theory.
+
+**Time estimate:** 3-4 weeks
+
+---
+
+## Phase 2 — The Infinite: Limits and Basic Convergence
 
 *Archimedes (250 BC) wanted to compute the area of a circle. He trapped it between inscribed and circumscribed polygons — 6 sides, then 12, then 24, then 96. The area of the circle is what the polygon areas "approach." But what does "approach" mean, precisely? This question took 2000 years to answer properly.*
 
@@ -49,7 +77,7 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
 
 7. **Dense subsets** — ℚ is dense in ℝ (between any two reals there's a rational). The rationals have holes but are "good enough for approximation."
 
-**Why this comes now:** Archimedes' geometric problem (Phase 0) requires the concept of a limit. Limits require completeness of ℝ, which requires confronting the irrationals (Phase 0's √2 crisis). The logical chain is tight.
+**Why this comes now:** Archimedes' geometric problem (Phase 0) requires the concept of a limit. Limits require completeness of ℝ, which requires confronting the irrationals (Phase 0's √2 crisis). Number theory (Phase 1) showed the structure of the integers — now we confront the structure of the continuum. The logical chain is tight.
 
 **What you can do after this phase:** prove limits, use the squeeze theorem, reason about convergence. But you don't yet have derivatives, series, or power series.
 
@@ -57,21 +85,21 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
 
 ---
 
-## Phase 2 — Calculus: Derivatives and Integration
+## Phase 3 — Calculus: Derivatives and Integration
 
-*Not a separate stage in the CPGE roadmap (derivatives and basic integration are lycée prerequisites), but in the hybrid approach they must be built from Phase 1's limits. No formulas taken on faith — every rule proved from the definitions.*
+*Not a separate stage in the CPGE roadmap (derivatives and basic integration are lycée prerequisites), but in the hybrid approach they must be built from Phase 2's limits. No formulas taken on faith — every rule proved from the definitions.*
 
 ### Part A — Derivatives
 
 **The problem:** what is the slope of a curve at a single point? A straight line has a slope (rise/run). A parabola has a different slope at every point. Fermat (1636) and Newton/Leibniz (1660s-1680s) asked: can you compute instantaneous rate of change?
 
-1. **The derivative as a limit** — $f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$. Start with the tangent problem: given a curve, what line best approximates it at a point? The secant slope $(f(x+h) - f(x))/h$ is computable for any $h \neq 0$. Taking $h \to 0$ (Phase 1 limits) gives the tangent slope. This IS the derivative — Leibniz's $dy/dx$ is shorthand for this limit.
+1. **The derivative as a limit** — $f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$. Start with the tangent problem: given a curve, what line best approximates it at a point? The secant slope $(f(x+h) - f(x))/h$ is computable for any $h \neq 0$. Taking $h \to 0$ (Phase 2 limits) gives the tangent slope. This IS the derivative — Leibniz's $dy/dx$ is shorthand for this limit.
 
 2. **Differentiation rules from the definition** — sum rule, product rule (Leibniz), quotient rule, chain rule. Each one proved by writing the difference quotient and taking the limit. No "just memorise" — you see WHY the product rule has two terms (both factors are changing simultaneously).
 
-3. **Derivatives of elementary functions** — polynomials (from the binomial theorem), $\sin(x)$ and $\cos(x)$ (geometric argument using $\lim_{h \to 0} \sin(h)/h = 1$ from the squeeze theorem, Phase 1). These will be re-derived from power series in Phase 3.
+3. **Derivatives of elementary functions** — polynomials (from the binomial theorem), $\sin(x)$ and $\cos(x)$ (geometric argument using $\lim_{h \to 0} \sin(h)/h = 1$ from the squeeze theorem, Phase 2). These will be re-derived from power series in Phase 4.
 
-4. **Mean value theorem** — if $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there exists $c$ where $f'(c) = (f(b)-f(a))/(b-a)$. Built from Rolle's theorem (which uses the extreme value theorem, which uses Bolzano-Weierstrass from Phase 1). Connects local information (derivative at a point) to global information (total change over an interval). The bridge between derivatives and integrals.
+4. **Mean value theorem** — if $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there exists $c$ where $f'(c) = (f(b)-f(a))/(b-a)$. Built from Rolle's theorem (which uses the extreme value theorem, which uses Bolzano-Weierstrass from Phase 2). Connects local information (derivative at a point) to global information (total change over an interval). The bridge between derivatives and integrals.
 
 5. **L'Hôpital's rule** — computing $0/0$ and $\infty/\infty$ limits via derivatives. Proved from Cauchy's generalised mean value theorem. A tool, not a deep theorem — but extremely useful.
 
@@ -81,9 +109,9 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
 
 6. **The area problem from scratch** — given a curve $f(x) \geq 0$ on $[a,b]$, what is the area underneath? Partition $[a,b]$ into $n$ subintervals. On each, build a thin rectangle. The area is approximately $\sum f(x_i) \Delta x_i$. As the partition gets finer, this sum should converge. But to what? And does it always converge? This is Riemann's question (1854).
 
-7. **Riemann integral definition** — upper sums $U(f, P) = \sum \sup_{[x_{i-1}, x_i]} f \cdot \Delta x_i$, lower sums $L(f, P) = \sum \inf_{[x_{i-1}, x_i]} f \cdot \Delta x_i$. For any partition, $L \leq$ true area $\leq U$. The function is Riemann integrable when $\inf_P U(f,P) = \sup_P L(f,P)$. This is a supremum/infimum argument — completeness of $\mathbb{R}$ (Phase 1) at work again.
+7. **Riemann integral definition** — upper sums $U(f, P) = \sum \sup_{[x_{i-1}, x_i]} f \cdot \Delta x_i$, lower sums $L(f, P) = \sum \inf_{[x_{i-1}, x_i]} f \cdot \Delta x_i$. For any partition, $L \leq$ true area $\leq U$. The function is Riemann integrable when $\inf_P U(f,P) = \sup_P L(f,P)$. This is a supremum/infimum argument — completeness of $\mathbb{R}$ (Phase 2) at work again.
 
-8. **Continuous functions are integrable** — if $f$ is continuous on $[a,b]$, it's uniformly continuous (Heine's theorem, uses compactness from Phase 1). Uniform continuity forces $U - L \to 0$ as the partition refines. This is the first existence theorem: you don't compute the integral, you prove it exists.
+8. **Continuous functions are integrable** — if $f$ is continuous on $[a,b]$, it's uniformly continuous (Heine's theorem, uses compactness from Phase 2). Uniform continuity forces $U - L \to 0$ as the partition refines. This is the first existence theorem: you don't compute the integral, you prove it exists.
 
 9. **Properties of the integral from the definition** — linearity ($\int (af + bg) = a\int f + b\int g$), monotonicity ($f \leq g \Rightarrow \int f \leq \int g$), additivity over intervals ($\int_a^b + \int_b^c = \int_a^c$). Each proved directly from upper/lower sums. No magic — they follow from properties of $\sup$ and $\inf$.
 
@@ -95,13 +123,13 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
     - **Substitution** = chain rule in reverse. If $u = g(x)$, then $\int f(g(x)) g'(x)\,dx = \int f(u)\,du$. Proved from FTC + chain rule.
     - **Integration by parts** = product rule in reverse. $\int u\,dv = uv - \int v\,du$. Proved from FTC + product rule.
 
-**Why this comes now:** derivatives need limits (Phase 1). Integration needs derivatives (FTC connects them) and completeness (Riemann's definition uses sup/inf). Together they form the complete toolkit for Phase 3: Taylor's theorem needs derivatives for the coefficients AND integration for the remainder term. "Term-by-term integration" in Phase 3 is meaningless without knowing what integration is.
+**Why this comes now:** derivatives need limits (Phase 2). Integration needs derivatives (FTC connects them) and completeness (Riemann's definition uses sup/inf). Together they form the complete toolkit for Phase 4: Taylor's theorem needs derivatives for the coefficients AND integration for the remainder term. "Term-by-term integration" in Phase 4 is meaningless without knowing what integration is.
 
 **Time estimate:** 5-6 weeks
 
 ---
 
-## Phase 3 — Infinite Polynomials: Power Series and Taylor
+## Phase 4 — Infinite Polynomials: Power Series and Taylor
 
 *Newton (1660s) had a radical insight: forget trying to compute with complicated functions directly. Write them as infinite polynomials — then you just do polynomial arithmetic, which is easy. Taylor (1715) systematised this: if you know all the derivatives of a function at one point, you can reconstruct the entire function.*
 
@@ -126,15 +154,15 @@ With Taylor's theorem in hand, derive:
 - Prove $\sin^2(x) + \cos^2(x) = 1$ algebraically from the series
 - Therefore $|\sin(x)| \leq 1$ — proved, not assumed
 
-**Closing the IOU:** the squeeze theorem example from Phase 1 ($\sin(n)/n \to 0$) is now fully grounded. Every piece is proved.
+**Closing the IOU:** the squeeze theorem example from Phase 2 ($\sin(n)/n \to 0$) is now fully grounded. Every piece is proved.
 
-**Why this comes now:** derivatives (Phase 2) give us the coefficients. Limits (Phase 1) let us reason about convergence. We can now compute with functions rigorously.
+**Why this comes now:** derivatives (Phase 3) give us the coefficients. Limits (Phase 2) let us reason about convergence. We can now compute with functions rigorously.
 
 **Time estimate:** 4-5 weeks
 
 ---
 
-## Phase 4 — The Convergence Toolkit
+## Phase 5 — The Convergence Toolkit
 
 *Euler (18th century) computed with infinite series freely and brilliantly — and sometimes wrongly. Cauchy (1821) decided to clean up the mess: which manipulations are valid? When does an infinite sum produce a meaningful answer?*
 
@@ -158,13 +186,13 @@ With Taylor's theorem in hand, derive:
 
 8. **Weierstrass approximation theorem** — every continuous function on $[a,b]$ is uniformly approximable by polynomials. Polynomials are dense in $C[a,b]$. (1885)
 
-**Why this comes now:** Phase 3 gave you specific series (sine, exponential). Now you build the general toolkit for handling any series. The motivation is concrete: you've already seen series that converge and series that don't. Now you systematise.
+**Why this comes now:** Phase 4 gave you specific series (sine, exponential). Now you build the general toolkit for handling any series. The motivation is concrete: you've already seen series that converge and series that don't. Now you systematise.
 
 **Time estimate:** 4-5 weeks
 
 ---
 
-## Phase 5 — Linear Algebra
+## Phase 6 — Linear Algebra
 
 *Leibniz (1693) and Cramer (1750) were solving systems of equations and noticed patterns in the coefficients. Cayley (1858) realised these patterns were instances of a deeper structure: linear transformations of space. The question shifted from "solve this system" to "what does this transformation do to space?"*
 
@@ -190,7 +218,7 @@ With Taylor's theorem in hand, derive:
 
 ---
 
-## Phase 6 — Multivariable Calculus
+## Phase 7 — Multivariable Calculus
 
 *Temperature, pressure, velocity — quantities that depend on position in space. Newton's calculus handled one variable. But the real world has three spatial dimensions plus time. Euler, Lagrange, and Gauss extended calculus to multiple variables throughout the 18th century.*
 
@@ -203,19 +231,19 @@ With Taylor's theorem in hand, derive:
 3. **Implicit function theorem** — when can you solve $F(x,y) = 0$ for $y$?
 4. **Inverse function theorem** — non-zero Jacobian determinant ⟹ locally invertible.
 5. **Lagrange multipliers** — optimisation under constraints. (1788)
-6. **Second derivative test** — Hessian eigenvalues classify critical points. (Connects to Phase 5 spectral theory.)
+6. **Second derivative test** — Hessian eigenvalues classify critical points. (Connects to Phase 6 spectral theory.)
 7. **Fubini's theorem** — double integrals as iterated single integrals. (1907)
 8. **Green's theorem** — line integral = double integral of curl. (1828)
 9. **Divergence theorem** (Gauss) — flux through surface = integral of divergence.
 10. **Stokes' theorem** — unifies Green, Gauss, and the fundamental theorem of calculus.
 
-**Why this comes now:** single-variable calculus (Phase 2) plus linear algebra (Phase 5) give you the tools. The Jacobian is a matrix of partial derivatives — you need both concepts. Historically, this is Euler-Lagrange-Gauss territory (18th century), after both calculus and determinant theory existed.
+**Why this comes now:** single-variable calculus (Phase 3) plus linear algebra (Phase 6) give you the tools. The Jacobian is a matrix of partial derivatives — you need both concepts. Historically, this is Euler-Lagrange-Gauss territory (18th century), after both calculus and determinant theory existed.
 
 **Time estimate:** 5-6 weeks
 
 ---
 
-## Phase 7 — Differential Equations
+## Phase 8 — Differential Equations
 
 *A population grows proportionally to its size: $P' = kP$. A spring oscillates: $x'' = -kx$. A pendulum swings. A circuit charges. Newton invented calculus largely to solve these equations. The question: given an equation relating a function to its derivatives, can you find the function?*
 
@@ -226,20 +254,20 @@ With Taylor's theorem in hand, derive:
 1. **Cauchy-Lipschitz** (Picard-Lindelöf) — existence and uniqueness of solutions.
 2. **Picard iteration** — constructive: iterate to find the solution.
 3. **Gronwall's inequality** — universal growth bound for solutions.
-4. **Linear ODE solution structure** — solutions form an $n$-dimensional vector space. (Connects to Phase 5.)
+4. **Linear ODE solution structure** — solutions form an $n$-dimensional vector space. (Connects to Phase 6.)
 5. **Variation of parameters** (Lagrange, 1774) — solve non-homogeneous equations.
 6. **Matrix exponential** — $y(t) = e^{At} y(0)$. Where linear algebra meets ODEs directly.
 7. **Stable/unstable manifold theorem** — solutions near a fixed point organise along eigenspaces of the Jacobian. (Hadamard 1901, Perron 1928)
 8. **Lyapunov stability** — prove stability without solving the ODE. (1892)
 9. **Poincaré-Bendixson** — in 2D, bounded trajectories either settle to a fixed point or a periodic orbit. Chaos requires ≥ 3 dimensions. (1881)
 
-**Why this comes now:** you need single-variable calculus (Phase 2), multivariable calculus for systems (Phase 6), and linear algebra for the solution structure and matrix exponential (Phase 5). Historically, this is Newton through Poincaré (17th-19th century).
+**Why this comes now:** you need single-variable calculus (Phase 3), multivariable calculus for systems (Phase 7), and linear algebra for the solution structure and matrix exponential (Phase 6). Historically, this is Newton through Poincaré (17th-19th century).
 
 **Time estimate:** 5-6 weeks
 
 ---
 
-## Phase 8 — Topology of Metric Spaces
+## Phase 9 — Topology of Metric Spaces
 
 *By the late 19th century, mathematicians were working with stranger and stranger "spaces" — sequences, function spaces, probability distributions. The properties of ℝ that make analysis work (completeness, compactness) needed to be abstracted. What's the minimal structure needed?*
 
@@ -251,17 +279,17 @@ With Taylor's theorem in hand, derive:
 2. **Bolzano-Weierstrass** (generalised) — compact ⟺ sequentially compact in metric spaces.
 3. **Extreme value theorem** — continuous function on compact set attains its max and min.
 4. **Uniform continuity on compact sets** — continuity on a compact set is automatically uniform. (Heine, 1872)
-5. **Banach fixed point theorem** — a contraction on a complete space has a unique fixed point. (1922) Powers Cauchy-Lipschitz (Phase 7) and the implicit function theorem (Phase 6) — now you see the deeper engine.
+5. **Banach fixed point theorem** — a contraction on a complete space has a unique fixed point. (1922) Powers Cauchy-Lipschitz (Phase 8) and the implicit function theorem (Phase 7) — now you see the deeper engine.
 6. **Baire category theorem** — a complete metric space isn't a countable union of nowhere-dense sets. (1899)
 7. **Arzelà-Ascoli** — compactness criterion for function spaces. (1882-1883)
 
-**Why this comes now:** you've been working in ℝⁿ for phases 1-7. Now you abstract the properties you've been using. Historically, point-set topology crystallised in the 1880s-1920s, after most of classical analysis was done — mathematicians needed it to handle function spaces and prove existence theorems for PDEs.
+**Why this comes now:** you've been working in ℝⁿ for phases 2-8. Now you abstract the properties you've been using. Historically, point-set topology crystallised in the 1880s-1920s, after most of classical analysis was done — mathematicians needed it to handle function spaces and prove existence theorems for PDEs.
 
 **Time estimate:** 5-6 weeks
 
 ---
 
-## Phase 9 — Abstract Algebra: Groups, Rings, Polynomials
+## Phase 10 — Abstract Algebra: Groups, Rings, Polynomials
 
 *Galois (1832, written the night before his duel at age 20) discovered that whether a polynomial equation can be solved by radicals depends entirely on the symmetries of its roots. This transformed algebra from "find the answer" to "study the structure."*
 
@@ -281,13 +309,13 @@ With Taylor's theorem in hand, derive:
 10. **Galois correspondence** — subgroups ↔ intermediate field extensions.
 11. **Abel-Ruffini theorem** — the general quintic is not solvable by radicals. (1824/1832)
 
-**Why this comes now:** historically, group theory emerged from Lagrange's study of polynomial roots (1771), developed through Abel and Galois (1820s-1830s), and was systematised by Cayley, Sylow, and others in the mid-19th century. It's a somewhat independent track from analysis — it could be studied earlier in parallel, but its deepest result (Abel-Ruffini via Galois theory) requires substantial buildup. Placed here because it's self-contained and provides a change of mental mode after the analysis-heavy phases 1-8.
+**Why this comes now:** historically, group theory emerged from Lagrange's study of polynomial roots (1771), developed through Abel and Galois (1820s-1830s), and was systematised by Cayley, Sylow, and others in the mid-19th century. It's a somewhat independent track from analysis — it could be studied earlier in parallel, but its deepest result (Abel-Ruffini via Galois theory) requires substantial buildup. Placed here because it's self-contained and provides a change of mental mode after the analysis-heavy phases 2-9.
 
 **Time estimate:** 6-8 weeks
 
 ---
 
-## Phase 10 — Fourier Analysis
+## Phase 11 — Fourier Analysis
 
 *Fourier (1807) made a scandalous claim: any periodic function — any shape whatsoever, even a square wave — can be written as a sum of sines and cosines. The mathematical establishment (Lagrange) said this was impossible. Fourier was right, mostly, and the exceptions turned out to be more interesting than the rule.*
 
@@ -300,13 +328,13 @@ With Taylor's theorem in hand, derive:
 3. **Bessel's inequality** — partial sums never exceed total energy.
 4. **Gibbs phenomenon** — Fourier series of a discontinuous function overshoots by ~9% at the jump, permanently.
 
-**Why this comes now:** Fourier analysis requires: trigonometric functions from first principles (Phase 3), convergence theory including uniform convergence (Phase 4), and inner product spaces / projection theorem (Phase 5). Historically, Fourier (1807) comes between the informal series manipulations of Euler and the rigorous convergence theory of Cauchy/Weierstrass — we place it after both so everything is rigorous from the start.
+**Why this comes now:** Fourier analysis requires: trigonometric functions from first principles (Phase 4), convergence theory including uniform convergence (Phase 5), and inner product spaces / projection theorem (Phase 6). Historically, Fourier (1807) comes between the informal series manipulations of Euler and the rigorous convergence theory of Cauchy/Weierstrass — we place it after both so everything is rigorous from the start.
 
 **Time estimate:** 3-4 weeks
 
 ---
 
-## Phase 11 — Probability
+## Phase 12 — Probability
 
 *Pascal and Fermat (1654) exchanged letters about gambling — how to fairly split the pot in an interrupted game. This correspondence founded probability theory. The question evolved: when does randomness produce predictable patterns?*
 
@@ -324,15 +352,15 @@ With Taylor's theorem in hand, derive:
 8. **Law of large numbers** (strong) — sample mean → true mean almost surely. (Kolmogorov, 1930)
 9. **Central limit theorem** — normalised sums → Gaussian. (de Moivre 1733, Laplace)
 10. **Moment generating functions** — uniquely characterise distributions.
-11. **Conditional expectation as projection** — $E[X|Y]$ is the best $L^2$ predictor. (Connects to projection theorem from Phase 5.)
+11. **Conditional expectation as projection** — $E[X|Y]$ is the best $L^2$ predictor. (Connects to projection theorem from Phase 6.)
 
-**Why this comes now:** probability is historically a parallel track to analysis, but the rigorous theory (Kolmogorov's axioms, 1933) requires measure theory and convergence. The CLT proof uses moment generating functions (power series — Phase 3) and convergence theory (Phase 4). Conditional expectation as projection requires inner product spaces (Phase 5).
+**Why this comes now:** probability is historically a parallel track to analysis, but the rigorous theory (Kolmogorov's axioms, 1933) requires measure theory and convergence. The CLT proof uses moment generating functions (power series — Phase 4) and convergence theory (Phase 5). Conditional expectation as projection requires inner product spaces (Phase 6).
 
 **Time estimate:** 5-6 weeks
 
 ---
 
-## Phase 12 — Bilinear Algebra and Spectral Theory
+## Phase 13 — Bilinear Algebra and Spectral Theory
 
 *A vibrating string decomposes into harmonics. Each harmonic is an eigenvector of a differential operator. Lord Rayleigh (1877) studied vibrations and discovered that eigenvalues can be characterised variationally — as extrema of a quotient — without solving the eigenvalue problem directly.*
 
@@ -349,13 +377,13 @@ With Taylor's theorem in hand, derive:
 7. **Bilinear form representation** — bilinear forms ↔ matrices.
 8. **Principal axis theorem** — quadratic forms reduce to sums of squares by orthogonal change of variables.
 
-**Why this comes now:** extends Phase 5 (linear algebra) with inner product structure. Requires eigenvalue theory, orthogonality, and connects to Fourier analysis (Phase 10 — sines and cosines are eigenvectors of the Laplacian). Historically, spectral theory developed from Cauchy (1829) through Hilbert (1904).
+**Why this comes now:** extends Phase 6 (linear algebra) with inner product structure. Requires eigenvalue theory, orthogonality, and connects to Fourier analysis (Phase 11 — sines and cosines are eigenvectors of the Laplacian). Historically, spectral theory developed from Cauchy (1829) through Hilbert (1904).
 
 **Time estimate:** 3-4 weeks
 
 ---
 
-## Phase 13 — Normed Vector Spaces and Functional Analysis
+## Phase 14 — Normed Vector Spaces and Functional Analysis
 
 *By the early 20th century, the "spaces" mathematicians worked with were no longer just ℝⁿ. They were spaces of functions, sequences, operators. Banach (1920s) asked: what does "distance" mean in these infinite-dimensional spaces? What still works, and what breaks?*
 
@@ -374,7 +402,35 @@ With Taylor's theorem in hand, derive:
 9. **Hahn-Banach theorem** — bounded functionals extend from subspaces. (1927/1929)
 10. **Best approximation in inner product spaces** — unique nearest point in closed convex subsets of Hilbert spaces.
 
-**Why this comes last:** this is the most abstract phase. It unifies and generalises everything before it: convergence (Phase 1), linear algebra (Phase 5), metric space topology (Phase 8), spectral theory (Phase 12). Historically, functional analysis crystallised in the 1920s-1930s, drawing on all prior traditions. It's the natural endpoint.
+**Why this comes last:** this is the most abstract phase. It unifies and generalises everything before it: convergence (Phase 2), linear algebra (Phase 6), metric space topology (Phase 9), spectral theory (Phase 13). Historically, functional analysis crystallised in the 1920s-1930s, drawing on all prior traditions. It's the natural endpoint.
+
+**Time estimate:** 3-4 weeks
+
+---
+
+## Phase 15 (Bonus) — Game Theory
+
+*Von Neumann (1928) asked: in a two-player zero-sum game, is there always an optimal strategy? The answer — the minimax theorem — required topology (fixed-point theorems) and convexity. Nash (1950) extended this to non-zero-sum games with multiple players. The mathematics behind strategic interaction.*
+
+**The problem:** when rational agents interact strategically, what outcomes are stable? When does a "best response" exist, and when do players reach an equilibrium?
+
+### What to study
+
+1. **Combinatorial game theory** — sequential games, game trees, backward induction. Zermelo's theorem (1913): chess has a determined outcome (though we don't know which).
+
+2. **Zero-sum games and the minimax theorem** — saddle points, mixed strategies, von Neumann's minimax theorem (1928). Proved using Brouwer's fixed-point theorem (topology from Phase 9).
+
+3. **Nash equilibrium** — non-cooperative games, best responses, Nash's existence theorem (1950). Uses Kakutani's fixed-point theorem. Not all equilibria are "good" (Prisoner's Dilemma).
+
+4. **Dominant strategies and iterated elimination** — simplifying games by removing dominated options.
+
+5. **Repeated games and the Folk theorem** — cooperation can emerge from repeated interaction. Tit-for-tat, discount factors, subgame perfection.
+
+6. **Mechanism design** — reverse game theory. Design the rules so rational players produce the desired outcome. Auctions (Vickrey), voting (Arrow's impossibility theorem).
+
+**Prerequisites:** linear algebra (Phase 6), topology (Phase 9 — fixed-point theorems), probability (Phase 12 — mixed strategies), convexity. All covered by the time you reach this point.
+
+**Why this is a bonus:** game theory is not part of the standard CPGE mathematics curriculum. It sits at the intersection of mathematics, economics, and computer science. But it uses nearly every tool built in the preceding 14 phases — making it an excellent capstone that demonstrates the power of abstract mathematics applied to strategic problems.
 
 **Time estimate:** 3-4 weeks
 
@@ -385,26 +441,28 @@ With Taylor's theorem in hand, derive:
 | CPGE order | Hybrid order | Why moved |
 |------------|-------------|-----------|
 | — | **Phase 0: Geometry** (new) | Explicit prerequisite; where humanity started |
-| Stage 1: Convergence | **Phase 1: Basic convergence** | Same placement, but now motivated by geometry |
-| — | **Phase 2: Derivatives + Integration** (new) | Needed for Taylor; CPGE assumes from lycée. Integration built from Riemann's definition, not memorised formulas |
-| Stage 5: Power series | **Phase 3: Taylor + power series** | Moved UP from month 6 to month 3. Needed to ground sine, cosine, exp before using them |
-| Stage 1: Series tests | **Phase 4: Convergence toolkit** | Split from Phase 1. Series tests come AFTER Taylor, because Taylor provides the examples that motivate them |
-| Stage 2: Linear algebra | **Phase 5: Linear algebra** | Moved DOWN slightly. CPGE puts it at month 3; here at month 5. Trade-off: delays linear algebra to front-load the analytical foundations |
-| Stage 3: Multivariable calc | **Phase 6: Multivariable calc** | Same relative position |
-| Stage 4: ODEs | **Phase 7: ODEs** | Same relative position |
-| Stage 6: Topology | **Phase 8: Topology** | Same relative position |
-| Stage 7: Algebra | **Phase 9: Algebra** | Same relative position |
-| Stage 5: Fourier | **Phase 10: Fourier** | Moved DOWN. CPGE bundles with power series; here separated because it requires inner products from Phase 5 |
-| Stage 8: Probability | **Phase 11: Probability** | Same relative position |
-| Stage 9: Bilinear/spectral | **Phase 12: Bilinear/spectral** | Same relative position |
-| Stage 10: Normed spaces | **Phase 13: Normed spaces** | Same position (last) |
+| — | **Phase 1: Number Theory** (new) | Explicit prerequisite; where Euclid started |
+| Stage 1: Convergence | **Phase 2: Basic convergence** | Same placement, but now motivated by geometry |
+| — | **Phase 3: Derivatives + Integration** (new) | Needed for Taylor; CPGE assumes from lycée. Integration built from Riemann's definition, not memorised formulas |
+| Stage 5: Power series | **Phase 4: Taylor + power series** | Moved UP from month 6 to month 4. Needed to ground sine, cosine, exp before using them |
+| Stage 1: Series tests | **Phase 5: Convergence toolkit** | Split from Phase 2. Series tests come AFTER Taylor, because Taylor provides the examples that motivate them |
+| Stage 2: Linear algebra | **Phase 6: Linear algebra** | Moved DOWN slightly. CPGE puts it at month 3; here at month 6. Trade-off: delays linear algebra to front-load the analytical foundations |
+| Stage 3: Multivariable calc | **Phase 7: Multivariable calc** | Same relative position |
+| Stage 4: ODEs | **Phase 8: ODEs** | Same relative position |
+| Stage 6: Topology | **Phase 9: Topology** | Same relative position |
+| Stage 7: Algebra | **Phase 10: Algebra** | Same relative position |
+| Stage 5: Fourier | **Phase 11: Fourier** | Moved DOWN. CPGE bundles with power series; here separated because it requires inner products from Phase 6 |
+| Stage 8: Probability | **Phase 12: Probability** | Same relative position |
+| Stage 9: Bilinear/spectral | **Phase 13: Bilinear/spectral** | Same relative position |
+| Stage 10: Normed spaces | **Phase 14: Normed spaces** | Same position (last) |
 
 **Key structural changes:**
 1. Geometry is explicit, not assumed
 2. Derivatives are explicit, not assumed
-3. Taylor's theorem moves from month 6 to month 3 — this is the big one. It closes the "black box function" problem early.
+3. Taylor's theorem moves from month 6 to month 4 — this is the big one. It closes the "black box function" problem early.
 4. Series convergence tests come AFTER Taylor, not before — motivation before machinery
 5. Linear algebra is slightly delayed to make room for the analytical foundation
+6. Number theory is explicit, placed before analysis (historical order)
 
 ---
 
@@ -413,23 +471,26 @@ With Taylor's theorem in hand, derive:
 | Phase | Topic | Weeks | Cumulative |
 |-------|-------|-------|------------|
 | 0 | Geometry and measurement | 2-3 | ~3 weeks |
-| 1 | Limits and basic convergence | 4-5 | ~2 months |
-| 2 | Derivatives and integration | 5-6 | ~3.5 months |
-| 3 | Power series and Taylor | 4-5 | ~4.5 months |
-| 4 | Convergence toolkit | 4-5 | ~5.5 months |
-| 5 | Linear algebra | 6-8 | ~7.5 months |
-| 6 | Multivariable calculus | 5-6 | ~9 months |
-| 7 | ODEs | 5-6 | ~10.5 months |
-| 8 | Topology of metric spaces | 5-6 | ~12 months |
-| 9 | Abstract algebra | 6-8 | ~14 months |
-| 10 | Fourier analysis | 3-4 | ~15 months |
-| 11 | Probability | 5-6 | ~16.5 months |
-| 12 | Bilinear algebra / spectral theory | 3-4 | ~17.5 months |
-| 13 | Normed vector spaces | 3-4 | ~18.5 months |
+| 1 | Number theory and arithmetic | 3-4 | ~6 weeks |
+| 2 | Limits and basic convergence | 4-5 | ~2.5 months |
+| 3 | Derivatives and integration | 5-6 | ~4 months |
+| 4 | Power series and Taylor | 4-5 | ~5 months |
+| 5 | Convergence toolkit | 4-5 | ~6 months |
+| 6 | Linear algebra | 6-8 | ~8 months |
+| 7 | Multivariable calculus | 5-6 | ~9.5 months |
+| 8 | ODEs | 5-6 | ~11 months |
+| 9 | Topology of metric spaces | 5-6 | ~12.5 months |
+| 10 | Abstract algebra | 6-8 | ~14.5 months |
+| 11 | Fourier analysis | 3-4 | ~15.5 months |
+| 12 | Probability | 5-6 | ~17 months |
+| 13 | Bilinear algebra / spectral theory | 3-4 | ~18 months |
+| 14 | Normed vector spaces | 3-4 | ~19 months |
+| 15 | Game theory (bonus) | 3-4 | ~20 months |
 
-At 1-2 hours daily. ~18.5 months total (vs ~13 months for pure CPGE order). The extra time comes from:
+At 1-2 hours daily. ~20 months total (vs ~13 months for pure CPGE order). The extra time comes from:
 - Phase 0 (geometry prerequisite): +3 weeks
-- Phase 2 (derivatives + integration from scratch, not assumed from lycée): +6 weeks
+- Phase 1 (number theory prerequisite): +3-4 weeks
+- Phase 3 (derivatives + integration from scratch, not assumed from lycée): +6 weeks
 - More thorough grounding at each step (no skipping, no black boxes): ~3 months spread across all phases
 
-Phases 9 and 11 (algebra, probability) are somewhat independent and can be interleaved with the analysis track for variety.
+Phases 10 and 12 (algebra, probability) are somewhat independent and can be interleaved with the analysis track for variety.
