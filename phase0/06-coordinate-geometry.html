@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coordinate Geometry — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Coordinate Geometry</h1>
+<p class="subtitle">Algebra Meets Geometry &mdash; Phase 0, Page 6</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The limitation</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Euclid proved roughly 465 propositions in the <em>Elements</em>. Every one required a separate
+    diagram and a separate argument. "The circle centred at point $A$ with radius 3 passes through
+    point $B$" &mdash; how do you verify this without drawing? "A line intersects a circle in two
+    points" &mdash; how do you find them without a compass construction?
+  </p>
+  <p>
+    Geometry is powerful, but it is <strong>awkward to compute with</strong>. You can prove that
+    two shapes intersect, but finding exactly <em>where</em> requires ingenuity specific to each
+    problem. There is no general method &mdash; no algorithm &mdash; that turns geometric questions
+    into mechanical computation.
+  </p>
+  <p>
+    There must be a way to turn geometric problems into algebraic equations &mdash; solvable by
+    computation, not construction.
+  </p>
+</div>
+
+<!-- ─── 2. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Ren&eacute; Descartes published <em>La G&eacute;om&eacute;trie</em> in 1637, as an appendix
+    to his philosophical masterpiece <em>Discourse on the Method</em>. Pierre de Fermat arrived at
+    essentially the same idea independently, around the same time, though his work circulated only
+    in manuscript.
+  </p>
+  <p>
+    Descartes' insight: <strong>assign numbers to points</strong>. A point in the plane becomes a
+    pair of numbers $(x, y)$. A curve becomes an equation in $x$ and $y$. Geometry becomes algebra.
+  </p>
+  <p>
+    This was arguably the single most important mathematical innovation between ancient Greece and
+    Newton. Without it, calculus could not have been invented.
+  </p>
+</div>
+
+<!-- ─── 3. THE BRIDGE ──────────────────────────────── -->
+
+<h2>The coordinate system</h2>
+
+<p>
+  Choose a point and call it the <strong>origin</strong> $O$. Draw two perpendicular lines through
+  it &mdash; the $x$-axis (horizontal) and the $y$-axis (vertical). Choose a unit of measurement.
+</p>
+
+<p>
+  Now every point in the plane has an address: the pair $(x, y)$, where $x$ is the horizontal
+  distance from the origin (positive to the right, negative to the left) and $y$ is the vertical
+  distance (positive upward, negative downward). The point $(3, 2)$ means "3 units right, 2 units
+  up." The point $(-1, -4)$ means "1 unit left, 4 units down."
+</p>
+
+<p>
+  This is so familiar today &mdash; every graph you have ever seen uses it &mdash; that it is easy
+  to forget this was revolutionary. Before Descartes, a "point" was a location you described in
+  words or indicated on a diagram. After Descartes, a point is a pair of numbers. Numbers you can
+  manipulate, substitute into equations, feed into algorithms. The entire plane becomes a number
+  system.
+</p>
+
+<!-- ─── 4. LINES AS EQUATIONS ──────────────────────── -->
+
+<h2>Lines as equations</h2>
+
+<p>
+  Consider a straight line through the points $(0, 1)$ and $(2, 5)$. What is the pattern? As $x$
+  increases by 1, $y$ increases by $\ldots$ let us check. From $x = 0$ to $x = 2$, $y$ goes from
+  1 to 5. That is a rise of 4 over a run of 2 &mdash; the <strong>slope</strong> is:
+</p>
+
+<div class="display-math">$$m = \frac{5 - 1}{2 - 0} = 2$$</div>
+
+<p>
+  For every unit you move right, you move 2 units up. And the line crosses the $y$-axis at $y = 1$
+  (the <strong>$y$-intercept</strong>). So for any point $(x, y)$ on this line:
+</p>
+
+<div class="display-math">$$y = 2x + 1$$</div>
+
+<p>
+  That is the line. Not a drawing of a line &mdash; the line <em>is</em> this equation. Every point
+  satisfying $y = 2x + 1$ lies on the line; every point on the line satisfies $y = 2x + 1$. The
+  geometric object and the algebraic equation are the same thing, viewed from different angles.
+</p>
+
+<p>
+  Every geometric question about the line becomes an algebraic question about the equation. "Does
+  the point $(3, 7)$ lie on the line?" becomes "does $7 = 2(3) + 1$?" Yes, $7 = 7$, so yes. No
+  diagram needed.
+</p>
+
+<!-- ─── 5. THE DISTANCE FORMULA ────────────────────── -->
+
+<h2>The distance formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Distance Formula</div>
+  <p>
+    The distance between points $(x_1, y_1)$ and $(x_2, y_2)$ is:
+  </p>
+  <div class="display-math">$$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$</div>
+</div>
+
+<p>
+  This is the <strong>Pythagorean theorem</strong> (page 02) wearing a coordinate disguise. Draw
+  the horizontal leg from $(x_1, y_1)$ to $(x_2, y_1)$ &mdash; its length is $|x_2 - x_1|$. Draw
+  the vertical leg from $(x_2, y_1)$ to $(x_2, y_2)$ &mdash; its length is $|y_2 - y_1|$. The
+  straight-line distance $d$ is the hypotenuse. By Pythagoras:
+</p>
+
+<div class="display-math">$$d^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$$</div>
+
+<p>
+  Take the square root and you are done. Everything connects: the Pythagorean theorem from page 02,
+  proved via similar triangles from page 01, now rephrased in the language of coordinates. One
+  theorem, three forms, each more powerful than the last.
+</p>
+
+<!-- ─── 6. CIRCLES AS EQUATIONS ────────────────────── -->
+
+<h2>Circles as equations</h2>
+
+<p>
+  A circle is the set of all points at a fixed distance (the <strong>radius</strong> $r$) from a
+  fixed point (the <strong>centre</strong>). Take a circle centred at the origin with radius $r$.
+  A point $(x, y)$ lies on the circle exactly when its distance from $(0, 0)$ equals $r$. By the
+  distance formula:
+</p>
+
+<div class="display-math">$$\sqrt{x^2 + y^2} = r$$</div>
+
+<p>
+  Square both sides:
+</p>
+
+<div class="display-math">$$x^2 + y^2 = r^2$$</div>
+
+<p>
+  That is the equation of a circle. The <strong>unit circle</strong> from page 05 &mdash; the circle
+  of radius 1 centred at the origin, the foundation of the modern definition of sine and cosine
+  &mdash; is simply:
+</p>
+
+<div class="display-math">$$x^2 + y^2 = 1$$</div>
+
+<p>
+  And a point $(\cos\theta, \sin\theta)$ on it satisfies $\cos^2\theta + \sin^2\theta = 1$. That
+  identity, which we proved geometrically on page 05, is just <em>the equation of the unit circle</em>
+  written in trigonometric coordinates. Descartes' framework turns a geometric identity into an
+  algebraic tautology.
+</p>
+
+<p>
+  For a circle centred at $(a, b)$ rather than the origin, the distance from $(x, y)$ to $(a, b)$
+  must equal $r$:
+</p>
+
+<div class="display-math">$$(x - a)^2 + (y - b)^2 = r^2$$</div>
+
+<!-- ─── 7. WHERE LINES MEET CIRCLES ────────────────── -->
+
+<h2>Where lines meet circles</h2>
+
+<p>
+  Here is the payoff. Where does the line $y = x + 1$ intersect the unit circle $x^2 + y^2 = 1$?
+  Before Descartes, you would need a geometric construction &mdash; draw the line, draw the circle,
+  find their meeting points by eye or by compass. After Descartes, you substitute one equation into
+  the other:
+</p>
+
+<div class="display-math">$$x^2 + (x + 1)^2 = 1$$</div>
+
+<p>Expand:</p>
+
+<div class="display-math">$$x^2 + x^2 + 2x + 1 = 1$$</div>
+
+<div class="display-math">$$2x^2 + 2x = 0$$</div>
+
+<p>Factor:</p>
+
+<div class="display-math">$$2x(x + 1) = 0$$</div>
+
+<p>
+  So $x = 0$ or $x = -1$. Substituting back into $y = x + 1$: when $x = 0$, $y = 1$; when
+  $x = -1$, $y = 0$. The two intersection points are $(0, 1)$ and $(-1, 0)$.
+</p>
+
+<p>
+  A geometric problem &mdash; "where does this line cross this circle?" &mdash; solved by pure
+  computation. No diagram, no compass, no special ingenuity. Just substitute, expand, factor, solve.
+  This is the power of Descartes' idea: it <strong>mechanises geometry</strong>.
+</p>
+
+<!-- ─── 8. PARABOLAS AND CURVES ────────────────────── -->
+
+<h2>Parabolas and beyond</h2>
+
+<p>
+  Lines and circles are just the beginning. The equation $y = x^2$ defines a <strong>parabola</strong>
+  &mdash; a U-shaped curve where every point $(x, x^2)$ satisfies the equation. The shape is
+  not assumed or drawn freehand; it <em>emerges</em> from the equation.
+</p>
+
+<p>
+  More complex equations produce more complex curves:
+</p>
+
+<ul>
+  <li>$y = x^3$ &mdash; a cubic curve, symmetric about the origin</li>
+  <li>$x^3 + y^3 = 3xy$ &mdash; the <strong>folium of Descartes</strong>, a looped curve Descartes
+    himself studied</li>
+  <li>$y^2 = x^3 - x$ &mdash; an <strong>elliptic curve</strong>, central to modern cryptography
+    (this is what secures your browser's HTTPS connections)</li>
+</ul>
+
+<p>
+  All described by equations. All amenable to algebraic analysis &mdash; finding intersections,
+  tangent lines, areas, symmetries &mdash; without ever picking up a compass.
+</p>
+
+<!-- ─── 9. WHY THIS MATTERS ────────────────────────── -->
+
+<h2>Why this matters for everything that follows</h2>
+
+<p>
+  Coordinate geometry is not just "another topic." It is the <strong>language</strong> in which
+  everything after this point will be written.
+</p>
+
+<ul>
+  <li>
+    <strong>Functions become curves.</strong> A function $f(x)$ is a rule; its graph $y = f(x)$ is
+    a curve in the coordinate plane. When we study functions in Phase 1, we will be studying curves.
+  </li>
+  <li>
+    <strong>Derivatives become slopes.</strong> The derivative (Phase 2) is the slope of the tangent
+    line to a curve at a point &mdash; a geometric concept, expressed algebraically, computed by
+    a limit. All three ideas (geometry, algebra, limits) meeting at one point on Descartes' plane.
+  </li>
+  <li>
+    <strong>The unit circle definition of sine depends on coordinates.</strong> On page 05, we
+    defined $\cos\theta$ and $\sin\theta$ as the $x$- and $y$-coordinates of a point on the unit
+    circle. Without Descartes, "the $x$-coordinate of a point" is meaningless. No coordinates, no
+    unit circle definition, no extension of trig beyond acute angles.
+  </li>
+  <li>
+    <strong>Integrals become areas under curves.</strong> The integral (Phase 3) computes the area
+    between a curve and the $x$-axis. "Area under $y = f(x)$ from $x = a$ to $x = b$" only makes
+    sense when curves live in a coordinate plane.
+  </li>
+</ul>
+
+<p>
+  In short: <strong>calculus lives in Descartes' coordinate plane.</strong> Every limit, every
+  derivative, every integral is a statement about functions, and functions are curves in coordinates.
+</p>
+
+<!-- ─── 10. WHAT BREAKS ────────────────────────────── -->
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    Without coordinates, you cannot define functions as curves, cannot compute slopes (derivatives),
+    cannot compute areas under curves (integrals). Calculus as we know it would not exist.
+  </p>
+  <p>
+    Newton and Leibniz invented calculus in the 1660s&ndash;1680s. Descartes published <em>La
+    G&eacute;om&eacute;trie</em> in 1637. The 30-year gap is not coincidence. Newton needed
+    coordinate geometry before he could invent calculus &mdash; he needed curves to be equations
+    before he could ask "what is the slope of this equation at this point?" Descartes made Newton
+    possible.
+  </p>
+</div>
+
+<!-- ─── 11. PHASE 0 COMPLETE ───────────────────────── -->
+
+<h2>Phase 0 complete</h2>
+
+<p>
+  Here is everything you now have, and why each piece was needed:
+</p>
+
+<ul>
+  <li><strong>Similar triangles</strong> (page 01): same angles guarantee same ratios. The
+    foundation of measurement at a distance.</li>
+  <li><strong>Pythagorean theorem</strong> (page 02): $a^2 + b^2 = c^2$. Connects lengths to
+    squares, gives us the distance formula.</li>
+  <li><strong>$\sqrt{2}$ is irrational</strong> (page 03): $\mathbb{Q}$ has holes, motivating
+    $\mathbb{R}$ &mdash; the number system calculus needs.</li>
+  <li><strong>Trigonometry</strong> (page 04): angles become ratios, via similar triangles.
+    Measurement of the unmeasurable.</li>
+  <li><strong>The unit circle</strong> (page 05): trig extended to all angles, $\cos^2\theta +
+    \sin^2\theta = 1$ proved, $|\sin\theta| \leq 1$ established.</li>
+  <li><strong>Coordinate geometry</strong> (this page): geometry = algebra. Shapes become equations,
+    solvable by computation.</li>
+</ul>
+
+<p>
+  These six pages are the toolkit. They let us measure, compute, and describe. But they cannot
+  handle <strong>infinity</strong> &mdash; infinite sums, infinite precision, approaching but never
+  reaching. The sequence $1, 1.4, 1.41, 1.414, \ldots$ converges to $\sqrt{2}$, but what does
+  "converges" actually <em>mean</em>? We used the word on page 03 without defining it. For that,
+  we need a new idea.
+</p>
+
+<p>
+  <strong>Next: Phase 1 &mdash; Limits and Convergence.</strong> The concept that turned vague
+  intuitions about "approaching" into precise, provable mathematics &mdash; and made calculus
+  rigorous.
+</p>
+
+<!-- ─── 12. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  Turn points into numbers and shapes into equations &mdash; then geometry becomes computation,
+  and computation is something you can always do.
+</div>
+
+<!-- ─── NAV ────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="05-unit-circle.html">&larr; Previous: The Unit Circle</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

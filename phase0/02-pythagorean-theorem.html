@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pythagorean Theorem — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>02. The Pythagorean Theorem</h1>
+<p class="subtitle">Why right triangles obey a law about squares, and what it unlocks</p>
+
+<!-- ============================== THE PROBLEM ============================== -->
+
+<div class="problem-box">
+  <div class="label">The Problem</div>
+  <p>
+    You're building a house. You need the corner walls to meet at exactly 90 degrees.
+    No protractor, no laser level &mdash; you have a rope and some stakes.
+  </p>
+  <p>
+    Egyptian builders figured this out thousands of years ago: tie 12 equally spaced
+    knots in a rope, stretch it into a triangle with sides 3, 4, and 5 knots long.
+    The corner opposite the longest side is always a perfect right angle.
+  </p>
+  <p>
+    It works every time. But <strong>why</strong>? What's special about 3, 4, 5?
+    Does it work for other numbers? And given two sides of a right triangle,
+    can you always find the third?
+  </p>
+</div>
+
+<!-- ============================== HISTORY ============================== -->
+
+<div class="history-box">
+  <div class="label">Historical Note</div>
+  <p>
+    The Babylonians knew this relationship by at least 1800 BC. Clay tablet
+    <strong>Plimpton 322</strong>, sitting in the Columbia University library,
+    lists fifteen Pythagorean triples &mdash; sets of integers satisfying the
+    theorem &mdash; over a thousand years before Pythagoras was born.
+  </p>
+  <p>
+    The theorem is named after <strong>Pythagoras of Samos</strong> (~570&ndash;495 BC),
+    who allegedly gave the first proof, though no written record of his proof survives.
+    Chinese mathematicians proved it independently around 200 BC in the
+    <em>Zhoubi Suanjing</em>, using a beautiful visual argument we'll see below.
+  </p>
+  <p>
+    This theorem has more known proofs than any other in mathematics &mdash; over 370.
+    Contributors include Euclid, the Indian mathematician Bhaskara II (who wrote
+    just "Behold!" next to his diagram), US President James Garfield (1876), and
+    in 2023, two high-school students from New Orleans who produced a trigonometric
+    proof that mathematicians had long thought impossible.
+  </p>
+</div>
+
+<!-- ============================== THE THEOREM ============================== -->
+
+<h2>The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Pythagorean Theorem</div>
+  <p>
+    In a right triangle with legs $a$ and $b$ and hypotenuse $c$
+    (the side opposite the right angle):
+  </p>
+  <div class="display-math">
+    $$a^2 + b^2 = c^2$$
+  </div>
+</div>
+
+<p>
+  That's the algebraic statement. But algebra came two thousand years after Pythagoras.
+  The original meaning is geometric, and it's worth seeing that first.
+</p>
+
+<!-- ============================== GEOMETRIC MEANING ============================== -->
+
+<h2>What $a^2$ actually means &mdash; the geometric view</h2>
+
+<p>
+  Build a square on each side of the triangle. The square on side $a$ has area $a^2$.
+  The square on side $b$ has area $b^2$. The square on the hypotenuse $c$ has area $c^2$.
+</p>
+
+<p>
+  The theorem says: <strong>the area of the square on the hypotenuse equals the sum of
+  the areas of the squares on the two legs.</strong>
+</p>
+
+<p>
+  This is the original meaning. It's a statement about land, about physical area.
+  The Greeks didn't think of $a^2$ as "$a$ times $a$" &mdash; they thought of it as
+  "the square whose side is $a$." When you read "the square on the hypotenuse,"
+  they meant a literal square, drawn on papyrus or scratched in sand.
+</p>
+
+<figure>
+  <svg viewBox="0 0 400 320" width="400" height="320">
+    <!-- right triangle -->
+    <polygon points="50,270 200,270 50,120" fill="none" stroke="#e94560" stroke-width="2"/>
+    <!-- right-angle marker -->
+    <polyline points="70,270 70,250 50,250" fill="none" stroke="#888" stroke-width="1.5"/>
+    <!-- square on a (bottom leg) -->
+    <rect x="50" y="270" width="150" height="30" fill="rgba(233,160,69,0.15)" stroke="#e9a045" stroke-width="1.5"/>
+    <text x="125" y="292" text-anchor="middle" fill="#e9a045" font-size="13">a = 3</text>
+    <!-- square on b (left leg) -->
+    <rect x="20" y="120" width="30" height="150" fill="rgba(233,160,69,0.15)" stroke="#e9a045" stroke-width="1.5"/>
+    <text x="35" y="200" text-anchor="middle" fill="#e9a045" font-size="13" transform="rotate(-90,35,200)">b = 4</text>
+    <!-- hypotenuse label -->
+    <text x="140" y="185" text-anchor="middle" fill="#e94560" font-size="13" transform="rotate(-45,140,185)">c = 5</text>
+    <!-- area labels -->
+    <text x="290" y="165" fill="#e0e0e0" font-size="14">Area on a: 9</text>
+    <text x="290" y="190" fill="#e0e0e0" font-size="14">Area on b: 16</text>
+    <text x="290" y="215" fill="#e0e0e0" font-size="14">Area on c: 25</text>
+    <text x="290" y="245" fill="#ccc" font-size="14" font-weight="bold">9 + 16 = 25  &#10003;</text>
+  </svg>
+  <figcaption>The theorem is about literal squares built on each side.</figcaption>
+</figure>
+
+<!-- ============================== PROOF 1 ============================== -->
+
+<h2>Proof 1 &mdash; The Chinese visual proof</h2>
+
+<p>
+  This is perhaps the most elegant proof in all of mathematics.
+  It requires nothing beyond the area of a triangle ($\frac{1}{2} \times \text{base} \times \text{height}$)
+  and expanding a binomial. It appeared in the <em>Zhoubi Suanjing</em> around 200 BC.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof 1 &mdash; Area rearrangement</div>
+  <p>
+    Start with a right triangle having legs $a$, $b$ and hypotenuse $c$. Make four identical copies.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Arrange the four triangles inside a large square of side length
+    $(a + b)$, with their hypotenuses facing inward. They fit perfectly, leaving a tilted
+    square in the centre whose side is $c$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Compute the area of the large square two ways.
+  </p>
+  <p>
+    <em>Way 1</em> &mdash; directly:
+  </p>
+  <div class="display-math">
+    $$(a + b)^2 = a^2 + 2ab + b^2$$
+  </div>
+  <p>
+    <em>Way 2</em> &mdash; as four triangles plus the inner square:
+  </p>
+  <div class="display-math">
+    $$4 \cdot \tfrac{1}{2}ab + c^2 = 2ab + c^2$$
+  </div>
+  <p>
+    <strong>Step 3.</strong> These are the same area, so set them equal:
+  </p>
+  <div class="display-math">
+    $$a^2 + 2ab + b^2 = 2ab + c^2$$
+  </div>
+  <p>
+    <strong>Step 4.</strong> Subtract $2ab$ from both sides:
+  </p>
+  <div class="display-math">
+    $$a^2 + b^2 = c^2$$
+  </div>
+  <p class="qed">&#8718;</p>
+</div>
+
+<p>
+  The entire proof rests on one fact: the four triangles plus the inner square tile the
+  big square with no gaps or overlaps. Once you see that, the algebra is three lines.
+  This is why Bhaskara could get away with writing just "Behold!" &mdash; the diagram
+  does the work.
+</p>
+
+<figure>
+  <svg viewBox="0 0 320 320" width="300" height="300">
+    <!-- outer square -->
+    <rect x="10" y="10" width="280" height="280" fill="none" stroke="#888" stroke-width="2"/>
+    <!-- four triangles -->
+    <polygon points="10,10 210,10 10,150" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+    <polygon points="210,10 290,10 290,210" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+    <polygon points="290,210 290,290 90,290" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+    <polygon points="10,150 10,290 90,290" fill="rgba(233,69,96,0.2)" stroke="#e94560" stroke-width="1.5"/>
+    <!-- inner square (hypotenuse sides) -->
+    <polygon points="210,10 290,210 90,290 10,150" fill="rgba(74,153,153,0.15)" stroke="#4a9" stroke-width="2"/>
+    <!-- labels -->
+    <text x="100" y="30" fill="#e9a045" font-size="13">a</text>
+    <text x="15" y="85" fill="#e9a045" font-size="13">b</text>
+    <text x="105" y="95" fill="#4a9" font-size="14">c</text>
+    <text x="140" y="180" fill="#4a9" font-size="13">c&sup2;</text>
+  </svg>
+  <figcaption>Four copies of the triangle inside a square of side $(a+b)$. Inner square has side $c$.</figcaption>
+</figure>
+
+<!-- ============================== PROOF 2 ============================== -->
+
+<h2>Proof 2 &mdash; Euclid's proof (I.47)</h2>
+
+<div class="proof-box">
+  <div class="label">Proof 2 &mdash; Via similar triangles (Euclid)</div>
+  <p>
+    This is the proof in Euclid's <em>Elements</em>, Proposition I.47, from around 300 BC.
+    It connects directly to what we saw on the
+    <a href="01-similar-triangles.html" style="color:#4a9;">previous page</a>
+    about similar triangles.
+  </p>
+  <p>
+    <strong>Setup.</strong> Take right triangle $ABC$ with the right angle at $C$.
+    Drop the altitude from $C$ perpendicular to the hypotenuse $AB$, hitting it at point $D$.
+  </p>
+  <p>
+    <strong>Key observation.</strong> This altitude splits the original triangle into two smaller
+    triangles: $ACD$ and $CBD$. Both are similar to the original triangle $ABC$.
+    (They share an angle with the original, and both have a right angle &mdash;
+    so by AA similarity, they're similar.)
+  </p>
+  <p>
+    <strong>From similarity of $\triangle ACD \sim \triangle ABC$:</strong>
+  </p>
+  <div class="display-math">
+    $$\frac{AC}{AB} = \frac{AD}{AC} \quad\Longrightarrow\quad AC^2 = AB \cdot AD$$
+  </div>
+  <p>
+    That is: $b^2 = c \cdot AD$.
+  </p>
+  <p>
+    <strong>From similarity of $\triangle CBD \sim \triangle ABC$:</strong>
+  </p>
+  <div class="display-math">
+    $$\frac{BC}{AB} = \frac{BD}{BC} \quad\Longrightarrow\quad BC^2 = AB \cdot BD$$
+  </div>
+  <p>
+    That is: $a^2 = c \cdot BD$.
+  </p>
+  <p>
+    <strong>Add them.</strong> Since $D$ lies on $AB$, we have $AD + BD = AB = c$:
+  </p>
+  <div class="display-math">
+    $$a^2 + b^2 = c \cdot BD + c \cdot AD = c(AD + BD) = c \cdot c = c^2$$
+  </div>
+  <p class="qed">&#8718;</p>
+</div>
+
+<p>
+  Notice how different this feels from Proof 1. No area rearrangement, no binomial expansion.
+  Just similar triangles and the fact that the two segments of the hypotenuse add back to the whole.
+  Euclid's proof makes the Pythagorean theorem a <em>consequence</em> of similarity &mdash;
+  which is arguably the deeper insight.
+</p>
+
+<!-- ============================== VERIFICATION ============================== -->
+
+<h2>Verify it</h2>
+
+<p>
+  Before trusting the theorem, let's check it against known right triangles.
+</p>
+
+<p><strong>The 3-4-5 triangle</strong> (the Egyptian rope trick):</p>
+<div class="display-math">
+  $$3^2 + 4^2 = 9 + 16 = 25 = 5^2 \quad\checkmark$$
+</div>
+
+<p><strong>The 5-12-13 triangle:</strong></p>
+<div class="display-math">
+  $$5^2 + 12^2 = 25 + 144 = 169 = 13^2 \quad\checkmark$$
+</div>
+
+<p><strong>The 8-15-17 triangle:</strong></p>
+<div class="display-math">
+  $$8^2 + 15^2 = 64 + 225 = 289 = 17^2 \quad\checkmark$$
+</div>
+
+<p>
+  These integer triples $(a, b, c)$ satisfying $a^2 + b^2 = c^2$ are called
+  <strong>Pythagorean triples</strong>. There are infinitely many of them.
+  Euclid gave a formula: for any positive integers $m > n$,
+  the triple $(m^2 - n^2,\; 2mn,\; m^2 + n^2)$ works. Try $m=2, n=1$:
+  $(3, 4, 5)$. Try $m=3, n=2$: $(5, 12, 13)$.
+</p>
+
+<!-- ============================== THE CONVERSE ============================== -->
+
+<h2>The converse</h2>
+
+<p>
+  The theorem goes the other direction too. Not just "right triangle implies $a^2 + b^2 = c^2$,"
+  but also:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Converse of Pythagoras</div>
+  <p>
+    If a triangle has sides $a$, $b$, $c$ with $a^2 + b^2 = c^2$,
+    then the angle opposite side $c$ is a right angle.
+  </p>
+</div>
+
+<p>
+  This is precisely what the Egyptian builders used. They didn't need to prove
+  a triangle was right-angled by measuring the angle. They measured the sides instead.
+  Mark 3, 4, 5 on a rope, pull it taut into a triangle, and the corner opposite the
+  longest side is guaranteed to be 90 degrees. The converse is what makes the theorem
+  <em>practical</em>.
+</p>
+
+<!-- ============================== CONSEQUENCE ============================== -->
+
+<h2>A consequence that changes everything</h2>
+
+<p>
+  Draw a square with side length 1. What is its diagonal?
+</p>
+
+<p>
+  The diagonal splits the square into two right triangles, each with legs $1$ and $1$.
+  By Pythagoras:
+</p>
+
+<div class="display-math">
+  $$d^2 = 1^2 + 1^2 = 2$$
+</div>
+
+<p>
+  So $d = \sqrt{2}$. This is a real, constructible length &mdash; you can draw it with
+  a compass and straightedge. It sits right there on the page.
+</p>
+
+<p>
+  But here's the problem. The Pythagoreans believed all lengths are ratios of whole numbers.
+  Every distance, they claimed, is some fraction $p/q$. If that's true, then $\sqrt{2}$
+  must be a fraction. Is it?
+</p>
+
+<p>
+  The <a href="03-sqrt2-irrational.html" style="color:#e94560;">next page</a> proves it isn't.
+  $\sqrt{2}$ cannot be written as any fraction. This discovery &mdash; a direct consequence
+  of the Pythagorean theorem applied to the humblest possible triangle &mdash; allegedly
+  caused a crisis in the Pythagorean school. Legend has it that the discoverer, Hippasus,
+  was drowned at sea for revealing the secret.
+</p>
+
+<p>
+  The theorem that bears their name led straight to the destruction of their worldview.
+</p>
+
+<!-- ============================== WHAT BREAKS ============================== -->
+
+<hr>
+
+<div class="break-box">
+  <div class="label">What Breaks Without This</div>
+  <p>
+    <strong>Distance in coordinate geometry is the Pythagorean theorem.</strong>
+    The distance between points $(x_1, y_1)$ and $(x_2, y_2)$:
+  </p>
+  <div class="display-math">
+    $$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
+  </div>
+  <p>
+    This is just Pythagoras applied to the horizontal and vertical legs of a right triangle.
+    Without it, Descartes' entire coordinate system
+    (<a href="06-coordinate-geometry.html" style="color:#aaa;">page 06</a>) has no way to
+    measure distance. No distance formula means no circles, no conic sections, no calculus
+    of curves, no physics.
+  </p>
+  <p>
+    <strong>Trigonometry collapses.</strong> The identity
+    $\sin^2\theta + \cos^2\theta = 1$ is the Pythagorean theorem applied to the unit circle.
+    Without it, there's no coherent relationship between sine and cosine.
+  </p>
+  <p>
+    <strong>Higher dimensions vanish.</strong> Distance in 3D &mdash;
+    $\sqrt{x^2 + y^2 + z^2}$ &mdash; is iterated Pythagoras. In $n$ dimensions,
+    same idea. Without the 2D case, there's no generalisation.
+  </p>
+</div>
+
+<!-- ============================== TAKEAWAY ============================== -->
+
+<hr>
+
+<div class="oneliner">
+  The areas of the squares on the legs add up to the area of the square on the hypotenuse &mdash;
+  that's why $a^2 + b^2 = c^2$.
+</div>
+
+<!-- ============================== NAVIGATION ============================== -->
+
+<div class="nav">
+  <a href="01-similar-triangles.html">&larr; Previous: Similar Triangles</a>
+  <a href="03-sqrt2-irrational.html">Next: &radic;2 is Irrational &rarr;</a>
+</div>
+
+</body>
+</html>

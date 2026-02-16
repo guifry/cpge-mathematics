@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Unit Circle — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Unit Circle</h1>
+<div class="subtitle">Phase 0 &mdash; Extending Trigonometry to All Angles</div>
+
+<div class="problem-box">
+  <div class="label">The Problem</div>
+  <p>
+    On the previous page we defined sine, cosine, and tangent as ratios in a right triangle.
+    That definition is clean, natural, and it works &mdash; for angles between $0°$ and $90°$.
+  </p>
+  <p>
+    But real problems do not stay in that range. A wheel rotates through $270°$.
+    A pendulum swings to negative angles. A ship's bearing can be $225°$.
+    An electrical signal oscillates through thousands of degrees worth of angle.
+  </p>
+  <p>
+    <strong>What is $\sin(150°)$?</strong> You cannot build a right triangle with a $150°$ angle &mdash;
+    a right triangle already uses up $90°$, and the remaining two angles must be positive and sum to $90°$.
+    The triangle definition literally cannot represent this.
+    What about $\sin(240°)$? $\sin(-30°)$? $\sin(720°)$?
+  </p>
+  <p>
+    The triangle definition is silent. We need a new definition &mdash; one that works for every angle,
+    positive, negative, or beyond $360°$ &mdash; and that agrees with the triangle definition
+    in the range where both apply.
+  </p>
+</div>
+
+<h2>1. The idea: use a circle, not a triangle</h2>
+
+<p>
+  Here is the conceptual leap. Instead of placing the angle inside a triangle, place it at the centre
+  of a circle. Specifically, use a circle of radius 1 centred at the origin of the coordinate plane.
+  This is called the <strong>unit circle</strong>.
+</p>
+
+<p>
+  Start at the point $(1, 0)$ &mdash; the rightmost point of the circle, on the positive $x$-axis.
+  Now rotate counter-clockwise by an angle $\theta$. You land on some point on the circle.
+  That point has coordinates $(x, y)$.
+</p>
+
+<p>
+  The definition is: those coordinates <em>are</em> the cosine and sine.
+</p>
+
+<h2>2. The definition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Sine and Cosine via the Unit Circle</div>
+  <p>
+    Let $P$ be the point on the unit circle ($x^2 + y^2 = 1$) reached by rotating angle $\theta$
+    counter-clockwise from the positive $x$-axis. Then:
+  </p>
+  <div class="display-math">
+    $$P = (\cos\theta,\; \sin\theta)$$
+  </div>
+  <p>
+    $\cos\theta$ is the $x$-coordinate of $P$. $\sin\theta$ is the $y$-coordinate of $P$.
+  </p>
+  <p>
+    Negative angles mean clockwise rotation. Angles beyond $360°$ mean you have gone around more than once.
+    The definition handles both without any extra rules.
+  </p>
+</div>
+
+<p>
+  That is the entire definition. Everything else follows from it.
+</p>
+
+<h2>3. Why this agrees with the triangle definition</h2>
+
+<p>
+  For $0° < \theta < 90°$, the point $P = (\cos\theta, \sin\theta)$ sits in the first quadrant:
+  both coordinates are positive. Drop a vertical line from $P$ to the $x$-axis. You get a right triangle
+  with:
+</p>
+
+<ul>
+  <li>Hypotenuse = the radius = $1$ (it is the unit circle)</li>
+  <li>Adjacent side (along the $x$-axis) = $x$-coordinate = $\cos\theta$</li>
+  <li>Opposite side (vertical drop) = $y$-coordinate = $\sin\theta$</li>
+</ul>
+
+<p>
+  Now apply the triangle definitions from page 04:
+</p>
+
+<div class="display-math">
+  $$\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\sin\theta}{1} = \sin\theta \quad \checkmark$$
+</div>
+
+<div class="display-math">
+  $$\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\cos\theta}{1} = \cos\theta \quad \checkmark$$
+</div>
+
+<p>
+  The triangle ratios and the unit circle coordinates give the same numbers, because the hypotenuse is $1$
+  and dividing by $1$ changes nothing. The old definition is a special case of the new one.
+  The unit circle does not replace the triangle &mdash; it generalises it.
+</p>
+
+<h2>4. Verify with known values</h2>
+
+<p>
+  Before using the new definition for unfamiliar angles, let us check it reproduces values we already know.
+</p>
+
+<p>
+  <strong>$\theta = 0°$.</strong> No rotation at all. The point stays at $(1, 0)$.
+  So $\cos(0°) = 1$ and $\sin(0°) = 0$. Correct: in a "triangle" with no angle, there is no opposite side.
+</p>
+
+<p>
+  <strong>$\theta = 90°$.</strong> Quarter turn counter-clockwise. The point moves to $(0, 1)$ &mdash;
+  the top of the circle. So $\cos(90°) = 0$ and $\sin(90°) = 1$. This matches what you would expect:
+  at $90°$ the "adjacent" side has collapsed to zero and the "opposite" side equals the hypotenuse.
+</p>
+
+<p>
+  <strong>$\theta = 30°$.</strong> From page 04, the triangle definition gives
+  $\sin(30°) = \tfrac{1}{2}$ and $\cos(30°) = \tfrac{\sqrt{3}}{2}$.
+  The unit circle point is $\left(\tfrac{\sqrt{3}}{2},\; \tfrac{1}{2}\right)$.
+  Check: $\left(\tfrac{\sqrt{3}}{2}\right)^2 + \left(\tfrac{1}{2}\right)^2 = \tfrac{3}{4} + \tfrac{1}{4} = 1$.
+  It lies on the unit circle. The values match.
+</p>
+
+<p>
+  <strong>$\theta = 45°$.</strong> From page 04: $\sin(45°) = \cos(45°) = \tfrac{\sqrt{2}}{2}$.
+  The unit circle point is $\left(\tfrac{\sqrt{2}}{2},\; \tfrac{\sqrt{2}}{2}\right)$.
+  Check: $\tfrac{1}{2} + \tfrac{1}{2} = 1$. Correct.
+</p>
+
+<h2>5. Now the new cases work</h2>
+
+<p>
+  The whole point of the unit circle definition is that it does not stop at $90°$. Let us compute
+  the values the triangle definition could not touch.
+</p>
+
+<h3>$\sin(150°)$</h3>
+
+<p>
+  $150° = 180° - 30°$. The point is in the second quadrant &mdash; past $90°$ but before $180°$.
+  It has the same height above the $x$-axis as the $30°$ point, but its $x$-coordinate is negative
+  (it is on the left side of the $y$-axis).
+</p>
+
+<p>
+  So the point is $\left(-\tfrac{\sqrt{3}}{2},\; \tfrac{1}{2}\right)$.
+  Therefore $\sin(150°) = \tfrac{1}{2}$ and $\cos(150°) = -\tfrac{\sqrt{3}}{2}$.
+</p>
+
+<p>
+  The sine is positive (the point is above the $x$-axis) and the cosine is negative
+  (the point is to the left of the $y$-axis). This is consistent and natural.
+  The triangle definition would have given you nothing.
+</p>
+
+<h3>$\sin(240°)$</h3>
+
+<p>
+  $240° = 180° + 60°$. The point is in the third quadrant &mdash; both coordinates negative.
+  It mirrors the $60°$ point across the origin: $\left(-\tfrac{1}{2},\; -\tfrac{\sqrt{3}}{2}\right)$.
+</p>
+
+<p>
+  So $\sin(240°) = -\tfrac{\sqrt{3}}{2}$ and $\cos(240°) = -\tfrac{1}{2}$.
+  Both negative, as expected for the third quadrant.
+</p>
+
+<h3>$\sin(-30°)$</h3>
+
+<p>
+  A negative angle means clockwise rotation. Going $30°$ clockwise from $(1, 0)$ lands at
+  $\left(\tfrac{\sqrt{3}}{2},\; -\tfrac{1}{2}\right)$ &mdash; same $x$-coordinate as $30°$,
+  but the $y$-coordinate flips sign.
+</p>
+
+<p>
+  So $\sin(-30°) = -\tfrac{1}{2}$ and $\cos(-30°) = \tfrac{\sqrt{3}}{2}$.
+  This immediately tells you that sine is an <strong>odd function</strong>: $\sin(-\theta) = -\sin(\theta)$.
+  And cosine is an <strong>even function</strong>: $\cos(-\theta) = \cos(\theta)$.
+  These symmetries are obvious from the circle &mdash; reflecting across the $x$-axis
+  preserves the $x$-coordinate and negates the $y$-coordinate.
+</p>
+
+<h3>$\sin(720°)$</h3>
+
+<p>
+  $720° = 2 \times 360°$. Two full rotations. You end up back at $(1, 0)$.
+  So $\sin(720°) = 0$ and $\cos(720°) = 1$. Same as $\sin(0°)$ and $\cos(0°)$.
+  Sine and cosine are <strong>periodic</strong> with period $360°$: adding $360°$ to the angle
+  changes nothing. Again, obvious from the geometry.
+</p>
+
+<h2>6. The Pythagorean identity</h2>
+
+<p>
+  The unit circle is defined by the equation $x^2 + y^2 = 1$. The point
+  $(\cos\theta, \sin\theta)$ lies on this circle by definition. Substituting:
+</p>
+
+<div class="display-math">
+  $$\cos^2\theta + \sin^2\theta = 1$$
+</div>
+
+<p>
+  This is the most important identity in trigonometry. On the previous page, we derived it from the
+  Pythagorean theorem applied to a right triangle &mdash; but that proof only works for $0° < \theta < 90°$.
+  The unit circle makes it true for <em>all</em> $\theta$, because the point is always on the circle,
+  no matter what angle you use.
+</p>
+
+<p>
+  The identity $\cos^2\theta + \sin^2\theta = 1$ is literally the equation of the unit circle,
+  rewritten using the names we gave the coordinates.
+</p>
+
+<h2>7. A bound we will need later</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Sine and Cosine Are Bounded</div>
+  <p>For all $\theta$:</p>
+  <div class="display-math">
+    $$-1 \leq \sin\theta \leq 1 \qquad \text{and} \qquad -1 \leq \cos\theta \leq 1$$
+  </div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    From the Pythagorean identity: $\sin^2\theta + \cos^2\theta = 1$.
+  </p>
+  <p>
+    Since $\cos^2\theta \geq 0$ (it is a square), we have $\sin^2\theta \leq 1$.
+    Taking square roots: $|\sin\theta| \leq 1$, which is the same as $-1 \leq \sin\theta \leq 1$.
+  </p>
+  <p>
+    The argument for cosine is identical: $\sin^2\theta \geq 0$ forces $\cos^2\theta \leq 1$,
+    so $|\cos\theta| \leq 1$.
+  </p>
+  <div class="qed">&marker;</div>
+</div>
+
+<p>
+  This matters because in Phase 1, when we prove limits like
+  $\lim_{\theta \to 0} \frac{\sin\theta}{\theta} = 1$ using the squeeze theorem,
+  we will need the bound $|\sin\theta| \leq 1$ as a step.
+  It is not a fact we assume &mdash; it is proved, from the Pythagorean theorem via the unit circle.
+</p>
+
+<h2>8. The four quadrants</h2>
+
+<p>
+  The sign pattern of sine and cosine is determined by which quadrant the point falls in:
+</p>
+
+<table>
+  <tr>
+    <th>Quadrant</th>
+    <th>Angle range</th>
+    <th>$\cos\theta$ ($x$)</th>
+    <th>$\sin\theta$ ($y$)</th>
+  </tr>
+  <tr><td>I</td><td>$0° < \theta < 90°$</td><td>$+$</td><td>$+$</td></tr>
+  <tr><td>II</td><td>$90° < \theta < 180°$</td><td>$-$</td><td>$+$</td></tr>
+  <tr><td>III</td><td>$180° < \theta < 270°$</td><td>$-$</td><td>$-$</td></tr>
+  <tr><td>IV</td><td>$270° < \theta < 360°$</td><td>$+$</td><td>$-$</td></tr>
+</table>
+
+<p>
+  This is just reading off the signs of the $x$- and $y$-coordinates in each quadrant of the
+  coordinate plane. Nothing to memorise if you can picture the circle.
+</p>
+
+<h2>9. Radians &mdash; a brief note</h2>
+
+<p>
+  Degrees divide a full circle into $360$ parts. That number is convenient (divisible by 2, 3, 4, 5, 6, ...)
+  but mathematically arbitrary. Mathematicians prefer <strong>radians</strong>, which measure the angle
+  by the arc length it subtends on the unit circle.
+</p>
+
+<p>
+  A full circle has circumference $2\pi r = 2\pi \cdot 1 = 2\pi$. So a full turn is $2\pi$ radians.
+  Conversions:
+</p>
+
+<div class="display-math">
+  $$180° = \pi \text{ rad} \qquad \Longleftrightarrow \qquad 1° = \frac{\pi}{180} \text{ rad}$$
+</div>
+
+<p>
+  Common values: $90° = \frac{\pi}{2}$, $60° = \frac{\pi}{3}$, $45° = \frac{\pi}{4}$, $30° = \frac{\pi}{6}$.
+</p>
+
+<p>
+  Why bother? Because the formulas of calculus are cleaner in radians.
+  In particular, the derivative $\frac{d}{dx}\sin(x) = \cos(x)$ is only true when $x$ is in radians.
+  If $x$ is in degrees, a conversion factor of $\frac{\pi}{180}$ creeps in everywhere.
+  The power series for sine (Phase 3) will use radians. For this page, degrees are fine.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The triangle definition of trigonometry served mathematics well for over two thousand years,
+    from Hipparchus (c. 150 BC) through the medieval Islamic mathematicians who developed it into
+    a mature computational tool. But it was always tethered to geometry &mdash; you needed a triangle
+    to talk about sine and cosine.
+  </p>
+  <p>
+    Leonhard Euler changed this in 1748 in his <em>Introductio in analysin infinitorum</em>.
+    He redefined the trigonometric functions as coordinates on the unit circle, treating them as
+    functions of a real number (the arc length or angle), not as properties of triangles.
+    This conceptual shift &mdash; from geometry to analysis &mdash; was what allowed calculus to work
+    with trigonometric functions. You need sine defined on all of $\mathbb{R}$ before you can
+    differentiate it. The triangle definition gives you a function on $(0°, 90°)$.
+    Euler's definition gives you a function on $(-\infty, \infty)$.
+  </p>
+  <p>
+    It is one of the cleanest examples of mathematical progress: the old definition is not wrong,
+    it is incomplete. The new definition absorbs it as a special case and extends it to
+    the full domain that analysis requires.
+  </p>
+</div>
+
+<h2>10. Tangent on the unit circle</h2>
+
+<p>
+  Tangent is still defined as the ratio $\tan\theta = \frac{\sin\theta}{\cos\theta}$.
+  On the unit circle, this is $\frac{y\text{-coordinate}}{x\text{-coordinate}}$.
+  It is undefined when $\cos\theta = 0$ (i.e. at $\theta = 90°, 270°$, or in radians $\frac{\pi}{2}, \frac{3\pi}{2}$, ...)
+  because you would be dividing by zero.
+</p>
+
+<p>
+  Geometrically, $\tan\theta$ is the slope of the line from the origin to the point $P$.
+  At $90°$ and $270°$, that line is vertical, and vertical lines have undefined slope. Consistent.
+</p>
+
+<h2>11. What breaks without the unit circle</h2>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    Without the unit circle extension, trigonometry is trapped in the interval $(0°, 90°)$.
+    Specifically:
+  </p>
+  <ul>
+    <li>
+      <strong>No rotation.</strong> You cannot describe a wheel turning $270°$, a robot arm sweeping
+      through $180°$, or an orbit completing multiple revolutions. The triangle definition gives you
+      at most a quarter turn.
+    </li>
+    <li>
+      <strong>No negative angles.</strong> A pendulum swings forward (positive) and backward (negative).
+      An AC current alternates polarity. The triangle definition has no concept of direction.
+    </li>
+    <li>
+      <strong>No sine as a function on $\mathbb{R}$.</strong> Calculus needs $\sin : \mathbb{R} \to [-1, 1]$,
+      a function defined on every real number. The triangle definition gives $\sin : (0°, 90°) \to (0, 1)$.
+      You cannot differentiate a function that only exists on a quarter of a turn.
+    </li>
+    <li>
+      <strong>No waves.</strong> Sound, light, electricity, radio, quantum mechanics &mdash; all modelled
+      by sinusoidal functions that oscillate through $(-\infty, +\infty)$. Without the extension,
+      no wave equation, no Fourier analysis, no signal processing.
+    </li>
+  </ul>
+  <p>
+    The triangle definition is a starting point. The unit circle is where trigonometry actually lives.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Sine and cosine are the $y$- and $x$-coordinates of a point walking around the unit circle
+  &mdash; and because it is a circle, $\sin^2\theta + \cos^2\theta = 1$.
+</div>
+
+<div class="nav">
+  <a href="04-trigonometry.html">&larr; Previous: Trigonometry from Scratch</a>
+  <a href="06-coordinate-geometry.html">Next: Coordinate Geometry &rarr;</a>
+</div>
+
+</body>
+</html>

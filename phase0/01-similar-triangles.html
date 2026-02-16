@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Similar Triangles — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Similar Triangles and Measurement</h1>
+<div class="subtitle">Phase 0 — The Foundations</div>
+
+<div class="problem-box">
+  <div class="label">The Problem</div>
+  <p>
+    It is roughly 600 BC. Thales of Miletus stands in the Egyptian desert, looking up at the Great Pyramid of Giza.
+    The pyramid is about 2,000 years old at this point. It is enormous. He wants to know its height.
+  </p>
+  <p>
+    He cannot climb it. He has no rope long enough. He has no instrument that can measure vertical distances
+    at that scale. What he does have: his own body (whose height he knows), the sun, and the ground.
+  </p>
+  <p>
+    He notices something. The sun casts his shadow on the ground, and it also casts the pyramid's shadow.
+    Both shadows point the same direction, because the light comes from the same source at the same angle.
+    His body and its shadow form a right triangle. The pyramid and its shadow form another right triangle.
+    The sun's angle above the horizon is the same for both.
+  </p>
+  <p>
+    <strong>Can he use his shadow to find the height of the pyramid?</strong>
+  </p>
+</div>
+
+<p>
+  The answer is yes, and the reason it works is one of the most important facts in all of geometry.
+  But it isn't obvious. It requires a theorem.
+</p>
+
+<h2>1. What does "same shape" mean?</h2>
+
+<p>
+  Look at Thales' two triangles. One is small (him and his shadow), one is vast (the pyramid and its shadow).
+  They look like the same shape at different scales. But what precisely does "same shape" mean for triangles?
+</p>
+
+<p>
+  A triangle has three angles and three sides. Two triangles have the <strong>same shape</strong> if their
+  three angles match up: the first triangle's angles are the same as the second triangle's angles, in
+  corresponding order. We call such triangles <strong>similar</strong>.
+</p>
+
+<p>
+  Notation: if triangle $ABC$ is similar to triangle $DEF$, we write $\triangle ABC \sim \triangle DEF$.
+  The order matters &mdash; it tells you which angles correspond. $A$ matches $D$, $B$ matches $E$, $C$ matches $F$.
+</p>
+
+<p>
+  In Thales' case, both triangles are right triangles (the pyramid and the person both stand vertically on flat ground),
+  and both share the sun's elevation angle. Since two of the three angles match, and angles in any triangle
+  sum to $180°$, the third must match too. So the triangles are similar.
+</p>
+
+<p>
+  But here is the question that matters: <strong>does "same angles" actually guarantee that the sides scale proportionally?</strong>
+  Thales needs it to. His whole method depends on it. Let us state what he needs as a theorem, then prove it.
+</p>
+
+<h2>2. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Similar Triangles</div>
+  <p>
+    If two triangles have equal corresponding angles (i.e. they are similar), then their corresponding
+    sides are proportional. That is, if $\triangle ABC \sim \triangle DEF$, with
+    $\angle A = \angle D$, $\angle B = \angle E$, $\angle C = \angle F$, then:
+  </p>
+  <div class="display-math">
+    $$\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF}$$
+  </div>
+  <p>
+    This common ratio is called the <strong>scale factor</strong>, often written $k$.
+    Conversely, if the sides are proportional, the angles are equal.
+  </p>
+</div>
+
+<p>
+  Let us unpack what "proportional" means with numbers. Suppose Thales is 1.8 m tall and casts a shadow
+  of 2.4 m. The pyramid casts a shadow of 210 m (measured from the centre of its base to the tip of the shadow).
+  If the theorem holds, then:
+</p>
+
+<div class="display-math">
+  $$\frac{\text{Thales' height}}{\text{pyramid's height}} = \frac{\text{Thales' shadow}}{\text{pyramid's shadow}}$$
+</div>
+
+<p>
+  Every pair of corresponding sides shares the same ratio $k$. That is the whole content of the theorem.
+  It means knowing three of the four quantities is enough to find the fourth.
+</p>
+
+<h2>3. Why does this work? &mdash; The proof</h2>
+
+<p>
+  The proof strategy goes back to Euclid (<em>Elements</em>, Book VI, Proposition 2). The key idea is:
+  a line drawn parallel to one side of a triangle cuts the other two sides proportionally.
+  This is sometimes called the <strong>intercept theorem</strong>, or, fittingly, <strong>Thales' theorem</strong>.
+</p>
+
+<h3>Step 1 &mdash; The intercept theorem</h3>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Intercept Theorem</div>
+  <p>
+    In triangle $ABC$, let $D$ be a point on side $AB$ and $E$ a point on side $AC$, such that $DE \parallel BC$.
+    Then:
+  </p>
+  <div class="display-math">
+    $$\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$$
+  </div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof sketch</div>
+  <p>
+    Draw $DE$ parallel to $BC$, hitting $AB$ at $D$ and $AC$ at $E$. Consider triangles $ADE$ and $ABC$.
+  </p>
+  <p>
+    Because $DE \parallel BC$, the angle $\angle ADE$ equals $\angle ABC$ (corresponding angles formed by
+    a transversal cutting parallel lines). Similarly, $\angle AED = \angle ACB$. Angle $A$ is shared.
+    So $\triangle ADE$ has the same three angles as $\triangle ABC$.
+  </p>
+  <p>
+    Now for the proportionality. Draw the height from $A$ perpendicular to $BC$, and call its length $h$.
+    This height also passes through the line $DE$ (since $DE$ is parallel to $BC$), hitting $DE$ at some point,
+    with the portion from $A$ to $DE$ being $h'$.
+  </p>
+  <p>
+    The area of $\triangle ABC$ is $\tfrac{1}{2} \cdot BC \cdot h$. The area of $\triangle ADE$ is $\tfrac{1}{2} \cdot DE \cdot h'$.
+    But we can also express these areas using the sides $AB$ and $AD$: triangles $ADE$ and $DBC$ share the base $DE$ and $BC$
+    on parallel lines, so their area ratio equals the ratio of their heights from $A$, which equals $\frac{AD}{AB}$.
+  </p>
+  <p>
+    By carefully equating the two ways of computing the area ratio (via bases $DE/BC$ and via heights $h'/h$
+    and via side ratios $AD/AB$), you get:
+  </p>
+  <div class="display-math">
+    $$\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$$
+  </div>
+  <p>
+    Euclid's original proof uses the theory of equal-area parallelograms rather than our algebraic area
+    formula, but the underlying logic is the same: parallel lines create equal ratios.
+  </p>
+  <div class="qed">&marker;</div>
+</div>
+
+<h3>Step 2 &mdash; From the lemma to the theorem</h3>
+
+<div class="proof-box">
+  <div class="label">Proof of the Similar Triangles theorem</div>
+  <p>
+    Take two triangles with equal corresponding angles: $\triangle ABC$ and $\triangle DEF$,
+    with $\angle A = \angle D$, $\angle B = \angle E$, $\angle C = \angle F$.
+  </p>
+  <p>
+    We want to show $\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF}$.
+  </p>
+  <p>
+    <strong>Construction.</strong> Place $\triangle DEF$ inside $\triangle ABC$ by
+    marking a point $D'$ on $AB$ such that $AD' = DE$, and a point $F'$ on $AC$ such that $AF' = DF$.
+    Since $\angle A = \angle D$ and we matched two sides, the triangle $\triangle AD'F'$ is congruent to
+    $\triangle DEF$ (by side-angle-side).
+  </p>
+  <p>
+    So $\angle AD'F' = \angle DEF = \angle ABC$ (since $\angle B = \angle E$). This means $D'F' \parallel BC$
+    (corresponding angles equal implies parallel lines).
+  </p>
+  <p>
+    Now apply the intercept theorem to triangle $ABC$ with the parallel line $D'F'$:
+  </p>
+  <div class="display-math">
+    $$\frac{AD'}{AB} = \frac{AF'}{AC} = \frac{D'F'}{BC}$$
+  </div>
+  <p>
+    But $AD' = DE$, $AF' = DF$, and $D'F' = EF$ (from the congruence). Substituting:
+  </p>
+  <div class="display-math">
+    $$\frac{DE}{AB} = \frac{DF}{AC} = \frac{EF}{BC}$$
+  </div>
+  <p>
+    Flip the fractions and you have $\frac{AB}{DE} = \frac{AC}{DF} = \frac{BC}{EF}$. Done.
+  </p>
+  <div class="qed">&marker;</div>
+</div>
+
+<p>
+  Notice where the parallel postulate enters. The step "corresponding angles equal implies parallel lines"
+  is equivalent to Euclid's fifth postulate. In non-Euclidean geometry (on a sphere, say), this theorem
+  breaks down &mdash; and we will revisit that in the "what breaks" section below.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The story of Thales and the pyramid is told by Plutarch and Diogenes Laertius.
+    Whether Thales used exactly this method, or waited until his shadow was the same length as his height
+    (reducing the problem to a 1:1 ratio), is debated. Either way, the core insight is the same:
+    same sun angle, same shape, proportional sides.
+  </p>
+  <p>
+    Thales is often credited as the first person to prove a geometric theorem at all, rather than
+    just asserting patterns. The leap from "this seems to work" to "here is why it must work"
+    is arguably the birth of mathematics as a deductive discipline.
+  </p>
+</div>
+
+<h2>4. Solving Thales' problem</h2>
+
+<p>
+  Now we can finish the calculation. Let $h$ be the pyramid's height (unknown). The two right triangles
+  share the sun's elevation angle $\theta$. Their corresponding sides are proportional:
+</p>
+
+<div class="display-math">
+  $$\frac{\text{Thales' height}}{\text{Thales' shadow}} = \frac{\text{pyramid's height}}{\text{pyramid's shadow}}$$
+</div>
+
+<p>
+  With our numbers: Thales' height $= 1.8$ m, his shadow $= 2.4$ m, the pyramid's shadow $= 210$ m
+  (measured from the centre of the base to the tip of the shadow, since the pyramid's "height" rises from its centre).
+</p>
+
+<div class="display-math">
+  $$\frac{1.8}{2.4} = \frac{h}{210}$$
+</div>
+
+<div class="display-math">
+  $$h = 210 \times \frac{1.8}{2.4} = 210 \times 0.75 = 157.5 \text{ m}$$
+</div>
+
+<p>
+  The actual height of the Great Pyramid (when intact) was about 146 m. Given the rough measurements available
+  to someone standing in the desert with no tape measure, this is remarkably close. The method works.
+</p>
+
+<h2>5. The scale factor</h2>
+
+<p>
+  It is worth pausing on what the theorem gives us. The ratio
+</p>
+
+<div class="display-math">
+  $$k = \frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF}$$
+</div>
+
+<p>
+  is a single number &mdash; the <strong>scale factor</strong>. It tells you: "the second triangle is $k$ times
+  larger than the first." Every length in the bigger triangle is exactly $k$ times the corresponding length
+  in the smaller one. Not some lengths. All of them. That is the force of the theorem.
+</p>
+
+<p>
+  If $k = 1$, the triangles are the same size &mdash; they are <strong>congruent</strong>, not just similar.
+  Similarity is the more general idea; congruence is the special case where the scale factor is 1.
+</p>
+
+<h2>6. Why this matters for everything that follows</h2>
+
+<p>
+  Here is the punchline, and the reason this page exists at the start of a trigonometry course:
+</p>
+
+<p>
+  <strong>Trigonometry is similar triangles.</strong>
+</p>
+
+<p>
+  When you learn that $\sin(30°) = 0.5$, what that statement means is: in <em>every</em> right triangle
+  with a $30°$ angle, the ratio of the side opposite that angle to the hypotenuse is $0.5$. Not in one
+  specific triangle. In all of them. A tiny triangle drawn on a napkin and a vast triangle spanning a valley
+  &mdash; both give $\text{opposite}/\text{hypotenuse} = 0.5$.
+</p>
+
+<p>
+  This only works because of the similar triangles theorem. All right triangles with a $30°$ angle also
+  have a $60°$ angle (since $180° - 90° - 30° = 60°$). So they all have the same three angles. So they
+  are all similar. So their sides are all proportional. So the ratio $\text{opposite}/\text{hypotenuse}$
+  is the same number regardless of which triangle you pick.
+</p>
+
+<p>
+  That number &mdash; that ratio determined entirely by the angle &mdash; is what we call the <em>sine</em> of the angle.
+  And the cosine. And the tangent. Every trigonometric function is, at its core, a statement about ratios
+  in similar right triangles.
+</p>
+
+<p>
+  Without the similar triangles theorem, you could not define $\sin(\theta)$ as a function of the angle alone.
+  The ratio would depend on which triangle you happened to be looking at. Trigonometry would not exist.
+</p>
+
+<h2>7. What breaks without this</h2>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>If same angles did not guarantee proportional sides</strong>, then:
+  </p>
+  <ul>
+    <li>
+      Thales' method fails. Two right triangles sharing the sun's angle could have completely
+      different height-to-shadow ratios. Knowing your own ratio tells you nothing about the pyramid's.
+    </li>
+    <li>
+      $\sin(\theta)$ is not well-defined. The ratio $\text{opposite}/\text{hypotenuse}$ would vary
+      from triangle to triangle, even with the same angle. There would be no single number to call
+      "the sine of 30 degrees."
+    </li>
+    <li>
+      Surveying, navigation, astronomy, engineering &mdash; anything that infers a distance from an angle
+      and a known length &mdash; breaks down.
+    </li>
+  </ul>
+  <p>
+    <strong>This actually happens on curved surfaces.</strong> On a sphere, you can draw two triangles
+    with the same three angles but different side ratios. The surface of the Earth is curved, so if you
+    draw a very large "triangle" (say, pole to equator to equator and back), the angles sum to more than
+    $180°$, and the proportionality of flat geometry does not hold. The similar triangles theorem is a
+    theorem of flat (Euclidean) geometry. It depends on the parallel postulate. On a sphere, parallels
+    do not exist and the theorem fails.
+  </p>
+  <p>
+    For small regions of the Earth's surface, the curvature is negligible and flat geometry works fine.
+    That is why Thales' method works in a desert but would fail if the "triangle" spanned continents.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Same angles, same ratios &mdash; that's why a shadow can tell you the height of a pyramid.
+</div>
+
+<div class="nav">
+  <span></span>
+  <a href="02-pythagorean-theorem.html">Next: The Pythagorean Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

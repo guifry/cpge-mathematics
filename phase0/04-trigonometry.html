@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometry from Scratch — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Trigonometry from Scratch</h1>
+<p class="subtitle">Phase 0 &mdash; Foundations</p>
+
+<!-- ============================================================ -->
+<!-- THE PROBLEM                                                   -->
+<!-- ============================================================ -->
+
+<h2>The problem that created trigonometry</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>You're an astronomer in Alexandria, around 150 BC. Your name is Hipparchus. You want to compute the distance to the Moon.</p>
+  <p>You have an astrolabe &mdash; you can measure angles with decent precision. You know certain distances on Earth (e.g. between two cities). You can see the Moon from two different locations and measure the angle it makes with the horizon at each.</p>
+  <p>You have angles. You want distances. But angles and distances are different kinds of thing. To convert between them, you need a <strong>lookup table</strong>: for each angle, what is the ratio of the sides of a right triangle with that angle?</p>
+  <p>This table is what trigonometry <em>is</em>.</p>
+</div>
+
+<p>Every use of trigonometry &mdash; surveying land, navigating ships, computing satellite orbits &mdash; is the same move: measure an angle (cheap), look up a ratio (the table), compute a distance (expensive to measure directly).</p>
+
+<p>So the question is: how do you build this table? And why should a single angle determine a unique ratio in the first place?</p>
+
+<!-- ============================================================ -->
+<!-- HISTORY                                                       -->
+<!-- ============================================================ -->
+
+<div class="history-box">
+  <div class="label">Etymology and history</div>
+  <p>The word "trigonometry" is Greek: <em>trigonon</em> (triangle) + <em>metron</em> (measure). Triangle measurement.</p>
+  <p>Hipparchus (~150 BC) compiled the first known trigonometric table. He didn't use sine &mdash; he tabulated <strong>chords</strong>: the length of the straight line cutting across a circle at a given angle. Ptolemy (~150 AD) extended this into a full chord table in the <em>Almagest</em>, accurate to about 5 decimal places.</p>
+  <p>Indian mathematicians made the crucial shift. Aryabhata (~500 AD) introduced the <strong>half-chord</strong> &mdash; half the chord of double the angle &mdash; which is exactly what we now call sine. He called it <em>jya-ardha</em> (half bowstring), shortened to <em>jya</em>.</p>
+  <p>The name "sine" is an accident of translation. Arabic scholars transliterated <em>jya</em> as <em>jiba</em>. Later copyists, unfamiliar with the term, misread the consonant skeleton <em>j-b</em> as <em>jayb</em>, which means "bay" or "fold" in Arabic. European translators then rendered <em>jayb</em> into Latin as <em>sinus</em> (bay, curve). So "sine" means "bay" &mdash; a mistranslation of a transliteration of a Sanskrit word for bowstring.</p>
+</div>
+
+<hr>
+
+<!-- ============================================================ -->
+<!-- WHY ONE ANGLE DETERMINES A RATIO                              -->
+<!-- ============================================================ -->
+
+<h2>Why does a single angle determine a ratio?</h2>
+
+<p>This is the real question. It's not obvious. Why should knowing one angle of a right triangle tell you the ratio of its sides? The triangle could be tiny or enormous &mdash; why would the ratio be the same?</p>
+
+<p>The answer is <strong>similar triangles</strong>, from page 01.</p>
+
+<p>Take any right triangle with an acute angle $\theta$. It has three angles: $\theta$, $90°$, and whatever's left. But angles in a triangle sum to $180°$, so the third angle is forced: it must be $90° - \theta$. There's no freedom. Every right triangle with angle $\theta$ has the same three angles.</p>
+
+<p>And triangles with the same angles are <strong>similar</strong>. That was the whole point of page 01: similar triangles have the same shape, possibly different sizes, and critically, the same side ratios.</p>
+
+<p>So: draw a tiny right triangle with angle $\theta$, and a massive one with the same $\theta$. They're similar. The ratio opposite/hypotenuse is the same in both. It doesn't depend on the size of the triangle. It depends <em>only</em> on $\theta$.</p>
+
+<p>This is why trigonometry works at all. Without similar triangles, there is no trigonometry. The functions $\sin$, $\cos$, $\tan$ are well-defined precisely because similarity guarantees that the ratio is a function of the angle alone.</p>
+
+<!-- ============================================================ -->
+<!-- THE DEFINITIONS                                               -->
+<!-- ============================================================ -->
+
+<h2>The definitions</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Trigonometric ratios</div>
+  <p>Take a right triangle. Pick one of the two acute angles and call it $\theta$ (where $0° < \theta < 90°$). Label the sides relative to $\theta$:</p>
+  <ul>
+    <li><strong>Hypotenuse</strong>: the side opposite the right angle (always the longest side).</li>
+    <li><strong>Opposite</strong>: the side across from $\theta$ &mdash; the one $\theta$ doesn't touch.</li>
+    <li><strong>Adjacent</strong>: the side next to $\theta$ that isn't the hypotenuse &mdash; the one $\theta$ does touch.</li>
+  </ul>
+  <p>Then:</p>
+  <div class="display-math">$$\sin(\theta) = \frac{\text{opposite}}{\text{hypotenuse}} \qquad \cos(\theta) = \frac{\text{adjacent}}{\text{hypotenuse}} \qquad \tan(\theta) = \frac{\text{opposite}}{\text{adjacent}}$$</div>
+  <p>And $\tan(\theta) = \sin(\theta) / \cos(\theta)$, since dividing opposite/hyp by adjacent/hyp cancels the hypotenuse.</p>
+</div>
+
+<p>Notice: "opposite" and "adjacent" are relative to your chosen angle $\theta$. If you pick the other acute angle instead, opposite and adjacent swap &mdash; which is why $\sin(\theta) = \cos(90° - \theta)$. The same triangle, different viewpoint.</p>
+
+<hr>
+
+<!-- ============================================================ -->
+<!-- COMPUTING EXACT VALUES                                        -->
+<!-- ============================================================ -->
+
+<h2>Computing exact values by hand</h2>
+
+<p>We know the ratios depend only on the angle. But what <em>are</em> the ratios, concretely? For most angles, there's no neat closed-form answer. But for a few special angles, we can get exact values using triangles we already understand.</p>
+
+<h3>The 45-45-90 triangle</h3>
+
+<p>Start with an isosceles right triangle &mdash; both legs equal, both acute angles $45°$. Set each leg to length $1$.</p>
+
+<p>By the Pythagorean theorem (page 02):</p>
+
+<div class="display-math">$$\text{hypotenuse}^2 = 1^2 + 1^2 = 2 \qquad \Rightarrow \qquad \text{hypotenuse} = \sqrt{2}$$</div>
+
+<p>So:</p>
+
+<div class="display-math">$$\sin(45°) = \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2} \approx 0.707$$</div>
+
+<p>And $\cos(45°) = \sqrt{2}/2$ too (same triangle, both legs equal), and $\tan(45°) = 1/1 = 1$.</p>
+
+<h3>The 30-60-90 triangle</h3>
+
+<p>This one takes slightly more work. Start with an equilateral triangle &mdash; all three sides equal to $2$, all three angles equal to $60°$. Now cut it in half by dropping a vertical line from the top vertex to the midpoint of the base.</p>
+
+<p>You get a right triangle with:</p>
+<ul>
+  <li>Hypotenuse $= 2$ (the original side)</li>
+  <li>Short leg $= 1$ (half the base)</li>
+  <li>Long leg $= \sqrt{2^2 - 1^2} = \sqrt{3}$ (Pythagoras)</li>
+  <li>Angles: $30°$ (at the top), $60°$ (at the base), $90°$ (where the cut meets the base)</li>
+</ul>
+
+<p>From the $30°$ angle: the opposite side is the short leg ($1$), the adjacent is the long leg ($\sqrt{3}$), hypotenuse is $2$:</p>
+
+<div class="display-math">$$\sin(30°) = \frac{1}{2} \qquad \cos(30°) = \frac{\sqrt{3}}{2} \qquad \tan(30°) = \frac{1}{\sqrt{3}}$$</div>
+
+<p>From the $60°$ angle: opposite and adjacent swap:</p>
+
+<div class="display-math">$$\sin(60°) = \frac{\sqrt{3}}{2} \qquad \cos(60°) = \frac{1}{2} \qquad \tan(60°) = \sqrt{3}$$</div>
+
+<h3>The table</h3>
+
+<table>
+  <tr>
+    <th>$\theta$</th>
+    <th>$\sin(\theta)$</th>
+    <th>$\cos(\theta)$</th>
+    <th>$\tan(\theta)$</th>
+  </tr>
+  <tr>
+    <td>$30°$</td>
+    <td>$\dfrac{1}{2}$</td>
+    <td>$\dfrac{\sqrt{3}}{2}$</td>
+    <td>$\dfrac{1}{\sqrt{3}}$</td>
+  </tr>
+  <tr>
+    <td>$45°$</td>
+    <td>$\dfrac{\sqrt{2}}{2}$</td>
+    <td>$\dfrac{\sqrt{2}}{2}$</td>
+    <td>$1$</td>
+  </tr>
+  <tr>
+    <td>$60°$</td>
+    <td>$\dfrac{\sqrt{3}}{2}$</td>
+    <td>$\dfrac{1}{2}$</td>
+    <td>$\sqrt{3}$</td>
+  </tr>
+</table>
+
+<p>Notice the symmetry: the sine column read top-to-bottom is the cosine column read bottom-to-top. That's because $\sin(\theta) = \cos(90° - \theta)$ &mdash; the "co" in cosine stands for "complement."</p>
+
+<hr>
+
+<!-- ============================================================ -->
+<!-- PYTHAGORAS IN DISGUISE                                        -->
+<!-- ============================================================ -->
+
+<h2>Why $\sin^2(\theta) + \cos^2(\theta) = 1$</h2>
+
+<p>This is the most important identity in trigonometry. It looks like a new fact. It isn't. It's the Pythagorean theorem wearing a disguise.</p>
+
+<div class="proof-box">
+  <div class="label">Derivation</div>
+  <p>Start with a right triangle: opposite $= o$, adjacent $= a$, hypotenuse $= h$. Pythagoras says:</p>
+  <div class="display-math">$$o^2 + a^2 = h^2$$</div>
+  <p>Divide both sides by $h^2$:</p>
+  <div class="display-math">$$\frac{o^2}{h^2} + \frac{a^2}{h^2} = 1$$</div>
+  <p>But $o/h = \sin(\theta)$ and $a/h = \cos(\theta)$. So:</p>
+  <div class="display-math">$$\sin^2(\theta) + \cos^2(\theta) = 1$$</div>
+  <p class="qed">$\blacksquare$</p>
+</div>
+
+<p>That's the entire proof. No new mathematics &mdash; just dividing Pythagoras by $h^2$. You can verify it on our table: $\sin^2(30°) + \cos^2(30°) = (1/2)^2 + (\sqrt{3}/2)^2 = 1/4 + 3/4 = 1$.</p>
+
+<p>This identity will follow you everywhere. In the unit circle (next page), it says every point on the circle satisfies $x^2 + y^2 = 1$. In calculus, it's used to simplify integrals. In physics, it decomposes a force into perpendicular components that conserve magnitude. Every time it appears, it's Pythagoras.</p>
+
+<hr>
+
+<!-- ============================================================ -->
+<!-- THE LIMITATION                                                -->
+<!-- ============================================================ -->
+
+<h2>Where this definition breaks</h2>
+
+<div class="break-box">
+  <div class="label">Limitation</div>
+  <p>Everything above requires $0° < \theta < 90°$. The triangle definition simply does not work outside this range.</p>
+  <p><strong>$\sin(0°)$?</strong> The triangle collapses. The opposite side has length zero, and the "triangle" is a flat line segment. There's no triangle to take ratios of.</p>
+  <p><strong>$\sin(90°)$?</strong> Now the adjacent side vanishes. The opposite side equals the hypotenuse. You can argue the ratio is $1$, but the triangle has degenerated into a line again.</p>
+  <p><strong>$\sin(120°)$?</strong> Impossible. You can't have a right triangle (which already has a $90°$ angle) with another angle of $120°$. The angles would sum to more than $180°$.</p>
+  <p><strong>$\sin(-30°)$?</strong> Negative angles have no meaning in the "pick an angle in a triangle" framework.</p>
+  <p>But physics needs $\sin$ for all real numbers &mdash; waves oscillate, wheels rotate through $360°$ and beyond, alternating current reverses sign. The triangle definition is the right starting point, but it's incomplete. We need something more general.</p>
+</div>
+
+<p>The way forward is to decouple trigonometry from triangles. Instead of "the ratio of sides in a right triangle with angle $\theta$", define $\sin(\theta)$ as "the $y$-coordinate of the point at angle $\theta$ on the unit circle." This agrees with the triangle definition for $0° < \theta < 90°$ and naturally extends to all angles &mdash; negative, obtuse, beyond $360°$.</p>
+
+<p>That's the next page.</p>
+
+<hr>
+
+<!-- ============================================================ -->
+<!-- WHAT TRIGONOMETRY ACTUALLY GIVES YOU                           -->
+<!-- ============================================================ -->
+
+<h2>What trigonometry actually gives you</h2>
+
+<p>Strip away the formalism and trigonometry is a <strong>conversion table between angles and ratios</strong>. That's the whole thing. Measure an angle (with a protractor, an astrolabe, a theodolite, a gyroscope). Look up the corresponding ratio. Multiply by a known distance. Get the unknown distance.</p>
+
+<p>Hipparchus used this to estimate the Moon's distance. Eratosthenes had already estimated the Earth's circumference using shadow angles. Navigators used it for centuries to find latitude from the Sun's elevation. Surveyors use it today to measure heights of buildings from the ground. GPS satellites use it to triangulate your position.</p>
+
+<p>Everything else &mdash; the identities, the inverse functions, the calculus of $\sin$ and $\cos$, Fourier series &mdash; is built on top of this one idea: an angle determines a ratio.</p>
+
+<hr>
+
+<div class="oneliner">
+  Trigonometry works because similar triangles guarantee the same angle always gives the same ratio &mdash; regardless of the triangle's size.
+</div>
+
+<div class="nav">
+  <a href="03-sqrt2-irrational.html">&larr; Previous: &radic;2 is Irrational</a>
+  <a href="05-unit-circle.html">Next: The Unit Circle &rarr;</a>
+</div>
+
+</body>
+</html>
