@@ -57,24 +57,47 @@ Refer to `CPGE_MATHEMATICS_ROADMAP.md` for detailed "what broke" narratives per 
 
 ---
 
-## Phase 2 — Rates of Change: Derivatives
+## Phase 2 — Calculus: Derivatives and Integration
 
-*Not a separate stage in the CPGE roadmap (derivatives are a lycée prerequisite), but in the hybrid approach they must be built from Phase 1's limits.*
+*Not a separate stage in the CPGE roadmap (derivatives and basic integration are lycée prerequisites), but in the hybrid approach they must be built from Phase 1's limits. No formulas taken on faith — every rule proved from the definitions.*
+
+### Part A — Derivatives
 
 **The problem:** what is the slope of a curve at a single point? A straight line has a slope (rise/run). A parabola has a different slope at every point. Fermat (1636) and Newton/Leibniz (1660s-1680s) asked: can you compute instantaneous rate of change?
 
-### What to study
+1. **The derivative as a limit** — $f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$. Start with the tangent problem: given a curve, what line best approximates it at a point? The secant slope $(f(x+h) - f(x))/h$ is computable for any $h \neq 0$. Taking $h \to 0$ (Phase 1 limits) gives the tangent slope. This IS the derivative — Leibniz's $dy/dx$ is shorthand for this limit.
 
-- The derivative as a limit: $f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$
-- This is the precise formula (Leibniz notation $dy/dx$ abbreviates this limit)
-- Basic rules: sum, product, quotient, chain rule — each proved from the limit definition
-- Derivatives of polynomials, then $\sin(x)$ and $\cos(x)$ (geometrically, for now — we'll re-derive from series in Phase 3)
-- Mean value theorem — connects derivative (local) to function behaviour (global)
-- L'Hôpital's rule — computing limits of indeterminate forms via derivatives
+2. **Differentiation rules from the definition** — sum rule, product rule (Leibniz), quotient rule, chain rule. Each one proved by writing the difference quotient and taking the limit. No "just memorise" — you see WHY the product rule has two terms (both factors are changing simultaneously).
 
-**Why this comes now:** you need derivatives to state Taylor's theorem (Phase 3). Taylor's theorem needs the concept "the n-th derivative of f at a point." Without this phase, Taylor is meaningless.
+3. **Derivatives of elementary functions** — polynomials (from the binomial theorem), $\sin(x)$ and $\cos(x)$ (geometric argument using $\lim_{h \to 0} \sin(h)/h = 1$ from the squeeze theorem, Phase 1). These will be re-derived from power series in Phase 3.
 
-**Time estimate:** 3-4 weeks
+4. **Mean value theorem** — if $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there exists $c$ where $f'(c) = (f(b)-f(a))/(b-a)$. Built from Rolle's theorem (which uses the extreme value theorem, which uses Bolzano-Weierstrass from Phase 1). Connects local information (derivative at a point) to global information (total change over an interval). The bridge between derivatives and integrals.
+
+5. **L'Hôpital's rule** — computing $0/0$ and $\infty/\infty$ limits via derivatives. Proved from Cauchy's generalised mean value theorem. A tool, not a deep theorem — but extremely useful.
+
+### Part B — Integration
+
+**The problem:** Archimedes (250 BC) wanted the area under a parabola. He sliced it into thin rectangles, summed them, and let the slices get thinner. But when is this process valid? When does the sum converge to a definite number? And what is the connection between this area problem and derivatives?
+
+6. **The area problem from scratch** — given a curve $f(x) \geq 0$ on $[a,b]$, what is the area underneath? Partition $[a,b]$ into $n$ subintervals. On each, build a thin rectangle. The area is approximately $\sum f(x_i) \Delta x_i$. As the partition gets finer, this sum should converge. But to what? And does it always converge? This is Riemann's question (1854).
+
+7. **Riemann integral definition** — upper sums $U(f, P) = \sum \sup_{[x_{i-1}, x_i]} f \cdot \Delta x_i$, lower sums $L(f, P) = \sum \inf_{[x_{i-1}, x_i]} f \cdot \Delta x_i$. For any partition, $L \leq$ true area $\leq U$. The function is Riemann integrable when $\inf_P U(f,P) = \sup_P L(f,P)$. This is a supremum/infimum argument — completeness of $\mathbb{R}$ (Phase 1) at work again.
+
+8. **Continuous functions are integrable** — if $f$ is continuous on $[a,b]$, it's uniformly continuous (Heine's theorem, uses compactness from Phase 1). Uniform continuity forces $U - L \to 0$ as the partition refines. This is the first existence theorem: you don't compute the integral, you prove it exists.
+
+9. **Properties of the integral from the definition** — linearity ($\int (af + bg) = a\int f + b\int g$), monotonicity ($f \leq g \Rightarrow \int f \leq \int g$), additivity over intervals ($\int_a^b + \int_b^c = \int_a^c$). Each proved directly from upper/lower sums. No magic — they follow from properties of $\sup$ and $\inf$.
+
+10. **The Fundamental Theorem of Calculus** — the central result of all calculus. Two parts, both proved:
+    - **FTC Part 1:** define $F(x) = \int_a^x f(t)\,dt$. Then $F'(x) = f(x)$. Accumulating area under $f$ gives a function whose rate of change IS $f$. Integration and differentiation are inverse operations. Proof: write the difference quotient $\frac{F(x+h) - F(x)}{h} = \frac{1}{h}\int_x^{x+h} f(t)\,dt$, squeeze it between $\inf f$ and $\sup f$ on $[x, x+h]$, use continuity.
+    - **FTC Part 2:** if $F' = f$ on $[a,b]$, then $\int_a^b f(x)\,dx = F(b) - F(a)$. To compute an integral, find any antiderivative and evaluate at the endpoints. Proof: telescope — write $F(b) - F(a)$ as a sum of differences $F(x_i) - F(x_{i-1})$, apply MVT (theorem 4 above) to each piece.
+
+11. **Integration techniques as consequences of differentiation rules** — not separate tricks, but the differentiation rules read backwards:
+    - **Substitution** = chain rule in reverse. If $u = g(x)$, then $\int f(g(x)) g'(x)\,dx = \int f(u)\,du$. Proved from FTC + chain rule.
+    - **Integration by parts** = product rule in reverse. $\int u\,dv = uv - \int v\,du$. Proved from FTC + product rule.
+
+**Why this comes now:** derivatives need limits (Phase 1). Integration needs derivatives (FTC connects them) and completeness (Riemann's definition uses sup/inf). Together they form the complete toolkit for Phase 3: Taylor's theorem needs derivatives for the coefficients AND integration for the remainder term. "Term-by-term integration" in Phase 3 is meaningless without knowing what integration is.
+
+**Time estimate:** 5-6 weeks
 
 ---
 
@@ -363,7 +386,7 @@ With Taylor's theorem in hand, derive:
 |------------|-------------|-----------|
 | — | **Phase 0: Geometry** (new) | Explicit prerequisite; where humanity started |
 | Stage 1: Convergence | **Phase 1: Basic convergence** | Same placement, but now motivated by geometry |
-| — | **Phase 2: Derivatives** (new) | Needed for Taylor; CPGE assumes from lycée |
+| — | **Phase 2: Derivatives + Integration** (new) | Needed for Taylor; CPGE assumes from lycée. Integration built from Riemann's definition, not memorised formulas |
 | Stage 5: Power series | **Phase 3: Taylor + power series** | Moved UP from month 6 to month 3. Needed to ground sine, cosine, exp before using them |
 | Stage 1: Series tests | **Phase 4: Convergence toolkit** | Split from Phase 1. Series tests come AFTER Taylor, because Taylor provides the examples that motivate them |
 | Stage 2: Linear algebra | **Phase 5: Linear algebra** | Moved DOWN slightly. CPGE puts it at month 3; here at month 5. Trade-off: delays linear algebra to front-load the analytical foundations |
@@ -391,22 +414,22 @@ With Taylor's theorem in hand, derive:
 |-------|-------|-------|------------|
 | 0 | Geometry and measurement | 2-3 | ~3 weeks |
 | 1 | Limits and basic convergence | 4-5 | ~2 months |
-| 2 | Derivatives | 3-4 | ~3 months |
-| 3 | Power series and Taylor | 4-5 | ~4 months |
-| 4 | Convergence toolkit | 4-5 | ~5 months |
-| 5 | Linear algebra | 6-8 | ~7 months |
-| 6 | Multivariable calculus | 5-6 | ~8.5 months |
-| 7 | ODEs | 5-6 | ~10 months |
-| 8 | Topology of metric spaces | 5-6 | ~11.5 months |
-| 9 | Abstract algebra | 6-8 | ~13.5 months |
-| 10 | Fourier analysis | 3-4 | ~14.5 months |
-| 11 | Probability | 5-6 | ~16 months |
-| 12 | Bilinear algebra / spectral theory | 3-4 | ~17 months |
-| 13 | Normed vector spaces | 3-4 | ~18 months |
+| 2 | Derivatives and integration | 5-6 | ~3.5 months |
+| 3 | Power series and Taylor | 4-5 | ~4.5 months |
+| 4 | Convergence toolkit | 4-5 | ~5.5 months |
+| 5 | Linear algebra | 6-8 | ~7.5 months |
+| 6 | Multivariable calculus | 5-6 | ~9 months |
+| 7 | ODEs | 5-6 | ~10.5 months |
+| 8 | Topology of metric spaces | 5-6 | ~12 months |
+| 9 | Abstract algebra | 6-8 | ~14 months |
+| 10 | Fourier analysis | 3-4 | ~15 months |
+| 11 | Probability | 5-6 | ~16.5 months |
+| 12 | Bilinear algebra / spectral theory | 3-4 | ~17.5 months |
+| 13 | Normed vector spaces | 3-4 | ~18.5 months |
 
-At 1-2 hours daily. ~18 months total (vs ~13 months for pure CPGE order). The extra 5 months come from:
+At 1-2 hours daily. ~18.5 months total (vs ~13 months for pure CPGE order). The extra time comes from:
 - Phase 0 (geometry prerequisite): +3 weeks
-- Phase 2 (derivatives prerequisite): +4 weeks
+- Phase 2 (derivatives + integration from scratch, not assumed from lycée): +6 weeks
 - More thorough grounding at each step (no skipping, no black boxes): ~3 months spread across all phases
 
 Phases 9 and 11 (algebra, probability) are somewhat independent and can be interleaved with the analysis track for variety.
