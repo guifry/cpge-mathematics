@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monotone Convergence Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Monotone Convergence Theorem</h1>
+<p class="subtitle">Why bounded monotone sequences must converge — Phase 1, Page 3</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Define a sequence by $a_1 = 1$ and
+  </p>
+  <div class="display-math">$$a_{n+1} = \frac{1}{2}\left(a_n + \frac{2}{a_n}\right)$$</div>
+  <p>
+    This is the <strong>Babylonian method</strong> for computing $\sqrt{2}$. The idea is ancient:
+    if $a_n$ is too big (bigger than $\sqrt{2}$), then $2/a_n$ is too small, and their average
+    is a better approximation. Let's compute:
+  </p>
+  <table>
+    <tr><th>$n$</th><th>$a_n$</th></tr>
+    <tr><td>$1$</td><td>$1$</td></tr>
+    <tr><td>$2$</td><td>$1.5$</td></tr>
+    <tr><td>$3$</td><td>$1.41\overline{6}$</td></tr>
+    <tr><td>$4$</td><td>$1.414215\ldots$</td></tr>
+  </table>
+  <p>
+    By step 4, we already have five correct decimal places of $\sqrt{2} = 1.41421356\ldots$.
+    The terms are clearly homing in on $\sqrt{2}$. But <strong>how do you prove
+    this sequence converges, without already knowing the limit?</strong>
+  </p>
+  <p>
+    Look at the pattern: after the first step, the terms are <em>decreasing</em>
+    ($1.5 > 1.41\overline{6} > 1.414215\ldots$) and <em>positive</em> (bounded below by 0).
+    Intuitively, a sequence that keeps going down but can't go below zero must eventually
+    settle somewhere. But "must" needs a proof.
+  </p>
+</div>
+
+<!-- ─── 2. DEFINITIONS ─────────────────────────────── -->
+
+<h2>The vocabulary</h2>
+
+<p>
+  Before the theorem, we need four definitions. None are deep — they just pin down
+  the words precisely.
+</p>
+
+<p>
+  A sequence $(a_n)$ is <strong>monotone increasing</strong> if $a_{n+1} \geq a_n$
+  for all $n$. Each term is at least as big as the one before it. The sequence
+  goes up (or stays flat), never dips.
+</p>
+
+<p>
+  A sequence $(a_n)$ is <strong>monotone decreasing</strong> if $a_{n+1} \leq a_n$
+  for all $n$. Each term is at most as big as the one before it. It goes down (or
+  stays flat), never rises.
+</p>
+
+<p>
+  A sequence is <strong>bounded above</strong> if there exists a real number $M$ such
+  that $a_n \leq M$ for all $n$. Think of $M$ as a ceiling — no term ever punches
+  through it.
+</p>
+
+<p>
+  A sequence is <strong>bounded below</strong> if there exists a real number $m$ such
+  that $a_n \geq m$ for all $n$. Think of $m$ as a floor.
+</p>
+
+<p>
+  A sequence that is both bounded above and bounded below is simply called
+  <strong>bounded</strong>.
+</p>
+
+<!-- ─── 3. THE THEOREM ─────────────────────────────── -->
+
+<h2>The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Monotone Convergence Theorem</div>
+  <p>
+    Every bounded monotone sequence converges. Specifically:
+  </p>
+  <ul>
+    <li>If $(a_n)$ is increasing and bounded above, then
+      $\displaystyle\lim_{n \to \infty} a_n = \sup\{a_n : n \in \mathbb{N}\}$.</li>
+    <li>If $(a_n)$ is decreasing and bounded below, then
+      $\displaystyle\lim_{n \to \infty} a_n = \inf\{a_n : n \in \mathbb{N}\}$.</li>
+  </ul>
+</div>
+
+<p>
+  The theorem doesn't just say "the limit exists" — it tells you exactly what the limit
+  is. An increasing sequence converges to its <strong>supremum</strong> (the least upper
+  bound of all its terms). A decreasing sequence converges to its <strong>infimum</strong>
+  (the greatest lower bound).
+</p>
+
+<!-- ─── 4. WHY COMPLETENESS ────────────────────────── -->
+
+<h2>Why this needs completeness</h2>
+
+<p>
+  The proof will use the supremum — the least upper bound of the set of terms. And
+  the supremum only exists because $\mathbb{R}$ is <strong>complete</strong> (page 01).
+  This isn't a technicality. It's the entire point.
+</p>
+
+<p>
+  Consider our Babylonian sequence in $\mathbb{Q}$ instead of $\mathbb{R}$.
+  Every term $a_n$ is rational (you can check: the formula only uses addition,
+  division, and multiplication, starting from the integer 1). The sequence is
+  bounded and monotone decreasing (after $a_2$). But its limit is $\sqrt{2}$,
+  which is <em>not in $\mathbb{Q}$</em>. The sequence is bounded, monotone,
+  and <strong>doesn't converge</strong> in $\mathbb{Q}$.
+</p>
+
+<p>
+  The Monotone Convergence Theorem is <strong>false in $\mathbb{Q}$</strong>.
+  What makes it true in $\mathbb{R}$ is completeness — the guarantee that every
+  non-empty set bounded above has a supremum. Remove completeness, and the theorem
+  collapses. Completeness is doing the work.
+</p>
+
+<!-- ─── 5. THE PROOF ───────────────────────────────── -->
+
+<h2>The proof (increasing case)</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    Let $(a_n)$ be an increasing sequence that is bounded above. We must show it
+    converges, and find its limit.
+  </p>
+
+  <p>
+    <strong>Step 1. Build the set.</strong>
+    Let $S = \{a_1, a_2, a_3, \ldots\}$ — the set of all terms. $S$ is non-empty
+    (it contains at least $a_1$) and bounded above (by hypothesis).
+  </p>
+
+  <p>
+    <strong>Step 2. Take the supremum.</strong>
+    By the completeness of $\mathbb{R}$ (page 01), $L = \sup(S)$ exists.
+    This $L$ is a real number. It is an upper bound for $S$
+    (meaning $a_n \leq L$ for all $n$), and it is the <em>smallest</em> such
+    upper bound.
+  </p>
+
+  <p>
+    <strong>Step 3. Show $a_n \to L$.</strong>
+    Fix any $\varepsilon > 0$, no matter how small. We need to find an $N$ such
+    that $|a_n - L| < \varepsilon$ for all $n \geq N$.
+  </p>
+
+  <p>
+    Since $L$ is the <em>least</em> upper bound, $L - \varepsilon$ is strictly less
+    than $L$, so $L - \varepsilon$ is <strong>not</strong> an upper bound for $S$.
+    (If it were, $L$ wouldn't be the least one.) Therefore some term exceeds it:
+    there exists $N$ such that
+  </p>
+  <div class="display-math">$$a_N > L - \varepsilon$$</div>
+
+  <p>
+    Now use monotonicity: since the sequence is increasing, for all $n \geq N$,
+  </p>
+  <div class="display-math">$$a_n \geq a_N > L - \varepsilon$$</div>
+
+  <p>
+    And since $L$ is an upper bound for $S$,
+  </p>
+  <div class="display-math">$$a_n \leq L < L + \varepsilon$$</div>
+
+  <p>
+    Combining these two inequalities: for all $n \geq N$,
+  </p>
+  <div class="display-math">$$L - \varepsilon < a_n \leq L < L + \varepsilon$$</div>
+
+  <p>
+    which means $|a_n - L| < \varepsilon$. Since $\varepsilon$ was arbitrary, we have
+    $a_n \to L = \sup(S)$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The decreasing case is identical, with $\inf$ replacing $\sup$ and all inequalities
+  reversed. You can also reduce it to the increasing case by considering $(-a_n)$.
+</p>
+
+<!-- ─── 6. UNPACKING ───────────────────────────────── -->
+
+<h2>Unpacking the proof</h2>
+
+<p>
+  The key move is in Step 3: "$L - \varepsilon$ is not an upper bound."
+  This is the supremum doing its job. The supremum is the <em>tightest possible</em>
+  ceiling — anything even slightly lower fails to contain the set. So there must be
+  some term $a_N$ that pokes above $L - \varepsilon$.
+</p>
+
+<p>
+  From that point on, monotonicity takes over. Since the sequence only goes up,
+  every term after $a_N$ is at least as large. So the entire tail of the sequence
+  is trapped in the corridor $(L - \varepsilon, L]$. It can't escape upward
+  (because $L$ is an upper bound) and it can't fall back (because the sequence is
+  increasing).
+</p>
+
+<p>
+  That's it. The supremum provides the target, monotonicity locks the sequence into
+  the corridor, and $\varepsilon$ was arbitrary. Three ingredients, one conclusion.
+</p>
+
+<!-- ─── 7. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euler and the Bernoullis (18th century) freely computed with sequences, assuming
+    limits existed whenever the terms "looked like they were settling down." They
+    summed divergent series, interchanged limits, and generally treated convergence
+    as obvious. It usually worked, because they had good instincts. But sometimes it
+    didn't, and then the errors were baffling.
+  </p>
+  <p>
+    The Monotone Convergence Theorem was formalised as part of the great
+    <strong>rigourisation of analysis</strong> by Bolzano (1817) and Weierstrass
+    (1860s). Their programme replaced intuition with proofs: <em>show</em> that the
+    limit exists, don't just assume it does because the terms are getting closer
+    together. The MCT was a cornerstone of this programme — a clean, checkable
+    criterion for convergence that doesn't require you to guess the limit first.
+  </p>
+</div>
+
+<!-- ─── 8. RETURN TO BABYLON ───────────────────────── -->
+
+<h2>Back to the Babylonian method</h2>
+
+<p>
+  Now we have the tools to prove the opening problem. The sequence $a_1 = 1$,
+  $a_{n+1} = \frac{1}{2}(a_n + 2/a_n)$ converges, and its limit is $\sqrt{2}$.
+  The proof has four steps.
+</p>
+
+<p>
+  <strong>Step 1: $a_n > 0$ for all $n$.</strong>
+  By induction. $a_1 = 1 > 0$. If $a_n > 0$, then $a_{n+1} = \frac{1}{2}(a_n + 2/a_n)$
+  is a sum of two positive numbers divided by 2, so $a_{n+1} > 0$.
+</p>
+
+<p>
+  <strong>Step 2: $a_n \geq \sqrt{2}$ for $n \geq 2$.</strong>
+  By the AM-GM inequality: for any positive $x$,
+</p>
+<div class="display-math">$$\frac{x + 2/x}{2} \geq \sqrt{x \cdot \frac{2}{x}} = \sqrt{2}$$</div>
+<p>
+  So $a_{n+1} \geq \sqrt{2}$ whenever $a_n > 0$. Since $a_1 > 0$, this gives
+  $a_n \geq \sqrt{2}$ for all $n \geq 2$.
+</p>
+
+<p>
+  <strong>Step 3: the sequence is decreasing for $n \geq 2$.</strong>
+  We need $a_{n+1} \leq a_n$, i.e.
+</p>
+<div class="display-math">$$\frac{1}{2}\left(a_n + \frac{2}{a_n}\right) \leq a_n$$</div>
+<p>
+  Rearranging: $2/a_n \leq a_n$, which means $a_n^2 \geq 2$, which is true
+  for $n \geq 2$ by Step 2.
+</p>
+
+<p>
+  <strong>Step 4: apply the MCT and find the limit.</strong>
+  The sequence $(a_n)_{n \geq 2}$ is decreasing and bounded below by $\sqrt{2}$.
+  By the Monotone Convergence Theorem, it converges to some limit $L$.
+</p>
+
+<p>
+  To find $L$: take the limit of both sides of the recurrence
+  $a_{n+1} = \frac{1}{2}(a_n + 2/a_n)$. Since $a_n \to L$ and $a_{n+1} \to L$:
+</p>
+<div class="display-math">$$L = \frac{1}{2}\left(L + \frac{2}{L}\right)$$</div>
+<p>
+  Multiply both sides by $2L$: $2L^2 = L^2 + 2$, so $L^2 = 2$, giving $L = \sqrt{2}$
+  (positive, since all terms are positive).
+</p>
+
+<p>
+  Notice the structure: the MCT told us <em>the limit exists</em> without us knowing
+  what it was. Only afterwards did we identify the limit by solving the fixed-point
+  equation. This is the MCT's power — existence first, computation second.
+</p>
+
+<!-- ─── 9. WHAT BREAKS: MONOTONE ──────────────────── -->
+
+<h2>What breaks without monotonicity</h2>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    The sequence $a_n = (-1)^n$ is bounded: every term is either $-1$ or $1$, so it
+    sits inside $[-1, 1]$. But it's not monotone — it alternates up-down-up-down
+    forever. And it doesn't converge. It oscillates between $-1$ and $1$ without
+    ever settling.
+  </p>
+  <p>
+    Boundedness alone is not enough. The sequence needs to be headed somewhere — that's
+    what monotonicity provides. Without a consistent direction, a bounded sequence can
+    wander back and forth inside its bounds indefinitely.
+  </p>
+</div>
+
+<!-- ─── 10. WHAT BREAKS: BOUNDED ─────────────────── -->
+
+<h2>What breaks without boundedness</h2>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    The sequence $a_n = n$ is monotone increasing: $1, 2, 3, 4, \ldots$ — every term
+    is larger than the one before. But it's not bounded above. There is no ceiling, so
+    it grows without limit. It diverges to infinity.
+  </p>
+  <p>
+    Monotonicity alone is not enough. A sequence with a consistent direction but no
+    bound just marches off to infinity. The bound is the wall that forces the sequence
+    to compress and converge rather than escape.
+  </p>
+</div>
+
+<!-- ─── 11. THE WORKHORSE ────────────────────────── -->
+
+<h2>The workhorse of convergence proofs</h2>
+
+<p>
+  Most convergence proofs you'll encounter in first-year analysis reduce to the MCT.
+  The pattern is always the same:
+</p>
+
+<ol>
+  <li>Show the sequence is monotone (usually by induction on $a_{n+1} - a_n$ or $a_{n+1}/a_n$).</li>
+  <li>Show it's bounded (usually by induction, or by a clever inequality).</li>
+  <li>Conclude: it converges, by the MCT.</li>
+  <li>If you want the limit, pass the recurrence to the limit and solve.</li>
+</ol>
+
+<p>
+  The beauty is that step 3 is free — you don't need to guess the limit, construct
+  an $\varepsilon$-$N$ argument, or do anything clever. The MCT hands you convergence
+  the moment you've checked two properties. This is why it's called the workhorse:
+  it does the heavy lifting so you don't have to.
+</p>
+
+<p>
+  It's also the reason completeness matters in practice, not just in theory.
+  Every time you use the MCT, you're invoking the completeness of $\mathbb{R}$.
+  Every time a student writes "bounded and monotone, therefore convergent," the
+  supremum axiom is silently at work underneath.
+</p>
+
+<!-- ─── 12. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  A sequence that keeps going up but can't go past a ceiling must eventually settle
+  — and the ceiling it settles at is the supremum.
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="02-squeeze-theorem.html">&larr; Previous: The Squeeze Theorem</a>
+  <a href="04-bolzano-weierstrass.html">Next: Bolzano-Weierstrass Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

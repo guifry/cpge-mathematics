@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completeness of ℝ — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Completeness of $\mathbb{R}$</h1>
+<p class="subtitle">Filling the Holes — Phase 1, Page 1</p>
+
+<!-- --- 1. THE PROBLEM ---------------------------------- -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In Phase 0 we proved that $\sqrt{2}$ is irrational — a length you can draw with a
+    straightedge but a number that has no home in $\mathbb{Q}$. That was bad enough. But
+    the situation is worse than one missing number.
+  </p>
+  <p>
+    Consider the sequence of rational approximations to $\sqrt{2}$:
+  </p>
+  <div class="display-math">$$1, \quad 1.4, \quad 1.41, \quad 1.414, \quad 1.4142, \quad 1.41421, \quad \ldots$$</div>
+  <p>
+    Every single term is rational. And the terms are getting closer and closer to each other —
+    the gap between consecutive terms shrinks: $0.4$, then $0.01$, then $0.004$, then $0.0002$,
+    and so on. After enough terms, any two terms in the tail of the sequence are as close as you like.
+    This sequence <em>should</em> converge. It is begging to converge.
+  </p>
+  <p>
+    But the number it's approaching — $\sqrt{2}$ — isn't in $\mathbb{Q}$.
+    The limit <strong>does not exist</strong> in the rational numbers.
+    The sequence converges to nothing. It reaches for a point on the number line that,
+    from $\mathbb{Q}$'s perspective, simply isn't there.
+  </p>
+  <p>
+    And $\sqrt{2}$ isn't special. The same happens with $\sqrt{3}$, $\sqrt{5}$, $\pi$, $e$,
+    $\ln 2$ — the rationals are riddled with holes. You can't do analysis (limits, derivatives,
+    integrals) in a number system where limits might not exist.
+  </p>
+</div>
+
+<!-- --- 2. WHAT WE NEED --------------------------------- -->
+
+<h2>What we need</h2>
+
+<p>
+  We need a number system with <strong>no holes</strong>. A system where every sequence that
+  "should" converge — every sequence whose terms are getting arbitrarily close to each other —
+  actually does converge to something <em>inside</em> the system. No escaping to some larger
+  number system to find your limit; the limit is already here.
+</p>
+
+<p>
+  The real numbers $\mathbb{R}$ are exactly this system. They are $\mathbb{Q}$ with the holes
+  filled in. But we need to say precisely what "no holes" means. That's the completeness axiom,
+  and it's phrased not in terms of sequences (that comes later) but in terms of <em>bounds</em>.
+</p>
+
+<!-- --- 3. KEY DEFINITIONS ------------------------------ -->
+
+<h2>Building the language</h2>
+
+<p>
+  Let $S$ be a subset of $\mathbb{R}$ (or $\mathbb{Q}$ — these definitions work in both).
+</p>
+
+<p>
+  <strong>Upper bound.</strong> A number $M$ is an <em>upper bound</em> for $S$ if every element of
+  $S$ is $\leq M$. Nothing in $S$ exceeds $M$.
+</p>
+
+<p>
+  Example: take $S = \{1, 1.4, 1.41, 1.414, \ldots\}$, our sequence of rational approximations to
+  $\sqrt{2}$. Then $2$ is an upper bound. So is $1.5$. So is $1.41422$. There are infinitely many
+  upper bounds.
+</p>
+
+<p>
+  <strong>Bounded above.</strong> A set is <em>bounded above</em> if it has at least one upper bound.
+  The set $\{1, 2, 3, 4, \ldots\}$ is <em>not</em> bounded above — no finite number sits above every
+  natural number.
+</p>
+
+<p>
+  <strong>Least upper bound (supremum).</strong> The <em>least upper bound</em> of $S$, written
+  $\sup(S)$, is the <strong>smallest</strong> upper bound. It's the tightest ceiling you can put on $S$:
+  an upper bound such that no smaller number is also an upper bound.
+</p>
+
+<p>
+  This is where things get interesting. Consider the set
+</p>
+<div class="display-math">$$S = \{x \in \mathbb{Q} : x^2 < 2\}$$</div>
+<p>
+  All rationals whose square is less than 2. This set is non-empty ($1 \in S$) and bounded above
+  ($2$ is an upper bound). What's its least upper bound?
+</p>
+
+<p>
+  In $\mathbb{R}$, the answer is $\sqrt{2}$. It's an upper bound (if $x^2 < 2$ and $x \geq 0$,
+  then $x < \sqrt{2}$), and no smaller number works (for any $M < \sqrt{2}$, there's a rational
+  $x$ with $M < x$ and $x^2 < 2$).
+</p>
+
+<p>
+  But in $\mathbb{Q}$? There is no least upper bound. $\sqrt{2}$ itself is irrational — it's not
+  available. And there's no smallest rational number whose square exceeds 2. You can always find a
+  rational closer to $\sqrt{2}$ from above: $1.42$, $1.415$, $1.4143$, ... squeezing down but never
+  reaching a smallest upper bound. The supremum simply does not exist in $\mathbb{Q}$.
+</p>
+
+<p>
+  This is the hole. This is what "incomplete" means.
+</p>
+
+<!-- --- 4. THE AXIOM ------------------------------------ -->
+
+<h2>The axiom</h2>
+
+<div class="theorem-box">
+  <div class="label">Completeness Axiom (Least Upper Bound Property)</div>
+  <p>
+    Every non-empty subset of $\mathbb{R}$ that is bounded above has a least upper bound
+    (supremum) in $\mathbb{R}$.
+  </p>
+</div>
+
+<!-- --- 5. UNPACKING ------------------------------------ -->
+
+<h2>Unpacking every word</h2>
+
+<p>
+  Every condition in the axiom is load-bearing. Remove any one and the statement becomes false
+  or meaningless.
+</p>
+
+<p>
+  <strong>"Non-empty."</strong> The empty set $\varnothing$ is bounded above by every real number
+  (vacuously — there's nothing in $\varnothing$ to violate the bound). But it has no
+  <em>least</em> upper bound, because every real number is an upper bound and there is no smallest
+  real number. The condition excludes this pathology.
+</p>
+
+<p>
+  <strong>"Bounded above."</strong> The set $\{1, 2, 3, \ldots\} = \mathbb{N}$ is non-empty but
+  not bounded above. It has no upper bound at all, let alone a least one. The axiom doesn't
+  claim every set has a supremum — only those with at least one upper bound.
+</p>
+
+<p>
+  <strong>"In $\mathbb{R}$."</strong> This is the crucial phrase. The exact same statement with
+  $\mathbb{Q}$ replacing $\mathbb{R}$ is <strong>false</strong>. The set
+  $\{x \in \mathbb{Q} : x^2 < 2\}$ is non-empty, bounded above in $\mathbb{Q}$, but has no
+  supremum in $\mathbb{Q}$. Completeness is the property that separates $\mathbb{R}$ from
+  $\mathbb{Q}$.
+</p>
+
+<!-- --- 6. WHY AN AXIOM --------------------------------- -->
+
+<h2>Why is this an axiom, not a theorem?</h2>
+
+<p>
+  You can't <em>prove</em> completeness. It's not a consequence of the arithmetic axioms
+  (addition, multiplication, ordering) — those axioms are satisfied by $\mathbb{Q}$ as well,
+  and $\mathbb{Q}$ is not complete.
+</p>
+
+<p>
+  Completeness is <strong>built into the definition</strong> of $\mathbb{R}$. When mathematicians
+  say "the real numbers", they mean: the unique ordered field that satisfies the completeness
+  axiom. There are two classical ways to construct such a system starting from $\mathbb{Q}$:
+</p>
+
+<ul>
+  <li>
+    <strong>Dedekind cuts</strong> — partition $\mathbb{Q}$ into two halves $(L, R)$ where every
+    element of $L$ is less than every element of $R$. The "cut" itself defines a real number.
+    The cut at $\sqrt{2}$ is: $L = \{x \in \mathbb{Q} : x < 0 \text{ or } x^2 < 2\}$,
+    $R = \mathbb{Q} \setminus L$. The cut exists even though $\sqrt{2}$ doesn't live in
+    $\mathbb{Q}$ — the cut <em>is</em> the real number $\sqrt{2}$.
+  </li>
+  <li>
+    <strong>Cauchy sequences</strong> — take all sequences of rationals whose terms get arbitrarily
+    close to each other (we'll make this precise later in Phase 1). Two such sequences are "the same
+    real number" if their difference converges to zero. Each equivalence class is a real number.
+  </li>
+</ul>
+
+<p>
+  Both constructions produce the same $\mathbb{R}$, and both are designed specifically so that the
+  completeness axiom holds. $\mathbb{R}$ is $\mathbb{Q}$ with the holes filled in.
+  Completeness is the formal definition of "filled in".
+</p>
+
+<!-- --- 7. HISTORY -------------------------------------- -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Richard Dedekind (1858, published 1872) was teaching calculus at the Zurich Polytechnic and
+    realised he couldn't rigorously prove the intermediate value theorem. The problem wasn't the
+    theorem itself — it was that nobody had a precise definition of the real numbers. Dedekind's
+    "cuts" gave the first rigorous construction of $\mathbb{R}$ from $\mathbb{Q}$.
+  </p>
+  <p>
+    Georg Cantor (independently, also 1872) approached the same problem through sequences. His
+    construction used equivalence classes of what we now call Cauchy sequences. Different roads,
+    same destination: a complete ordered field.
+  </p>
+  <p>
+    Both were motivated by the same crisis. Calculus had been used successfully for two centuries
+    (Newton, Leibniz, Euler, Fourier) without anyone pinning down what "real number" actually meant.
+    Weierstrass, Dedekind, and Cantor finally demanded precision — and completeness was the answer.
+  </p>
+</div>
+
+<!-- --- 8. INFIMUM -------------------------------------- -->
+
+<h2>The infimum</h2>
+
+<p>
+  Everything has a mirror image. A <strong>lower bound</strong> for $S$ is a number $m$ with
+  $m \leq x$ for every $x \in S$. The <strong>greatest lower bound</strong> (or <em>infimum</em>,
+  written $\inf(S)$) is the largest such $m$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Corollary</div>
+  <p>
+    Every non-empty subset of $\mathbb{R}$ that is bounded below has a greatest lower bound
+    (infimum) in $\mathbb{R}$.
+  </p>
+</div>
+
+<p>
+  This follows directly from the completeness axiom. If $S$ is bounded below, consider the set
+  $-S = \{-x : x \in S\}$. Then $-S$ is bounded above, so it has a supremum $M = \sup(-S)$ in
+  $\mathbb{R}$. Then $\inf(S) = -M$. The axiom gives us both directions for free.
+</p>
+
+<!-- --- 9. WHY THIS MATTERS ----------------------------- -->
+
+<h2>Why this matters for everything that follows</h2>
+
+<p>
+  Every convergence theorem you'll meet in Phase 1 ultimately depends on completeness:
+</p>
+
+<ul>
+  <li>
+    <strong>The squeeze theorem</strong> (next page) — a squeezed sequence converges because
+    its limit exists in $\mathbb{R}$.
+  </li>
+  <li>
+    <strong>Monotone convergence theorem</strong> — a bounded increasing sequence converges.
+    The limit is the supremum of its range, which exists by completeness.
+  </li>
+  <li>
+    <strong>Bolzano-Weierstrass</strong> — every bounded sequence has a convergent subsequence.
+    Relies on nested intervals, which rely on completeness.
+  </li>
+  <li>
+    <strong>Cauchy criterion</strong> — a sequence converges if and only if its terms get
+    arbitrarily close to each other. The "only if" direction is trivial; the "if" direction
+    requires completeness.
+  </li>
+</ul>
+
+<p>
+  Without completeness, limits might not exist, and analysis collapses. This single axiom is
+  the foundation that separates $\mathbb{R}$ from $\mathbb{Q}$ and makes calculus rigorous.
+  Every time a theorem says "the limit exists" or "the supremum exists", it's invoking
+  completeness — often silently.
+</p>
+
+<!-- --- 10. WHAT BREAKS --------------------------------- -->
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    In $\mathbb{Q}$, completeness fails. The sequence $1, 1.4, 1.41, 1.414, \ldots$ has no
+    limit in $\mathbb{Q}$. The monotone convergence theorem fails: the sequence is increasing,
+    bounded above by $2$, but doesn't converge in $\mathbb{Q}$.
+  </p>
+  <p>
+    The intermediate value theorem fails: the function $f(x) = x^2 - 2$ satisfies $f(1) = -1 < 0$
+    and $f(2) = 2 > 0$, so it "should" cross zero somewhere between 1 and 2. But $x^2 - 2 = 0$
+    has no solution in $\mathbb{Q}$ — the function jumps from negative to positive without ever
+    passing through zero.
+  </p>
+  <p>
+    No supremum. No limits. No intermediate value theorem. No mean value theorem. No integration
+    theory. Everything breaks.
+  </p>
+</div>
+
+<!-- --- 11. ONE-LINER ----------------------------------- -->
+
+<hr>
+
+<div class="oneliner">
+  $\mathbb{R}$ is $\mathbb{Q}$ with the holes filled in — and "no holes" means
+  every bounded set has a least upper bound.
+</div>
+
+<!-- --- NAV --------------------------------------------- -->
+
+<div class="nav">
+  <a href="../index.html">&larr; Index</a>
+  <a href="02-squeeze-theorem.html">Next: The Squeeze Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

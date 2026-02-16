@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dense Subsets — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Dense Subsets</h1>
+<p class="subtitle">$\mathbb{Q}$ is Everywhere and Nowhere — Phase 1, Page 7</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The paradox</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Over the course of Phase 0 and Phase 1, we've built a paradox.
+  </p>
+  <p>
+    On one hand (page 03 of Phase 0): $\mathbb{Q}$ has holes. $\sqrt{2}$ is missing,
+    the IVT fails in $\mathbb{Q}$, Cauchy sequences can converge to nothing.
+    You <em>need</em> $\mathbb{R}$ to do analysis.
+  </p>
+  <p>
+    On the other hand: between <em>any</em> two real numbers, there's a rational number.
+    And between any two rational numbers, there's an irrational number.
+    The rationals are "everywhere" on the number line &mdash; you can approximate any
+    real number as closely as you want with fractions.
+  </p>
+  <p>
+    So $\mathbb{Q}$ is simultaneously <strong>full of holes</strong> and
+    <strong>everywhere dense</strong>. How can both be true?
+  </p>
+</div>
+
+<!-- ─── 2. DEFINITION ──────────────────────────────── -->
+
+<h2>What "dense" means</h2>
+
+<p>
+  A set $D \subset \mathbb{R}$ is <strong>dense</strong> in $\mathbb{R}$ if for every
+  open interval $(a, b)$ with $a < b$, there exists an element of $D$ in $(a, b)$.
+</p>
+
+<p>
+  Equivalently: every real number can be approximated arbitrarily well by elements of $D$.
+  For every $x \in \mathbb{R}$ and every $\varepsilon > 0$, there exists $d \in D$ with
+  $|x - d| < \varepsilon$.
+</p>
+
+<p>
+  The two formulations are the same statement wearing different clothes. The first says
+  "no interval is empty of $D$." The second says "no real number is isolated from $D$."
+  Pick whichever is more natural for the proof at hand.
+</p>
+
+<!-- ─── 3. THEOREM 1 ───────────────────────────────── -->
+
+<h2>The rationals are dense</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem 1 &mdash; Density of $\mathbb{Q}$</div>
+  <p>
+    $\mathbb{Q}$ is dense in $\mathbb{R}$. Between any two distinct real numbers,
+    there exists a rational number.
+  </p>
+</div>
+
+<p>
+  This is sometimes called a consequence of the <strong>Archimedean property</strong>,
+  which states: for any positive real number $\varepsilon$, there exists a natural number
+  $n$ with $1/n < \varepsilon$. That sounds obvious, but it's actually a consequence of
+  completeness &mdash; it fails in certain ordered fields. We use it here without further comment.
+</p>
+
+<!-- ─── 4. PROOF OF THEOREM 1 ──────────────────────── -->
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    Let $a < b$ be real numbers. We need to find a rational $p/q$ with $a < p/q < b$.
+  </p>
+
+  <p>
+    <strong>Step 1. Choose the denominator.</strong>
+    Since $b - a > 0$, the Archimedean property gives us a positive integer $q$ with
+    $1/q < b - a$. In other words, the spacing $1/q$ between consecutive multiples of
+    $1/q$ is smaller than the width of the interval $(a, b)$.
+  </p>
+
+  <p>
+    <strong>Step 2. Choose the numerator.</strong>
+    Consider the multiples of $1/q$: $\ldots, -2/q, -1/q, 0, 1/q, 2/q, \ldots$
+    These are spaced $1/q$ apart along the real line. Since the interval $(a, b)$ has
+    width greater than $1/q$, it must contain at least one of these multiples.
+  </p>
+
+  <p>
+    Formally: let $p$ be the smallest integer with $p > aq$. Then $p/q > a$. And since
+    $p$ is the <em>smallest</em> such integer, we have $p - 1 \leq aq$, so
+  </p>
+  <div class="display-math">$$\frac{p}{q} = \frac{p-1}{q} + \frac{1}{q} \leq a + \frac{1}{q} < a + (b - a) = b$$</div>
+  <p>
+    Therefore $a < p/q < b$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<!-- ─── 5. UNPACKING ───────────────────────────────── -->
+
+<h2>Why the proof works</h2>
+
+<p>
+  The strategy is simple: make the grid fine enough, and the interval can't dodge it.
+  Choosing $q$ large enough ensures the rational grid $\{k/q : k \in \mathbb{Z}\}$
+  has spacing smaller than the interval width. Then some grid point <em>must</em> land inside.
+</p>
+
+<p>
+  Notice we never needed to know what $a$ and $b$ <em>are</em>. They could be irrational,
+  transcendental, whatever. The argument works uniformly. That's the power of the Archimedean
+  property: no matter how tiny $b - a$ is, you can always find a rational grid fine enough to
+  thread a point through it.
+</p>
+
+<!-- ─── 6. THEOREM 2 ───────────────────────────────── -->
+
+<h2>The irrationals are dense too</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem 2 &mdash; Density of $\mathbb{R} \setminus \mathbb{Q}$</div>
+  <p>
+    The irrationals are dense in $\mathbb{R}$. Between any two distinct real numbers,
+    there exists an irrational number.
+  </p>
+</div>
+
+<!-- ─── 7. PROOF OF THEOREM 2 ──────────────────────── -->
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    Let $a < b$. Consider the shifted interval $(a - \sqrt{2},\; b - \sqrt{2})$.
+    By Theorem 1, there exists a rational $r$ with $a - \sqrt{2} < r < b - \sqrt{2}$.
+  </p>
+
+  <p>
+    Now set $x = r + \sqrt{2}$. Adding $\sqrt{2}$ to both sides of the inequality gives
+    $a < x < b$. And $x$ is irrational, because a rational plus an irrational is always
+    irrational (if $r + \sqrt{2}$ were rational, then $\sqrt{2} = (r + \sqrt{2}) - r$
+    would be rational, contradicting Phase 0 page 3).
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This proof is a lovely trick: to find an irrational in $(a, b)$, shift the window into
+  $\mathbb{Q}$-territory, find a rational there, then shift back. The irrational $\sqrt{2}$
+  acts as a translation that moves every rational to an irrational.
+</p>
+
+<!-- ─── 8. THE PARADOX RESOLVED ────────────────────── -->
+
+<h2>Resolving the paradox</h2>
+
+<p>
+  So $\mathbb{Q}$ is dense: rationals are everywhere, approximating everything, filling
+  every interval. And $\mathbb{Q}$ is incomplete: it has holes where limits fall through.
+  How can both be true?
+</p>
+
+<p>
+  Because <strong>density and completeness are different properties</strong>.
+</p>
+
+<p>
+  Density means "good enough for approximation." For any real number you name, I can find
+  a rational as close as you like. Completeness means "good enough for limits." Every
+  Cauchy sequence converges, every bounded monotone sequence has a limit, every supremum
+  exists. These are not the same demand.
+</p>
+
+<p>
+  An analogy: think of a mesh net. It covers the whole area &mdash; everywhere you look,
+  there's a strand of net nearby. But things fall through the holes. The net is dense
+  (it's everywhere) but not complete (it can't hold everything). $\mathbb{Q}$ is the mesh net.
+  $\mathbb{R}$ is solid fabric.
+</p>
+
+<p>
+  Or in sequence language: every real number is the limit of a sequence of rationals (that's
+  density), but not every Cauchy sequence of rationals converges <em>within</em> $\mathbb{Q}$
+  (that's incompleteness). The sequence $1, 1.4, 1.41, 1.414, \ldots$ is Cauchy in
+  $\mathbb{Q}$, consists entirely of rationals, but its limit $\sqrt{2}$ is outside
+  $\mathbb{Q}$. Dense: every point is approachable. Incomplete: some approaches lead nowhere.
+</p>
+
+<!-- ─── 9. WHY DENSITY MATTERS ─────────────────────── -->
+
+<h2>Why density matters for analysis</h2>
+
+<p>
+  Density is not a curiosity. It's what makes computation possible.
+</p>
+
+<p>
+  <strong>Decimal expansions work because of density.</strong> Writing $\pi = 3.14159\ldots$
+  means constructing a sequence of rationals ($3$, $3.1$, $3.14$, $3.141$, $\ldots$) that
+  converges to $\pi$. This is density restated: every real number is the limit of a
+  sequence of rationals.
+</p>
+
+<p>
+  <strong>Computers rely on density.</strong> No computer stores $\sqrt{2}$ or $\pi$ exactly.
+  Every floating-point number is rational. Density guarantees that for any real quantity you
+  need, a rational approximation is available and can be made as precise as your hardware allows.
+</p>
+
+<p>
+  <strong>Approximation theory is density in function space.</strong> The Weierstrass
+  approximation theorem (Phase 4) says that polynomials &mdash; which use only rational
+  arithmetic &mdash; can approximate any continuous function on a closed interval as closely
+  as desired. That's the density idea lifted from numbers to functions.
+</p>
+
+<!-- ─── 10. HISTORY ────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The density of $\mathbb{Q}$ was known implicitly since the Greeks. Eudoxus' theory of
+    proportions (~370 BC) essentially handles the idea that rationals can approximate any
+    magnitude. But the distinction between "dense" and "complete" remained invisible for over
+    two thousand years. Mathematicians vaguely assumed $\mathbb{Q}$ was "enough" and only
+    encountered trouble occasionally &mdash; $\sqrt{2}$, the irrationality of $\pi$, stubborn
+    series that refused to converge to anything rational.
+  </p>
+  <p>
+    The rigorous separation of density from completeness came in the 1870s, when Dedekind and
+    Cantor independently formalised the real numbers. Dedekind's construction (cuts) builds
+    $\mathbb{R}$ by filling in exactly the holes that density leaves behind. Cantor's
+    construction (equivalence classes of Cauchy sequences) makes the same repair from a
+    different angle. Both constructions are, in essence, the answer to the paradox on this page:
+    $\mathbb{Q}$ is dense but not complete, so we <em>complete</em> it and call the result
+    $\mathbb{R}$.
+  </p>
+</div>
+
+<!-- ─── 11. PHASE 1 RECAP ──────────────────────────── -->
+
+<h2>Phase 1 complete &mdash; what you now have</h2>
+
+<ul>
+  <li><strong>Completeness</strong>: $\mathbb{R}$ has no holes (page 01)</li>
+  <li><strong>Squeeze theorem</strong>: trap and pinch (page 02)</li>
+  <li><strong>Monotone convergence</strong>: bounded + monotone $\Rightarrow$ converges (page 03)</li>
+  <li><strong>Bolzano&ndash;Weierstrass</strong>: bounded $\Rightarrow$ convergent subsequence (page 04)</li>
+  <li><strong>Cauchy criterion</strong>: convergence without knowing the limit (page 05)</li>
+  <li><strong>IVT</strong>: continuous functions don't skip values (page 06)</li>
+  <li><strong>Dense subsets</strong>: $\mathbb{Q}$ approximates everything but can't hold limits (this page)</li>
+</ul>
+
+<p>
+  These are the foundations of analysis. You can reason about limits, convergence, continuity,
+  and the structure of the real line. But you can't yet describe <em>how fast things change</em>.
+  For that, you need rates of change &mdash; and that's what derivatives are.
+</p>
+
+<p>
+  <strong>Next: Phase 2 &mdash; Derivatives.</strong>
+</p>
+
+<!-- ─── 12. WHAT BREAKS ────────────────────────────── -->
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    If $\mathbb{Q}$ weren't dense, you couldn't approximate real numbers with fractions.
+    Decimal expansions wouldn't work. Numerical computation &mdash; everything from pocket
+    calculators to finite element simulations &mdash; would be impossible, because every
+    computed number is rational and you'd have no guarantee it's close to the real answer.
+  </p>
+  <p>
+    Conversely, if $\mathbb{Q}$ were dense <em>and</em> complete, it would <em>be</em>
+    $\mathbb{R}$. Indeed, the <strong>completion</strong> of $\mathbb{Q}$ &mdash; the smallest
+    complete ordered field containing it &mdash; is precisely $\mathbb{R}$. The reals are
+    what you get when you take the rationals and demand that limits can't escape.
+  </p>
+</div>
+
+<!-- ─── 13. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  $\mathbb{Q}$ is everywhere on the number line &mdash; close enough to approximate anything
+  &mdash; but full of invisible holes where limits fall through.
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="06-ivt.html">&larr; Previous: Connected Sets and the IVT</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

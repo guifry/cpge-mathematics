@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connected Sets and the IVT — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Connected Sets and the IVT</h1>
+<p class="subtitle">No Teleportation Allowed — Phase 1, Page 6</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You're driving from London (sea level) to the summit of Ben Nevis (1,345m).
+    Your altitude is a continuous function of time — you don't teleport, you drive smoothly
+    up roads and hills. At some point during the journey, you must have been at exactly 500m.
+    And exactly 1000m. And every height in between.
+  </p>
+  <p>
+    This feels obvious. A curve that starts at 0 and ends at 1,345 can't skip over 500 without
+    a break. But <strong>can you prove it?</strong> And what property of $\mathbb{R}$ makes it true?
+    Because here's the thing — the same argument fails in $\mathbb{Q}$. If your number line
+    had holes in it, a continuous function <em>could</em> skip over values. The real line's lack
+    of holes is doing all the work. Let's make that precise.
+  </p>
+</div>
+
+<!-- ─── 2. CONTINUITY ──────────────────────────────── -->
+
+<h2>First: what is continuity?</h2>
+
+<p>
+  We keep saying "continuous" — the curve has no jumps, no teleportation. But mathematics doesn't
+  run on vibes. We need a definition sharp enough to prove things with.
+</p>
+
+<p>
+  A function $f : \mathbb{R} \to \mathbb{R}$ is <strong>continuous at a point $c$</strong> if
+</p>
+<div class="display-math">$$\lim_{x \to c} f(x) = f(c)$$</div>
+<p>
+  Unpack this in $\varepsilon$-$\delta$ language: for every $\varepsilon > 0$, there exists
+  $\delta > 0$ such that
+</p>
+<div class="display-math">$$|x - c| < \delta \implies |f(x) - f(c)| < \varepsilon$$</div>
+<p>
+  In words: <em>small changes in input produce small changes in output</em>. You nudge $x$
+  a little and $f(x)$ only nudges a little. No jumps, no sudden leaps. The output tracks
+  the input smoothly.
+</p>
+
+<p>
+  We say $f$ is <strong>continuous on $[a, b]$</strong> if it's continuous at every point in $[a, b]$.
+  (At the endpoints $a$ and $b$, we use the appropriate one-sided limits.)
+</p>
+
+<p>
+  That's all continuity is. It doesn't mean "smooth" (derivatives exist) or "nice-looking."
+  It just means: no teleportation.
+</p>
+
+<!-- ─── 3. THEOREM ─────────────────────────────────── -->
+
+<h2>The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Intermediate Value Theorem (IVT)</div>
+  <p>
+    If $f$ is continuous on $[a, b]$ and $f(a) < 0 < f(b)$ (or $f(a) > 0 > f(b)$), then
+    there exists $c \in (a, b)$ with $f(c) = 0$.
+  </p>
+  <p>
+    More generally: if $f$ is continuous on $[a, b]$ and $v$ is any value between $f(a)$ and
+    $f(b)$, then there exists $c \in [a, b]$ with $f(c) = v$.
+  </p>
+</div>
+
+<p>
+  The general version follows from the zero-crossing version by applying it to $g(x) = f(x) - v$.
+  So the heart of the IVT is the zero-crossing case: negative on one side, positive on the other,
+  continuous in between — there must be a zero somewhere.
+</p>
+
+<!-- ─── 4. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Bolzano gave the first rigorous proof in 1817. This is the same Bolzano from the
+    Bolzano-Weierstrass theorem (page 04) — and the connection is not a coincidence. Bolzano
+    discovered what we now call BW <em>as a lemma for proving the IVT</em>. He needed bounded
+    sequences to converge, so he proved they do, then used that to prove the IVT.
+  </p>
+  <p>
+    The IVT seems geometrically obvious: a continuous curve that starts below zero and ends
+    above zero must cross the axis. Every student draws the picture and says "of course."
+    But Bolzano understood what most mathematicians of his era did not — that "obvious" geometric
+    intuitions about continuous curves need rigorous foundations. The proof requires
+    <strong>completeness of $\mathbb{R}$</strong>. Without it, the theorem is actually false.
+    Bolzano was one of the first to see this clearly.
+  </p>
+</div>
+
+<!-- ─── 5. THE PROOF ───────────────────────────────── -->
+
+<h2>The proof — bisection</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    Assume $f(a) < 0$ and $f(b) > 0$. We'll hunt for the zero using interval halving — the
+    same bisection idea we saw in the BW proof (page 04).
+  </p>
+
+  <p>
+    <strong>Step 1. Set up.</strong>
+    Let $[a_0, b_0] = [a, b]$. We have $f(a_0) < 0$ and $f(b_0) > 0$.
+  </p>
+
+  <p>
+    <strong>Step 2. Bisect.</strong>
+    Compute the midpoint $m = (a_0 + b_0) / 2$. Three cases:
+  </p>
+  <ul>
+    <li>If $f(m) = 0$, we're done — $c = m$.</li>
+    <li>If $f(m) < 0$, set $[a_1, b_1] = [m, b_0]$. The zero is in the right half.</li>
+    <li>If $f(m) > 0$, set $[a_1, b_1] = [a_0, m]$. The zero is in the left half.</li>
+  </ul>
+  <p>
+    Either way: $f(a_1) \leq 0$ and $f(b_1) \geq 0$, and the interval is half as long.
+  </p>
+
+  <p>
+    <strong>Step 3. Iterate.</strong>
+    Repeat: at stage $n$, we have a closed interval $[a_n, b_n]$ with $f(a_n) \leq 0$,
+    $f(b_n) \geq 0$, and length
+  </p>
+  <div class="display-math">$$b_n - a_n = \frac{b - a}{2^n}$$</div>
+  <p>
+    The intervals are nested: $[a_{n+1}, b_{n+1}] \subseteq [a_n, b_n]$.
+  </p>
+
+  <p>
+    <strong>Step 4. Convergence.</strong>
+    The sequence $(a_n)$ is increasing (each left endpoint moves right or stays) and
+    bounded above by $b$. By the <strong>Monotone Convergence Theorem</strong> (page 03),
+    it converges to some limit $c$.
+  </p>
+  <p>
+    The sequence $(b_n)$ is decreasing and bounded below by $a$, so it also converges.
+    Since $b_n - a_n = (b - a) / 2^n \to 0$, both sequences converge to the
+    <strong>same limit $c$</strong>.
+  </p>
+
+  <p>
+    <strong>Step 5. The limit is a zero.</strong>
+    Since $f$ is continuous and $a_n \to c$, we have $f(a_n) \to f(c)$. (This is what
+    continuity means: limits commute with continuous functions.) But $f(a_n) \leq 0$ for all $n$,
+    so $f(c) \leq 0$.
+  </p>
+  <p>
+    Similarly, $b_n \to c$ and $f(b_n) \geq 0$ for all $n$, so $f(c) \geq 0$.
+  </p>
+  <p>
+    We have $f(c) \leq 0$ and $f(c) \geq 0$. Therefore $f(c) = 0$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<!-- ─── 6. UNPACK ──────────────────────────────────── -->
+
+<h2>Unpacking the proof</h2>
+
+<p>
+  Let's be explicit about what's doing what.
+</p>
+
+<p>
+  The <strong>bisection</strong> is a search algorithm. At each step, we know the zero is
+  trapped in our interval (because $f$ is negative on the left, positive on the right).
+  Halving narrows the trap. But an algorithm that produces better and better approximations
+  is useless unless we can guarantee those approximations converge to something.
+</p>
+
+<p>
+  That's where <strong>completeness</strong> enters. The Monotone Convergence Theorem — which
+  itself is equivalent to the completeness of $\mathbb{R}$ (page 03) — guarantees the nested,
+  shrinking intervals close in on a point $c$. In $\mathbb{Q}$, this step would fail. The
+  intervals might shrink around a hole.
+</p>
+
+<p>
+  And <strong>continuity</strong> is what transfers the sign condition from the endpoints to the
+  limit. We know $f(a_n) \leq 0$ for every $n$. Continuity turns this into $f(c) \leq 0$.
+  Without continuity, $f$ could jump at $c$ and dodge zero entirely.
+</p>
+
+<p>
+  So the proof is a three-part machine: <em>bisection</em> (search), <em>completeness</em>
+  (the search converges), <em>continuity</em> (the limit is actually a zero). Remove any one and it breaks.
+</p>
+
+<!-- ─── 7. CONNECTED SETS ──────────────────────────── -->
+
+<h2>Connected sets — the deeper idea</h2>
+
+<p>
+  Why does the IVT work on $[a, b]$ but fail on, say, $[0, 1] \cup [2, 3]$ (two disjoint intervals)?
+  Because $[a, b]$ is <strong>connected</strong> — you can't split it into two separated pieces — and
+  the union of two disjoint intervals is not.
+</p>
+
+<p>
+  The IVT is really a theorem about connected sets. What it's saying, in topological language, is:
+  <strong>the continuous image of a connected set is connected</strong>. If $f$ maps $[a, b]$
+  continuously, the image $f([a, b])$ must also be connected — which, for subsets of $\mathbb{R}$,
+  means it's an interval. It contains every value between its minimum and maximum.
+</p>
+
+<p>
+  This topological perspective generalises far beyond $\mathbb{R}$. In any topological space,
+  continuous functions preserve connectedness. The IVT on the real line is a special case of this
+  universal principle. We'll return to this in Phase 8 when we study topological spaces properly.
+</p>
+
+<p>
+  For now, the takeaway: intervals in $\mathbb{R}$ are connected because $\mathbb{R}$ is complete.
+  Completeness gives connectedness. Connectedness gives the IVT. The chain of dependencies runs all
+  the way back to the axioms.
+</p>
+
+<!-- ─── 8. APPLICATION ─────────────────────────────── -->
+
+<h2>Application: existence of roots</h2>
+
+<div class="problem-box">
+  <div class="label">Problem</div>
+  <p>
+    Prove that the equation $x^5 + x - 1 = 0$ has a solution.
+  </p>
+</div>
+
+<p>
+  Let $f(x) = x^5 + x - 1$. Check the endpoints:
+</p>
+<div class="display-math">$$f(0) = 0 + 0 - 1 = -1 < 0$$</div>
+<div class="display-math">$$f(1) = 1 + 1 - 1 = 1 > 0$$</div>
+<p>
+  $f$ is a polynomial, hence continuous everywhere — certainly on $[0, 1]$. By the IVT, there
+  exists $c \in (0, 1)$ with $f(c) = 0$.
+</p>
+
+<p>
+  We can't write down $c$ exactly. There's no radical formula for degree 5 polynomials — that's
+  the Abel-Ruffini theorem (Phase 9). But we know $c$ <em>exists</em>, and we could approximate it
+  to any desired precision by continuing the bisection ($f(0.5) < 0$, so $c \in (0.5, 1)$;
+  $f(0.75) > 0$, so $c \in (0.5, 0.75)$; and so on, forever).
+</p>
+
+<p>
+  This is the power of the IVT: <strong>existence without a formula</strong>. You can prove a root
+  exists without ever finding it explicitly. And the bisection proof is constructive — it gives you
+  an algorithm to approximate the root to arbitrary accuracy.
+</p>
+
+<!-- ─── 9. WHAT BREAKS ─────────────────────────────── -->
+
+<h2>What breaks</h2>
+
+<div class="break-box">
+  <div class="label">Without continuity</div>
+  <p>
+    Let $f(x) = -1$ for $x < 0$ and $f(x) = 1$ for $x \geq 0$. Then $f(-1) = -1 < 0$ and
+    $f(1) = 1 > 0$, but $f$ is never zero. The function jumps from $-1$ to $1$ at the
+    origin — it <em>skips over</em> zero. The jump breaks continuity, and without continuity
+    the sign condition at the endpoints tells you nothing about what happens in between.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">In $\mathbb{Q}$ — the holes matter</div>
+  <p>
+    Let $f(x) = x^2 - 2$, defined for rational $x$ only. Then $f(1) = -1 < 0$ and
+    $f(2) = 2 > 0$. $f$ is continuous (as a function on $\mathbb{Q}$). But $f(c) = 0$
+    requires $c = \sqrt{2}$, and $\sqrt{2} \notin \mathbb{Q}$ (Phase 0, page 3). The bisection
+    intervals shrink around $\sqrt{2}$, but that point doesn't exist in $\mathbb{Q}$.
+    The function crosses from negative to positive, but there's no rational point where it
+    actually equals zero — it steps across a hole.
+  </p>
+  <p>
+    This is the IVT failing because $\mathbb{Q}$ is not connected. The rationals are riddled
+    with gaps, and continuous functions can slip through them. Completeness of $\mathbb{R}$ is
+    not a technicality — it's the entire reason the IVT is true.
+  </p>
+</div>
+
+<!-- ─── 10. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  A continuous function that's negative somewhere and positive somewhere must be zero in between —
+  because $\mathbb{R}$ has no holes for it to skip over.
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="05-cauchy-criterion.html">← Previous: Cauchy Criterion</a>
+  <a href="07-dense-subsets.html">Next: Dense Subsets →</a>
+</div>
+
+</body>
+</html>

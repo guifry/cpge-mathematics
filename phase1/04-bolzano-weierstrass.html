@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolzano-Weierstrass Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Bolzano-Weierstrass Theorem</h1>
+<p class="subtitle">Clustering in Bounded Sets — Phase 1, Page 4</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Consider the sequence $a_n = \sin(n)$. Compute a few terms: $\sin(1) \approx 0.841$,
+    $\sin(2) \approx 0.909$, $\sin(3) \approx 0.141$, $\sin(4) \approx -0.757$,
+    $\sin(5) \approx -0.959$, $\sin(6) \approx -0.279$, $\sin(7) \approx 0.657\ldots$
+    The sequence bounces around inside $[-1, 1]$ without ever settling down. It doesn't converge.
+  </p>
+  <p>
+    But it's <strong>bounded</strong>. Every term lives in $[-1, 1]$. And there are infinitely
+    many terms crammed into this finite interval. Surely <em>some</em> of those terms must
+    cluster near a particular value?
+  </p>
+  <p>
+    The question: even though the whole sequence refuses to converge, can we
+    <strong>cherry-pick</strong> terms from it &mdash; keeping their original order &mdash;
+    to form a new sequence that <em>does</em> converge?
+  </p>
+</div>
+
+<!-- ─── 2. SUBSEQUENCES ────────────────────────────── -->
+
+<h2>Subsequences</h2>
+
+<p>
+  Before stating the theorem, we need a precise definition. A <strong>subsequence</strong>
+  of $(a_n)$ is formed by choosing an infinite collection of indices
+  $n_1 < n_2 < n_3 < \cdots$ and taking the terms $a_{n_1}, a_{n_2}, a_{n_3}, \ldots$
+  You keep the original order. You skip terms. But you never go backwards, and you never stop
+  &mdash; a subsequence must be infinite.
+</p>
+
+<p>
+  We write this subsequence as $(a_{n_k})_{k \geq 1}$, where the map $k \mapsto n_k$ is
+  strictly increasing.
+</p>
+
+<p>
+  <strong>Example.</strong> From $1, 2, 3, 4, 5, 6, \ldots$ take only the even-indexed terms:
+  $a_2, a_4, a_6, \ldots$ Here $n_k = 2k$. Or take every tenth term: $n_k = 10k$.
+  Or take primes: $n_1 = 2, n_2 = 3, n_3 = 5, n_4 = 7, \ldots$ All valid subsequences.
+</p>
+
+<p>
+  What is <em>not</em> a subsequence: picking $a_5, a_3, a_7$ (indices aren't increasing),
+  or picking finitely many terms (a subsequence must be infinite).
+</p>
+
+<p>
+  Back to $\sin(n)$: we want to find indices $n_1 < n_2 < n_3 < \cdots$ such that
+  $\sin(n_k)$ converges to some limit $L$ as $k \to \infty$. Can we always do this
+  for any bounded sequence?
+</p>
+
+<!-- ─── 3. THE THEOREM ─────────────────────────────── -->
+
+<div class="theorem-box">
+  <div class="label">Theorem (Bolzano-Weierstrass)</div>
+  <p>
+    Every bounded sequence in $\mathbb{R}$ has a convergent subsequence.
+  </p>
+</div>
+
+<!-- ─── 4. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Bolzano proved this in 1817, but not because he cared about subsequences. He was trying
+    to give the first rigorous proof of the <strong>Intermediate Value Theorem</strong>
+    (if a continuous function goes from negative to positive, it must cross zero). His proof
+    required a lemma: if infinitely many points are packed into a bounded interval, at least
+    some must cluster together. He proved the lemma &mdash; and it turned out to be far more
+    important than the IVT itself.
+  </p>
+  <p>
+    Weierstrass, decades later, generalised it, taught it in his Berlin lectures, and gave it
+    the central place it holds today. The theorem they were after (IVT) became a corollary.
+    The tool (Bolzano-Weierstrass) became a pillar of analysis.
+  </p>
+</div>
+
+<!-- ─── 5. THE PROOF ───────────────────────────────── -->
+
+<h2>The proof: bisection</h2>
+
+<p>
+  This is one of the most elegant constructions in analysis. It's also fully <em>constructive</em>
+  &mdash; it tells you exactly how to build the convergent subsequence, step by step.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    Let $(a_n)$ be a bounded sequence. Since it's bounded, all terms sit inside some
+    interval $[a, b]$.
+  </p>
+
+  <p>
+    <strong>Step 1. First bisection.</strong>
+    Cut $[a, b]$ into two halves: $\bigl[a, \frac{a+b}{2}\bigr]$ and
+    $\bigl[\frac{a+b}{2}, b\bigr]$. The sequence has infinitely many terms in $[a, b]$.
+    At least one of the two halves must contain <strong>infinitely many terms</strong>.
+    (If both halves had only finitely many, the total would be finite &mdash; contradiction.)
+    Pick a half that contains infinitely many terms. Call it $[a_1, b_1]$.
+    Choose any term of the sequence that lies in $[a_1, b_1]$; call it $a_{n_1}$.
+  </p>
+
+  <p>
+    <strong>Step 2. Second bisection.</strong>
+    Cut $[a_1, b_1]$ in half. Again, at least one half contains infinitely many terms of the
+    sequence. Pick that half; call it $[a_2, b_2]$. Now choose a term $a_{n_2}$ that lies
+    in $[a_2, b_2]$ with $n_2 > n_1$. We can always find such a term because $[a_2, b_2]$
+    contains infinitely many terms &mdash; so in particular, it contains terms with
+    arbitrarily large indices.
+  </p>
+
+  <p>
+    <strong>Step $k$. Repeat.</strong>
+    At stage $k$, we have a nested interval $[a_k, b_k]$ of length
+    $\frac{b - a}{2^k}$, and we've selected a term $a_{n_k}$ inside it with
+    $n_k > n_{k-1}$.
+  </p>
+
+  <p>
+    <strong>What have we built?</strong> Two things:
+  </p>
+
+  <ol>
+    <li>
+      A sequence of <strong>nested intervals</strong> $[a_1, b_1] \supset [a_2, b_2]
+      \supset [a_3, b_3] \supset \cdots$ with lengths
+      $b_k - a_k = \frac{b-a}{2^k} \to 0$.
+    </li>
+    <li>
+      A <strong>subsequence</strong> $(a_{n_k})$ with $a_{n_k} \in [a_k, b_k]$ for
+      every $k$, and $n_1 < n_2 < n_3 < \cdots$
+    </li>
+  </ol>
+
+  <p>
+    <strong>Convergence.</strong>
+    The left endpoints $a_1 \leq a_2 \leq a_3 \leq \cdots$ form an <strong>increasing</strong>
+    sequence (each bisection can only move the left endpoint rightward or keep it).
+    They're bounded above by $b$. So by the
+    <strong>Monotone Convergence Theorem</strong> (page 03), the sequence $(a_k)$ converges
+    to some limit $L$.
+  </p>
+
+  <p>
+    Similarly, $b_k = a_k + \frac{b-a}{2^k}$, so $b_k \to L + 0 = L$.
+  </p>
+
+  <p>
+    Now: for every $k$, the subsequence term $a_{n_k}$ satisfies
+    $a_k \leq a_{n_k} \leq b_k$. Both $a_k \to L$ and $b_k \to L$. By the
+    <strong>Squeeze Theorem</strong> (page 02):
+  </p>
+
+  <div class="display-math">$$a_{n_k} \to L$$</div>
+
+  <p>
+    The subsequence converges.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<!-- ─── 6. UNPACKING ───────────────────────────────── -->
+
+<h2>Unpacking the proof</h2>
+
+<p>
+  Notice what happened. The proof used <strong>two results from previous pages</strong>:
+  the Monotone Convergence Theorem (to show the left endpoints converge) and the Squeeze
+  Theorem (to trap the subsequence between converging bounds). Bolzano-Weierstrass isn't
+  conjured from nothing &mdash; it's built on the machinery we've already established.
+</p>
+
+<p>
+  The engine of the proof is the <strong>pigeonhole step</strong>: when you cut an interval
+  containing infinitely many terms into two halves, at least one half must still contain
+  infinitely many terms. You can't split infinity into two finite pieces. This simple
+  observation is what lets the construction continue forever &mdash; at every stage, there
+  are enough terms left to pick from.
+</p>
+
+<p>
+  The bisection halves the interval each time. After $k$ steps, the interval has length
+  $(b-a)/2^k$, which marches toward zero. The subsequence terms are trapped in
+  ever-shrinking intervals, forced to converge whether they like it or not.
+</p>
+
+<!-- ─── 7. RETURN TO sin(n) ────────────────────────── -->
+
+<h2>Back to $\sin(n)$</h2>
+
+<p>
+  The theorem guarantees that $(\sin(n))$ has a convergent subsequence. It doesn't tell us
+  <em>which</em> indices to pick &mdash; finding them explicitly is surprisingly hard. It
+  involves the distribution of integers modulo $2\pi$, which is governed by the irrationality
+  of $\pi$ and Weyl's equidistribution theorem. The terms $\sin(n)$ are in fact
+  <em>dense</em> in $[-1, 1]$: for any target value $L \in [-1, 1]$, you can find a
+  subsequence converging to it. Bolzano-Weierstrass says at least one such subsequence
+  exists; the equidistribution theory says every $L \in [-1, 1]$ works.
+</p>
+
+<p>
+  But we didn't need any of that machinery. The proof only needed boundedness.
+</p>
+
+<!-- ─── 8. SIMPLER EXAMPLE ─────────────────────────── -->
+
+<h2>A simpler example</h2>
+
+<p>
+  Take $a_n = (-1)^n$, i.e. $-1, 1, -1, 1, -1, 1, \ldots$ This is bounded (by $[-1, 1]$)
+  and doesn't converge (it oscillates forever).
+</p>
+
+<p>
+  Subsequences:
+</p>
+<ul>
+  <li>Odd terms: $a_1, a_3, a_5, \ldots = -1, -1, -1, \ldots \to -1$</li>
+  <li>Even terms: $a_2, a_4, a_6, \ldots = 1, 1, 1, \ldots \to 1$</li>
+</ul>
+
+<p>
+  Two different convergent subsequences with two different limits. Bolzano-Weierstrass
+  guarantees <em>at least one</em>; there could be many. In fact, the set of all subsequential
+  limits of a bounded sequence is always closed and non-empty &mdash; a deeper result
+  you'll meet later.
+</p>
+
+<!-- ─── 9. WHAT BREAKS ─────────────────────────────── -->
+
+<h2>What breaks</h2>
+
+<div class="break-box">
+  <div class="label">Remove "bounded"</div>
+  <p>
+    Take $a_n = n$: $1, 2, 3, 4, \ldots$ Every subsequence still diverges to $+\infty$.
+    More precisely, if $n_{k+1} > n_k$ then $a_{n_k} = n_k \geq k$, so $a_{n_k} \to \infty$.
+    No convergent subsequence exists. Boundedness is essential.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">Work in $\mathbb{Q}$ instead of $\mathbb{R}$</div>
+  <p>
+    Consider the decimal approximations of $\sqrt{2}$: $1, 1.4, 1.41, 1.414, 1.4142, \ldots$
+    Every term is rational. The sequence is bounded (all terms in $[1, 2]$). It converges
+    &mdash; but its limit is $\sqrt{2}$, which is <strong>not in $\mathbb{Q}$</strong>.
+    If we demand the subsequence converge to a <em>rational</em> limit, the theorem fails.
+    A bounded sequence of rationals can have only irrational cluster points.
+  </p>
+  <p>
+    Bolzano-Weierstrass relies on the <strong>completeness of $\mathbb{R}$</strong>
+    (page 01). The bisection proof invokes the Monotone Convergence Theorem, which itself
+    depends on completeness. Pull out completeness, and the whole construction collapses.
+  </p>
+</div>
+
+<!-- ─── 10. WHY THIS MATTERS ───────────────────────── -->
+
+<h2>Why this matters</h2>
+
+<p>
+  Bolzano-Weierstrass is the concrete version of <strong>compactness</strong>. In $\mathbb{R}$,
+  it says: bounded closed sets have the "clustering property" &mdash; any sequence inside them
+  has a convergent subsequence whose limit is also in the set. In Phase 8 (topology), this
+  becomes the abstract definition of sequential compactness. But the idea is born right here,
+  in this bisection argument.
+</p>
+
+<p>
+  Practically, BW is the workhorse behind dozens of existence theorems. The Extreme Value
+  Theorem (a continuous function on $[a, b]$ attains its maximum) uses it. The
+  Arzel&agrave;-Ascoli theorem (compactness in function spaces) generalises it.
+  Every time you need to show that <em>some</em> convergent subsequence exists &mdash;
+  without exhibiting it explicitly &mdash; Bolzano-Weierstrass is the tool.
+</p>
+
+<!-- ─── 11. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  Cram infinitely many points into a bounded interval and some must cluster together &mdash;
+  you can always extract a convergent subsequence.
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="03-monotone-convergence.html">&larr; Previous: Monotone Convergence Theorem</a>
+  <a href="05-cauchy-criterion.html">Next: Cauchy Criterion &rarr;</a>
+</div>
+
+</body>
+</html>

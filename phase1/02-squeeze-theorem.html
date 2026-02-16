@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Squeeze Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Squeeze Theorem</h1>
+<p class="subtitle">Trapping the Unknowable — Phase 1, Page 2</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Compute the following limit:
+  </p>
+  <div class="display-math">$$\lim_{n \to \infty} \frac{\sin(n)}{n}$$</div>
+  <p>
+    We know exactly what $\sin(n)$ is. Back in Phase 0, we defined sine via the unit circle:
+    $\sin(\theta)$ is the $y$-coordinate of the point at angle $\theta$ on the unit circle.
+    We proved that $\sin^2(\theta) + \cos^2(\theta) = 1$, which immediately gives $|\sin(\theta)| \leq 1$.
+    None of that is assumed here — it's established.
+  </p>
+  <p>
+    But $\sin(n)$, where $n$ runs through the integers $1, 2, 3, \ldots$, bounces erratically.
+    It's not periodic over the integers (because $\pi$ is irrational, so $n$ never lands on a
+    clean multiple of $\pi$). The values jump around between $-1$ and $1$ with no discernible pattern.
+    We cannot compute $\sin(1) + \sin(2) + \sin(3) + \cdots$ or track where $\sin(n)$ goes.
+    So how could we possibly determine what $\frac{\sin(n)}{n}$ approaches?
+  </p>
+</div>
+
+<!-- ─── 2. WHAT IS A SEQUENCE? ─────────────────────── -->
+
+<h2>First, what IS a sequence?</h2>
+
+<p>
+  Before we can talk about limits, we need to say precisely what we're taking the limit <em>of</em>.
+</p>
+
+<p>
+  A <strong>sequence</strong> is a function from $\mathbb{N}$ to $\mathbb{R}$. That's it. You feed it
+  a positive integer, it gives you back a real number. We write it $(a_n)_{n \geq 1}$, or just $(a_n)$,
+  or $a_1, a_2, a_3, \ldots$ The subscript $n$ is the <strong>index</strong> — the position in the list.
+  The value $a_n$ is the <strong>$n$-th term</strong>.
+</p>
+
+<p>
+  Examples: $a_n = 1/n$ gives the sequence $1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \ldots$
+  The sequence $b_n = (-1)^n$ gives $-1, 1, -1, 1, \ldots$
+  Our problem sequence is $c_n = \frac{\sin(n)}{n}$.
+</p>
+
+<p>
+  A sequence is <em>not</em> a set. The sequence $1, 1, 1, \ldots$ has infinitely many terms but only
+  one distinct value. Order and repetition matter.
+</p>
+
+<!-- ─── 3. WHAT IS A LIMIT? ────────────────────────── -->
+
+<h2>What does "limit" mean, precisely?</h2>
+
+<p>
+  Informally: $a_n$ approaches $L$ as $n$ grows. The terms get closer and closer to $L$ and
+  eventually stay as close as you want. But "closer and closer" is vague. Mathematics demands precision.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition — limit of a sequence</div>
+  <p>
+    We say $\lim_{n \to \infty} a_n = L$ if: for every $\varepsilon > 0$, there exists
+    $N \in \mathbb{N}$ such that for all $n \geq N$,
+  </p>
+  <div class="display-math">$$|a_n - L| < \varepsilon$$</div>
+</div>
+
+<p>
+  Unpack this piece by piece.
+</p>
+
+<p>
+  $\varepsilon$ (epsilon) is any positive real number — any tolerance you choose, however small.
+  You pick $\varepsilon = 0.1$? Fine. You pick $\varepsilon = 0.0001$? Also fine. You pick
+  $\varepsilon = 10^{-100}$? Still fine. The definition must work for <em>every</em> such choice.
+</p>
+
+<p>
+  $N$ is a position in the sequence — a threshold index. The claim is: beyond this position,
+  <em>every single term</em> lies within distance $\varepsilon$ of $L$. Not "most terms". Not
+  "infinitely many terms". <strong>All terms from position $N$ onwards.</strong>
+</p>
+
+<p>
+  $|a_n - L| < \varepsilon$ means $a_n$ sits in the open interval $(L - \varepsilon, L + \varepsilon)$.
+  Every term past $N$ is trapped in that interval.
+</p>
+
+<p>
+  The key trade-off: the smaller you make $\varepsilon$, the larger $N$ might need to be. If you
+  demand the terms stay within $0.01$ of $L$, you might need to go past position $100$. If you demand
+  $0.0001$, maybe past position $10{,}000$. But the definition says $N$ <strong>always exists</strong>,
+  no matter how small $\varepsilon$ is. That's what convergence means.
+</p>
+
+<p>
+  A sequence that has a limit is called <strong>convergent</strong>. One that doesn't is <strong>divergent</strong>.
+</p>
+
+<!-- ─── 4. BACK TO THE PROBLEM ─────────────────────── -->
+
+<h2>Back to the problem</h2>
+
+<p>
+  Our sequence is $c_n = \frac{\sin(n)}{n}$. We suspect it converges to $0$, but $\sin(n)$ is wild
+  and we can't control it directly.
+</p>
+
+<p>
+  Here's the key observation. We proved (Phase 0, page 5) that $-1 \leq \sin(\theta) \leq 1$ for
+  all $\theta$. So in particular, $-1 \leq \sin(n) \leq 1$ for every positive integer $n$.
+  Now divide through by $n$ (which is positive, so the inequalities don't flip):
+</p>
+
+<div class="display-math">$$\frac{-1}{n} \leq \frac{\sin(n)}{n} \leq \frac{1}{n}$$</div>
+
+<p>
+  Look at what we've done. We've trapped $\frac{\sin(n)}{n}$ between two sequences:
+  $a_n = -\frac{1}{n}$ below and $c_n = \frac{1}{n}$ above. Both of these converge to $0$ as
+  $n \to \infty$ (we can verify this directly from the $\varepsilon$-$N$ definition: given $\varepsilon > 0$,
+  pick $N > 1/\varepsilon$, then for $n \geq N$, $|1/n - 0| = 1/n \leq 1/N < \varepsilon$).
+</p>
+
+<p>
+  So $\frac{\sin(n)}{n}$ is squeezed between two sequences that both converge to $0$. It has
+  nowhere to go. No matter how $\sin(n)$ bounces around, dividing by $n$ crushes the oscillation,
+  and the bounds force the result to $0$.
+</p>
+
+<p>
+  This is the squeeze theorem in action. But we haven't proved it yet — we've only seen why it should
+  be true. Let's formalise.
+</p>
+
+<!-- ─── 5. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Archimedes (~250 BC) used exactly this idea to compute the area of a circle. He couldn't
+    compute the area directly — a circle has a curved boundary, and Greek mathematics had no
+    tools for curves. So he <em>trapped</em> the circle between two shapes he could measure:
+    a regular polygon inscribed inside the circle (area too small) and a regular polygon
+    circumscribed outside it (area too large).
+  </p>
+  <p>
+    As the number of sides grows, the inner polygon expands toward the circle and the outer polygon
+    contracts toward it. Both sequences of polygon areas approach the circle's area from opposite sides.
+    Archimedes proved that the gap between them can be made arbitrarily small — which pins down the
+    circle's area exactly. He used this to prove that $A = \pi r^2$.
+  </p>
+  <p>
+    The Greeks called this the <strong>method of exhaustion</strong>. The squeeze theorem is Archimedes'
+    method of exhaustion, translated into the language of sequences and limits — formalised two thousand
+    years later by Cauchy and Weierstrass.
+  </p>
+</div>
+
+<!-- ─── 6. THE THEOREM ─────────────────────────────── -->
+
+<h2>The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Squeeze Theorem</div>
+  <p>
+    Let $(a_n)$, $(b_n)$, $(c_n)$ be sequences of real numbers. Suppose that:
+  </p>
+  <ol>
+    <li>$a_n \leq b_n \leq c_n$ for all $n$ (or at least for all $n$ beyond some threshold), and</li>
+    <li>$\lim_{n \to \infty} a_n = L$ and $\lim_{n \to \infty} c_n = L$ (same limit).</li>
+  </ol>
+  <p>
+    Then $\lim_{n \to \infty} b_n = L$.
+  </p>
+</div>
+
+<!-- ─── 7. UNPACKING ───────────────────────────────── -->
+
+<h2>Unpacking every piece</h2>
+
+<p>
+  <strong>Three sequences, not two.</strong> The middle sequence $b_n$ is the one we can't control.
+  The outer two, $a_n$ and $c_n$, are the trap. We need both sides — one bound alone isn't enough
+  (more on this in the "what breaks" section below).
+</p>
+
+<p>
+  <strong>"For all $n$" can be relaxed.</strong> The inequality $a_n \leq b_n \leq c_n$ only needs
+  to hold eventually — say, for all $n \geq M$ for some fixed $M$. What happens at finitely many
+  early terms is irrelevant to the limit, which only cares about the tail of the sequence.
+</p>
+
+<p>
+  <strong>Same limit $L$ is essential.</strong> If $a_n \to 2$ and $c_n \to 5$, then $b_n$ is
+  trapped between $2$ and $5$ eventually, but that doesn't pin it to a single value.
+  It could converge to $3$, or to $4.7$, or oscillate without converging at all. The squeeze
+  only works when both jaws close to the <em>same</em> point.
+</p>
+
+<!-- ─── 8. THE PROOF ───────────────────────────────── -->
+
+<h2>The proof</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    We must show: for every $\varepsilon > 0$, there exists $N$ such that for all $n \geq N$,
+    $|b_n - L| < \varepsilon$.
+  </p>
+
+  <p>
+    <strong>Step 1.</strong> Fix an arbitrary $\varepsilon > 0$.
+  </p>
+
+  <p>
+    <strong>Step 2.</strong> Since $\lim a_n = L$, the definition of limit gives us an $N_1$
+    such that for all $n \geq N_1$:
+  </p>
+  <div class="display-math">$$|a_n - L| < \varepsilon$$</div>
+  <p>
+    This means $L - \varepsilon < a_n < L + \varepsilon$. We only need the left half:
+    $a_n > L - \varepsilon$.
+  </p>
+
+  <p>
+    <strong>Step 3.</strong> Since $\lim c_n = L$, the definition gives us an $N_2$
+    such that for all $n \geq N_2$:
+  </p>
+  <div class="display-math">$$|c_n - L| < \varepsilon$$</div>
+  <p>
+    This means $L - \varepsilon < c_n < L + \varepsilon$. We only need the right half:
+    $c_n < L + \varepsilon$.
+  </p>
+
+  <p>
+    <strong>Step 4.</strong> Set $N = \max(N_1, N_2)$. For any $n \geq N$, both conditions hold
+    simultaneously. Now chain the inequalities:
+  </p>
+  <div class="display-math">$$L - \varepsilon < a_n \leq b_n \leq c_n < L + \varepsilon$$</div>
+  <p>
+    The first inequality comes from Step 2. The middle two come from the hypothesis
+    $a_n \leq b_n \leq c_n$. The last comes from Step 3.
+  </p>
+
+  <p>
+    <strong>Step 5.</strong> Reading the endpoints: $L - \varepsilon < b_n < L + \varepsilon$,
+    which is exactly $|b_n - L| < \varepsilon$.
+  </p>
+
+  <p>
+    We've shown that for an arbitrary $\varepsilon > 0$, there exists $N$ (namely $\max(N_1, N_2)$)
+    such that $|b_n - L| < \varepsilon$ for all $n \geq N$. By definition, $\lim b_n = L$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<!-- ─── 9. WHY IT WORKS ────────────────────────────── -->
+
+<h2>Why the proof works</h2>
+
+<p>
+  The entire argument is one chain of inequalities. The outer sequences deliver $a_n$ close to $L$
+  from below and $c_n$ close to $L$ from above. The hypothesis $a_n \leq b_n \leq c_n$ forces
+  $b_n$ into the shrinking gap. The gap width is $2\varepsilon$, which we control.
+  That's the whole proof.
+</p>
+
+<!-- ─── 10. SOLVING THE ORIGINAL PROBLEM ───────────── -->
+
+<h2>Solving the original problem</h2>
+
+<p>
+  We can now rigorously finish the problem we started with. Define:
+</p>
+
+<div class="display-math">$$a_n = \frac{-1}{n}, \quad b_n = \frac{\sin(n)}{n}, \quad c_n = \frac{1}{n}$$</div>
+
+<p>
+  Since $|\sin(n)| \leq 1$, we have $a_n \leq b_n \leq c_n$ for all $n \geq 1$.
+  Both $a_n \to 0$ and $c_n \to 0$. By the squeeze theorem:
+</p>
+
+<div class="display-math">$$\lim_{n \to \infty} \frac{\sin(n)}{n} = 0$$</div>
+
+<p>
+  Done. We never needed to know what $\sin(n)$ does. We only needed to know it's bounded.
+</p>
+
+<!-- ─── 11. WHAT BREAKS ────────────────────────────── -->
+
+<h2>What breaks</h2>
+
+<div class="break-box">
+  <div class="label">What breaks if you remove one side?</div>
+  <p>
+    Suppose you only know $b_n \leq c_n$ with $c_n \to 0$. Does $b_n \to 0$?
+  </p>
+  <p>
+    No. Take $b_n = -1$ for all $n$, and $c_n = 1/n$. Then $b_n \leq c_n$ for all $n \geq 1$
+    (since $-1 \leq 1/n$), and $c_n \to 0$. But $b_n \to -1$, not $0$.
+    The upper bound alone tells you $b_n$ doesn't escape upward. It says nothing about where
+    $b_n$ actually goes. You need both jaws of the vice.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks if the limits differ?</div>
+  <p>
+    Suppose $a_n \leq b_n \leq c_n$, but $a_n \to 0$ and $c_n \to 1$. Then $b_n$ is trapped
+    in an interval that shrinks to $[0, 1]$. But $b_n$ could converge to any value in $[0, 1]$,
+    or oscillate between $0.3$ and $0.7$ forever without converging at all. The trap doesn't close
+    to a point, so it can't pin $b_n$ down. The equal-limits hypothesis is what makes the jaws
+    meet — without it, there's room to wander.
+  </p>
+</div>
+
+<!-- ─── 12. A HARDER PROBLEM ───────────────────────── -->
+
+<h2>A harder problem</h2>
+
+<div class="problem-box">
+  <div class="label">Problem</div>
+  <p>
+    Prove that $\displaystyle\lim_{n \to \infty} \frac{n!}{n^n} = 0$.
+  </p>
+</div>
+
+<p>
+  This looks difficult. $n! = 1 \cdot 2 \cdot 3 \cdots n$ grows fast — faster than any polynomial.
+  And $n^n = n \cdot n \cdot n \cdots n$ ($n$ times) also grows fast. Which wins?
+</p>
+
+<p>
+  Write out the ratio as a product:
+</p>
+
+<div class="display-math">$$\frac{n!}{n^n} = \frac{1}{n} \cdot \frac{2}{n} \cdot \frac{3}{n} \cdots \frac{n}{n}$$</div>
+
+<p>
+  Every factor $\frac{k}{n}$ satisfies $0 < \frac{k}{n} \leq 1$ (since $1 \leq k \leq n$).
+  The last factor is exactly $1$. But the <em>first</em> factor is $\frac{1}{n}$, which is tiny.
+  So the whole product is at most:
+</p>
+
+<div class="display-math">$$0 < \frac{n!}{n^n} = \frac{1}{n} \cdot \underbrace{\frac{2}{n} \cdot \frac{3}{n} \cdots \frac{n}{n}}_{\leq\, 1 \text{ (each factor} \leq 1\text{)}} \leq \frac{1}{n}$$</div>
+
+<p>
+  Now squeeze. We have $0 \leq \frac{n!}{n^n} \leq \frac{1}{n}$ for all $n \geq 1$.
+  The left side is the constant sequence $0$ (limit $0$). The right side is $\frac{1}{n}$ (limit $0$).
+  By the squeeze theorem:
+</p>
+
+<div class="display-math">$$\lim_{n \to \infty} \frac{n!}{n^n} = 0$$</div>
+
+<p>
+  Factorials grow fast, but $n^n$ grows faster. The squeeze theorem told us this without computing
+  a single value of $n!$ — we just needed the bound.
+</p>
+
+<!-- ─── 13. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  When you can't control a sequence directly, trap it between two you can.
+  If they converge to the same limit, so does yours.
+</div>
+
+<!-- ─── NAV ────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="01-completeness.html">&larr; Previous: Completeness of &#8477;</a>
+  <a href="03-monotone-convergence.html">Next: Monotone Convergence Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

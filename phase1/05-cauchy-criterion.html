@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cauchy Criterion — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Cauchy Criterion</h1>
+<p class="subtitle">Convergence Without Knowing the Limit — Phase 1, Page 5</p>
+
+<!-- ─── 1. THE PROBLEM ─────────────────────────────── -->
+
+<h2>The problem</h2>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Define a sequence by
+  </p>
+  <div class="display-math">$$a_n = 1 + \frac{1}{2} + \frac{1}{3} + \cdots + \frac{1}{n} - \ln(n)$$</div>
+  <p>
+    This is the sequence whose limit is the <strong>Euler-Mascheroni constant</strong>
+    $\gamma \approx 0.5772$. Does it converge?
+  </p>
+  <p>
+    You can't use the squeeze theorem — there are no obvious bounds that pinch. You can't
+    use the monotone convergence theorem easily — showing the sequence is monotone requires
+    work, and showing it's bounded requires already knowing something about the limit.
+    And crucially: <strong>you don't know the limit</strong>. The constant $\gamma$ is one of
+    the most mysterious numbers in mathematics. To this day, nobody knows if it's rational
+    or irrational. How do you prove a sequence converges when you don't know what it converges to?
+  </p>
+</div>
+
+<!-- ─── 2. THE IDEA ────────────────────────────────── -->
+
+<h2>The idea</h2>
+
+<p>
+  Forget about the limit. Instead, ask a different question entirely: are the terms getting
+  closer to <em>each other</em>?
+</p>
+
+<p>
+  If $a_{100}$ and $a_{101}$ are close, and $a_{101}$ and $a_{102}$ are close, and this
+  closeness gets arbitrarily tight as you go further out... then the terms are
+  <strong>clustering</strong>. They're piling up in some tiny region of the number line.
+  They might not know where they're going, but they're all heading to the same place.
+</p>
+
+<p>
+  In $\mathbb{R}$ — which is complete, has no holes — clustering implies convergence.
+  That's the whole insight. We don't need to name the limit. We just need to verify
+  that the terms are squeezing together.
+</p>
+
+<!-- ─── 3. DEFINITION ──────────────────────────────── -->
+
+<h2>Cauchy sequences</h2>
+
+<p>
+  A sequence $(a_n)$ is called a <strong>Cauchy sequence</strong> if: for every
+  $\varepsilon > 0$, there exists $N \in \mathbb{N}$ such that for all $m, n \geq N$,
+</p>
+<div class="display-math">$$|a_m - a_n| < \varepsilon$$</div>
+
+<p>
+  Read it carefully. This says: beyond some point $N$, <em>all</em> pairs of terms
+  are within $\varepsilon$ of each other. Not just consecutive terms — any two terms
+  past $N$. Pick $\varepsilon = 0.001$: there's some $N$ past which every pair is within
+  $0.001$. Pick $\varepsilon = 10^{-100}$: there's some (much larger) $N$ past which
+  every pair is within $10^{-100}$.
+</p>
+
+<!-- ─── 4. COMPARISON ──────────────────────────────── -->
+
+<h2>Compare to convergence</h2>
+
+<p>
+  The definition of convergence says: "the terms get close to $L$." There's a target.
+</p>
+<div class="display-math">$$\forall \varepsilon > 0, \; \exists N, \; \forall n \geq N: \quad |a_n - L| < \varepsilon$$</div>
+
+<p>
+  The Cauchy condition says: "the terms get close to each other." No target.
+</p>
+<div class="display-math">$$\forall \varepsilon > 0, \; \exists N, \; \forall m, n \geq N: \quad |a_m - a_n| < \varepsilon$$</div>
+
+<p>
+  The Cauchy condition only looks at the <em>terms</em>. It never mentions a limit.
+  That's its power — and the reason it can handle sequences like $(a_n)$ above,
+  where the limit exists but nobody can write it down.
+</p>
+
+<!-- ─── 5. THEOREM ─────────────────────────────────── -->
+
+<div class="theorem-box">
+  <div class="label">Theorem (Cauchy criterion)</div>
+  <p>
+    A sequence in $\mathbb{R}$ converges if and only if it is a Cauchy sequence.
+  </p>
+</div>
+
+<p>
+  Two directions. One is easy, one is the whole point.
+</p>
+
+<!-- ─── 6. EASY DIRECTION ──────────────────────────── -->
+
+<h2>The easy direction: convergent implies Cauchy</h2>
+
+<div class="proof-box">
+  <div class="label">Proof (⟹)</div>
+
+  <p>
+    Suppose $a_n \to L$. Fix $\varepsilon > 0$. By convergence, there exists $N$ such
+    that for all $n \geq N$:
+  </p>
+  <div class="display-math">$$|a_n - L| < \frac{\varepsilon}{2}$$</div>
+  <p>
+    Now take any $m, n \geq N$. By the triangle inequality:
+  </p>
+  <div class="display-math">$$|a_m - a_n| = |a_m - L + L - a_n| \leq |a_m - L| + |L - a_n| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon$$</div>
+  <p>
+    So $(a_n)$ is Cauchy.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Nothing surprising here. If all terms are close to $L$, they're automatically close
+  to each other — $L$ acts as a relay point. The triangle inequality makes it formal.
+</p>
+
+<!-- ─── 7. HARD DIRECTION ──────────────────────────── -->
+
+<h2>The hard direction: Cauchy implies convergent</h2>
+
+<p>
+  This is where completeness enters. This is why the theorem is interesting.
+  We have a Cauchy sequence — terms clustering together — and we need to produce a
+  limit. The proof has three steps, each building on something we've already proved.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof (⟸)</div>
+
+  <p>
+    Let $(a_n)$ be a Cauchy sequence in $\mathbb{R}$.
+  </p>
+
+  <p>
+    <strong>Step 1. A Cauchy sequence is bounded.</strong>
+  </p>
+  <p>
+    Apply the Cauchy condition with $\varepsilon = 1$. There exists $N$ such that for all
+    $m, n \geq N$: $|a_m - a_n| < 1$. In particular, for all $n \geq N$:
+    $|a_n - a_N| < 1$, so $|a_n| < |a_N| + 1$. The finitely many terms
+    $a_1, a_2, \ldots, a_{N-1}$ are bounded by their maximum. Therefore:
+  </p>
+  <div class="display-math">$$|a_n| \leq \max\{|a_1|, |a_2|, \ldots, |a_{N-1}|, |a_N| + 1\} \quad \text{for all } n$$</div>
+  <p>
+    The sequence is bounded.
+  </p>
+
+  <p>
+    <strong>Step 2. Extract a convergent subsequence.</strong>
+  </p>
+  <p>
+    By <strong>Bolzano-Weierstrass</strong> (page 04), every bounded sequence in $\mathbb{R}$
+    has a convergent subsequence. So there exists a subsequence $a_{n_k} \to L$ for some
+    $L \in \mathbb{R}$.
+  </p>
+
+  <p>
+    <strong>Step 3. The full sequence converges to $L$.</strong>
+  </p>
+  <p>
+    Fix $\varepsilon > 0$. We need to show $|a_n - L| < \varepsilon$ for all large $n$.
+  </p>
+  <p>
+    Since $(a_n)$ is Cauchy: there exists $N_1$ such that for all $m, n \geq N_1$:
+  </p>
+  <div class="display-math">$$|a_m - a_n| < \frac{\varepsilon}{2}$$</div>
+  <p>
+    Since $a_{n_k} \to L$: there exists $k_0$ such that $n_{k_0} \geq N_1$ and:
+  </p>
+  <div class="display-math">$$|a_{n_{k_0}} - L| < \frac{\varepsilon}{2}$$</div>
+  <p>
+    Now for any $n \geq N_1$, using the triangle inequality with $a_{n_{k_0}}$ as relay:
+  </p>
+  <div class="display-math">$$|a_n - L| \leq |a_n - a_{n_{k_0}}| + |a_{n_{k_0}} - L| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon$$</div>
+  <p>
+    Therefore $a_n \to L$.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Look at what just happened. We never guessed $L$. We never wrote it down
+  explicitly. Step 2 merely asserts its <em>existence</em> — Bolzano-Weierstrass guarantees
+  some convergent subsequence, which hands us a limit for free. Step 3 then shows the
+  full sequence must go to that same limit, because Cauchy means the terms can't wander
+  far from any subsequence.
+</p>
+
+<!-- ─── 8. THE DEPENDENCY CHAIN ────────────────────── -->
+
+<h2>The dependency chain</h2>
+
+<p>
+  Notice how each theorem we've built stands on the previous:
+</p>
+
+<ol>
+  <li><strong>Completeness</strong> (axiom) — $\mathbb{R}$ has no holes; every non-empty bounded set has a supremum.</li>
+  <li><strong>Monotone Convergence Theorem</strong> (page 02) — uses the supremum from completeness.</li>
+  <li><strong>Bolzano-Weierstrass</strong> (page 04) — uses MCT to extract convergent subsequences.</li>
+  <li><strong>Cauchy criterion</strong> (this page) — uses BW to produce limits from clustering sequences.</li>
+</ol>
+
+<p>
+  Each page depends on the previous. Remove any link and the chain breaks.
+  Completeness is the foundation; the Cauchy criterion is the most powerful
+  consequence we've reached so far.
+</p>
+
+<!-- ─── 9. HISTORY ─────────────────────────────────── -->
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy formulated this criterion in his 1821 <em>Cours d'analyse</em>, as part of
+    his programme to make analysis rigorous. He was the first to define convergence in
+    terms of the terms themselves rather than vague appeals to "approaching a value."
+  </p>
+  <p>
+    The Cauchy criterion is <strong>equivalent to completeness</strong>: $\mathbb{R}$ is
+    complete if and only if every Cauchy sequence converges. In fact, one way to
+    <em>construct</em> $\mathbb{R}$ from $\mathbb{Q}$ (Cantor, 1872) is to define real
+    numbers as equivalence classes of Cauchy sequences of rationals. Two Cauchy sequences
+    are equivalent if their difference converges to zero. Under this construction, $\sqrt{2}$
+    <em>is</em> the equivalence class containing $1, 1.4, 1.41, 1.414, \ldots$
+  </p>
+  <p>
+    The Cauchy criterion isn't just a convergence test. It's an alternative
+    <em>definition</em> of what $\mathbb{R}$ is.
+  </p>
+</div>
+
+<!-- ─── 10. WHAT BREAKS ────────────────────────────── -->
+
+<h2>What breaks</h2>
+
+<div class="break-box">
+  <div class="label">What breaks in ℚ</div>
+  <p>
+    The sequence $1, \; 1.4, \; 1.41, \; 1.414, \; 1.4142, \; \ldots$ (decimal
+    approximations of $\sqrt{2}$) is Cauchy in $\mathbb{Q}$ — the terms get
+    arbitrarily close to each other. But the sequence does not converge in $\mathbb{Q}$,
+    because $\sqrt{2} \notin \mathbb{Q}$. The Cauchy criterion <strong>fails</strong>
+    in $\mathbb{Q}$.
+  </p>
+  <p>
+    This is exactly the "holes in $\mathbb{Q}$" from Phase 0, page 3. The terms cluster
+    around a point that doesn't exist in your number system. Completeness is what fills
+    that hole.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks without "for all m, n"</div>
+  <p>
+    You might think it's enough to require consecutive terms to be close:
+    $|a_{n+1} - a_n| \to 0$. It isn't. Consider the harmonic partial sums:
+  </p>
+  <div class="display-math">$$H_n = 1 + \frac{1}{2} + \frac{1}{3} + \cdots + \frac{1}{n}$$</div>
+  <p>
+    Here $|H_{n+1} - H_n| = \frac{1}{n+1} \to 0$. Consecutive terms are getting
+    arbitrarily close. But $H_n \to \infty$ — the sequence diverges. The problem:
+    consecutive closeness lets the sequence <em>drift</em>. Each step is tiny, but
+    infinitely many tiny steps can still carry you to infinity.
+  </p>
+  <p>
+    The Cauchy condition demands that <em>all</em> pairs $m, n \geq N$ be close,
+    not just neighbours. That's what prevents the drift. For $H_n$, taking
+    $m = 2n$ gives $|H_{2n} - H_n| \geq 1/2$ for all $n$ — the sequence fails the
+    Cauchy condition, as it should.
+  </p>
+</div>
+
+<!-- ─── 11. BACK TO THE EULER-MASCHERONI CONSTANT ── -->
+
+<h2>Back to the original problem</h2>
+
+<p>
+  We opened with $a_n = H_n - \ln(n)$. Can we now prove it converges?
+</p>
+
+<p>
+  Yes — and the Cauchy criterion is one path. For $m > n$:
+</p>
+<div class="display-math">$$|a_m - a_n| = \left|\sum_{k=n+1}^{m} \frac{1}{k} - \ln\!\left(\frac{m}{n}\right)\right|$$</div>
+<p>
+  The sum $\sum_{k=n+1}^{m} 1/k$ approximates $\int_n^m (1/x)\,dx = \ln(m/n)$ with
+  error bounded by $1/n$ (comparison of sum and integral). So $|a_m - a_n| \leq 1/n$,
+  which can be made arbitrarily small. The sequence is Cauchy, hence convergent — and we
+  never needed to know that the limit is $\gamma \approx 0.5772$.
+</p>
+
+<!-- ─── 12. ONE-LINER ──────────────────────────────── -->
+
+<hr>
+
+<div class="oneliner">
+  If the terms of a sequence are getting arbitrarily close to each other,
+  they must be converging to something — you just don't need to know what.
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+
+<div class="nav">
+  <a href="04-bolzano-weierstrass.html">← Previous: Bolzano-Weierstrass Theorem</a>
+  <a href="06-ivt.html">Next: Connected Sets and the IVT →</a>
+</div>
+
+</body>
+</html>
