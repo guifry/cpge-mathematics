@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrability and Properties &mdash; Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Integrability and Properties</h1>
+<p class="subtitle">Phase 2 &mdash; Calculus, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    On the <a href="06-riemann-integral.html">previous page</a> we defined the Riemann
+    integral using upper and lower sums. We showed $x^2$ is integrable by explicit
+    computation. We showed Dirichlet&rsquo;s function is <em>not</em> integrable. But
+    computing upper and lower sums by hand for every function is impractical &mdash; we
+    need a general theorem telling us which functions are integrable.
+  </p>
+  <p>
+    Once we know a function is integrable, we need algebraic properties: can we integrate
+    sums? Pull out constants? Compare integrals? Split the interval? All of these must be
+    proved from the definition, not assumed. The key tool is <strong>uniform
+    continuity</strong> &mdash; a strengthening of continuity that only works on closed
+    bounded intervals.
+  </p>
+</div>
+
+<h2>1. Uniform continuity</h2>
+
+<p>
+  Ordinary continuity says: at each point $x$, for every $\varepsilon > 0$ there exists
+  $\delta > 0$ such that $|y - x| < \delta$ implies $|f(y) - f(x)| < \varepsilon$. The
+  crucial detail is that $\delta$ can depend on the point $x$. Near a steep part of the
+  graph, $\delta$ might be tiny; near a flat part, $\delta$ might be large.
+</p>
+
+<p>
+  Uniform continuity removes this dependence: <strong>one $\delta$ works for all points
+  simultaneously</strong>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Uniform continuity</div>
+  <p>
+    A function $f$ is <strong>uniformly continuous</strong> on $[a, b]$ if: for every
+    $\varepsilon > 0$, there exists $\delta > 0$ such that for <em>all</em>
+    $x, y \in [a, b]$ with $|x - y| < \delta$, we have $|f(x) - f(y)| < \varepsilon$.
+  </p>
+</div>
+
+<p>
+  The quantifier order matters. In ordinary continuity: $\forall x,\; \forall \varepsilon,\;
+  \exists \delta$. In uniform continuity: $\forall \varepsilon,\; \exists \delta,\;
+  \forall x, y$. The $\delta$ is chosen <em>before</em> the points are, so it cannot
+  depend on them.
+</p>
+
+<p>
+  On a closed bounded interval, continuity automatically upgrades to uniform continuity.
+  This is Heine&rsquo;s theorem.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Heine&rsquo;s theorem</div>
+  <p>
+    If $f$ is continuous on a closed bounded interval $[a, b]$, then $f$ is uniformly
+    continuous on $[a, b]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (by contradiction, using Bolzano&ndash;Weierstrass)</div>
+  <p>
+    Suppose $f$ is continuous on $[a, b]$ but <em>not</em> uniformly continuous. Then
+    there exists $\varepsilon_0 > 0$ such that for every $\delta > 0$, there exist
+    points $x, y \in [a, b]$ with $|x - y| < \delta$ but $|f(x) - f(y)| \geq
+    \varepsilon_0$.
+  </p>
+  <p>
+    Taking $\delta = 1/n$ for each $n \in \mathbb{N}$, we get sequences $(x_n)$ and
+    $(y_n)$ in $[a, b]$ with
+  </p>
+  <div class="display-math">$$|x_n - y_n| < \frac{1}{n} \quad \text{but} \quad |f(x_n) - f(y_n)| \geq \varepsilon_0$$</div>
+  <p>
+    The sequence $(x_n)$ is bounded (it lives in $[a, b]$), so by Bolzano&ndash;Weierstrass
+    (<a href="../phase1/04-bolzano-weierstrass.html">Phase 1, page 4</a>) it has a
+    convergent subsequence: $x_{n_k} \to c$ for some $c \in [a, b]$.
+  </p>
+  <p>
+    Since $|x_{n_k} - y_{n_k}| < 1/n_k \to 0$, we also have $y_{n_k} \to c$.
+  </p>
+  <p>
+    By continuity of $f$ at $c$: $f(x_{n_k}) \to f(c)$ and $f(y_{n_k}) \to f(c)$. So
+    $|f(x_{n_k}) - f(y_{n_k})| \to 0$. But we required
+    $|f(x_{n_k}) - f(y_{n_k})| \geq \varepsilon_0 > 0$ for all $k$ &mdash; contradiction.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>2. Continuous functions are Riemann integrable</h2>
+
+<p>
+  This is the main theorem of the page. The proof combines uniform continuity with the
+  Riemann integrability criterion: $f$ is integrable if and only if for every
+  $\varepsilon > 0$, there exists a partition $P$ with $U(f, P) - L(f, P) < \varepsilon$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Integrability of continuous functions</div>
+  <p>
+    If $f$ is continuous on $[a, b]$, then $f$ is Riemann integrable on $[a, b]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $\varepsilon > 0$. We need a partition $P$ with $U(f, P) - L(f, P) < \varepsilon$.
+  </p>
+  <p>
+    <strong>Step 1. Get a uniform $\delta$.</strong>
+    Since $f$ is continuous on the closed bounded interval $[a, b]$, Heine&rsquo;s theorem
+    gives uniform continuity. So there exists $\delta > 0$ such that for all
+    $x, y \in [a, b]$ with $|x - y| < \delta$:
+  </p>
+  <div class="display-math">$$|f(x) - f(y)| < \frac{\varepsilon}{b - a}$$</div>
+  <p>
+    <strong>Step 2. Choose a fine partition.</strong>
+    Pick any partition $P = \{x_0, x_1, \ldots, x_n\}$ of $[a, b]$ with every subinterval
+    of width less than $\delta$: $\Delta x_i = x_i - x_{i-1} < \delta$ for all $i$.
+  </p>
+  <p>
+    <strong>Step 3. Bound the oscillation on each subinterval.</strong>
+    On $[x_{i-1}, x_i]$, let $M_i = \sup f$ and $m_i = \inf f$. Any two points in this
+    subinterval are within $\delta$ of each other (since the subinterval has width
+    $< \delta$). By uniform continuity, the values of $f$ at any two such points differ
+    by less than $\varepsilon / (b - a)$. In particular, the oscillation satisfies
+  </p>
+  <div class="display-math">$$M_i - m_i \leq \frac{\varepsilon}{b - a}$$</div>
+  <p>
+    <strong>Step 4. Sum.</strong>
+  </p>
+  <div class="display-math">$$U(f, P) - L(f, P) = \sum_{i=1}^{n} (M_i - m_i)\,\Delta x_i \leq \frac{\varepsilon}{b - a} \sum_{i=1}^{n} \Delta x_i = \frac{\varepsilon}{b - a} \cdot (b - a) = \varepsilon$$</div>
+  <p>
+    So for any $\varepsilon > 0$, a fine enough partition makes $U - L < \varepsilon$.
+    By the integrability criterion, $f$ is Riemann integrable.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof is clean because uniform continuity gives us a <em>single</em> $\delta$ that
+  controls the oscillation on <em>every</em> subinterval simultaneously. With ordinary
+  continuity, the $\delta$ at each point might shrink unpredictably, and we couldn&rsquo;t
+  guarantee a uniform bound on $M_i - m_i$.
+</p>
+
+<h2>3. Monotone functions are integrable</h2>
+
+<p>
+  Continuous functions aren&rsquo;t the only integrable ones. Monotone functions are
+  integrable too &mdash; even if they have jump discontinuities.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Integrability of monotone functions</div>
+  <p>
+    If $f$ is monotone (increasing or decreasing) on $[a, b]$, then $f$ is Riemann
+    integrable on $[a, b]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (for $f$ increasing; decreasing is identical)</div>
+  <p>
+    Let $\varepsilon > 0$. Use the uniform partition with $n$ subintervals:
+    $x_i = a + i(b - a)/n$, so $\Delta x_i = (b - a)/n$ for all $i$.
+  </p>
+  <p>
+    Since $f$ is increasing, on $[x_{i-1}, x_i]$ the supremum is $M_i = f(x_i)$ and the
+    infimum is $m_i = f(x_{i-1})$. So
+  </p>
+  <div class="display-math">$$U(f, P) - L(f, P) = \sum_{i=1}^{n} \bigl(f(x_i) - f(x_{i-1})\bigr) \cdot \frac{b - a}{n}$$</div>
+  <p>
+    The sum is telescoping:
+  </p>
+  <div class="display-math">$$= \frac{b - a}{n} \cdot \bigl(f(b) - f(a)\bigr)$$</div>
+  <p>
+    For any $\varepsilon > 0$, choose $n$ large enough that
+    $(b - a)(f(b) - f(a))/n < \varepsilon$. Then $U(f, P) - L(f, P) < \varepsilon$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Notice: we never assumed continuity. A monotone function on $[a, b]$ can have countably
+  many jump discontinuities (for instance, a staircase function with jumps at every
+  rational) and is still integrable. The telescoping trick makes the total oscillation
+  depend only on $f(b) - f(a)$, regardless of what happens in between.
+</p>
+
+<h2>4. Properties of the integral</h2>
+
+<p>
+  We now know that continuous and monotone functions are integrable. For the rest of this
+  section, assume all functions mentioned are integrable on $[a, b]$. We prove the
+  algebraic properties directly from the definition.
+</p>
+
+<h3>Linearity</h3>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Linearity of the integral</div>
+  <p>
+    If $f$ and $g$ are integrable on $[a, b]$ and $\alpha, \beta \in \mathbb{R}$, then
+    $\alpha f + \beta g$ is integrable on $[a, b]$ and
+  </p>
+  <div class="display-math">$$\int_a^b \bigl(\alpha f + \beta g\bigr) = \alpha \int_a^b f + \beta \int_a^b g$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (in two steps)</div>
+  <p>
+    <strong>Step 1. Constant multiple: $\int \alpha f = \alpha \int f$.</strong>
+    If $\alpha \geq 0$: on any subinterval, $\sup(\alpha f) = \alpha \sup f$ and
+    $\inf(\alpha f) = \alpha \inf f$. So $U(\alpha f, P) = \alpha\, U(f, P)$ and
+    $L(\alpha f, P) = \alpha\, L(f, P)$. Taking the infimum of upper sums and supremum of
+    lower sums gives $\int \alpha f = \alpha \int f$.
+  </p>
+  <p>
+    If $\alpha < 0$: then $\sup(\alpha f) = \alpha \inf f$ and $\inf(\alpha f) = \alpha
+    \sup f$ (multiplying by a negative number reverses the order). So
+    $U(\alpha f, P) = \alpha\, L(f, P)$ and $L(\alpha f, P) = \alpha\, U(f, P)$.
+    Taking infimum and supremum again gives $\int \alpha f = \alpha \int f$.
+  </p>
+  <p>
+    <strong>Step 2. Sum: $\int (f + g) = \int f + \int g$.</strong>
+    On each subinterval, $\sup(f + g) \leq \sup f + \sup g$ (the sum of two functions can&rsquo;t
+    exceed the sum of their individual suprema &mdash; the suprema might occur at different
+    points). So $U(f + g, P) \leq U(f, P) + U(g, P)$.
+  </p>
+  <p>
+    Similarly, $\inf(f + g) \geq \inf f + \inf g$, giving
+    $L(f + g, P) \geq L(f, P) + L(g, P)$.
+  </p>
+  <p>
+    Therefore:
+  </p>
+  <div class="display-math">$$L(f, P) + L(g, P) \leq L(f + g, P) \leq \int_a^b (f + g) \leq U(f + g, P) \leq U(f, P) + U(g, P)$$</div>
+  <p>
+    Since $f$ and $g$ are integrable, for any $\varepsilon > 0$ we can find a common
+    refinement $P$ making $U(f, P) - L(f, P) < \varepsilon$ and
+    $U(g, P) - L(g, P) < \varepsilon$. The squeeze gives
+    $\int (f + g) = \int f + \int g$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h3>Monotonicity</h3>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Monotonicity of the integral</div>
+  <p>
+    If $f(x) \leq g(x)$ for all $x \in [a, b]$, then
+    $\displaystyle\int_a^b f \leq \int_a^b g$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    On each subinterval $[x_{i-1}, x_i]$, $\inf f \leq \inf g$ (since $f \leq g$
+    pointwise). So $L(f, P) \leq L(g, P)$ for every partition $P$. Taking the supremum
+    over all partitions: $\int_a^b f = \sup_P L(f, P) \leq \sup_P L(g, P) = \int_a^b g$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h3>Absolute value inequality</h3>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Triangle inequality for integrals</div>
+  <p>
+    If $f$ is integrable on $[a, b]$, then $|f|$ is integrable and
+    $\displaystyle\left|\int_a^b f\right| \leq \int_a^b |f|$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Since $-|f(x)| \leq f(x) \leq |f(x)|$ for all $x$, monotonicity gives
+  </p>
+  <div class="display-math">$$-\int_a^b |f| \leq \int_a^b f \leq \int_a^b |f|$$</div>
+  <p>
+    which is exactly $\left|\int_a^b f\right| \leq \int_a^b |f|$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h3>Additivity over intervals</h3>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Additivity (Chasles&rsquo;s relation)</div>
+  <p>
+    If $f$ is integrable on $[a, c]$ and $a < b < c$, then
+  </p>
+  <div class="display-math">$$\int_a^c f = \int_a^b f + \int_b^c f$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $P$ be any partition of $[a, c]$. Let $P^* = P \cup \{b\}$ be the refinement that
+    includes the splitting point $b$. Refinement can only decrease $U - L$, so
+    $U(f, P^*) \leq U(f, P)$ and $L(f, P^*) \geq L(f, P)$.
+  </p>
+  <p>
+    The partition $P^*$ splits naturally into a partition $P_1$ of $[a, b]$ and a partition
+    $P_2$ of $[b, c]$. Their upper and lower sums add:
+  </p>
+  <div class="display-math">$$U(f, P^*) = U(f, P_1) + U(f, P_2), \qquad L(f, P^*) = L(f, P_1) + L(f, P_2)$$</div>
+  <p>
+    Taking infimum of upper sums and supremum of lower sums over all such split
+    partitions gives $\int_a^c f = \int_a^b f + \int_b^c f$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. The integral as a function of its upper limit</h2>
+
+<p>
+  Everything so far treats the integral as a number. Now we let the upper limit vary. Fix
+  $a$ and define, for each $x \in [a, b]$:
+</p>
+
+<div class="display-math">$$F(x) = \int_a^x f(t)\, dt$$</div>
+
+<p>
+  This is a function of $x$. As $x$ increases from $a$ to $b$, $F(x)$ accumulates the
+  signed area under $f$ from $a$ to $x$. Note $F(a) = 0$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; $F$ is continuous</div>
+  <p>
+    If $f$ is integrable on $[a, b]$, then $F(x) = \int_a^x f$ is continuous on $[a, b]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Since $f$ is integrable on $[a, b]$, it is bounded: there exists $M > 0$ with
+    $|f(t)| \leq M$ for all $t \in [a, b]$. For any $x, x + h \in [a, b]$:
+  </p>
+  <div class="display-math">$$|F(x + h) - F(x)| = \left|\int_x^{x+h} f(t)\, dt\right| \leq \int_x^{x+h} |f(t)|\, dt \leq M \cdot |h|$$</div>
+  <p>
+    Given $\varepsilon > 0$, take $\delta = \varepsilon / M$. Then $|h| < \delta$ implies
+    $|F(x + h) - F(x)| \leq M \cdot |h| < \varepsilon$. So $F$ is continuous
+    (in fact, Lipschitz continuous).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This result is stronger than it looks. The function $f$ itself might have jump
+  discontinuities (as long as it remains integrable). Yet $F$ is always continuous &mdash;
+  integration smooths out jumps. On the <a href="08-fundamental-theorem.html">next page</a>,
+  we go further: if $f$ is continuous at a point $x_0$, then $F$ is <em>differentiable</em>
+  at $x_0$ with $F'(x_0) = f(x_0)$. That is the Fundamental Theorem of Calculus.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Eduard Heine proved in 1872 that continuity on a closed interval implies uniform
+    continuity. His proof used what we now call the Heine&ndash;Borel theorem: every open
+    cover of $[a, b]$ has a finite subcover. The sequential proof we gave above (via
+    Bolzano&ndash;Weierstrass) is equivalent &mdash; both rely on <strong>compactness</strong>
+    of $[a, b]$ (closed + bounded in $\mathbb{R}$). In topology, compactness is the
+    property that does the heavy lifting whenever you need to extract a finite amount of
+    control from infinitely many local conditions.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks on open intervals</div>
+  <p>
+    On an open interval $(a, b)$, continuous does <em>not</em> imply uniformly continuous.
+    Consider $f(x) = \sin(1/x)$ on $(0, 1)$. This function is continuous, but near $x = 0$
+    it oscillates between $-1$ and $+1$ with increasing rapidity. For any $\delta > 0$,
+    there exist points $x, y \in (0, \delta)$ with $|x - y| < \delta$ but
+    $|f(x) - f(y)| = 2$. No single $\delta$ works for $\varepsilon = 1$.
+  </p>
+  <p>
+    On the closed interval $[a, b]$, the boundary points are trapped: Bolzano&ndash;Weierstrass
+    forces the subsequence to converge <em>inside</em> the interval. On an open interval,
+    the sequences can escape towards the boundary, where continuity provides no control.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Continuous on a closed interval means integrable &mdash; uniform continuity forces the
+  upper and lower sums to agree.
+</div>
+
+<div class="nav">
+  <a href="06-riemann-integral.html">&larr; Previous: The Riemann Integral</a>
+  <a href="08-fundamental-theorem.html">Next: The Fundamental Theorem of Calculus &rarr;</a>
+</div>
+
+</body>
+</html>

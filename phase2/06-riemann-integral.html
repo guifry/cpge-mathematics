@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Riemann Integral — Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Riemann Integral</h1>
+<p class="subtitle">Phase 2 — Calculus, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Archimedes, around 250 BC, wanted the area under the parabola $y = x^2$ from $0$ to $1$.
+    He could measure rectangles — base times height — but not curved regions. His idea: fill
+    the region with rectangles. Thin rectangles fitting inside the curve give an underestimate.
+    Thin rectangles containing the curve give an overestimate. Make them thinner. If both estimates
+    converge to the same number, that number must be the area.
+  </p>
+  <p>
+    Two thousand years later, Riemann (1854) turned this into a precise definition. The construction
+    uses only two ingredients: partitions of an interval, and the completeness of $\mathbb{R}$
+    (Phase 1, page 1) — specifically, that bounded sets have suprema and infima.
+  </p>
+</div>
+
+<h2>1. Partitions</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition — Partition</div>
+  <p>
+    A <em>partition</em> $P$ of a closed interval $[a,b]$ is a finite set of points
+  </p>
+  <div class="display-math">$$P = \{x_0, x_1, x_2, \ldots, x_n\} \quad \text{with} \quad a = x_0 < x_1 < x_2 < \cdots < x_n = b$$</div>
+  <p>
+    This divides $[a,b]$ into $n$ subintervals $[x_{i-1}, x_i]$ for $i = 1, 2, \ldots, n$.
+    The <em>width</em> of the $i$-th subinterval is $\Delta x_i = x_i - x_{i-1}$.
+  </p>
+</div>
+
+<p>
+  The subintervals need not have equal width. The simplest partition is the <em>uniform</em> one,
+  where $x_i = a + i \cdot \frac{b-a}{n}$ and every $\Delta x_i = \frac{b-a}{n}$. But the
+  definition deliberately allows unequal widths — this flexibility is essential for the theory.
+</p>
+
+<h2>2. Upper and lower sums</h2>
+
+<p>
+  Let $f : [a,b] \to \mathbb{R}$ be a <em>bounded</em> function. On each subinterval
+  $[x_{i-1}, x_i]$, the values of $f$ form a bounded set. By completeness (Phase 1, page 1),
+  the supremum and infimum of this set exist in $\mathbb{R}$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition — Upper and lower sums</div>
+  <p>
+    Let $f$ be bounded on $[a,b]$ and let $P = \{x_0, \ldots, x_n\}$ be a partition. Define:
+  </p>
+  <div class="display-math">$$M_i = \sup\{f(x) : x \in [x_{i-1}, x_i]\}, \qquad m_i = \inf\{f(x) : x \in [x_{i-1}, x_i]\}$$</div>
+  <p>
+    The <em>upper sum</em> of $f$ with respect to $P$ is:
+  </p>
+  <div class="display-math">$$U(f, P) = \sum_{i=1}^{n} M_i \,\Delta x_i$$</div>
+  <p>
+    The <em>lower sum</em> of $f$ with respect to $P$ is:
+  </p>
+  <div class="display-math">$$L(f, P) = \sum_{i=1}^{n} m_i \,\Delta x_i$$</div>
+</div>
+
+<p>
+  Geometrically: $U(f,P)$ is the total area of rectangles that sit <em>above</em> the graph on each
+  subinterval (using the highest point). $L(f,P)$ is the total area of rectangles that sit
+  <em>below</em> the graph (using the lowest point). Since $m_i \leq M_i$ on every subinterval,
+  we always have $L(f,P) \leq U(f,P)$. The true area — if it exists — is trapped between them.
+</p>
+
+<h2>3. Worked example: $f(x) = x^2$ on $[0,1]$</h2>
+
+<p>
+  Take the uniform partition of $[0,1]$ into $n$ equal parts: $x_i = \frac{i}{n}$ for
+  $i = 0, 1, \ldots, n$, so $\Delta x_i = \frac{1}{n}$ for all $i$.
+</p>
+
+<p>
+  On the subinterval $[x_{i-1}, x_i] = \left[\frac{i-1}{n},\, \frac{i}{n}\right]$, the function
+  $x^2$ is increasing (since $x \geq 0$). So the infimum is at the left endpoint and the supremum
+  at the right:
+</p>
+
+<div class="display-math">$$m_i = \left(\frac{i-1}{n}\right)^2 = \frac{(i-1)^2}{n^2}, \qquad M_i = \left(\frac{i}{n}\right)^2 = \frac{i^2}{n^2}$$</div>
+
+<p>
+  The lower sum:
+</p>
+
+<div class="display-math">$$L(f, P) = \sum_{i=1}^{n} \frac{(i-1)^2}{n^2} \cdot \frac{1}{n} = \frac{1}{n^3} \sum_{i=1}^{n} (i-1)^2 = \frac{1}{n^3} \sum_{j=0}^{n-1} j^2$$</div>
+
+<p>
+  The upper sum:
+</p>
+
+<div class="display-math">$$U(f, P) = \sum_{i=1}^{n} \frac{i^2}{n^2} \cdot \frac{1}{n} = \frac{1}{n^3} \sum_{i=1}^{n} i^2$$</div>
+
+<p>
+  We use the identity $\displaystyle\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}$ (stated without
+  proof here; it follows by induction). Then:
+</p>
+
+<div class="display-math">$$U(f, P) = \frac{1}{n^3} \cdot \frac{n(n+1)(2n+1)}{6} = \frac{(n+1)(2n+1)}{6n^2}$$</div>
+
+<p>
+  For the lower sum, $\displaystyle\sum_{j=0}^{n-1} j^2 = \frac{(n-1)n(2n-1)}{6}$, so:
+</p>
+
+<div class="display-math">$$L(f, P) = \frac{1}{n^3} \cdot \frac{(n-1)n(2n-1)}{6} = \frac{(n-1)(2n-1)}{6n^2}$$</div>
+
+<p>
+  As $n \to \infty$:
+</p>
+
+<div class="display-math">$$U(f, P) = \frac{(n+1)(2n+1)}{6n^2} = \frac{2n^2 + 3n + 1}{6n^2} \longrightarrow \frac{2}{6} = \frac{1}{3}$$</div>
+
+<div class="display-math">$$L(f, P) = \frac{(n-1)(2n-1)}{6n^2} = \frac{2n^2 - 3n + 1}{6n^2} \longrightarrow \frac{2}{6} = \frac{1}{3}$$</div>
+
+<p>
+  Both converge to $\frac{1}{3}$. The upper and lower sums squeeze together. The gap between them is:
+</p>
+
+<div class="display-math">$$U(f,P) - L(f,P) = \frac{(n+1)(2n+1) - (n-1)(2n-1)}{6n^2} = \frac{6n}{6n^2} = \frac{1}{n} \longrightarrow 0$$</div>
+
+<p>
+  So $\displaystyle\int_0^1 x^2\, dx = \frac{1}{3}$. This is Archimedes' result, obtained by his
+  method of exhaustion — now justified rigorously.
+</p>
+
+<h2>4. Refinement tightens the squeeze</h2>
+
+<p>
+  A partition $Q$ is a <em>refinement</em> of $P$ if $P \subseteq Q$ — that is, $Q$ contains all the
+  points of $P$ plus possibly more. Refinement can only tighten the estimates.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Refinement inequality</div>
+  <p>
+    If $Q$ is a refinement of $P$, then:
+  </p>
+  <div class="display-math">$$L(f, P) \leq L(f, Q) \leq U(f, Q) \leq U(f, P)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    It suffices to prove the result when $Q$ is obtained from $P$ by adding a single point $c$
+    (the general case follows by induction on the number of added points).
+  </p>
+  <p>
+    Suppose $c$ lies in the subinterval $[x_{k-1}, x_k]$, splitting it into $[x_{k-1}, c]$ and
+    $[c, x_k]$. For the upper sum, the contribution of this subinterval changes from
+    $M_k \cdot \Delta x_k$ to $M_k' \cdot (c - x_{k-1}) + M_k'' \cdot (x_k - c)$, where:
+  </p>
+  <div class="display-math">$$M_k' = \sup\{f(x) : x \in [x_{k-1}, c]\}, \qquad M_k'' = \sup\{f(x) : x \in [c, x_k]\}$$</div>
+  <p>
+    Since $[x_{k-1}, c] \subseteq [x_{k-1}, x_k]$, we have $M_k' \leq M_k$. Similarly
+    $M_k'' \leq M_k$. The sup over a smaller set is no larger than the sup over the whole set.
+    Therefore:
+  </p>
+  <div class="display-math">$$M_k'(c - x_{k-1}) + M_k''(x_k - c) \leq M_k(c - x_{k-1}) + M_k(x_k - c) = M_k \,\Delta x_k$$</div>
+  <p>
+    So $U(f, Q) \leq U(f, P)$. The argument for lower sums is symmetric: the inf over a
+    smaller set is no smaller, so $L(f, Q) \geq L(f, P)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Adding partition points can only push the lower sum up and the upper sum down. More rectangles
+  means a tighter fit around the curve.
+</p>
+
+<h2>5. Any lower sum $\leq$ any upper sum</h2>
+
+<p>
+  This is the key structural result. It holds even when the two sums use <em>different</em>
+  partitions.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    For any two partitions $P$ and $Q$ of $[a,b]$:
+  </p>
+  <div class="display-math">$$L(f, P) \leq U(f, Q)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $R = P \cup Q$ be the <em>common refinement</em> — the partition containing all points from
+    both $P$ and $Q$. Since $R$ refines $P$ and $R$ refines $Q$, the refinement inequality gives:
+  </p>
+  <div class="display-math">$$L(f, P) \leq L(f, R) \leq U(f, R) \leq U(f, Q)$$</div>
+  <p>
+    The middle inequality $L(f, R) \leq U(f, R)$ holds because $m_i \leq M_i$ on every subinterval.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This has an immediate consequence. Consider the set of all lower sums $\{L(f, P) : P \text{ is a
+  partition of } [a,b]\}$. Every upper sum $U(f, Q)$ is an upper bound for this set (by the theorem
+  above). Similarly, every lower sum is a lower bound for the set of all upper sums. By completeness,
+  both the supremum of all lower sums and the infimum of all upper sums exist in $\mathbb{R}$, and:
+</p>
+
+<div class="display-math">$$\sup_P L(f, P) \leq \inf_Q U(f, Q)$$</div>
+
+<h2>6. The Riemann integral</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition — Upper and lower integrals</div>
+  <p>
+    Let $f$ be bounded on $[a,b]$. The <em>upper integral</em> of $f$ is:
+  </p>
+  <div class="display-math">$$\overline{\int_a^b} f(x)\, dx = \inf_P\, U(f, P)$$</div>
+  <p>
+    The <em>lower integral</em> of $f$ is:
+  </p>
+  <div class="display-math">$$\underline{\int_a^b} f(x)\, dx = \sup_P\, L(f, P)$$</div>
+  <p>
+    where both the infimum and supremum are taken over all partitions $P$ of $[a,b]$. By the result
+    of section 5:
+  </p>
+  <div class="display-math">$$\underline{\int_a^b} f(x)\, dx \;\leq\; \overline{\int_a^b} f(x)\, dx$$</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Definition — Riemann integrability</div>
+  <p>
+    A bounded function $f : [a,b] \to \mathbb{R}$ is <em>Riemann integrable</em> on $[a,b]$ if the
+    upper and lower integrals are equal:
+  </p>
+  <div class="display-math">$$\underline{\int_a^b} f(x)\, dx = \overline{\int_a^b} f(x)\, dx$$</div>
+  <p>
+    The common value is called the <em>Riemann integral</em> of $f$ over $[a,b]$, written
+    $\displaystyle\int_a^b f(x)\, dx$.
+  </p>
+  <p>
+    Equivalently: $f$ is Riemann integrable if and only if for every $\varepsilon > 0$, there exists
+    a partition $P$ such that $U(f, P) - L(f, P) < \varepsilon$.
+  </p>
+</div>
+
+<p>
+  The equivalence is worth seeing. If $U(f,P) - L(f,P) < \varepsilon$ for some $P$, then the upper
+  and lower integrals are trapped in a gap of width less than $\varepsilon$:
+</p>
+
+<div class="display-math">$$L(f,P) \leq \underline{\int} \leq \overline{\int} \leq U(f,P) \quad \Longrightarrow \quad 0 \leq \overline{\int} - \underline{\int} < \varepsilon$$</div>
+
+<p>
+  Since this holds for every $\varepsilon > 0$, the gap is zero. Conversely, if the two integrals
+  are equal to some value $I$, then for any $\varepsilon > 0$ there exist partitions $P_1, P_2$ with
+  $U(f, P_1) < I + \varepsilon/2$ and $L(f, P_2) > I - \varepsilon/2$. Taking
+  $P = P_1 \cup P_2$ and using refinement gives $U(f,P) - L(f,P) < \varepsilon$.
+</p>
+
+<h2>7. A non-integrable function</h2>
+
+<p>
+  Not every bounded function is Riemann integrable. The canonical counterexample is the
+  <em>Dirichlet function</em>:
+</p>
+
+<div class="display-math">$$f(x) = \begin{cases} 1 & \text{if } x \in \mathbb{Q} \\ 0 & \text{if } x \notin \mathbb{Q} \end{cases}$$</div>
+
+<p>
+  Take any partition $P$ of $[0,1]$ and any subinterval $[x_{i-1}, x_i]$. This subinterval contains
+  rational numbers (the rationals are dense in $\mathbb{R}$ — Phase 1, page 7), so $M_i = 1$.
+  It also contains irrational numbers (the irrationals are dense too), so $m_i = 0$.
+</p>
+
+<p>
+  Therefore, for every partition $P$:
+</p>
+
+<div class="display-math">$$U(f, P) = \sum_{i=1}^{n} 1 \cdot \Delta x_i = 1, \qquad L(f, P) = \sum_{i=1}^{n} 0 \cdot \Delta x_i = 0$$</div>
+
+<p>
+  The upper integral is $\inf_P U(f,P) = 1$. The lower integral is $\sup_P L(f,P) = 0$. These are
+  not equal. No matter how fine the partition, the upper and lower sums never approach each other.
+  Dirichlet's function is not Riemann integrable.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Archimedes (c. 250 BC) computed specific areas — the parabolic segment, the sphere — using the
+    <em>method of exhaustion</em>: squeeze a region between inscribed and circumscribed polygons,
+    then argue by contradiction that the area must equal a specific value. Brilliant, but ad hoc.
+    Each new shape required a custom argument.
+  </p>
+  <p>
+    Newton and Leibniz (1660s-1680s) treated integration as the reverse of differentiation. Their
+    approach was enormously powerful but never defined the integral independently — it was always
+    parasitic on the derivative.
+  </p>
+  <p>
+    Cauchy (1823) gave the first rigorous definition for continuous functions, using limits of sums
+    over partitions. But his definition broke down for discontinuous functions.
+  </p>
+  <p>
+    Riemann (1854), in his <em>Habilitationsschrift</em>, generalised Cauchy's approach to handle
+    bounded functions with discontinuities. The key innovation: replacing specific sample points
+    with sup and inf over each subinterval, so the definition works whether or not $f$ is continuous.
+    This is the construction presented on this page.
+  </p>
+  <p>
+    Lebesgue (1901) later generalised further still, measuring the "size" of the set where $f$ takes
+    each value rather than partitioning the domain. Lebesgue's integral handles functions like
+    Dirichlet's — but Riemann's integral covers everything we need in this curriculum.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without boundedness:</strong> if $f$ is unbounded on $[a,b]$, the sup on some subinterval
+    is $+\infty$, making the upper sum infinite. The definition collapses. Unbounded functions
+    require improper integrals (a separate construction with limits).
+  </p>
+  <p>
+    <strong>Without completeness:</strong> the entire construction fails. The sup and inf defining
+    $M_i$ and $m_i$ on each subinterval rely on the completeness of $\mathbb{R}$. The supremum
+    of all lower sums and the infimum of all upper sums — the upper and lower integrals
+    themselves — exist only because $\mathbb{R}$ is complete. In $\mathbb{Q}$, these values might
+    not exist, and there is no coherent theory of integration.
+  </p>
+  <p>
+    <strong>Without the upper and lower integrals agreeing:</strong> the function has no single
+    well-defined "area". The Dirichlet function shows this is not a hypothetical concern — it is a
+    genuine obstruction. The next page investigates which functions are integrable.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The Riemann integral is the number that all upper sums sit above and all lower sums sit
+  below — when they agree, that's the area.
+</div>
+
+<div class="nav">
+  <a href="05-lhopital.html">&larr; Previous: L'H&ocirc;pital's Rule</a>
+  <a href="07-integrability.html">Next: Integrability &rarr;</a>
+</div>
+
+</body>
+</html>

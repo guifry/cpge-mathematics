@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Derivative — Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Derivative</h1>
+<p class="subtitle">Phase 2 &mdash; Calculus, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In 1636, Pierre de Fermat wanted to find where a curve reaches its maximum. Given a
+    polynomial curve, at what point does it stop rising and start falling? He noticed that
+    at such a peak, the curve is "flat" &mdash; its slope is zero. But what <em>is</em>
+    the slope of a curve at a single point?
+  </p>
+  <p>
+    A straight line has a well-defined slope: rise over run. A curve has a different
+    "slope" at every point &mdash; steeper here, flatter there, sometimes tilting the
+    other way. Two points on the curve give a definite slope (the line through them), but
+    one point gives nothing. You need two points to compute rise/run. So how do you define
+    the slope at a single point?
+  </p>
+  <p>
+    Fermat's insight: bring the two points infinitely close together. The slope of the line
+    through two nearby points on the curve, in the limit as those points merge, <em>is</em>
+    the slope of the curve at that point. Making this precise required two centuries of
+    work. This page does it in full.
+  </p>
+</div>
+
+<h2>1. The tangent problem</h2>
+
+<p>
+  Let $f$ be a function and $x$ a point in its domain. Pick a second point $x + h$ nearby
+  (where $h \neq 0$). The line through $(x, f(x))$ and $(x+h, f(x+h))$ is called the
+  <strong>secant line</strong>. Its slope is the difference quotient:
+</p>
+<div class="display-math">$$\frac{f(x+h) - f(x)}{h}$$</div>
+<p>
+  This is an exact slope &mdash; no approximation. It measures the average rate of change
+  of $f$ between $x$ and $x + h$.
+</p>
+<p>
+  Now let $h$ shrink towards $0$. The second point slides along the curve towards the
+  first. The secant line rotates, approaching a limiting position: the <strong>tangent
+  line</strong> to the curve at $x$. The slope of the tangent line is the limit of the
+  secant slopes &mdash; if that limit exists.
+</p>
+
+<h2>2. Definition of the derivative</h2>
+
+<p>
+  Before stating the definition, we need the notion of a <strong>function limit</strong>.
+  In Phase 1 we defined limits of sequences ($a_n \to L$ as $n \to \infty$). The
+  derivative requires a limit as a real variable $h$ tends to $0$, not as an integer $n$
+  tends to infinity. Here is the precise statement:
+</p>
+<p>
+  We write $\displaystyle\lim_{h \to 0} g(h) = L$ to mean: for every $\varepsilon > 0$,
+  there exists $\delta > 0$ such that
+</p>
+<div class="display-math">$$0 < |h| < \delta \implies |g(h) - L| < \varepsilon$$</div>
+<p>
+  The condition $0 < |h|$ ensures we never evaluate $g$ at $h = 0$ itself &mdash; we
+  approach but never arrive. This is exactly what we need: the difference quotient is
+  undefined at $h = 0$ (division by zero), but we can ask what it approaches.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; The derivative</div>
+  <p>
+    Let $f$ be defined on an open interval containing $x$. The <strong>derivative of $f$
+    at $x$</strong> is
+  </p>
+  <div class="display-math">$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$</div>
+  <p>
+    provided this limit exists. If it does, we say $f$ is <strong>differentiable</strong>
+    at $x$.
+  </p>
+</div>
+
+<p>
+  Three standard notations for the same object:
+</p>
+<ul>
+  <li>$f'(x)$ &mdash; Lagrange's notation. Compact, used for abstract arguments.</li>
+  <li>$\dfrac{dy}{dx}$ &mdash; Leibniz's notation (where $y = f(x)$). Suggestive: it
+      looks like a fraction, and in many computations it <em>behaves</em> like one. The
+      chain rule (next page) is where this pays off.</li>
+  <li>$Df(x)$ &mdash; operator notation. Treats differentiation as a map $D$ acting on
+      functions. Useful in linear algebra and functional analysis.</li>
+</ul>
+<p>
+  All three mean the same thing: the limit of the difference quotient.
+</p>
+
+<h2>3. First computation: $f(x) = x^2$</h2>
+
+<p>
+  Write the difference quotient:
+</p>
+<div class="display-math">$$\frac{f(x+h) - f(x)}{h} = \frac{(x+h)^2 - x^2}{h}$$</div>
+<p>
+  Expand $(x+h)^2 = x^2 + 2xh + h^2$. Subtract $x^2$:
+</p>
+<div class="display-math">$$\frac{x^2 + 2xh + h^2 - x^2}{h} = \frac{2xh + h^2}{h} = 2x + h$$</div>
+<p>
+  We cancelled $h$ from numerator and denominator. This is valid because $h \neq 0$ in
+  the limit (recall the condition $0 < |h|$). Now take $h \to 0$:
+</p>
+<div class="display-math">$$f'(x) = \lim_{h \to 0} (2x + h) = 2x$$</div>
+<p>
+  So $\dfrac{d}{dx}(x^2) = 2x$. Check: at $x = 3$, the slope is $6$ &mdash; the
+  parabola rises steeply. At $x = 0$, the slope is $0$ &mdash; the parabola is flat at
+  its vertex. At $x = -2$, the slope is $-4$ &mdash; the parabola descends. All
+  consistent with the shape of $y = x^2$.
+</p>
+
+<h2>4. Second computation: $f(x) = x^3$</h2>
+
+<p>
+  Difference quotient:
+</p>
+<div class="display-math">$$\frac{(x+h)^3 - x^3}{h}$$</div>
+<p>
+  Expand $(x+h)^3 = x^3 + 3x^2 h + 3xh^2 + h^3$. Subtract $x^3$ and divide by $h$:
+</p>
+<div class="display-math">$$\frac{3x^2 h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2$$</div>
+<p>
+  Take $h \to 0$:
+</p>
+<div class="display-math">$$f'(x) = 3x^2$$</div>
+<p>
+  A pattern emerges: the derivative of $x^2$ is $2x^1$, the derivative of $x^3$ is
+  $3x^2$. In general, $\dfrac{d}{dx}(x^n) = nx^{n-1}$. Let us prove this.
+</p>
+
+<h2>5. The power rule</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Power rule (positive integers)</div>
+  <p>
+    For any positive integer $n$, $\dfrac{d}{dx}(x^n) = nx^{n-1}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Expand using the binomial theorem.</strong>
+    For $h \neq 0$:
+  </p>
+  <div class="display-math">$$(x+h)^n = \sum_{k=0}^{n} \binom{n}{k} x^{n-k} h^k = x^n + n x^{n-1} h + \binom{n}{2} x^{n-2} h^2 + \cdots + h^n$$</div>
+  <p>
+    <strong>Step 2. Form the difference quotient.</strong>
+    Subtract $x^n$ and divide by $h$:
+  </p>
+  <div class="display-math">$$\frac{(x+h)^n - x^n}{h} = \frac{n x^{n-1} h + \binom{n}{2} x^{n-2} h^2 + \cdots + h^n}{h}$$</div>
+  <div class="display-math">$$= n x^{n-1} + \binom{n}{2} x^{n-2} h + \cdots + h^{n-1}$$</div>
+  <p>
+    Every term after the first contains at least one factor of $h$.
+  </p>
+  <p>
+    <strong>Step 3. Take the limit.</strong>
+    As $h \to 0$, every term with a factor of $h$ vanishes:
+  </p>
+  <div class="display-math">$$\lim_{h \to 0} \frac{(x+h)^n - x^n}{h} = n x^{n-1}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The binomial theorem does all the heavy lifting. It tells us that $(x+h)^n$ equals
+  $x^n$ plus a leading correction term $nx^{n-1}h$ plus higher-order terms in $h$.
+  Dividing by $h$ isolates the leading correction; taking the limit kills everything else.
+</p>
+
+<h2>6. Differentiability implies continuity</h2>
+
+<p>
+  If $f$ is differentiable at $x$, is it necessarily continuous there? Yes. This is
+  reassuring: a function with a well-defined slope at a point can't be jumping around at
+  that point.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Differentiable $\Rightarrow$ continuous</div>
+  <p>
+    If $f$ is differentiable at $x$, then $f$ is continuous at $x$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Rewrite the increment.</strong>
+    For $h \neq 0$:
+  </p>
+  <div class="display-math">$$f(x+h) - f(x) = \frac{f(x+h) - f(x)}{h} \cdot h$$</div>
+  <p>
+    <strong>Step 2. Take the limit.</strong>
+    As $h \to 0$, the difference quotient tends to $f'(x)$ (which exists by hypothesis),
+    and $h$ tends to $0$. The product of a convergent limit and a limit tending to zero
+    is zero:
+  </p>
+  <div class="display-math">$$\lim_{h \to 0} \bigl[f(x+h) - f(x)\bigr] = f'(x) \cdot 0 = 0$$</div>
+  <p>
+    <strong>Step 3. Conclude.</strong>
+    $\lim_{h \to 0} f(x+h) = f(x)$, which is the definition of continuity at $x$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The converse is <strong>false</strong>. Continuity does not imply differentiability. The
+  standard counterexample is $f(x) = |x|$.
+</p>
+<p>
+  $f$ is continuous everywhere &mdash; in particular at $x = 0$. But is it differentiable
+  at $0$? Compute the difference quotient:
+</p>
+<div class="display-math">$$\frac{|0 + h| - |0|}{h} = \frac{|h|}{h}$$</div>
+<p>
+  For $h > 0$: $|h|/h = 1$. For $h < 0$: $|h|/h = -1$. The right-hand limit is $+1$,
+  the left-hand limit is $-1$. They disagree, so the two-sided limit does not exist.
+  The derivative of $|x|$ at $x = 0$ does not exist.
+</p>
+<p>
+  Geometrically: the graph of $|x|$ has a sharp corner at the origin. There is no single
+  tangent line &mdash; the curve bends abruptly. Continuity means no jumps; differentiability
+  means no corners either. Differentiability is a strictly stronger condition.
+</p>
+
+<h2>7. Fermat's theorem &mdash; solving the original problem</h2>
+
+<p>
+  We can now answer Fermat's question. If a function reaches a local maximum (or minimum)
+  at an interior point, and the derivative exists there, then the derivative must be zero.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fermat's theorem on stationary points</div>
+  <p>
+    If $f$ has a local maximum or local minimum at $c$, and $f'(c)$ exists, then
+    $f'(c) = 0$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (for local maximum)</div>
+  <p>
+    <strong>Step 1. Set up.</strong>
+    $f$ has a local maximum at $c$: there exists $r > 0$ such that $f(x) \leq f(c)$ for
+    all $x$ with $|x - c| < r$.
+  </p>
+  <p>
+    <strong>Step 2. Right-hand difference quotient.</strong>
+    For $0 < h < r$:
+  </p>
+  <div class="display-math">$$\frac{f(c+h) - f(c)}{h} \leq \frac{0}{h} = 0$$</div>
+  <p>
+    because $f(c+h) \leq f(c)$ (local maximum) and $h > 0$. Taking the limit as
+    $h \to 0^+$:
+  </p>
+  <div class="display-math">$$f'(c) = \lim_{h \to 0^+} \frac{f(c+h) - f(c)}{h} \leq 0$$</div>
+  <p>
+    <strong>Step 3. Left-hand difference quotient.</strong>
+    For $-r < h < 0$:
+  </p>
+  <div class="display-math">$$\frac{f(c+h) - f(c)}{h} \geq 0$$</div>
+  <p>
+    because $f(c+h) - f(c) \leq 0$ and $h < 0$, so the quotient is non-negative. Taking
+    the limit as $h \to 0^-$:
+  </p>
+  <div class="display-math">$$f'(c) = \lim_{h \to 0^-} \frac{f(c+h) - f(c)}{h} \geq 0$$</div>
+  <p>
+    <strong>Step 4. Conclude.</strong>
+    We have $f'(c) \leq 0$ and $f'(c) \geq 0$. Therefore $f'(c) = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof for local minimum is identical (the inequalities reverse twice, giving the
+  same conclusion). This result is the precursor to the Mean Value Theorem and the
+  foundation of all optimisation. Whenever you set a derivative to zero and solve &mdash;
+  in physics, economics, engineering, machine learning &mdash; you are using Fermat's
+  theorem.
+</p>
+<p>
+  Note the hypothesis "$f'(c)$ exists." At a corner (like the vertex of $|x|$), the
+  function can achieve a minimum without the derivative being zero &mdash; because the
+  derivative doesn't exist. Fermat's theorem says nothing about non-differentiable
+  points. This is why, when finding extrema, you must check both the zeros of $f'$ and
+  the points where $f'$ fails to exist.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Fermat developed his method of <em>adequality</em> (from the Latin <em>adaequalitas</em>)
+    around 1636. He replaced $x$ with $x + e$ in a polynomial, cancelled the common terms,
+    divided by $e$, then set $e = 0$ &mdash; essentially computing a derivative without the
+    language of limits. He used this to find tangent lines and locate maxima and minima of
+    curves, decades before Newton or Leibniz were born.
+  </p>
+  <p>
+    Newton (1660s) and Leibniz (1680s) independently developed the full apparatus of
+    calculus &mdash; differentiation, integration, and the link between them (the
+    Fundamental Theorem). Newton thought in terms of "fluxions" (rates of change with
+    respect to time), Leibniz in terms of infinitesimals ($dy$ and $dx$ as infinitely
+    small quantities). Both were productive but neither was rigorous.
+  </p>
+  <p>
+    The rigorous $\varepsilon$-$\delta$ definition we use today came from Cauchy (1821)
+    and was perfected by Weierstrass in the 1860s &mdash; roughly 200 years after the
+    derivative was first used. The concept worked long before it was properly defined. The
+    definition caught up with the intuition.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without the limit existing:</strong> at a corner ($|x|$ at $0$), the left and
+    right slopes disagree. There is no single "slope" &mdash; the tangent line is
+    ambiguous. Any definition of the derivative that doesn't require the two-sided limit
+    to exist would give contradictory results from the left and right.
+  </p>
+  <p>
+    <strong>Without continuity:</strong> if $f$ has a jump discontinuity at $c$ (e.g.
+    $f(x) = 0$ for $x < 0$, $f(x) = 1$ for $x \geq 0$), the difference quotient
+    $(f(c+h) - f(c))/h$ diverges as $h \to 0$ from one side. A function that jumps
+    cannot have a tangent line at the jump &mdash; the secant slopes blow up. This is
+    consistent with "differentiable implies continuous": if $f$ isn't continuous, it
+    can't be differentiable.
+  </p>
+  <p>
+    <strong>Without differentiability in Fermat's theorem:</strong> $f(x) = -|x|$ has a
+    local maximum at $x = 0$, but $f'(0)$ does not exist. The conclusion "$f'(c) = 0$"
+    simply doesn't apply. When searching for extrema, you must check both the critical
+    points (where $f' = 0$) and the singular points (where $f'$ doesn't exist).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The derivative is the slope of the tangent line &mdash; defined precisely as the limit
+  of secant slopes.
+</div>
+
+<div class="nav">
+  <a href="../phase1/07-dense-subsets.html">&larr; Previous: Dense Subsets</a>
+  <a href="02-differentiation-rules.html">Next: Differentiation Rules &rarr;</a>
+</div>
+
+</body>
+</html>

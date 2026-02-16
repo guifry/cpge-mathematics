@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivatives of Sine and Cosine — Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Derivatives of Sine and Cosine</h1>
+<p class="subtitle">Phase 2 — Calculus, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    We can differentiate polynomials using the power rule. But sine and cosine are not
+    polynomials — they're defined geometrically, via the unit circle (Phase 0, page 5).
+    To differentiate $\sin(x)$, we must compute:
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\sin(x) = \lim_{h \to 0} \frac{\sin(x+h) - \sin(x)}{h}$$</div>
+  <p>
+    Expanding $\sin(x+h)$ requires the angle addition formula, which produces terms
+    involving $\frac{\sin h}{h}$ and $\frac{\cos h - 1}{h}$. Everything hinges on
+    two limits. Can we compute them from what we already know?
+  </p>
+</div>
+
+<h2>1. The angle addition formulae</h2>
+
+<p>
+  Before we touch derivatives, we need to expand $\sin(\alpha + \beta)$. The formula
+  comes directly from the unit circle.
+</p>
+
+<p>
+  Consider two angles $\alpha$ and $\beta$. On the unit circle, the point at angle
+  $\alpha + \beta$ has coordinates $(\cos(\alpha+\beta),\, \sin(\alpha+\beta))$.
+  We can reach this point by first rotating to angle $\alpha$, then rotating by $\beta$.
+  The rotation matrix for angle $\beta$ applied to the point
+  $(\cos\alpha,\, \sin\alpha)$ gives:
+</p>
+
+<div class="display-math">$$\begin{pmatrix} \cos\beta & -\sin\beta \\ \sin\beta & \cos\beta \end{pmatrix} \begin{pmatrix} \cos\alpha \\ \sin\alpha \end{pmatrix} = \begin{pmatrix} \cos\alpha\cos\beta - \sin\alpha\sin\beta \\ \sin\alpha\cos\beta + \cos\alpha\sin\beta \end{pmatrix}$$</div>
+
+<p>
+  Reading off the coordinates:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Angle addition formulae</div>
+  <div class="display-math">$$\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$$</div>
+  <div class="display-math">$$\cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$$</div>
+  <p>
+    These hold for all real $\alpha, \beta$. They follow from the unit circle definition
+    of sine and cosine (Phase 0) and the geometry of rotation.
+  </p>
+</div>
+
+<p>
+  <em>Note:</em> In Phase 3, we will re-derive these algebraically from the power series
+  definitions of sine and cosine. For now, the geometric proof is rigorous.
+</p>
+
+<h2>2. The key limit: $\lim_{\theta \to 0} \frac{\sin\theta}{\theta} = 1$</h2>
+
+<p>
+  This is the crux. Everything else follows from it. We prove it using the geometric
+  squeeze argument — combining the unit circle (Phase 0) with the squeeze theorem (Phase 1).
+</p>
+
+<p>
+  Consider a small angle $\theta > 0$ from the positive $x$-axis on the unit circle.
+  Let $O$ be the origin, $A = (1, 0)$, and $B = (\cos\theta, \sin\theta)$ the point at
+  angle $\theta$. Let $C = (1, \tan\theta)$ be where the tangent line at $A$ meets the
+  ray $OB$ extended. Three regions nest inside each other:
+</p>
+
+<ul>
+  <li><strong>Triangle $OAB$</strong> (inscribed in the sector): area $= \tfrac{1}{2} \cdot 1 \cdot \sin\theta = \tfrac{1}{2}\sin\theta$.</li>
+  <li><strong>Circular sector $OAB$</strong>: area $= \tfrac{\theta}{2\pi} \cdot \pi \cdot 1^2 = \tfrac{1}{2}\theta$.</li>
+  <li><strong>Triangle $OAC$</strong> (circumscribing the sector): area $= \tfrac{1}{2} \cdot 1 \cdot \tan\theta = \tfrac{1}{2}\tan\theta$.</li>
+</ul>
+
+<p>
+  Since triangle $OAB \subset$ sector $OAB \subset$ triangle $OAC$:
+</p>
+
+<div class="display-math">$$\frac{1}{2}\sin\theta \leq \frac{1}{2}\theta \leq \frac{1}{2}\tan\theta$$</div>
+
+<div class="proof-box">
+  <div class="label">Proof — $\lim_{\theta \to 0} \frac{\sin\theta}{\theta} = 1$</div>
+  <p>
+    For $0 < \theta < \frac{\pi}{2}$, we have $\sin\theta > 0$. Divide the inequality
+    $\frac{1}{2}\sin\theta \leq \frac{1}{2}\theta \leq \frac{1}{2}\tan\theta$ throughout
+    by $\frac{1}{2}\sin\theta$:
+  </p>
+  <div class="display-math">$$1 \leq \frac{\theta}{\sin\theta} \leq \frac{1}{\cos\theta}$$</div>
+  <p>
+    All three expressions are positive, so we may invert (flipping inequalities):
+  </p>
+  <div class="display-math">$$\cos\theta \leq \frac{\sin\theta}{\theta} \leq 1$$</div>
+  <p>
+    Now take $\theta \to 0^+$. The left bound: $\cos\theta \to \cos 0 = 1$ (continuity of
+    cosine on the unit circle, Phase 0). The right bound is the constant $1$. Both bounds
+    converge to $1$.
+  </p>
+  <p>
+    By the squeeze theorem (Phase 1):
+  </p>
+  <div class="display-math">$$\lim_{\theta \to 0^+} \frac{\sin\theta}{\theta} = 1$$</div>
+  <p>
+    For $\theta \to 0^-$: let $\theta = -\phi$ with $\phi > 0$. Then
+    $\frac{\sin\theta}{\theta} = \frac{\sin(-\phi)}{-\phi} = \frac{-\sin\phi}{-\phi}
+    = \frac{\sin\phi}{\phi}$, using $\sin(-\phi) = -\sin\phi$ (odd symmetry from Phase 0).
+    So the left-hand limit equals the right-hand limit.
+  </p>
+  <div class="display-math">$$\lim_{\theta \to 0} \frac{\sin\theta}{\theta} = 1$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Observe the dependency chain: unit circle geometry (Phase 0) gave us the area inequality.
+  The squeeze theorem (Phase 1) converted that inequality into a limit. No black boxes.
+</p>
+
+<h2>3. The second key limit: $\lim_{\theta \to 0} \frac{\cos\theta - 1}{\theta} = 0$</h2>
+
+<div class="proof-box">
+  <div class="label">Proof — $\lim_{\theta \to 0} \frac{\cos\theta - 1}{\theta} = 0$</div>
+  <p>
+    Multiply numerator and denominator by $(\cos\theta + 1)$:
+  </p>
+  <div class="display-math">$$\frac{\cos\theta - 1}{\theta} \cdot \frac{\cos\theta + 1}{\cos\theta + 1} = \frac{\cos^2\theta - 1}{\theta(\cos\theta + 1)}$$</div>
+  <p>
+    By the Pythagorean identity $\sin^2\theta + \cos^2\theta = 1$ (Phase 0), we have
+    $\cos^2\theta - 1 = -\sin^2\theta$. So:
+  </p>
+  <div class="display-math">$$\frac{\cos\theta - 1}{\theta} = \frac{-\sin^2\theta}{\theta(\cos\theta + 1)} = -\frac{\sin\theta}{\theta} \cdot \frac{\sin\theta}{\cos\theta + 1}$$</div>
+  <p>
+    As $\theta \to 0$: the first factor $\frac{\sin\theta}{\theta} \to 1$ (just proved).
+    The second factor $\frac{\sin\theta}{\cos\theta + 1} \to \frac{0}{1 + 1} = 0$.
+  </p>
+  <p>
+    By the product rule for limits:
+  </p>
+  <div class="display-math">$$\lim_{\theta \to 0} \frac{\cos\theta - 1}{\theta} = (-1) \cdot 0 = 0$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Derivative of sine</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <div class="display-math">$$\frac{d}{dx}\sin(x) = \cos(x)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    From the limit definition of the derivative:
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\sin(x) = \lim_{h \to 0} \frac{\sin(x+h) - \sin(x)}{h}$$</div>
+  <p>
+    Apply the angle addition formula to $\sin(x+h)$:
+  </p>
+  <div class="display-math">$$= \lim_{h \to 0} \frac{\sin x \cos h + \cos x \sin h - \sin x}{h}$$</div>
+  <p>
+    Regroup:
+  </p>
+  <div class="display-math">$$= \lim_{h \to 0} \left[\sin x \cdot \frac{\cos h - 1}{h} + \cos x \cdot \frac{\sin h}{h}\right]$$</div>
+  <p>
+    As $h \to 0$: the first term gives $\sin x \cdot 0 = 0$. The second gives $\cos x \cdot 1 = \cos x$.
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\sin(x) = \cos(x)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Derivative of cosine</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <div class="display-math">$$\frac{d}{dx}\cos(x) = -\sin(x)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <div class="display-math">$$\frac{d}{dx}\cos(x) = \lim_{h \to 0} \frac{\cos(x+h) - \cos(x)}{h}$$</div>
+  <p>
+    Apply the angle addition formula to $\cos(x+h)$:
+  </p>
+  <div class="display-math">$$= \lim_{h \to 0} \frac{\cos x \cos h - \sin x \sin h - \cos x}{h}$$</div>
+  <p>
+    Regroup:
+  </p>
+  <div class="display-math">$$= \lim_{h \to 0} \left[\cos x \cdot \frac{\cos h - 1}{h} - \sin x \cdot \frac{\sin h}{h}\right]$$</div>
+  <p>
+    As $h \to 0$: the first term gives $\cos x \cdot 0 = 0$. The second gives $-\sin x \cdot 1 = -\sin x$.
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\cos(x) = -\sin(x)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Derivative of tangent</h2>
+
+<p>
+  Since $\tan x = \frac{\sin x}{\cos x}$, we apply the quotient rule
+  (Phase 2, page 2):
+</p>
+
+<div class="display-math">$$\frac{d}{dx}\tan(x) = \frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x} = \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x}$$</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <div class="display-math">$$\frac{d}{dx}\tan(x) = \frac{1}{\cos^2 x} = \sec^2(x)$$</div>
+  <p>
+    Valid wherever $\cos x \neq 0$, i.e. $x \neq \frac{\pi}{2} + k\pi$.
+  </p>
+</div>
+
+<h2>7. The dependency chain</h2>
+
+<p>
+  This page used exactly four prior results:
+</p>
+
+<ol>
+  <li><strong>Unit circle definition of $\sin$ and $\cos$</strong> (Phase 0, page 5) — gave us the area comparison and the Pythagorean identity.</li>
+  <li><strong>$|\sin\theta| \leq 1$</strong> (Phase 0, page 5) — from $\sin^2\theta + \cos^2\theta = 1$.</li>
+  <li><strong>Squeeze theorem</strong> (Phase 1, page 2) — converted the geometric inequality into $\frac{\sin\theta}{\theta} \to 1$.</li>
+  <li><strong>Limit definition of the derivative</strong> (Phase 2, page 1) — the framework within which $\frac{d}{dx}\sin x$ is even a meaningful question.</li>
+</ol>
+
+<p>
+  No circular reasoning. We did not assume the derivative of sine to prove any of the
+  prerequisites. The angle addition formulae came from rotation geometry, the squeeze
+  argument from area comparison, and the derivative from assembling these pieces.
+</p>
+
+<p>
+  <strong>The IOU:</strong> In Phase 3 (Taylor series), we will define $\sin$ and $\cos$ purely
+  arithmetically as convergent power series. The derivative will then follow from
+  term-by-term differentiation — no geometry at all. The geometric approach here is
+  rigorous but depends on the unit circle. The series approach will be self-contained.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The limit $\frac{\sin\theta}{\theta} \to 1$ was known intuitively to Euler, who freely
+    manipulated infinitesimals like $\sin(d\theta) = d\theta$. But a rigorous proof had to
+    wait for the 19th century, when Cauchy and Weierstrass replaced infinitesimals with
+    $\varepsilon$-$\delta$ arguments. It is remarkable that this limit — comparing an arc length
+    to a chord — requires the squeeze theorem, an analytical tool, to make rigorous.
+    This is the exact point where geometry hands off to analysis.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks if $\theta$ is in degrees?</div>
+  <p>
+    If $\theta$ is measured in degrees, the sector area is $\frac{\theta}{360} \cdot \pi$, not
+    $\frac{\theta}{2}$. The squeeze argument then gives $\lim_{\theta \to 0}
+    \frac{\sin(\theta^\circ)}{\theta} = \frac{\pi}{180}$, not $1$.
+  </p>
+  <p>
+    The derivative of $\sin(x^\circ)$ would be $\frac{\pi}{180}\cos(x^\circ)$. Every
+    differentiation formula for trigonometric functions acquires a factor of $\frac{\pi}{180}$.
+    Radians are not a convention — they are the unique angle measure for which
+    $\frac{d}{dx}\sin x = \cos x$ holds cleanly. This is <em>why</em> mathematicians use radians.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  $\frac{d}{dx}\sin x = \cos x$ — proved by squeezing $\frac{\sin h}{h} \to 1$
+  between a triangle and a sector on the unit circle.
+</div>
+
+<div class="nav">
+  <a href="02-differentiation-rules.html">&larr; Previous: Differentiation Rules</a>
+  <a href="04-mean-value-theorem.html">Next: Mean Value Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

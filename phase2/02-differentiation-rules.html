@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Differentiation Rules — Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Differentiation Rules</h1>
+<p class="subtitle">Phase 2 — Calculus, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    On page 1 you proved from the limit definition that $\frac{d}{dx}(x^2) = 2x$ and
+    $\frac{d}{dx}(x^3) = 3x^2$. Each proof took several lines. But real functions aren't
+    bare monomials — they're built by combining simpler pieces. You add functions ($f + g$),
+    multiply them ($fg$), divide them ($f/g$), and compose them ($f(g(x))$).
+  </p>
+  <p>
+    Going back to the limit definition of the derivative every time you meet a new combination
+    is tedious and error-prone. Can you derive general rules that tell you how to differentiate
+    any combination, using only the derivatives of the pieces?
+  </p>
+  <p>
+    Yes. There are four rules — sum, product, quotient, chain — and every one is proved from
+    the limit definition in a few lines. Once you have them, you never need the definition again
+    for routine calculations.
+  </p>
+</div>
+
+<h2>1. The sum rule</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Sum Rule)</div>
+  <p>
+    If $f$ and $g$ are differentiable at $x$, then $f + g$ is differentiable at $x$ and
+  </p>
+  <div class="display-math">$$(f + g)'(x) = f'(x) + g'(x).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>Write out the difference quotient of $f + g$:</p>
+  <div class="display-math">$$\frac{(f+g)(x+h) - (f+g)(x)}{h} = \frac{f(x+h) + g(x+h) - f(x) - g(x)}{h}.$$</div>
+  <p>Rearrange:</p>
+  <div class="display-math">$$= \frac{f(x+h) - f(x)}{h} + \frac{g(x+h) - g(x)}{h}.$$</div>
+  <p>
+    Take the limit as $h \to 0$. The limit of a sum is the sum of the limits
+    (both limits exist by hypothesis), so:
+  </p>
+  <div class="display-math">$$(f+g)'(x) = f'(x) + g'(x).$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  No surprises here. The difference quotient of a sum splits cleanly into
+  the sum of the difference quotients. Differentiation respects addition.
+</p>
+
+<h2>2. The constant multiple rule</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Constant Multiple Rule)</div>
+  <p>
+    If $f$ is differentiable at $x$ and $c \in \mathbb{R}$, then $cf$ is differentiable at $x$ and
+  </p>
+  <div class="display-math">$$(cf)'(x) = c \cdot f'(x).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <div class="display-math">$$\frac{(cf)(x+h) - (cf)(x)}{h} = \frac{c\,f(x+h) - c\,f(x)}{h} = c \cdot \frac{f(x+h) - f(x)}{h}.$$</div>
+  <p>
+    Take the limit. The constant $c$ factors out, giving $c \cdot f'(x)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Together with the sum rule, this says differentiation is <em>linear</em>:
+  $(af + bg)' = af' + bg'$ for any constants $a, b$. Linearity is the
+  simplest structural property an operation can have, and it falls out immediately
+  from the definition.
+</p>
+
+<h2>3. The product rule</h2>
+
+<p>
+  This is the first rule that surprises people. If differentiation is so well-behaved
+  on sums, surely $(fg)' = f'g'$? That would be clean. But it's wrong. The correct
+  formula has <em>two</em> terms.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Product Rule)</div>
+  <p>
+    If $f$ and $g$ are differentiable at $x$, then $fg$ is differentiable at $x$ and
+  </p>
+  <div class="display-math">$$(fg)'(x) = f'(x)\,g(x) + f(x)\,g'(x).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>Write the difference quotient of $fg$:</p>
+  <div class="display-math">$$\frac{f(x+h)\,g(x+h) - f(x)\,g(x)}{h}.$$</div>
+  <p>
+    The numerator has the form $AB - CD$ where all four quantities depend on $h$.
+    The trick is to <em>add and subtract</em> the cross term $f(x+h)\,g(x)$:
+  </p>
+  <div class="display-math">$$f(x+h)\,g(x+h) - f(x)\,g(x) = \bigl[f(x+h)\,g(x+h) - f(x+h)\,g(x)\bigr] + \bigl[f(x+h)\,g(x) - f(x)\,g(x)\bigr].$$</div>
+  <p>Factor each bracket:</p>
+  <div class="display-math">$$= f(x+h)\bigl[g(x+h) - g(x)\bigr] + g(x)\bigl[f(x+h) - f(x)\bigr].$$</div>
+  <p>Divide by $h$:</p>
+  <div class="display-math">$$\frac{(fg)(x+h) - (fg)(x)}{h} = f(x+h) \cdot \frac{g(x+h) - g(x)}{h} + g(x) \cdot \frac{f(x+h) - f(x)}{h}.$$</div>
+  <p>Now take the limit as $h \to 0$. Three limits are needed:</p>
+  <ul>
+    <li>$\displaystyle\frac{g(x+h) - g(x)}{h} \to g'(x)$ because $g$ is differentiable.</li>
+    <li>$\displaystyle\frac{f(x+h) - f(x)}{h} \to f'(x)$ because $f$ is differentiable.</li>
+    <li>$f(x+h) \to f(x)$ because differentiability implies continuity (proved on page 1).</li>
+  </ul>
+  <p>Combining:</p>
+  <div class="display-math">$$(fg)'(x) = f(x)\,g'(x) + g(x)\,f'(x).$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Why two terms? Think of the area of a rectangle with sides $f(x)$ and $g(x)$.
+  When $x$ changes by a small amount, both sides change: $f$ grows by roughly $f'(x)\,dx$,
+  and $g$ grows by roughly $g'(x)\,dx$. The change in area is approximately
+</p>
+<div class="display-math">$$f \cdot dg + g \cdot df = f\,g'\,dx + g\,f'\,dx.$$</div>
+<p>
+  There's also the tiny rectangle $df \cdot dg$ in the corner, but it's
+  second order in $dx$ — it vanishes in the limit. The product rule captures
+  both first-order contributions: $f$ changing while $g$ stays, and $g$
+  changing while $f$ stays.
+</p>
+
+<h2>4. The quotient rule</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Quotient Rule)</div>
+  <p>
+    If $f$ and $g$ are differentiable at $x$ and $g(x) \neq 0$, then $f/g$ is differentiable
+    at $x$ and
+  </p>
+  <div class="display-math">$$\left(\frac{f}{g}\right)'(x) = \frac{f'(x)\,g(x) - f(x)\,g'(x)}{g(x)^2}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $h = f/g$, so that $f = h \cdot g$. Applying the product rule to $f = hg$:
+  </p>
+  <div class="display-math">$$f' = h'\,g + h\,g'.$$</div>
+  <p>Solve for $h'$:</p>
+  <div class="display-math">$$h' = \frac{f' - h\,g'}{g} = \frac{f' - \frac{f}{g}\,g'}{g} = \frac{f'\,g - f\,g'}{g^2}.$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The quotient rule is not an independent result — it's the product rule in disguise.
+  The minus sign in the numerator comes from rearranging $f' = h'g + hg'$: solving for
+  $h'$ moves $hg'$ to the other side. Note the condition $g(x) \neq 0$ is essential:
+  you cannot differentiate $f/g$ at a point where $g$ vanishes.
+</p>
+
+<h2>5. The chain rule</h2>
+
+<p>
+  The deepest of the four rules. If $y = f(u)$ and $u = g(x)$, what is $dy/dx$?
+  The intuitive argument is tempting: write
+</p>
+<div class="display-math">$$\frac{\Delta y}{\Delta x} = \frac{\Delta y}{\Delta u} \cdot \frac{\Delta u}{\Delta x}$$</div>
+<p>
+  and take limits. But this fails: when $h$ varies, $\Delta u = g(x+h) - g(x)$
+  can be zero even for $h \neq 0$ (consider $g$ constant near $x$), and you
+  cannot divide by $\Delta u = 0$. A correct proof requires a different approach.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Chain Rule)</div>
+  <p>
+    If $g$ is differentiable at $x$ and $f$ is differentiable at $g(x)$, then $f \circ g$
+    is differentiable at $x$ and
+  </p>
+  <div class="display-math">$$(f \circ g)'(x) = f'(g(x)) \cdot g'(x).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $u = g(x)$. Since $f$ is differentiable at $u$, the difference quotient
+    $(f(u+k) - f(u))/k \to f'(u)$ as $k \to 0$. Define the auxiliary function
+  </p>
+  <div class="display-math">$$\varphi(k) = \begin{cases} \displaystyle\frac{f(u+k) - f(u)}{k} & \text{if } k \neq 0, \\[6pt] f'(u) & \text{if } k = 0. \end{cases}$$</div>
+  <p>
+    By definition of the derivative, $\varphi$ is continuous at $0$: $\lim_{k \to 0} \varphi(k) = f'(u) = \varphi(0)$.
+  </p>
+  <p>
+    The key identity: for all $k$ (including $k = 0$),
+  </p>
+  <div class="display-math">$$f(u + k) - f(u) = k \cdot \varphi(k).$$</div>
+  <p>
+    (When $k \neq 0$ this is just rearranging the definition; when $k = 0$ both sides are $0$.)
+  </p>
+  <p>
+    Now set $k = g(x+h) - g(x)$, so $u + k = g(x+h)$:
+  </p>
+  <div class="display-math">$$f(g(x+h)) - f(g(x)) = \bigl[g(x+h) - g(x)\bigr] \cdot \varphi\bigl(g(x+h) - g(x)\bigr).$$</div>
+  <p>Divide both sides by $h$:</p>
+  <div class="display-math">$$\frac{f(g(x+h)) - f(g(x))}{h} = \frac{g(x+h) - g(x)}{h} \cdot \varphi\bigl(g(x+h) - g(x)\bigr).$$</div>
+  <p>Take the limit as $h \to 0$. On the right-hand side:</p>
+  <ul>
+    <li>$\displaystyle\frac{g(x+h) - g(x)}{h} \to g'(x)$ because $g$ is differentiable at $x$.</li>
+    <li>
+      $g(x+h) - g(x) \to 0$ as $h \to 0$ (differentiability implies continuity), so
+      $\varphi(g(x+h) - g(x)) \to \varphi(0) = f'(u) = f'(g(x))$.
+    </li>
+  </ul>
+  <p>Therefore:</p>
+  <div class="display-math">$$(f \circ g)'(x) = g'(x) \cdot f'(g(x)) = f'(g(x)) \cdot g'(x).$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The auxiliary function $\varphi$ is the entire trick. It absorbs the $k = 0$
+  problem: instead of dividing by $\Delta u$ and worrying about it being zero,
+  we write $\Delta y = \Delta u \cdot \varphi(\Delta u)$ which holds for all
+  $\Delta u$, zero or not.
+</p>
+
+<p>
+  The intuition is simpler than the proof: <em>rates multiply</em>. If $u$
+  changes 3 times as fast as $x$, and $y$ changes 5 times as fast as $u$,
+  then $y$ changes $15$ times as fast as $x$. The chain rule says
+  $dy/dx = (dy/du)(du/dx)$ — the intermediate rates compose by multiplication.
+</p>
+
+<h2>6. Examples</h2>
+
+<p><strong>Sum rule + power rule.</strong></p>
+<div class="display-math">$$\frac{d}{dx}(x^2 + 5x) = \frac{d}{dx}(x^2) + 5 \cdot \frac{d}{dx}(x) = 2x + 5.$$</div>
+
+<p><strong>Product rule.</strong> Differentiate $x^2 \cdot x^3$:</p>
+<div class="display-math">$$\frac{d}{dx}(x^2 \cdot x^3) = 2x \cdot x^3 + x^2 \cdot 3x^2 = 2x^4 + 3x^4 = 5x^4.$$</div>
+<p>
+  Sanity check: $x^2 \cdot x^3 = x^5$, and $\frac{d}{dx}(x^5) = 5x^4$.
+  The product rule agrees with the power rule. It had better.
+</p>
+
+<p><strong>Quotient rule.</strong> Differentiate $1/x$:</p>
+<div class="display-math">$$\frac{d}{dx}\!\left(\frac{1}{x}\right) = \frac{0 \cdot x - 1 \cdot 1}{x^2} = -\frac{1}{x^2}.$$</div>
+
+<p><strong>Chain rule.</strong> Differentiate $(x^2 + 1)^{10}$:</p>
+<div class="display-math">$$\frac{d}{dx}(x^2+1)^{10} = 10(x^2+1)^9 \cdot \frac{d}{dx}(x^2+1) = 10(x^2+1)^9 \cdot 2x = 20x(x^2+1)^9.$$</div>
+<p>
+  The outer function is $u^{10}$, the inner function is $u = x^2 + 1$.
+  The chain rule differentiates the outer (bringing down the exponent)
+  and multiplies by the derivative of the inner.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Leibniz published the product rule in 1684 in his first calculus paper, <em>Nova Methodus
+    pro Maximis et Minimis</em>. His differential notation made it visually transparent:
+    $d(uv) = u\,dv + v\,du$ — it looks like distributing the $d$ across a product. Newton
+    had equivalent results in his method of fluxions, but his dot notation ($\dot{x}$, $\dot{y}$)
+    was less suggestive of the algebraic structure. The chain rule was used implicitly by both,
+    but its rigorous formulation — with the $\Delta u = 0$ subtlety handled properly — came
+    only with Cauchy in the 1820s, when the limit concept was finally made precise.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    All four rules require that the constituent functions be differentiable at the
+    point in question. If $f$ or $g$ is not differentiable, you cannot apply the rule blindly.
+  </p>
+  <p>
+    But non-differentiability of the parts does not always prevent differentiability of the
+    combination. Consider $|x| \cdot |x| = x^2$. Each factor $|x|$ is not differentiable at
+    $x = 0$, yet their product $x^2$ is perfectly smooth, with derivative $0$ there.
+  </p>
+  <p>
+    Similarly, $|x| \cdot x$ at $x = 0$: you cannot apply the product rule (the first factor
+    is not differentiable), but the function is differentiable — from the definition,
+    the limit of $|h| \cdot h / h = |h|$ as $h \to 0$ is $0$. The rules are sufficient
+    conditions, not necessary ones. When they don't apply, go back to the definition.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every differentiation rule is the limit definition applied to a specific
+  combination — sum, product, quotient, or composition — and each can be proved
+  in a few lines.
+</div>
+
+<div class="nav">
+  <a href="01-derivative.html">&larr; Prev: The Derivative</a>
+  <a href="03-trig-derivatives.html">Next: Trigonometric Derivatives &rarr;</a>
+</div>
+
+</body>
+</html>

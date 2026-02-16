@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fundamental Theorem of Calculus &mdash; Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Fundamental Theorem of Calculus</h1>
+<p class="subtitle">Phase 2 &mdash; Calculus, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    This phase has two halves. Part A (pages 1&ndash;5) was about <strong>differentiation</strong>:
+    finding instantaneous rates of change, slopes of tangent lines. Part B (pages 6&ndash;7) was
+    about <strong>integration</strong>: computing areas under curves by taking limits of Riemann
+    sums. These look like completely different operations. One is about local behaviour at a
+    point; the other is about accumulating a global quantity over an interval.
+  </p>
+  <p>
+    But there is a stunning connection. If you accumulate the area under a curve as you move
+    along the $x$-axis, the <em>rate</em> at which that area grows equals the height of the
+    curve at that point. Differentiation and integration are inverse operations. This is the
+    Fundamental Theorem of Calculus &mdash; arguably the most important theorem in all of
+    mathematics.
+  </p>
+</div>
+
+<h2>1. The accumulation function</h2>
+
+<p>
+  Recall from <a href="07-integrability.html">page 7</a>: if $f$ is integrable on $[a, b]$,
+  then for any $x \in [a, b]$, the integral $\int_a^x f(t)\, dt$ is well-defined. This gives us
+  a new function:
+</p>
+<div class="display-math">$$F(x) = \int_a^x f(t)\, dt$$</div>
+<p>
+  $F(x)$ measures the signed area under $f$ from $a$ to $x$. As $x$ increases by a small
+  amount $h$, the new area added is approximately a thin rectangle of height $f(x)$ and
+  width $h$:
+</p>
+<div class="display-math">$$F(x + h) - F(x) = \int_x^{x+h} f(t)\, dt \approx f(x) \cdot h$$</div>
+<p>
+  Dividing both sides by $h$:
+</p>
+<div class="display-math">$$\frac{F(x+h) - F(x)}{h} \approx f(x)$$</div>
+<p>
+  The left side is the difference quotient of $F$ &mdash; the definition of the derivative
+  (<a href="01-derivative.html">page 1</a>). So informally, $F'(x) \approx f(x)$: the rate
+  of area accumulation is roughly the height of the curve. The Fundamental Theorem says this
+  is exact, not approximate.
+</p>
+
+<h2>2. FTC Part 1: the derivative of an integral</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fundamental Theorem of Calculus, Part 1</div>
+  <p>
+    Let $f$ be continuous on $[a, b]$, and define $F(x) = \int_a^x f(t)\, dt$. Then $F$ is
+    differentiable on $(a, b)$ and
+  </p>
+  <div class="display-math">$$F'(x) = f(x)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We must show that $\displaystyle\lim_{h \to 0} \frac{F(x+h) - F(x)}{h} = f(x)$.
+  </p>
+  <p>
+    <strong>Step 1. Rewrite the difference quotient.</strong>
+    By additivity of the integral:
+  </p>
+  <div class="display-math">$$F(x+h) - F(x) = \int_a^{x+h} f(t)\, dt - \int_a^x f(t)\, dt = \int_x^{x+h} f(t)\, dt$$</div>
+  <p>
+    So the difference quotient is
+  </p>
+  <div class="display-math">$$\frac{F(x+h) - F(x)}{h} = \frac{1}{h} \int_x^{x+h} f(t)\, dt$$</div>
+  <p>
+    <strong>Step 2. Use continuity to trap the integral.</strong>
+    Since $f$ is continuous at $x$: for any $\varepsilon > 0$, there exists $\delta > 0$ such
+    that $|t - x| < \delta$ implies $|f(t) - f(x)| < \varepsilon$. Equivalently:
+  </p>
+  <div class="display-math">$$f(x) - \varepsilon < f(t) < f(x) + \varepsilon \qquad \text{for all } t \text{ with } |t - x| < \delta$$</div>
+  <p>
+    <strong>Step 3. Integrate the inequality.</strong>
+    Take $0 < h < \delta$ (the case $h < 0$ is handled below). Every $t \in [x, x+h]$ satisfies
+    $|t - x| \leq h < \delta$, so the inequality above holds throughout $[x, x+h]$. Integrate
+    over this interval:
+  </p>
+  <div class="display-math">$$(f(x) - \varepsilon) \cdot h \;\leq\; \int_x^{x+h} f(t)\, dt \;\leq\; (f(x) + \varepsilon) \cdot h$$</div>
+  <p>
+    <strong>Step 4. Divide by $h$.</strong>
+    Since $h > 0$, dividing preserves the inequalities:
+  </p>
+  <div class="display-math">$$f(x) - \varepsilon \;\leq\; \frac{1}{h}\int_x^{x+h} f(t)\, dt \;\leq\; f(x) + \varepsilon$$</div>
+  <p>
+    The middle expression is exactly $\dfrac{F(x+h) - F(x)}{h}$. So:
+  </p>
+  <div class="display-math">$$\left|\frac{F(x+h) - F(x)}{h} - f(x)\right| \leq \varepsilon \qquad \text{whenever } 0 < h < \delta$$</div>
+  <p>
+    <strong>Step 5. The case $h < 0$.</strong>
+    When $-\delta < h < 0$, the interval is $[x+h, x]$ and $\int_x^{x+h} f(t)\, dt =
+    -\int_{x+h}^{x} f(t)\, dt$. The same continuity bound gives
+    $(f(x) - \varepsilon)|h| \leq \int_{x+h}^{x} f(t)\, dt \leq (f(x) + \varepsilon)|h|$.
+    Dividing by $h$ (now negative) flips the inequalities, but dividing the middle by $h$
+    also introduces a minus sign from $-\int_{x+h}^x / h$. The two sign flips cancel,
+    yielding the same bound.
+  </p>
+  <p>
+    <strong>Conclusion.</strong>
+    For every $\varepsilon > 0$, we found $\delta > 0$ such that $0 < |h| < \delta$ implies
+    $\left|\dfrac{F(x+h) - F(x)}{h} - f(x)\right| \leq \varepsilon$. That is the
+    $\varepsilon$-$\delta$ definition of $F'(x) = f(x)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Notice the squeeze at the heart of this proof: the integral is trapped between two
+  rectangles whose heights differ by $2\varepsilon$, then the difference quotient is
+  trapped between $f(x) - \varepsilon$ and $f(x) + \varepsilon$. This is the same
+  squeeze-theorem logic from
+  <a href="../phase1/03-squeeze-theorem.html">Phase 1</a>, now applied to functions rather
+  than sequences.
+</p>
+
+<h2>3. What Part 1 means</h2>
+
+<p>
+  Differentiating an integral recovers the original function:
+</p>
+<div class="display-math">$$\frac{d}{dx} \int_a^x f(t)\, dt = f(x)$$</div>
+<p>
+  The integral "remembers" $f$, and the derivative "reads it back." Integration followed
+  by differentiation is the identity operation. The area function $F$ is an antiderivative
+  of $f$ &mdash; constructed purely from the integral, with no guessing required.
+</p>
+
+<h2>4. FTC Part 2: evaluating integrals via antiderivatives</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fundamental Theorem of Calculus, Part 2</div>
+  <p>
+    Let $f$ be continuous on $[a, b]$, and let $G$ be any antiderivative of $f$ on $[a, b]$
+    (meaning $G'(x) = f(x)$ for all $x \in (a, b)$). Then:
+  </p>
+  <div class="display-math">$$\int_a^b f(x)\, dx = G(b) - G(a)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Construct the integral&rsquo;s own antiderivative.</strong>
+    Define $F(x) = \int_a^x f(t)\, dt$. By FTC Part 1, $F'(x) = f(x)$ on $(a, b)$.
+  </p>
+  <p>
+    <strong>Step 2. Two functions with the same derivative.</strong>
+    Both $F$ and $G$ satisfy $F'(x) = G'(x) = f(x)$ on $(a, b)$. By the MVT consequence
+    (<a href="04-mean-value-theorem.html">page 4, Corollary 3</a>): functions with the same
+    derivative on an interval differ by a constant. So there exists $C \in \mathbb{R}$ with
+  </p>
+  <div class="display-math">$$F(x) = G(x) + C \qquad \text{for all } x \in [a, b]$$</div>
+  <p>
+    <strong>Step 3. Find $C$.</strong>
+    Evaluate at $x = a$:
+  </p>
+  <div class="display-math">$$F(a) = G(a) + C$$</div>
+  <p>
+    But $F(a) = \int_a^a f(t)\, dt = 0$. So $C = -G(a)$, and therefore
+  </p>
+  <div class="display-math">$$F(x) = G(x) - G(a) \qquad \text{for all } x \in [a, b]$$</div>
+  <p>
+    <strong>Step 4. Evaluate at $x = b$.</strong>
+  </p>
+  <div class="display-math">$$F(b) = G(b) - G(a)$$</div>
+  <p>
+    But $F(b) = \int_a^b f(x)\, dx$. Therefore:
+  </p>
+  <div class="display-math">$$\int_a^b f(x)\, dx = G(b) - G(a)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. What Part 2 means</h2>
+
+<p>
+  To compute a definite integral &mdash; an area, a limit of Riemann sums &mdash; you do
+  not need Riemann sums at all. Find <em>any</em> function $G$ whose derivative is $f$,
+  evaluate $G$ at the two endpoints, and subtract. A hard problem (limits of sums with
+  partitions and suprema) becomes an easy problem (find an antiderivative, plug in two
+  numbers).
+</p>
+<p>
+  The word "any" is crucial. If $G$ is one antiderivative and $H$ is another, then
+  $H = G + C$ for some constant (by the MVT corollary). So $H(b) - H(a) = (G(b) + C) -
+  (G(a) + C) = G(b) - G(a)$. The constant cancels. Every antiderivative gives the same
+  answer &mdash; the choice does not matter, and Part 2 is well-defined.
+</p>
+
+<h2>6. Example: $\int_0^1 x^2\, dx$ revisited</h2>
+
+<p>
+  On <a href="06-riemann-integral.html">page 6</a>, we computed this from the definition:
+  partition $[0, 1]$ into $n$ subintervals, evaluate the upper and lower sums, use the
+  formula $\sum_{i=1}^n i^2 = n(n+1)(2n+1)/6$, take the limit, and get $1/3$. It took a
+  page of work.
+</p>
+<p>
+  Now: we know $\frac{d}{dx}\left(\frac{x^3}{3}\right) = x^2$. So $G(x) = x^3/3$ is an
+  antiderivative of $f(x) = x^2$. By FTC Part 2:
+</p>
+<div class="display-math">$$\int_0^1 x^2\, dx = G(1) - G(0) = \frac{1}{3} - 0 = \frac{1}{3}$$</div>
+<p>
+  One line. Same answer. This is the power of the FTC.
+</p>
+
+<h2>7. Example: the area under one arch of sine</h2>
+
+<p>
+  $\displaystyle\int_0^\pi \sin x\, dx$. We know $\frac{d}{dx}(-\cos x) = \sin x$, so
+  $G(x) = -\cos x$. By FTC Part 2:
+</p>
+<div class="display-math">$$\int_0^\pi \sin x\, dx = [-\cos x]_0^\pi = -\cos(\pi) - (-\cos(0)) = -(-1) + 1 = 2$$</div>
+<p>
+  The area under one complete arch of the sine curve is exactly $2$. Try computing this
+  from Riemann sums &mdash; you would need the closed form for $\sum \sin(k\pi/n)$, which
+  requires complex exponentials or telescoping with trig identities. The FTC bypasses all
+  of it.
+</p>
+
+<h2>8. Example: a polynomial integral</h2>
+
+<p>
+  $\displaystyle\int_1^3 (2x^3 - x + 4)\, dx$. Find an antiderivative term by term:
+  $G(x) = \frac{x^4}{2} - \frac{x^2}{2} + 4x$ (check: $G'(x) = 2x^3 - x + 4$). Then:
+</p>
+<div class="display-math">$$\int_1^3 (2x^3 - x + 4)\, dx = \left[\frac{x^4}{2} - \frac{x^2}{2} + 4x\right]_1^3$$</div>
+<div class="display-math">$$= \left(\frac{81}{2} - \frac{9}{2} + 12\right) - \left(\frac{1}{2} - \frac{1}{2} + 4\right) = (36 + 12) - 4 = 44$$</div>
+<p>
+  No Riemann sums, no limits, no summation formulae. Just differentiation rules run
+  backwards, then arithmetic.
+</p>
+
+<h2>9. Notation</h2>
+
+<p>
+  The square bracket notation is standard shorthand:
+</p>
+<div class="display-math">$$\int_a^b f(x)\, dx = \bigl[G(x)\bigr]_a^b = G(b) - G(a)$$</div>
+<p>
+  Read $[G(x)]_a^b$ as "evaluate $G$ at $b$, subtract $G$ at $a$." The vertical bar
+  sometimes appears as $G(x)\big|_a^b$ &mdash; same meaning.
+</p>
+
+<h2>10. The two parts together</h2>
+
+<p>
+  Part 1: the derivative of an integral gives back the original function.
+</p>
+<div class="display-math">$$\frac{d}{dx} \int_a^x f(t)\, dt = f(x)$$</div>
+<p>
+  Part 2: the integral of a derivative gives the total change.
+</p>
+<div class="display-math">$$\int_a^b G'(x)\, dx = G(b) - G(a)$$</div>
+<p>
+  They are two halves of the same coin. Differentiation and integration undo each other,
+  with one caveat: integration introduces an arbitrary constant (the antiderivative is
+  unique only up to "$+C$", as the MVT corollary showed on
+  <a href="04-mean-value-theorem.html">page 4</a>). Part 2 resolves this ambiguity by
+  evaluating at two points &mdash; the constant cancels in the subtraction $G(b) - G(a)$.
+</p>
+<p>
+  Before the FTC, computing an integral meant constructing Riemann sums, bounding them,
+  and taking a limit &mdash; a process that required a new trick for each new function.
+  After the FTC, computing an integral means searching for an antiderivative. That search
+  can be hard too (and is the subject of <a href="09-integration-techniques.html">the next
+  page</a>), but it is a fundamentally different kind of hard: algebraic manipulation
+  rather than limit arguments. The FTC moved the difficulty from analysis to algebra.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Newton (1660s) and Leibniz (1680s) both discovered this connection independently &mdash;
+    that the area problem and the tangent problem are inverses. Newton&rsquo;s approach was
+    physical: he thought of quantities as "fluents" (flowing values) and their rates of
+    change as "fluxions," and showed that finding the area under a fluxion curve recovers
+    the fluent. Leibniz&rsquo;s approach was algebraic: his notation $\int$ (an elongated S
+    for "summa") and $d$ (for "differentia") made the inverse relationship notationally
+    obvious.
+  </p>
+  <p>
+    The theorem was used freely for 150 years before Cauchy (1823) and Riemann (1854)
+    provided the rigorous definitions of limit, derivative, and integral that make it a
+    <em>theorem</em> rather than an empirical observation. It is the reason calculus is one
+    subject, not two separate theories of tangents and areas.
+  </p>
+</div>
+
+<h2>11. What breaks</h2>
+
+<div class="break-box">
+  <div class="label">When $f$ is not continuous</div>
+  <p>
+    FTC Part 1 requires continuity. Consider $f(x) = \operatorname{sgn}(x)$ (the sign
+    function: $1$ for $x > 0$, $-1$ for $x < 0$, $0$ at $x = 0$). The accumulation
+    function is $F(x) = \int_0^x f(t)\, dt = |x|$. But $|x|$ is not differentiable at
+    $x = 0$ (<a href="01-derivative.html">page 1, section 6</a>). The integral exists, but
+    its derivative does not &mdash; exactly at the point where $f$ is discontinuous.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">When the antiderivative is not genuine</div>
+  <p>
+    FTC Part 2 requires $G'(x) = f(x)$ throughout the interval. If $G$ merely "looks
+    right" but has a corner, a jump, or a point where $G' \neq f$, the formula
+    $G(b) - G(a)$ gives the wrong answer. The antiderivative must be a true antiderivative,
+    not just any related function.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">Functions with no elementary antiderivative</div>
+  <p>
+    The FTC guarantees that every continuous function <em>has</em> an antiderivative (namely
+    $F(x) = \int_a^x f$). But it does not guarantee you can write it in closed form.
+    $\int e^{-x^2} dx$ has no elementary expression &mdash; yet $F(x) = \int_0^x e^{-t^2} dt$
+    is a perfectly well-defined, differentiable function (it is essentially the error
+    function $\operatorname{erf}$). The FTC still applies; you just cannot simplify $F$
+    further.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The Fundamental Theorem of Calculus &mdash; differentiation and integration are inverse
+  operations, and that single fact turns hard area problems into easy antiderivative
+  evaluations.
+</div>
+
+<div class="nav">
+  <a href="07-integrability.html">&larr; Prev: Integrability</a>
+  <a href="09-integration-techniques.html">Next: Integration Techniques &rarr;</a>
+</div>
+
+</body>
+</html>

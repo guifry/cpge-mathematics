@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mean Value Theorem &mdash; Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Mean Value Theorem</h1>
+<p class="subtitle">Phase 2 &mdash; Calculus, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You drive 200 km in 2 hours. Your average speed is 100 km/h. But did you
+    <em>ever</em> actually travel at exactly 100 km/h during the trip? You started
+    slowly, accelerated, braked at traffic lights, sped up again. At some instant,
+    your speedometer must have read exactly 100. Intuitively this feels obvious &mdash;
+    but can you prove it?
+  </p>
+  <p>
+    The Mean Value Theorem says your intuition is correct. It is the bridge between
+    <strong>local information</strong> (the derivative at a single point) and
+    <strong>global information</strong> (the total change over an interval). Building
+    up to it requires two stepping stones: the extreme value theorem and Rolle&rsquo;s
+    theorem. Each depends on the previous.
+  </p>
+</div>
+
+<h2>1. The extreme value theorem</h2>
+
+<p>
+  Before we can talk about where derivatives vanish, we need to know that continuous
+  functions on closed intervals actually attain their maximum and minimum values &mdash;
+  they don&rsquo;t just approach them asymptotically. This is the extreme value theorem,
+  and its proof uses the Bolzano&ndash;Weierstrass theorem from
+  <a href="../phase1/04-bolzano-weierstrass.html">Phase 1, page 4</a>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Extreme value theorem</div>
+  <p>
+    If $f$ is continuous on a closed interval $[a, b]$, then $f$ attains its maximum
+    and minimum. That is, there exist $c, d \in [a, b]$ such that $f(c) \leq f(x)
+    \leq f(d)$ for all $x \in [a, b]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (maximum; minimum is identical)</div>
+  <p>
+    <strong>Step 1. The image is bounded above.</strong>
+    Suppose not: for each $n \in \mathbb{N}$, there exists $x_n \in [a, b]$ with
+    $f(x_n) > n$. The sequence $(x_n)$ is bounded (it lives in $[a, b]$), so by
+    Bolzano&ndash;Weierstrass it has a convergent subsequence $x_{n_k} \to c$ for some
+    $c \in [a, b]$ (the interval is closed, so the limit stays inside). By continuity,
+    $f(x_{n_k}) \to f(c)$, a finite number. But $f(x_{n_k}) > n_k \to \infty$ &mdash;
+    contradiction. So $f$ is bounded above on $[a, b]$.
+  </p>
+  <p>
+    <strong>Step 2. The supremum is attained.</strong>
+    Let $M = \sup\{f(x) : x \in [a, b]\}$. This exists by completeness of $\mathbb{R}$
+    (<a href="../phase1/01-completeness.html">Phase 1, page 1</a>). By definition of
+    supremum, for each $n$ there exists $x_n \in [a, b]$ with $f(x_n) > M - 1/n$.
+    The sequence $(x_n)$ is bounded, so by Bolzano&ndash;Weierstrass a subsequence
+    converges: $x_{n_k} \to c \in [a, b]$. By continuity,
+    $f(c) = \lim f(x_{n_k}) = M$. So $f$ attains its maximum at $c$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>2. Rolle&rsquo;s theorem</h2>
+
+<p>
+  If a function starts and ends at the same height, it must turn around somewhere
+  in between. At the turning point, the tangent is horizontal &mdash; the derivative
+  is zero. That&rsquo;s Rolle&rsquo;s theorem.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Rolle&rsquo;s theorem</div>
+  <p>
+    If $f$ is continuous on $[a, b]$, differentiable on $(a, b)$, and $f(a) = f(b)$,
+    then there exists $c \in (a, b)$ with $f'(c) = 0$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Case 1: $f$ is constant.</strong>
+    Then $f'(x) = 0$ for all $x \in (a, b)$, and any $c$ works.
+  </p>
+  <p>
+    <strong>Case 2: $f$ is not constant.</strong>
+    Since $f$ is not constant, there exists some $x_0 \in (a, b)$ with
+    $f(x_0) \neq f(a)$. Without loss of generality, say $f(x_0) > f(a)$
+    (the argument for $f(x_0) < f(a)$ is symmetric, using the minimum instead).
+  </p>
+  <p>
+    By the extreme value theorem, $f$ attains its maximum at some $c \in [a, b]$.
+    Since $f(c) \geq f(x_0) > f(a) = f(b)$, the maximum is not attained at $a$ or
+    $b$. So $c \in (a, b)$ &mdash; the maximum is at an interior point.
+  </p>
+  <p>
+    At an interior maximum where $f$ is differentiable, Fermat&rsquo;s theorem
+    (<a href="01-derivative.html">page 1, section 7</a>) gives $f'(c) = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Look at the dependency chain: Rolle uses the extreme value theorem (for the
+  existence of an interior extremum) and Fermat&rsquo;s theorem (for the derivative
+  being zero there). The extreme value theorem uses Bolzano&ndash;Weierstrass, which
+  uses completeness of $\mathbb{R}$. Everything traces back to the axioms.
+</p>
+
+<h2>3. The Mean Value Theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Mean Value Theorem (Lagrange)</div>
+  <p>
+    If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there
+    exists $c \in (a, b)$ such that
+  </p>
+  <div class="display-math">$$f'(c) = \frac{f(b) - f(a)}{b - a}$$</div>
+</div>
+
+<p>
+  The right-hand side is the slope of the <strong>secant line</strong> from
+  $(a, f(a))$ to $(b, f(b))$ &mdash; the average rate of change over the interval.
+  The theorem says: somewhere inside the interval, the instantaneous rate of change
+  equals the average rate of change. The tangent line is parallel to the secant.
+</p>
+
+<p>
+  The proof reduces the MVT to Rolle&rsquo;s theorem by subtracting the secant line.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Subtract the secant.</strong>
+    Define
+  </p>
+  <div class="display-math">$$g(x) = f(x) - \frac{f(b) - f(a)}{b - a}(x - a)$$</div>
+  <p>
+    This is $f$ minus the linear function whose graph is the secant line (shifted to
+    start at $(a, f(a))$).
+  </p>
+  <p>
+    <strong>Step 2. Check Rolle&rsquo;s hypotheses.</strong>
+    $g$ is continuous on $[a, b]$ (difference of continuous functions) and
+    differentiable on $(a, b)$ (difference of differentiable functions). Compute:
+  </p>
+  <div class="display-math">$$g(a) = f(a) - 0 = f(a)$$</div>
+  <div class="display-math">$$g(b) = f(b) - \frac{f(b) - f(a)}{b - a}(b - a) = f(b) - (f(b) - f(a)) = f(a)$$</div>
+  <p>
+    So $g(a) = g(b) = f(a)$. All three hypotheses of Rolle&rsquo;s theorem are satisfied.
+  </p>
+  <p>
+    <strong>Step 3. Apply Rolle.</strong>
+    There exists $c \in (a, b)$ with $g'(c) = 0$. Since
+  </p>
+  <div class="display-math">$$g'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}$$</div>
+  <p>
+    we get $f'(c) - \dfrac{f(b) - f(a)}{b - a} = 0$, which is the desired result.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Back to the driving problem</h2>
+
+<p>
+  Let $f(t)$ be your position at time $t$ (in hours). You start at $f(0) = 0$ km and
+  arrive at $f(2) = 200$ km. Position is continuous (you don&rsquo;t teleport) and
+  differentiable (your speed $f'(t)$ exists at each instant). By the MVT, there exists
+  $c \in (0, 2)$ with
+</p>
+<div class="display-math">$$f'(c) = \frac{f(2) - f(0)}{2 - 0} = \frac{200}{2} = 100 \text{ km/h}$$</div>
+<p>
+  At some moment during the trip, your instantaneous speed was exactly 100 km/h.
+  The MVT doesn&rsquo;t tell you <em>when</em> &mdash; just that such a moment exists.
+</p>
+
+<h2>5. Consequences of the MVT</h2>
+
+<p>
+  The MVT connects the derivative (local, pointwise) to the function&rsquo;s behaviour
+  (global, over intervals). Three fundamental corollaries follow immediately.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Corollary 1 &mdash; Zero derivative means constant</div>
+  <p>
+    If $f'(x) = 0$ for all $x$ in an interval $I$, then $f$ is constant on $I$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Pick any $a, b \in I$ with $a < b$. By the MVT, there exists $c \in (a, b)$ with
+    $f(b) - f(a) = f'(c)(b - a) = 0 \cdot (b - a) = 0$. So $f(b) = f(a)$. Since $a$
+    and $b$ were arbitrary, $f$ is constant.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Corollary 2 &mdash; Positive derivative means strictly increasing</div>
+  <p>
+    If $f'(x) > 0$ for all $x$ in an interval $I$, then $f$ is strictly increasing on $I$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Pick $a, b \in I$ with $a < b$. By the MVT, $f(b) - f(a) = f'(c)(b - a)$ for some
+    $c \in (a, b)$. Here $f'(c) > 0$ and $b - a > 0$, so $f(b) - f(a) > 0$, i.e.
+    $f(b) > f(a)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Corollary 3 &mdash; Equal derivatives means constant difference</div>
+  <p>
+    If $f'(x) = g'(x)$ for all $x$ in an interval, then $f(x) = g(x) + C$ for some
+    constant $C$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $h = f - g$. Then $h'(x) = f'(x) - g'(x) = 0$ for all $x$. By Corollary 1,
+    $h$ is constant: $f(x) - g(x) = C$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Corollary 3 is why indefinite integrals have a "$+ C$". If $F$ and $G$ are both
+  antiderivatives of $f$ (meaning $F' = G' = f$), then $F$ and $G$ differ by a constant.
+  Every antiderivative of a given function is determined up to a constant &mdash; and the
+  MVT is the reason.
+</p>
+
+<h2>6. Cauchy&rsquo;s generalised MVT</h2>
+
+<p>
+  The ordinary MVT compares $f$ to the identity function $g(x) = x$. Cauchy&rsquo;s
+  version compares two arbitrary functions. We need this for L&rsquo;H&ocirc;pital&rsquo;s
+  rule (<a href="05-lhopital.html">next page</a>).
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cauchy&rsquo;s Mean Value Theorem</div>
+  <p>
+    If $f$ and $g$ are continuous on $[a, b]$, differentiable on $(a, b)$, and
+    $g'(x) \neq 0$ for all $x \in (a, b)$, then there exists $c \in (a, b)$ with
+  </p>
+  <div class="display-math">$$\frac{f'(c)}{g'(c)} = \frac{f(b) - f(a)}{g(b) - g(a)}$$</div>
+</div>
+
+<p>
+  Note: $g(b) \neq g(a)$ because if $g(b) = g(a)$, Rolle would give some $c$ with
+  $g'(c) = 0$, contradicting $g' \neq 0$ on $(a, b)$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Define the auxiliary function.</strong>
+    Let
+  </p>
+  <div class="display-math">$$h(x) = f(x)\bigl(g(b) - g(a)\bigr) - g(x)\bigl(f(b) - f(a)\bigr)$$</div>
+  <p>
+    <strong>Step 2. Check Rolle&rsquo;s hypotheses.</strong>
+    $h$ is continuous on $[a, b]$ and differentiable on $(a, b)$. Compute:
+  </p>
+  <div class="display-math">$$h(a) = f(a)\bigl(g(b) - g(a)\bigr) - g(a)\bigl(f(b) - f(a)\bigr) = f(a)g(b) - g(a)f(b)$$</div>
+  <div class="display-math">$$h(b) = f(b)\bigl(g(b) - g(a)\bigr) - g(b)\bigl(f(b) - f(a)\bigr) = f(a)g(b) - g(a)f(b)$$</div>
+  <p>
+    So $h(a) = h(b)$.
+  </p>
+  <p>
+    <strong>Step 3. Apply Rolle.</strong>
+    There exists $c \in (a, b)$ with $h'(c) = 0$:
+  </p>
+  <div class="display-math">$$f'(c)\bigl(g(b) - g(a)\bigr) - g'(c)\bigl(f(b) - f(a)\bigr) = 0$$</div>
+  <p>
+    Since $g'(c) \neq 0$, divide through:
+  </p>
+  <div class="display-math">$$\frac{f'(c)}{g'(c)} = \frac{f(b) - f(a)}{g(b) - g(a)}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Setting $g(x) = x$ recovers the ordinary MVT: $g'(c) = 1$ and $g(b) - g(a) = b - a$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The Mean Value Theorem was first stated by Lagrange in 1797 in his
+    <em>Th&eacute;orie des fonctions analytiques</em>. He tried to build calculus
+    entirely on Taylor series, avoiding limits &mdash; the MVT was part of that
+    programme.
+  </p>
+  <p>
+    Rolle&rsquo;s theorem (1691) predates the MVT by over a century, and carries a
+    delicious irony. Michel Rolle proved it not to support calculus, but to
+    <em>attack</em> it. Rolle was one of the fiercest critics of infinitesimal methods,
+    calling them "a collection of ingenious fallacies." He proved his theorem as part
+    of an argument against the reliability of calculus. The irony: his result became one
+    of the cornerstones of rigorous calculus &mdash; the very edifice he was trying to
+    demolish.
+  </p>
+</div>
+
+<h2>7. What breaks</h2>
+
+<div class="break-box">
+  <div class="label">Without continuity on $[a, b]$</div>
+  <p>
+    Let $f(x) = x$ for $x \in [0, 1)$ and $f(1) = 0$. Then $f(0) = 0$ and $f(1) = 0$,
+    so the secant slope is $0$. But $f'(x) = 1$ for all $x \in (0, 1)$ &mdash; the
+    derivative is never zero. The discontinuity at $x = 1$ lets the function jump down
+    without the derivative ever matching the average slope.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">Without differentiability on $(a, b)$</div>
+  <p>
+    $f(x) = |x|$ on $[-1, 1]$. Here $f(-1) = f(1) = 1$, so Rolle should give some
+    $c$ with $f'(c) = 0$. The only candidate is $c = 0$ (the minimum), but $f$ is not
+    differentiable at $0$ &mdash; the left and right derivatives are $-1$ and $+1$
+    (<a href="01-derivative.html">page 1, section 6</a>). With no point where $f'$
+    exists and equals zero, Rolle&rsquo;s theorem fails.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">The MVT is a pure existence theorem</div>
+  <p>
+    The MVT guarantees some $c$ exists but says nothing about where it is or how many
+    there are. You cannot extract a formula for $c$ from the theorem. For $f(x) = x^2$
+    on $[0, 2]$, the MVT gives $c = 1$ (the midpoint, since $2c = (4 - 0)/(2 - 0) = 2$).
+    But this tidiness is a special feature of quadratics, not a general rule. For most
+    functions, finding $c$ explicitly is impossible.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  If a function goes from A to B, its instantaneous rate of change must equal
+  the average rate of change at least once &mdash; that&rsquo;s the MVT.
+</div>
+
+<div class="nav">
+  <a href="03-trig-derivatives.html">&larr; Previous: Trigonometric Derivatives</a>
+  <a href="05-lhopital.html">Next: L&rsquo;H&ocirc;pital&rsquo;s Rule &rarr;</a>
+</div>
+
+</body>
+</html>

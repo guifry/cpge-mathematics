@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration Techniques — Phase 2</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Integration Techniques</h1>
+<p class="subtitle">Phase 2 — Calculus, Page 9</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The Fundamental Theorem (page 8) says: to compute $\int_a^b f(x)\, dx$, find an antiderivative
+    $G$ with $G' = f$, then evaluate $G(b) - G(a)$. Simple enough in principle. And sometimes in
+    practice: $\int x^2\, dx = \frac{x^3}{3} + C$ because $\frac{d}{dx}\!\left(\frac{x^3}{3}\right) = x^2$.
+    You just reverse the power rule.
+  </p>
+  <p>
+    But what about $\int 2x \cos(x^2)\, dx$? Or $\int x e^x\, dx$? Or $\int \sin^2(x)\, dx$?
+    None of these match any derivative we know directly. We need systematic methods for finding
+    antiderivatives — and the key insight is that those methods come from reading the differentiation
+    rules (page 2) backwards. Substitution is the chain rule in reverse. Integration by parts is the
+    product rule in reverse. There are no new ideas here — only old ones read through the FTC.
+  </p>
+</div>
+
+<h2>1. The power rule backwards</h2>
+
+<p>
+  The simplest antiderivative formula comes from reversing the power rule for differentiation.
+  Since $\frac{d}{dx}\!\left(\frac{x^{n+1}}{n+1}\right) = x^n$, we have immediately:
+</p>
+
+<div class="display-math">$$\int x^n\, dx = \frac{x^{n+1}}{n+1} + C \qquad (n \neq -1)$$</div>
+
+<p>
+  The "$+ C$" is because the antiderivative is unique only up to an additive constant — a
+  consequence of the Mean Value Theorem (page 4): if two functions have the same derivative on
+  an interval, they differ by a constant.
+</p>
+
+<p>
+  The restriction $n \neq -1$ matters: at $n = -1$ the formula gives $\frac{x^0}{0}$, which is
+  undefined. This is the one case the power rule doesn't cover, and it requires a separate answer:
+</p>
+
+<div class="display-math">$$\int \frac{1}{x}\, dx = \ln|x| + C$$</div>
+
+<p>
+  (IOU: the natural logarithm will be properly defined via its power series in Phase 3. For now,
+  note that this gap in the power rule is precisely what <em>defines</em> the logarithm — it is
+  the antiderivative that the power rule cannot produce.)
+</p>
+
+<h2>2. Integration by substitution</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Substitution Rule)</div>
+  <p>
+    Let $g$ be differentiable on $[a,b]$ with continuous derivative $g'$, and let $f$ be
+    continuous on the range of $g$. Then:
+  </p>
+  <div class="display-math">$$\int_a^b f\!\big(g(x)\big) \cdot g'(x)\, dx = \int_{g(a)}^{g(b)} f(u)\, du$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Since $f$ is continuous, by the FTC (Part 1, page 8) it has an antiderivative: let $F$
+    be a function satisfying $F' = f$.
+  </p>
+  <p>
+    Consider the composite function $F(g(x))$. By the chain rule (page 2):
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\, F\!\big(g(x)\big) = F'\!\big(g(x)\big) \cdot g'(x) = f\!\big(g(x)\big) \cdot g'(x)$$</div>
+  <p>
+    So $F(g(x))$ is an antiderivative of $f(g(x)) \cdot g'(x)$. Applying the FTC (Part 2):
+  </p>
+  <div class="display-math">$$\int_a^b f\!\big(g(x)\big) \cdot g'(x)\, dx = F\!\big(g(b)\big) - F\!\big(g(a)\big)$$</div>
+  <p>
+    But $F$ is also an antiderivative of $f$, so applying the FTC again on the right-hand side:
+  </p>
+  <div class="display-math">$$F\!\big(g(b)\big) - F\!\big(g(a)\big) = \int_{g(a)}^{g(b)} f(u)\, du$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The intuition: when you see a composite function $f(g(x))$ multiplied by $g'(x)$, the $g'(x)\, dx$
+  "becomes" $du$ under the substitution $u = g(x)$. This isn't a formal manipulation of differentials —
+  it is the chain rule, which created that $g'(x)$ factor when we differentiated $F(g(x))$, now read
+  in reverse. Substitution undoes exactly what the chain rule did.
+</p>
+
+<p>
+  In practice, you look at the integrand and ask: is there a function composed with something,
+  multiplied by the derivative of that something? If so, set $u$ equal to the "inner" function.
+  The $g'(x)\, dx$ factor gets absorbed into $du$, leaving a simpler integral in $u$ alone.
+  After integrating, substitute back. For definite integrals, you can either substitute back at
+  the end or transform the bounds directly (as in example (b) below) — the latter is cleaner.
+</p>
+
+<h2>3. Examples of substitution</h2>
+
+<p><strong>Example (a).</strong> Compute $\int 2x \cos(x^2)\, dx$.</p>
+
+<p>
+  Let $u = x^2$, so $du = 2x\, dx$. The integral becomes:
+</p>
+
+<div class="display-math">$$\int \cos(u)\, du = \sin(u) + C = \sin(x^2) + C$$</div>
+
+<p>
+  Verification: $\frac{d}{dx}\sin(x^2) = \cos(x^2) \cdot 2x$. &#10003;
+</p>
+
+<p><strong>Example (b).</strong> Compute $\int_0^1 x\sqrt{1 - x^2}\, dx$.</p>
+
+<p>
+  Let $u = 1 - x^2$, so $du = -2x\, dx$, hence $x\, dx = -\frac{du}{2}$. The bounds transform:
+  when $x = 0$, $u = 1$; when $x = 1$, $u = 0$. The integral becomes:
+</p>
+
+<div class="display-math">$$\int_1^0 \sqrt{u} \cdot \left(-\frac{du}{2}\right) = \frac{1}{2}\int_0^1 \sqrt{u}\, du = \frac{1}{2}\left[\frac{u^{3/2}}{3/2}\right]_0^1 = \frac{1}{2} \cdot \frac{2}{3} = \frac{1}{3}$$</div>
+
+<p><strong>Example (c).</strong> Compute $\int \tan(x)\, dx$.</p>
+
+<p>
+  Write $\tan(x) = \frac{\sin(x)}{\cos(x)}$. Let $u = \cos(x)$, so $du = -\sin(x)\, dx$. Then:
+</p>
+
+<div class="display-math">$$\int \frac{\sin(x)}{\cos(x)}\, dx = -\int \frac{du}{u} = -\ln|u| + C = -\ln|\cos(x)| + C$$</div>
+
+<h2>4. Integration by parts</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Integration by Parts)</div>
+  <p>
+    Let $u$ and $v$ be differentiable on $[a,b]$ with continuous derivatives. Then:
+  </p>
+  <div class="display-math">$$\int_a^b u(x) \cdot v'(x)\, dx = \Big[u(x)\, v(x)\Big]_a^b - \int_a^b u'(x) \cdot v(x)\, dx$$</div>
+  <p>
+    In shorthand: $\int u\, dv = uv - \int v\, du$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By the product rule (page 2):
+  </p>
+  <div class="display-math">$$\frac{d}{dx}\Big[u(x)\, v(x)\Big] = u'(x)\, v(x) + u(x)\, v'(x)$$</div>
+  <p>
+    Integrate both sides from $a$ to $b$:
+  </p>
+  <div class="display-math">$$\int_a^b \frac{d}{dx}\Big[u(x)\, v(x)\Big]\, dx = \int_a^b u'(x)\, v(x)\, dx + \int_a^b u(x)\, v'(x)\, dx$$</div>
+  <p>
+    By the FTC (Part 2), the left side evaluates to $\Big[u(x)\, v(x)\Big]_a^b$. Rearranging:
+  </p>
+  <div class="display-math">$$\int_a^b u(x)\, v'(x)\, dx = \Big[u(x)\, v(x)\Big]_a^b - \int_a^b u'(x)\, v(x)\, dx$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The strategy: integration by parts trades one integral for another. You split the integrand
+  into $u$ (which you will differentiate) and $dv$ (which you will integrate). The hope is that
+  the new integral $\int v\, du$ is simpler than the original $\int u\, dv$. The art lies in
+  choosing $u$ and $dv$ so that differentiating $u$ simplifies it, and integrating $dv$ doesn't
+  make things worse.
+</p>
+
+<h2>5. Examples of integration by parts</h2>
+
+<p><strong>Example (a).</strong> Compute $\int x e^x\, dx$.</p>
+
+<p>
+  Choose $u = x$ (differentiating simplifies it to $1$) and $dv = e^x\, dx$ (integrating keeps it
+  as $e^x$). Then $du = dx$ and $v = e^x$.
+</p>
+
+<div class="display-math">$$\int x e^x\, dx = x e^x - \int e^x\, dx = x e^x - e^x + C = e^x(x - 1) + C$$</div>
+
+<p>
+  Verification: $\frac{d}{dx}\big[e^x(x-1)\big] = e^x(x-1) + e^x = xe^x$. &#10003;
+</p>
+
+<p><strong>Example (b).</strong> Compute $\int \ln(x)\, dx$.</p>
+
+<p>
+  Choose $u = \ln(x)$ and $dv = dx$. Then $du = \frac{1}{x}\, dx$ and $v = x$.
+</p>
+
+<div class="display-math">$$\int \ln(x)\, dx = x\ln(x) - \int x \cdot \frac{1}{x}\, dx = x\ln(x) - \int dx = x\ln(x) - x + C$$</div>
+
+<p>
+  (IOU on $\ln$ as before — Phase 3 will ground it via power series.)
+</p>
+
+<p><strong>Example (c).</strong> Compute $\int \sin^2(x)\, dx$.</p>
+
+<p>
+  Choose $u = \sin(x)$, $dv = \sin(x)\, dx$. Then $du = \cos(x)\, dx$, $v = -\cos(x)$.
+</p>
+
+<div class="display-math">$$\int \sin^2(x)\, dx = -\sin(x)\cos(x) + \int \cos^2(x)\, dx$$</div>
+
+<p>
+  The new integral looks no simpler — but use the identity $\cos^2(x) = 1 - \sin^2(x)$:
+</p>
+
+<div class="display-math">$$\int \sin^2(x)\, dx = -\sin(x)\cos(x) + \int \big(1 - \sin^2(x)\big)\, dx = -\sin(x)\cos(x) + x - \int \sin^2(x)\, dx$$</div>
+
+<p>
+  The original integral has reappeared on the right. Call it $I$:
+</p>
+
+<div class="display-math">$$I = -\sin(x)\cos(x) + x - I$$</div>
+
+<div class="display-math">$$2I = x - \sin(x)\cos(x)$$</div>
+
+<div class="display-math">$$I = \frac{x}{2} - \frac{\sin(2x)}{4} + C$$</div>
+
+<p>
+  (using the double-angle identity $\sin(2x) = 2\sin(x)\cos(x)$). This trick — applying
+  integration by parts and then solving algebraically for the original integral — is a standard
+  technique, not a one-off coincidence.
+</p>
+
+<h2>6. Differentiation rules read backwards</h2>
+
+<p>
+  Every integration technique we have seen is a differentiation rule from page 2, reversed
+  through the FTC:
+</p>
+
+<table style="margin: 1em auto; border-collapse: collapse;">
+  <tr>
+    <td style="padding: 0.4em 1.2em; border-bottom: 1px solid #ccc;"><strong>Differentiation rule</strong></td>
+    <td style="padding: 0.4em 1.2em; border-bottom: 1px solid #ccc;"><strong>Integration technique</strong></td>
+  </tr>
+  <tr>
+    <td style="padding: 0.4em 1.2em;">Power rule: $\frac{d}{dx}(x^{n+1}) = (n+1)x^n$</td>
+    <td style="padding: 0.4em 1.2em;">$\int x^n\, dx = \frac{x^{n+1}}{n+1} + C$</td>
+  </tr>
+  <tr>
+    <td style="padding: 0.4em 1.2em;">Chain rule: $\frac{d}{dx}F(g(x)) = f(g(x))\, g'(x)$</td>
+    <td style="padding: 0.4em 1.2em;">Substitution</td>
+  </tr>
+  <tr>
+    <td style="padding: 0.4em 1.2em;">Product rule: $\frac{d}{dx}(uv) = u'v + uv'$</td>
+    <td style="padding: 0.4em 1.2em;">Integration by parts</td>
+  </tr>
+</table>
+
+<p>
+  There are no "new" ideas in integration techniques. Every method is an old idea —
+  a differentiation rule — read backwards through the Fundamental Theorem. The difficulty of
+  integration is not conceptual but tactical: recognising which rule to read backwards, and
+  choosing the right decomposition of the integrand.
+</p>
+
+<h2>7. Phase 2 recap</h2>
+
+<p>
+  In nine pages we built calculus from scratch:
+</p>
+
+<ol>
+  <li>The derivative, from the tangent problem and the limit definition.</li>
+  <li>Differentiation rules — sum, product, quotient, chain — proved from that definition.</li>
+  <li>Trigonometric derivatives, proved geometrically from the unit circle.</li>
+  <li>The Mean Value Theorem, connecting derivatives to function behaviour.</li>
+  <li>L'H&ocirc;pital's rule, turning the MVT into a limit-computation tool.</li>
+  <li>The Riemann integral, from Archimedes' area problem and the completeness of $\mathbb{R}$.</li>
+  <li>Integrability — which functions have a well-defined integral.</li>
+  <li>The Fundamental Theorem of Calculus — the single deepest result in the subject, connecting
+      derivatives and integrals.</li>
+  <li>Integration techniques — differentiation rules read backwards through the FTC.</li>
+</ol>
+
+<p>
+  Every formula was derived. Every theorem was proved. Nothing was assumed from lyc&eacute;e or
+  taken on faith.
+</p>
+
+<p>
+  Phase 3 (Taylor series and power series) will use both derivatives and integrals heavily.
+  Taylor's theorem requires repeated differentiation. The integral form of the remainder requires
+  integration by parts. Power series define $e^x$, $\sin$, $\cos$, and $\ln$ rigorously — finally
+  paying off the IOUs accumulated across Phase 2. All of this now stands on solid ground.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Both the substitution rule and integration by parts were known to Euler (1730s-1760s) and used
+    extensively by the Bernoulli family. They treated these as algebraic manipulations of
+    "infinitesimals" — $dx$, $du$ — without worrying about rigour. The formal proofs we gave,
+    deriving both rules from the FTC and the differentiation rules, are essentially Cauchy's approach
+    from his 1823 <em>R&eacute;sum&eacute; des le&ccedil;ons</em>. Cauchy was the first to bother
+    <em>proving</em> these "obvious" manipulations — and in doing so, he discovered that they require
+    hypotheses (continuity of $g'$ for substitution, differentiability of both $u$ and $v$ for parts)
+    that the infinitesimal heuristics had silently assumed.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Substitution without continuous $g'$:</strong> the proof uses the FTC to evaluate
+    $\int_a^b \frac{d}{dx}F(g(x))\, dx$, which requires $F'(g(x)) \cdot g'(x)$ to be Riemann
+    integrable. If $g'$ is not continuous, the composite $f(g(x)) \cdot g'(x)$ may fail to be
+    integrable, and the substitution formula breaks down.
+  </p>
+  <p>
+    <strong>Integration by parts with a bad choice of $u$ and $dv$:</strong> the formula is always
+    <em>true</em> (it's a theorem, not a heuristic), but a poor choice makes the new integral
+    harder than the original. For instance, choosing $u = e^x$ and $dv = x\, dx$ in
+    $\int x e^x\, dx$ gives $\int \frac{x^2}{2} e^x\, dx$ — a true equation but a useless one.
+    There is no algorithm for choosing the right split; it is a skill developed through practice.
+  </p>
+  <p>
+    <strong>Functions with no elementary antiderivative:</strong> some integrands — $e^{-x^2}$,
+    $\frac{\sin x}{x}$, $\frac{1}{\ln x}$ — have no antiderivative expressible in terms of
+    elementary functions (polynomials, exponentials, logarithms, trigonometric functions, and their
+    compositions). No amount of substitution or parts will help. The integral exists (the FTC
+    guarantees it for continuous functions) but cannot be written in closed form. These integrals
+    require either numerical methods or new named functions (the error function $\operatorname{erf}$,
+    the sine integral $\operatorname{Si}$, etc.).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every integration technique is a differentiation rule read backwards — substitution undoes the
+  chain rule, integration by parts undoes the product rule.
+</div>
+
+<div class="nav">
+  <a href="08-fundamental-theorem.html">&larr; Previous: The Fundamental Theorem of Calculus</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>
