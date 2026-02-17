@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sine and Cosine from Scratch — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Sine and Cosine from Scratch</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In <a href="../phase0/04-trigonometry.html">Phase 0</a> we defined sine and cosine
+    geometrically: ratios in a right triangle, then coordinates on the unit circle. In
+    <a href="../phase3/03-trig-derivatives.html">Phase 3</a> we proved their derivatives using
+    a geometric squeeze argument. Both approaches rely on geometry &mdash; angles, arcs, the
+    unit circle.
+  </p>
+  <p>
+    Now we do something remarkable: define sine and cosine <strong>purely from
+    arithmetic</strong>. No geometry, no unit circle, no angles. Just power series &mdash;
+    infinite polynomials whose coefficients are determined by the same derivative-matching logic
+    as on <a href="01-taylor-theorem.html">page 1</a>. From these series alone, we will prove
+    $\sin^2 x + \cos^2 x = 1$, that $|\sin x| \leq 1$, and that $(\sin x)' = \cos x$. Every
+    IOU from Phases 0&ndash;3 gets paid in full.
+  </p>
+</div>
+
+<h2>1. The power series definitions</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Sine and cosine</div>
+  <div class="display-math">$$\sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots$$</div>
+  <div class="display-math">$$\cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots$$</div>
+</div>
+
+<p>
+  Why these coefficients? They are forced by the same logic as the exponential. We want
+  $\sin'' = -\sin$ and $\cos'' = -\cos$ (the equation of harmonic oscillation), with initial
+  conditions $\sin(0) = 0$, $\sin'(0) = 1$, $\cos(0) = 1$, $\cos'(0) = 0$. Matching
+  derivatives at $0$ term by term yields exactly these series.
+</p>
+<p>
+  Alternatively: these are the Taylor series at $a = 0$ of the geometric $\sin$ and $\cos$,
+  computed from their cycling derivatives ($\sin, \cos, -\sin, -\cos, \sin, \ldots$) evaluated
+  at $0$. The all-zero even derivatives of $\sin$ kill the even powers; the all-zero odd
+  derivatives of $\cos$ kill the odd powers.
+</p>
+
+<h2>2. Convergence: $R = \infty$</h2>
+
+<p>
+  Both series have infinite radius of convergence. For $\sin$, the non-zero coefficients are
+  $a_{2n+1} = (-1)^n/(2n+1)!$. The ratio test gives:
+</p>
+<div class="display-math">$$\left|\frac{a_{2n+1}}{a_{2n+3}}\right| = \frac{(2n+3)!}{(2n+1)!} = (2n+2)(2n+3) \to \infty$$</div>
+<p>
+  So $R = \infty$. The same argument applies to $\cos$. Both series converge absolutely for
+  every $x \in \mathbb{R}$, just like $\exp$.
+</p>
+
+<h2>3. Taylor remainder vanishes</h2>
+
+<p>
+  For $\sin$: the $(n+1)$-th derivative of $\sin$ is one of $\pm\sin$ or $\pm\cos$, so
+  $|f^{(n+1)}(c)| \leq 1$ for all $c$ (once we prove $|\sin| \leq 1$ and $|\cos| \leq 1$,
+  which follows from section 5 below). The Lagrange remainder satisfies:
+</p>
+<div class="display-math">$$|R_n(x)| \leq \frac{|x|^{n+1}}{(n+1)!} \to 0$$</div>
+<p>
+  So the Taylor series converges to $\sin(x)$ for every $x$. The same holds for $\cos$.
+</p>
+<p>
+  To avoid circularity (we use $|\sin| \leq 1$ to prove the remainder vanishes, but that
+  bound comes from $\sin^2 + \cos^2 = 1$, which we prove next purely from the series), note
+  that section 5 below is entirely algebraic and does not use the remainder estimate. We first
+  prove $\sin^2 + \cos^2 = 1$ from the series, which gives $|\sin| \leq 1$, and <em>then</em>
+  use that bound to confirm the remainder vanishes.
+</p>
+
+<h2>4. Derivatives from the series</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    $\sin'(x) = \cos(x)$ and $\cos'(x) = -\sin(x)$ for all $x$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Differentiate $\sin$ term by term (justified on <a href="05-term-by-term.html">page 5</a>;
+    the radius is infinite):
+  </p>
+  <div class="display-math">$$\sin'(x) = \sum_{n=0}^{\infty} \frac{(-1)^n (2n+1)}{(2n+1)!} x^{2n} = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = \cos(x)$$</div>
+  <p>
+    Similarly, differentiating $\cos$:
+  </p>
+  <div class="display-math">$$\cos'(x) = \sum_{n=1}^{\infty} \frac{(-1)^n (2n)}{(2n)!} x^{2n-1} = \sum_{n=1}^{\infty} \frac{(-1)^n}{(2n-1)!} x^{2n-1}$$</div>
+  <p>
+    Substituting $m = n - 1$:
+  </p>
+  <div class="display-math">$$= \sum_{m=0}^{\infty} \frac{(-1)^{m+1}}{(2m+1)!} x^{2m+1} = -\sum_{m=0}^{\infty} \frac{(-1)^m}{(2m+1)!} x^{2m+1} = -\sin(x)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This confirms what we proved geometrically in
+  <a href="../phase3/03-trig-derivatives.html">Phase 3, page 3</a>. But now the proof is
+  purely algebraic &mdash; no unit circle, no geometric squeeze, no $\lim \sin(h)/h = 1$.
+  The series <em>is</em> the definition, and the derivative follows from the algebra of the
+  series.
+</p>
+
+<h2>5. The Pythagorean identity: $\sin^2 x + \cos^2 x = 1$</h2>
+
+<p>
+  This is the central result of this page. We prove it entirely from the series, with no
+  geometry.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Pythagorean identity</div>
+  <p>
+    For all $x \in \mathbb{R}$: $\sin^2(x) + \cos^2(x) = 1$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Define $g(x) = \sin^2(x) + \cos^2(x)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Differentiate using the chain rule
+    (<a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>):
+  </p>
+  <div class="display-math">$$g'(x) = 2\sin(x)\cos(x) + 2\cos(x)(-\sin(x)) = 0$$</div>
+  <p>
+    <strong>Step 3.</strong> By the MVT corollary
+    (<a href="../phase3/04-mean-value-theorem.html">Phase 3, page 4</a>), a function with
+    zero derivative on $\mathbb{R}$ is constant. So $g(x) = g(0)$ for all $x$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Evaluate: $g(0) = \sin^2(0) + \cos^2(0) = 0^2 + 1^2 = 1$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  In <a href="../phase0/05-unit-circle.html">Phase 0, page 5</a>, we proved
+  $\sin^2\theta + \cos^2\theta = 1$ from the Pythagorean theorem applied to the unit circle.
+  That proof required geometry. This one uses only the series definitions, the derivative
+  formulas from section 4, and the MVT from Phase 3. Completely algebraic, completely rigorous.
+</p>
+
+<h2>6. Closing the IOUs</h2>
+
+<p>
+  <strong>$|\sin x| \leq 1$ and $|\cos x| \leq 1$.</strong> Immediate from the Pythagorean
+  identity: $\sin^2(x) \leq \sin^2(x) + \cos^2(x) = 1$, so $|\sin(x)| \leq 1$. Same for
+  $\cos$.
+</p>
+<p>
+  In <a href="../phase0/05-unit-circle.html">Phase 0, page 5</a>, we stated $|\sin\theta|
+  \leq 1$ as a geometric fact (the $y$-coordinate on a unit circle cannot exceed $1$). Now
+  it is proved from the power series alone.
+</p>
+<p>
+  <strong>$\sin(n)/n \to 0$.</strong> In
+  <a href="../phase2/02-squeeze-theorem.html">Phase 2, page 2</a>, we used the squeeze theorem
+  with $-1/n \leq \sin(n)/n \leq 1/n$. That argument required $|\sin(n)| \leq 1$, which was
+  then an IOU. Now it is proved. The squeeze theorem example is fully grounded.
+</p>
+<p>
+  <strong>$\lim_{h \to 0} \sin(h)/h = 1$.</strong> In
+  <a href="../phase3/03-trig-derivatives.html">Phase 3, page 3</a>, we proved this with a
+  geometric squeeze argument using areas of circular sectors. Here is an alternative proof
+  directly from the series:
+</p>
+<div class="display-math">$$\frac{\sin(h)}{h} = \frac{1}{h}\left(h - \frac{h^3}{3!} + \frac{h^5}{5!} - \cdots\right) = 1 - \frac{h^2}{3!} + \frac{h^4}{5!} - \cdots$$</div>
+<p>
+  As $h \to 0$, every term except the leading $1$ vanishes, so $\sin(h)/h \to 1$. This is
+  more direct than the geometric argument and requires no pictures at all.
+</p>
+
+<h2>7. Connecting to the geometric definition</h2>
+
+<p>
+  We now have <em>two</em> definitions of sine and cosine: the geometric one (unit circle,
+  Phase 0) and the series one (this page). They agree because:
+</p>
+<ol>
+  <li>Both satisfy $f'' = -f$ with the same initial conditions ($\sin(0) = 0$, $\sin'(0) = 1$
+    for sine; $\cos(0) = 1$, $\cos'(0) = 0$ for cosine).</li>
+  <li>The solution to $f'' = -f$ with given initial conditions is unique (this will be proved
+    in Phase 8 via Cauchy-Lipschitz; for now, it can be verified directly by showing that the
+    difference between any two solutions has identically zero derivative, hence is constant,
+    hence zero by the initial conditions).</li>
+</ol>
+<p>
+  So the series functions <em>are</em> the geometric sine and cosine. Every property proved
+  geometrically in Phase 0 &mdash; the unit circle relationship, the Pythagorean identity, the
+  angle-addition formulas &mdash; now has a series-based proof as well. The geometric and
+  analytic perspectives agree completely.
+</p>
+
+<h2>8. Addition formulas from the series</h2>
+
+<p>
+  For completeness, here are the addition formulas proved from the series. The proof mirrors
+  the functional equation of $\exp$ (<a href="03-exponential.html">page 3, section 5</a>):
+  expand the Cauchy products and rearrange.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Addition formulas</div>
+  <div class="display-math">$$\sin(a + b) = \sin(a)\cos(b) + \cos(a)\sin(b)$$</div>
+  <div class="display-math">$$\cos(a + b) = \cos(a)\cos(b) - \sin(a)\sin(b)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof sketch</div>
+  <p>
+    Define $f(b) = \sin(a+b) - \sin(a)\cos(b) - \cos(a)\sin(b)$. Then:
+  </p>
+  <div class="display-math">$$f'(b) = \cos(a+b) + \sin(a)\sin(b) - \cos(a)\cos(b)$$</div>
+  <div class="display-math">$$f''(b) = -\sin(a+b) + \sin(a)\cos(b) + \cos(a)\sin(b) = -f(b)$$</div>
+  <p>
+    So $f'' = -f$. Also $f(0) = \sin(a) - \sin(a) \cdot 1 - \cos(a) \cdot 0 = 0$ and
+    $f'(0) = \cos(a) + 0 - \cos(a) = 0$. The function $h(b) = f(b)^2 + f'(b)^2$ satisfies
+    $h'(b) = 2f(b)f'(b) + 2f'(b)f''(b) = 2f'(b)(f(b) - f(b)) = 0$, so $h$ is constant
+    and $h(b) = h(0) = 0$. Therefore $f(b) = 0$ for all $b$.
+  </p>
+  <p>
+    The cosine formula follows by differentiating with respect to $b$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>9. Euler's formula (preview)</h2>
+
+<p>
+  Compare the three series side by side:
+</p>
+<div class="display-math">$$\exp(ix) = 1 + ix + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \cdots$$</div>
+<p>
+  Using $i^2 = -1$, $i^3 = -i$, $i^4 = 1$, the real and imaginary parts separate:
+</p>
+<div class="display-math">$$\exp(ix) = \left(1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots\right) + i\left(x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots\right) = \cos(x) + i\sin(x)$$</div>
+<p>
+  This is <strong>Euler's formula</strong>. The exponential, sine, and cosine &mdash; three
+  seemingly unrelated functions &mdash; are facets of the same object when extended to complex
+  numbers. Setting $x = \pi$ gives $e^{i\pi} = -1$, connecting the five fundamental constants
+  $e$, $i$, $\pi$, $1$, $0$ in one equation.
+</p>
+<p>
+  (IOU: this is informal since we have not defined complex power series or proved that the
+  manipulation of $i$ within the series is valid. A full treatment requires complex analysis.
+  But the pattern is too beautiful and too useful not to mention.)
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Newton (1669) computed the power series for $\sin$ by inverting the series for $\arcsin$
+    (obtained by integrating $1/\sqrt{1-x^2}$ via the binomial series). Euler (1748) derived
+    the series directly from the exponential via $e^{ix} = \cos x + i \sin x$ in his
+    <em>Introductio in Analysin Infinitorum</em>, treating the relationship as self-evident.
+    The rigorous approach &mdash; defining $\sin$ and $\cos$ by their power series and deriving
+    all properties algebraically &mdash; was established by Weierstrass in the 1860s as part of
+    his programme to build analysis without geometric intuition.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without the alternating signs:</strong> the series $x + x^3/3! + x^5/5! + \cdots$
+    (all positive) defines $\sinh(x) = (e^x - e^{-x})/2$, the hyperbolic sine. It satisfies
+    $\sinh'' = +\sinh$ (not $-\sinh$), grows exponentially, and does <em>not</em> satisfy
+    $\sinh^2 + \cosh^2 = 1$. (Instead, $\cosh^2 - \sinh^2 = 1$.) The alternating signs are
+    what create oscillation and boundedness.
+  </p>
+  <p>
+    <strong>Without the Pythagorean identity:</strong> if $\sin^2 + \cos^2 \neq 1$, the bound
+    $|\sin x| \leq 1$ falls apart, the Taylor remainder estimate fails, and we cannot confirm
+    that the series converges to the geometric sine. The identity is load-bearing &mdash; remove
+    it and the entire edifice collapses.
+  </p>
+  <p>
+    <strong>Without the series (geometric definition only):</strong> the geometric definition
+    requires the concept of arc length on the unit circle, which in turn requires integration
+    ($\int \sqrt{1 + y'^2}\, dx$), which requires defining $\sin$ and $\cos$ to compute the
+    integrand. There is a hidden circularity in the geometric approach. The series definition
+    avoids this entirely: $\sin$ and $\cos$ are defined by pure arithmetic.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Sine and cosine are the odd and even parts of the exponential series with alternating signs
+  &mdash; defined by pure arithmetic, with the Pythagorean identity as an algebraic consequence.
+</div>
+
+<div class="nav">
+  <a href="03-exponential.html">&larr; Previous: The Exponential Function</a>
+  <a href="05-term-by-term.html">Next: Term-by-Term Operations &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abel's Theorem — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Abel's Theorem</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A power series $\sum a_n x^n$ with radius $R$ converges for $|x| < R$ and diverges for
+    $|x| > R$. But what about the boundary $x = R$ or $x = -R$? The series <em>might</em>
+    converge there, and if it does, a natural question arises: does the function $f(x) =
+    \sum a_n x^n$ approach $\sum a_n R^n$ as $x \to R^-$?
+  </p>
+  <p>
+    On <a href="05-term-by-term.html">page 5</a> we derived $\ln(1+x) = \sum_{n=1}^{\infty}
+    (-1)^{n+1} x^n / n$ for $|x| < 1$. The series at $x = 1$ is $1 - 1/2 + 1/3 - 1/4 +
+    \cdots$, which converges (by the alternating series test). So we <em>expect</em>
+    $\ln(2) = 1 - 1/2 + 1/3 - 1/4 + \cdots$, but our derivation only works for $|x| < 1$,
+    not at $x = 1$. Abel's theorem bridges this gap.
+  </p>
+</div>
+
+<h2>1. Boundary examples</h2>
+
+<p>
+  The boundary behaviour of power series is varied. Consider series with $R = 1$:
+</p>
+<ul>
+  <li>$\sum x^n$: diverges at both $x = 1$ and $x = -1$.</li>
+  <li>$\sum x^n/n$: diverges at $x = 1$ (harmonic series), converges at $x = -1$ (alternating
+    harmonic).</li>
+  <li>$\sum x^n/n^2$: converges at both $x = 1$ and $x = -1$.</li>
+</ul>
+<p>
+  The radius of convergence tells you nothing about the boundary. Each endpoint is its own
+  story. Abel's theorem addresses the question: when the series <em>does</em> converge at the
+  boundary, is the limit continuous?
+</p>
+
+<h2>2. Abel's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Abel (1826)</div>
+  <p>
+    Let $\sum_{n=0}^{\infty} a_n$ be a convergent series with sum $S$. Then the power series
+    $f(x) = \sum_{n=0}^{\infty} a_n x^n$ converges for $|x| < 1$, and:
+  </p>
+  <div class="display-math">$$\lim_{x \to 1^-} f(x) = S$$</div>
+  <p>
+    In other words: if the series converges at the boundary, the function defined by the power
+    series approaches that boundary value continuously from the interior.
+  </p>
+</div>
+
+<p>
+  More generally, if $\sum a_n R^n$ converges, then $\lim_{x \to R^-} \sum a_n x^n = \sum a_n
+  R^n$ (apply the theorem to $\sum a_n R^n (x/R)^n$ with $x/R \to 1^-$). The radius need
+  not be $1$.
+</p>
+
+<h2>3. Proof</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Set up partial sums.</strong>
+    Let $S_n = \sum_{k=0}^{n} a_k$ be the partial sums of $\sum a_n$, with $S_n \to S$.
+    Define $S_{-1} = 0$.
+  </p>
+  <p>
+    <strong>Step 2. Abel summation (summation by parts).</strong>
+    Write $a_k = S_k - S_{k-1}$ and substitute into the partial sum of the power series:
+  </p>
+  <div class="display-math">$$\sum_{k=0}^{n} a_k x^k = \sum_{k=0}^{n} (S_k - S_{k-1}) x^k$$</div>
+  <p>
+    Rearranging (this is the discrete analogue of integration by parts):
+  </p>
+  <div class="display-math">$$= S_n x^n + \sum_{k=0}^{n-1} S_k (x^k - x^{k+1}) = S_n x^n + (1 - x)\sum_{k=0}^{n-1} S_k x^k$$</div>
+  <p>
+    <strong>Step 3. Take $n \to \infty$.</strong>
+    For $|x| < 1$: $S_n x^n \to 0$ (since $S_n$ is bounded — convergent sequences are bounded —
+    and $|x^n| \to 0$). So:
+  </p>
+  <div class="display-math">$$f(x) = \sum_{k=0}^{\infty} a_k x^k = (1 - x) \sum_{k=0}^{\infty} S_k x^k$$</div>
+  <p>
+    <strong>Step 4. Take $x \to 1^-$.</strong>
+    We need $\lim_{x \to 1^-} (1-x)\sum S_k x^k = S$. Write $S_k = S + (S_k - S)$:
+  </p>
+  <div class="display-math">$$(1-x)\sum_{k=0}^{\infty} S_k x^k = (1-x)\sum_{k=0}^{\infty} S \cdot x^k + (1-x)\sum_{k=0}^{\infty} (S_k - S) x^k$$</div>
+  <p>
+    The first term is $(1-x) \cdot S/(1-x) = S$ (geometric series).
+  </p>
+  <p>
+    For the second term: let $\varepsilon > 0$. Since $S_k \to S$, choose $N$ so that
+    $|S_k - S| < \varepsilon$ for all $k \geq N$. Split the sum at $N$:
+  </p>
+  <div class="display-math">$$(1-x)\left|\sum_{k=0}^{\infty} (S_k - S) x^k\right| \leq (1-x)\sum_{k=0}^{N-1} |S_k - S| \cdot |x|^k + (1-x)\sum_{k=N}^{\infty} \varepsilon \cdot x^k$$</div>
+  <p>
+    The second piece is $\leq (1-x) \cdot \varepsilon / (1-x) = \varepsilon$. The first piece
+    is a finite sum times $(1-x)$, which tends to $0$ as $x \to 1^-$. So for $x$ close enough
+    to $1$, the total is $< 2\varepsilon$. Since $\varepsilon$ was arbitrary:
+  </p>
+  <div class="display-math">$$\lim_{x \to 1^-} f(x) = S$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Application: $\ln(2) = 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \cdots$</h2>
+
+<p>
+  From <a href="05-term-by-term.html">page 5, section 6</a>: for $|x| < 1$,
+</p>
+<div class="display-math">$$\ln(1 + x) = \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} x^n$$</div>
+<p>
+  At $x = 1$, the series is $\sum_{n=1}^{\infty} (-1)^{n+1}/n = 1 - 1/2 + 1/3 - 1/4 + \cdots$.
+  This converges by the alternating series test (the terms $1/n$ decrease to $0$; the full
+  proof of this test is in Phase 5, but the convergence can be verified directly: the partial
+  sums $S_{2m} = \sum_{k=1}^{2m} (-1)^{k+1}/k$ form an increasing sequence bounded above by
+  $1$, so they converge by the monotone convergence theorem from
+  <a href="../phase2/03-monotone-convergence.html">Phase 2, page 3</a>).
+</p>
+<p>
+  Since $\ln(1+x)$ is continuous at $x = 1$ (it is defined and finite there: $\ln(2)$), and
+  the power series converges at $x = 1$, Abel's theorem gives:
+</p>
+<div class="display-math">$$\ln(2) = \lim_{x \to 1^-} \ln(1+x) = \lim_{x \to 1^-} \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} x^n = \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n}$$</div>
+<div class="display-math">$$\ln(2) = 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \cdots \approx 0.6931$$</div>
+<p>
+  An infinite alternating sum of unit fractions equals the natural logarithm of $2$. This is
+  one of the first non-trivial values computed from a power series.
+</p>
+
+<h2>5. Application: $\frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots$</h2>
+
+<p>
+  From <a href="05-term-by-term.html">page 5, section 7</a>: for $|x| < 1$,
+</p>
+<div class="display-math">$$\arctan(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{2n+1} x^{2n+1}$$</div>
+<p>
+  At $x = 1$, the series is $\sum_{n=0}^{\infty} (-1)^n/(2n+1) = 1 - 1/3 + 1/5 - 1/7 +
+  \cdots$. This converges (alternating, terms decrease to $0$). Since $\arctan(1) = \pi/4$
+  and $\arctan$ is continuous, Abel's theorem gives:
+</p>
+<div class="display-math">$$\frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots$$</div>
+<p>
+  This is the <strong>Leibniz formula for $\pi$</strong> (discovered by Leibniz in 1674, and
+  independently by the Indian mathematician Madhava in the 14th century). An infinite
+  alternating sum of reciprocals of odd numbers equals $\pi/4$. The convergence is very slow
+  (you need hundreds of terms for a few decimal places), but the formula is extraordinary:
+  a purely arithmetic expression for a geometric constant.
+</p>
+
+<h2>6. Phase 4 recap: IOUs closed</h2>
+
+<p>
+  In six pages, Phase 4 has accomplished the following:
+</p>
+<ol>
+  <li><strong>Taylor's theorem</strong> (<a href="01-taylor-theorem.html">page 1</a>):
+    polynomial approximation with a quantitative error bound.</li>
+  <li><strong>Power series</strong> (<a href="02-power-series.html">page 2</a>):
+    convergence on a disc of radius $R$, divergence outside.</li>
+  <li><strong>The exponential</strong> (<a href="03-exponential.html">page 3</a>): defined
+    from its series, all properties proved. The number $e$ and the natural logarithm grounded.
+    IOU from Phase 3 (page 9: $\int 1/x = \ln|x|$) <strong>closed</strong>.</li>
+  <li><strong>Sine and cosine</strong> (<a href="04-trig-series.html">page 4</a>): defined
+    from series, $\sin^2 + \cos^2 = 1$ proved algebraically, $|\sin| \leq 1$ proved.
+    IOUs from Phase 0 (page 5: $|\sin\theta| \leq 1$) and Phase 2 (page 2: $\sin(n)/n \to 0$)
+    <strong>closed</strong>.</li>
+  <li><strong>Term-by-term operations</strong> (<a href="05-term-by-term.html">page 5</a>):
+    justified the derivative and integral manipulations used throughout. Series for $\ln(1+x)$
+    and $\arctan(x)$ derived.</li>
+  <li><strong>Abel's theorem</strong> (this page): boundary values computed. $\ln(2)$ and
+    $\pi/4$ expressed as infinite series.</li>
+</ol>
+<p>
+  The "infinite polynomial" programme that Newton started is now on rigorous footing. Every
+  function we have encountered &mdash; $e^x$, $\sin$, $\cos$, $\ln$, $\arctan$ &mdash; has a
+  power series representation with a known radius, and all manipulations of those series are
+  justified.
+</p>
+<p>
+  Phase 5 will build the general convergence toolkit: comparison test, ratio test, alternating
+  series test, and the full theory of uniform convergence. These tools were used informally in
+  Phase 4; Phase 5 will prove them in full generality, motivated by the concrete examples we
+  now understand.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Niels Henrik Abel proved this theorem in 1826, aged 23, in his paper on the binomial
+    series. Abel was deeply concerned with the lack of rigour in the infinite-series
+    manipulations that Euler and his contemporaries performed freely. He wrote: "Divergent
+    series are the invention of the devil, and it is shameful to base on them any demonstration
+    whatsoever."
+  </p>
+  <p>
+    Abel's theorem is a <em>one-directional</em> result: convergence at the boundary implies
+    continuity from the interior. The converse &mdash; known as Tauber's theorem (1897) &mdash;
+    requires additional conditions. Abel died of tuberculosis in 1829, aged 26, two days before
+    a letter arrived offering him a professorship in Berlin. His work on series, elliptic
+    functions, and the unsolvability of the quintic (Phase 10) makes him one of the most
+    important mathematicians of the 19th century.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without convergence at the boundary:</strong> $\sum x^n$ has $R = 1$, and the sum
+    is $1/(1-x)$. As $x \to 1^-$, $f(x) = 1/(1-x) \to \infty$. The series diverges at
+    $x = 1$, and Abel's theorem does not apply. The function blows up &mdash; there is no
+    finite boundary value to approach.
+  </p>
+  <p>
+    <strong>The converse fails:</strong> Abel's theorem says: if $\sum a_n$ converges, then
+    $\lim_{x \to 1^-} \sum a_n x^n = \sum a_n$. The converse &mdash; if the limit exists,
+    then $\sum a_n$ converges &mdash; is false. The series $\sum (-1)^n$ diverges (partial
+    sums oscillate between $0$ and $1$), but $\sum (-1)^n x^n = 1/(1+x)$, and
+    $\lim_{x \to 1^-} 1/(1+x) = 1/2$. The limit from the interior exists, but the boundary
+    series does not converge. (The value $1/2$ is called the <em>Abel sum</em> of the divergent
+    series, and is a form of regularisation used in physics.)
+  </p>
+  <p>
+    <strong>Approaching from the wrong direction:</strong> Abel's theorem requires approaching
+    $x = R$ from inside the disc ($x \to R^-$). If you approach along a different path in the
+    complex plane, the limit can differ. Abel's theorem specifically guarantees continuity along
+    the real axis from the interior.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Abel's theorem: if the power series converges at the boundary, the function it defines
+  approaches that boundary value continuously from the interior.
+</div>
+
+<div class="nav">
+  <a href="05-term-by-term.html">&larr; Previous: Term-by-Term Operations</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

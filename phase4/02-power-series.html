@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Series and Radius of Convergence — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Power Series and Radius of Convergence</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    On <a href="01-taylor-theorem.html">page 1</a> we saw that the Taylor polynomial of $e^x$
+    at $a = 0$ is $1 + x + x^2/2! + \cdots + x^n/n!$. As $n \to \infty$, we get an infinite
+    series. But does this infinite sum converge? And for which values of $x$?
+  </p>
+  <p>
+    More generally, given a <strong>power series</strong> $\sum_{n=0}^{\infty} a_n x^n$ with
+    fixed coefficients $a_n$, for which $x$ does the series converge? The answer turns out to
+    be beautifully simple: there is a number $R$ (the <strong>radius of convergence</strong>)
+    such that the series converges for $|x| < R$ and diverges for $|x| > R$. The geometry is
+    a disc centred at the origin. But the value of $R$ can be surprising.
+  </p>
+</div>
+
+<h2>1. The geometric series: the prototype</h2>
+
+<p>
+  The simplest power series is the geometric series. For $|x| < 1$:
+</p>
+<div class="display-math">$$\sum_{n=0}^{\infty} x^n = \frac{1}{1-x}$$</div>
+<p>
+  We can verify this directly. The partial sum $S_N = 1 + x + x^2 + \cdots + x^N$ satisfies
+  $S_N(1 - x) = 1 - x^{N+1}$, so $S_N = \frac{1 - x^{N+1}}{1 - x}$. When $|x| < 1$,
+  $x^{N+1} \to 0$ as $N \to \infty$
+  (<a href="../phase2/02-squeeze-theorem.html">Phase 2, page 2</a>), giving $S_N \to 1/(1-x)$.
+  When $|x| > 1$, $|x^{N+1}| \to \infty$ and the partial sums diverge. At $|x| = 1$, the
+  terms do not tend to zero, so the series diverges.
+</p>
+<p>
+  The radius of convergence is $R = 1$. Inside the disc $|x| < 1$: convergence. Outside: divergence.
+  This pattern holds for every power series.
+</p>
+
+<h2>2. Power series: definition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Power series</div>
+  <p>
+    A <strong>power series centred at $a$</strong> is an expression of the form:
+  </p>
+  <div class="display-math">$$\sum_{n=0}^{\infty} a_n (x - a)^n = a_0 + a_1(x-a) + a_2(x-a)^2 + \cdots$$</div>
+  <p>
+    where $(a_n)$ is a fixed sequence of real numbers (the <strong>coefficients</strong>) and
+    $x$ is a variable. When $a = 0$, this simplifies to $\sum a_n x^n$.
+  </p>
+</div>
+
+<p>
+  A power series is a function of $x$ &mdash; but only for those $x$ where the series converges.
+  Its <strong>domain</strong> is the set of all $x$ for which $\sum a_n (x-a)^n$ converges.
+  We now determine this domain.
+</p>
+
+<h2>3. The key lemma</h2>
+
+<p>
+  The following lemma shows that convergence at one point forces convergence everywhere closer
+  to the centre:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Lemma</div>
+  <p>
+    If $\sum a_n r^n$ converges for some $r \neq 0$, then $\sum a_n x^n$ converges absolutely
+    for every $x$ with $|x| < |r|$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $\sum a_n r^n$ converges, its terms tend to zero
+    (<a href="../phase2/05-cauchy-criterion.html">Phase 2, page 5</a>). In particular, the
+    sequence $(a_n r^n)$ is bounded: there exists $M > 0$ with $|a_n r^n| \leq M$ for all $n$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> For $|x| < |r|$, let $\rho = |x/r| < 1$. Then:
+  </p>
+  <div class="display-math">$$|a_n x^n| = |a_n r^n| \cdot \left|\frac{x}{r}\right|^n \leq M \rho^n$$</div>
+  <p>
+    <strong>Step 3.</strong> The series $\sum M \rho^n = M/(1-\rho)$ is a convergent geometric
+    series (since $\rho < 1$). By comparison, $\sum |a_n x^n|$ converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The contrapositive is equally useful: if $\sum a_n x^n$ diverges at some $x_0$, then it
+  diverges for all $x$ with $|x| > |x_0|$. Convergence is "closer to the centre" and
+  divergence is "farther away."
+</p>
+
+<h2>4. The radius of convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Radius of convergence</div>
+  <p>
+    For any power series $\sum a_n x^n$, there exists a number $R \in [0, \infty]$ such that:
+  </p>
+  <ul>
+    <li>The series converges absolutely for $|x| < R$.</li>
+    <li>The series diverges for $|x| > R$.</li>
+  </ul>
+  <p>
+    $R$ is called the <strong>radius of convergence</strong>.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Define $R = \sup\{|r| : \sum a_n r^n \text{ converges}\}$ (with $R = \infty$ if the set is
+    unbounded). This supremum exists by the completeness of $\mathbb{R}$
+    (<a href="../phase2/01-completeness.html">Phase 2, page 1</a>).
+  </p>
+  <p>
+    If $|x| < R$: by the definition of supremum, there exists $r$ with $|x| < |r| \leq R$ and
+    $\sum a_n r^n$ convergent. The lemma gives absolute convergence at $x$.
+  </p>
+  <p>
+    If $|x| > R$: the series cannot converge at $x$, for otherwise the lemma would force
+    convergence at all points inside $|x|$, contradicting $R$ being the supremum.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  At $|x| = R$ (the boundary), anything can happen &mdash; the series may converge, diverge,
+  or converge conditionally. Each boundary point must be checked individually.
+  <a href="06-abel-theorem.html">Page 6</a> will say more about this.
+</p>
+
+<h2>5. Computing $R$: the ratio test</h2>
+
+<p>
+  For most concrete series, $R$ can be computed from the coefficients. The ratio test from
+  d'Alembert (which we state here and will prove in full generality in Phase 5) gives:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Formula &mdash; Ratio test for radius</div>
+  <p>
+    If the limit exists:
+  </p>
+  <div class="display-math">$$R = \lim_{n \to \infty} \left|\frac{a_n}{a_{n+1}}\right|$$</div>
+</div>
+
+<p>
+  The idea: $\sum a_n x^n$ behaves like a geometric series with ratio
+  $|a_{n+1} x^{n+1}| / |a_n x^n| = |a_{n+1}/a_n| \cdot |x|$. This ratio is less than $1$
+  (convergence) when $|x| < |a_n/a_{n+1}|$, and the limit of this bound is $R$.
+</p>
+
+<h2>6. Computing $R$: the root test (Cauchy-Hadamard)</h2>
+
+<div class="theorem-box">
+  <div class="label">Formula &mdash; Cauchy-Hadamard</div>
+  <p>
+    The radius of convergence is:
+  </p>
+  <div class="display-math">$$\frac{1}{R} = \limsup_{n \to \infty} |a_n|^{1/n}$$</div>
+  <p>
+    (with $1/R = 0$ meaning $R = \infty$, and $1/R = \infty$ meaning $R = 0$).
+  </p>
+</div>
+
+<p>
+  The Cauchy-Hadamard formula always works (it uses $\limsup$, which always exists for a
+  bounded-above sequence), whereas the ratio test requires the limit of $|a_n/a_{n+1}|$ to
+  exist. For most textbook examples, either formula gives the same answer.
+</p>
+
+<h2>7. Examples</h2>
+
+<p>
+  <strong>The exponential series</strong> $\sum x^n / n!$. Using the ratio test:
+  $|a_n / a_{n+1}| = |(1/n!) / (1/(n+1)!)| = n + 1 \to \infty$. So $R = \infty$ &mdash; the
+  series converges for all $x \in \mathbb{R}$.
+</p>
+
+<p>
+  <strong>The geometric series</strong> $\sum x^n$. Here $a_n = 1$, so
+  $|a_n/a_{n+1}| = 1$. Thus $R = 1$.
+</p>
+
+<p>
+  <strong>The series</strong> $\sum n! \, x^n$. Using the ratio test:
+  $|a_n/a_{n+1}| = n!/(n+1)! = 1/(n+1) \to 0$. So $R = 0$: the series converges only at
+  $x = 0$. The coefficients grow so fast that the series never converges elsewhere.
+</p>
+
+<p>
+  <strong>The series</strong> $\sum x^n / n$. Here $|a_n/a_{n+1}| = (n+1)/n \to 1$, so $R = 1$.
+  At $x = 1$: $\sum 1/n$ diverges (the harmonic series). At $x = -1$: $\sum (-1)^n/n$ converges
+  (by the alternating series test, which we will prove in Phase 5; for now, note it converges
+  to $\ln 2$, as <a href="06-abel-theorem.html">page 6</a> will show).
+</p>
+
+<h2>8. The mystery of $1/(1 + x^2)$</h2>
+
+<p>
+  Consider $f(x) = 1/(1 + x^2)$. This function is perfectly smooth on all of $\mathbb{R}$
+  &mdash; no discontinuities, no corners, infinitely differentiable everywhere. Its Taylor
+  series at $a = 0$ is:
+</p>
+<div class="display-math">$$\frac{1}{1+x^2} = 1 - x^2 + x^4 - x^6 + \cdots = \sum_{n=0}^{\infty} (-1)^n x^{2n}$$</div>
+<p>
+  (obtained by substituting $-x^2$ for $x$ in the geometric series $1/(1-x) = \sum x^n$).
+  This is a geometric series with ratio $-x^2$, so it converges when $|{-x^2}| < 1$, i.e.
+  $|x| < 1$. The radius of convergence is $R = 1$.
+</p>
+<p>
+  But <em>why</em>? The function $1/(1+x^2)$ is smooth at $x = 2$, at $x = 10$, everywhere.
+  There is no singularity on the real line. Why does the Taylor series refuse to converge
+  beyond $|x| = 1$?
+</p>
+<p>
+  The answer is invisible from the real line but obvious in the complex plane: $1/(1+z^2)$
+  has poles at $z = i$ and $z = -i$ (where $1 + z^2 = 0$). The distance from the centre
+  $a = 0$ to the nearest singularity is $|i| = 1$. The radius of convergence equals the
+  distance to the nearest <em>complex</em> singularity, even when you only care about real $x$.
+</p>
+<p>
+  This is Hadamard's insight: the power series "sees" the complex plane. Real smoothness is
+  not enough &mdash; the series reaches out into $\mathbb{C}$ and hits the pole at $\pm i$.
+  A full explanation requires complex analysis, but the principle is worth stating now: the
+  radius of convergence of a Taylor series equals the distance from the centre to the nearest
+  complex singularity of the function.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy (1821) first studied the convergence of power series systematically. He understood
+    that $\sum a_n x^n$ converges inside a disc and diverges outside, but did not give a
+    formula for $R$. Hadamard (1892) proved the root test formula $1/R = \limsup |a_n|^{1/n}$,
+    which always works and is now called the Cauchy-Hadamard theorem (Cauchy having discovered
+    a special case earlier).
+  </p>
+  <p>
+    The complex-plane explanation for the radius of convergence &mdash; that $R$ equals the
+    distance to the nearest singularity in $\mathbb{C}$ &mdash; was understood by Weierstrass
+    and Hadamard in the late 19th century. It is one of the most compelling arguments for why
+    complex numbers are "real": they explain phenomena about real-valued functions that are
+    invisible from the real line alone.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>At the boundary $|x| = R$:</strong> convergence is not guaranteed. The series
+    $\sum x^n$ (radius $R = 1$) diverges at both $x = 1$ and $x = -1$. The series $\sum x^n/n$
+    (also $R = 1$) diverges at $x = 1$ but converges at $x = -1$. The series $\sum x^n/n^2$
+    (also $R = 1$) converges at both boundary points. The radius tells you nothing about the
+    boundary &mdash; each endpoint is its own problem.
+  </p>
+  <p>
+    <strong>Without absolute convergence inside:</strong> inside $|x| < R$, convergence is
+    always <em>absolute</em> (the lemma proved it via comparison with a geometric series). This
+    is important: absolutely convergent series can be rearranged freely without changing the sum
+    (conditional convergence allows rearrangement to any value, as Riemann showed). Inside the
+    radius, power series are well-behaved.
+  </p>
+  <p>
+    <strong>When $R = 0$:</strong> the series $\sum n!\, x^n$ converges only at $x = 0$. The
+    coefficients grow so explosively that no nonzero $x$ can tame them. Such a series is
+    essentially useless as a function &mdash; it defines nothing beyond a single point.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every power series has a radius of convergence $R$: absolute convergence inside, divergence
+  outside, and the boundary is a separate question.
+</div>
+
+<div class="nav">
+  <a href="01-taylor-theorem.html">&larr; Previous: Taylor's Theorem</a>
+  <a href="03-exponential.html">Next: The Exponential Function &rarr;</a>
+</div>
+
+</body>
+</html>

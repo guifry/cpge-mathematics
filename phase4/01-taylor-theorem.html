@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taylor's Theorem — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Taylor's Theorem</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Newton (1660s) had a radical insight: forget trying to compute with complicated functions
+    directly. Instead, write them as <strong>infinite polynomials</strong>. Polynomials are easy
+    &mdash; you can add, multiply, differentiate, and integrate them with nothing more than
+    arithmetic. If you could express $\sin(x)$, $e^x$, or $\ln(1+x)$ as a polynomial with
+    infinitely many terms, you could compute with them just as easily.
+  </p>
+  <p>
+    But two questions arise immediately. First, <em>which</em> polynomial? Given a function $f$,
+    how do you find the coefficients of its infinite polynomial? Second, <em>how good</em> is the
+    approximation? If you truncate after $n$ terms, how large is the error? Taylor (1715)
+    answered both questions in one theorem.
+  </p>
+</div>
+
+<h2>1. The idea: matching derivatives</h2>
+
+<p>
+  Suppose you want to approximate $f(x)$ near a point $a$ by a polynomial. The simplest
+  approximation is the constant $f(a)$ &mdash; correct at $x = a$ but ignoring all variation.
+  The next step is the linear approximation $f(a) + f'(a)(x - a)$: the tangent line
+  (<a href="../phase3/01-derivative.html">Phase 3, page 1</a>). This matches $f$ in both
+  value and slope at $x = a$.
+</p>
+<p>
+  Why stop at slope? Match the <strong>curvature</strong> too, using the second derivative.
+  Then the third derivative. Then the fourth. The more derivatives you match, the closer the
+  polynomial hugs the function near $a$.
+</p>
+<p>
+  The question is: what coefficients make a polynomial $P(x) = c_0 + c_1(x-a) + c_2(x-a)^2 +
+  \cdots + c_n(x-a)^n$ satisfy $P^{(k)}(a) = f^{(k)}(a)$ for $k = 0, 1, \ldots, n$?
+</p>
+
+<h2>2. Finding the coefficients</h2>
+
+<p>
+  Write $P(x) = \sum_{k=0}^{n} c_k (x - a)^k$. Differentiate $k$ times and evaluate at $x = a$.
+  All terms vanish except the $k$-th, because differentiating $(x-a)^j$ exactly $k$ times gives
+  $j(j-1)\cdots(j-k+1)(x-a)^{j-k}$, which is zero at $x = a$ when $j > k$ and a constant when
+  $j = k$.
+</p>
+<p>
+  Specifically, $P^{(k)}(a) = k! \cdot c_k$. So matching $P^{(k)}(a) = f^{(k)}(a)$ forces:
+</p>
+<div class="display-math">$$c_k = \frac{f^{(k)}(a)}{k!}$$</div>
+<p>
+  The factorial is not a choice &mdash; it is forced by the requirement that derivatives match.
+  The $k!$ appears because differentiating $x^k$ exactly $k$ times gives $k!$, so you must
+  divide by $k!$ to cancel it.
+</p>
+
+<h2>3. The Taylor polynomial</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Taylor polynomial of degree $n$</div>
+  <p>
+    Let $f$ be $n$ times differentiable at $a$. The <strong>Taylor polynomial of degree $n$</strong>
+    of $f$ centred at $a$ is:
+  </p>
+  <div class="display-math">$$T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!}(x - a)^k$$</div>
+  <p>
+    When $a = 0$, this is also called the <strong>Maclaurin polynomial</strong>.
+  </p>
+</div>
+
+<p>
+  By construction, $T_n$ agrees with $f$ in its value and first $n$ derivatives at $x = a$.
+  No other polynomial of degree $\leq n$ does this.
+</p>
+
+<h2>4. Example: Taylor polynomials of $e^x$ at $a = 0$</h2>
+
+<p>
+  The exponential function (which we will define rigorously from this series on
+  <a href="03-exponential.html">page 3</a>) satisfies $f^{(k)}(x) = e^x$ for all $k$, so
+  $f^{(k)}(0) = 1$ for every $k$. The Taylor polynomials are:
+</p>
+<div class="display-math">$$T_n(x) = \sum_{k=0}^{n} \frac{x^k}{k!} = 1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \cdots + \frac{x^n}{n!}$$</div>
+<p>
+  Each additional term improves the approximation. $T_1(x) = 1 + x$ is the tangent line.
+  $T_2(x) = 1 + x + x^2/2$ matches the curvature. $T_5$ is already nearly indistinguishable
+  from $e^x$ on $[-2, 2]$.
+</p>
+
+<h2>5. Example: Taylor polynomials of $\sin(x)$ at $a = 0$</h2>
+
+<p>
+  The derivatives of $\sin$ cycle: $\sin, \cos, -\sin, -\cos, \sin, \ldots$, giving values at
+  $0$ of $0, 1, 0, -1, 0, 1, \ldots$. Only odd powers survive:
+</p>
+<div class="display-math">$$T_{2n+1}(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots + (-1)^n \frac{x^{2n+1}}{(2n+1)!}$$</div>
+<p>
+  The first approximation $T_1(x) = x$ explains the small-angle approximation $\sin(\theta)
+  \approx \theta$ that physicists use for pendulums. Higher-order terms correct for larger
+  angles.
+</p>
+
+<h2>6. Taylor's theorem: the error term</h2>
+
+<p>
+  The Taylor polynomial matches $f$ perfectly at $a$ and approximates it nearby. But how large
+  is the error $f(x) - T_n(x)$? Taylor's theorem answers this by giving an explicit formula
+  for the remainder.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Taylor's theorem (Lagrange form of the remainder)</div>
+  <p>
+    Let $f$ be $(n+1)$ times differentiable on an interval $I$ containing $a$. Then for every
+    $x \in I$, there exists $c$ strictly between $a$ and $x$ such that:
+  </p>
+  <div class="display-math">$$f(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!}(x-a)^k + \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$$</div>
+  <p>
+    The last term is the <strong>Lagrange remainder</strong>:
+    $R_n(x) = \dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$.
+  </p>
+</div>
+
+<p>
+  The remainder looks exactly like the next term in the Taylor polynomial, except $f^{(n+1)}(a)$
+  is replaced by $f^{(n+1)}(c)$ for some unknown $c$ between $a$ and $x$. You do not know $c$
+  exactly &mdash; but you do not need to. For bounding the error, it suffices to bound
+  $|f^{(n+1)}|$ on the interval $[a, x]$.
+</p>
+
+<h2>7. Proof of Taylor's theorem</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Define the remainder.</strong>
+    Let $R_n(x) = f(x) - T_n(x)$. We need to show this has the Lagrange form.
+  </p>
+  <p>
+    <strong>Step 2. Properties of $R_n$.</strong>
+    Since $T_n$ matches $f$ in its first $n$ derivatives at $a$:
+  </p>
+  <div class="display-math">$$R_n(a) = R_n'(a) = R_n''(a) = \cdots = R_n^{(n)}(a) = 0$$</div>
+  <p>
+    Also, $R_n^{(n+1)}(t) = f^{(n+1)}(t)$ for all $t$, since $T_n$ is a polynomial of degree
+    $n$ whose $(n+1)$-th derivative is zero.
+  </p>
+  <p>
+    <strong>Step 3. Set up a Cauchy MVT argument.</strong>
+    Define $g(t) = (x - t)^{n+1}$. Note that $g(a) = (x-a)^{n+1}$, $g(x) = 0$, and
+    $g'(t) = -(n+1)(x-t)^n$.
+  </p>
+  <p>
+    Apply the Cauchy Mean Value Theorem
+    (<a href="../phase3/05-lhopital.html">Phase 3, page 5</a>) to $R_n$ and $g$ on $[a, x]$
+    (or $[x, a]$ if $x < a$). There exists $c_1$ between $a$ and $x$ with:
+  </p>
+  <div class="display-math">$$\frac{R_n(x) - R_n(a)}{g(x) - g(a)} = \frac{R_n'(c_1)}{g'(c_1)}$$</div>
+  <p>
+    Since $R_n(a) = 0$ and $g(x) = 0$:
+  </p>
+  <div class="display-math">$$\frac{R_n(x)}{-(x-a)^{n+1}} = \frac{R_n'(c_1)}{-(n+1)(x-c_1)^n}$$</div>
+  <p>
+    <strong>Step 4. Repeat.</strong>
+    Since $R_n'(a) = 0$, apply the Cauchy MVT again to $R_n'$ and $(x-t)^n$ on $[a, c_1]$.
+    There exists $c_2$ between $a$ and $c_1$ with a similar ratio. Continue $n$ times total.
+    After $n$ applications, we reach:
+  </p>
+  <div class="display-math">$$\frac{R_n(x)}{(x-a)^{n+1}} = \frac{R_n^{(n)}(c_n)}{n! \cdot (n+1)(x - c_n)}$$</div>
+  <p>
+    where $c_n$ is between $a$ and $c_{n-1}$ (hence between $a$ and $x$).
+  </p>
+  <p>
+    <strong>Step 5. One final application.</strong>
+    $R_n^{(n)}(a) = 0$ still, and $R_n^{(n)}$ is differentiable with $R_n^{(n+1)} = f^{(n+1)}$.
+    Apply the ordinary MVT to $R_n^{(n)}$ on $[a, c_n]$: there exists $c$ between $a$ and $c_n$
+    with $R_n^{(n)}(c_n) = R_n^{(n+1)}(c) \cdot (c_n - a) = f^{(n+1)}(c)(c_n - a)$.
+  </p>
+  <p>
+    Substituting back and simplifying the telescoping factors yields:
+  </p>
+  <div class="display-math">$$R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>8. The integral form of the remainder</h2>
+
+<p>
+  There is a second expression for $R_n$ that uses integration rather than a mystery point $c$.
+  It is often more useful for proving that the remainder tends to zero.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Integral remainder</div>
+  <p>
+    Under the same hypotheses, and if $f^{(n+1)}$ is continuous:
+  </p>
+  <div class="display-math">$$R_n(x) = \int_a^x \frac{f^{(n+1)}(t)}{n!}(x - t)^n\, dt$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (by induction using integration by parts)</div>
+  <p>
+    <strong>Base case ($n = 0$).</strong>
+    $R_0(x) = f(x) - f(a)$. By the FTC
+    (<a href="../phase3/08-fundamental-theorem.html">Phase 3, page 8</a>):
+  </p>
+  <div class="display-math">$$f(x) - f(a) = \int_a^x f'(t)\, dt$$</div>
+  <p>
+    This matches $\int_a^x \frac{f^{(1)}(t)}{0!}(x-t)^0\, dt = \int_a^x f'(t)\, dt$. &#10003;
+  </p>
+  <p>
+    <strong>Inductive step.</strong>
+    Assume the formula holds for $n-1$:
+  </p>
+  <div class="display-math">$$R_{n-1}(x) = \int_a^x \frac{f^{(n)}(t)}{(n-1)!}(x-t)^{n-1}\, dt$$</div>
+  <p>
+    Apply integration by parts with $u = f^{(n)}(t)/(n-1)!$ and $dv = (x-t)^{n-1}\, dt$,
+    so $du = f^{(n+1)}(t)/(n-1)!\, dt$ and $v = -(x-t)^n / n$:
+  </p>
+  <div class="display-math">$$R_{n-1}(x) = \left[-\frac{f^{(n)}(t)}{n!}(x-t)^n\right]_a^x + \int_a^x \frac{f^{(n+1)}(t)}{n!}(x-t)^n\, dt$$</div>
+  <p>
+    The boundary term evaluates to $0 - \left(-\frac{f^{(n)}(a)}{n!}(x-a)^n\right) = \frac{f^{(n)}(a)}{n!}(x-a)^n$.
+  </p>
+  <p>
+    Now $R_{n-1}(x) = R_n(x) + \frac{f^{(n)}(a)}{n!}(x-a)^n$ (since $T_n = T_{n-1}$ plus that
+    last term). Therefore:
+  </p>
+  <div class="display-math">$$R_n(x) = R_{n-1}(x) - \frac{f^{(n)}(a)}{n!}(x-a)^n = \int_a^x \frac{f^{(n+1)}(t)}{n!}(x-t)^n\, dt$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>9. Using the remainder: bounding the error</h2>
+
+<p>
+  The Lagrange remainder gives a practical error bound. If $|f^{(n+1)}(t)| \leq M$ for all $t$
+  between $a$ and $x$, then:
+</p>
+<div class="display-math">$$|R_n(x)| \leq \frac{M}{(n+1)!}|x - a|^{n+1}$$</div>
+<p>
+  The factorial in the denominator grows much faster than any power in the numerator. This means
+  that for many functions (where the derivatives do not grow too fast), $R_n(x) \to 0$ as
+  $n \to \infty$, and the Taylor series converges to $f(x)$. We will verify this explicitly for
+  $e^x$ on <a href="03-exponential.html">page 3</a> and for $\sin(x)$, $\cos(x)$ on
+  <a href="04-trig-series.html">page 4</a>.
+</p>
+<p>
+  But this is <em>not</em> automatic. There exist smooth functions where $R_n(x) \not\to 0$ for
+  $x \neq a$ &mdash; the Taylor series converges, but not to $f$. The standard example is
+  $f(x) = e^{-1/x^2}$ (with $f(0) = 0$), whose derivatives at $0$ are all zero. Its Taylor
+  series at $0$ is identically zero, yet $f(x) > 0$ for $x \neq 0$. The remainder never shrinks.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Brook Taylor published the theorem in 1715 in <em>Methodus Incrementorum Directa et
+    Inversa</em>, though he stated it without the remainder term. James Gregory (1668) and
+    Newton (1690s) had independently discovered specific instances of the series &mdash; Newton
+    used the binomial series extensively. Colin Maclaurin popularised the $a = 0$ case in his
+    1742 <em>Treatise of Fluxions</em>, giving it the name "Maclaurin series."
+  </p>
+  <p>
+    The crucial addition was the remainder. Lagrange (1797) gave the form we proved above.
+    Cauchy later gave the integral form, which is more flexible. Without the remainder, the
+    Taylor polynomial is merely a formal trick; with it, the polynomial becomes a quantitative
+    tool with known precision.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without enough differentiability:</strong> the Taylor polynomial of degree $n$
+    requires $n$ derivatives at $a$. The remainder in Lagrange form requires $(n+1)$.
+    For a function like $f(x) = x^{5/2}$, which is only twice differentiable at $0$, you
+    cannot write a Taylor polynomial beyond degree $2$.
+  </p>
+  <p>
+    <strong>When the remainder does not vanish:</strong> $f(x) = e^{-1/x^2}$ (with $f(0) = 0$)
+    is infinitely differentiable everywhere, and all its derivatives at $0$ are zero. So every
+    Taylor polynomial at $0$ is the zero polynomial. The Taylor series is $0 + 0 + 0 + \cdots
+    = 0$, but $f(x) \neq 0$ for $x \neq 0$. The function is "too flat" at the origin for the
+    series to detect its behaviour elsewhere.
+  </p>
+  <p>
+    <strong>Without the $(n+1)!$ denominator:</strong> the factorial is what makes the remainder
+    shrink. If the bound on $|f^{(n+1)}|$ grows no faster than $C^n$ for some constant $C$
+    (which holds for $e^x$, $\sin$, $\cos$), the factorial wins and $R_n \to 0$. If the
+    derivatives grow as fast as $(n+1)!$ itself, the factorial merely cancels and the remainder
+    need not tend to zero.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Taylor's theorem writes any sufficiently smooth function as a polynomial plus a remainder
+  whose size is controlled by the $(n+1)$-th derivative and the factorial.
+</div>
+
+<div class="nav">
+  <a href="../phase3/09-integration-techniques.html">&larr; Previous: Integration Techniques</a>
+  <a href="02-power-series.html">Next: Power Series &rarr;</a>
+</div>
+
+</body>
+</html>

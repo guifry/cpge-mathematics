@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Term-by-Term Operations — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Term-by-Term Operations</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    On <a href="03-exponential.html">page 3</a> we differentiated $\exp(x) = \sum x^n/n!$ term
+    by term and got $\exp'(x) = \exp(x)$. On <a href="04-trig-series.html">page 4</a> we
+    differentiated $\sin$ and $\cos$ term by term to get $\sin' = \cos$ and $\cos' = -\sin$.
+    Each time, we treated the infinite sum like a finite one &mdash; differentiating each term
+    separately.
+  </p>
+  <p>
+    But differentiation is a <strong>limit</strong> (the limit of the difference quotient), and
+    a power series is another <strong>limit</strong> (the limit of partial sums). We are
+    swapping two limits. In general, this is <em>illegal</em>: there are sequences of
+    differentiable functions whose termwise derivative does not equal the derivative of the
+    limit. When, and why, is it legal for power series?
+  </p>
+</div>
+
+<h2>1. Why the swap can fail</h2>
+
+<p>
+  Consider the functions $f_n(x) = \frac{\sin(nx)}{n}$ on $\mathbb{R}$. Each $f_n$ is
+  differentiable with $f_n'(x) = \cos(nx)$. As $n \to \infty$, $f_n(x) \to 0$ for every $x$
+  (because $|\sin(nx)/n| \leq 1/n$). So the limit function is $f(x) = 0$, and $f'(x) = 0$.
+</p>
+<p>
+  But the derivatives $f_n'(x) = \cos(nx)$ do not converge to $0$. At $x = 0$, $f_n'(0) = 1$
+  for all $n$. The termwise derivative $\lim f_n'$ is not $f' = 0$. The swap fails because the
+  convergence $f_n \to f$ is only <strong>pointwise</strong>, not
+  <strong>uniform</strong>.
+</p>
+
+<h2>2. Uniform convergence: the key condition</h2>
+
+<p>
+  The distinction between pointwise and uniform convergence is the heart of the matter. Phase 5
+  will treat this in full generality (Weierstrass M-test, uniform convergence preserving
+  continuity). Here we state what is needed for power series.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Uniform convergence</div>
+  <p>
+    A sequence of functions $f_n$ converges <strong>uniformly</strong> to $f$ on a set $S$ if:
+    for every $\varepsilon > 0$, there exists $N$ such that for all $n \geq N$ and <em>all
+    $x \in S$</em>:
+  </p>
+  <div class="display-math">$$|f_n(x) - f(x)| < \varepsilon$$</div>
+  <p>
+    The crucial point: $N$ depends only on $\varepsilon$, not on $x$. The same $N$ works
+    everywhere on $S$ simultaneously.
+  </p>
+</div>
+
+<p>
+  Pointwise convergence says: for each $x$, the sequence $f_n(x)$ gets close to $f(x)$.
+  Uniform convergence says: the entire <em>graph</em> of $f_n$ gets close to the graph of
+  $f$, everywhere at once. The difference is the order of quantifiers:
+</p>
+<ul>
+  <li>Pointwise: $\forall x,\; \forall \varepsilon > 0,\; \exists N$...</li>
+  <li>Uniform: $\forall \varepsilon > 0,\; \exists N,\; \forall x$...</li>
+</ul>
+
+<h2>3. Power series converge uniformly on compact subsets</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    Let $\sum a_n x^n$ be a power series with radius of convergence $R > 0$. For any
+    $0 < r < R$, the series converges uniformly on $[-r, r]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    For $|x| \leq r$: $|a_n x^n| \leq |a_n| r^n$. Since $r < R$, the series $\sum |a_n| r^n$
+    converges (absolute convergence inside the radius,
+    <a href="02-power-series.html">page 2</a>).
+  </p>
+  <p>
+    Define $M_n = |a_n| r^n$. Then $|a_n x^n| \leq M_n$ for all $x \in [-r, r]$, and
+    $\sum M_n$ converges. By the Weierstrass M-test (which we state here and prove in Phase 5):
+    if $|f_n(x)| \leq M_n$ for all $x$ in a set $S$, and $\sum M_n$ converges, then
+    $\sum f_n$ converges uniformly on $S$.
+  </p>
+  <p>
+    Therefore $\sum a_n x^n$ converges uniformly on $[-r, r]$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The key word is "compact subset": any closed interval $[-r, r]$ with $r < R$. The series
+  need not converge uniformly on the entire open interval $(-R, R)$ &mdash; convergence can
+  slow down as $|x|$ approaches $R$. But on any proper compact subset, convergence is uniform.
+  This is enough for all our applications.
+</p>
+
+<h2>4. Term-by-term differentiation</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Differentiating a power series</div>
+  <p>
+    Let $f(x) = \sum_{n=0}^{\infty} a_n x^n$ with radius of convergence $R > 0$. Then $f$ is
+    differentiable on $(-R, R)$ and:
+  </p>
+  <div class="display-math">$$f'(x) = \sum_{n=1}^{\infty} n a_n x^{n-1} \qquad \text{for all } |x| < R$$</div>
+  <p>
+    Moreover, the differentiated series has the same radius of convergence $R$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof outline</div>
+  <p>
+    <strong>Step 1. The differentiated series has the same radius.</strong>
+    The coefficients of the differentiated series are $b_n = (n+1)a_{n+1}$. By
+    Cauchy-Hadamard (<a href="02-power-series.html">page 2</a>):
+  </p>
+  <div class="display-math">$$\limsup |b_n|^{1/n} = \limsup |(n+1)a_{n+1}|^{1/n} = \limsup |a_{n+1}|^{1/n}$$</div>
+  <p>
+    (since $(n+1)^{1/n} \to 1$). This equals $\limsup |a_n|^{1/n} = 1/R$. So the
+    differentiated series has the same radius $R$.
+  </p>
+  <p>
+    <strong>Step 2. The derivative equals the termwise derivative.</strong>
+    Fix $x$ with $|x| < R$. Choose $r$ with $|x| < r < R$. The series $\sum n a_n t^{n-1}$
+    converges uniformly on $[-r, r]$ (by the M-test argument of section 3, applied to the
+    differentiated series). Uniform convergence of derivatives, combined with convergence of
+    the original series at a single point, allows swapping the derivative with the sum.
+    (The full proof uses the mean value theorem to control the difference quotients; we defer
+    the technical details to Phase 5, where uniform convergence is treated systematically.)
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Since the differentiated series has the same radius, you can differentiate again, and again.
+  By induction, <strong>a power series is infinitely differentiable inside its radius of
+  convergence</strong>, and each successive derivative is obtained by term-by-term
+  differentiation.
+</p>
+
+<h2>5. Term-by-term integration</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Integrating a power series</div>
+  <p>
+    Let $f(x) = \sum_{n=0}^{\infty} a_n x^n$ with radius of convergence $R > 0$. Then for
+    any $x$ with $|x| < R$:
+  </p>
+  <div class="display-math">$$\int_0^x f(t)\, dt = \sum_{n=0}^{\infty} \frac{a_n}{n+1} x^{n+1}$$</div>
+  <p>
+    The integrated series has the same radius of convergence $R$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Fix $x$ with $|x| < R$ and choose $r$ with $|x| < r < R$. On $[-r, r]$, the series
+    $\sum a_n t^n$ converges uniformly (section 3). Uniform convergence allows swapping
+    integral and sum:
+  </p>
+  <div class="display-math">$$\int_0^x \sum_{n=0}^{\infty} a_n t^n\, dt = \sum_{n=0}^{\infty} \int_0^x a_n t^n\, dt = \sum_{n=0}^{\infty} \frac{a_n x^{n+1}}{n+1}$$</div>
+  <p>
+    The swap is justified because for a uniformly convergent series of continuous functions on a
+    compact interval, integrating the sum equals the sum of the integrals. (This is a standard
+    theorem; we use it here and prove it in Phase 5.)
+  </p>
+  <p>
+    The integrated series has coefficients $b_n = a_{n-1}/n$ (for $n \geq 1$). By
+    Cauchy-Hadamard: $\limsup |b_n|^{1/n} = \limsup |a_{n-1}/n|^{1/n} = \limsup |a_n|^{1/n}
+    = 1/R$. Same radius.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Application: the series for $\ln(1 + x)$</h2>
+
+<p>
+  We know $\frac{1}{1+t} = \sum_{n=0}^{\infty} (-1)^n t^n$ for $|t| < 1$ (geometric series
+  with $-t$). Integrate both sides from $0$ to $x$:
+</p>
+<div class="display-math">$$\int_0^x \frac{dt}{1+t} = \sum_{n=0}^{\infty} (-1)^n \frac{x^{n+1}}{n+1}$$</div>
+<p>
+  The left side is $\ln(1+x)$ (since $\ln' = 1/x$, as proved on
+  <a href="03-exponential.html">page 3</a>). So:
+</p>
+<div class="display-math">$$\ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \cdots = \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} x^n \qquad \text{for } |x| < 1$$</div>
+<p>
+  This closes the remaining IOU from Phase 3: the logarithm now has an explicit series
+  representation, derived from the geometric series and term-by-term integration. On
+  <a href="06-abel-theorem.html">page 6</a>, we will extend this to $x = 1$ and show
+  $\ln(2) = 1 - 1/2 + 1/3 - 1/4 + \cdots$.
+</p>
+
+<h2>7. Application: the series for $\arctan(x)$</h2>
+
+<p>
+  Similarly: $\frac{1}{1+t^2} = \sum_{n=0}^{\infty} (-1)^n t^{2n}$ for $|t| < 1$ (substitute
+  $-t^2$ into the geometric series). Integrate from $0$ to $x$:
+</p>
+<div class="display-math">$$\arctan(x) = \int_0^x \frac{dt}{1+t^2} = \sum_{n=0}^{\infty} \frac{(-1)^n}{2n+1} x^{2n+1} = x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7} + \cdots$$</div>
+<p>
+  for $|x| < 1$. This is the <strong>Leibniz-Gregory series</strong>. On
+  <a href="06-abel-theorem.html">page 6</a>, Abel's theorem will let us set $x = 1$ and
+  obtain the beautiful formula $\pi/4 = 1 - 1/3 + 1/5 - 1/7 + \cdots$.
+</p>
+
+<h2>8. The power series is uniquely determined</h2>
+
+<p>
+  An important consequence of term-by-term differentiation: if two power series agree on an
+  open interval around $0$, their coefficients must be identical.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Uniqueness of coefficients</div>
+  <p>
+    If $\sum a_n x^n = \sum b_n x^n$ for all $x$ in some open interval $(-\delta, \delta)$
+    with $\delta > 0$, then $a_n = b_n$ for all $n$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $f(x) = \sum a_n x^n = \sum b_n x^n$. Setting $x = 0$: $a_0 = f(0) = b_0$.
+    Differentiate (term by term, legal inside the radius): $f'(x) = \sum n a_n x^{n-1} =
+    \sum n b_n x^{n-1}$. Set $x = 0$: $a_1 = f'(0) = b_1$. Differentiate again:
+    $a_2 = f''(0)/2 = b_2$. By induction, $a_n = f^{(n)}(0)/n! = b_n$ for all $n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This means the Taylor series of a function (if it exists and converges) is the <em>only</em>
+  power series representing that function. The coefficients $f^{(n)}(a)/n!$ are forced.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euler (18th century) freely differentiated and integrated power series term by term without
+    justification. He obtained correct results because the series he worked with were well-behaved
+    (power series with large radii of convergence). Abel (1826) was among the first to notice
+    that term-by-term operations can fail for general series of functions, writing that "the
+    properties of infinite series are not always what a hasty extrapolation from finite sums
+    would suggest."
+  </p>
+  <p>
+    Cauchy (1821) attempted to prove that a convergent series of continuous functions is
+    continuous &mdash; and got it wrong, because he did not distinguish pointwise from uniform
+    convergence. Weierstrass (1841) identified uniform convergence as the correct condition
+    and built the rigorous framework we use today. The fact that power series converge uniformly
+    on compact subsets &mdash; making all term-by-term operations safe inside the radius &mdash;
+    is a special property of power series, not of arbitrary function series.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without uniform convergence:</strong> the Fourier series
+    $\sum \frac{\sin(nx)}{n}$ converges pointwise but <em>not</em> uniformly on $(0, 2\pi)$.
+    Term-by-term differentiation gives $\sum \cos(nx)$, which diverges almost everywhere. The
+    derivative of the sum is not the sum of the derivatives. This is why we need the uniform
+    convergence guarantee that power series provide.
+  </p>
+  <p>
+    <strong>At the boundary $|x| = R$:</strong> the theorems above apply only for $|x| < R$.
+    At the boundary, convergence may fail to be uniform, and term-by-term operations require
+    extra care. Abel's theorem (<a href="06-abel-theorem.html">page 6</a>) handles one
+    important case: evaluating the sum at the boundary by taking a limit from inside.
+  </p>
+  <p>
+    <strong>For non-power-series:</strong> arbitrary series of functions $\sum f_n(x)$ do
+    not automatically converge uniformly on compact sets. The M-test (Phase 5) gives a sufficient
+    condition, but it must be checked case by case. Power series are special because the geometric
+    comparison in <a href="02-power-series.html">page 2</a> automatically provides the dominant
+    series $\sum M_n$ needed for the M-test.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Inside its radius of convergence, a power series can be differentiated and integrated term by
+  term &mdash; because convergence is uniform on compact subsets.
+</div>
+
+<div class="nav">
+  <a href="04-trig-series.html">&larr; Previous: Sine and Cosine from Scratch</a>
+  <a href="06-abel-theorem.html">Next: Abel's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

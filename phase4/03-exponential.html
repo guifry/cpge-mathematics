@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Exponential Function — Phase 4</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Exponential Function</h1>
+<p class="subtitle">Phase 4 &mdash; Power Series and Taylor, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A quantity whose rate of change is proportional to its current size. A population of
+    bacteria that doubles every hour. Money earning continuous compound interest. Radioactive
+    atoms decaying at a rate proportional to how many remain. All of these are governed by the
+    equation $y' = y$ &mdash; the simplest differential equation.
+  </p>
+  <p>
+    We need a function that equals its own derivative. No polynomial works (differentiating a
+    polynomial lowers its degree). No trigonometric function works ($\sin' = \cos \neq \sin$).
+    But an <em>infinite</em> polynomial can work: if you choose the coefficients carefully, the
+    power series can reproduce itself under differentiation. That function is $e^x$, and we
+    define it here from scratch.
+  </p>
+</div>
+
+<h2>1. Constructing the series</h2>
+
+<p>
+  We want $f(x) = \sum_{n=0}^{\infty} a_n x^n$ with $f' = f$ and $f(0) = 1$ (a normalisation:
+  starting with one bacterium, one pound, one atom). Differentiating the series term by term
+  (which we will justify on <a href="05-term-by-term.html">page 5</a>):
+</p>
+<div class="display-math">$$f'(x) = \sum_{n=1}^{\infty} n a_n x^{n-1} = \sum_{n=0}^{\infty} (n+1) a_{n+1} x^n$$</div>
+<p>
+  Setting $f' = f$ means $(n+1)a_{n+1} = a_n$ for all $n$, so $a_{n+1} = a_n/(n+1)$. Starting
+  from $a_0 = f(0) = 1$:
+</p>
+<div class="display-math">$$a_0 = 1, \quad a_1 = 1, \quad a_2 = \frac{1}{2}, \quad a_3 = \frac{1}{6}, \quad \ldots, \quad a_n = \frac{1}{n!}$$</div>
+<p>
+  The recurrence $a_{n+1} = a_n/(n+1)$ with $a_0 = 1$ gives $a_n = 1/n!$ by induction. The
+  coefficients are forced &mdash; there is no freedom in the choice.
+</p>
+
+<h2>2. Definition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; The exponential function</div>
+  <p>
+    The <strong>exponential function</strong> is defined by:
+  </p>
+  <div class="display-math">$$\exp(x) = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$</div>
+</div>
+
+<p>
+  This is a <em>definition</em>, not a derivation. We are defining $\exp$ as this power series,
+  and we will prove all its properties from the series. No prior knowledge of "$e$" or
+  "exponential growth" is assumed.
+</p>
+
+<h2>3. Convergence: $R = \infty$</h2>
+
+<p>
+  By the ratio test (<a href="02-power-series.html">page 2, section 5</a>):
+</p>
+<div class="display-math">$$R = \lim_{n \to \infty} \left|\frac{a_n}{a_{n+1}}\right| = \lim_{n \to \infty} \frac{1/n!}{1/(n+1)!} = \lim_{n \to \infty} (n+1) = \infty$$</div>
+<p>
+  The series converges absolutely for every $x \in \mathbb{R}$. The factorial in the
+  denominator grows so much faster than $x^n$ in the numerator that the terms tend to zero
+  regardless of $x$.
+</p>
+
+<h2>4. The Taylor remainder vanishes</h2>
+
+<p>
+  We must verify that the series actually equals the function it claims to represent. On
+  <a href="01-taylor-theorem.html">page 1</a> we saw that Taylor series can fail to converge
+  to $f$. Here we must show $R_n(x) \to 0$ as $n \to \infty$.
+</p>
+<p>
+  Using the Lagrange remainder: if $f(x) = \exp(x)$, then $f^{(n+1)}(c) = \exp(c)$ for some
+  $c$ between $0$ and $x$. On the interval $[0, x]$ (or $[x, 0]$), $|\exp(c)| \leq \exp(|x|)$.
+  So:
+</p>
+<div class="display-math">$$|R_n(x)| \leq \frac{\exp(|x|)}{(n+1)!} |x|^{n+1}$$</div>
+<p>
+  For fixed $x$, $|x|^{n+1}/(n+1)! \to 0$ as $n \to \infty$ (the factorial beats any fixed
+  power). Therefore $R_n(x) \to 0$, confirming that the Taylor series converges to $\exp(x)$
+  for every $x$. This argument is not circular: $\exp(|x|)$ is a fixed constant once $x$ is
+  chosen, and the factorial still dominates.
+</p>
+
+<h2>5. The functional equation: $\exp(a + b) = \exp(a) \cdot \exp(b)$</h2>
+
+<p>
+  This is the property that makes the exponential an <em>exponential</em> &mdash; it converts
+  addition to multiplication. The proof uses the Cauchy product of series.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Functional equation</div>
+  <p>
+    For all $a, b \in \mathbb{R}$: $\exp(a + b) = \exp(a) \cdot \exp(b)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Expand $\exp(a+b)$.</strong>
+    By definition:
+  </p>
+  <div class="display-math">$$\exp(a+b) = \sum_{n=0}^{\infty} \frac{(a+b)^n}{n!}$$</div>
+  <p>
+    <strong>Step 2. Apply the binomial theorem.</strong>
+    $(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k}$. Substituting:
+  </p>
+  <div class="display-math">$$\exp(a+b) = \sum_{n=0}^{\infty} \frac{1}{n!} \sum_{k=0}^{n} \binom{n}{k} a^k b^{n-k} = \sum_{n=0}^{\infty} \sum_{k=0}^{n} \frac{a^k}{k!} \cdot \frac{b^{n-k}}{(n-k)!}$$</div>
+  <p>
+    (using $\binom{n}{k}/n! = 1/(k!(n-k)!)$).
+  </p>
+  <p>
+    <strong>Step 3. Recognise the Cauchy product.</strong>
+    The double sum above is exactly the Cauchy product of $\sum a^k/k!$ and $\sum b^j/j!$.
+    Since both series converge absolutely (radius $\infty$), the Cauchy product equals the
+    product of the sums:
+  </p>
+  <div class="display-math">$$\exp(a+b) = \left(\sum_{k=0}^{\infty} \frac{a^k}{k!}\right) \cdot \left(\sum_{j=0}^{\infty} \frac{b^j}{j!}\right) = \exp(a) \cdot \exp(b)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Immediate consequences</h2>
+
+<p>
+  From the functional equation alone, we get a cascade of properties:
+</p>
+
+<p>
+  <strong>$\exp(0) = 1$.</strong> Set $b = 0$: $\exp(a) = \exp(a+0) = \exp(a) \cdot \exp(0)$.
+  Since $\exp(a) \neq 0$ (which we prove next), divide both sides by $\exp(a)$.
+</p>
+
+<p>
+  <strong>$\exp(x) > 0$ for all $x$.</strong> For $x \geq 0$: the series $1 + x + x^2/2 +
+  \cdots$ is a sum of non-negative terms starting with $1$, so it is at least $1 > 0$. For
+  $x < 0$: $\exp(x) \cdot \exp(-x) = \exp(0) = 1$, so $\exp(x) = 1/\exp(-x) > 0$ (since
+  $-x > 0$).
+</p>
+
+<p>
+  <strong>$\exp(-x) = 1/\exp(x)$.</strong> Immediate from the line above.
+</p>
+
+<p>
+  <strong>$\exp$ is strictly increasing.</strong> For $x > 0$: $\exp(x) = 1 + x + \cdots > 1$.
+  If $a < b$, then $\exp(b) = \exp(a) \cdot \exp(b-a) > \exp(a) \cdot 1 = \exp(a)$.
+</p>
+
+<h2>7. $\exp'(x) = \exp(x)$</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    $\exp'(x) = \exp(x)$ for all $x \in \mathbb{R}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Differentiate the series term by term (justified on
+    <a href="05-term-by-term.html">page 5</a>; the series has infinite radius, so
+    term-by-term differentiation is valid everywhere):
+  </p>
+  <div class="display-math">$$\exp'(x) = \sum_{n=1}^{\infty} \frac{n x^{n-1}}{n!} = \sum_{n=1}^{\infty} \frac{x^{n-1}}{(n-1)!} = \sum_{m=0}^{\infty} \frac{x^m}{m!} = \exp(x)$$</div>
+  <p>
+    (substituting $m = n - 1$).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is the property we designed the series to have. But now it is a <em>theorem</em>, not an
+  assumption: $\exp$ is defined by its series, and the derivative identity follows from
+  term-by-term differentiation.
+</p>
+
+<h2>8. The number $e$</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Euler's number</div>
+  <p>
+    $e = \exp(1) = \sum_{n=0}^{\infty} \frac{1}{n!} = 1 + 1 + \frac{1}{2} + \frac{1}{6} + \frac{1}{24} + \cdots \approx 2.71828$
+  </p>
+</div>
+
+<p>
+  The notation $e^x$ for $\exp(x)$ is justified: $\exp(n) = \exp(1)^n = e^n$ for positive
+  integers $n$ (by applying the functional equation $n$ times). For rational $x = p/q$,
+  $\exp(p/q)$ satisfies $(\exp(p/q))^q = \exp(p) = e^p$, so $\exp(p/q) = e^{p/q}$. For
+  irrational $x$, continuity of $\exp$ (it is differentiable, hence continuous) extends this
+  to all of $\mathbb{R}$.
+</p>
+
+<h2>9. The natural logarithm</h2>
+
+<p>
+  Since $\exp$ is strictly increasing and continuous, with $\exp(x) \to 0$ as $x \to -\infty$
+  and $\exp(x) \to \infty$ as $x \to \infty$, the Intermediate Value Theorem
+  (<a href="../phase2/06-ivt.html">Phase 2, page 6</a>) ensures that $\exp$ hits every
+  positive real number exactly once. It therefore has an inverse:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Natural logarithm</div>
+  <p>
+    The <strong>natural logarithm</strong> $\ln : (0, \infty) \to \mathbb{R}$ is the inverse
+    of $\exp$:
+  </p>
+  <div class="display-math">$$\ln(y) = x \iff \exp(x) = y$$</div>
+</div>
+
+<p>
+  Its properties follow from inverting the exponential's properties:
+</p>
+<ul>
+  <li>$\ln(1) = 0$ (because $\exp(0) = 1$).</li>
+  <li>$\ln(ab) = \ln(a) + \ln(b)$ (because $\exp(\ln a + \ln b) = \exp(\ln a)\exp(\ln b) = ab$).</li>
+  <li>$\ln'(y) = 1/y$ (by the inverse function theorem:
+      $\ln'(y) = 1/\exp'(\ln y) = 1/\exp(\ln y) = 1/y$).</li>
+</ul>
+<p>
+  This closes the IOU from <a href="../phase3/09-integration-techniques.html">Phase 3, page 9</a>:
+  $\int 1/x\, dx = \ln|x| + C$ is now grounded, because $\ln$ is rigorously defined as the
+  inverse of $\exp$, and $\ln' = 1/x$ is proved.
+</p>
+
+<h2>10. The limit definition of $e$</h2>
+
+<p>
+  There is a classical alternative formula: $e = \lim_{n \to \infty} (1 + 1/n)^n$. We can
+  derive this from the series.
+</p>
+
+<div class="proof-box">
+  <div class="label">Derivation</div>
+  <p>
+    By the binomial theorem:
+  </p>
+  <div class="display-math">$$\left(1 + \frac{1}{n}\right)^n = \sum_{k=0}^{n} \binom{n}{k} \frac{1}{n^k}$$</div>
+  <p>
+    The $k$-th term is:
+  </p>
+  <div class="display-math">$$\binom{n}{k}\frac{1}{n^k} = \frac{1}{k!} \cdot \frac{n(n-1)\cdots(n-k+1)}{n^k} = \frac{1}{k!}\prod_{j=0}^{k-1}\left(1 - \frac{j}{n}\right)$$</div>
+  <p>
+    As $n \to \infty$ with $k$ fixed, each factor $(1 - j/n) \to 1$, so the $k$-th term tends
+    to $1/k!$. Summing over all $k$: the limit is $\sum_{k=0}^{\infty} 1/k! = e$.
+  </p>
+  <p>
+    (Making this rigorous requires bounding the error from the finite truncation; the monotone
+    convergence theorem from
+    <a href="../phase2/03-monotone-convergence.html">Phase 2, page 3</a> shows the sequence
+    $(1 + 1/n)^n$ is increasing and bounded by $e$.)
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Jacob Bernoulli (1683) discovered the limit $(1 + 1/n)^n$ while studying compound interest:
+    if a bank pays $100\%$ interest per year, compounded $n$ times, you end the year with
+    $(1 + 1/n)^n$ times your deposit. As $n \to \infty$ (continuous compounding), this
+    approaches $e \approx 2.718$.
+  </p>
+  <p>
+    Euler (1748) was the first to study the exponential function systematically, computing $e$
+    to many decimal places and establishing the notation $e^x$. He derived the series
+    $e^x = \sum x^n/n!$ and proved the functional equation. The rigorous definition of $\exp$
+    via its power series, with convergence properties proved from first principles, is the
+    modern approach due to Cauchy and Weierstrass.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without absolute convergence:</strong> the functional equation proof uses the Cauchy
+    product, which requires absolute convergence of both series. Conditionally convergent series
+    can give wrong answers when multiplied term by term (Riemann's rearrangement theorem). The
+    infinite radius of $\exp$ ensures absolute convergence everywhere, making all algebraic
+    manipulations of the series safe.
+  </p>
+  <p>
+    <strong>Without the factorial:</strong> if we defined $g(x) = \sum x^n$ (no factorial
+    denominators), the series would converge only for $|x| < 1$ (the geometric series) and
+    would not satisfy $g' = g$. The factorials are not decorative &mdash; they are precisely
+    what makes $\exp' = \exp$ and gives infinite radius.
+  </p>
+  <p>
+    <strong>Without uniqueness of the power series:</strong> we showed that the recurrence
+    $a_{n+1} = a_n/(n+1)$ with $a_0 = 1$ forces $a_n = 1/n!$. But does the differential
+    equation $y' = y$, $y(0) = 1$ have other solutions that are not power series? It does not
+    (the Cauchy-Lipschitz theorem from Phase 8 will prove this). For now: the power series
+    definition gives a specific, well-defined function, and all its properties are proved from
+    the series alone.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The exponential function $\exp(x) = \sum x^n/n!$ is the unique function that equals its own
+  derivative and starts at $1$.
+</div>
+
+<div class="nav">
+  <a href="02-power-series.html">&larr; Previous: Power Series</a>
+  <a href="04-trig-series.html">Next: Sine and Cosine from Scratch &rarr;</a>
+</div>
+
+</body>
+</html>
