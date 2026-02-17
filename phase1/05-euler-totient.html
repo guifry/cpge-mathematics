@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euler's Totient Function and Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Euler's Totient Function and Theorem</h1>
+<p class="subtitle">Phase 1 — Number Theory and Arithmetic, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Fermat's little theorem (page 4) is powerful but limited: it only works when the modulus
+    is prime. If you compute $a^{p-1} \pmod{p}$ and $p$ is prime, you always get 1. Beautiful.
+    But what if your modulus is composite?
+  </p>
+  <p>
+    Take $n = 15$. Some numbers have inverses mod 15 and some don't. You can't invert 3,
+    because $\gcd(3, 15) = 3 \neq 1$. But you <em>can</em> invert 7, since
+    $\gcd(7, 15) = 1$. How many residues mod 15 are invertible? And can we generalise
+    Fermat's cycling-back-to-1 behaviour to composite moduli?
+  </p>
+  <p>
+    Euler (1763) answered both questions. The answer required inventing a new function.
+  </p>
+</div>
+
+<h2>1. Which residues have inverses?</h2>
+
+<p>
+  Recall from page 3: $a$ has an inverse mod $n$ if and only if $\gcd(a, n) = 1$.
+  The <strong>invertible residues</strong> mod $n$ are exactly those coprime to $n$.
+</p>
+
+<p>
+  Mod 12, the invertible elements are $\{1, 5, 7, 11\}$ — four of them. Why? Because
+  $\gcd(1, 12) = 1$, $\gcd(5, 12) = 1$, $\gcd(7, 12) = 1$, $\gcd(11, 12) = 1$, and
+  every other residue shares a factor with 12. Check: $\gcd(2, 12) = 2$, $\gcd(3, 12) = 3$,
+  $\gcd(4, 12) = 4$, and so on.
+</p>
+
+<p>
+  Mod 7 (prime): all of $\{1, 2, 3, 4, 5, 6\}$ are invertible — six of them. Every
+  non-zero residue is coprime to a prime.
+</p>
+
+<p>
+  We want a function that counts these invertible residues for any $n$.
+</p>
+
+<h2>2. Euler's totient function</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition</div>
+  <p>
+    <strong>Euler's totient function</strong> $\varphi(n)$ counts the integers in
+    $\{1, 2, \ldots, n\}$ that are coprime to $n$.
+  </p>
+</div>
+
+<p>
+  Let's compute a few values by hand.
+</p>
+
+<p>
+  $\varphi(1) = 1$: the only integer in $\{1\}$ is 1, and $\gcd(1, 1) = 1$.
+</p>
+
+<p>
+  $\varphi(2) = 1$: in $\{1, 2\}$, only 1 is coprime to 2.
+</p>
+
+<p>
+  $\varphi(6) = 2$: in $\{1, 2, 3, 4, 5, 6\}$, the coprime ones are $\{1, 5\}$.
+</p>
+
+<p>
+  $\varphi(7) = 6$: since 7 is prime, $\{1, 2, 3, 4, 5, 6\}$ are all coprime to 7.
+</p>
+
+<p>
+  $\varphi(12) = 4$: coprime residues are $\{1, 5, 7, 11\}$, as we just checked.
+</p>
+
+<p>
+  For any prime $p$: $\varphi(p) = p - 1$, because every integer from 1 to $p - 1$ is
+  coprime to $p$. This is why Fermat's theorem says $a^{p-1} \equiv 1$ — the exponent
+  is $\varphi(p)$, though Fermat didn't know it yet.
+</p>
+
+<h2>3. Formula for prime powers</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    For a prime $p$ and integer $k \geq 1$:
+  </p>
+  <div class="display-math">$$\varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p - 1)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> We count the numbers in $\{1, 2, \ldots, p^k\}$ that are
+    <em>not</em> coprime to $p^k$, then subtract.
+  </p>
+  <p>
+    <strong>Step 2.</strong> When is $\gcd(a, p^k) > 1$? Since $p^k$ has only one prime
+    factor (namely $p$), the only way $a$ can share a factor with $p^k$ is if $p \mid a$.
+    So the non-coprime numbers are exactly the multiples of $p$ in $\{1, \ldots, p^k\}$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> These multiples are $p, 2p, 3p, \ldots, p^{k-1} \cdot p = p^k$.
+    There are exactly $p^{k-1}$ of them.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Therefore $\varphi(p^k) = p^k - p^{k-1}$. Factor:
+    $p^k - p^{k-1} = p^{k-1}(p - 1)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Quick check: $\varphi(9) = \varphi(3^2) = 3^2 - 3^1 = 9 - 3 = 6$.
+  Indeed, in $\{1, \ldots, 9\}$, the multiples of 3 are $\{3, 6, 9\}$,
+  leaving $\{1, 2, 4, 5, 7, 8\}$ — six elements.
+</p>
+
+<h2>4. Multiplicativity</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (multiplicativity of $\varphi$)</div>
+  <p>
+    If $\gcd(m, n) = 1$, then $\varphi(mn) = \varphi(m)\varphi(n)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof sketch</div>
+  <p>
+    <strong>Step 1.</strong> The Chinese Remainder Theorem (IOU: we'll prove CRT on the
+    next page; for now accept that it gives a bijection) says that when $\gcd(m, n) = 1$,
+    the map $a \mapsto (a \bmod m, \; a \bmod n)$ is a bijection from
+    $\mathbb{Z}/mn\mathbb{Z}$ to $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Under this bijection, $\gcd(a, mn) = 1$ if and only if
+    $\gcd(a, m) = 1$ <em>and</em> $\gcd(a, n) = 1$. Why? Because $mn$ has no prime factor
+    that isn't already a factor of $m$ or of $n$. So $a$ is coprime to $mn$ precisely when
+    it's coprime to both.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The invertible elements of $\mathbb{Z}/mn\mathbb{Z}$ are
+    therefore in bijection with pairs $(r, s)$ where $r$ is invertible mod $m$ and $s$ is
+    invertible mod $n$. There are $\varphi(m)$ choices for $r$ and $\varphi(n)$ choices
+    for $s$, giving $\varphi(m)\varphi(n)$ pairs total.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Combining multiplicativity with the prime-power formula gives us $\varphi$ for any integer.
+  If $n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$, then:
+</p>
+
+<div class="display-math">$$\varphi(n) = \varphi(p_1^{a_1}) \cdot \varphi(p_2^{a_2}) \cdots \varphi(p_k^{a_k}) = \prod_{i=1}^{k} p_i^{a_i - 1}(p_i - 1)$$</div>
+
+<p>
+  This is often rewritten as:
+</p>
+
+<div class="display-math">$$\varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right)$$</div>
+
+<p>
+  Example: $\varphi(12) = 12 \cdot (1 - \tfrac{1}{2})(1 - \tfrac{1}{3}) = 12 \cdot \tfrac{1}{2} \cdot \tfrac{2}{3} = 4$. Matches our earlier count.
+</p>
+
+<h2>5. Euler's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Euler, 1763)</div>
+  <p>
+    If $\gcd(a, n) = 1$, then
+  </p>
+  <div class="display-math">$$a^{\varphi(n)} \equiv 1 \pmod{n}$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    The argument is <em>exactly</em> the same structure as the proof of Fermat's little
+    theorem on page 4. We just replace $\{1, 2, \ldots, p-1\}$ with the set of residues
+    coprime to $n$.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Let $r_1, r_2, \ldots, r_{\varphi(n)}$ be the residues in
+    $\{1, \ldots, n\}$ that are coprime to $n$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Multiply each by $a$. We claim the list
+    $ar_1, ar_2, \ldots, ar_{\varphi(n)}$ is a permutation of $r_1, \ldots, r_{\varphi(n)}$
+    modulo $n$.
+  </p>
+  <p>
+    <em>Each $ar_i$ is coprime to $n$</em>: since $\gcd(a, n) = 1$ and $\gcd(r_i, n) = 1$,
+    the product $ar_i$ cannot share a prime factor with $n$. So each $ar_i \bmod n$ lands
+    in our list of coprime residues.
+  </p>
+  <p>
+    <em>All $ar_i$ are distinct mod $n$</em>: if $ar_i \equiv ar_j \pmod{n}$ with
+    $i \neq j$, then $a(r_i - r_j) \equiv 0 \pmod{n}$. Since $\gcd(a, n) = 1$, we can
+    cancel $a$ (page 3), giving $r_i \equiv r_j \pmod{n}$, contradicting the fact
+    that the $r_i$ are distinct residues.
+  </p>
+  <p>
+    So $\{ar_1, \ldots, ar_{\varphi(n)}\}$ is exactly $\{r_1, \ldots, r_{\varphi(n)}\}$
+    in some order.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Take the product of both sides:
+  </p>
+  <div class="display-math">$$(ar_1)(ar_2) \cdots (ar_{\varphi(n)}) \equiv r_1 r_2 \cdots r_{\varphi(n)} \pmod{n}$$</div>
+  <p>
+    The left side is $a^{\varphi(n)} \cdot r_1 r_2 \cdots r_{\varphi(n)}$. So:
+  </p>
+  <div class="display-math">$$a^{\varphi(n)} \cdot r_1 r_2 \cdots r_{\varphi(n)} \equiv r_1 r_2 \cdots r_{\varphi(n)} \pmod{n}$$</div>
+  <p>
+    <strong>Step 4.</strong> Cancel. The product $R = r_1 r_2 \cdots r_{\varphi(n)}$ is
+    itself coprime to $n$ (it's a product of numbers each coprime to $n$). So
+    $\gcd(R, n) = 1$ and we can cancel $R$ from both sides (page 3):
+  </p>
+  <div class="display-math">$$a^{\varphi(n)} \equiv 1 \pmod{n}$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Quick check: $a = 2$, $n = 9$. We have $\varphi(9) = 6$ and $\gcd(2, 9) = 1$.
+  Compute: $2^6 = 64 = 7 \times 9 + 1$, so $2^6 \equiv 1 \pmod{9}$. It works.
+</p>
+
+<h2>6. Fermat as a special case</h2>
+
+<p>
+  When $n = p$ is prime, $\varphi(p) = p - 1$. Euler's theorem gives
+  $a^{p-1} \equiv 1 \pmod{p}$ — which is precisely Fermat's little theorem.
+  Fermat's result is the special case of Euler's theorem for prime moduli.
+</p>
+
+<p>
+  This is a pattern you'll see again and again in mathematics: a theorem that seems
+  specific (Fermat, primes only) turns out to be a shadow of something more general
+  (Euler, all moduli). The general version doesn't replace the special case — it
+  <em>explains</em> it.
+</p>
+
+<h2>7. RSA preview</h2>
+
+<p>
+  Euler's theorem is the mathematical heart of <strong>RSA encryption</strong>, the system
+  that secures most internet traffic.
+</p>
+
+<p>
+  Here's the idea in miniature. Pick two large primes $p$ and $q$, and let $n = pq$.
+  The <strong>public key</strong> is the pair $(n, e)$, where $e$ is coprime to
+  $\varphi(n) = (p-1)(q-1)$. The <strong>private key</strong> is $d$, the inverse of
+  $e$ modulo $\varphi(n)$: that is, $ed \equiv 1 \pmod{\varphi(n)}$.
+</p>
+
+<p>
+  To <strong>encrypt</strong> a message $m$: compute $c = m^e \pmod{n}$.
+</p>
+
+<p>
+  To <strong>decrypt</strong>: compute $c^d \pmod{n}$. Why does this recover $m$?
+  Write $ed = 1 + k\varphi(n)$ for some integer $k$. Then:
+</p>
+
+<div class="display-math">$$c^d = (m^e)^d = m^{ed} = m^{1 + k\varphi(n)} = m \cdot (m^{\varphi(n)})^k \equiv m \cdot 1^k = m \pmod{n}$$</div>
+
+<p>
+  The last step uses Euler's theorem: $m^{\varphi(n)} \equiv 1 \pmod{n}$ (assuming
+  $\gcd(m, n) = 1$, which holds for almost all messages since $n = pq$ with $p, q$ huge).
+  Euler's 18th-century pure mathematics is what guarantees decryption works.
+</p>
+
+<p>
+  The security of RSA rests on a simple asymmetry: multiplying $p \times q$ is easy, but
+  factoring $n$ back into $p$ and $q$ is (as far as anyone knows) computationally infeasible
+  for large $n$. Without the factorisation, you can't compute $\varphi(n) = (p-1)(q-1)$,
+  and without $\varphi(n)$, you can't find $d$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euler published this theorem in 1763 (<em>Theoremata arithmetica nova methodo
+    demonstrata</em>), generalising Fermat's observation from primes to all moduli. The
+    function $\varphi$ wasn't called the "totient" until Sylvester coined the term in 1879
+    — from the Latin <em>tot</em>, meaning "so many."
+  </p>
+  <p>
+    RSA was published by Rivest, Shamir, and Adleman in 1977, turning this 18th-century
+    pure mathematics into the backbone of internet security. (Clifford Cocks at GCHQ had
+    discovered the same scheme in 1973, but it was classified.) Every time you see a padlock
+    icon in your browser, Euler's theorem is working behind the scenes.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    What happens if $\gcd(a, n) \neq 1$? Try $a = 2$, $n = 6$. We have $\varphi(6) = 2$,
+    so the theorem would predict $2^2 \equiv 1 \pmod{6}$. But $2^2 = 4 \equiv 4 \pmod{6}
+    \neq 1$.
+  </p>
+  <p>
+    Where does the proof fail? At Step 2. Multiplying the coprime residues $\{1, 5\}$ by
+    $a = 2$ gives $\{2, 10\} \equiv \{2, 4\} \pmod{6}$. But 2 and 4 are <em>not</em>
+    coprime to 6 — they've been mapped <em>outside</em> the set of invertible residues.
+    The "permutation" argument collapses because $\gcd(a, n) \neq 1$ means multiplying by
+    $a$ can introduce common factors with $n$. The coprimality hypothesis is not a
+    technicality — it's the load-bearing wall of the proof.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  $\varphi(n)$ counts invertible residues mod $n$, and Euler's theorem —
+  $a^{\varphi(n)} \equiv 1$ — generalises Fermat from primes to all moduli.
+</div>
+
+<div class="nav">
+  <a href="04-fermat-little.html">&larr; Previous: Fermat's Little Theorem</a>
+  <a href="06-crt.html">Next: Chinese Remainder Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

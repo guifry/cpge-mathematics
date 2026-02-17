@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fermat's Little Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Fermat's Little Theorem</h1>
+<p class="subtitle">Phase 1 — Number Theory, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Fermat (1640) was computing powers of integers and noticed a stunning pattern.
+    Take any number $a$ not divisible by a prime $p$. Compute $a^{p-1}$.
+    The remainder when divided by $p$ is always 1.
+  </p>
+  <p>
+    Try it. Take $a = 2$ and $p = 7$: we get $2^6 = 64 = 9 \times 7 + 1$,
+    so $2^6 \equiv 1 \pmod{7}$. Or take $a = 3$ and $p = 5$: we get
+    $3^4 = 81 = 16 \times 5 + 1$, so $3^4 \equiv 1 \pmod{5}$.
+  </p>
+  <p>
+    Why does this always work? What is it about primes that forces this?
+  </p>
+</div>
+
+<h2>1. The pattern</h2>
+
+<p>
+  Before we prove anything, let's see enough data to be convinced there's something real going on.
+  We'll compute $a^{p-1} \pmod{p}$ for several values.
+</p>
+
+<p><strong>For $p = 5$</strong> (so we compute $a^4 \pmod{5}$):</p>
+
+<table>
+  <tr><th>$a$</th><th>$a^4$</th><th>$a^4 \pmod{5}$</th></tr>
+  <tr><td>$2$</td><td>$16$</td><td>$1$</td></tr>
+  <tr><td>$3$</td><td>$81$</td><td>$1$</td></tr>
+  <tr><td>$4$</td><td>$256$</td><td>$1$</td></tr>
+</table>
+
+<p><strong>For $p = 7$</strong> (so we compute $a^6 \pmod{7}$):</p>
+
+<table>
+  <tr><th>$a$</th><th>$a^6$</th><th>$a^6 \pmod{7}$</th></tr>
+  <tr><td>$2$</td><td>$64$</td><td>$1$</td></tr>
+  <tr><td>$3$</td><td>$729$</td><td>$1$</td></tr>
+  <tr><td>$4$</td><td>$4096$</td><td>$1$</td></tr>
+</table>
+
+<p>
+  Every entry is 1. Six computations, six 1s. You could keep going — try $a = 5$ with
+  $p = 7$, or $a = 6$ with $p = 11$ — and it would still come out 1.
+  This isn't coincidence. It's a theorem.
+</p>
+
+<p>
+  Notice we only test $a$ values not divisible by $p$. For instance, we skip $a = 5$ in the
+  $p = 5$ table and $a = 7$ in the $p = 7$ table. If $p \mid a$, then $a \equiv 0 \pmod{p}$,
+  and $0^{p-1} = 0 \neq 1$. The pattern only holds when $a$ is coprime to $p$.
+</p>
+
+<h2>2. Fermat's Little Theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Fermat's Little Theorem)</div>
+  <p>
+    If $p$ is prime and $\gcd(a, p) = 1$, then
+  </p>
+  <div class="display-math">$$a^{p-1} \equiv 1 \pmod{p}$$</div>
+</div>
+
+<p>
+  Unpack the hypotheses. We need two things: $p$ must be <em>prime</em>,
+  and $a$ must not be divisible by $p$ (that's what $\gcd(a, p) = 1$ means when $p$ is prime).
+  Both conditions are essential — we'll see exactly what breaks without them in the break-box below.
+</p>
+
+<h2>3. Proof</h2>
+
+<p>
+  The proof rests on one beautiful idea: <strong>multiplying by $a$ permutes the non-zero residues mod $p$</strong>.
+  Let's see concretely what this means before doing the general proof. Take $a = 3$ and $p = 7$.
+  The non-zero residues are $\{1, 2, 3, 4, 5, 6\}$. Multiply each by 3 and reduce mod 7:
+</p>
+<div class="display-math">$$1 \times 3 = 3, \quad 2 \times 3 = 6, \quad 3 \times 3 = 9 \equiv 2, \quad 4 \times 3 = 12 \equiv 5, \quad 5 \times 3 = 15 \equiv 1, \quad 6 \times 3 = 18 \equiv 4$$</div>
+<p>
+  We got $\{3, 6, 2, 5, 1, 4\}$ — the same set $\{1, 2, 3, 4, 5, 6\}$, just reordered.
+  That's the permutation. Now multiply all original elements together and all permuted elements
+  together — the products must be equal mod 7. On one side we have $6!$; on the other,
+  $3^6 \cdot 6!$. Cancel $6!$ and get $3^6 \equiv 1$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Step 1. Set up the residues.</strong>
+    Consider the $p - 1$ non-zero residues modulo $p$:
+  </p>
+  <div class="display-math">$$S = \{1, 2, 3, \ldots, p-1\}$$</div>
+  <p>
+    Now multiply every element by $a$, reducing modulo $p$:
+  </p>
+  <div class="display-math">$$S' = \{a \cdot 1,\; a \cdot 2,\; a \cdot 3,\; \ldots,\; a \cdot (p-1)\} \pmod{p}$$</div>
+  <p>
+    <strong>Claim</strong>: $S'$ is a permutation of $S$ — the same set of elements, just reordered.
+  </p>
+
+  <p>
+    <strong>Step 2. No element of $S'$ is zero.</strong>
+    Take any $k \in \{1, \ldots, p-1\}$. Could $ka \equiv 0 \pmod{p}$?
+    That would mean $p \mid ka$. Since $p$ is prime, $p \mid k$ or $p \mid a$
+    (we proved on page 3 that primes have this property). But $1 \leq k \leq p-1$,
+    so $p \nmid k$. And $\gcd(a, p) = 1$, so $p \nmid a$.
+    Therefore $p \nmid ka$, so $ka \not\equiv 0 \pmod{p}$.
+    Every element of $S'$ is a non-zero residue.
+  </p>
+
+  <p>
+    <strong>Step 3. All elements of $S'$ are distinct.</strong>
+    Suppose $ia \equiv ja \pmod{p}$ for some $i, j \in \{1, \ldots, p-1\}$.
+    Then $(i - j)a \equiv 0 \pmod{p}$, meaning $p \mid (i - j)a$.
+    Since $\gcd(a, p) = 1$, we can cancel $a$ (we proved on page 3 that
+    elements coprime to $p$ have modular inverses). So $p \mid (i - j)$.
+    But $|i - j| < p$, so $i - j = 0$, meaning $i = j$.
+    The elements are all distinct.
+  </p>
+
+  <p>
+    <strong>Step 4. Conclude it's a permutation.</strong>
+    $S'$ has $p - 1$ elements, all non-zero mod $p$, all distinct.
+    There are exactly $p - 1$ non-zero residues mod $p$.
+    So $S'$ must be exactly the set $\{1, 2, \ldots, p-1\}$ in some order.
+  </p>
+
+  <p>
+    <strong>Step 5. Multiply everything together.</strong>
+    Since $S'$ is a permutation of $S$, the product of all elements is the same:
+  </p>
+  <div class="display-math">$$(a \cdot 1)(a \cdot 2)(a \cdot 3) \cdots (a \cdot (p-1)) \equiv 1 \cdot 2 \cdot 3 \cdots (p-1) \pmod{p}$$</div>
+  <p>
+    The left side factors as:
+  </p>
+  <div class="display-math">$$a^{p-1} \cdot (p-1)! \equiv (p-1)! \pmod{p}$$</div>
+
+  <p>
+    <strong>Step 6. Cancel $(p-1)!$</strong>
+    Every factor in $(p-1)! = 1 \cdot 2 \cdot 3 \cdots (p-1)$ is between 1 and $p-1$,
+    so none is divisible by $p$. Therefore $\gcd((p-1)!, p) = 1$, and $(p-1)!$ has a
+    modular inverse mod $p$ (page 3). Cancelling:
+  </p>
+  <div class="display-math">$$a^{p-1} \equiv 1 \pmod{p}$$</div>
+
+  <div class="qed">∎</div>
+</div>
+
+<h2>4. Corollary</h2>
+
+<div class="theorem-box">
+  <div class="label">Corollary</div>
+  <p>
+    For any integer $a$ and any prime $p$:
+  </p>
+  <div class="display-math">$$a^p \equiv a \pmod{p}$$</div>
+</div>
+
+<p>
+  This version works for <em>all</em> integers $a$, including multiples of $p$.
+  Two cases:
+</p>
+<p>
+  If $\gcd(a, p) = 1$, just multiply both sides of $a^{p-1} \equiv 1$ by $a$
+  to get $a^p \equiv a$.
+</p>
+<p>
+  If $p \mid a$, then $a \equiv 0 \pmod{p}$, so $a^p \equiv 0 \equiv a \pmod{p}$.
+  Both sides are 0.
+</p>
+<p>
+  Either way, $a^p \equiv a$. The corollary is sometimes more convenient than the
+  theorem because it has no coprimality condition — it just works for every integer.
+</p>
+
+<h2>5. Applications</h2>
+
+<p>
+  <strong>Fast modular exponentiation.</strong>
+  Compute $2^{340} \pmod{11}$. By Fermat, $2^{10} \equiv 1 \pmod{11}$.
+  Since $340 = 34 \times 10$:
+</p>
+<div class="display-math">$$2^{340} = (2^{10})^{34} \equiv 1^{34} = 1 \pmod{11}$$</div>
+<p>
+  Without the theorem, you'd need to multiply 340 times. With it, you just need the
+  division $340 \div 10 = 34$ and you're done.
+</p>
+
+<p>
+  Here's another: $3^{100} \pmod{7}$. Since $3^6 \equiv 1 \pmod{7}$ and
+  $100 = 16 \times 6 + 4$:
+</p>
+<div class="display-math">$$3^{100} = (3^6)^{16} \cdot 3^4 \equiv 1^{16} \cdot 81 \equiv 81 \pmod{7}$$</div>
+<p>
+  And $81 = 11 \times 7 + 4$, so $3^{100} \equiv 4 \pmod{7}$.
+  The trick is always the same: divide the exponent by $p - 1$, keep the remainder,
+  and compute a much smaller power.
+</p>
+
+<p>
+  <strong>Primality testing (partial).</strong>
+  If $a^{n-1} \not\equiv 1 \pmod{n}$ for some $a$ coprime to $n$, then $n$ is
+  <em>definitely</em> composite — Fermat's theorem tells us a prime would give 1.
+  This is the <strong>Fermat primality test</strong>. It's fast and useful, but the
+  converse fails: passing the test doesn't guarantee primality.
+</p>
+
+<h2>6. Carmichael numbers</h2>
+
+<p>
+  The converse of Fermat's theorem is <strong>false</strong>. There exist composite numbers
+  that pass the Fermat test for every base coprime to them.
+</p>
+
+<p>
+  The smallest example is $561 = 3 \times 11 \times 17$. Despite being composite,
+  $a^{560} \equiv 1 \pmod{561}$ for every $a$ with $\gcd(a, 561) = 1$.
+  These imposters are called <strong>Carmichael numbers</strong>, and they show that
+  Fermat's test alone cannot certify primality. There are infinitely many of them
+  (proved by Alford, Granville, and Pomerance in 1994).
+</p>
+
+<p>
+  So Fermat's theorem gives a <strong>necessary</strong> condition for primality
+  ($a^{p-1} \equiv 1$ for all coprime $a$), but not a <strong>sufficient</strong> one.
+  "Passes Fermat's test" is weaker than "is prime." The search for a genuine primality
+  test leads to deeper ideas: Euler's criterion (which catches some Carmichael numbers),
+  Miller-Rabin (which catches nearly all composites with high probability), and eventually
+  AKS (2002), which finally proved that primality testing is in polynomial time.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Fermat stated the theorem in a letter to Frénicle de Bessy in October 1640,
+    with his characteristic modesty: "I would send you the demonstration, if I did
+    not fear its being too long." Whether he actually had a proof is debatable —
+    Fermat was notorious for claiming results without proof (his "Last Theorem"
+    being the most famous example).
+  </p>
+  <p>
+    Euler gave the first published proof in 1736 and later generalised the result
+    to composite moduli using what we now call <strong>Euler's totient function</strong>
+    (next page). The theorem sat as a pure number-theoretic curiosity for centuries
+    until 1977, when Rivest, Shamir, and Adleman built the RSA cryptosystem on top of it.
+    Today, every HTTPS connection, every digital signature, every encrypted message on the
+    internet relies on Fermat's little observation about remainders.
+  </p>
+  <p>
+    The word "little" distinguishes this theorem from Fermat's <em>Last</em> Theorem
+    ($x^n + y^n = z^n$ has no positive integer solutions for $n \geq 3$), which is a
+    vastly harder result proved by Andrew Wiles in 1995. The "little" theorem is arguably
+    more useful — it's the one that secures your bank transactions.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>What if $p$ is not prime?</strong>
+    Try $a = 2$, $n = 6$: $2^5 = 32 \equiv 2 \pmod{6} \neq 1$. The theorem fails.
+    Why? Because the core argument — "multiplication by $a$ is a permutation of
+    $\{1, \ldots, n-1\}$" — collapses for composite $n$. Take $n = 6$: the set
+    $\{1, 2, 3, 4, 5\}$ includes $2, 3, 4$, which share common factors with 6.
+    These elements lack modular inverses (we proved on page 3 that inverses
+    require coprimality). The map $k \mapsto ak$ is no longer injective on the
+    full set, so the product trick fails.
+  </p>
+  <p>
+    <strong>What if $\gcd(a, p) \neq 1$?</strong>
+    If $p \mid a$, then $a \equiv 0 \pmod{p}$, so $a^{p-1} \equiv 0 \not\equiv 1$.
+    The multiplication map sends everything to 0 — it's not a permutation at all.
+    This is why the theorem demands $\gcd(a, p) = 1$.
+  </p>
+  <p>
+    Both hypotheses are necessary. The primality of $p$ ensures every non-zero
+    residue has an inverse (making multiplication by $a$ a bijection).
+    The coprimality of $a$ and $p$ ensures $a$ itself is a non-zero residue
+    (so the multiplication map stays within the non-zero residues).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  If $p$ is prime and doesn't divide $a$, then $a^{p-1} \equiv 1 \pmod{p}$ —
+  primes force exponentiation to cycle back to 1.
+</div>
+
+<div class="nav">
+  <a href="03-modular-arithmetic.html">&larr; Previous: Modular Arithmetic</a>
+  <a href="05-euler-totient.html">Next: Euler's Totient &rarr;</a>
+</div>
+
+</body>
+</html>

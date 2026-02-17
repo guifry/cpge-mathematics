@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divisibility and the Euclidean Algorithm — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Divisibility and the Euclidean Algorithm</h1>
+<p class="subtitle">Phase 1 — Number Theory, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You have 1230 soldiers and want to arrange them in equal rows. How many per row?
+    Which arrangements work? 10 rows of 123? 6 rows of 205? 7 rows of... something?
+    Try dividing 1230 by 7 and you get 175 with 5 left over. Seven doesn't work.
+  </p>
+  <p>
+    The Egyptians and Babylonians faced this constantly: dividing land into equal plots,
+    distributing grain among households, fitting days into calendar cycles. The question
+    is ancient and concrete: <strong>when does one number divide another evenly, and what
+    happens when it doesn't?</strong>
+  </p>
+</div>
+
+<h2>1. The division algorithm</h2>
+
+<p>
+  Before we can talk about divisibility, we need a precise statement of what happens when
+  you divide one integer by another. You get a quotient and a remainder, and both are
+  <em>unique</em>. This is so fundamental it gets its own name.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Division algorithm)</div>
+  <p>
+    For any integers $a$ and $b$ with $b > 0$, there exist <strong>unique</strong> integers
+    $q$ (the <strong>quotient</strong>) and $r$ (the <strong>remainder</strong>) such that
+  </p>
+  <div class="display-math">$$a = bq + r \quad \text{and} \quad 0 \leq r < b.$$</div>
+</div>
+
+<p>
+  Unpack this. The theorem says two things: these integers <em>exist</em>, and they are the
+  <em>only</em> pair that works. The condition $0 \leq r < b$ is what pins them down. Without
+  it, you could write $17 = 5 \cdot 2 + 7$ or $17 = 5 \cdot 4 + (-3)$ — multiple representations.
+  Forcing $r$ into $\{0, 1, \ldots, b-1\}$ makes the decomposition unique.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Existence.</strong> Consider the set $S = \{a - bk : k \in \mathbb{Z},\; a - bk \geq 0\}$.
+    This is the set of all non-negative values you can get by subtracting multiples of $b$ from $a$.
+    The set $S$ is non-empty: if $a \geq 0$, take $k = 0$ to get $a \in S$; if $a < 0$, take
+    $k = a$ (so $a - ba = a(1 - b) \geq 0$ since $b \geq 1$ and $a < 0$).
+  </p>
+  <p>
+    Since $S$ is a non-empty set of non-negative integers, the <strong>well-ordering principle</strong>
+    guarantees it has a smallest element. Call it $r = a - bq$ for the corresponding $k = q$. By
+    construction, $r \geq 0$.
+  </p>
+  <p>
+    We need $r < b$. Suppose for contradiction that $r \geq b$. Then $r - b = a - bq - b = a - b(q+1) \geq 0$,
+    so $r - b \in S$. But $r - b < r$, contradicting the fact that $r$ is the smallest element of $S$.
+    Therefore $r < b$.
+  </p>
+
+  <p>
+    <strong>Uniqueness.</strong> Suppose $a = bq_1 + r_1$ and $a = bq_2 + r_2$ with
+    $0 \leq r_1, r_2 < b$. Then $bq_1 + r_1 = bq_2 + r_2$, so $b(q_1 - q_2) = r_2 - r_1$.
+    The left side is a multiple of $b$. The right side satisfies $|r_2 - r_1| < b$ (since both
+    remainders lie in $\{0, \ldots, b-1\}$). The only multiple of $b$ with absolute value less
+    than $b$ is $0$. So $r_1 = r_2$ and $q_1 = q_2$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The key observation: $b$ <strong>divides</strong> $a$ evenly precisely when $r = 0$, i.e. when
+  $a = bq$ with nothing left over.
+</p>
+
+<h2>2. Divisibility</h2>
+
+<p>
+  We say $b$ <strong>divides</strong> $a$, written $b \mid a$, if there exists an integer $k$ such
+  that $a = bk$. Equivalently, dividing $a$ by $b$ leaves remainder $0$. We also say $b$ is a
+  <strong>divisor</strong> or <strong>factor</strong> of $a$, and that $a$ is a <strong>multiple</strong>
+  of $b$.
+</p>
+
+<p>
+  Examples: $3 \mid 12$ (since $12 = 3 \cdot 4$), $7 \mid 0$ (since $0 = 7 \cdot 0$),
+  $1 \mid n$ for every integer $n$, and $5 \nmid 17$ (since $17 = 5 \cdot 3 + 2$, remainder $\neq 0$).
+</p>
+
+<p>
+  Divisibility behaves well under addition and linear combinations:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Proposition (Linearity of divisibility)</div>
+  <p>
+    If $b \mid a$ and $b \mid c$, then for any integers $m, n$:
+  </p>
+  <div class="display-math">$$b \mid (ma + nc).$$</div>
+  <p>
+    In particular, $b \mid (a + c)$ and $b \mid (a - c)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Since $b \mid a$, write $a = bj$ for some integer $j$. Since $b \mid c$, write $c = bk$ for
+    some integer $k$. Then
+  </p>
+  <div class="display-math">$$ma + nc = m(bj) + n(bk) = b(mj + nk).$$</div>
+  <p>
+    Since $mj + nk$ is an integer, $b \mid (ma + nc)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This "linearity" property is the engine behind almost everything that follows. It says the set
+  of multiples of $b$ is closed under integer linear combinations.
+</p>
+
+<h2>3. Greatest common divisor</h2>
+
+<p>
+  Given two integers $a$ and $b$ (not both zero), their <strong>greatest common divisor</strong>
+  $\gcd(a, b)$ is the largest positive integer that divides both $a$ and $b$.
+</p>
+
+<p>
+  Why does this exist? The set of common divisors of $a$ and $b$ is non-empty ($1$ divides
+  everything) and bounded above by $\min(|a|, |b|)$ when both are nonzero. A non-empty bounded
+  set of positive integers has a maximum. So $\gcd(a, b)$ is well-defined.
+</p>
+
+<p>
+  Examples: $\gcd(12, 18) = 6$ (common divisors: $1, 2, 3, 6$), and $\gcd(7, 15) = 1$
+  (no common factor besides $1$). When $\gcd(a, b) = 1$, we say $a$ and $b$ are <strong>coprime</strong>.
+</p>
+
+<p>
+  Computing the GCD by listing all divisors works for small numbers. For large ones, you need
+  something better. Euclid found something much better, over 2300 years ago.
+</p>
+
+<h2>4. The Euclidean algorithm</h2>
+
+<p>
+  The crucial insight: if $a = bq + r$ (the division algorithm), then $\gcd(a, b) = \gcd(b, r)$.
+  You can replace the problem with a smaller one, and repeat.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Lemma</div>
+  <p>
+    If $a = bq + r$, then $\gcd(a, b) = \gcd(b, r)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $d$ be any common divisor of $a$ and $b$. Then $d \mid a$ and $d \mid b$, so by linearity
+    of divisibility, $d \mid (a - bq) = r$. So $d$ also divides $r$. Every common divisor of $a$
+    and $b$ is a common divisor of $b$ and $r$.
+  </p>
+  <p>
+    Conversely, let $d$ be any common divisor of $b$ and $r$. Then $d \mid b$ and $d \mid r$, so
+    $d \mid (bq + r) = a$. Every common divisor of $b$ and $r$ is a common divisor of $a$ and $b$.
+  </p>
+  <p>
+    The two sets of common divisors are identical. Their maxima are therefore equal:
+    $\gcd(a, b) = \gcd(b, r)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Now iterate. Apply the division algorithm repeatedly, replacing $a$ with $b$ and $b$ with $r$
+  each time, until the remainder is $0$. The last nonzero remainder is the GCD.
+</p>
+
+<p>
+  <strong>Full worked example: $\gcd(252, 105)$.</strong>
+</p>
+
+<div class="display-math">$$252 = 105 \cdot 2 + 42$$</div>
+<div class="display-math">$$105 = 42 \cdot 2 + 21$$</div>
+<div class="display-math">$$42 = 21 \cdot 2 + 0$$</div>
+
+<p>
+  The last nonzero remainder is $21$, so $\gcd(252, 105) = 21$.
+</p>
+
+<p>
+  <strong>Why does it terminate?</strong> The remainders form a strictly decreasing sequence of
+  non-negative integers: $42 > 21 > 0$. A strictly decreasing sequence of non-negative integers
+  must reach $0$ in finitely many steps (again, the well-ordering principle).
+</p>
+
+<p>
+  <strong>Why does it give the GCD?</strong> By the lemma, each step preserves the GCD:
+  $\gcd(252, 105) = \gcd(105, 42) = \gcd(42, 21) = \gcd(21, 0) = 21$. The last equality
+  holds because every integer divides $0$, so $\gcd(d, 0) = d$.
+</p>
+
+<h2>5. Bezout's identity</h2>
+
+<p>
+  Here is the deepest result on this page. The GCD of $a$ and $b$ can always be written as an
+  integer linear combination of $a$ and $b$. Always.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Bezout's identity)</div>
+  <p>
+    For any integers $a$ and $b$ (not both zero), there exist integers $x$ and $y$ such that
+  </p>
+  <div class="display-math">$$ax + by = \gcd(a, b).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Run the Euclidean algorithm, then substitute backwards. We demonstrate with our example
+    $\gcd(252, 105) = 21$.
+  </p>
+  <p>
+    <strong>Forward pass</strong> (Euclidean algorithm):
+  </p>
+  <div class="display-math">$$252 = 105 \cdot 2 + 42 \quad \Rightarrow \quad 42 = 252 - 105 \cdot 2$$</div>
+  <div class="display-math">$$105 = 42 \cdot 2 + 21 \quad \Rightarrow \quad 21 = 105 - 42 \cdot 2$$</div>
+  <p>
+    <strong>Back-substitution:</strong> Start from the last equation giving the GCD.
+  </p>
+  <div class="display-math">$$21 = 105 - 42 \cdot 2$$</div>
+  <p>
+    Substitute $42 = 252 - 105 \cdot 2$ from the first equation:
+  </p>
+  <div class="display-math">$$21 = 105 - (252 - 105 \cdot 2) \cdot 2$$</div>
+  <div class="display-math">$$21 = 105 - 252 \cdot 2 + 105 \cdot 4$$</div>
+  <div class="display-math">$$21 = 105 \cdot 5 + 252 \cdot (-2)$$</div>
+  <p>
+    So $21 = 252 \cdot (-2) + 105 \cdot 5$, giving $x = -2$ and $y = 5$.
+  </p>
+  <p>
+    <strong>General argument.</strong> The back-substitution always works because each remainder
+    in the Euclidean algorithm is an integer linear combination of the two remainders from the
+    previous step ($r_i = r_{i-2} - r_{i-1} q_i$). Working backwards, each remainder is a linear
+    combination of the original $a$ and $b$. The last nonzero remainder is $\gcd(a, b)$, so it
+    too is a linear combination of $a$ and $b$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Let's verify: $252 \cdot (-2) + 105 \cdot 5 = -504 + 525 = 21$. It works.
+</p>
+
+<p>
+  <em>Why this matters so much.</em> Bezout's identity says the GCD isn't just a number you can
+  compute — it's a number you can <em>build</em> from $a$ and $b$ using only addition, subtraction,
+  and multiplication by integers. This constructive property is what makes it so powerful. Nearly
+  every result in the rest of this phase (Euclid's lemma, the fundamental theorem of arithmetic,
+  Fermat's little theorem, the Chinese remainder theorem) ultimately rests on Bezout.
+</p>
+
+<h2>6. Least common multiple</h2>
+
+<p>
+  The <strong>least common multiple</strong> of $a$ and $b$, written $\operatorname{lcm}(a, b)$,
+  is the smallest positive integer that is a multiple of both $a$ and $b$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Proposition</div>
+  <p>
+    For positive integers $a$ and $b$,
+  </p>
+  <div class="display-math">$$\operatorname{lcm}(a, b) = \frac{ab}{\gcd(a, b)}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $d = \gcd(a, b)$ and write $a = da'$, $b = db'$ where $\gcd(a', b') = 1$ (dividing
+    out the GCD leaves coprime factors). Set $L = ab/d = da'b'$.
+  </p>
+  <p>
+    <strong>$L$ is a common multiple.</strong> $L = da'b' = a \cdot b'$ (a multiple of $a$) and
+    $L = da'b' = b \cdot a'$ (a multiple of $b$).
+  </p>
+  <p>
+    <strong>$L$ is the least such.</strong> Let $m$ be any positive common multiple of $a$ and $b$.
+    Write $m = a \cdot k = da'k$ for some positive integer $k$. Since $b \mid m$, we have
+    $db' \mid da'k$, so $b' \mid a'k$. But $\gcd(a', b') = 1$, so $b' \mid k$
+    (IOU: this uses Euclid's lemma, which we prove on the next page from Bezout's identity).
+    Write $k = b'j$, giving $m = da'b'j = Lj$. So $L \mid m$, meaning $L \leq m$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Example: $\operatorname{lcm}(12, 18) = (12 \cdot 18)/6 = 36$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The Euclidean algorithm appears in Book VII of Euclid's <em>Elements</em> (~300 BC), making
+    it one of the oldest algorithms in mathematics — older than the word "algorithm" itself, which
+    derives from al-Khwarizmi (9th century AD). Euclid stated it for line segments, not numbers:
+    repeatedly subtract the shorter from the longer. The numerical version we use is equivalent.
+  </p>
+  <p>
+    Bezout's identity is named after Etienne Bezout, who published it in 1770. But the result
+    was already implicit in Euclid's work and explicitly stated by Bachet de Meziriac in 1624.
+    The back-substitution method is essentially what Euclid was doing, just without algebraic
+    notation.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without the division algorithm?</strong> You can't define divisibility rigorously.
+    The uniqueness of quotient and remainder is what makes "$b$ divides $a$" an unambiguous
+    statement. Without it, the Euclidean algorithm doesn't even make sense — you need the remainder
+    to be well-defined at each step.
+  </p>
+  <p>
+    <strong>Without Bezout's identity?</strong> Many critical results collapse. Here is the most
+    important: the characterisation of coprimality. $\gcd(a, b) = 1$ if and only if there exist
+    integers $x, y$ with $ax + by = 1$. The "only if" direction is Bezout. Without it, you cannot
+    prove Euclid's lemma (if $p \mid ab$ and $p$ is prime, then $p \mid a$ or $p \mid b$). Without
+    Euclid's lemma, you cannot prove unique prime factorisation. Without unique factorisation, vast
+    areas of number theory and algebra are unmoored. Bezout is the load-bearing wall.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The Euclidean algorithm finds the GCD without factoring, and Bezout's identity proves the GCD
+  is always a linear combination of the two numbers.
+</div>
+
+<div class="nav">
+  <a href="../index.html">&larr; Index</a>
+  <a href="02-primes.html">Next: Prime Numbers &rarr;</a>
+</div>
+
+</body>
+</html>

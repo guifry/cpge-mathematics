@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diophantine Equations — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Diophantine Equations</h1>
+<p class="subtitle">Phase 1 — Number Theory, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Diophantus of Alexandria (3rd century AD) studied equations where only integer solutions
+    count. The equation $3x + 5y = 1$ has the real solution $x = 0$, $y = 0.2$ — but that's
+    no good if $x$ and $y$ must be whole numbers. It also has $x = 2$, $y = -1$ — that works.
+  </p>
+  <p>
+    The question: when does an equation have integer solutions, how do you find them, and how
+    many are there? This is a fundamentally different challenge from real-valued algebra. Over
+    $\mathbb{R}$, a single linear equation in two unknowns always has infinitely many solutions
+    (a line). Over $\mathbb{Z}$, it might have none at all.
+  </p>
+</div>
+
+<h2>1. The linear Diophantine equation</h2>
+
+<p>
+  A <strong>linear Diophantine equation</strong> is an equation of the form
+</p>
+<div class="display-math">$$ax + by = c$$</div>
+<p>
+  where $a$, $b$, $c$ are given integers and we seek integer solutions $(x, y) \in \mathbb{Z}^2$.
+  The word "linear" means the unknowns appear to the first power only. The word "Diophantine"
+  means we demand integer solutions.
+</p>
+
+<p>
+  Over $\mathbb{R}$, this equation describes a line, and any point on that line is a solution.
+  Over $\mathbb{Z}$, we only want the <em>lattice points</em> — the points with integer
+  coordinates that happen to lie on that line. There might be none, or infinitely many, but
+  never just a finite number (we'll see why shortly).
+</p>
+
+<h2>2. When do solutions exist?</h2>
+
+<p>
+  The answer turns out to be a clean divisibility condition — exactly the kind of criterion
+  that Bezout's identity (page 1) was built for.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Existence criterion)</div>
+  <p>
+    The equation $ax + by = c$ has integer solutions if and only if $\gcd(a, b) \mid c$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Necessity ($\Rightarrow$).</strong>
+    Suppose $(x_0, y_0)$ is an integer solution, so $ax_0 + by_0 = c$. Let $d = \gcd(a, b)$.
+    Since $d \mid a$ and $d \mid b$, we have $d \mid (ax_0 + by_0)$, so $d \mid c$.
+  </p>
+
+  <p>
+    <strong>Sufficiency ($\Leftarrow$).</strong>
+    Suppose $d \mid c$. By Bezout's identity (page 1), there exist integers $u, v$ with
+    $au + bv = d$. Multiply both sides by $c/d$ (which is an integer since $d \mid c$):
+  </p>
+  <div class="display-math">$$a\!\left(\frac{c}{d} u\right) + b\!\left(\frac{c}{d} v\right) = c$$</div>
+  <p>
+    So $(x_0, y_0) = (cu/d, \, cv/d)$ is an integer solution.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  <strong>Example.</strong> Consider $6x + 10y = 8$. We have $\gcd(6, 10) = 2$ and $2 \mid 8$,
+  so solutions exist. But $6x + 10y = 7$ has <em>no</em> solutions, because $2 \nmid 7$. No
+  amount of searching will find one — the divisibility structure of the integers prohibits it.
+</p>
+
+<h2>3. Finding all solutions</h2>
+
+<p>
+  The existence theorem tells us <em>whether</em> solutions exist. The next theorem tells us
+  <em>what they all look like</em>. The answer is a one-parameter family — once you have one
+  solution, you get all of them by sliding along the line in steps dictated by $a$ and $b$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (General solution)</div>
+  <p>
+    If $(x_0, y_0)$ is one particular solution of $ax + by = c$, and $d = \gcd(a, b)$,
+    then <strong>all</strong> integer solutions are given by
+  </p>
+  <div class="display-math">$$x = x_0 + \frac{b}{d}\,t, \qquad y = y_0 - \frac{a}{d}\,t \qquad (t \in \mathbb{Z})$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Step 1. These are indeed solutions.</strong>
+    Substitute into $ax + by$:
+  </p>
+  <div class="display-math">$$a\!\left(x_0 + \frac{b}{d}t\right) + b\!\left(y_0 - \frac{a}{d}t\right) = ax_0 + by_0 + \frac{ab}{d}t - \frac{ab}{d}t = c$$</div>
+  <p>
+    So every $(x_0 + (b/d)t, \; y_0 - (a/d)t)$ is a solution, for any $t \in \mathbb{Z}$.
+  </p>
+
+  <p>
+    <strong>Step 2. These are all solutions.</strong>
+    Suppose $(x_1, y_1)$ is any other integer solution. Then $ax_1 + by_1 = c$ and
+    $ax_0 + by_0 = c$. Subtract:
+  </p>
+  <div class="display-math">$$a(x_1 - x_0) + b(y_1 - y_0) = 0$$</div>
+  <p>
+    Divide through by $d$:
+  </p>
+  <div class="display-math">$$\frac{a}{d}(x_1 - x_0) = -\frac{b}{d}(y_1 - y_0)$$</div>
+  <p>
+    Now $\gcd(a/d, \, b/d) = 1$ (we divided out the full GCD). So $(b/d) \mid (x_1 - x_0)$
+    by Gauss's lemma (page 2): since $b/d$ divides the product $(a/d)(x_1 - x_0)$ and is
+    coprime to $a/d$, it must divide $x_1 - x_0$.
+  </p>
+  <p>
+    Write $x_1 - x_0 = (b/d)t$ for some integer $t$. Then from the equation above,
+    $(a/d)(b/d)t = -(b/d)(y_1 - y_0)$, so $y_1 - y_0 = -(a/d)t$. This gives $x_1 = x_0 + (b/d)t$
+    and $y_1 = y_0 - (a/d)t$, which is exactly the parametric family.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The key insight: solutions form an infinite lattice along the line, spaced at intervals
+  of $(b/d, -a/d)$. There are either zero solutions (when $d \nmid c$) or infinitely many
+  (when $d \mid c$). Never a finite nonzero number.
+</p>
+
+<h2>4. Worked example</h2>
+
+<p>
+  <strong>Solve $252x + 105y = 21$.</strong>
+</p>
+
+<p>
+  <strong>Step 1: check existence.</strong> Run the Euclidean algorithm (page 1):
+</p>
+<div class="display-math">$$252 = 2 \times 105 + 42$$</div>
+<div class="display-math">$$105 = 2 \times 42 + 21$$</div>
+<div class="display-math">$$42 = 2 \times 21 + 0$$</div>
+<p>
+  So $\gcd(252, 105) = 21$. Since $21 \mid 21$, solutions exist.
+</p>
+
+<p>
+  <strong>Step 2: find one solution via back-substitution.</strong> From the algorithm:
+</p>
+<div class="display-math">$$21 = 105 - 2 \times 42 = 105 - 2(252 - 2 \times 105) = 5 \times 105 - 2 \times 252$$</div>
+<p>
+  So $252 \times (-2) + 105 \times 5 = 21$. One solution is $(x_0, y_0) = (-2, 5)$.
+</p>
+
+<p>
+  <strong>Step 3: write the general solution.</strong> With $d = 21$, $b/d = 105/21 = 5$,
+  $a/d = 252/21 = 12$:
+</p>
+<div class="display-math">$$x = -2 + 5t, \qquad y = 5 - 12t \qquad (t \in \mathbb{Z})$$</div>
+
+<p>
+  <strong>Step 4: find specific solutions.</strong> A few values:
+</p>
+
+<table>
+  <tr><th>$t$</th><th>$x$</th><th>$y$</th></tr>
+  <tr><td>$-1$</td><td>$-7$</td><td>$17$</td></tr>
+  <tr><td>$0$</td><td>$-2$</td><td>$5$</td></tr>
+  <tr><td>$1$</td><td>$3$</td><td>$-7$</td></tr>
+  <tr><td>$2$</td><td>$8$</td><td>$-19$</td></tr>
+</table>
+
+<p>
+  The smallest positive $x$ is $x = 3$ (at $t = 1$), giving $(3, -7)$.
+  Check: $252 \times 3 + 105 \times (-7) = 756 - 735 = 21$. Correct.
+</p>
+
+<h2>5. Pythagorean triples</h2>
+
+<p>
+  Linear Diophantine equations are the simplest case. What about nonlinear ones? The most
+  famous is
+</p>
+<div class="display-math">$$a^2 + b^2 = c^2$$</div>
+<p>
+  where we seek positive integer solutions $(a, b, c)$. These are called <strong>Pythagorean
+  triples</strong> — they correspond to right triangles with integer side lengths. You know
+  $(3, 4, 5)$ and $(5, 12, 13)$. Are there infinitely many? Can we find them all?
+</p>
+
+<p>
+  A triple is <strong>primitive</strong> if $\gcd(a, b, c) = 1$. Every Pythagorean triple is
+  a multiple of a primitive one, so it suffices to classify the primitive triples.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Parametrisation of primitive Pythagorean triples)</div>
+  <p>
+    Every primitive Pythagorean triple (with $b$ even) is of the form
+  </p>
+  <div class="display-math">$$a = m^2 - n^2, \qquad b = 2mn, \qquad c = m^2 + n^2$$</div>
+  <p>
+    where $m > n > 0$, $\gcd(m, n) = 1$, and $m - n$ is odd.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (derivation)</div>
+
+  <p>
+    <strong>Step 1: parity.</strong> In a primitive triple, $a$ and $b$ cannot both be even
+    (then $2 \mid \gcd(a, b, c)$). They cannot both be odd either: if $a$ and $b$ are both
+    odd, then $a^2 + b^2 \equiv 1 + 1 = 2 \pmod{4}$, but every perfect square is $\equiv 0$
+    or $1 \pmod{4}$, so $c^2 \not\equiv 2 \pmod{4}$ — contradiction. So exactly one of $a, b$
+    is even. Assume $b$ is even (relabelling if needed).
+  </p>
+
+  <p>
+    <strong>Step 2: factorise.</strong> Since $b$ is even, write $b = 2k$. Then
+    $c^2 - a^2 = b^2 = 4k^2$, so $(c - a)(c + a) = 4k^2$. Since $a$ and $c$ are both odd,
+    $c - a$ and $c + a$ are both even. Write $c - a = 2s$ and $c + a = 2r$ where $r > s > 0$.
+    Then $4sr = 4k^2$, so $sr = k^2$.
+  </p>
+
+  <p>
+    <strong>Step 3: $\gcd(r, s) = 1$.</strong> Any common divisor of $r$ and $s$ divides
+    $r + s = c$ and $r - s = a$, hence divides $\gcd(a, c)$. But any prime $p \mid \gcd(a, c)$
+    also divides $c^2 - a^2 = b^2$, so $p \mid b$, contradicting $\gcd(a, b, c) = 1$.
+    Therefore $\gcd(r, s) = 1$.
+  </p>
+
+  <p>
+    <strong>Step 4: both factors are perfect squares.</strong> We have $sr = k^2$ with
+    $\gcd(s, r) = 1$. By unique factorisation (page 2), since the product is a perfect
+    square and the factors are coprime, each factor must individually be a perfect square.
+    Write $s = n^2$ and $r = m^2$ for positive integers $m > n$ with $\gcd(m, n) = 1$.
+  </p>
+
+  <p>
+    <strong>Step 5: extract $a, b, c$.</strong> From $c - a = 2n^2$ and $c + a = 2m^2$:
+  </p>
+  <div class="display-math">$$a = m^2 - n^2, \qquad c = m^2 + n^2, \qquad b = 2k = 2mn$$</div>
+  <p>
+    (since $k^2 = sr = m^2 n^2$, so $k = mn$). Finally, $m - n$ must be odd: if $m$ and $n$
+    had the same parity, then $a = m^2 - n^2 = (m-n)(m+n)$ would be even (both factors even),
+    contradicting $a$ odd.
+  </p>
+  <p>
+    Conversely, any $m > n > 0$ with $\gcd(m, n) = 1$ and $m - n$ odd produces a primitive
+    triple. (Checking: $a^2 + b^2 = (m^2 - n^2)^2 + 4m^2n^2 = m^4 - 2m^2n^2 + n^4 + 4m^2n^2
+    = m^4 + 2m^2n^2 + n^4 = (m^2 + n^2)^2 = c^2$.)
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  A few primitive triples from this formula:
+</p>
+
+<table>
+  <tr><th>$m$</th><th>$n$</th><th>$a$</th><th>$b$</th><th>$c$</th></tr>
+  <tr><td>$2$</td><td>$1$</td><td>$3$</td><td>$4$</td><td>$5$</td></tr>
+  <tr><td>$3$</td><td>$2$</td><td>$5$</td><td>$12$</td><td>$13$</td></tr>
+  <tr><td>$4$</td><td>$1$</td><td>$15$</td><td>$8$</td><td>$17$</td></tr>
+  <tr><td>$4$</td><td>$3$</td><td>$7$</td><td>$24$</td><td>$25$</td></tr>
+</table>
+
+<p>
+  This connects back to Phase 0: the Pythagorean theorem tells us these triples exist
+  geometrically, and number theory classifies them completely. Every right triangle with
+  integer sides comes from a pair $(m, n)$.
+</p>
+
+<h2>6. Phase 1 recap</h2>
+
+<p>
+  This completes Phase 1. Here is what you now have from number theory:
+</p>
+
+<ul>
+  <li><strong>Division algorithm and Euclidean algorithm</strong> (page 1) — computing GCDs efficiently</li>
+  <li><strong>Bezout's identity</strong> (page 1) — $\gcd(a, b)$ is a linear combination of $a$ and $b$</li>
+  <li><strong>Primes and unique factorisation</strong> (page 2) — the fundamental theorem of arithmetic</li>
+  <li><strong>Modular arithmetic and inverses</strong> (page 3) — arithmetic modulo $n$, when inverses exist</li>
+  <li><strong>Fermat's little theorem</strong> (page 4) — $a^{p-1} \equiv 1 \pmod{p}$</li>
+  <li><strong>Euler's totient and theorem</strong> (page 5) — $a^{\phi(n)} \equiv 1 \pmod{n}$</li>
+  <li><strong>Chinese Remainder Theorem</strong> (page 6) — solving systems of congruences</li>
+  <li><strong>Diophantine equations</strong> (this page) — integer solutions to $ax + by = c$, Pythagorean triples</li>
+</ul>
+
+<p>
+  These tools reappear throughout mathematics: Bezout and CRT in algebra (Phase 10),
+  modular arithmetic in cryptography, Fermat and Euler in computational number theory.
+  The Pythagorean triple parametrisation is a first taste of how number theory classifies
+  integer solutions to polynomial equations — a thread that leads to elliptic curves and
+  ultimately to Wiles's proof of Fermat's Last Theorem.
+</p>
+
+<p>
+  <strong>Looking ahead.</strong> Phase 2 takes a completely different direction — from the
+  discrete world of integers to the continuous world of real numbers. We'll start with the
+  completeness of $\mathbb{R}$ (Phase 0, page 3 showed us why $\mathbb{Q}$ is broken), then
+  build sequences, limits, and convergence from scratch.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    <strong>Diophantus of Alexandria</strong> (circa 250 AD) authored the <em>Arithmetica</em>,
+    a collection of 130 problems asking for rational (not just integer) solutions to polynomial
+    equations. Despite this, the tradition named after him focuses on integer solutions.
+    Only six of the original thirteen books survive.
+  </p>
+  <p>
+    The most consequential margin note in mathematical history was written in a copy of
+    <em>Arithmetica</em>. Around 1637, Pierre de Fermat scribbled next to the equation
+    $x^n + y^n = z^n$: "I have discovered a truly marvellous proof of this proposition,
+    which this margin is too narrow to contain." The claim — that there are no positive
+    integer solutions for $n \geq 3$ — became <strong>Fermat's Last Theorem</strong>, and
+    resisted proof for 358 years until Andrew Wiles settled it in 1995 using the modularity
+    theorem for elliptic curves. Diophantus could not have imagined the depth of the subject
+    his textbook problems would spawn.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>If $\gcd(a, b) \nmid c$:</strong> the equation $ax + by = c$ is literally
+    impossible. This isn't "we haven't looked hard enough" — the divisibility structure of
+    the integers prohibits any solution. Every integer combination of $a$ and $b$ is a
+    multiple of $\gcd(a, b)$, and $c$ isn't one. The sharpest form of "no solution exists."
+  </p>
+  <p>
+    <strong>If we allow rationals instead of integers:</strong> the problem becomes trivial.
+    $ax + by = c$ always has rational solutions (just set $x = c/a$, $y = 0$, assuming $a \neq 0$).
+    Similarly, Pythagorean triples over $\mathbb{Q}$ correspond to rational points on the
+    unit circle $X^2 + Y^2 = 1$, which are easy to parametrise (draw a line from $(-1, 0)$
+    with rational slope). The integer constraint is what creates the deep structure.
+    Integers are harder than rationals.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  $ax + by = c$ has integer solutions exactly when $\gcd(a, b)$ divides $c$ — Bezout turns
+  GCD theory into a complete solvability criterion for linear equations in whole numbers.
+</div>
+
+<div class="nav">
+  <a href="06-crt.html">&larr; Previous: Chinese Remainder Theorem</a>
+  <a href="../phase2/01-completeness.html">Next: Completeness of $\mathbb{R}$ &rarr;</a>
+</div>
+
+</body>
+</html>

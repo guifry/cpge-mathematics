@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modular Arithmetic — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Modular Arithmetic</h1>
+<p class="subtitle">Phase 1 — Number Theory and Arithmetic, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Clock arithmetic. If it's 10 o'clock and you wait 5 hours, it's 3 o'clock — not 15.
+    The 12 "wraps around". You don't care what the actual total is, only what's left after
+    you divide by 12.
+  </p>
+  <p>
+    Gauss (1801) realised this wrapping is not just a curiosity — it's an entire arithmetic
+    system. Instead of asking "what is $a$?", ask "what is the remainder when $a$ is divided
+    by $n$?" This single change of perspective turns divisibility problems from hard to tractable.
+  </p>
+</div>
+
+<h2>1. Congruence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition</div>
+  <p>
+    Let $n \geq 1$ be a positive integer. We say $a$ is <strong>congruent</strong> to $b$
+    modulo $n$, written
+  </p>
+  <div class="display-math">$$a \equiv b \pmod{n}$$</div>
+  <p>
+    if and only if $n \mid (a - b)$, i.e. $n$ divides $a - b$.
+  </p>
+</div>
+
+<p>
+  Unpacking: $a \equiv b \pmod{n}$ means $a$ and $b$ have the same remainder when
+  divided by $n$. Equivalently, $a - b$ is a multiple of $n$, so $a = b + kn$ for some
+  integer $k$.
+</p>
+
+<p>
+  Examples: $17 \equiv 2 \pmod{5}$ because $17 - 2 = 15 = 3 \times 5$.
+  And $-3 \equiv 4 \pmod{7}$ because $-3 - 4 = -7 = (-1) \times 7$.
+</p>
+
+<p>
+  This is an <strong>equivalence relation</strong> — it satisfies three properties.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof (equivalence relation)</div>
+  <p>
+    <strong>Reflexive.</strong> For any $a$, we have $a - a = 0 = 0 \times n$, so
+    $n \mid (a - a)$. Hence $a \equiv a \pmod{n}$.
+  </p>
+  <p>
+    <strong>Symmetric.</strong> If $a \equiv b \pmod{n}$, then $n \mid (a - b)$, so
+    $a - b = kn$ for some integer $k$. Then $b - a = -kn = (-k)n$, so $n \mid (b - a)$.
+    Hence $b \equiv a \pmod{n}$.
+  </p>
+  <p>
+    <strong>Transitive.</strong> If $a \equiv b \pmod{n}$ and $b \equiv c \pmod{n}$,
+    then $a - b = kn$ and $b - c = ln$ for some integers $k, l$. Adding:
+    $a - c = (a - b) + (b - c) = (k + l)n$. So $n \mid (a - c)$, hence
+    $a \equiv c \pmod{n}$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>2. Residue classes</h2>
+
+<p>
+  Since congruence modulo $n$ is an equivalence relation, it partitions the integers into
+  equivalence classes. Every integer falls into exactly one class, determined by its remainder
+  when divided by $n$. There are exactly $n$ such classes:
+</p>
+
+<div class="display-math">$$\{0, 1, 2, \ldots, n-1\}$$</div>
+
+<p>
+  The class containing $a$ is written $[a]$ or $\bar{a}$. For instance, modulo 3:
+  $[0] = \{\ldots, -6, -3, 0, 3, 6, \ldots\}$,
+  $[1] = \{\ldots, -5, -2, 1, 4, 7, \ldots\}$,
+  $[2] = \{\ldots, -4, -1, 2, 5, 8, \ldots\}$.
+  Every integer is in exactly one of these three classes.
+</p>
+
+<p>
+  The set of all $n$ classes is written $\mathbb{Z}/n\mathbb{Z}$ (read "Z mod $n$ Z"),
+  or informally $\mathbb{Z}_n$. It's not just a set — it's a number system in its own
+  right. You can add and multiply classes, as we'll now show.
+</p>
+
+<h2>3. Arithmetic of congruences</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (compatibility)</div>
+  <p>
+    If $a \equiv a' \pmod{n}$ and $b \equiv b' \pmod{n}$, then:
+  </p>
+  <ol>
+    <li>$a + b \equiv a' + b' \pmod{n}$</li>
+    <li>$a - b \equiv a' - b' \pmod{n}$</li>
+    <li>$ab \equiv a'b' \pmod{n}$</li>
+  </ol>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By hypothesis, $a = a' + kn$ and $b = b' + ln$ for some integers $k, l$.
+  </p>
+  <p>
+    <strong>Addition.</strong> $a + b = (a' + kn) + (b' + ln) = (a' + b') + (k + l)n$.
+    So $n \mid ((a + b) - (a' + b'))$, giving $a + b \equiv a' + b' \pmod{n}$.
+  </p>
+  <p>
+    <strong>Subtraction.</strong> $a - b = (a' + kn) - (b' + ln) = (a' - b') + (k - l)n$.
+    So $n \mid ((a - b) - (a' - b'))$, giving $a - b \equiv a' - b' \pmod{n}$.
+  </p>
+  <p>
+    <strong>Multiplication.</strong> $ab = (a' + kn)(b' + ln) = a'b' + a'ln + b'kn + kln^2
+    = a'b' + (a'l + b'k + kln)n$. So $n \mid (ab - a'b')$, giving $ab \equiv a'b' \pmod{n}$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The key point: <strong>you can reduce modulo $n$ at any step of a computation</strong>. You
+  never need to carry large numbers around — just reduce as you go.
+</p>
+
+<p>
+  Example: compute $7^{100} \pmod{3}$. Since $7 \equiv 1 \pmod{3}$, by the multiplication
+  rule applied repeatedly, $7^{100} \equiv 1^{100} = 1 \pmod{3}$. No need to compute the
+  30-digit number $7^{100}$ — just notice that $7$ and $1$ are in the same class mod 3,
+  and powers preserve classes.
+</p>
+
+<h2>4. Division doesn't always work</h2>
+
+<p>
+  Addition, subtraction, multiplication — all fine. But division? Here's a warning.
+</p>
+
+<p>
+  In $\mathbb{Z}/6\mathbb{Z}$: $2 \times 3 \equiv 2 \times 0 \pmod{6}$ (both sides are
+  $\equiv 0$). But $3 \not\equiv 0 \pmod{6}$. You <em>cannot</em> cancel the factor of 2.
+  The rule "$ac \equiv bc$ implies $a \equiv b$" is <strong>false in general</strong>.
+</p>
+
+<p>
+  When <em>can</em> you cancel? Precisely when the factor you're cancelling is coprime to $n$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (cancellation)</div>
+  <p>
+    If $ac \equiv bc \pmod{n}$ and $\gcd(c, n) = 1$, then $a \equiv b \pmod{n}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We have $ac \equiv bc \pmod{n}$, so $n \mid (ac - bc)$, i.e. $n \mid c(a - b)$.
+  </p>
+  <p>
+    Since $\gcd(c, n) = 1$, by Bezout's identity (Phase 1, page 1) there exist integers
+    $x, y$ with $cx + ny = 1$. Multiply the divisibility $n \mid c(a - b)$ — write
+    $c(a - b) = qn$ for some integer $q$. Then:
+  </p>
+  <div class="display-math">$$(a - b) = (a - b) \cdot 1 = (a - b)(cx + ny) = c(a - b)x + n(a - b)y = qnx + n(a - b)y$$</div>
+  <div class="display-math">$$= n\bigl(qx + (a - b)y\bigr)$$</div>
+  <p>
+    So $n \mid (a - b)$, hence $a \equiv b \pmod{n}$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Why did cancellation fail in the example? Because $\gcd(2, 6) = 2 \neq 1$. The factor
+  we tried to cancel shares a common factor with the modulus, so Bezout doesn't apply.
+</p>
+
+<h2>5. Modular inverses</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (modular inverse)</div>
+  <p>
+    An integer $a$ has a <strong>multiplicative inverse</strong> modulo $n$ — i.e. there
+    exists $x$ with $ax \equiv 1 \pmod{n}$ — if and only if $\gcd(a, n) = 1$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>($\Rightarrow$)</strong> Suppose $ax \equiv 1 \pmod{n}$. Then $ax - 1 = kn$
+    for some integer $k$, so $ax - kn = 1$. This is a linear combination of $a$ and $n$
+    equalling 1, which forces $\gcd(a, n) = 1$ (since $\gcd(a, n)$ divides any linear
+    combination of $a$ and $n$, and the only positive divisor of 1 is 1).
+  </p>
+  <p>
+    <strong>($\Leftarrow$)</strong> Suppose $\gcd(a, n) = 1$. By Bezout's identity
+    (Phase 1, page 1), there exist integers $x, y$ with $ax + ny = 1$. Reading this
+    modulo $n$: $ax + ny \equiv ax \equiv 1 \pmod{n}$. So $x$ is the inverse.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The proof is constructive — the extended Euclidean algorithm (Phase 1, page 1) actually
+  <em>computes</em> the inverse. Let's find $3^{-1} \pmod{7}$.
+</p>
+
+<p>
+  Run the Euclidean algorithm: $7 = 2 \times 3 + 1$. Back-substitute: $1 = 7 - 2 \times 3$.
+  Reading modulo 7: $1 \equiv -2 \times 3 \pmod{7}$, so $3 \times (-2) \equiv 1 \pmod{7}$.
+  Since $-2 \equiv 5 \pmod{7}$, we get $3^{-1} \equiv 5 \pmod{7}$.
+</p>
+
+<p>
+  Check: $3 \times 5 = 15 = 2 \times 7 + 1 \equiv 1 \pmod{7}$. Correct.
+</p>
+
+<h2>6. $\mathbb{Z}/p\mathbb{Z}$ is a field</h2>
+
+<p>
+  When $n = p$ is prime, something special happens. For any $a$ with $0 < a < p$, we have
+  $\gcd(a, p) = 1$ — because $p$ is prime and $a$ is not a multiple of $p$. So by the
+  theorem above, every non-zero element of $\mathbb{Z}/p\mathbb{Z}$ has a multiplicative
+  inverse.
+</p>
+
+<p>
+  This means $\mathbb{Z}/p\mathbb{Z}$ supports all four arithmetic operations: addition,
+  subtraction, multiplication, and division (by non-zero elements). A number system with
+  these properties is called a <strong>field</strong>. (IOU: we'll give the formal axioms
+  for a field in Phase 10.)
+</p>
+
+<p>
+  The rationals $\mathbb{Q}$ and the reals $\mathbb{R}$ are fields. The integers
+  $\mathbb{Z}$ are not — $2$ has no multiplicative inverse in $\mathbb{Z}$. And
+  $\mathbb{Z}/6\mathbb{Z}$ is not a field either, because 2 and 3 have no inverses mod 6.
+  But $\mathbb{Z}/5\mathbb{Z}$, $\mathbb{Z}/7\mathbb{Z}$, $\mathbb{Z}/11\mathbb{Z}$ —
+  all fields. A finite number system where you can do everything.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Carl Friedrich Gauss published the <em>Disquisitiones Arithmeticae</em> in 1801, at
+    the age of 24. He introduced the notation $\equiv$ and developed modular arithmetic
+    into a rigorous algebraic system. The idea of "clock arithmetic" existed informally
+    before — mathematicians had long worked with remainders — but Gauss turned it into a
+    coherent theory with its own notation, its own rules, and its own structure.
+  </p>
+  <p>
+    The impact was enormous. Modular arithmetic is now foundational to cryptography
+    (RSA encryption relies on arithmetic in $\mathbb{Z}/n\mathbb{Z}$ for large $n$),
+    computer science (hash functions, checksums, pseudo-random generators), coding theory
+    (error-correcting codes over finite fields), and abstract algebra (where
+    $\mathbb{Z}/n\mathbb{Z}$ is the prototypical quotient structure).
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks without coprimality</div>
+  <p>
+    In $\mathbb{Z}/6\mathbb{Z}$, the element 2 has no inverse. You can check every
+    possibility: $2 \times 0 = 0$, $2 \times 1 = 2$, $2 \times 2 = 4$, $2 \times 3 = 0$,
+    $2 \times 4 = 2$, $2 \times 5 = 4$. None of these is $\equiv 1 \pmod{6}$. Since
+    $\gcd(2, 6) = 2 \neq 1$, Bezout cannot produce $2x + 6y = 1$, and no inverse exists.
+  </p>
+  <p>
+    Worse: $2 \times 3 \equiv 0 \pmod{6}$. Two non-zero elements whose product is zero.
+    These are called <strong>zero divisors</strong>. In ordinary arithmetic, $ab = 0$
+    forces $a = 0$ or $b = 0$. In $\mathbb{Z}/6\mathbb{Z}$, that rule fails.
+  </p>
+  <p>
+    In $\mathbb{Z}/p\mathbb{Z}$ with $p$ prime, there are no zero divisors. If
+    $ab \equiv 0 \pmod{p}$, then $p \mid ab$. Since $p$ is prime, $p \mid a$ or $p \mid b$
+    (we proved this on Phase 1, page 2 — Euclid's lemma). So $a \equiv 0$ or $b \equiv 0
+    \pmod{p}$. That's precisely what makes $\mathbb{Z}/p\mathbb{Z}$ a field: no zero
+    divisors, every non-zero element invertible.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Modular arithmetic replaces "what is $a$?" with "what is $a$ mod $n$?" — and when $n$
+  is prime, you get a complete number system where everything except zero has an inverse.
+</div>
+
+<div class="nav">
+  <a href="02-primes.html">&larr; Previous: Prime Numbers</a>
+  <a href="04-fermat-little.html">Next: Fermat's Little Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

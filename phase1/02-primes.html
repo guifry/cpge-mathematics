@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Numbers and the Fundamental Theorem of Arithmetic — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Prime Numbers and the Fundamental Theorem of Arithmetic</h1>
+<p class="subtitle">Phase 1 — Number Theory and Arithmetic, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The Pythagoreans and Euclid asked: what are the <strong>atoms of arithmetic</strong>?
+    You can break 12 into $2 \times 2 \times 3$. You can break 30 into $2 \times 3 \times 5$.
+    But 7 cannot be broken down further. These irreducible numbers — <em>primes</em> — are the
+    building blocks from which every other number is assembled.
+  </p>
+  <p>
+    Two questions follow immediately. First: are there infinitely many primes, or do they
+    eventually run out? Second: when you break a number into primes, is the result always
+    the same? That is — does every number have a <em>unique</em> factorisation?
+  </p>
+</div>
+
+<h2>1. Primes and composites</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition</div>
+  <p>
+    A <strong>prime number</strong> is an integer $p > 1$ whose only positive divisors are $1$ and $p$ itself.
+  </p>
+  <p>
+    A <strong>composite number</strong> is a positive integer $> 1$ that is not prime — that is,
+    it has a positive divisor other than $1$ and itself.
+  </p>
+</div>
+
+<p>
+  The first few primes: $2, 3, 5, 7, 11, 13, 17, 19, 23, 29, \ldots$ Note that $2$ is the
+  only even prime — every other even number is divisible by $2$ and hence composite.
+</p>
+
+<p>
+  Why is $1$ <strong>not</strong> prime? This is a convention, but a deeply motivated one.
+  If $1$ were prime, then $6 = 2 \times 3 = 1 \times 2 \times 3 = 1 \times 1 \times 2 \times 3 = \cdots$
+  and factorisation would never be unique — you could always throw in more copies of $1$.
+  Excluding $1$ from the primes is precisely what makes the Fundamental Theorem (section 5)
+  work. We'll return to this in the break-box.
+</p>
+
+<h2>2. The Sieve of Eratosthenes</h2>
+
+<p>
+  Around 240 BC, <strong>Eratosthenes of Cyrene</strong> devised an algorithm to find all primes
+  up to a given bound $n$. Write out all integers from $2$ to $n$. Start with the smallest
+  unmarked number ($2$) — it's prime. Cross out all its multiples ($4, 6, 8, \ldots$). Move to
+  the next unmarked number ($3$) — it's prime. Cross out its multiples ($6, 9, 12, \ldots$).
+  Continue. Every number that survives the sieve is prime.
+</p>
+
+<p>
+  Let's sieve up to $30$. Start with $2$: cross out $4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30$.
+  Next unmarked: $3$. Cross out $9, 15, 21, 27$ (the others were already crossed).
+  Next unmarked: $5$. Cross out $25$.
+  Next unmarked: $7$. Its first uncrossed multiple would be $49 > 30$, so we stop.
+</p>
+
+<p>
+  Survivors: $2, 3, 5, 7, 11, 13, 17, 19, 23, 29$. These are exactly the primes up to $30$.
+</p>
+
+<p>
+  <strong>Why stop at $\sqrt{n}$?</strong> Suppose $n$ is composite, so $n = ab$ with $1 < a \leq b < n$.
+  If both $a > \sqrt{n}$ and $b > \sqrt{n}$, then $ab > \sqrt{n} \cdot \sqrt{n} = n$,
+  contradicting $ab = n$. So at least one factor satisfies $a \leq \sqrt{n}$. This means every
+  composite number $\leq n$ has a prime factor $\leq \sqrt{n}$. Once you've sieved with all
+  primes up to $\sqrt{n}$, every surviving number is prime. For $n = 30$, we have
+  $\sqrt{30} \approx 5.47$, so sieving with $2, 3, 5$ suffices.
+</p>
+
+<h2>3. Euclid's lemma</h2>
+
+<p>
+  This is the <em>key lemma</em> — the result on which the uniqueness of prime factorisation
+  depends. Everything in this page builds towards it or follows from it.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Euclid's Lemma</div>
+  <p>
+    If $p$ is prime and $p \mid ab$, then $p \mid a$ or $p \mid b$.
+  </p>
+</div>
+
+<p>
+  In words: a prime that divides a product must divide at least one of the factors. This is
+  <em>not</em> true for composite numbers — $6 \mid 4 \times 9$ but $6 \nmid 4$ and $6 \nmid 9$.
+  The lemma is telling you something deep about what it means to be prime.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Step 1.</strong> Suppose $p \mid ab$ and $p \nmid a$. We need to show $p \mid b$.
+  </p>
+
+  <p>
+    <strong>Step 2.</strong> Since $p$ is prime, its only positive divisors are $1$ and $p$.
+    Since $p \nmid a$, the greatest common divisor $\gcd(p, a)$ cannot be $p$. So
+    $\gcd(p, a) = 1$ — that is, $p$ and $a$ are coprime.
+  </p>
+
+  <p>
+    <strong>Step 3.</strong> By Bézout's identity (proved on page 01), there exist integers
+    $x, y$ such that
+  </p>
+  <div class="display-math">$$px + ay = 1$$</div>
+
+  <p>
+    <strong>Step 4.</strong> Multiply both sides by $b$:
+  </p>
+  <div class="display-math">$$pbx + aby = b$$</div>
+
+  <p>
+    <strong>Step 5.</strong> Now look at the left side. The term $pbx$ is divisible by $p$
+    (it has $p$ as a factor). The term $aby$ is divisible by $p$ because $p \mid ab$ by
+    hypothesis. Since $p$ divides both terms, $p$ divides their sum, which is $b$.
+  </p>
+
+  <p>
+    Therefore $p \mid b$.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The proof is short, but notice how much is packed into it. The entire argument pivots on
+  Bézout's identity — without it, we'd have no way to connect "$p$ and $a$ are coprime" to
+  a divisibility statement about $b$. This is why we needed page 01 first.
+</p>
+
+<h2>4. Infinitely many primes</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Euclid, Elements IX.20)</div>
+  <p>
+    There are infinitely many prime numbers.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+
+  <p>
+    <strong>Step 1.</strong> Suppose, for contradiction, that there are only finitely many
+    primes. List them all: $p_1, p_2, \ldots, p_n$.
+  </p>
+
+  <p>
+    <strong>Step 2.</strong> Form the number
+  </p>
+  <div class="display-math">$$N = p_1 \, p_2 \cdots p_n + 1$$</div>
+
+  <p>
+    <strong>Step 3.</strong> We ask: is $N$ divisible by any prime on our list? Take any $p_i$.
+    Since $p_i$ divides the product $p_1 p_2 \cdots p_n$, dividing $N$ by $p_i$ gives a
+    remainder of $1$. So $p_i \nmid N$ for every $i$.
+  </p>
+
+  <p>
+    <strong>Step 4.</strong> But $N > 1$, so $N$ is either prime itself or has a prime factor.
+    In either case, there exists a prime that divides $N$ — and that prime is not on our list
+    (since no $p_i$ divides $N$). This contradicts the assumption that our list contained
+    <em>all</em> primes.
+  </p>
+
+  <p>
+    Therefore the primes are infinite.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  A common misreading: "$N$ itself is prime." That's not what the proof says. $N$ might be
+  prime, or it might be composite — but either way, it produces a prime not on the list.
+  For example, $2 \times 3 \times 5 \times 7 \times 11 \times 13 + 1 = 30031 = 59 \times 509$.
+  Neither $59$ nor $509$ was on the original list. The proof works perfectly.
+</p>
+
+<h2>5. The Fundamental Theorem of Arithmetic</h2>
+
+<div class="theorem-box">
+  <div class="label">Fundamental Theorem of Arithmetic</div>
+  <p>
+    Every integer $n > 1$ can be written as a product of prime numbers
+  </p>
+  <div class="display-math">$$n = p_1^{a_1} \, p_2^{a_2} \cdots p_k^{a_k}$$</div>
+  <p>
+    and this factorisation is <strong>unique</strong> up to the order of the factors.
+  </p>
+</div>
+
+<p>
+  Two claims here: <em>existence</em> (every number <em>has</em> a prime factorisation) and
+  <em>uniqueness</em> (there's only <em>one</em> such factorisation). They require separate proofs.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof of existence (by strong induction)</div>
+
+  <p>
+    <strong>Base case.</strong> $n = 2$ is prime, so its factorisation is just $2$. Done.
+  </p>
+
+  <p>
+    <strong>Inductive step.</strong> Let $n > 2$. Assume every integer $m$ with $2 \leq m < n$
+    has a prime factorisation (this is <em>strong</em> induction — we assume it for all
+    predecessors, not just $n - 1$).
+  </p>
+
+  <p>
+    If $n$ is prime, its factorisation is just $n$ itself.
+  </p>
+
+  <p>
+    If $n$ is composite, then $n = ab$ for some integers with $1 < a, b < n$. By the induction
+    hypothesis, both $a$ and $b$ have prime factorisations. Multiplying them gives a prime
+    factorisation of $n$.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof of uniqueness (using Euclid's lemma)</div>
+
+  <p>
+    <strong>Step 1.</strong> Suppose, for contradiction, that some integer $n > 1$ has two
+    different prime factorisations:
+  </p>
+  <div class="display-math">$$n = p_1 \, p_2 \cdots p_r = q_1 \, q_2 \cdots q_s$$</div>
+  <p>
+    where all $p_i$ and $q_j$ are prime (listed with repetition, not necessarily distinct).
+  </p>
+
+  <p>
+    <strong>Step 2.</strong> Consider $p_1$. Since $p_1 \mid n = q_1 \, q_2 \cdots q_s$, we can
+    apply Euclid's lemma. First: $p_1 \mid q_1 \cdot (q_2 \cdots q_s)$, so either $p_1 \mid q_1$
+    or $p_1 \mid q_2 \cdots q_s$. If the latter, apply the lemma again. Repeating, we eventually
+    find some $q_j$ such that $p_1 \mid q_j$.
+  </p>
+
+  <p>
+    <strong>Step 3.</strong> Since $q_j$ is prime, its only positive divisors are $1$ and $q_j$.
+    Since $p_1 > 1$, we must have $p_1 = q_j$.
+  </p>
+
+  <p>
+    <strong>Step 4.</strong> Cancel $p_1 = q_j$ from both sides:
+  </p>
+  <div class="display-math">$$p_2 \cdots p_r = q_1 \cdots q_{j-1} \, q_{j+1} \cdots q_s$$</div>
+
+  <p>
+    <strong>Step 5.</strong> Repeat: match $p_2$ with some $q$, cancel, and continue. Each step
+    removes one prime from each side. If $r = s$, we eventually reach $1 = 1$ and every $p_i$
+    has been matched to a $q_j$ — the two factorisations are the same (up to reordering).
+  </p>
+
+  <p>
+    If $r \neq s$, say $r < s$, then after cancelling all $p_i$ we'd have
+    $1 = q_{?} \cdots q_{?}$, a product of primes equalling $1$. But every prime is $> 1$,
+    so a product of primes is $> 1$. Contradiction.
+  </p>
+
+  <p>
+    Therefore the factorisation is unique up to order.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. Application: a cleaner proof that $\sqrt{2}$ is irrational</h2>
+
+<p>
+  In Phase 0, page 3, we proved $\sqrt{2}$ is irrational using an even/odd parity argument.
+  The Fundamental Theorem gives a slicker proof.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof (via FTA)</div>
+
+  <p>
+    <strong>Step 1.</strong> Suppose $\sqrt{2} = p/q$ with $p, q$ positive integers.
+    Then $p^2 = 2q^2$.
+  </p>
+
+  <p>
+    <strong>Step 2.</strong> By the Fundamental Theorem, write $p$ and $q$ in their prime
+    factorisations. When you square a number, every prime exponent doubles. So the exponent
+    of $2$ in the factorisation of $p^2$ is <em>even</em>, and the exponent of $2$ in the
+    factorisation of $q^2$ is also <em>even</em>.
+  </p>
+
+  <p>
+    <strong>Step 3.</strong> But $2q^2$ has the factorisation of $q^2$ with one extra factor
+    of $2$. So the exponent of $2$ in $2q^2$ is $\text{even} + 1 = \text{odd}$.
+  </p>
+
+  <p>
+    <strong>Step 4.</strong> We have $p^2 = 2q^2$, but the left side has an even exponent of
+    $2$ and the right side has an odd exponent of $2$. This contradicts the uniqueness of prime
+    factorisation.
+  </p>
+
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  This is the same result, but the mechanism is sharper. Instead of chasing even/odd through
+  a chain of substitutions, we simply count prime factors and observe a parity mismatch.
+  The FTA does the heavy lifting.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euclid's <em>Elements</em>, Books VII–IX (~300 BC), contain most of this page's results.
+    The infinity of primes is Proposition 20 of Book IX — one of the most celebrated results in
+    all of mathematics. Euclid's lemma appears as Proposition 30 of Book VII, though stated
+    differently (in terms of "measuring" rather than divisibility).
+  </p>
+  <p>
+    The Fundamental Theorem of Arithmetic was <em>used</em> by everyone from Euclid onwards —
+    it was considered self-evident. But the first <em>rigorous proof</em> came from Gauss in
+    <em>Disquisitiones Arithmeticae</em> (1801), over two thousand years later. The gap between
+    "obvious" and "proved" was extraordinary. Gauss recognised that uniqueness requires a
+    careful argument — specifically, it requires Euclid's lemma, which itself requires
+    Bézout's identity. The chain of dependencies is not trivial.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>If 1 were prime.</strong> Then $6 = 2 \times 3 = 1 \times 2 \times 3
+    = 1 \times 1 \times 2 \times 3 = \cdots$ — you could pad any factorisation with arbitrarily
+    many copies of $1$. Uniqueness would be impossible. Excluding $1$ from the primes is not
+    arbitrary; it is exactly the convention needed to make the FTA true.
+  </p>
+  <p>
+    <strong>If we leave $\mathbb{Z}$.</strong> Consider the ring $\mathbb{Z}[\sqrt{-5}]$
+    (numbers of the form $a + b\sqrt{-5}$ with $a, b \in \mathbb{Z}$). In this ring:
+  </p>
+  <div class="display-math">$$6 = 2 \times 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})$$</div>
+  <p>
+    These are two genuinely different factorisations into irreducible elements — $2$, $3$,
+    $1 + \sqrt{-5}$, and $1 - \sqrt{-5}$ are all irreducible in $\mathbb{Z}[\sqrt{-5}]$, but
+    none of them divides the others. Unique factorisation <em>fails</em>. It is a special
+    property of $\mathbb{Z}$, not something you get for free in every number system. Recovering
+    unique factorisation in such rings led Dedekind to invent <em>ideals</em> — one of the
+    foundational concepts of modern algebra.
+  </p>
+  <p>
+    <strong>Without Euclid's lemma.</strong> The existence proof (strong induction) goes through
+    in $\mathbb{Z}[\sqrt{-5}]$ just fine — every element has <em>some</em> factorisation into
+    irreducibles. What fails is <em>uniqueness</em>, because Euclid's lemma fails: $2$ divides
+    $(1 + \sqrt{-5})(1 - \sqrt{-5}) = 6$ but $2$ divides neither factor. The lemma is not a
+    technicality — it is the entire reason uniqueness holds in $\mathbb{Z}$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every integer has a unique prime factorisation — primes are the atoms of arithmetic,
+  and Euclid's lemma is what makes the factorisation unique.
+</div>
+
+<div class="nav">
+  <a href="01-divisibility.html">&larr; Previous: Divisibility</a>
+  <a href="03-modular-arithmetic.html">Next: Modular Arithmetic &rarr;</a>
+</div>
+
+</body>
+</html>

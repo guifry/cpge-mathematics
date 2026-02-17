@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Chinese Remainder Theorem — Phase 1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Chinese Remainder Theorem</h1>
+<p class="subtitle">Phase 1 — Number Theory and Arithmetic, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    From the Sunzi Suanjing (3rd century AD): "There are certain things whose number is unknown.
+    If we count them by threes, the remainder is 2; by fives, the remainder is 3; by sevens,
+    the remainder is 2. How many things are there?"
+  </p>
+  <p>
+    In our notation from page 3: find $x$ such that
+  </p>
+  <div class="display-math">$$x \equiv 2 \pmod{3}, \quad x \equiv 3 \pmod{5}, \quad x \equiv 2 \pmod{7}$$</div>
+  <p>
+    Each congruence alone is easy. But can you always solve a <em>system</em> of simultaneous
+    congruences? When is the solution unique? And is there a recipe that works every time?
+  </p>
+</div>
+
+<h2>1. The two-moduli case</h2>
+
+<p>
+  Start with the simplest version: two congruences with coprime moduli.
+</p>
+
+<div class="display-math">$$x \equiv a_1 \pmod{n_1}, \quad x \equiv a_2 \pmod{n_2}, \quad \gcd(n_1, n_2) = 1$$</div>
+
+<p>
+  The coprimality gives us B&eacute;zout's identity (page 1): there exist integers $s, t$ with
+  $n_1 s + n_2 t = 1$. Now build a solution by hand:
+</p>
+
+<div class="display-math">$$x = a_2 \cdot n_1 s + a_1 \cdot n_2 t$$</div>
+
+<p>
+  Why does this work? Reduce modulo each $n_i$ in turn. Modulo $n_1$: the first term
+  $a_2 \cdot n_1 s \equiv 0$, and from B&eacute;zout $n_2 t \equiv 1 \pmod{n_1}$, so the second
+  term gives $a_1 \cdot 1 = a_1$. Good. Modulo $n_2$: the second term vanishes ($n_2 t \equiv 0$),
+  and $n_1 s \equiv 1 \pmod{n_2}$, so the first term gives $a_2$. Good.
+</p>
+
+<p>
+  <strong>Worked example.</strong> Solve $x \equiv 2 \pmod{3}$, $x \equiv 3 \pmod{5}$.
+  B&eacute;zout: $3 \cdot 2 + 5 \cdot (-1) = 6 - 5 = 1$, so $s = 2$, $t = -1$. Then
+</p>
+
+<div class="display-math">$$x = 3 \cdot 3 \cdot 2 + 2 \cdot 5 \cdot (-1) = 18 - 10 = 8$$</div>
+
+<p>
+  Check: $8 = 2 \times 3 + 2$, so $8 \equiv 2 \pmod{3}$ &#10003;.
+  And $8 = 1 \times 5 + 3$, so $8 \equiv 3 \pmod{5}$ &#10003;.
+  The solution is unique modulo $3 \times 5 = 15$: any other solution differs from 8 by a
+  multiple of 15. So $x \in \{8, 23, 38, \ldots\}$.
+</p>
+
+<h2>2. The Chinese Remainder Theorem</h2>
+
+<p>
+  The two-moduli trick generalises to any number of congruences, provided all the moduli are
+  pairwise coprime.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Chinese Remainder Theorem</div>
+  <p>
+    Let $n_1, n_2, \ldots, n_k$ be pairwise coprime positive integers, and let
+    $a_1, a_2, \ldots, a_k$ be any integers. Then the system
+  </p>
+  <div class="display-math">$$x \equiv a_i \pmod{n_i} \quad \text{for } i = 1, \ldots, k$$</div>
+  <p>
+    has a solution, and the solution is unique modulo $N = n_1 n_2 \cdots n_k$.
+  </p>
+</div>
+
+<p>
+  <strong>Pairwise coprime</strong> means $\gcd(n_i, n_j) = 1$ for every pair $i \neq j$. Not just
+  that all $k$ numbers share no common factor &mdash; every pair must be coprime individually.
+  For instance, $\{6, 10, 15\}$ have $\gcd(6, 10, 15) = 1$, but $\gcd(6, 10) = 2$, so they
+  are <em>not</em> pairwise coprime.
+</p>
+
+<h2>3. Proof &mdash; existence</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Existence.</strong> We construct a solution explicitly. Set $N = n_1 n_2 \cdots n_k$
+    and define
+  </p>
+  <div class="display-math">$$N_i = \frac{N}{n_i} = n_1 \cdots n_{i-1} \cdot n_{i+1} \cdots n_k$$</div>
+  <p>
+    So $N_i$ is the product of all moduli <em>except</em> $n_i$. Since the $n_j$ are pairwise
+    coprime and $N_i$ is a product of the $n_j$ with $j \neq i$, we have
+    $\gcd(N_i, n_i) = 1$. (Each prime factor of $n_i$ is coprime to every $n_j$ with
+    $j \neq i$, hence coprime to their product.)
+  </p>
+  <p>
+    By B&eacute;zout (page 1), since $\gcd(N_i, n_i) = 1$, there exists an integer $y_i$ with
+  </p>
+  <div class="display-math">$$N_i y_i \equiv 1 \pmod{n_i}$$</div>
+  <p>
+    Now set
+  </p>
+  <div class="display-math">$$x = \sum_{i=1}^{k} a_i N_i y_i = a_1 N_1 y_1 + a_2 N_2 y_2 + \cdots + a_k N_k y_k$$</div>
+  <p>
+    <strong>Check that this works.</strong> Fix any $j \in \{1, \ldots, k\}$. We need
+    $x \equiv a_j \pmod{n_j}$. Look at each term in the sum modulo $n_j$:
+  </p>
+  <p>
+    &bull; For $i \neq j$: $N_i$ contains $n_j$ as a factor (because $N_i$ is the product of all
+    moduli except $n_i$, and $j \neq i$ means $n_j$ is in that product). So
+    $n_j \mid N_i$, which gives $a_i N_i y_i \equiv 0 \pmod{n_j}$.
+  </p>
+  <p>
+    &bull; For $i = j$: $N_j y_j \equiv 1 \pmod{n_j}$ by construction, so
+    $a_j N_j y_j \equiv a_j \cdot 1 = a_j \pmod{n_j}$.
+  </p>
+  <p>
+    Adding up: $x \equiv 0 + \cdots + 0 + a_j + 0 + \cdots + 0 = a_j \pmod{n_j}$. This holds
+    for every $j$, so $x$ solves the system.
+  </p>
+
+  <p>
+    <strong>Uniqueness.</strong> Suppose $x$ and $x'$ both solve the system. Then for every $i$,
+    $x \equiv a_i \equiv x' \pmod{n_i}$, which means $n_i \mid (x - x')$ for all $i$.
+  </p>
+  <p>
+    We need to show $N \mid (x - x')$. Since $n_1 \mid (x - x')$ and $n_2 \mid (x - x')$,
+    and $\gcd(n_1, n_2) = 1$, Euclid's lemma (page 1) gives $n_1 n_2 \mid (x - x')$. Now
+    $\gcd(n_1 n_2, n_3) = 1$ (since $n_3$ is coprime to both $n_1$ and $n_2$, it is coprime
+    to their product). So $n_1 n_2 n_3 \mid (x - x')$. Continue inductively: at each step,
+    the accumulated product is coprime to the next modulus, so Euclid's lemma applies again.
+    After $k$ steps: $N = n_1 \cdots n_k \mid (x - x')$, i.e. $x \equiv x' \pmod{N}$.
+  </p>
+
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Solving Sun Tz&#365;'s problem</h2>
+
+<p>
+  Let's work through the original problem from start to finish. We need
+</p>
+
+<div class="display-math">$$x \equiv 2 \pmod{3}, \quad x \equiv 3 \pmod{5}, \quad x \equiv 2 \pmod{7}$$</div>
+
+<p>
+  <strong>Step 1. Compute $N$ and the $N_i$.</strong>
+  $N = 3 \times 5 \times 7 = 105$.
+  $N_1 = 105 / 3 = 35$, $N_2 = 105 / 5 = 21$, $N_3 = 105 / 7 = 15$.
+</p>
+
+<p>
+  <strong>Step 2. Find the inverses $y_i$.</strong>
+</p>
+
+<p>
+  $N_1 y_1 \equiv 1 \pmod{3}$: since $35 \equiv 2 \pmod{3}$, we need $2 y_1 \equiv 1 \pmod{3}$.
+  Try $y_1 = 2$: $2 \times 2 = 4 \equiv 1 \pmod{3}$ &#10003;.
+</p>
+
+<p>
+  $N_2 y_2 \equiv 1 \pmod{5}$: since $21 \equiv 1 \pmod{5}$, we need $1 \cdot y_2 \equiv 1 \pmod{5}$.
+  So $y_2 = 1$ &#10003;.
+</p>
+
+<p>
+  $N_3 y_3 \equiv 1 \pmod{7}$: since $15 \equiv 1 \pmod{7}$, we need $1 \cdot y_3 \equiv 1 \pmod{7}$.
+  So $y_3 = 1$ &#10003;.
+</p>
+
+<p>
+  <strong>Step 3. Assemble $x$.</strong>
+</p>
+
+<div class="display-math">$$x = a_1 N_1 y_1 + a_2 N_2 y_2 + a_3 N_3 y_3 = 2 \cdot 35 \cdot 2 + 3 \cdot 21 \cdot 1 + 2 \cdot 15 \cdot 1$$</div>
+
+<div class="display-math">$$= 140 + 63 + 30 = 233$$</div>
+
+<p>
+  <strong>Step 4. Reduce modulo $N$.</strong>
+  $233 = 2 \times 105 + 23$, so $x \equiv 23 \pmod{105}$.
+</p>
+
+<p>
+  <strong>Verification.</strong> $23 = 7 \times 3 + 2$, so $23 \equiv 2 \pmod{3}$ &#10003;.
+  $23 = 4 \times 5 + 3$, so $23 \equiv 3 \pmod{5}$ &#10003;.
+  $23 = 3 \times 7 + 2$, so $23 \equiv 2 \pmod{7}$ &#10003;.
+</p>
+
+<p>
+  The answer: there are 23 things (or 128, or 233, or any number that is 23 more than a
+  multiple of 105).
+</p>
+
+<h2>5. The isomorphism perspective</h2>
+
+<p>
+  The CRT is really saying something deeper than "the system has a solution". It's saying
+  that two apparently different algebraic objects are secretly the same.
+</p>
+
+<p>
+  Consider the map $\phi : \mathbb{Z}/N\mathbb{Z} \to \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$ defined by
+</p>
+
+<div class="display-math">$$\phi(x) = (x \bmod n_1, \; x \bmod n_2, \; \ldots, \; x \bmod n_k)$$</div>
+
+<p>
+  The CRT says this map is a <strong>bijection</strong>: every element on the right comes from
+  exactly one element on the left. In fact it is a <strong>ring isomorphism</strong> &mdash; it
+  preserves addition <em>and</em> multiplication (IOU: rings are Phase 10). But even without
+  the ring language, the key point is clear:
+</p>
+
+<p>
+  <em>Arithmetic modulo $N$ can be decomposed into independent arithmetic modulo each $n_i$.</em>
+</p>
+
+<p>
+  This is why the CRT matters beyond solving congruences. It says a complex system (working
+  mod 105) can be split into simple pieces (working mod 3, mod 5, mod 7 independently). Solve
+  each piece separately, then reassemble. The pairwise coprimality ensures the pieces don't
+  interfere with each other.
+</p>
+
+<h2>6. Application: $\varphi$ is multiplicative</h2>
+
+<p>
+  On page 5, we defined Euler's totient $\varphi(n)$ and stated without proof that
+  $\varphi$ is <strong>multiplicative</strong>: if $\gcd(m, n) = 1$, then
+  $\varphi(mn) = \varphi(m)\varphi(n)$. We can now pay back that IOU.
+</p>
+
+<p>
+  Under the CRT bijection $\mathbb{Z}/mn\mathbb{Z} \leftrightarrow \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$,
+  an element $a$ on the left is coprime to $mn$ if and only if $a$ is coprime to both $m$
+  and $n$. (If a prime $p$ divides both $a$ and $mn$, it divides $a$ and at least one of
+  $m, n$. Conversely, if $\gcd(a, m) > 1$, then $\gcd(a, mn) > 1$.)
+</p>
+
+<p>
+  So the bijection restricts to a bijection between the coprime elements:
+</p>
+
+<div class="display-math">$$\{a \in \mathbb{Z}/mn\mathbb{Z} : \gcd(a, mn) = 1\} \;\longleftrightarrow\; \{b \in \mathbb{Z}/m\mathbb{Z} : \gcd(b, m) = 1\} \times \{c \in \mathbb{Z}/n\mathbb{Z} : \gcd(c, n) = 1\}$$</div>
+
+<p>
+  The left side has $\varphi(mn)$ elements. The right side has $\varphi(m) \times \varphi(n)$
+  elements (every coprime element mod $m$ pairs with every coprime element mod $n$). Since
+  bijections preserve cardinality:
+</p>
+
+<div class="display-math">$$\varphi(mn) = \varphi(m)\varphi(n)$$</div>
+
+<p>
+  This extends by induction: if $n_1, \ldots, n_k$ are pairwise coprime, then
+  $\varphi(n_1 \cdots n_k) = \varphi(n_1) \cdots \varphi(n_k)$. Combined with the formula
+  $\varphi(p^e) = p^{e-1}(p - 1)$ from page 5 and the fundamental theorem of arithmetic
+  (page 2), this gives $\varphi(n)$ for any $n$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Sun Tz&#365;'s problem appears in the Sunzi Suanjing, a Chinese mathematical text
+    from the 3rd&ndash;5th century AD, making it one of the oldest named results in number
+    theory. The systematic algebraic treatment came much later. Euler understood the
+    structure in the 18th century, but the modern statement and constructive proof are
+    essentially due to Gauss, who presented them in the Disquisitiones Arithmeticae (1801,
+    articles 32&ndash;36).
+  </p>
+  <p>
+    The name "Chinese Remainder Theorem" was coined by Western mathematicians in the 19th
+    century as a nod to its origin. The theorem resurfaces in abstract algebra (Phase 10):
+    it holds for polynomial rings ($\mathbb{Z}[x]$ modulo coprime polynomials), for general
+    commutative rings (modulo coprime ideals), and is the structural backbone of many
+    decomposition results in algebra and number theory.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks without coprimality</div>
+  <p>
+    <strong>No solution at all.</strong> Try $x \equiv 2 \pmod{4}$ and $x \equiv 5 \pmod{6}$.
+    Here $\gcd(4, 6) = 2$. The first congruence says $x$ is even (since $x = 4q + 2$). The
+    second says $x$ is odd (since $x = 6q + 5$). No integer is both even and odd. The system
+    has no solution.
+  </p>
+  <p>
+    <strong>Non-unique solutions.</strong> Even when non-coprime systems do have solutions, the
+    solution is not unique mod $N = n_1 n_2$. For instance, $x \equiv 1 \pmod{4}$ and
+    $x \equiv 1 \pmod{6}$ are both satisfied by $x = 1$, but also by $x = 13$. The smallest
+    positive period is $\text{lcm}(4, 6) = 12$, not $4 \times 6 = 24$. The CRT's clean
+    "unique mod $N$" conclusion requires that $N = \text{lcm}(n_1, \ldots, n_k)$, which
+    equals $n_1 \cdots n_k$ precisely when the moduli are pairwise coprime.
+  </p>
+  <p>
+    The construction also breaks: $N_i = N / n_i$ is no longer coprime to $n_i$ when the
+    moduli share factors, so the B&eacute;zout step (finding $y_i$ with $N_i y_i \equiv 1$)
+    has no solution. Every part of the proof &mdash; existence, uniqueness, and construction
+    &mdash; genuinely requires pairwise coprimality.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  When moduli are coprime, the CRT splits arithmetic mod $N$ into independent pieces mod each
+  factor &mdash; solving one big congruence by solving many small ones.
+</div>
+
+<div class="nav">
+  <a href="05-euler-totient.html">&larr; Previous: Euler's Totient</a>
+  <a href="07-diophantine.html">Next: Diophantine Equations &rarr;</a>
+</div>
+
+</body>
+</html>
