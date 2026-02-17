@@ -175,7 +175,7 @@ No HTML comments unless absolutely necessary. British English only throughout al
 
 ### 11. IOUs
 
-When a page must reference something not yet proved (e.g. using $e^x$ before Phase 3 defines it), flag it clearly:
+When a page must reference something not yet proved (e.g. using $e^x$ before Phase 4 defines it), flag it clearly:
 - In the text: "(IOU: this will be proved in Phase 4 from the power series definition)"
 - Never let an unproved fact pass silently
 
