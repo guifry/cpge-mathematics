@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-Sum Games and the Minimax Theorem — Phase 15</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Zero-Sum Games and the Minimax Theorem</h1>
+<p class="subtitle">Phase 15 (Bonus) &mdash; Game Theory, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In a <strong>zero-sum game</strong>, one player's gain is the other's loss. Consider
+    matching pennies: you and I each choose heads or tails simultaneously. If we match, I
+    win a pound; if not, you win a pound. There is no "pure" optimal strategy &mdash; if I
+    always play heads, you play tails and win every time.
+  </p>
+  <p>
+    Von Neumann (1928) proved that if you allow <strong>randomised</strong> (mixed)
+    strategies, an optimal strategy always exists, and both players can compute it. The
+    value of the game is the "saddle point" of the payoff matrix. This was the founding
+    theorem of game theory.
+  </p>
+</div>
+
+<h2>1. Zero-sum games in normal form</h2>
+
+<p>
+  A <strong>finite two-player zero-sum game</strong> is specified by an $m \times n$
+  <strong>payoff matrix</strong> $A = (a_{ij})$. The <strong>row player</strong> (Player 1)
+  chooses a row $i \in \{1, \ldots, m\}$; the <strong>column player</strong> (Player 2)
+  simultaneously chooses a column $j \in \{1, \ldots, n\}$. Player 1 receives payoff
+  $a_{ij}$; Player 2 receives $-a_{ij}$. The sum is always zero.
+</p>
+<p>
+  A <strong>pure strategy</strong> is a definite choice: row $i$ or column $j$. A
+  <strong>mixed strategy</strong> is a probability distribution over pure strategies.
+  Player 1's mixed strategy is a vector $x = (x_1, \ldots, x_m) \in \Delta_m$ where
+  $\Delta_m = \{x \in \mathbb{R}^m : x_i \geq 0,\, \sum x_i = 1\}$ is the
+  <strong>probability simplex</strong>. Player 2's mixed strategy is $y \in \Delta_n$.
+</p>
+<p>
+  Under mixed strategies $x$ and $y$, Player 1's expected payoff is
+</p>
+<div class="display-math">$$E(x, y) = x^T A y = \sum_{i=1}^{m} \sum_{j=1}^{n} x_i \, a_{ij} \, y_j$$</div>
+<p>
+  Player 1 wants to maximise this; Player 2 wants to minimise it.
+</p>
+
+<h2>2. Saddle points</h2>
+
+<p>
+  A pair $(x^*, y^*)$ is a <strong>saddle point</strong> of $E$ if
+</p>
+<div class="display-math">$$E(x, y^*) \leq E(x^*, y^*) \leq E(x^*, y) \quad \text{for all } x \in \Delta_m,\, y \in \Delta_n$$</div>
+<p>
+  The left inequality says Player 1 cannot do better by switching from $x^*$; the right
+  says Player 2 cannot do better by switching from $y^*$. Neither player has an incentive
+  to deviate &mdash; this is an equilibrium.
+</p>
+<p>
+  Some games have saddle points in pure strategies. Consider the game with matrix
+</p>
+<div class="display-math">$$A = \begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}$$</div>
+<p>
+  Row player's worst case per row: row 1 guarantees at least $\min(3, 1) = 1$; row 2
+  guarantees at least $\min(2, 4) = 2$. So Player 1 prefers row 2 (guaranteeing 2).
+  Column player's worst case per column: column 1 concedes at most $\max(3, 2) = 3$;
+  column 2 concedes at most $\max(1, 4) = 4$. Player 2 prefers column 1 (conceding at
+  most 3). The entry $a_{21} = 2$ is both the row maximum of column minima and the column
+  minimum of row maxima &mdash; a pure saddle point. The value of the game is 2.
+</p>
+
+<h2>3. The minimax theorem</h2>
+
+<p>
+  Not every game has a pure saddle point. Matching pennies has payoff matrix
+</p>
+<div class="display-math">$$A = \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix}$$</div>
+<p>
+  Row minima: both $-1$, so $\max_i \min_j a_{ij} = -1$. Column maxima: both $1$, so
+  $\min_j \max_i a_{ij} = 1$. We have $\max\min = -1 < 1 = \min\max$. No pure saddle
+  point exists.
+</p>
+<p>
+  In general, the <strong>weak inequality</strong> always holds:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Max-min $\leq$ min-max</div>
+  <p>
+    For any $m \times n$ matrix $A$:
+    $\displaystyle\max_{x \in \Delta_m} \min_{y \in \Delta_n} x^T A y \leq \min_{y \in \Delta_n} \max_{x \in \Delta_m} x^T A y$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> For any fixed $x \in \Delta_m$ and $y \in \Delta_n$:
+  </p>
+  <div class="display-math">$$\min_{y' \in \Delta_n} x^T A y' \leq x^T A y \leq \max_{x' \in \Delta_m} (x')^T A y$$</div>
+  <p>
+    The left inequality holds because $y$ is one particular choice; the minimum over all
+    $y'$ can only be smaller. The right holds symmetrically.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since the left side does not depend on $y$ and the right side
+    does not depend on $x$, take $\max$ over $x$ on the left and $\min$ over $y$ on the
+    right:
+  </p>
+  <div class="display-math">$$\max_{x} \min_{y'} x^T A y' \leq \min_{y} \max_{x'} (x')^T A y$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The hard part is proving equality. This is von Neumann's minimax theorem.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Minimax (von Neumann, 1928)</div>
+  <p>
+    For any $m \times n$ real matrix $A$:
+  </p>
+  <div class="display-math">$$\max_{x \in \Delta_m} \min_{y \in \Delta_n} x^T A y = \min_{y \in \Delta_n} \max_{x \in \Delta_m} x^T A y$$</div>
+  <p>
+    This common value $v$ is the <strong>value of the game</strong>. Any $x^*$ achieving
+    the left max and $y^*$ achieving the right min form a saddle point.
+  </p>
+</div>
+
+<h2>4. Proof sketch via Brouwer's fixed-point theorem</h2>
+
+<p>
+  The full proof uses topology (IOU: Brouwer's fixed-point theorem, Phase 9). We outline
+  the argument.
+</p>
+<p>
+  <strong>Step 1.</strong> The set $K = \Delta_m \times \Delta_n$ is a compact convex
+  subset of $\mathbb{R}^{m+n}$. This follows from Phase 9: $\Delta_m$ and $\Delta_n$ are
+  closed bounded subsets of Euclidean space, hence compact (Heine&ndash;Borel), and clearly
+  convex. Their product inherits both properties.
+</p>
+<p>
+  <strong>Step 2.</strong> Define a map $f : K \to K$ as follows. Given $(x, y)$, let
+  $x'$ be a <strong>best response</strong> to $y$: a mixed strategy maximising $x^T A y$
+  over $x \in \Delta_m$. Let $y'$ be a best response to $x$: a mixed strategy minimising
+  $x^T A y$ over $y \in \Delta_n$. Set $f(x, y) = (x', y')$.
+</p>
+<p>
+  <strong>Step 3.</strong> Best responses may not be unique, so $f$ is a
+  <strong>set-valued map</strong> (correspondence). To apply a fixed-point theorem, we use
+  Kakutani's generalisation of Brouwer (1941): a set-valued map on a compact convex set
+  with non-empty convex values and a closed graph has a fixed point.
+</p>
+<p>
+  <strong>Step 4.</strong> The best-response sets are non-empty (continuous linear function
+  on a compact set achieves its optimum) and convex (if $x_1$ and $x_2$ both maximise
+  $x^T A y$, so does any convex combination). The closed-graph property follows from
+  continuity of $x^T A y$.
+</p>
+<p>
+  <strong>Step 5.</strong> By Kakutani, there exists $(x^*, y^*)$ with $x^*$ a best
+  response to $y^*$ and $y^*$ a best response to $x^*$. This is precisely a saddle point:
+  $E(x, y^*) \leq E(x^*, y^*) \leq E(x^*, y)$ for all $x, y$. Setting
+  $v = E(x^*, y^*)$ gives $\max\min = v = \min\max$.
+</p>
+
+<h2>5. Solving $2 \times 2$ games</h2>
+
+<p>
+  For a $2 \times 2$ game without a pure saddle point, we can compute the value and
+  optimal strategies explicitly. Take matching pennies:
+</p>
+<div class="display-math">$$A = \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix}$$</div>
+<p>
+  Let Player 1 play row 1 with probability $p$ and row 2 with probability $1 - p$.
+  Player 1's expected payoff against column $j$:
+</p>
+<div class="display-math">$$\text{vs column 1: } p \cdot 1 + (1-p) \cdot (-1) = 2p - 1$$</div>
+<div class="display-math">$$\text{vs column 2: } p \cdot (-1) + (1-p) \cdot 1 = 1 - 2p$$</div>
+<p>
+  Player 1 wants to maximise the minimum of these two expressions (since Player 2 will
+  pick the column that hurts Player 1 most). Set them equal: $2p - 1 = 1 - 2p$, giving
+  $p = 1/2$. The value is $2(1/2) - 1 = 0$.
+</p>
+<p>
+  By symmetry, Player 2's optimal strategy is also $q = 1/2$. The game is
+  <strong>fair</strong>: its value is $0$. Each player randomises uniformly. Any deviation
+  from $50$-$50$ can be exploited by the opponent.
+</p>
+<p>
+  More generally, for a $2 \times 2$ game $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$
+  with no pure saddle point, the optimal row-player probability is
+</p>
+<div class="display-math">$$p^* = \frac{d - c}{(a - b) - (c - d)}$$</div>
+<p>
+  and the value is $v = \dfrac{ad - bc}{(a - b) - (c - d)}$, provided the denominator is
+  nonzero (which it is when no pure saddle point exists).
+</p>
+<p>
+  Check with matching pennies: $a = 1, b = -1, c = -1, d = 1$. The denominator is
+  $(1 - (-1)) - ((-1) - 1) = 2 - (-2) = 4$. The value is $(1 \cdot 1 - (-1)(-1))/4 =
+  (1 - 1)/4 = 0$. Player 1's optimal probability is $(1 - (-1))/4 = 2/4 = 1/2$.
+  Everything checks out.
+</p>
+<p>
+  For larger games, the minimax strategies can be computed by linear programming. Rewrite
+  the max-min problem as: maximise $v$ subject to $x^T A e_j \geq v$ for all $j$ and
+  $x \in \Delta_m$. This is a linear programme in $(x, v)$, solvable by the simplex
+  method. Dantzig observed this connection in 1951, linking game theory to optimisation.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Von Neumann proved the minimax theorem in 1928 in "Zur Theorie der Gesellschaftsspiele"
+    (<em>On the Theory of Parlour Games</em>). His original proof used Brouwer's
+    fixed-point theorem (1911, topology &mdash; Phase 9). Later proofs by Ville (1938)
+    used convex separation, and Loomis (1946) gave an elementary argument.
+  </p>
+  <p>
+    Von Neumann and Morgenstern's <em>Theory of Games and Economic Behavior</em> (1944)
+    launched game theory as a discipline. It also introduced expected utility theory,
+    axiomatising rational decision-making under uncertainty.
+  </p>
+  <p>
+    Dantzig (1947) showed that solving a zero-sum game is equivalent to solving a linear
+    programme. The simplex method, originally developed for logistics, computes game values
+    and optimal strategies in practice.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without mixed strategies:</strong> matching pennies has no saddle point in pure
+    strategies. $\max\min = -1 < 1 = \min\max$. The gap between max-min and min-max is
+    the "cost of determinism" &mdash; a predictable player can always be exploited.
+  </p>
+  <p>
+    <strong>Without finiteness:</strong> if the strategy sets are infinite (e.g. each
+    player picks a real number in $[0, 1]$), the minimax theorem requires additional
+    regularity. Sion (1958) proved a minimax theorem for quasiconcave-quasiconvex
+    functions on compact convex sets, but without compactness or convexity the theorem
+    can fail.
+  </p>
+  <p>
+    <strong>Without the zero-sum condition:</strong> if what I gain is not what you lose,
+    there is no single "value" to the game. The minimax framework collapses, and we need
+    the more general notion of Nash equilibrium &mdash; the subject of the next page.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  In a zero-sum game, randomisation closes the gap between caution and aggression &mdash; the minimax value exists and both players can achieve it.
+</div>
+
+<div class="nav">
+  <a href="01-combinatorial-games.html">&larr; Previous: Combinatorial Games</a>
+  <a href="03-nash-equilibrium.html">Next: Nash Equilibrium &rarr;</a>
+</div>
+
+</body>
+</html>

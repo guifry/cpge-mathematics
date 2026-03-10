@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Principal Axis Theorem — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Principal Axis Theorem</h1>
+<p class="subtitle">Phase 13 — Bilinear Algebra and Spectral Theory, Page 6</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>The equation $5x^2 + 4xy + 2y^2 = 1$ describes an ellipse — but its axes are tilted. You cannot read off the semi-axis lengths directly because of the cross-term $4xy$. Can you rotate coordinates so the equation becomes $\lambda_1 X^2 + \lambda_2 Y^2 = 1$, with axes aligned to the coordinate axes?</p>
+<p>More generally: given any real quadratic form $Q(x) = x^TAx$ with $A$ symmetric, can you find an orthogonal change of variables that eliminates all the cross-terms? The <b>principal axis theorem</b> says yes. The eigenvalues of $A$ become the coefficients of the squared terms, and the eigenvectors point along the principal axes.</p>
+</div>
+
+<h2>1. The principal axis theorem</h2>
+
+<p>Recall from <a href="01-bilinear-forms.html">page 1</a> that every real quadratic form $Q(x) = x^TAx$ has an associated symmetric matrix $A$. The matrix is obtained by reading off the coefficients: $A_{ii}$ is the coefficient of $x_i^2$, and $A_{ij} = A_{ji}$ is half the coefficient of $x_ix_j$ for $i \neq j$. (The factor of $\frac{1}{2}$ ensures symmetry: the term $4xy$ in our example contributes $2$ to both $A_{12}$ and $A_{21}$.)</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — Principal axis theorem</div>
+<p>For any real quadratic form $Q(x) = x^TAx$ with $A$ symmetric, there exists an orthogonal matrix $P$ such that the substitution $x = Py$ gives</p>
+<div class="display-math">$$Q(Py) = y^T(P^TAP)y = \lambda_1 y_1^2 + \lambda_2 y_2^2 + \cdots + \lambda_n y_n^2$$</div>
+<p>where $\lambda_1, \ldots, \lambda_n$ are the eigenvalues of $A$. The columns of $P$ are the corresponding orthonormal eigenvectors.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> By the spectral theorem (<a href="03-spectral-theorem.html">page 3</a>), since $A$ is real symmetric, there exists an orthogonal matrix $P$ (whose columns are the orthonormal eigenvectors $v_1, \ldots, v_n$) such that</p>
+<div class="display-math">$$A = P\Lambda P^T, \qquad \Lambda = \operatorname{diag}(\lambda_1, \ldots, \lambda_n)$$</div>
+<p><b>Step 2.</b> Substitute $x = Py$ into the quadratic form:</p>
+<div class="display-math">$$Q(Py) = (Py)^TA(Py) = y^TP^TAPy$$</div>
+<p><b>Step 3.</b> Compute $P^TAP$ using $A = P\Lambda P^T$:</p>
+<div class="display-math">$$P^TAP = P^T(P\Lambda P^T)P = (P^TP)\Lambda(P^TP) = I\Lambda I = \Lambda$$</div>
+<p>using orthogonality $P^TP = I$.</p>
+<p><b>Step 4.</b> Therefore:</p>
+<div class="display-math">$$Q(Py) = y^T\Lambda y = \lambda_1 y_1^2 + \lambda_2 y_2^2 + \cdots + \lambda_n y_n^2$$</div>
+<p>All cross-terms have vanished. The quadratic form is now a sum of squares, with coefficients given by the eigenvalues.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>The proof is immediate from the spectral theorem — one might even call the principal axis theorem a <em>corollary</em> of the spectral theorem. But its geometric content is profound: the eigenvectors of $A$ are the natural "axes" of the quadratic form, and the eigenvalues measure how the form stretches along each axis.</p>
+
+<p>The new coordinates $y = P^Tx$ have a simple interpretation: $y_i = v_i^Tx$ is the component of $x$ along the $i$-th eigenvector. In these coordinates, the quadratic form decouples completely — each variable $y_i$ contributes independently to $Q$. There are no cross-terms $y_iy_j$ because the eigenvectors are orthogonal: the "interaction" between the $i$-th and $j$-th eigendirections is zero.</p>
+
+<p>This is the deepest reason why orthogonal diagonalisation matters: it decomposes a coupled system into independent one-dimensional problems. In physics, the eigenmodes of a vibrating system (a drum, a bridge, a molecule) are the principal axes of the energy quadratic form. Each mode vibrates independently at its own frequency (the corresponding eigenvalue), and the general motion is a superposition of these independent modes. This is exactly the Fourier analysis we studied in <a href="../phase11/01-fourier-series.html">Phase 11</a>, now seen from the linear-algebraic viewpoint.</p>
+
+<p>Consider a system of two coupled springs with potential energy $V(x_1, x_2) = k_1 x_1^2 + k_2 x_2^2 + k_c(x_1 - x_2)^2$. Expanding: $V = (k_1 + k_c)x_1^2 - 2k_c x_1 x_2 + (k_2 + k_c)x_2^2$. The matrix is $A = \begin{pmatrix} k_1 + k_c & -k_c \\ -k_c & k_2 + k_c \end{pmatrix}$. The principal axis theorem diagonalises this: in the eigenbasis, $V = \lambda_1 Y_1^2 + \lambda_2 Y_2^2$ — each "normal mode" $Y_i$ oscillates independently at frequency $\sqrt{\lambda_i}$. The coupling between the springs has been absorbed into the coordinate change.</p>
+
+<p>In the special case $k_1 = k_2 = k$, the matrix becomes $\begin{pmatrix} k + k_c & -k_c \\ -k_c & k + k_c \end{pmatrix}$. By symmetry, the eigenvectors are $(1, 1)^T/\sqrt{2}$ (in-phase mode, eigenvalue $k$) and $(1, -1)^T/\sqrt{2}$ (anti-phase mode, eigenvalue $k + 2k_c$). The in-phase mode ignores the coupling spring entirely (both masses move together, so the coupling spring is neither stretched nor compressed). The anti-phase mode activates the coupling spring maximally (the masses move in opposite directions), raising the effective stiffness by $2k_c$.</p>
+
+<p>The principal axis theorem tells us this decomposition into independent modes exists even when $k_1 \neq k_2$, where the physical symmetry is broken and the eigenvectors are tilted at a non-trivial angle. The mathematics provides the normal mode decomposition that physical intuition alone cannot find.</p>
+
+<p>This generalises to $n$ coupled oscillators: the potential energy is a quadratic form in $n$ variables, represented by an $n \times n$ symmetric positive definite matrix (positive definite because the equilibrium is stable). The principal axis theorem gives $n$ independent normal modes, each vibrating at its own frequency $\omega_i = \sqrt{\lambda_i}$.</p>
+
+<p>In the limit $n \to \infty$, this becomes the spectral theory of vibrating strings and membranes — the Fourier modes $\sin(k\pi x / L)$ are the eigenvectors of the Laplacian operator, and the eigenvalues $\lambda_k = (k\pi/L)^2$ give the squared frequencies. The principal axis theorem for finite-dimensional quadratic forms and the Fourier decomposition for infinite-dimensional function spaces are the same idea at different scales. The unification of these two viewpoints was one of Hilbert's great achievements (1904-1910) and the birth of functional analysis, which we study in <a href="../phase14/01-norms.html">Phase 14</a>.</p>
+
+<h2>2. Worked example</h2>
+
+<p>Classify the conic $5x^2 + 4xy + 2y^2 = 1$.</p>
+
+<p><b>Step 1 — Form the matrix.</b> The coefficient of $x^2$ is 5, the coefficient of $y^2$ is 2, and the coefficient of $xy$ is 4 (split as 2 in each off-diagonal entry):</p>
+<div class="display-math">$$A = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$$</div>
+
+<p><b>Step 2 — Find the eigenvalues.</b> The characteristic polynomial is:</p>
+<div class="display-math">$$\det(A - \lambda I) = (5 - \lambda)(2 - \lambda) - 4 = \lambda^2 - 7\lambda + 10 - 4 = \lambda^2 - 7\lambda + 6$$</div>
+<div class="display-math">$$= (\lambda - 1)(\lambda - 6) = 0$$</div>
+<p>So $\lambda_1 = 1$ and $\lambda_2 = 6$. Both are positive, so this is an ellipse.</p>
+
+<p><b>Step 3 — Find the eigenvectors.</b> For $\lambda_1 = 1$: solve $(A - I)v = 0$.</p>
+<div class="display-math">$$\begin{pmatrix} 4 & 2 \\ 2 & 1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = 0 \implies 4v_1 + 2v_2 = 0 \implies v_2 = -2v_1$$</div>
+<p>Normalise: $v_1 = (1, -2)^T / \sqrt{5}$.</p>
+
+<p>For $\lambda_2 = 6$: solve $(A - 6I)v = 0$.</p>
+<div class="display-math">$$\begin{pmatrix} -1 & 2 \\ 2 & -4 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = 0 \implies v_1 = 2v_2$$</div>
+<p>Normalise: $v_2 = (2, 1)^T / \sqrt{5}$.</p>
+
+<p>Check orthogonality: $v_1 \cdot v_2 = \frac{1}{5}(1 \cdot 2 + (-2) \cdot 1) = 0$. Good — the spectral theorem guarantees this.</p>
+
+<p><b>Step 4 — The rotation.</b> Set $P = \frac{1}{\sqrt{5}}\begin{pmatrix} 1 & 2 \\ -2 & 1 \end{pmatrix}$. The substitution $\begin{pmatrix} x \\ y \end{pmatrix} = P\begin{pmatrix} X \\ Y \end{pmatrix}$ transforms the equation to:</p>
+<div class="display-math">$$X^2 + 6Y^2 = 1$$</div>
+
+<p>This is an ellipse in standard position with semi-major axis $a = 1$ (along the $X$-direction, which is $v_1 = (1,-2)^T/\sqrt{5}$ in the original coordinates) and semi-minor axis $b = 1/\sqrt{6} \approx 0.408$ (along $v_2 = (2,1)^T/\sqrt{5}$).</p>
+
+<p>The rotation angle is $\theta = \arctan(-2/1) \approx -63.4°$. The original tilted ellipse has been "un-tilted" by rotating through $\theta$ to align with the coordinate axes.</p>
+
+<p>You can verify the result directly. The substitution $x = \frac{1}{\sqrt{5}}(X + 2Y)$, $y = \frac{1}{\sqrt{5}}(-2X + Y)$ transforms $5x^2 + 4xy + 2y^2$ into:</p>
+<div class="display-math">$$5 \cdot \frac{(X+2Y)^2}{5} + 4 \cdot \frac{(X+2Y)(-2X+Y)}{5} + 2 \cdot \frac{(-2X+Y)^2}{5}$$</div>
+<div class="display-math">$$= (X^2 + 4XY + 4Y^2) + \frac{4(-2X^2 + XY - 4XY + 2Y^2)}{5} + \frac{2(4X^2 - 4XY + Y^2)}{5}$$</div>
+<p>Expanding and collecting: the coefficient of $X^2$ is $1 + \frac{-8+8}{5} = 1$, the coefficient of $Y^2$ is $4 + \frac{8+2}{5} = 6$, and the coefficient of $XY$ is $4 + \frac{4-16-8}{5} = 4 - 4 = 0$. The cross-term vanishes, confirming $X^2 + 6Y^2 = 1$.</p>
+
+<p>This calculation is laborious. The principal axis theorem tells us it <em>must</em> work, without computing: the spectral theorem guarantees the cross-terms vanish in the eigenbasis. The eigenvalues $1$ and $6$ appear as coefficients automatically.</p>
+
+<h2>3. Classification of conics and quadrics</h2>
+
+<p>The principal axis theorem reduces any second-degree curve $x^TAx = 1$ to the standard form $\sum \lambda_i y_i^2 = 1$. The classification depends entirely on the signs of the eigenvalues.</p>
+
+<p><b>In two dimensions</b> ($n = 2$), the equation $\lambda_1 X^2 + \lambda_2 Y^2 = 1$ gives:</p>
+
+<p><b>Both positive ($\lambda_1, \lambda_2 > 0$):</b> an ellipse with semi-axes $1/\sqrt{\lambda_1}$ and $1/\sqrt{\lambda_2}$. If $\lambda_1 = \lambda_2$, it is a circle. This is the case in our worked example.</p>
+
+<p><b>Opposite signs ($\lambda_1 > 0 > \lambda_2$):</b> the equation becomes $\lambda_1 X^2 - |\lambda_2| Y^2 = 1$, a hyperbola with branches opening along the $X$-axis.</p>
+
+<p><b>One zero ($\lambda_1 > 0$, $\lambda_2 = 0$):</b> the equation $\lambda_1 X^2 = 1$ gives $X = \pm 1/\sqrt{\lambda_1}$ — a pair of parallel lines. (True parabolas arise from equations with linear terms, $x^TAx + b^Tx + c = 0$, which require a translation as well as a rotation.)</p>
+
+<p><b>Both negative ($\lambda_1, \lambda_2 < 0$):</b> $\lambda_1 X^2 + \lambda_2 Y^2 = 1$ has no real solutions, since the left side is $\leq 0 < 1$. The curve is the empty set.</p>
+
+<p><b>In three dimensions</b> ($n = 3$), the standard form $\lambda_1 X^2 + \lambda_2 Y^2 + \lambda_3 Z^2 = 1$ classifies the quadric surfaces:</p>
+
+<p>All three positive: <b>ellipsoid</b>. Two positive, one negative: <b>one-sheeted hyperboloid</b>. One positive, two negative: <b>two-sheeted hyperboloid</b>. All three negative: empty. One or more eigenvalues zero: degenerate cases (cylinders, pairs of planes).</p>
+
+<p>A worked 3D example: classify $3x^2 + 2y^2 + 3z^2 - 2xz = 1$. The matrix is</p>
+
+<div class="display-math">$$A = \begin{pmatrix} 3 & 0 & -1 \\ 0 & 2 & 0 \\ -1 & 0 & 3 \end{pmatrix}$$</div>
+
+<p>Note $A_{13} = A_{31} = -1$ (half the coefficient of $xz$, which is $-2$). The block structure is helpful: since the $(2,1)$ and $(2,3)$ entries are zero, the second eigenvector is $e_2 = (0,1,0)^T$ with eigenvalue $2$. The remaining eigenvalues come from the $2 \times 2$ block $\begin{pmatrix} 3 & -1 \\ -1 & 3 \end{pmatrix}$, giving $\lambda = 4$ and $\lambda = 2$. So the eigenvalues are $2, 2, 4$ — all positive, confirming this is an ellipsoid. In the eigenbasis, the equation becomes $2X^2 + 2Y^2 + 4Z^2 = 1$, an <b>oblate spheroid</b> (circular cross-section in the $XY$-plane, compressed along $Z$).</p>
+
+<p>The eigenvalues of $A$ — which are coordinate-free invariants — determine the geometry completely. Two quadratic forms describe the same type of curve (up to rotation and scaling) if and only if their matrices have the same signs of eigenvalues. This is Sylvester's law of inertia (<a href="02-quadratic-forms.html">page 2</a>) in geometric language: the <b>signature</b> $(p, q)$ (number of positive, number of negative eigenvalues) is the complete invariant for congruence classes.</p>
+
+<p>A subtlety: the principal axis theorem classifies the <em>shape</em> of the curve (ellipse vs. hyperbola), but the specific eigenvalues determine the <em>size</em>. Two ellipses $\lambda_1 X^2 + \lambda_2 Y^2 = 1$ and $\mu_1 X^2 + \mu_2 Y^2 = 1$ have the same shape (both ellipses) but different dimensions. The ratio $\lambda_1/\lambda_2$ determines the eccentricity; when $\lambda_1 = \lambda_2$, the ellipse is a circle.</p>
+
+<p>The conics $ax^2 + bxy + cy^2 = 1$ can also be classified by the discriminant $b^2 - 4ac = (A_{12})^2 - A_{11}A_{22}$, which is $-\det(A)$ up to a constant. If $\det(A) > 0$: same-sign eigenvalues, so ellipse (or empty). If $\det(A) < 0$: opposite-sign eigenvalues, so hyperbola. If $\det(A) = 0$: one eigenvalue is zero, degenerate case. The discriminant test is just the determinant criterion in disguise — but the eigenvalue viewpoint via the principal axis theorem is more general (works in any dimension) and more informative (gives the axis lengths, not just the type).</p>
+
+<h2>4. Positive definite matrices revisited</h2>
+
+<p>The principal axis theorem gives a clean geometric interpretation of <b>positive definiteness</b>. A symmetric matrix $A$ is positive definite when the quadratic form $Q(x) = x^TAx > 0$ for all $x \neq 0$ — geometrically, the level set $x^TAx = 1$ is a (possibly tilted) ellipsoid centred at the origin.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — equivalent conditions for positive definiteness</div>
+<p>For a real symmetric $n \times n$ matrix $A$, the following are equivalent:</p>
+<p>(i) $x^TAx > 0$ for all non-zero $x \in \mathbb{R}^n$.</p>
+<p>(ii) All eigenvalues of $A$ are strictly positive.</p>
+<p>(iii) All leading principal minors are strictly positive: $\det(A_k) > 0$ for $k = 1, \ldots, n$, where $A_k$ is the top-left $k \times k$ submatrix of $A$.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1 — (i) $\Rightarrow$ (ii).</b> If $A$ is positive definite and $v_i$ is an eigenvector with eigenvalue $\lambda_i$, then:</p>
+<div class="display-math">$$0 < v_i^TAv_i = \lambda_i \|v_i\|^2$$</div>
+<p>Since $\|v_i\|^2 > 0$, we must have $\lambda_i > 0$.</p>
+
+<p><b>Step 2 — (ii) $\Rightarrow$ (i).</b> By the principal axis theorem, $x^TAx = \sum_{i=1}^n \lambda_i y_i^2$ where $y = P^Tx$. If all $\lambda_i > 0$ and $x \neq 0$, then $y = P^Tx \neq 0$ (since $P$ is invertible). So at least one $y_i \neq 0$, and the sum $\sum \lambda_i y_i^2 > 0$.</p>
+
+<p><b>Step 3 — (ii) $\Rightarrow$ (iii).</b> Each leading principal submatrix $A_k$ is itself real symmetric. Its eigenvalues $\mu_1, \ldots, \mu_k$ interlace those of $A$ by the Cauchy interlacing theorem (<a href="05-rayleigh-courant-fischer.html">page 5</a>): $\lambda_i \leq \mu_i \leq \lambda_{i + n - k}$ for appropriate indices. In particular, $\mu_i \geq \lambda_i > 0$ for each $i = 1, \ldots, k$. So every eigenvalue of $A_k$ is positive, and $\det(A_k) = \prod_{i=1}^k \mu_i > 0$ (by the determinant-eigenvalue identity from <a href="05-rayleigh-courant-fischer.html">page 5</a>).</p>
+
+<p><b>Step 4 — (iii) $\Rightarrow$ (i).</b> We prove this by induction on $n$.</p>
+<p><em>Base case</em> ($n = 1$): $A = (a_{11})$ with $\det(A_1) = a_{11} > 0$. Then $Q(x) = a_{11}x_1^2 > 0$ for $x_1 \neq 0$.</p>
+<p><em>Inductive step:</em> assume the result for matrices of size $n - 1$. Write $A$ in block form:</p>
+<div class="display-math">$$A = \begin{pmatrix} A_{n-1} & b \\ b^T & a_{nn} \end{pmatrix}$$</div>
+<p>The leading principal minors of $A_{n-1}$ are $\det(A_1), \ldots, \det(A_{n-1})$, all positive by hypothesis. By the inductive assumption, $A_{n-1}$ is positive definite, hence invertible.</p>
+<p>For any $x = \begin{pmatrix} u \\ t \end{pmatrix}$ with $u \in \mathbb{R}^{n-1}$ and $t \in \mathbb{R}$:</p>
+<div class="display-math">$$x^TAx = u^TA_{n-1}u + 2t\,b^Tu + a_{nn}t^2$$</div>
+<p>Complete the square in $u$. Since $A_{n-1}$ is positive definite (hence invertible), set $w = u + tA_{n-1}^{-1}b$:</p>
+<div class="display-math">$$x^TAx = w^T A_{n-1} w + \left(a_{nn} - b^TA_{n-1}^{-1}b\right)t^2$$</div>
+<p>The first term $w^TA_{n-1}w \geq 0$ (positive semi-definite, with equality only when $w = 0$). The coefficient of $t^2$ is the <b>Schur complement</b> $s = a_{nn} - b^TA_{n-1}^{-1}b$. By the formula for block determinants:</p>
+<div class="display-math">$$\det(A) = \det(A_{n-1}) \cdot s$$</div>
+<p>Since $\det(A) > 0$ and $\det(A_{n-1}) > 0$, we get $s > 0$. So both terms in $x^TAx$ are non-negative, and at least one is strictly positive when $x \neq 0$ (if $t = 0$ then $u \neq 0$ so $w = u \neq 0$; if $t \neq 0$ the second term is $> 0$). Hence $x^TAx > 0$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Condition (iii) is <b>Sylvester's criterion</b>. It provides a practical test: compute $n$ determinants (of sizes $1, 2, \ldots, n$), and check that each is positive. This is often faster than computing all $n$ eigenvalues, especially when $n$ is large.</p>
+
+<p>Let us verify Sylvester's criterion on our example. The matrix $A = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$ has $\det(A_1) = 5 > 0$ and $\det(A_2) = \det(A) = 10 - 4 = 6 > 0$. Both leading principal minors are positive, so $A$ is positive definite. This agrees with the eigenvalue calculation: $\lambda_1 = 1 > 0$ and $\lambda_2 = 6 > 0$.</p>
+
+<p>Contrast with $B = \begin{pmatrix} 1 & 3 \\ 3 & 1 \end{pmatrix}$: $\det(B_1) = 1 > 0$ but $\det(B) = 1 - 9 = -8 < 0$. So $B$ is <em>not</em> positive definite. Indeed, $B$ has eigenvalues $4$ and $-2$ — the negative eigenvalue corresponds to $\det(B) < 0$. Geometrically, $x^TBx = 1$ is a hyperbola, not an ellipse.</p>
+
+<p>For <b>positive semi-definiteness</b> (allowing $\lambda_i \geq 0$ rather than $> 0$), Sylvester's criterion does not work directly — you need all principal minors (not just leading ones) to be non-negative. Alternatively, compute the eigenvalues and check they are all $\geq 0$.</p>
+
+<p>For <b>negative definiteness</b> ($x^TAx < 0$ for all $x \neq 0$), apply Sylvester's criterion to $-A$: the leading principal minors of $-A$ must all be positive, which means the leading principal minors of $A$ must alternate in sign: $\det(A_1) < 0$, $\det(A_2) > 0$, $\det(A_3) < 0$, etc.</p>
+
+<p>The connection between positive definiteness and the principal axis theorem is also the foundation of <b>multivariable calculus optimisation</b>. If $f : \mathbb{R}^n \to \mathbb{R}$ is twice differentiable and $\nabla f(x_0) = 0$, then the nature of the critical point $x_0$ is determined by the Hessian matrix $H = \left(\frac{\partial^2 f}{\partial x_i \partial x_j}\right)$, evaluated at $x_0$. The Hessian is symmetric (by Schwarz's theorem, <a href="../phase7/03-schwarz.html">Phase 7, page 3</a>), so the principal axis theorem applies:</p>
+
+<p>If $H$ is positive definite: $x_0$ is a local minimum. The level sets of $f$ near $x_0$ look like ellipsoids (up to higher-order terms), with axes along the eigenvectors of $H$.</p>
+
+<p>If $H$ is negative definite: $x_0$ is a local maximum.</p>
+
+<p>If $H$ has eigenvalues of both signs: $x_0$ is a saddle point. The quadratic form $\frac{1}{2}x^THx$ is positive in some eigendirections and negative in others.</p>
+
+<p>If $H$ is singular ($\det H = 0$): the second derivative test is inconclusive — you need higher-order terms.</p>
+
+<p>Sylvester's criterion provides a quick check without computing eigenvalues: compute $\det(H_1), \det(H_2), \ldots, \det(H_n)$ and check the sign pattern. This is how multivariable optimisation reduces to spectral theory.</p>
+
+<p>A quick example: $f(x, y) = x^2 + xy + y^2$. At the origin, $\nabla f = 0$ and the Hessian is $H = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$. Sylvester's criterion: $\det(H_1) = 2 > 0$ and $\det(H) = 3 > 0$. So $H$ is positive definite and the origin is a local (in fact global) minimum. The eigenvalues of $H$ are $1$ and $3$, so the level curves near the origin are ellipses with aspect ratio $\sqrt{3}:1$, tilted at $45°$ to the axes.</p>
+
+<p>Contrast with $g(x, y) = x^2 - 3xy + y^2$. The Hessian is $H = \begin{pmatrix} 2 & -3 \\ -3 & 2 \end{pmatrix}$. Now $\det(H_1) = 2 > 0$ but $\det(H) = 4 - 9 = -5 < 0$. Sylvester's criterion fails: $H$ is indefinite. The eigenvalues are $5$ and $-1$, confirming a saddle point. The level curves near the origin are hyperbolas.</p>
+
+<p>In three or more dimensions, Sylvester's criterion is even more useful. For $f(x,y,z)$ with Hessian $H$, checking positive definiteness requires three determinants: $H_{11} > 0$, $\det\begin{pmatrix} H_{11} & H_{12} \\ H_{21} & H_{22}\end{pmatrix} > 0$, and $\det(H) > 0$. Computing three small determinants is much faster than finding three eigenvalues, especially in closed-form optimisation problems in economics, physics, or engineering.</p>
+
+<p>The equivalence (i) $\Leftrightarrow$ (ii) also gives a clean proof of the <b>Cholesky decomposition</b>: a positive definite matrix $A$ can be written as $A = LL^T$ where $L$ is lower triangular with positive diagonal entries.</p>
+
+<p>The proof uses condition (iii): since all leading principal minors are positive, Gaussian elimination on $A$ succeeds without pivoting, yielding the LDL factorisation $A = LDL^T$ where $L$ is lower triangular with ones on the diagonal and $D = \operatorname{diag}(d_1, \ldots, d_n)$ with each $d_i > 0$ (each $d_i$ equals $\det(A_i)/\det(A_{i-1}) > 0$). Then set $\tilde{L} = L\sqrt{D}$ (where $\sqrt{D} = \operatorname{diag}(\sqrt{d_1}, \ldots, \sqrt{d_n})$), and $A = \tilde{L}\tilde{L}^T$ is the Cholesky factorisation.</p>
+
+<p>The Cholesky decomposition is the practical workhorse for solving $Ax = b$ when $A$ is positive definite — it is twice as fast as general LU factorisation and numerically stable without pivoting. It is used throughout computational science: Kalman filters, Gaussian process regression, interior point methods for convex optimisation, and Monte Carlo sampling from multivariate normal distributions ($x = L z$ where $z \sim \mathcal{N}(0, I)$ gives $x \sim \mathcal{N}(0, A)$).</p>
+
+<p>In statistics, the covariance matrix $\Sigma = \mathbb{E}[(X - \mu)(X - \mu)^T]$ of a random vector $X$ is always symmetric positive semi-definite (and positive definite if no component is a deterministic linear combination of the others). The principal axes of $\Sigma$ are the <b>principal components</b> of the data — the directions of maximum variance. The eigenvalues are the variances along each principal direction.</p>
+
+<p>This connects the principal axis theorem to PCA, which we also encountered via the SVD on <a href="04-svd.html">page 4</a>. The two viewpoints are equivalent: PCA via the covariance matrix diagonalises $\Sigma = \frac{1}{n}X^TX$, while PCA via the SVD decomposes the data matrix $X$ directly. The eigenvalues of $\Sigma$ are $\sigma_i^2/n$, where $\sigma_i$ are the singular values of $X$.</p>
+
+<p>The <b>Mahalanobis distance</b> $d(x) = \sqrt{(x - \mu)^T\Sigma^{-1}(x - \mu)}$ measures how far a point $x$ is from the mean $\mu$, accounting for correlations. In the eigenbasis of $\Sigma$, this simplifies to</p>
+
+<div class="display-math">$$d(x) = \sqrt{\sum_i \frac{y_i^2}{\lambda_i}}$$</div>
+
+<p>where $y_i$ is the component of $x - \mu$ along the $i$-th eigenvector and $\lambda_i$ is the corresponding eigenvalue (variance). Each component is divided by the standard deviation $\sqrt{\lambda_i}$ in that direction, so directions of large spread contribute less to the distance.</p>
+
+<p>Points at equal Mahalanobis distance from the mean form an ellipsoid whose axes are the eigenvectors of $\Sigma$ and whose semi-axis lengths are proportional to $\sqrt{\lambda_i}$. The principal axis theorem transforms correlated, anisotropic data into uncorrelated, isotropic coordinates — the "whitened" data, where the Mahalanobis distance reduces to the ordinary Euclidean distance.</p>
+
+<p>This whitening transformation $z = \Lambda^{-1/2}P^T(x - \mu)$ (where $\Sigma = P\Lambda P^T$) is used as a preprocessing step throughout machine learning and signal processing. It decorrelates the features, equalises their variances, and simplifies downstream algorithms. The principal axis theorem guarantees this transformation exists and is unique (up to the choice of eigenvectors within degenerate eigenspaces).</p>
+
+<p>A related application: <b>Fisher's linear discriminant analysis</b>. Given two classes of data with means $\mu_1, \mu_2$ and covariance matrices $\Sigma_1, \Sigma_2$, we want the direction $w$ that best separates the class means relative to the within-class scatter. This amounts to maximising the <b>generalised Rayleigh quotient</b></p>
+
+<div class="display-math">$$R(w) = \frac{w^T(\mu_1 - \mu_2)(\mu_1 - \mu_2)^Tw}{w^T(\Sigma_1 + \Sigma_2)w}$$</div>
+
+<p>The numerator measures how far apart the projected means are; the denominator measures how spread out the projected data is. Maximising $R$ gives a generalised eigenvalue problem, solved by $w = (\Sigma_1 + \Sigma_2)^{-1}(\mu_1 - \mu_2)$.</p>
+
+<p>This is the principal axis theorem applied to the generalised eigenvalue problem $Bw = \lambda Sw$ (where $B$ is the between-class scatter and $S$ is the within-class scatter). The entire machinery of Phase 13 — spectral decomposition, Rayleigh quotients, principal axes — converges in this single application.</p>
+
+<p>In higher dimensions with $k$ classes, Fisher's method produces up to $k - 1$ discriminant directions by solving a generalised eigenvalue problem with $k - 1$ non-zero eigenvalues. Each direction is a principal axis of the between-class scatter in the metric defined by the within-class scatter.</p>
+
+<p>The principal axis theorem guarantees these directions are orthogonal (in the inner product defined by the within-class scatter matrix), giving an optimal low-dimensional projection for classification. This is used throughout pattern recognition: face recognition (Fisherfaces), speech recognition, and medical diagnosis.</p>
+
+<p>The fact that such diverse applications — conic classification, vibration analysis, data compression, statistical testing, machine learning — all reduce to "diagonalise a symmetric matrix and read off the eigenvalues" is the deepest lesson of this phase.</p>
+
+<p>The spectral theorem and its consequences — SVD, Rayleigh quotient, Courant-Fischer, principal axes, Sylvester's criterion — are not just theorems in linear algebra. They are the universal language of quadratic phenomena across all of science.</p>
+
+<p>Whenever a system is governed (to first approximation) by a quadratic energy, a quadratic cost function, or a second-order Taylor expansion, the principal axis theorem is there, decomposing the problem into independent one-dimensional pieces along the eigenvectors of the governing matrix.</p>
+
+<h2>5. Phase 13 recap</h2>
+
+<p>This concludes our study of bilinear algebra and spectral theory. Let us survey the landscape of this phase.</p>
+
+<p>We began with <b>bilinear and quadratic forms</b> (<a href="01-bilinear-forms.html">page 1</a>, <a href="02-quadratic-forms.html">page 2</a>): the algebraic objects that encode "interaction" between vectors. Sylvester's law of inertia showed that the signature — the number of positive, negative, and zero eigenvalues — is the complete invariant of a quadratic form under change of basis.</p>
+
+<p>The <b>spectral theorem</b> (<a href="03-spectral-theorem.html">page 3</a>) was the central result: every real symmetric matrix has a complete orthonormal eigenbasis with real eigenvalues. This is the structure theorem that makes everything else possible. Without it, none of the subsequent results hold.</p>
+
+<p>The <b>SVD</b> (<a href="04-svd.html">page 4</a>) extended the spectral idea to arbitrary rectangular matrices. By applying the spectral theorem to $A^TA$, we decomposed any $m \times n$ matrix as a rotation, a stretch along orthogonal axes, and another rotation. The Eckart-Young theorem showed that truncating this decomposition gives the optimal low-rank approximation.</p>
+
+<p>The <b>Rayleigh quotient and Courant-Fischer</b> (<a href="05-rayleigh-courant-fischer.html">page 5</a>) gave a variational characterisation of eigenvalues: each $\lambda_k$ is the solution to a min-max optimisation problem over $k$-dimensional subspaces. This connected spectral theory to optimisation, yielded the Cauchy interlacing inequalities, and related the trace and determinant to eigenvalue sums and products.</p>
+
+<p>Finally, the <b>principal axis theorem</b> (this page) brought us full circle: every quadratic form reduces to a sum of squares by the orthogonal change of variables given by the eigenbasis. The eigenvalues are the coefficients; the eigenvectors point along the principal axes. Positive definiteness is equivalent to all eigenvalues being positive, which is equivalent to all leading principal minors being positive (Sylvester's criterion).</p>
+
+<p>The unifying theme of Phase 13: <em>symmetric operators have a complete orthogonal eigendecomposition, and this single fact controls the geometry of quadratic forms, the structure of any linear map (via SVD), the variational characterisation of eigenvalues, and the classification of conics and quadrics.</em> Every result traces back to the spectral theorem.</p>
+
+<p>In <a href="../phase14/01-norms.html">Phase 14</a>, we move to normed vector spaces and functional analysis — extending these finite-dimensional results to infinite dimensions. There, new phenomena emerge: norms are no longer equivalent (they are in finite dimensions), the unit ball is no longer compact (Riesz's lemma), and the spectral theorem requires significant modification (compact operators have countably many eigenvalues converging to zero, but the continuous spectrum can be non-empty). The finite-dimensional theory of this phase is the template against which all infinite-dimensional generalisations are measured.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Euler (1748) was the first to classify conics by rotation, using trigonometric substitution to eliminate cross-terms. Lagrange (1759) extended the method to quadratic forms in three variables. Cauchy (1829) proved the spectral theorem for real symmetric matrices, placing the classification on a rigorous algebraic foundation and showing that the eigenvalues are the "natural" coefficients. Sylvester (1852) introduced the law of inertia and the notion of signature, proving that the number of positive and negative eigenvalues is basis-independent. The principal axis theorem in its modern form — as an immediate corollary of the spectral theorem — synthesises the work of Euler, Cauchy, and Sylvester. Hilbert (1904) extended the spectral theorem to compact self-adjoint operators on infinite-dimensional spaces, opening the door to functional analysis (Phase 14).</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without the orthogonal change of basis:</b> if you allow an arbitrary invertible (but not orthogonal) change of basis $x = Qy$, you can still diagonalise any quadratic form. In fact, Sylvester's law gives $Q^TAQ = \operatorname{diag}(1, \ldots, 1, -1, \ldots, -1, 0, \ldots, 0)$. But you lose the geometric meaning. The new coordinate axes are no longer perpendicular, so the "principal axes" are not axes in the physical sense. The eigenvalues disappear from the diagonal (replaced by $\pm 1$ and $0$). The principal axis theorem is specifically about <em>orthogonal</em> diagonalisation, which preserves distances and angles.</p>
+<p><b>Without symmetry:</b> if $A$ is not symmetric, $x^TAx$ is still well-defined, but it equals $x^T\bigl(\frac{A+A^T}{2}\bigr)x$ — only the symmetric part $\frac{A+A^T}{2}$ contributes to the quadratic form. The antisymmetric part $\frac{A - A^T}{2}$ is invisible to $Q$. A non-symmetric matrix may have complex eigenvalues and no real eigenvectors (consider a rotation matrix in 2D), so the notion of "principal axes" — real, orthogonal directions of pure stretching — breaks down entirely.</p>
+<p><b>Without real scalars:</b> over $\mathbb{C}$, every symmetric matrix can be diagonalised by a <em>unitary</em> matrix (the complex spectral theorem). But the classification of quadratic forms changes dramatically: over $\mathbb{C}$, the only invariant is the rank (since a negative eigenvalue $-\lambda$ can be turned into $+\lambda$ by the substitution $y_i \mapsto iy_i$). So signature is a purely real phenomenon. Over $\mathbb{C}$, there is no difference between an "ellipse" and a "hyperbola" — they are the same complex curve. This is why algebraic geometry over $\mathbb{C}$ is simpler than over $\mathbb{R}$: the signature complications vanish.</p>
+
+<p><b>In infinite dimensions:</b> the principal axis theorem fails for general self-adjoint operators on Hilbert spaces. The spectral theorem still holds, but the "diagonalisation" must be replaced by a spectral measure (a continuous analogue of a sum over eigenvalues). Only compact self-adjoint operators have a discrete spectrum that allows a direct analogue of the principal axis theorem. The continuous spectrum — which has no finite-dimensional analogue — must be handled by integration rather than summation. This is the subject of Phase 14 and beyond.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Every quadratic form becomes a sum of squares by rotating to the eigenbasis — the eigenvalues are the coefficients, the eigenvectors are the axes.</div>
+
+<div class="nav">
+<a href="05-rayleigh-courant-fischer.html">&larr; Previous: The Rayleigh Quotient and Courant-Fischer</a>
+<a href="../phase14/01-norms.html">Next: Norms and Equivalence &rarr;</a>
+</div>
+
+</body>
+</html>

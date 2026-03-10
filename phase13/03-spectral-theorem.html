@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Spectral Theorem — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Spectral Theorem</h1>
+<p class="subtitle">Phase 13 &mdash; Bilinear Algebra and Spectral Theory, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A vibrating membrane &mdash; a drum head, say &mdash; has natural frequencies of
+    oscillation. Strike it, and it vibrates as a superposition of independent modes, each
+    with its own pitch. Physically, these modes correspond to eigenvalues of a symmetric
+    differential operator (the Laplacian restricted to the membrane's shape).
+  </p>
+  <p>
+    But does such an operator always have a full set of eigenvalues? We know from Phase 6 that
+    not all matrices are diagonalisable: the matrix $\begin{pmatrix}0&1\\0&0\end{pmatrix}$
+    has only one eigenvalue ($\lambda = 0$) with a one-dimensional eigenspace, so it cannot
+    be diagonalised. It is "defective."
+  </p>
+  <p>
+    The spectral theorem says that <strong>symmetry prevents defects</strong>. Every real
+    symmetric matrix has a full set of real eigenvalues, and the eigenvectors can be chosen
+    mutually orthogonal. You can always decompose the space into independent eigendirections.
+    This is why the drum always has a complete set of modes.
+  </p>
+</div>
+
+<h2>1. The diagonalisation problem</h2>
+
+<p>
+  Recall from Phase 6 that a matrix $A \in \mathbb{R}^{n \times n}$ is
+  <strong>diagonalisable</strong> if there exists an invertible matrix $P$ such that
+  $P^{-1}AP = \Lambda$ is diagonal. The columns of $P$ are eigenvectors, and the diagonal
+  entries of $\Lambda$ are the corresponding eigenvalues.
+</p>
+
+<p>
+  Not all matrices are diagonalisable. The matrix
+  $A = \begin{pmatrix}0&1\\0&0\end{pmatrix}$ satisfies $A^2 = 0$, so its only eigenvalue is
+  $0$, but $\ker(A) = \operatorname{span}\begin{pmatrix}1\\0\end{pmatrix}$ is
+  one-dimensional &mdash; we cannot find two linearly independent eigenvectors.
+</p>
+
+<p>
+  What additional condition on $A$ guarantees diagonalisability? The answer: <strong>symmetry</strong>.
+  If $A = A^T$, then $A$ is always diagonalisable, and something stronger is true &mdash;
+  we can choose an <em>orthonormal</em> basis of eigenvectors.
+</p>
+
+<h2>2. Symmetric matrices have real eigenvalues</h2>
+
+<p>
+  Before proving diagonalisability, we must show the eigenvalues are real. A priori, the
+  characteristic polynomial $\det(A - \lambda I) = 0$ could have complex roots even for a
+  real matrix (e.g. $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$ has eigenvalues $\pm i$). Symmetry
+  rules this out.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Real eigenvalues</div>
+  <p>If $A \in \mathbb{R}^{n \times n}$ is symmetric ($A = A^T$), then all eigenvalues of
+  $A$ are real.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $\lambda$ be an eigenvalue of $A$ (possibly complex), with
+    eigenvector $v \in \mathbb{C}^n \setminus \{0\}$: $Av = \lambda v$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Compute $\bar{v}^T A v$ in two ways. First, since $Av = \lambda v$:
+  </p>
+  <div class="display-math">$$\bar{v}^T A v = \bar{v}^T (\lambda v) = \lambda \, \bar{v}^T v = \lambda \|v\|^2$$</div>
+  <p>
+    where $\|v\|^2 = \bar{v}^T v = \sum_i |v_i|^2 > 0$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Second, since $A$ is real and symmetric ($A = A^T = \bar{A}^T$):
+  </p>
+  <div class="display-math">$$\bar{v}^T A v = \overline{(\bar{v}^T A v)}^T = \overline{v^T A^T \bar{v}} = \overline{v^T A \bar{v}} = \overline{\bar{\lambda} \|v\|^2} = \lambda \|v\|^2$$</div>
+  <p>
+    Wait &mdash; let us be more careful. Take the conjugate transpose of the scalar
+    $\bar{v}^T A v$. Since it is a $1 \times 1$ matrix:
+  </p>
+  <div class="display-math">$$\overline{\bar{v}^T A v} = v^T \bar{A}^T \bar{v} = v^T A^T \bar{v} = v^T A \bar{v}$$</div>
+  <p>
+    Now $A\bar{v} = \overline{Av} = \overline{\lambda v} = \bar{\lambda}\bar{v}$, so
+    $v^T A \bar{v} = \bar{\lambda} v^T \bar{v} = \bar{\lambda}\|v\|^2$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Combining: $\overline{\lambda \|v\|^2} = \bar{\lambda}\|v\|^2$.
+    But also $\overline{\lambda \|v\|^2} = \bar{\lambda}\|v\|^2$ (since $\|v\|^2$ is real).
+    From Steps 2 and 3: $\lambda \|v\|^2 = \bar{\lambda}\|v\|^2$. Since $\|v\|^2 \neq 0$,
+    we get $\lambda = \bar{\lambda}$, so $\lambda \in \mathbb{R}$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Eigenvectors for distinct eigenvalues are orthogonal</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Orthogonality of eigenvectors</div>
+  <p>If $A$ is symmetric and $u, v$ are eigenvectors for distinct eigenvalues $\lambda \neq \mu$,
+  then $u$ and $v$ are orthogonal: $\langle u, v \rangle = 0$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Compute $\langle Au, v \rangle = \langle \lambda u, v \rangle = \lambda \langle u, v \rangle$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $A = A^T$, we have $\langle Au, v \rangle = u^T A^T v = u^T A v = \langle u, Av \rangle = \langle u, \mu v \rangle = \mu \langle u, v \rangle$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Therefore $\lambda \langle u, v \rangle = \mu \langle u, v \rangle$,
+    so $(\lambda - \mu)\langle u, v \rangle = 0$. Since $\lambda \neq \mu$, we conclude
+    $\langle u, v \rangle = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is remarkable: the geometry (orthogonality) comes for free from the algebra (symmetry).
+  For a non-symmetric matrix, eigenvectors for distinct eigenvalues are linearly independent
+  (Phase 6) but need not be orthogonal.
+</p>
+
+<h2>4. The spectral theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Spectral theorem for real symmetric matrices</div>
+  <p>Let $A \in \mathbb{R}^{n \times n}$ be symmetric. Then there exists an orthogonal
+  matrix $Q$ ($Q^TQ = I$) such that:</p>
+  <div class="display-math">$$A = Q \Lambda Q^T$$</div>
+  <p>where $\Lambda = \operatorname{diag}(\lambda_1, \dots, \lambda_n)$ with all $\lambda_i \in \mathbb{R}$.
+  The columns of $Q$ form an orthonormal basis of eigenvectors.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (by induction on $n$)</div>
+  <p>
+    <strong>Step 1. Base case ($n = 1$).</strong> A $1 \times 1$ matrix $(a)$ is already
+    diagonal with $Q = (1)$.
+  </p>
+  <p>
+    <strong>Step 2. Existence of a real eigenvalue.</strong> The characteristic polynomial
+    $\det(A - \lambda I)$ has degree $n$ with real coefficients. By the result of Section 2,
+    all roots are real. Let $\lambda_1$ be one such root, and let $v_1$ be a corresponding
+    eigenvector with $\|v_1\| = 1$.
+  </p>
+  <p>
+    <strong>Step 3. The orthogonal complement is $A$-invariant.</strong> Let
+    $W = v_1^\perp = \{w \in \mathbb{R}^n : \langle w, v_1 \rangle = 0\}$. We claim that
+    if $w \in W$, then $Aw \in W$. Indeed:
+  </p>
+  <div class="display-math">$$\langle Aw, v_1 \rangle = \langle w, A^T v_1 \rangle = \langle w, Av_1 \rangle = \langle w, \lambda_1 v_1 \rangle = \lambda_1 \langle w, v_1 \rangle = 0$$</div>
+  <p>
+    so $Aw \perp v_1$, confirming $Aw \in W$. This is where symmetry is essential &mdash;
+    we used $A = A^T$.
+  </p>
+  <p>
+    <strong>Step 4. Restriction to $W$.</strong> The restriction $A|_W : W \to W$ is a
+    symmetric linear operator on the $(n-1)$-dimensional space $W$ (equipped with the
+    restricted inner product). Choose any orthonormal basis of $W$; the matrix of $A|_W$ in
+    this basis is symmetric (the entries are $\langle Aw_i, w_j \rangle = \langle w_i, Aw_j \rangle$).
+  </p>
+  <p>
+    <strong>Step 5. Induction.</strong> By the induction hypothesis, there exists an
+    orthonormal basis $(v_2, \dots, v_n)$ of $W$ consisting of eigenvectors of $A|_W$. Then
+    $(v_1, v_2, \dots, v_n)$ is an orthonormal basis of $\mathbb{R}^n$ consisting of
+    eigenvectors of $A$.
+  </p>
+  <p>
+    <strong>Step 6. Matrix form.</strong> Set $Q = (v_1 \mid v_2 \mid \cdots \mid v_n)$.
+    Since the columns are orthonormal, $Q^TQ = I$, so $Q$ is orthogonal. Then
+    $AQ = Q\Lambda$ gives $A = Q\Lambda Q^T$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Note the contrast with page 02: there we diagonalised bilinear forms by congruence
+  ($P^TMP$), and $P$ was merely invertible. Here we diagonalise by <em>orthogonal</em>
+  similarity ($Q^TAQ = Q^{-1}AQ$), and the diagonalising matrix is orthogonal. Congruence
+  and similarity coincide when the change-of-basis matrix is orthogonal.
+</p>
+
+<h2>5. Normal matrices</h2>
+
+<p>
+  Symmetry is not the most general condition guaranteeing diagonalisability. A matrix
+  $A \in \mathbb{R}^{n \times n}$ is <strong>normal</strong> if it commutes with its transpose:
+</p>
+<div class="display-math">$$A^T A = A A^T$$</div>
+
+<p>
+  Symmetric matrices ($A = A^T$) are normal, as are orthogonal matrices ($A^T = A^{-1}$) and
+  skew-symmetric matrices ($A^T = -A$). Over $\mathbb{C}$, the condition becomes
+  $A^*A = AA^*$ (where $A^* = \bar{A}^T$), and the relevant class is Hermitian matrices
+  ($A = A^*$).
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Spectral theorem for normal matrices (stated without proof)</div>
+  <p>A complex matrix $A \in \mathbb{C}^{n \times n}$ is unitarily diagonalisable (i.e.
+  $A = U\Lambda U^*$ with $U$ unitary) if and only if $A$ is normal ($A^*A = AA^*$).</p>
+</div>
+
+<p>
+  We state this without proof &mdash; the argument requires Schur's triangularisation theorem
+  (every complex matrix is unitarily triangularisable) and the observation that a normal
+  upper-triangular matrix must be diagonal. The real symmetric case we proved above is the
+  most important special case.
+</p>
+
+<h2>6. Spectral decomposition</h2>
+
+<p>
+  The factorisation $A = Q\Lambda Q^T$ can be rewritten in a revealing way. Let
+  $\lambda_1, \dots, \lambda_k$ be the <em>distinct</em> eigenvalues of $A$, and let
+  $E_i$ be the eigenspace for $\lambda_i$. Define $P_i$ as the orthogonal projection onto
+  $E_i$ (Phase 8).
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Spectral decomposition</div>
+  <p>If $A$ is a real symmetric matrix with distinct eigenvalues $\lambda_1, \dots, \lambda_k$
+  and corresponding orthogonal projections $P_1, \dots, P_k$, then:</p>
+  <div class="display-math">$$A = \sum_{i=1}^{k} \lambda_i P_i$$</div>
+  <p>with $P_i P_j = 0$ for $i \neq j$ and $P_1 + \cdots + P_k = I$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> By the spectral theorem, $\mathbb{R}^n = E_1 \oplus \cdots \oplus E_k$
+    with the $E_i$ mutually orthogonal.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Every $v \in \mathbb{R}^n$ decomposes uniquely as
+    $v = v_1 + \cdots + v_k$ with $v_i \in E_i$. The orthogonal projection $P_i$ satisfies
+    $P_i(v) = v_i$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Since $Av_i = \lambda_i v_i$:
+  </p>
+  <div class="display-math">$$Av = A(v_1 + \cdots + v_k) = \lambda_1 v_1 + \cdots + \lambda_k v_k = \sum_{i=1}^k \lambda_i P_i(v)$$</div>
+  <p>
+    This holds for all $v$, so $A = \sum \lambda_i P_i$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Since $E_i \perp E_j$ for $i \neq j$, projecting onto $E_i$
+    then $E_j$ gives zero: $P_j P_i = 0$. And $\sum P_i = I$ because every $v$ is the sum
+    of its components.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is why the theorem is called "spectral": the eigenvalues $\{\lambda_1, \dots, \lambda_k\}$
+  form the <strong>spectrum</strong> of $A$, and the matrix decomposes into a weighted sum of
+  projections onto the corresponding eigenspaces &mdash; like light decomposing into a spectrum
+  of colours. The analogy is not accidental: in quantum mechanics, the spectrum of a
+  Hermitian operator gives the observable values of a physical measurement.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Augustin-Louis Cauchy proved in 1829 that real symmetric matrices have real eigenvalues
+    and are diagonalisable &mdash; the first version of the spectral theorem. Charles Hermite
+    extended the result to complex Hermitian matrices in 1855. David Hilbert (1904) proved the
+    spectral theorem for compact self-adjoint operators on infinite-dimensional Hilbert spaces,
+    providing the mathematical foundation for quantum mechanics. The term "spectrum" was
+    introduced by Hilbert, inspired by the discrete spectral lines of atomic emission.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without symmetry.</strong> A non-symmetric real matrix may have complex eigenvalues
+    (e.g. rotations), or may fail to be diagonalisable entirely (e.g.
+    $\begin{pmatrix}0&1\\0&0\end{pmatrix}$). Without diagonalisability, the best you can do
+    is the Jordan normal form (Phase 6), which involves Jordan blocks rather than a clean
+    diagonal.
+  </p>
+  <p>
+    <strong>Over $\mathbb{C}$ with $A = A^T$ instead of $A = A^*$.</strong> Complex symmetric
+    matrices (satisfying $A = A^T$ but not $A = \bar{A}^T$) are <em>not</em> necessarily
+    diagonalisable. For example, $A = \begin{pmatrix}1&i\\i&-1\end{pmatrix}$ satisfies $A = A^T$
+    but $A^2 = 0$ and $A \neq 0$, so $A$ is not diagonalisable. The correct condition over
+    $\mathbb{C}$ is Hermitian: $A = A^* = \bar{A}^T$.
+  </p>
+  <p>
+    <strong>Without finite dimension.</strong> In infinite-dimensional spaces, the spectral
+    theorem still holds for compact self-adjoint operators (Hilbert, 1904), but the spectrum
+    may also contain a "continuous" part with no eigenvectors &mdash; only generalised
+    eigenfunctions (e.g. the position operator in quantum mechanics has "eigenstates"
+    $\delta(x - x_0)$ which are not proper functions).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">Every real symmetric matrix is orthogonally diagonalisable: symmetry guarantees real eigenvalues, orthogonal eigenvectors, and a clean decomposition into independent spectral components.</div>
+
+<div class="nav">
+  <a href="02-quadratic-forms.html">&larr; Previous: Quadratic Forms and Sylvester's Law</a>
+  <a href="04-svd.html">Next: Singular Value Decomposition &rarr;</a>
+</div>
+
+</body>
+</html>

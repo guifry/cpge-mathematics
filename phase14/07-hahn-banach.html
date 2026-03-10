@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hahn-Banach Theorem — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Hahn-Banach Theorem</h1>
+<p class="subtitle">Phase 14 — Normed Vector Spaces, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You have a bounded linear functional $f$ defined on a subspace $Y$ of a normed space $X$,
+    and you want to extend it to all of $X$ without increasing its norm. In finite dimensions,
+    this is trivial — extend a basis for $Y$ to a basis for $X$ and define $f$ arbitrarily on
+    the new basis vectors, then rescale.
+  </p>
+  <p>
+    In infinite dimensions, it is far from obvious that such an extension exists. You cannot
+    enumerate a basis, and there is no reason a priori why the norm should be preservable.
+    Hahn (1927) and Banach (1929) proved it can always be done — using Zorn's lemma. This is
+    the only one of the "big three" functional analysis theorems that does <em>not</em> require
+    completeness.
+  </p>
+</div>
+
+<h2>1. Statement (Real Case)</h2>
+
+<div class="theorem-box">
+  <div class="label">Hahn-Banach theorem (normed space version)</div>
+  <p>
+    Let $Y$ be a subspace of a real normed space $X$, and let $f : Y \to \mathbb{R}$ be a
+    bounded linear functional with $\|f\|_Y = M$. Then there exists a bounded linear functional
+    $\tilde{f} : X \to \mathbb{R}$ such that:
+  </p>
+  <p>(i) $\tilde{f}|_Y = f$ (it extends $f$), and</p>
+  <p>(ii) $\|\tilde{f}\|_X = M$ (it preserves the norm).</p>
+</div>
+
+<p>
+  The extension agrees with $f$ on $Y$ and has the same operator norm over the larger space $X$.
+  No information is lost, and no norm inflation occurs.
+</p>
+
+<p>
+  Notice what is <em>not</em> required: $X$ need not be complete. This is the crucial difference
+  from Banach-Steinhaus (page 5) and the open mapping theorem (page 6), which both require
+  Banach spaces. Hahn-Banach works for any normed space — the price is that it uses Zorn's lemma
+  instead of Baire's category theorem.
+</p>
+
+<p>
+  There is also a more general "sublinear" version: if $p : X \to \mathbb{R}$ is a sublinear
+  functional (positively homogeneous and subadditive) and $f \leq p$ on $Y$, then $\tilde{f} \leq p$
+  on all of $X$. The normed space version above is the special case $p(x) = M\|x\|$.
+</p>
+
+<h2>2. The One-Dimensional Extension</h2>
+
+<p>
+  The analytic heart of the theorem is extending $f$ from $Y$ to $Y \oplus \mathbb{R}z$, where
+  $z \in X \setminus Y$. Every element of $Y + \mathbb{R}z$ has the form $y + tz$ for unique
+  $y \in Y$ and $t \in \mathbb{R}$, and we must choose a value $c = \tilde{f}(z)$ such that
+</p>
+
+<div class="display-math">$$|\tilde{f}(y + tz)| = |f(y) + tc| \leq M\|y + tz\| \quad \text{for all } y \in Y,\, t \in \mathbb{R}.$$</div>
+
+<p>
+  Dividing by $|t|$ (for $t \neq 0$), this reduces to: for all $y \in Y$,
+</p>
+
+<div class="display-math">$$|f(y) + c| \leq M\|y + z\|.$$</div>
+
+<p>
+  This means $-f(y) - M\|y + z\| \leq c \leq -f(y) + M\|y + z\|$ for all $y$, i.e.
+</p>
+
+<div class="display-math">$$\sup_{y \in Y}\big(-f(y) - M\|y + z\|\big) \leq c \leq \inf_{y \in Y}\big(-f(y) + M\|y + z\|\big).$$</div>
+
+<div class="proof-box">
+  <div class="label">Proof (interval is non-empty)</div>
+  <p>
+    <b>Step 1.</b> We must show the supremum on the left does not exceed the infimum on the right.
+    For any $y_1, y_2 \in Y$,
+  </p>
+  <div class="display-math">$$f(y_1) - f(y_2) = f(y_1 - y_2) \leq M\|y_1 - y_2\|.$$</div>
+  <p>
+    <b>Step 2.</b> By the triangle inequality,
+  </p>
+  <div class="display-math">$$\|y_1 - y_2\| = \|(y_1 + z) - (y_2 + z)\| \leq \|y_1 + z\| + \|y_2 + z\|.$$</div>
+  <p>
+    <b>Step 3.</b> Combining: $f(y_1) - f(y_2) \leq M(\|y_1 + z\| + \|y_2 + z\|)$, which
+    rearranges to
+  </p>
+  <div class="display-math">$$-f(y_1) - M\|y_1 + z\| \leq -f(y_2) + M\|y_2 + z\|.$$</div>
+  <p>
+    Since this holds for all $y_1, y_2$, the supremum over $y_1$ of the left side is at most
+    the infimum over $y_2$ of the right side. The interval of valid choices for $c$ is non-empty.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Any $c$ in this interval gives a norm-preserving extension to $Y + \mathbb{R}z$. The one-dimensional
+  case contains all the analytic content of the theorem — what remains is a maximality argument.
+</p>
+
+<p>
+  Note that the choice of $c$ is typically not unique — the interval can have positive length. This
+  means the norm-preserving extension is generally <em>not</em> unique. In Hilbert spaces, the Riesz
+  representation theorem (page 8) pins down the extension uniquely, but in general Banach spaces,
+  there can be many different extensions with the same norm.
+</p>
+
+<h2>3. The Full Theorem via Zorn's Lemma</h2>
+
+<p>
+  To pass from the one-dimensional extension to all of $X$, consider the set $\mathcal{P}$ of
+  all norm-preserving extensions of $f$ to subspaces of $X$ containing $Y$. Order $\mathcal{P}$
+  by extension: $(g_1, Z_1) \leq (g_2, Z_2)$ iff $Z_1 \subset Z_2$ and $g_2|_{Z_1} = g_1$.
+</p>
+
+<p>
+  Every chain in $\mathcal{P}$ has an upper bound (take the union of domains and define the
+  functional in the obvious way). By Zorn's lemma, $\mathcal{P}$ has a maximal element
+  $(\tilde{f}, Z)$. If $Z \neq X$, pick $z \in X \setminus Z$ and use Section 2 to extend
+  $\tilde{f}$ to $Z + \mathbb{R}z$, contradicting maximality. So $Z = X$.
+</p>
+
+<p>
+  The transfinite argument via Zorn's lemma is conceptually simple but logically subtle — it
+  invokes the axiom of choice. We state it without further elaboration; the analytic work was
+  done in Section 2.
+</p>
+
+<h2>4. Consequences</h2>
+
+<p>
+  The Hahn-Banach theorem has far-reaching consequences for the structure of normed spaces.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Existence of norming functionals</div>
+  <p>
+    For any $x \in X$ with $x \neq 0$, there exists $f \in X^*$ with $\|f\| = 1$ and
+    $f(x) = \|x\|$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> Define $g : \mathbb{R}x \to \mathbb{R}$ by $g(tx) = t\|x\|$. Then $g$ is
+    linear and $|g(tx)| = |t|\,\|x\| = \|tx\|$, so $\|g\| = 1$.
+  </p>
+  <p>
+    <b>Step 2.</b> By Hahn-Banach, extend $g$ to $f : X \to \mathbb{R}$ with $\|f\| = 1$.
+    Then $f(x) = g(x) = \|x\|$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This simple consequence is enormously useful. It says the dual space $X^*$ is "rich enough"
+  to detect the norm of every element.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Further consequences</div>
+  <p>
+    (a) <b>Separation of points:</b> if $f(x) = f(y)$ for all $f \in X^*$, then $x = y$.
+    (The dual separates points.)
+  </p>
+  <p>
+    (b) <b>Norm recovery:</b> $\|x\| = \sup\{|f(x)| : f \in X^*,\, \|f\| \leq 1\}$ for all $x \in X$.
+  </p>
+</div>
+
+<p>
+  Part (b) says the norm is determined by the dual. You can compute $\|x\|$ by testing $x$
+  against all bounded linear functionals — and the supremum is attained (by the norming
+  functional above).
+</p>
+
+<p>
+  To prove (a): if $x \neq y$, apply the norming functional to $x - y$ to get $f \in X^*$ with
+  $f(x - y) = \|x - y\| > 0$, hence $f(x) \neq f(y)$. To prove (b): the inequality
+  $|f(x)| \leq \|f\|\,\|x\| \leq \|x\|$ for $\|f\| \leq 1$ gives $\sup |f(x)| \leq \|x\|$.
+  The norming functional achieves $f(x) = \|x\|$, giving equality.
+</p>
+
+<p>
+  These consequences mean the dual space $X^*$ completely determines the geometry of $X$.
+  No element is "invisible" to the dual — every non-zero vector is detected by some bounded
+  linear functional. This is far from obvious in infinite dimensions, where the dual space
+  can be enormously large and complicated.
+</p>
+
+<h2>5. Geometric Hahn-Banach: Separation of Convex Sets</h2>
+
+<p>
+  The Hahn-Banach theorem has a geometric form that is the foundation of convex optimisation
+  and mathematical economics.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Separation theorem</div>
+  <p>
+    Let $C$ be a closed convex subset of a normed space $X$, and let $x_0 \notin C$. Then
+    there exists $f \in X^*$ and $\gamma \in \mathbb{R}$ such that
+  </p>
+  <div class="display-math">$$f(x_0) > \gamma \geq f(c) \quad \text{for all } c \in C.$$</div>
+  <p>
+    That is, the hyperplane $\{x : f(x) = \gamma\}$ strictly separates $x_0$ from $C$.
+  </p>
+</div>
+
+<p>
+  The idea: the distance from $x_0$ to $C$ is positive (since $C$ is closed and $x_0 \notin C$).
+  Construct a functional via Hahn-Banach that "witnesses" this separation. In finite dimensions,
+  this is the supporting hyperplane theorem of convex geometry. In infinite dimensions, it
+  requires Hahn-Banach to produce the functional.
+</p>
+
+<p>
+  The separation theorem is the bridge between abstract functional analysis and applied
+  optimisation. In convex programming, the Karush-Kuhn-Tucker conditions can be derived from
+  separation: if a point is optimal, no descent direction exists, and this is witnessed by a
+  separating hyperplane (the Lagrange multiplier). The duality theory of linear programming
+  also rests on separation of convex sets.
+</p>
+
+<p>
+  More broadly, the geometric Hahn-Banach theorem tells us that closed convex sets in normed
+  spaces are "determined" by the bounded linear functionals — a closed convex set is the
+  intersection of the closed half-spaces containing it. This is the infinite-dimensional
+  analogue of the fact that a convex polytope is the intersection of finitely many half-planes.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Hans Hahn proved a version for specific function spaces in 1927. Banach gave the general
+    formulation in 1929 in his book on linear operations. Unlike the other two pillars of
+    functional analysis (Banach-Steinhaus and the open mapping theorem, pages 5-6), Hahn-Banach
+    uses the axiom of choice (through Zorn's lemma) rather than Baire's category theorem.
+  </p>
+  <p>
+    This logical distinction matters: there exist models of set theory (without the axiom of
+    choice) where Hahn-Banach fails. In contrast, Baire's theorem is provable in ZF alone. The
+    big three of functional analysis thus rest on two different foundational pillars: Baire
+    (for Banach-Steinhaus and open mapping) and Zorn (for Hahn-Banach).
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Without the norm condition:</b> extensions of linear functionals always exist by pure
+    linear algebra (extend a Hamel basis). The hard part is controlling the norm. Without the
+    norm-preservation requirement, the theorem is trivial; with it, the theorem is deep.
+  </p>
+  <p>
+    <b>Without Zorn's lemma (in non-separable spaces):</b> for separable $X$, the subspace $Y$
+    has countable codimension (up to closure issues), and a sequential induction suffices — no
+    axiom of choice is needed. For non-separable spaces, Zorn's lemma is genuinely required;
+    the theorem is independent of ZF set theory without choice.
+  </p>
+  <p>
+    <b>Without linearity:</b> there is no general norm-preserving extension theorem for
+    nonlinear functionals. The key inequality in Section 2 uses $f(y_1) - f(y_2) = f(y_1 - y_2)$,
+    which is linearity. Without it, the interval of valid extensions can be empty.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every bounded linear functional on a subspace extends to the whole space with the same norm — the dual is always rich enough.
+</div>
+
+<div class="nav">
+  <a href="06-open-mapping.html">&larr; Previous: The Open Mapping and Closed Graph Theorems</a>
+  <a href="08-best-approximation.html">Next: Best Approximation in Hilbert Spaces &rarr;</a>
+</div>
+
+</body>
+</html>

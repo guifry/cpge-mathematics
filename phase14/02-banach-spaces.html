@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banach Spaces — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Banach Spaces</h1>
+<p class="subtitle">Phase 14 &mdash; Normed Vector Spaces, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In Phase 9 (page 3), we saw that completeness &mdash; every Cauchy sequence converges
+    &mdash; is what makes $\mathbb{R}$ work. The rationals $\mathbb{Q}$ are not complete,
+    and analysis breaks down there: Cauchy sequences can "aim" at irrational limits that
+    do not exist in the space.
+  </p>
+  <p>
+    Now we ask the same question for normed vector spaces. When we pass from
+    $\mathbb{R}^n$ to infinite-dimensional spaces of functions, which ones are complete?
+    Banach (1920s) showed that completeness in normed spaces is not a luxury &mdash; it is
+    the minimum requirement for a coherent theory of operators and functionals.
+  </p>
+</div>
+
+<h2>1. Definition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Banach space</div>
+  <p>
+    A <strong>Banach space</strong> is a normed vector space $(X, \|\cdot\|)$ that is
+    <strong>complete</strong>: every Cauchy sequence in $X$ converges to a limit in $X$.
+  </p>
+</div>
+
+<p>
+  Recall from Phase 9 that a sequence $(x_n)$ is <strong>Cauchy</strong> if for every
+  $\varepsilon > 0$ there exists $N$ such that $\|x_m - x_n\| < \varepsilon$ for all
+  $m, n \geq N$. Every convergent sequence is Cauchy (triangle inequality), but the
+  converse can fail: Cauchy sequences may "aim" at a limit that does not belong to the
+  space. Completeness is precisely the condition that this cannot happen &mdash; every
+  Cauchy sequence has somewhere to go.
+</p>
+
+<p>
+  Why does this matter? Because the most natural constructions in analysis &mdash; taking
+  limits of approximations, summing infinite series, iterating operators &mdash; all
+  produce Cauchy sequences. If the space is not complete, these constructions can "fall
+  out" of the space, and theorems fail silently.
+</p>
+
+<h2>2. Examples</h2>
+
+<p>
+  The definition is simple, but which spaces actually satisfy it? The answer determines
+  which function spaces are suitable for analysis.
+</p>
+
+<p>
+  <strong>$\mathbb{R}^n$ with any norm.</strong> We proved in Phase 14, page 1 that all
+  norms on $\mathbb{R}^n$ are equivalent. Since $(\mathbb{R}^n, \|\cdot\|_2)$ is complete
+  (Phase 9, page 3), and equivalent norms preserve Cauchy sequences and convergence,
+  $\mathbb{R}^n$ is Banach under every norm. This is the simplest and most reassuring
+  example: finite-dimensional spaces always work.
+</p>
+
+<p>
+  <strong>$C([a,b])$ with $\|\cdot\|_\infty$.</strong> This is the space of continuous
+  functions $f : [a, b] \to \mathbb{R}$ with the supremum norm
+  $\|f\|_\infty = \max_{x \in [a,b]} |f(x)|$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof of completeness</div>
+  <p>
+    <strong>Step 1.</strong> Let $(f_n)$ be Cauchy in $\|\cdot\|_\infty$. For each fixed
+    $x \in [a, b]$, $|f_m(x) - f_n(x)| \leq \|f_m - f_n\|_\infty$, so $(f_n(x))$ is
+    Cauchy in $\mathbb{R}$. By completeness of $\mathbb{R}$, define
+    $f(x) = \lim_{n \to \infty} f_n(x)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> The convergence is uniform: given $\varepsilon > 0$, choose
+    $N$ so that $\|f_m - f_n\|_\infty < \varepsilon$ for $m, n \geq N$. Fix $x$ and let
+    $m \to \infty$: $|f(x) - f_n(x)| \leq \varepsilon$ for all $n \geq N$ and all $x$.
+    So $\|f - f_n\|_\infty \leq \varepsilon$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The uniform limit of continuous functions is continuous
+    (Phase 5, page 6). So $f \in C([a,b])$ and $f_n \to f$ in $\|\cdot\|_\infty$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>$\ell^p$ spaces.</strong> For $1 \leq p \leq \infty$, the space $\ell^p$ of
+  sequences $(x_n)$ with $\|(x_n)\|_p = \left(\sum |x_n|^p\right)^{1/p} < \infty$
+  (or $\sup |x_n| < \infty$ for $p = \infty$) is a Banach space. We state this without
+  proof; the argument is analogous to the one above, using completeness of $\mathbb{R}$
+  coordinate-by-coordinate and dominated convergence to exchange limit and sum.
+</p>
+
+<h2>3. A non-example</h2>
+
+<p>
+  $C([0,1])$ with the $\|\cdot\|_1$ norm ($\|f\|_1 = \int_0^1 |f(x)|\,dx$) is
+  <em>not</em> complete.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof of incompleteness</div>
+  <p>
+    <strong>Step 1.</strong> Define a sequence of continuous functions that "want" to
+    converge to a step function. For each $n \geq 1$, let
+  </p>
+  <div class="display-math">$$f_n(x) = \begin{cases} 0 & \text{if } 0 \leq x \leq \tfrac{1}{2} - \tfrac{1}{n}, \\ \tfrac{n}{2}\left(x - \tfrac{1}{2} + \tfrac{1}{n}\right) & \text{if } \tfrac{1}{2} - \tfrac{1}{n} < x < \tfrac{1}{2} + \tfrac{1}{n}, \\ 1 & \text{if } \tfrac{1}{2} + \tfrac{1}{n} \leq x \leq 1. \end{cases}$$</div>
+  <p>
+    Each $f_n$ is continuous, rising linearly from 0 to 1 over an interval of width $2/n$
+    centred at $1/2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> For $m > n$, $f_m$ and $f_n$ differ only on an interval of
+    width at most $2/n$, and the difference is bounded by 1. So
+    $\|f_m - f_n\|_1 \leq 2/n \to 0$. The sequence is Cauchy in $\|\cdot\|_1$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The pointwise limit is
+    $f(x) = \mathbf{1}_{(1/2, 1]}(x)$, a step function that is discontinuous at $x = 1/2$.
+    If $(f_n)$ converged in $\|\cdot\|_1$ to some $g \in C([0,1])$, then $g = f$ almost
+    everywhere, but no continuous function equals this step function a.e. So there is no
+    limit in $C([0,1])$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The "completion" of $(C([0,1]), \|\cdot\|_1)$ is the Lebesgue space $L^1([0,1])$, which
+  includes all (equivalence classes of) integrable functions, not just continuous ones.
+  This is a general phenomenon: every normed space has a unique completion (up to isometric
+  isomorphism), obtained by adding limits of all Cauchy sequences. The completion is always
+  a Banach space.
+</p>
+
+<p>
+  The lesson: the same vector space $C([0,1])$ can be Banach or not depending on the norm.
+  Completeness is a joint property of the space <em>and</em> the norm, not of the space
+  alone. Choosing the "right" norm for a function space is one of the central decisions in
+  functional analysis.
+</p>
+
+<h2>4. The absolute convergence criterion</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Characterisation of Banach spaces</div>
+  <p>
+    A normed space $(X, \|\cdot\|)$ is Banach if and only if every absolutely convergent
+    series converges: $\sum_{n=1}^{\infty} \|x_n\| < \infty \implies \sum_{n=1}^{\infty} x_n$ converges in $X$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. ($\Rightarrow$)</strong> Assume $X$ is Banach and
+    $\sum \|x_n\| < \infty$. The partial sums $S_N = \sum_{n=1}^{N} x_n$ form a Cauchy
+    sequence: for $M > N$,
+  </p>
+  <div class="display-math">$$\|S_M - S_N\| = \left\|\sum_{n=N+1}^{M} x_n\right\| \leq \sum_{n=N+1}^{M} \|x_n\| \to 0$$</div>
+  <p>
+    as $N \to \infty$ (tail of a convergent series). By completeness, $(S_N)$ converges.
+  </p>
+  <p>
+    <strong>Step 2. ($\Leftarrow$)</strong> Assume the criterion holds. Let $(y_n)$ be Cauchy.
+    Extract a subsequence $(y_{n_k})$ with $\|y_{n_{k+1}} - y_{n_k}\| < 2^{-k}$ (possible
+    since $(y_n)$ is Cauchy). Define $x_k = y_{n_{k+1}} - y_{n_k}$. Then
+    $\sum \|x_k\| < \sum 2^{-k} = 1 < \infty$, so $\sum x_k$ converges. Its partial sums
+    are $y_{n_{K+1}} - y_{n_1}$, so the subsequence $(y_{n_k})$ converges. Since the
+    original sequence is Cauchy and has a convergent subsequence, it converges (Phase 9,
+    page 3).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Finite-dimensional spaces are always Banach</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    Every finite-dimensional normed vector space is complete (hence Banach).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $(X, \|\cdot\|)$ have dimension $n$. Fix a basis
+    $(e_1, \ldots, e_n)$ and define the coordinate isomorphism
+    $\Phi : \mathbb{R}^n \to X$ by $\Phi(\alpha) = \sum \alpha_i e_i$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> By norm equivalence (Phase 14, page 1), there exist $c, C > 0$
+    with $c\|\alpha\|_2 \leq \|\Phi(\alpha)\| \leq C\|\alpha\|_2$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Let $(x_k)$ be Cauchy in $(X, \|\cdot\|)$. Write
+    $x_k = \Phi(\alpha^{(k)})$. Then $c\|\alpha^{(m)} - \alpha^{(n)}\|_2 \leq \|x_m - x_n\|$,
+    so $(\alpha^{(k)})$ is Cauchy in $(\mathbb{R}^n, \|\cdot\|_2)$. Since $\mathbb{R}^n$ is
+    complete, $\alpha^{(k)} \to \alpha$ for some $\alpha \in \mathbb{R}^n$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Set $x = \Phi(\alpha)$. Then
+    $\|x_k - x\| = \|\Phi(\alpha^{(k)} - \alpha)\| \leq C\|\alpha^{(k)} - \alpha\|_2 \to 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Stefan Banach's 1920 doctoral thesis (published 1922) axiomatised complete normed
+    spaces and proved the foundational theorems of the theory that now bears his name.
+    Remarkably, Banach came to mathematics informally: he was largely self-taught, spotted
+    by Hugo Steinhaus who overheard him discussing the Lebesgue integral in a Krak&oacute;w
+    park in 1916.
+  </p>
+  <p>
+    His monograph <em>Th&eacute;orie des op&eacute;rations lin&eacute;aires</em> (1932) was
+    the first textbook on functional analysis and remains remarkably modern in its outlook.
+    The Lw&oacute;w School &mdash; Banach, Steinhaus, Mazur, Schauder &mdash; worked at the
+    Scottish Caf&eacute;, recording open problems in the legendary "Scottish Book." Many
+    of these problems remained open for decades; some are still unsolved.
+  </p>
+  <p>
+    The name "Banach space" was coined by Fr&eacute;chet in 1928. Before that, complete
+    normed spaces were called "spaces of type (B)" &mdash; the "(B)" standing for Banach.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without completeness.</strong> The Banach fixed-point theorem (Phase 9, page 6)
+    requires completeness: the iterates of a contraction form a Cauchy sequence, and without
+    completeness, the limit may not exist in the space. Operator theory collapses: limits of
+    operator sequences need somewhere to land. Even basic existence results for ODEs
+    (Picard&ndash;Lindel&ouml;f) rely on completeness of the underlying function space.
+    Completeness is not optional &mdash; it is the minimum for doing analysis.
+  </p>
+  <p>
+    <strong>Without the norm.</strong> A complete metric space that is not a vector space
+    (e.g. a closed subset of $\mathbb{R}^n$) still has some good properties
+    (Baire category, fixed-point theorems) but lacks the linear structure needed for
+    operator theory. Banach spaces combine both: completeness lets you take limits,
+    linearity lets you add and scale. The combination is what makes a theory of
+    operators possible.
+  </p>
+  <p>
+    <strong>Without absolute convergence criterion.</strong> In an incomplete space, you
+    can have $\sum \|x_n\| < \infty$ but $\sum x_n$ diverges. For instance, in
+    $(C([0,1]), \|\cdot\|_1)$, consider a series of bump functions whose partial sums
+    approximate the step function from Section 3. The series is absolutely convergent in
+    $\|\cdot\|_1$ but has no limit in the space of continuous functions. This is not merely
+    a theoretical curiosity &mdash; Fourier series of continuous functions can fail to
+    converge uniformly, and the distinction between different notions of convergence is
+    what drives the entire theory of $L^p$ spaces.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">A Banach space is a normed vector space where Cauchy sequences converge &mdash; the minimum setting for serious analysis.</div>
+
+<div class="nav">
+  <a href="01-norms.html">&larr; Previous: Norms and Equivalence in Finite Dimension</a>
+  <a href="03-riesz-lemma.html">Next: Riesz's Lemma and Finite-Dimensional Characterisation &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rayleigh Quotient and Courant-Fischer — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Rayleigh Quotient and Courant-Fischer</h1>
+<p class="subtitle">Phase 13 — Bilinear Algebra and Spectral Theory, Page 5</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>Lord Rayleigh (1877) studied the vibration frequencies of mechanical systems. A vibrating string has a fundamental mode — its lowest frequency — and infinitely many higher harmonics. The frequencies are eigenvalues of a differential operator, but solving the eigenvalue problem explicitly is often impossible for real-world geometries.</p>
+<p>Rayleigh discovered something remarkable: you do not need to solve for the eigenvalues at all. The smallest eigenvalue equals the <em>minimum</em> of a certain quotient over all non-zero vectors. You can approximate it by plugging in a reasonable guess. Courant and Fischer (1920) extended this to characterise <em>every</em> eigenvalue variationally — the $k$-th eigenvalue is a min-max over subspaces of the right dimension.</p>
+</div>
+
+<h2>1. The Rayleigh quotient</h2>
+
+<p>Let $A$ be a real symmetric $n \times n$ matrix. The spectral theorem (<a href="03-spectral-theorem.html">page 3</a>) gives eigenvalues $\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$ with a corresponding orthonormal eigenbasis $\{v_1, \ldots, v_n\}$.</p>
+
+<div class="theorem-box">
+<div class="label">Definition — Rayleigh quotient</div>
+<p>For non-zero $x \in \mathbb{R}^n$, the <b>Rayleigh quotient</b> of $A$ at $x$ is</p>
+<div class="display-math">$$R(x) = \frac{x^TAx}{x^Tx}$$</div>
+</div>
+
+<p>The numerator $x^TAx$ is the quadratic form associated to $A$ (<a href="02-quadratic-forms.html">page 2</a>). The denominator $x^Tx = \|x\|^2$ normalises by the length of $x$. The quotient measures "how much $A$ acts like a scalar multiple of the identity in the direction of $x$" — if $x$ is an eigenvector with $Ax = \lambda x$, then $R(x) = \lambda$ exactly.</p>
+
+<p><b>Scale invariance.</b> For any scalar $\alpha \neq 0$:</p>
+<div class="display-math">$$R(\alpha x) = \frac{(\alpha x)^TA(\alpha x)}{(\alpha x)^T(\alpha x)} = \frac{\alpha^2 x^TAx}{\alpha^2 x^Tx} = R(x)$$</div>
+<p>So $R$ depends only on the <em>direction</em> of $x$, not its magnitude. We can restrict attention to unit vectors $\|x\| = 1$, where $R(x) = x^TAx$.</p>
+
+<p><b>Eigenvectors are critical points.</b> If $x = v_i$ is an eigenvector with eigenvalue $\lambda_i$, then</p>
+<div class="display-math">$$R(v_i) = \frac{v_i^TAv_i}{v_i^Tv_i} = \frac{v_i^T(\lambda_i v_i)}{1} = \lambda_i$$</div>
+<p>So the Rayleigh quotient, evaluated at an eigenvector, returns the corresponding eigenvalue. This is already useful: if you have a good <em>guess</em> for an eigenvector, plugging it into $R$ gives an approximation to the eigenvalue. The error in $R(x)$ is quadratic in the error of $x$ (because eigenvectors are critical points of $R$), so even a rough guess gives a decent eigenvalue estimate.</p>
+
+<h2>2. Extremal eigenvalues</h2>
+
+<p>The Rayleigh quotient does more than evaluate at eigenvectors — its global extrema are exactly the extreme eigenvalues.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — Rayleigh's principle</div>
+<p>For a real symmetric matrix $A$ with eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$:</p>
+<div class="display-math">$$\lambda_1 = \min_{x \neq 0} R(x) = \min_{\|x\|=1} x^TAx$$</div>
+<div class="display-math">$$\lambda_n = \max_{x \neq 0} R(x) = \max_{\|x\|=1} x^TAx$$</div>
+<p>The minimum is attained at $x = v_1$ and the maximum at $x = v_n$.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> Let $\|x\| = 1$. Expand $x$ in the orthonormal eigenbasis: $x = \sum_{i=1}^n c_i v_i$ with $\sum_{i=1}^n c_i^2 = 1$ (by Parseval's identity, or just the fact that an orthonormal basis preserves norms).</p>
+<p><b>Step 2.</b> Compute the quadratic form. Since $Av_j = \lambda_j v_j$ and $v_i^Tv_j = \delta_{ij}$:</p>
+<div class="display-math">$$x^TAx = \left(\sum_i c_i v_i\right)^T A \left(\sum_j c_j v_j\right) = \sum_{i,j} c_i c_j v_i^T(\lambda_j v_j) = \sum_{i,j} c_i c_j \lambda_j \delta_{ij} = \sum_{i=1}^n c_i^2 \lambda_i$$</div>
+<p>So the Rayleigh quotient is a <em>weighted average</em> of the eigenvalues, with weights $c_i^2$ summing to 1. This is the key formula.</p>
+<p><b>Step 3.</b> For the minimum: since $\lambda_1 \leq \lambda_i$ for every $i$,</p>
+<div class="display-math">$$x^TAx = \sum_i c_i^2 \lambda_i \geq \lambda_1 \sum_i c_i^2 = \lambda_1$$</div>
+<p>Equality holds when all the weight concentrates on $\lambda_1$: $c_1 = 1$, $c_i = 0$ for $i > 1$, i.e., $x = v_1$.</p>
+<p><b>Step 4.</b> For the maximum: since $\lambda_i \leq \lambda_n$ for every $i$,</p>
+<div class="display-math">$$x^TAx = \sum_i c_i^2 \lambda_i \leq \lambda_n \sum_i c_i^2 = \lambda_n$$</div>
+<p>Equality at $x = v_n$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Rayleigh's principle converts an algebraic problem (find eigenvalues of a matrix) into an optimisation problem (minimise a smooth function on the unit sphere). This is computationally powerful: gradient-based methods on the sphere converge to eigenvalues without ever forming the characteristic polynomial. The power iteration method, the Lanczos algorithm, and all modern eigenvalue solvers exploit this variational viewpoint.</p>
+
+<p>A concrete example. Let $A = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$. The eigenvalues are $\lambda_1 = 2$ and $\lambda_2 = 4$, with eigenvectors $v_1 = \frac{1}{\sqrt{2}}(1, -1)^T$ and $v_2 = \frac{1}{\sqrt{2}}(1, 1)^T$. For any unit vector $x = (\cos\theta, \sin\theta)^T$:</p>
+<div class="display-math">$$R(x) = 3\cos^2\theta + 2\cos\theta\sin\theta + 3\sin^2\theta = 3 + \sin(2\theta)$$</div>
+<p>This oscillates between $2$ (at $\theta = -\pi/4$, i.e., $x = v_1$) and $4$ (at $\theta = \pi/4$, i.e., $x = v_2$). The Rayleigh quotient is literally a sinusoidal function of angle, with its extrema at the eigenvectors. Even if you try $x = (1, 0)^T$ (a rough guess), you get $R(x) = 3$, which is already within the interval $[2, 4]$ and close to the average eigenvalue.</p>
+
+<p>This also demonstrates the <b>quadratic error property</b>: if $x$ makes an angle $\epsilon$ with an eigenvector $v_i$, then $R(x) = \lambda_i + O(\epsilon^2)$. The Rayleigh quotient converges to the eigenvalue quadratically as the vector approaches the eigenvector.</p>
+
+<p>Why quadratic? Write $x = v_i + \epsilon w$ where $w \perp v_i$ and $\|w\| = 1$. Then, to first order, the numerator is $x^TAx = \lambda_i + \epsilon^2 w^TAw + O(\epsilon^3)$ and the denominator is $x^Tx = 1 + \epsilon^2$, so $R(x) = \lambda_i + \epsilon^2(w^TAw - \lambda_i) + O(\epsilon^3)$. The first-order term in $\epsilon$ vanishes because the gradient of $R$ at an eigenvector is zero (critical point). This is why <b>Rayleigh quotient iteration</b> — which alternately updates the vector estimate by inverse iteration and the shift by $R$ — achieves <em>cubic</em> convergence: the quadratic accuracy of $R$ combined with the linear convergence of inverse iteration produces cubic convergence overall.</p>
+
+<p>In practice, Rayleigh quotient iteration converges so fast that it finds eigenvalues to machine precision in 2-3 iterations (after the initial iterate is close enough). Combined with a good starting vector from the Lanczos algorithm (which explores a Krylov subspace), this gives the fastest known method for computing a few extreme eigenvalues of a large sparse symmetric matrix.</p>
+
+<p>Another application of the Rayleigh quotient: <b>eigenvalue bounds</b>. If you cannot compute the eigenvalues exactly, any non-zero vector $x$ gives the bounds $\lambda_1 \leq R(x) \leq \lambda_n$.</p>
+
+<p>A cleverly chosen $x$ (e.g., from physical intuition about the system) narrows these bounds significantly. In structural engineering, choosing $x$ as the expected deflection shape of a beam gives a Rayleigh quotient estimate of the fundamental vibration frequency that is accurate to a few percent — good enough for design purposes without solving the full eigenvalue problem.</p>
+
+<p>Even better: by trying several trial vectors $x^{(1)}, \ldots, x^{(p)}$, you get the bound $\lambda_1 \leq \min_j R(x^{(j)})$. Adding more trial vectors can only improve the bound.</p>
+
+<p>This is the essence of the <b>Ritz method</b>: project $A$ onto the subspace $W = \operatorname{span}\{x^{(1)}, \ldots, x^{(p)}\}$ and solve the smaller eigenvalue problem. The Ritz values (eigenvalues of the projected matrix $W^TAW$, where $W$ is the matrix of trial vectors) approximate the eigenvalues of $A$, with the approximation improving as the subspace grows.</p>
+
+<p>The Courant-Fischer theorem makes the Ritz method's convergence rigorous: the Ritz values interlace the true eigenvalues, and as $\dim(W) \to n$, the Ritz values converge to the eigenvalues.</p>
+
+<p>The <b>Lanczos algorithm</b> is the most efficient way to build the trial subspace iteratively. Starting from a single vector $b$, it produces $W$ as the <b>Krylov subspace</b> $\mathcal{K}_p(A, b) = \operatorname{span}\{b, Ab, A^2b, \ldots, A^{p-1}b\}$. In exact arithmetic, the Ritz values from a Krylov subspace converge to the extreme eigenvalues first (those most separated from the rest of the spectrum), often within $p \ll n$ iterations. This makes Lanczos the method of choice for computing a few eigenvalues of large sparse symmetric matrices — problems with $n = 10^6$ or more, where forming $A^TA$ or computing the full eigendecomposition is infeasible.</p>
+
+<p>All of these computational methods — power iteration, inverse iteration, Rayleigh quotient iteration, Lanczos, the Ritz method — trace their theoretical foundation to the variational characterisation we proved in this section. The Courant-Fischer theorem is not just a theoretical curiosity; it is the reason eigenvalue computation works.</p>
+
+<p>To summarise the variational viewpoint developed in this page:</p>
+
+<p>The <b>spectral theorem</b> (<a href="03-spectral-theorem.html">page 3</a>) tells us that eigenvalues and eigenvectors <em>exist</em>.</p>
+
+<p><b>Rayleigh's principle</b> tells us how to <em>find</em> the extreme eigenvalues — as the global minimum and maximum of a quotient on the unit sphere.</p>
+
+<p>The <b>Courant-Fischer theorem</b> tells us how to find <em>all</em> eigenvalues — as min-maxes over subspaces of increasing dimension.</p>
+
+<p>The <b>interlacing theorem</b> tells us how eigenvalues <em>change</em> when we pass to submatrices — they shift by at most one position in the ordered list.</p>
+
+<p>The <b>trace and determinant formulas</b> relate global matrix invariants to sums and products of eigenvalues.</p>
+
+<p>Together, these results give a complete variational theory of symmetric eigenvalues: existence, characterisation, stability, and algebraic relations.</p>
+
+<h2>3. The Courant-Fischer min-max theorem</h2>
+
+<p>Rayleigh's principle characterises $\lambda_1$ and $\lambda_n$. What about the eigenvalues in between? The second-smallest eigenvalue $\lambda_2$ is not simply the "second-best minimum" of $R$ — any perturbation away from $v_1$ also increases $R$, so you cannot extract $\lambda_2$ by a simple min or max.</p>
+
+<p>Courant and Fischer's insight: to isolate $\lambda_k$, optimise $R$ over a $k$-dimensional subspace. The idea is both simple and deep. In a $k$-dimensional subspace, the maximum of $R$ is forced to "reach up" to at least $\lambda_k$. Why? Because any $k$-dimensional subspace must have a non-trivial intersection with the span of the "top" eigenvectors $v_k, v_{k+1}, \ldots, v_n$ (by dimension counting), and in that intersection the Rayleigh quotient is at least $\lambda_k$. Meanwhile, the specific subspace $\operatorname{span}\{v_1, \ldots, v_k\}$ achieves the maximum $\lambda_k$ exactly, because all eigenvalues in that subspace are $\leq \lambda_k$.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — Courant-Fischer min-max</div>
+<p>For a real symmetric $n \times n$ matrix $A$ with eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$:</p>
+<div class="display-math">$$\lambda_k = \min_{\substack{W \subseteq \mathbb{R}^n \\ \dim(W) = k}} \; \max_{\substack{x \in W \\ x \neq 0}} R(x)$$</div>
+</div>
+
+<p>Read this as: among all $k$-dimensional subspaces $W$, find the one whose "worst-case" (maximum) Rayleigh quotient is smallest. That worst case equals $\lambda_k$.</p>
+
+<p>Let us verify the boundary cases before the proof.</p>
+
+<p>For $k = 1$: $\min_{\dim W = 1} \max_{x \in W} R(x)$. A one-dimensional $W$ is spanned by a single unit vector $w$, and $\max_{x \in W} R(x) = R(w)$ (since $R$ is constant on a one-dimensional subspace, by scale invariance). So this reduces to $\min_w R(w) = \lambda_1$ by Rayleigh's principle.</p>
+
+<p>For $k = n$: the only $n$-dimensional subspace of $\mathbb{R}^n$ is $\mathbb{R}^n$ itself. So $\min_{\dim W = n} \max_x R(x) = \max_x R(x) = \lambda_n$.</p>
+
+<p>Both agree with Rayleigh's principle. The Courant-Fischer theorem smoothly interpolates between these two extremes.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1 (achievability — upper bound on the min).</b> We exhibit a specific $k$-dimensional subspace where the maximum of $R$ equals $\lambda_k$. Take</p>
+<div class="display-math">$$W_0 = \operatorname{span}\{v_1, v_2, \ldots, v_k\}$$</div>
+<p>For any unit vector $x = \sum_{i=1}^k c_i v_i \in W_0$, the calculation from Section 2 gives</p>
+<div class="display-math">$$R(x) = \sum_{i=1}^k c_i^2 \lambda_i \leq \lambda_k \sum_{i=1}^k c_i^2 = \lambda_k$$</div>
+<p>since each $\lambda_i \leq \lambda_k$ for $i \leq k$. Equality holds at $x = v_k$ (where $c_k = 1$ and all other $c_i = 0$). So $\max_{x \in W_0, x \neq 0} R(x) = \lambda_k$.</p>
+<p>This shows $\min_{\dim W = k} \max_{x \in W} R(x) \leq \lambda_k$.</p>
+
+<p><b>Step 2 (lower bound — no subspace can do better).</b> Let $W$ be any $k$-dimensional subspace of $\mathbb{R}^n$. We show $\max_{x \in W, x \neq 0} R(x) \geq \lambda_k$.</p>
+<p>Define the "upper eigenspace"</p>
+<div class="display-math">$$V^+ = \operatorname{span}\{v_k, v_{k+1}, \ldots, v_n\}$$</div>
+<p>which has dimension $n - k + 1$. By the dimension formula for subspaces (<a href="../phase6/02-basis-dimension.html">Phase 6, page 2</a>):</p>
+<div class="display-math">$$\dim(W \cap V^+) \geq \dim(W) + \dim(V^+) - n = k + (n - k + 1) - n = 1$$</div>
+<p>So there exists a non-zero vector $z \in W \cap V^+$.</p>
+
+<p><b>Step 3.</b> Since $z \in V^+$, we can write $z = \sum_{i=k}^n c_i v_i$ with $\sum_{i=k}^n c_i^2 > 0$. Then:</p>
+<div class="display-math">$$R(z) = \frac{\sum_{i=k}^n c_i^2 \lambda_i}{\sum_{i=k}^n c_i^2} \geq \frac{\lambda_k \sum_{i=k}^n c_i^2}{\sum_{i=k}^n c_i^2} = \lambda_k$$</div>
+<p>since $\lambda_i \geq \lambda_k$ for all $i \geq k$.</p>
+
+<p><b>Step 4.</b> Since $z \in W$, the maximum of $R$ over $W$ is at least $R(z) \geq \lambda_k$:</p>
+<div class="display-math">$$\max_{x \in W, x \neq 0} R(x) \geq R(z) \geq \lambda_k$$</div>
+<p>This holds for <em>every</em> $k$-dimensional $W$.</p>
+
+<p><b>Step 5 (conclusion).</b> From Step 1, $\min_{\dim W = k} \max_x R(x) \leq \lambda_k$. From Step 4, $\min_{\dim W = k} \max_x R(x) \geq \lambda_k$. Therefore:</p>
+<div class="display-math">$$\min_{\dim W = k} \max_{x \in W, x \neq 0} R(x) = \lambda_k$$</div>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>The heart of the proof is the dimensional counting in Step 2: a $k$-dimensional subspace <em>must</em> intersect the span of the top $n - k + 1$ eigenvectors non-trivially. This forces the maximum Rayleigh quotient to be at least $\lambda_k$. The argument is purely linear-algebraic — no analysis needed.</p>
+
+<p>There is also a dual (max-min) formulation: $\lambda_k = \max_{\dim W = n-k+1} \min_{x \in W, x \neq 0} R(x)$. The proof is analogous, intersecting $W$ with $\operatorname{span}\{v_1, \ldots, v_k\}$ instead.</p>
+
+<p>An important consequence: Courant-Fischer immediately gives <b>Weyl's perturbation inequality</b>. If $A$ and $B$ are both symmetric and $\|B\| \leq \varepsilon$ (operator norm), then for every $k$:</p>
+<div class="display-math">$$|\lambda_k(A + B) - \lambda_k(A)| \leq \varepsilon$$</div>
+<p>The proof is short: for any $k$-dimensional $W$, $\max_{x \in W, \|x\|=1} x^T(A+B)x \leq \max_{x \in W} x^TAx + \varepsilon$ (since $|x^TBx| \leq \|B\| \leq \varepsilon$). Minimising over $W$ gives $\lambda_k(A+B) \leq \lambda_k(A) + \varepsilon$. The reverse bound follows by symmetry (swap $A$ and $A+B$).</p>
+
+<p>This is remarkable: eigenvalues of symmetric matrices are <em>Lipschitz</em> functions of the matrix entries. A small perturbation of the matrix causes at most a small perturbation of each eigenvalue. This is emphatically <em>not</em> true for non-symmetric matrices, where eigenvalues can be arbitrarily sensitive to perturbations (think of the Jordan block $\begin{pmatrix} 0 & 1 \\ \varepsilon & 0 \end{pmatrix}$, whose eigenvalues jump from $0, 0$ to $\pm\sqrt{\varepsilon}$).</p>
+
+<h2>4. Consequences: eigenvalue interlacing</h2>
+
+<p>The Courant-Fischer theorem has a powerful corollary about how eigenvalues change when you pass to a submatrix.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — Cauchy interlacing</div>
+<p>Let $A$ be an $n \times n$ real symmetric matrix with eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$. Let $B$ be an $(n-1) \times (n-1)$ principal submatrix (obtained by deleting row $j$ and column $j$) with eigenvalues $\mu_1 \leq \cdots \leq \mu_{n-1}$. Then:</p>
+<div class="display-math">$$\lambda_1 \leq \mu_1 \leq \lambda_2 \leq \mu_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n$$</div>
+</div>
+
+<p>The eigenvalues of $B$ <em>interlace</em> those of $A$: between any two consecutive eigenvalues of $A$, there sits an eigenvalue of $B$. Removing a row and column cannot shift any eigenvalue by more than one position in the ordered list.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> Identify $\mathbb{R}^{n-1}$ with the hyperplane $H = \{x \in \mathbb{R}^n : x_j = 0\}$. For any $x \in H$, the $j$-th component is zero, so the terms involving row $j$ and column $j$ of $A$ vanish from $x^TAx$. This means $x^TAx = \tilde{x}^TB\tilde{x}$ where $\tilde{x} \in \mathbb{R}^{n-1}$ is $x$ with the $j$-th entry removed.</p>
+<p><b>Step 2.</b> By Courant-Fischer applied to $B$:</p>
+<div class="display-math">$$\mu_k = \min_{\substack{W \subseteq \mathbb{R}^{n-1} \\ \dim W = k}} \max_{\tilde{x} \in W, \tilde{x} \neq 0} \frac{\tilde{x}^TB\tilde{x}}{\tilde{x}^T\tilde{x}}$$</div>
+<p>Every $k$-dimensional subspace of $H$ corresponds to a $k$-dimensional subspace of $\mathbb{R}^n$ (by the embedding $\tilde{x} \mapsto x$), and $R_B(\tilde{x}) = R_A(x)$ on $H$.</p>
+<p><b>Step 3.</b> Since $k$-dimensional subspaces of $H$ form a <em>subset</em> of all $k$-dimensional subspaces of $\mathbb{R}^n$, the minimum over the smaller set is at least the minimum over the larger set:</p>
+<div class="display-math">$$\mu_k \geq \min_{\substack{W \subseteq \mathbb{R}^n \\ \dim W = k}} \max_{x \in W} R_A(x) = \lambda_k$$</div>
+<p><b>Step 4.</b> For the upper bound: every $k$-dimensional subspace $W$ of $H \cong \mathbb{R}^{n-1}$ sits inside a $(k+1)$-dimensional subspace $W' = W + \operatorname{span}\{e_j\}$ of $\mathbb{R}^n$. Since $\min_{x \in W} R_B \leq \max_{x \in W'} R_A$ and optimising over all such $W$:</p>
+<div class="display-math">$$\mu_k \leq \lambda_{k+1}$$</div>
+<p><b>Step 5.</b> Combining: $\lambda_k \leq \mu_k \leq \lambda_{k+1}$ for $k = 1, \ldots, n-1$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Interlacing is a surprisingly sharp constraint. It means, for instance, that adding a single row and column to a symmetric matrix can shift each eigenvalue by at most one "slot" — the new eigenvalues interleave with the old ones.</p>
+
+<p>A concrete example: let $A = \begin{pmatrix} 4 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 2 \end{pmatrix}$ with eigenvalues approximately $1.27, 3.00, 4.73$. The principal submatrix $B = \begin{pmatrix} 4 & 1 \\ 1 & 3 \end{pmatrix}$ (delete row 3, column 3) has eigenvalues $\frac{7 \pm \sqrt{5}}{2} \approx 2.38, 4.62$. Check: $1.27 \leq 2.38 \leq 3.00 \leq 4.62 \leq 4.73$. The interlacing holds.</p>
+
+<p>Interlacing has deep consequences. It implies that the eigenvalues of a symmetric matrix can be recovered from the eigenvalues of its principal submatrices, up to the interlacing constraints. This is the starting point for divide-and-conquer eigenvalue algorithms, which recursively split a matrix into submatrices, solve the smaller problems, and merge the solutions using interlacing to guide the search for eigenvalues of the full matrix.</p>
+
+<p>More generally, if $B$ is an $(n-p) \times (n-p)$ principal submatrix (deleting $p$ rows and columns), its eigenvalues satisfy</p>
+<div class="display-math">$$\lambda_k \leq \mu_k \leq \lambda_{k+p} \quad \text{for } k = 1, \ldots, n-p$$</div>
+<p>This follows by iterating the single-deletion interlacing $p$ times. The eigenvalues of $B$ sit within "bands" of width $p$ centred on those of $A$.</p>
+
+<p>In graph theory, where symmetric matrices arise as adjacency or Laplacian matrices, interlacing is a powerful combinatorial tool. If $G$ is a graph on $n$ vertices and $H$ is an induced subgraph on $n-1$ vertices, the eigenvalues of the adjacency matrix of $H$ interlace those of $G$. This constrains the structure of subgraphs: a graph with a large spectral gap (large $\lambda_n - \lambda_{n-1}$) cannot contain certain dense subgraphs.</p>
+
+<p>In quantum mechanics, interlacing appears when restricting an observable (self-adjoint operator) to a subspace. The energy levels of a confined system interlace those of the unconfined system — confinement can only raise energy levels, never lower them, and the interlacing controls exactly how much.</p>
+
+<p>The interlacing theorem also has a converse flavour: given sequences $\lambda_1 \leq \cdots \leq \lambda_n$ and $\mu_1 \leq \cdots \leq \mu_{n-1}$ satisfying the interlacing inequalities, there <em>always</em> exists an $n \times n$ symmetric matrix $A$ with eigenvalues $\lambda_i$ and an $(n-1) \times (n-1)$ principal submatrix with eigenvalues $\mu_j$. So the interlacing constraints are both necessary and sufficient — they completely characterise which pairs of spectra can arise.</p>
+
+<h2>5. Trace and determinant from eigenvalues</h2>
+
+<p>The spectral decomposition also gives clean proofs of two classical identities.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem</div>
+<p>For a real symmetric $n \times n$ matrix $A$ with eigenvalues $\lambda_1, \ldots, \lambda_n$:</p>
+<div class="display-math">$$\operatorname{tr}(A) = \sum_{i=1}^n \lambda_i, \qquad \det(A) = \prod_{i=1}^n \lambda_i$$</div>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> By the spectral theorem (<a href="03-spectral-theorem.html">page 3</a>), $A = P\Lambda P^T$ where $P$ is orthogonal and $\Lambda = \operatorname{diag}(\lambda_1, \ldots, \lambda_n)$.</p>
+<p><b>Step 2.</b> For the trace, use the cyclic property $\operatorname{tr}(XY) = \operatorname{tr}(YX)$ (proved in <a href="../phase6/04-matrices.html">Phase 6, page 4</a>):</p>
+<div class="display-math">$$\operatorname{tr}(A) = \operatorname{tr}(P\Lambda P^T) = \operatorname{tr}(P^TP\Lambda) = \operatorname{tr}(I \cdot \Lambda) = \operatorname{tr}(\Lambda) = \sum_{i=1}^n \lambda_i$$</div>
+<p><b>Step 3.</b> For the determinant, use $\det(XY) = \det(X)\det(Y)$ (<a href="../phase6/05-determinants.html">Phase 6, page 5</a>) and $\det(P^T) = \det(P)$:</p>
+<div class="display-math">$$\det(A) = \det(P)\det(\Lambda)\det(P^T) = \det(P) \cdot \det(P^T) \cdot \prod_{i=1}^n \lambda_i = (\det P)^2 \prod_{i=1}^n \lambda_i$$</div>
+<p><b>Step 4.</b> Since $P$ is orthogonal, $P^TP = I$, so $(\det P)^2 = \det(P^TP) = \det(I) = 1$. Therefore $\det(A) = \prod \lambda_i$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Both identities hold for <em>all</em> square matrices (not just symmetric ones): the trace equals the sum of eigenvalues counted with algebraic multiplicity, and the determinant is their product. This follows from the characteristic polynomial $\det(A - \lambda I) = (-1)^n(\lambda - \lambda_1)\cdots(\lambda - \lambda_n)$ and Vieta's formulae. But for symmetric matrices, the proof via spectral decomposition is immediate and avoids complex eigenvalues entirely.</p>
+
+<p>A useful consequence: $A$ is invertible if and only if all eigenvalues are non-zero, since $\det(A) = \prod \lambda_i$. And $\operatorname{tr}(A^2) = \sum \lambda_i^2 \geq 0$, with equality only when $A = 0$.</p>
+
+<p>Another consequence: for a positive definite matrix, the <b>arithmetic-geometric mean inequality</b> on eigenvalues gives</p>
+<div class="display-math">$$\det(A)^{1/n} = \left(\prod \lambda_i\right)^{1/n} \leq \frac{1}{n}\sum \lambda_i = \frac{\operatorname{tr}(A)}{n}$$</div>
+<p>So $\det(A) \leq \left(\frac{\operatorname{tr}(A)}{n}\right)^n$, with equality if and only if all eigenvalues are equal (i.e., $A$ is a scalar matrix). This is Hadamard's inequality for positive definite matrices: the determinant is maximised, for fixed trace, by the scalar matrix.</p>
+
+<p>A similar argument using $\operatorname{tr}(A^{-1}) = \sum 1/\lambda_i$ and the AM-HM inequality gives $\det(A) \geq \left(\frac{n}{\operatorname{tr}(A^{-1})}\right)^n$. These bounds are used in statistics (for covariance matrices), information theory (for channel capacity), and optimisation (for barrier functions in interior point methods).</p>
+
+<p>Another consequence of $\operatorname{tr}(A) = \sum \lambda_i$: the <b>Rayleigh trace formula</b>. Recall that $R(v_i) = \lambda_i$. Summing over the orthonormal eigenbasis:</p>
+
+<div class="display-math">$$\sum_{i=1}^n R(v_i) = \sum_{i=1}^n \lambda_i = \operatorname{tr}(A)$$</div>
+
+<p>But actually, for <em>any</em> orthonormal basis $\{w_1, \ldots, w_n\}$ (not necessarily eigenvectors), $\sum_{i=1}^n w_i^TAw_i = \sum_{i=1}^n (Aw_i)^Tw_i = \operatorname{tr}(A)$. This is because $\operatorname{tr}(A) = \operatorname{tr}(W^TAW) = \sum_i (W^TAW)_{ii} = \sum_i w_i^TAw_i$ for any orthogonal $W = [w_1 | \cdots | w_n]$. So the sum of Rayleigh quotients over any orthonormal basis equals the trace — it does not depend on the choice of basis. The individual values $w_i^TAw_i$ do depend on the basis, but their sum is always $\operatorname{tr}(A)$.</p>
+
+<p>This connects the Rayleigh quotient to statistical mechanics: if $A$ is a Hamiltonian matrix and the $w_i$ are the basis states of a quantum system, the expectation value of the energy in state $w_i$ is $w_i^TAw_i = R(w_i)$, and the sum over all states equals the trace. The partition function $Z = \operatorname{tr}(e^{-\beta A}) = \sum e^{-\beta\lambda_i}$ encodes all thermodynamic information about the system, and the individual Rayleigh quotients correspond to energy measurements in specific states.</p>
+
+<p>Back to the concrete: we can use the trace formula to <em>check</em> eigenvalue computations. If $A = \begin{pmatrix} 4 & 1 & 0 \\ 1 & 3 & 1 \\ 0 & 1 & 2 \end{pmatrix}$, then $\operatorname{tr}(A) = 9$. If we compute eigenvalues and get $\lambda_1 \approx 1.27$, $\lambda_2 \approx 3.00$, $\lambda_3 \approx 4.73$, we can verify: $1.27 + 3.00 + 4.73 = 9.00$. The trace provides a quick sanity check. Similarly, $\det(A) = 4(6-1) - 1(2-0) + 0 = 18$, and $1.27 \times 3.00 \times 4.73 \approx 18.02$ (close, up to rounding). Both checks pass.</p>
+
+<p>For the product formula, note that $\det(A^k) = (\det A)^k = (\prod \lambda_i)^k = \prod \lambda_i^k$. Combined with $\operatorname{tr}(A^k) = \sum \lambda_i^k$, we can recover all eigenvalues from the <b>Newton identities</b>: knowing $\operatorname{tr}(A), \operatorname{tr}(A^2), \ldots, \operatorname{tr}(A^n)$ determines all eigenvalues. This is because $p_k = \sum \lambda_i^k$ are the power sums, and the elementary symmetric polynomials (which are the coefficients of the characteristic polynomial) can be recovered from the power sums by Newton's recursion.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Rayleigh introduced his quotient in <em>The Theory of Sound</em> (1877) to estimate vibration frequencies of drums and strings without solving differential equations. Fischer (1905) gave the first min-max characterisation of all eigenvalues. Courant (1920) developed the theory further and applied it systematically to partial differential equations, where it became the foundation of the finite element method. Weyl (1912) used Courant-Fischer to prove eigenvalue perturbation bounds: if $\|A - B\| \leq \varepsilon$ (operator norm), then $|\lambda_k(A) - \lambda_k(B)| \leq \varepsilon$. This is Weyl's inequality, the cornerstone of numerical stability analysis for eigenvalue problems.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without symmetry:</b> the Rayleigh quotient $R(x) = x^TAx / x^Tx$ can still be defined for any square matrix, but it no longer characterises eigenvalues. For a non-symmetric $A$, the quadratic form $x^TAx$ equals $x^T\bigl(\frac{A+A^T}{2}\bigr)x$ — only the symmetric part contributes. So $R(x)$ sees only the symmetric part of $A$, missing the antisymmetric part entirely. The full eigenstructure of a non-symmetric matrix requires complex analysis and cannot be captured by a real-valued quotient.</p>
+<p><b>Without real eigenvalues:</b> the ordering $\lambda_1 \leq \cdots \leq \lambda_n$ requires a total order on the eigenvalues. Complex eigenvalues have no natural total ordering, so "the $k$-th eigenvalue" is meaningless. Courant-Fischer is intrinsically a real symmetric phenomenon — there is no complex analogue.</p>
+<p><b>Without finite dimension:</b> Courant-Fischer extends to compact self-adjoint operators on Hilbert spaces, where the non-zero eigenvalues form a sequence converging to zero. The dimensional counting argument ($\dim W + \dim V^+ > n$) must be replaced by codimension arguments. The min-max characterisation still works, but the "min" may not be attained (it becomes an infimum).</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Every eigenvalue of a symmetric matrix is the solution to an optimisation problem — you never need to factor the characteristic polynomial.</div>
+
+<div class="nav">
+<a href="04-svd.html">&larr; Previous: Singular Value Decomposition</a>
+<a href="06-principal-axis.html">Next: The Principal Axis Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

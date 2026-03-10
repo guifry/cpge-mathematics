@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanism Design — Phase 15</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Mechanism Design</h1>
+<p class="subtitle">Phase 15 (Bonus) &mdash; Game Theory, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Game theory asks: given a game, what will rational players do? <strong>Mechanism design</strong>
+    asks the reverse: given a desired outcome, can you design a game (a <em>mechanism</em>) that
+    makes rational players produce it? This is "reverse game theory."
+  </p>
+  <p>
+    Vickrey (1961) showed how to design an auction where bidding truthfully is a dominant strategy.
+    Arrow (1951) showed something darker: no voting system can satisfy a short list of reasonable
+    properties simultaneously.
+  </p>
+</div>
+
+<h2>1. The mechanism design problem</h2>
+
+<p>
+  A <strong>social planner</strong> wants to achieve some outcome &mdash; say, allocate a painting
+  to whoever values it most &mdash; but does not know the players' private information. Each
+  player $i$ has a <strong>type</strong> $\theta_i$ (e.g., their valuation for the painting),
+  known only to themselves. The planner's goal is described by a
+  <strong>social choice function</strong> $f(\theta_1, \ldots, \theta_n)$ that maps type profiles
+  to outcomes.
+</p>
+
+<p>
+  The planner cannot simply ask players to report their types, because they may lie if lying gets
+  them a better outcome. A <strong>mechanism</strong> $M = (S_1, \ldots, S_n, g)$ specifies a
+  strategy set $S_i$ for each player and an outcome function $g : S_1 \times \cdots \times S_n
+  \to \text{Outcomes}$. The planner designs $M$ so that rational play in $M$ produces the desired
+  outcome $f(\theta)$ for every type profile $\theta$.
+</p>
+
+<p>
+  The question is: for which social choice functions does such a mechanism exist?
+</p>
+
+<h2>2. The Vickrey auction</h2>
+
+<p>
+  One object is for sale. There are $n$ bidders. Bidder $i$ has a private valuation $v_i$ for the
+  object. The planner wants to allocate the object to the bidder with the highest valuation &mdash;
+  the efficient outcome.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; second-price sealed-bid (Vickrey) auction</div>
+  <p>
+    Each bidder submits a sealed bid $b_i$. The highest bidder wins the object. The winner pays the
+    <em>second-highest</em> bid: $\max_{j \neq i} b_j$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; truthful bidding in the Vickrey auction</div>
+  <p>
+    In the second-price sealed-bid auction, bidding $b_i = v_i$ (your true valuation) is a weakly
+    dominant strategy for every bidder.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Fix bidder $i$ with valuation $v_i$. Let $p = \max_{j \neq i} b_j$
+    be the highest bid among the other bidders (which $i$ cannot control). We show that bidding
+    $b_i = v_i$ is at least as good as any other bid $b_i'$, regardless of $p$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> If $v_i > p$: bidding $v_i$ wins, paying $p$, giving surplus
+    $v_i - p > 0$. Bidding $b_i' > p$ also wins with the same payment $p$ &mdash; same surplus.
+    Bidding $b_i' < p$ loses, giving surplus $0$. Bidding $b_i' = p$ ties (surplus $\geq 0$).
+    So $b_i = v_i$ is weakly best.
+  </p>
+  <p>
+    <strong>Step 3.</strong> If $v_i < p$: bidding $v_i$ loses, giving surplus $0$. Bidding
+    $b_i' < p$ also loses &mdash; same surplus. Bidding $b_i' > p$ wins, but pays $p > v_i$,
+    giving surplus $v_i - p < 0$. So $b_i = v_i$ is weakly best.
+  </p>
+  <p>
+    <strong>Step 4.</strong> If $v_i = p$: bidding $v_i$ ties, paying $p = v_i$, surplus $0$.
+    Any other bid gives surplus $\leq 0$. So $b_i = v_i$ is weakly best.
+  </p>
+  <p>
+    <strong>Step 5.</strong> In every case, $b_i = v_i$ does at least as well as any alternative,
+    and strictly better in cases where overbidding or underbidding changes the outcome. Truthful
+    bidding is a weakly dominant strategy.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The Vickrey auction achieves efficient allocation through a dominant strategy equilibrium
+  (<a href="04-dominant-strategies.html">page 4</a>). The key insight: by making the payment
+  independent of the winner's own bid (you pay the <em>second</em>-highest bid), the auction
+  removes any incentive to misreport your valuation.
+</p>
+
+<h2>3. The revelation principle</h2>
+
+<p>
+  Must we search over all possible mechanisms to find one that implements a given social choice
+  function? The revelation principle says no &mdash; we can restrict attention to a very simple
+  class.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; direct mechanism</div>
+  <p>
+    A <strong>direct mechanism</strong> asks each player to report their type $\theta_i$. The
+    outcome is then $g(\theta_1, \ldots, \theta_n)$. A direct mechanism is
+    <strong>incentive-compatible</strong> if truthful reporting is an equilibrium.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; revelation principle</div>
+  <p>
+    If a social choice function $f$ can be implemented by <em>any</em> mechanism $M$ in some
+    equilibrium, then $f$ can also be implemented by a direct, incentive-compatible mechanism
+    where truthful reporting is an equilibrium.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (sketch)</div>
+  <p>
+    <strong>Step 1.</strong> Suppose mechanism $M$ implements $f$. In equilibrium, each player $i$
+    of type $\theta_i$ plays strategy $s_i^*(\theta_i)$, and the outcome is
+    $g(s_1^*(\theta_1), \ldots, s_n^*(\theta_n)) = f(\theta_1, \ldots, \theta_n)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Construct a direct mechanism $M'$: players report types
+    $\hat{\theta}_i$, and the mechanism computes the outcome as
+    $g(s_1^*(\hat{\theta}_1), \ldots, s_n^*(\hat{\theta}_n))$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> If player $i$ reports truthfully ($\hat{\theta}_i = \theta_i$), the
+    outcome is the same as in $M$'s equilibrium. If $i$ misreports $\hat{\theta}_i \neq \theta_i$,
+    this is equivalent to playing $s_i^*(\hat{\theta}_i)$ instead of $s_i^*(\theta_i)$ in $M$
+    &mdash; which is not profitable since $s_i^*(\theta_i)$ was an equilibrium strategy. Therefore
+    truthful reporting is an equilibrium in $M'$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The revelation principle enormously simplifies mechanism design: instead of searching over all
+  possible games, the planner need only check whether the desired outcome can be achieved with
+  truthful reporting in a direct mechanism.
+</p>
+
+<h2>4. Arrow's impossibility theorem</h2>
+
+<p>
+  Mechanism design also reveals fundamental limits. The most famous is Arrow's impossibility
+  theorem, which shows that no voting system can satisfy a handful of natural desiderata.
+</p>
+
+<p>
+  Consider $n \geq 2$ voters and $m \geq 3$ candidates. Each voter submits a strict ranking of
+  all candidates. A <strong>social welfare function</strong> $F$ aggregates individual rankings
+  into a social ranking.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Arrow's impossibility theorem (1951)</div>
+  <p>
+    No social welfare function on $m \geq 3$ candidates can simultaneously satisfy:
+  </p>
+  <p>
+    <strong>(U) Unanimity:</strong> if every voter ranks $A$ above $B$, the social ranking places
+    $A$ above $B$.
+  </p>
+  <p>
+    <strong>(IIA) Independence of irrelevant alternatives:</strong> the social ranking of $A$ vs
+    $B$ depends only on voters' individual rankings of $A$ vs $B$, not on how they rank other
+    candidates.
+  </p>
+  <p>
+    <strong>(ND) Non-dictatorship:</strong> there is no voter $d$ such that the social ranking
+    always agrees with $d$'s ranking.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (sketch for 2 voters and 3 candidates $A, B, C$)</div>
+  <p>
+    <strong>Step 1.</strong> By unanimity, if both voters rank $A > B$, so does society. We
+    investigate what happens when they disagree.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Suppose voter 1 ranks $A > B > C$ and voter 2 ranks $B > C > A$.
+    By unanimity, society ranks $B > C$ (both agree). The social ranking of $A$ vs $B$ must go
+    one way &mdash; say $A > B$ (the argument is symmetric).
+  </p>
+  <p>
+    <strong>Step 3.</strong> By IIA, the social ranking of $A$ vs $B$ depends only on each voter's
+    $A$-vs-$B$ preference. Voter 1 prefers $A > B$; voter 2 prefers $B > A$; society chose $A > B$.
+    This means: <em>whenever</em> voter 1 ranks $A$ above $B$ and voter 2 ranks $B$ above $A$,
+    society follows voter 1.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Now consider voter 1: $C > A > B$, voter 2: $A > B > C$. By
+    unanimity, $A > B$. By our finding in Step 3 (applied to $C$ vs $A$ by relabelling), voter 1
+    is decisive on any pair where they disagree. Iterating this argument across all pairs shows
+    voter 1 determines the social ranking on <em>every</em> pair where voters disagree.
+  </p>
+  <p>
+    <strong>Step 5.</strong> But then voter 1 is a dictator, contradicting (ND). The three
+    conditions are inconsistent.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The full proof for $n$ voters uses the same logic: IIA forces the existence of a "decisive"
+  voter on one pair, and unanimity propagates this decisiveness to all pairs, creating a dictator.
+  The key is that with $m \geq 3$ candidates, IIA links the treatment of different pairs through
+  "irrelevant" third candidates. With only 2 candidates, majority rule works perfectly.
+</p>
+
+<h2>5. Phase 15 recap</h2>
+
+<p>
+  Six pages have built game theory from its foundations. On
+  <a href="01-sequential-games.html">page 1</a>, backward induction solved sequential games by
+  reasoning from the end. On <a href="02-minimax.html">page 2</a>, the minimax theorem
+  (von Neumann 1928) showed that zero-sum games have a well-defined value, using the fixed-point
+  machinery of Phase 9. On <a href="03-nash-equilibrium.html">page 3</a>, Nash's theorem
+  extended this to all finite games: every game has an equilibrium in mixed strategies, proved
+  via Brouwer's fixed-point theorem.
+</p>
+
+<p>
+  On <a href="04-dominant-strategies.html">page 4</a>, dominance and iterated elimination
+  connected strategic reasoning to common knowledge of rationality. On
+  <a href="05-repeated-games.html">page 5</a>, the folk theorem showed that repetition
+  transforms the Prisoner's Dilemma: cooperation emerges from pure self-interest when the
+  future matters enough. And here, mechanism design reversed the question &mdash; from predicting
+  behaviour to engineering incentives &mdash; while Arrow's theorem revealed the hard limits of
+  collective decision-making.
+</p>
+
+<p>
+  The unifying theme across all of Phase 15: strategic interaction has mathematical structure.
+  The tools of topology (fixed-point theorems), convexity (minimax), probability (mixed
+  strategies), and analysis (discounting, convergence) from Phases 0&ndash;14 combine to give
+  precise answers to questions about conflict, cooperation, and collective choice.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    William Vickrey introduced the second-price auction in 1961; he shared the 1996 Nobel Prize in
+    Economics, though he died just three days after the announcement. Kenneth Arrow proved his
+    impossibility theorem in his PhD thesis (published 1951), winning the 1972 Nobel Prize at age
+    51 &mdash; the youngest economics laureate at the time.
+  </p>
+  <p>
+    Leonid Hurwicz, Eric Maskin, and Roger Myerson won the 2007 Nobel Prize for mechanism design
+    theory. Hurwicz, at 90, became the oldest Nobel laureate in any field. The subject now sits at
+    the intersection of mathematics, economics, and computer science &mdash; internet auctions,
+    matching markets (for medical residencies and school choice), and spectrum allocation all use
+    mechanism design.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without rationality:</strong> mechanism design assumes players maximise their payoffs.
+    Behavioural agents may overbid (out of excitement), underbid (out of caution), or act
+    spitefully (to harm others at personal cost). The Vickrey auction's truthfulness guarantee
+    evaporates if bidders do not reason about dominant strategies.
+  </p>
+  <p>
+    <strong>Without private values:</strong> the Vickrey auction assumes each bidder's valuation
+    depends only on their own information. In <strong>common-value auctions</strong> (e.g.,
+    bidding on oil drilling rights where the oil's value is the same for everyone but uncertain),
+    the winner tends to be the bidder who most overestimated the value. This
+    <strong>winner's curse</strong> means truthful bidding in a second-price auction is no longer
+    optimal.
+  </p>
+  <p>
+    <strong>Without impossibility awareness:</strong> many voting reform proposals implicitly
+    violate Arrow's theorem. Ranked-choice voting (instant runoff) violates IIA. Borda count
+    violates IIA. Majority rule violates transitivity with three or more candidates (Condorcet
+    cycles). Arrow's theorem does not say all systems are equally bad &mdash; it says none can be
+    perfect on these three criteria simultaneously.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Mechanism design reverses game theory &mdash; engineer the game to get the outcome you want
+  &mdash; but Arrow's theorem warns that no collective decision procedure can be everything at
+  once.
+</div>
+
+<div class="nav">
+  <a href="05-repeated-games.html">&larr; Previous: Repeated Games</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

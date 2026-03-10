@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadratic Forms and Sylvester's Law of Inertia — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Quadratic Forms and Sylvester's Law of Inertia</h1>
+<p class="subtitle">Phase 13 &mdash; Bilinear Algebra and Spectral Theory, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The equation $ax^2 + 2bxy + cy^2 = 1$ describes a conic section in the plane. Depending
+    on $a, b, c$, you get an ellipse, a hyperbola, or a degenerate curve (two lines, a point,
+    or nothing). Rotate coordinates to eliminate the $xy$ term &mdash; the equation becomes
+    $\lambda_1 X^2 + \lambda_2 Y^2 = 1$, clearly an ellipse if both $\lambda_i$ are positive,
+    a hyperbola if they have opposite signs.
+  </p>
+  <p>
+    But different changes of variable give different values of $\lambda_1$ and $\lambda_2$.
+    If you scale the axes too, the actual numbers change. So what is intrinsic to the form?
+    What cannot be altered by any invertible substitution?
+  </p>
+  <p>
+    Sylvester (1852) answered: the <strong>number of positive coefficients and the number of
+    negative coefficients</strong> are invariant. You can make the positive ones all equal to
+    $+1$ and the negative ones all $-1$ by rescaling, but you can never turn a positive
+    coefficient into a negative one. This pair of counts &mdash; the <strong>signature</strong>
+    &mdash; completely classifies real quadratic forms up to change of basis.
+  </p>
+</div>
+
+<h2>1. From bilinear to quadratic</h2>
+
+<p>
+  On page 01, we defined symmetric bilinear forms. A <strong>quadratic form</strong> is what
+  you get when you feed the same vector into both slots.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Quadratic form</div>
+  <p>Let $\varphi$ be a symmetric bilinear form on $V$. The <strong>quadratic form</strong>
+  associated to $\varphi$ is the function $Q : V \to \mathbb{R}$ defined by:</p>
+  <div class="display-math">$$Q(v) = \varphi(v, v)$$</div>
+</div>
+
+<p>
+  In coordinates with matrix $M$: $Q(v) = [v]^T M [v] = \sum_{i,j} M_{ij} x_i x_j$.
+  For instance, the form $M = \begin{pmatrix}a & b \\ b & c\end{pmatrix}$ gives
+  $Q(v) = ax_1^2 + 2bx_1x_2 + cx_2^2$ &mdash; precisely Gauss's binary quadratic form.
+</p>
+
+<p>
+  The crucial fact is that you can go <em>back</em> from $Q$ to $\varphi$. This is the
+  <strong>polarisation identity</strong>:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Polarisation identity</div>
+  <p>If $Q(v) = \varphi(v,v)$ for a symmetric bilinear form $\varphi$, then:</p>
+  <div class="display-math">$$\varphi(u, v) = \frac{1}{2}\bigl[Q(u + v) - Q(u) - Q(v)\bigr]$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Expand $Q(u + v) = \varphi(u + v, u + v)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> By bilinearity:
+  </p>
+  <div class="display-math">$$Q(u+v) = \varphi(u,u) + \varphi(u,v) + \varphi(v,u) + \varphi(v,v)$$</div>
+  <p>
+    <strong>Step 3.</strong> Since $\varphi$ is symmetric, $\varphi(u,v) = \varphi(v,u)$, so:
+  </p>
+  <div class="display-math">$$Q(u+v) = Q(u) + 2\varphi(u,v) + Q(v)$$</div>
+  <p>
+    <strong>Step 4.</strong> Rearrange: $\varphi(u,v) = \tfrac{1}{2}[Q(u+v) - Q(u) - Q(v)]$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  So symmetric bilinear forms and quadratic forms are in perfect correspondence (over
+  $\mathbb{R}$, or any field of characteristic $\neq 2$). The quadratic form contains all
+  the information of the bilinear form.
+</p>
+
+<h2>2. Diagonalisation by completing the square</h2>
+
+<p>
+  A quadratic form $Q$ is <strong>diagonal</strong> if its matrix is diagonal: $Q(v) = \sum_i
+  d_i x_i^2$ with no cross-terms. We now show that every real quadratic form can be brought
+  to diagonal form by a change of basis.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Diagonalisation of quadratic forms</div>
+  <p>For every symmetric bilinear form $\varphi$ on a finite-dimensional real vector space $V$,
+  there exists a basis $\mathcal{B}'$ in which the matrix of $\varphi$ is diagonal.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (Gauss's method &mdash; completing the square)</div>
+  <p>
+    We proceed by induction on $n = \dim V$.
+  </p>
+  <p>
+    <strong>Step 1. Base case.</strong> If $n = 1$, the matrix is already $1 \times 1$, hence diagonal.
+  </p>
+  <p>
+    <strong>Step 2. If $Q \equiv 0$.</strong> Then $\varphi \equiv 0$ by polarisation, and the
+    zero matrix is diagonal. Done.
+  </p>
+  <p>
+    <strong>Step 3. Find a vector with $Q(v) \neq 0$.</strong> Since $Q$ is not identically
+    zero, there exists $v$ with $Q(v) \neq 0$. (If $Q(e_i) = 0$ for all basis vectors but $Q$
+    is nonzero, then some $Q(e_i + e_j) \neq 0$. By polarisation,
+    $\varphi(e_i, e_j) = \tfrac{1}{2}[Q(e_i + e_j) - Q(e_i) - Q(e_j)] = \tfrac{1}{2}Q(e_i + e_j) \neq 0$,
+    and then $Q(e_i + e_j) \neq 0$.)
+  </p>
+  <p>
+    <strong>Step 4. Complete the square.</strong> Let $e_1' = v$ with $Q(v) \neq 0$. For any
+    $w \in V$, write:
+  </p>
+  <div class="display-math">$$w = \frac{\varphi(w, e_1')}{\varphi(e_1', e_1')} e_1' + \left(w - \frac{\varphi(w, e_1')}{\varphi(e_1', e_1')} e_1'\right)$$</div>
+  <p>
+    Call the remainder $w' = w - \frac{\varphi(w, e_1')}{Q(e_1')} e_1'$. Then
+    $\varphi(w', e_1') = \varphi(w, e_1') - \frac{\varphi(w, e_1')}{Q(e_1')} Q(e_1') = 0$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Let $W = \{w \in V : \varphi(w, e_1') = 0\}$. Step 4 shows
+    $V = \operatorname{span}(e_1') \oplus W$ (every vector decomposes uniquely). The
+    restriction of $\varphi$ to $W$ is a symmetric bilinear form on a space of dimension
+    $n - 1$.
+  </p>
+  <p>
+    <strong>Step 6.</strong> By the induction hypothesis, $\varphi|_W$ can be diagonalised in
+    some basis $(e_2', \dots, e_n')$ of $W$. Since $\varphi(e_1', e_j') = 0$ for $j \geq 2$,
+    the full matrix in basis $(e_1', \dots, e_n')$ is diagonal.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Concretely, this is the familiar "completing the square" procedure. For
+  $Q(x,y) = 2x^2 + 4xy + 3y^2$: factor out from the $x$-terms to get
+  $2(x + y)^2 + y^2$. Set $X = x + y$, $Y = y$, and the form becomes $2X^2 + Y^2$.
+</p>
+
+<h2>3. Sylvester's law of inertia</h2>
+
+<p>
+  After diagonalisation, we have $Q(v) = d_1 x_1^2 + \cdots + d_n x_n^2$ with each $d_i$
+  positive, negative, or zero. By rescaling each basis vector $e_i' \mapsto e_i'/\sqrt{|d_i|}$
+  (when $d_i \neq 0$), we can arrange $d_i \in \{+1, -1, 0\}$. After reordering:
+</p>
+<div class="display-math">$$Q(v) = x_1^2 + \cdots + x_p^2 - x_{p+1}^2 - \cdots - x_{p+q}^2$$</div>
+<p>
+  with $p$ positive terms, $q$ negative terms, and $n - p - q$ zero terms. The pair $(p, q)$
+  is the <strong>signature</strong> of $Q$, and $p + q$ is the <strong>rank</strong>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Sylvester's law of inertia</div>
+  <p>The signature $(p, q)$ of a real quadratic form is independent of the choice of
+  diagonalising basis.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Suppose two diagonalisations give signatures $(p, q)$ and $(p', q')$ with $p' > p$
+    (seeking a contradiction).
+  </p>
+  <p>
+    <strong>Step 1.</strong> In the first diagonalisation, let $V^+ = \operatorname{span}(e_1, \dots, e_p)$
+    be the subspace on which $Q$ is positive (excluding zero), so $\dim V^+ = p$, and let
+    $V^- = \operatorname{span}(e_{p+1}, \dots, e_n)$ be the subspace on which $Q \leq 0$.
+    Then $\dim V^- = n - p$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> In the second diagonalisation, let $W^+ = \operatorname{span}(f_1, \dots, f_{p'})$
+    be the subspace on which $Q$ is positive, with $\dim W^+ = p' > p$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Consider $W^+ \cap V^-$. By the dimension formula (Phase 6):
+  </p>
+  <div class="display-math">$$\dim(W^+ \cap V^-) \geq \dim W^+ + \dim V^- - n = p' + (n - p) - n = p' - p > 0$$</div>
+  <p>
+    <strong>Step 4.</strong> So there exists a nonzero $v \in W^+ \cap V^-$. On $W^+$, the
+    form $Q$ is strictly positive on nonzero vectors: $Q(v) > 0$. On $V^-$, the form
+    satisfies $Q(v) \leq 0$. Contradiction.
+  </p>
+  <p>
+    Therefore $p' \leq p$. By symmetry of the argument, $p \leq p'$, so $p = p'$. The same
+    reasoning applied to $-Q$ gives $q = q'$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Definite and indefinite forms</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Definiteness</div>
+  <p>A quadratic form $Q$ (or its associated symmetric matrix $M$) is:</p>
+  <ul>
+    <li><strong>Positive definite</strong> if $Q(v) > 0$ for all $v \neq 0$ (signature $(n, 0)$).</li>
+    <li><strong>Negative definite</strong> if $Q(v) < 0$ for all $v \neq 0$ (signature $(0, n)$).</li>
+    <li><strong>Positive semi-definite</strong> if $Q(v) \geq 0$ for all $v$.</li>
+    <li><strong>Indefinite</strong> if $Q$ takes both positive and negative values.</li>
+  </ul>
+</div>
+
+<p>
+  The dot product $\sum x_i^2$ is positive definite. The Lorentz form $x_1^2 - x_2^2$ on
+  $\mathbb{R}^2$ is indefinite with signature $(1, 1)$ &mdash; it is fundamental to special
+  relativity.
+</p>
+
+<p>
+  Equivalent conditions for positive definiteness of a symmetric matrix $M$:
+</p>
+<ul>
+  <li>All eigenvalues of $M$ are strictly positive (we prove on the next page that symmetric
+  matrices have real eigenvalues).</li>
+  <li>All <strong>leading principal minors</strong> $\det(M_k)$ for $k = 1, \dots, n$ are
+  strictly positive (Sylvester's criterion &mdash; this follows from the spectral theorem and
+  the relationship between eigenvalues and minors; we state it here and defer the full proof).</li>
+  <li>There exists an invertible matrix $L$ with $M = L^T L$ (Cholesky decomposition).</li>
+</ul>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    James Joseph Sylvester coined the term "law of inertia" in 1852, by analogy with physical
+    inertia: the signature resists change, no matter what transformation you apply. Gauss's
+    completing-the-square method (1801) provided the algorithmic foundation &mdash; he used it
+    to reduce ternary quadratic forms in his number-theoretic investigations. The
+    classification of conics and quadrics by signature was developed throughout the nineteenth
+    century, connecting algebra to geometry in a way that foreshadowed modern algebraic
+    geometry.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Over $\mathbb{C}$ instead of $\mathbb{R}$.</strong> Every nonzero complex number
+    is a square (including $-1$), so you can always turn a negative coefficient into a
+    positive one. Over $\mathbb{C}$, every non-degenerate quadratic form has signature $(n, 0)$
+    &mdash; signature is no longer a useful invariant. The only invariant is the rank.
+  </p>
+  <p>
+    <strong>Without symmetry.</strong> If $\varphi$ is not symmetric, the "quadratic form"
+    $Q(v) = \varphi(v, v)$ only sees the symmetric part $\tfrac{1}{2}(\varphi + \varphi^*)$:
+    the skew-symmetric part contributes $\tfrac{1}{2}[\varphi(v,v) - \varphi(v,v)] = 0$.
+    So $Q$ cannot detect skew-symmetry at all, and the correspondence between bilinear and
+    quadratic forms breaks down.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">Every real quadratic form can be diagonalised by completing the square, and its signature &mdash; the count of positive and negative terms &mdash; is an invariant.</div>
+
+<div class="nav">
+  <a href="01-bilinear-forms.html">&larr; Previous: Bilinear Forms</a>
+  <a href="03-spectral-theorem.html">Next: The Spectral Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

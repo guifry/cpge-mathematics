@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Uniform Boundedness Principle — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Uniform Boundedness Principle</h1>
+<p class="subtitle">Phase 14 — Normed Vector Spaces, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Consider a family of continuous linear functionals $\{f_\alpha\}$ on a Banach space $X$.
+    Suppose each point $x$ is "not too big" under this family: $\sup_\alpha |f_\alpha(x)| < \infty$
+    for every $x$. Does this pointwise bound imply a uniform bound $\sup_\alpha \|f_\alpha\| < \infty$?
+  </p>
+  <p>
+    In general, pointwise bounds say nothing about uniform bounds. But Banach and Steinhaus (1927)
+    proved that in Banach spaces, this miracle happens — pointwise bounded implies uniformly bounded.
+    The secret ingredient is completeness, working through Baire's category theorem.
+  </p>
+</div>
+
+<h2>1. Statement of the Theorem</h2>
+
+<p>
+  Let $X$ be a <b>Banach space</b>, $Y$ a normed vector space, and $\{T_\alpha\}_{\alpha \in A}$
+  a family of bounded linear operators $T_\alpha \in \mathcal{L}(X, Y)$. Suppose the family is
+  <b>pointwise bounded</b>: for every $x \in X$,
+</p>
+
+<div class="display-math">$$\sup_{\alpha \in A} \|T_\alpha x\| < \infty.$$</div>
+
+<div class="theorem-box">
+  <div class="label">Banach-Steinhaus theorem (uniform boundedness principle)</div>
+  <p>
+    If $X$ is a Banach space, $Y$ is a normed space, and $\{T_\alpha\}_{\alpha \in A} \subset \mathcal{L}(X, Y)$
+    satisfies $\sup_\alpha \|T_\alpha x\| < \infty$ for every $x \in X$, then
+  </p>
+  <div class="display-math">$$\sup_{\alpha \in A} \|T_\alpha\| < \infty.$$</div>
+</div>
+
+<p>
+  Read it again: the hypothesis is about each individual point $x$ (every point has a finite
+  supremum, but that supremum could vary wildly with $x$). The conclusion is about the operators
+  collectively — a single finite number bounds all of them simultaneously.
+</p>
+
+<p>
+  Note what is <em>not</em> assumed: we do not require $A$ to be countable, nor do we assume
+  anything about $Y$ beyond it being normed. The only completeness requirement is on $X$, the
+  domain. Also note that pointwise boundedness is a condition on each individual $x$ — it does
+  not say the bound is the same for every $x$. A priori, $\sup_\alpha \|T_\alpha x\|$ could
+  equal $1$ for one $x$ and $10^{100}$ for another.
+</p>
+
+<p>
+  To appreciate why the theorem is surprising, consider the following finite-dimensional
+  analogy that <em>fails</em> to be surprising. If $T_1, \ldots, T_m$ are finitely many
+  operators, pointwise boundedness trivially implies uniform boundedness (take the max of
+  finitely many norms). The theorem says the same conclusion holds for <em>arbitrary</em>
+  families — possibly uncountable — provided the domain is Banach.
+</p>
+
+<h2>2. Proof via Baire's Category Theorem</h2>
+
+<p>
+  The proof rests entirely on the Baire category theorem (Phase 9, page 7): in a complete metric
+  space, a countable union of closed sets with empty interior cannot cover the whole space.
+  Equivalently, if closed sets $F_1, F_2, \ldots$ cover the space, at least one $F_n$ has
+  non-empty interior.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> Define the closed sets. For each $n \in \mathbb{N}$, let
+  </p>
+  <div class="display-math">$$F_n = \{x \in X : \sup_{\alpha} \|T_\alpha x\| \leq n\}.$$</div>
+  <p>
+    Each $F_n$ is closed: if $x_k \to x$ with $x_k \in F_n$, then for each $\alpha$,
+    $\|T_\alpha x\| = \lim_k \|T_\alpha x_k\| \leq n$ by continuity of $T_\alpha$, so $x \in F_n$.
+  </p>
+  <p>
+    <b>Step 2.</b> The union covers $X$. By hypothesis, every $x \in X$ satisfies
+    $\sup_\alpha \|T_\alpha x\| < \infty$, so $x \in F_n$ for some sufficiently large $n$.
+    Hence $X = \bigcup_{n=1}^{\infty} F_n$.
+  </p>
+  <p>
+    <b>Step 3.</b> Apply Baire. Since $X$ is a Banach space (complete), the Baire category theorem
+    guarantees that some $F_N$ has non-empty interior. So there exist $x_0 \in X$ and $r > 0$
+    with $B(x_0, r) \subset F_N$.
+  </p>
+  <p>
+    <b>Step 4.</b> Extract the uniform bound. For any $x \in X$ with $\|x\| \leq 1$, we have
+    $x_0 + rx \in B(x_0, r) \subset F_N$, so $\sup_\alpha \|T_\alpha(x_0 + rx)\| \leq N$.
+    By the triangle inequality,
+  </p>
+  <div class="display-math">$$r\|T_\alpha x\| = \|T_\alpha(rx)\| = \|T_\alpha(x_0 + rx) - T_\alpha x_0\| \leq \|T_\alpha(x_0 + rx)\| + \|T_\alpha x_0\| \leq N + N = 2N.$$</div>
+  <p>
+    The last inequality uses $x_0 \in F_N$ (so $\|T_\alpha x_0\| \leq N$). Therefore
+    $\|T_\alpha x\| \leq 2N/r$ for all $\alpha$ and all $\|x\| \leq 1$, giving
+  </p>
+  <div class="display-math">$$\sup_\alpha \|T_\alpha\| \leq \frac{2N}{r} < \infty.$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The entire analytic content is in Step 4 — the "ball trick" of centering at $x_0$ and using
+  linearity. Baire's theorem provides the ball; linearity lets us shift it to the origin.
+</p>
+
+<p>
+  Let us unpack the logic once more. Why does Baire apply? Because $X$ is complete — that is
+  the only place completeness enters. Why can we shift the ball to the origin in Step 4?
+  Because $T_\alpha$ is linear: $T_\alpha(x_0 + rx) = T_\alpha(x_0) + rT_\alpha(x)$. The
+  triangle inequality then gives $r\|T_\alpha x\| \leq \|T_\alpha(x_0 + rx)\| + \|T_\alpha x_0\|$.
+  Both terms are bounded by $N$ (the first because $x_0 + rx \in F_N$, the second because
+  $x_0 \in F_N$).
+</p>
+
+<p>
+  The constant $2N/r$ in the final bound is not optimal — we have been generous with the
+  triangle inequality. But the existence of <em>some</em> finite bound is what matters. The
+  precise constant is rarely important in applications.
+</p>
+
+<h2>3. Condensation of Singularities</h2>
+
+<p>
+  The uniform boundedness principle has a striking contrapositive, known as the
+  <b>principle of condensation of singularities</b>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Condensation of singularities</div>
+  <p>
+    If $\{T_\alpha\} \subset \mathcal{L}(X, Y)$ with $X$ Banach satisfies
+    $\sup_\alpha \|T_\alpha\| = \infty$, then the set
+  </p>
+  <div class="display-math">$$S = \{x \in X : \sup_\alpha \|T_\alpha x\| = \infty\}$$</div>
+  <p>
+    is <b>residual</b> (a countable intersection of dense open sets). In the sense of Baire
+    category, "most" points are singularities.
+  </p>
+</div>
+
+<p>
+  This is the contrapositive at work: if the family is not uniformly bounded, then the pointwise
+  bound must fail somewhere. Baire tells us it fails not just at one point, but on a comeagre set —
+  the singularities are generic, not exceptional.
+</p>
+
+<p>
+  To see why $S$ is residual, note that $S = X \setminus \bigcup_{n=1}^{\infty} F_n$ where
+  $F_n$ is as in the proof. If $\sup_\alpha \|T_\alpha\| = \infty$, then no $F_n$ has interior
+  (if some $F_N$ had interior, the proof above would give a finite uniform bound — contradiction).
+  So each $F_n$ is closed with empty interior, i.e. <em>nowhere dense</em>. Their union is meagre,
+  and $S$ — its complement — is comeagre (residual).
+</p>
+
+<p>
+  The dichotomy is absolute: either the family is uniformly bounded, or the set where it blows up
+  is "generic" in the topological sense. There is no middle ground — you cannot have unbounded
+  operators that are only pointwise infinite on a "thin" set.
+</p>
+
+<h2>4. Application: Divergence of Fourier Series</h2>
+
+<p>
+  Du Bois-Reymond (1876) proved that there exists a continuous function whose Fourier series
+  diverges at a point. Banach-Steinhaus turns this from a hard construction into a soft argument.
+</p>
+
+<p>
+  The $n$-th partial sum of the Fourier series of $f \in C([-\pi, \pi])$ at $x = 0$ is
+</p>
+
+<div class="display-math">$$S_n f(0) = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(t) D_n(t)\, dt,$$</div>
+
+<p>
+  where $D_n$ is the Dirichlet kernel (Phase 11, page 2). Each $S_n$ is a bounded linear functional
+  on $C([-\pi, \pi])$ (with the sup norm), and its operator norm is
+</p>
+
+<div class="display-math">$$\|S_n\| = \frac{1}{2\pi}\int_{-\pi}^{\pi} |D_n(t)|\, dt = \|D_n\|_1 / (2\pi).$$</div>
+
+<p>
+  One can show $\|D_n\|_1 \sim \frac{4}{\pi^2}\log n \to \infty$ (the Dirichlet kernel is not an
+  approximate identity — its $L^1$ norm blows up). So $\sup_n \|S_n\| = \infty$.
+</p>
+
+<p>
+  By the condensation of singularities, the set of continuous functions $f$ for which
+  $\sup_n |S_n f(0)| = \infty$ is residual in $C([-\pi, \pi])$. In particular, it is non-empty.
+  There exist continuous functions whose Fourier series diverges at $0$.
+</p>
+
+<p>
+  Better still: the set of functions whose Fourier series converges at every point is meagre.
+  "Most" continuous functions (in the Baire category sense) have Fourier series that diverge somewhere.
+</p>
+
+<p>
+  This is a beautiful example of the condensation principle in action. The "hard" part of
+  du Bois-Reymond's original 1876 proof was constructing one specific pathological function.
+  Banach-Steinhaus shows that no construction is needed — the mere fact that $\|S_n\| \to \infty$
+  guarantees that divergence occurs, and occurs generically. The existence proof is entirely
+  non-constructive.
+</p>
+
+<p>
+  The argument generalises: whenever you have a sequence of bounded linear operators on a
+  Banach space whose norms blow up, the condensation principle produces a residual set of
+  "bad" inputs. This meta-argument has been applied to divergence of interpolation, divergence
+  of series expansions in various bases, and unboundedness phenomena in approximation theory.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Stefan Banach and Hugo Steinhaus published the uniform boundedness principle in 1927, in their
+    paper on operations in abstract sets. The theorem relies essentially on Baire's category
+    theorem (1899) — completeness is doing all the heavy lifting. Banach recognised that the
+    same Baire-based argument underpins several seemingly different results in analysis, unifying
+    them under one principle.
+  </p>
+  <p>
+    Du Bois-Reymond's 1876 construction of a continuous function with divergent Fourier series
+    was a shock — Dirichlet had conjectured (1829) that continuity would suffice for convergence.
+    Banach-Steinhaus not only recovers du Bois-Reymond's result but shows divergence is the
+    generic behaviour.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Without completeness of $X$:</b> take $X$ to be the rational numbers $\mathbb{Q}$ with the
+    usual absolute value. Define $f_n : \mathbb{Q} \cap [0, 1] \to \mathbb{R}$ by $f_n(x) = nx$.
+    Restricted to any irrational-avoiding subset, these can be pointwise bounded but not uniformly
+    bounded. More precisely, Baire's category theorem fails in incomplete spaces — $\mathbb{Q}$
+    is a countable union of singletons (closed, empty interior), yet it equals itself. The proof
+    collapses at Step 3.
+  </p>
+  <p>
+    <b>Without linearity:</b> pointwise bounded families of nonlinear maps need not be uniformly
+    bounded. Consider $f_n : [0, 1] \to \mathbb{R}$ defined by $f_n(x) = x^n$. For each
+    $x \in [0, 1)$, $\sup_n |f_n(x)| \leq 1$, and $f_n(1) = 1$. So the family is pointwise
+    bounded. But $\sup_n \|f_n\|_\infty = 1$, which is fine — the point is that the linear
+    structure is used in Step 4 to shift the ball to the origin. Without it, the argument has no
+    purchase.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  In a Banach space, pointwise bounded families of operators are automatically uniformly bounded — completeness, through Baire, promotes local control to global control.
+</div>
+
+<div class="nav">
+  <a href="04-continuous-linear-maps.html">&larr; Previous: Continuous Linear Maps</a>
+  <a href="06-open-mapping.html">Next: The Open Mapping and Closed Graph Theorems &rarr;</a>
+</div>
+
+</body>
+</html>

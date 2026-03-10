@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norms and Equivalence in Finite Dimension — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Norms and Equivalence in Finite Dimension</h1>
+<p class="subtitle">Phase 14 &mdash; Normed Vector Spaces, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In $\mathbb{R}^n$, there are many ways to measure "distance." The Euclidean distance
+    ($\ell^2$) comes from the Pythagorean theorem. The taxicab distance ($\ell^1$) adds
+    coordinate-wise absolute values. The maximum coordinate ($\ell^\infty$) takes the
+    largest absolute component. Does the choice matter?
+  </p>
+  <p>
+    In finite dimensions, Heine (1870s) and others showed it does <em>not</em> &mdash;
+    all norms are equivalent. Convergence, continuity, compactness are all
+    norm-independent. But in infinite dimensions, this fails spectacularly: different
+    norms produce genuinely different topologies. Understanding when and why norms agree
+    is the gateway to functional analysis.
+  </p>
+</div>
+
+<h2>1. Norms and normed vector spaces</h2>
+
+<p>
+  We have been working with distances since Phase 9: the absolute value $|x - y|$ measures
+  distance on $\mathbb{R}$, and the Euclidean distance $\sqrt{\sum (x_i - y_i)^2}$ does the
+  same on $\mathbb{R}^n$. But a distance function is a property of <em>pairs</em> of points.
+  A <strong>norm</strong> measures the "size" of a single vector, and distance then comes for
+  free: $d(x, y) = \|x - y\|$.
+</p>
+
+<p>
+  Let $V$ be a real vector space. A <strong>norm</strong> on $V$ is a function
+  $\|\cdot\| : V \to \mathbb{R}$ satisfying three axioms for all $x, y \in V$ and
+  $\lambda \in \mathbb{R}$:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Norm</div>
+  <p>
+    (N1) <strong>Positive definiteness:</strong> $\|x\| \geq 0$, with $\|x\| = 0$ iff $x = 0$.
+  </p>
+  <p>
+    (N2) <strong>Absolute homogeneity:</strong> $\|\lambda x\| = |\lambda| \, \|x\|$.
+  </p>
+  <p>
+    (N3) <strong>Triangle inequality:</strong> $\|x + y\| \leq \|x\| + \|y\|$.
+  </p>
+  <p>A pair $(V, \|\cdot\|)$ is called a <strong>normed vector space</strong>.</p>
+</div>
+
+<p>
+  The three standard norms on $\mathbb{R}^n$ for $x = (x_1, \ldots, x_n)$:
+</p>
+
+<div class="display-math">$$\|x\|_1 = \sum_{i=1}^{n} |x_i|, \qquad \|x\|_2 = \sqrt{\sum_{i=1}^{n} x_i^2}, \qquad \|x\|_\infty = \max_{1 \leq i \leq n} |x_i|$$</div>
+
+<p>
+  Let us verify (N1)&ndash;(N3) for $\|\cdot\|_\infty$ as an example. Positive definiteness:
+  $\max |x_i| \geq 0$, and $\max |x_i| = 0$ iff every $x_i = 0$ iff $x = 0$. Homogeneity:
+  $\max |\lambda x_i| = |\lambda| \max |x_i|$. Triangle inequality: for each $i$,
+  $|x_i + y_i| \leq |x_i| + |y_i| \leq \max_j |x_j| + \max_j |y_j|$, so taking the max
+  over $i$ gives $\|x + y\|_\infty \leq \|x\|_\infty + \|y\|_\infty$. The verification
+  for $\|\cdot\|_1$ is similar.
+</p>
+
+<p>
+  For $\|\cdot\|_2$, the triangle inequality requires the Cauchy&ndash;Schwarz inequality
+  (Phase 13, page 1): $\|x + y\|_2^2 = \|x\|_2^2 + 2\langle x, y\rangle + \|y\|_2^2
+  \leq \|x\|_2^2 + 2\|x\|_2\|y\|_2 + \|y\|_2^2 = (\|x\|_2 + \|y\|_2)^2$.
+</p>
+
+<h2>2. A norm induces a metric</h2>
+
+<p>
+  Given a norm $\|\cdot\|$ on $V$, define $d(x, y) = \|x - y\|$. This is a metric:
+  positivity and symmetry are immediate from (N1)&ndash;(N2), and the triangle inequality
+  for $d$ follows from (N3). So every normed vector space is automatically a metric space,
+  and all concepts from Phase 9 &mdash; open sets, closed sets, convergence, completeness,
+  compactness &mdash; apply directly.
+</p>
+
+<p>
+  The open ball of radius $r$ centred at $a$ is
+  $B(a, r) = \{x \in V : \|x - a\| < r\}$. In $\mathbb{R}^2$, the unit ball
+  $B(0, 1)$ is a disc for $\|\cdot\|_2$, a diamond for $\|\cdot\|_1$, and a square for
+  $\|\cdot\|_\infty$. Different shapes &mdash; but as we shall prove, the same topology.
+</p>
+
+<h2>3. Norm equivalence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Equivalent norms</div>
+  <p>
+    Two norms $\|\cdot\|_a$ and $\|\cdot\|_b$ on $V$ are <strong>equivalent</strong>,
+    written $\|\cdot\|_a \sim \|\cdot\|_b$, if there exist constants $c, C > 0$ such that
+  </p>
+  <div class="display-math">$$c\,\|x\|_a \leq \|x\|_b \leq C\,\|x\|_a \qquad \text{for all } x \in V.$$</div>
+</div>
+
+<p>
+  This is an equivalence relation: reflexivity ($c = C = 1$), symmetry (swap the
+  inequalities and invert the constants), and transitivity (compose the inequalities and
+  multiply the constants) are all immediate.
+</p>
+
+<p>
+  If $\|\cdot\|_a \sim \|\cdot\|_b$, then a sequence converges in one norm iff it converges
+  in the other. To see this: suppose $x_k \to x$ in $\|\cdot\|_a$, meaning
+  $\|x_k - x\|_a \to 0$. Then $\|x_k - x\|_b \leq C\|x_k - x\|_a \to 0$, so $x_k \to x$
+  in $\|\cdot\|_b$. The reverse follows from $\|x_k - x\|_a \leq (1/c)\|x_k - x\|_b$.
+</p>
+
+<p>
+  Likewise, open sets, continuity, and completeness are preserved. Equivalent norms
+  generate the same topology. This is why the equivalence relation matters: it tells us
+  when two norms give the "same" analysis.
+</p>
+
+<h2>4. Theorem: all norms on $\mathbb{R}^n$ are equivalent</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Norm equivalence in finite dimension</div>
+  <p>
+    Let $V$ be a finite-dimensional real vector space of dimension $n$. Then any two norms
+    on $V$ are equivalent.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Fix a basis $(e_1, \ldots, e_n)$ and identify $V$ with $\mathbb{R}^n$. It suffices to
+    show that every norm $\|\cdot\|$ on $\mathbb{R}^n$ is equivalent to $\|\cdot\|_2$
+    (equivalence is transitive).
+  </p>
+  <p>
+    <strong>Step 1.</strong> Every norm is Lipschitz with respect to $\|\cdot\|_2$.
+    Write $x = \sum_{i=1}^{n} x_i e_i$. By the triangle inequality and homogeneity:
+  </p>
+  <div class="display-math">$$\|x\| = \left\|\sum_{i=1}^{n} x_i e_i\right\| \leq \sum_{i=1}^{n} |x_i| \, \|e_i\| \leq \left(\sum_{i=1}^{n} \|e_i\|^2\right)^{1/2} \left(\sum_{i=1}^{n} x_i^2\right)^{1/2}$$</div>
+  <p>
+    by Cauchy&ndash;Schwarz. Setting $C = \left(\sum \|e_i\|^2\right)^{1/2}$, we get
+    $\|x\| \leq C \|x\|_2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Similarly, $\bigl|\|x\| - \|y\|\bigr| \leq \|x - y\| \leq C\|x - y\|_2$
+    by the reverse triangle inequality. So $\|\cdot\|$ is continuous as a function
+    $(\mathbb{R}^n, \|\cdot\|_2) \to \mathbb{R}$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The unit sphere $S = \{x \in \mathbb{R}^n : \|x\|_2 = 1\}$ is
+    closed and bounded in $(\mathbb{R}^n, \|\cdot\|_2)$, hence compact by Heine&ndash;Borel
+    (Phase 9, page 4).
+  </p>
+  <p>
+    <strong>Step 4.</strong> By the extreme value theorem (Phase 9, page 5), $\|\cdot\|$
+    attains a minimum $c > 0$ and a maximum $C'$ on $S$. We have $c > 0$ because $\|x\| = 0$
+    only for $x = 0$, which is not in $S$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> For any $x \neq 0$, the unit vector $u = x / \|x\|_2$ lies in $S$,
+    so $c \leq \|u\| \leq C'$. Multiplying by $\|x\|_2$:
+  </p>
+  <div class="display-math">$$c\,\|x\|_2 \leq \|x\| \leq C'\,\|x\|_2.$$</div>
+  <p>
+    This holds trivially for $x = 0$ as well. Thus $\|\cdot\| \sim \|\cdot\|_2$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Consequences</h2>
+
+<p>
+  In $\mathbb{R}^n$ (or any finite-dimensional real vector space), there is only one
+  notion of:
+</p>
+
+<p>
+  <strong>Convergence.</strong> A sequence $x_k \to x$ in one norm iff it converges in every
+  norm. The equivalence constants may differ, but zero-distance is zero-distance.
+</p>
+
+<p>
+  <strong>Continuity.</strong> A function $f : \mathbb{R}^n \to \mathbb{R}^m$ is continuous
+  with respect to one norm iff it is continuous with respect to all norms.
+</p>
+
+<p>
+  <strong>Open/closed sets.</strong> The topology is unique. An open set is open for every norm.
+</p>
+
+<p>
+  <strong>Completeness.</strong> Since $(\mathbb{R}^n, \|\cdot\|_2)$ is complete (Phase 9, page 3),
+  every norm on $\mathbb{R}^n$ yields a complete space.
+</p>
+
+<p>
+  <strong>Compactness.</strong> Heine&ndash;Borel (Phase 9, page 4) holds for all norms: a set
+  is compact iff it is closed and bounded, and since equivalent norms agree on which sets are
+  bounded and which are closed, compactness is norm-independent.
+</p>
+
+<p>
+  This is profoundly reassuring: in finite dimensions, the choice of norm is a matter of
+  convenience, not substance. When computing, pick whichever norm makes the algebra
+  easiest &mdash; the results will be the same. The next three pages will show that in
+  infinite dimensions, this comfort vanishes entirely.
+</p>
+
+<p>
+  A concrete example of the equivalence constants: on $\mathbb{R}^n$, the three standard
+  norms satisfy
+</p>
+
+<div class="display-math">$$\|x\|_\infty \leq \|x\|_2 \leq \|x\|_1 \leq n\,\|x\|_\infty \leq \sqrt{n}\,\|x\|_2$$</div>
+
+<p>
+  (the first two are immediate; the third uses $|x_i| \leq \max_j |x_j|$ summed $n$ times;
+  the fourth uses Cauchy&ndash;Schwarz on $\sum |x_i| \leq \sqrt{n}\,\|x\|_2$). The
+  constants depend on $n$ but are always finite &mdash; in infinite dimensions, such
+  constants would blow up.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The abstract concept of a norm was introduced by Frigyes Riesz in 1918, though
+    specific norms had been used implicitly for decades. The equivalence of norms in
+    finite dimensions was known to Heine and Weierstrass through their work on uniform
+    convergence and compactness. The dramatic failure of equivalence in infinite dimensions
+    was a driving force behind Banach's programme to axiomatise functional analysis
+    in the 1920s.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>In infinite dimensions.</strong> Consider $C([0,1])$, the space of continuous
+    functions on $[0, 1]$. Define two norms:
+  </p>
+  <div class="display-math">$$\|f\|_1 = \int_0^1 |f(x)|\,dx, \qquad \|f\|_\infty = \max_{x \in [0,1]} |f(x)|.$$</div>
+  <p>
+    Take $f_n(x) = x^n$. Then $\|f_n\|_\infty = 1$ for every $n$ (the maximum is at
+    $x = 1$). But $\|f_n\|_1 = \frac{1}{n+1} \to 0$. So $f_n \to 0$ in $\|\cdot\|_1$
+    but $f_n \not\to 0$ in $\|\cdot\|_\infty$. The two norms are not equivalent. In
+    infinite dimensions, the choice of norm changes which sequences converge, which sets
+    are open, and which spaces are complete. Norm choice is no longer cosmetic &mdash;
+    it is structural.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">In finite dimensions all norms are equivalent &mdash; topology is unique; in infinite dimensions, the choice of norm changes everything.</div>
+
+<div class="nav">
+  <a href="../phase13/06-principal-axis.html">&larr; Previous: The Principal Axis Theorem</a>
+  <a href="02-banach-spaces.html">Next: Banach Spaces &rarr;</a>
+</div>
+
+</body>
+</html>

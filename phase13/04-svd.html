@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singular Value Decomposition — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Singular Value Decomposition</h1>
+<p class="subtitle">Phase 13 — Bilinear Algebra and Spectral Theory, Page 4</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>The spectral theorem (<a href="03-spectral-theorem.html">page 3</a>) decomposes symmetric matrices into orthogonal eigenvectors. But what about <em>rectangular</em> matrices? A dataset with 1000 samples and 50 features is a $1000 \times 50$ matrix — it has no eigenvalues, no eigenvectors, no square structure at all.</p>
+<p>What is the right generalisation of eigendecomposition to <em>any</em> matrix, any shape? The answer is the <b>singular value decomposition</b> (SVD): every $m \times n$ matrix factors as $A = U\Sigma V^T$, where $U$ and $V$ are orthogonal and $\Sigma$ is diagonal. The trick is to reduce the problem to the spectral theorem by looking at $A^TA$ and $AA^T$.</p>
+</div>
+
+<h2>1. The Gram matrices $A^TA$ and $AA^T$</h2>
+
+<p>Let $A$ be any real $m \times n$ matrix. Consider the two products $A^TA$ ($n \times n$) and $AA^T$ ($m \times m$). These are called the <b>Gram matrices</b> of $A$.</p>
+
+<p>Why look at these products? The matrix $A$ itself may be rectangular, so it cannot have eigenvalues — eigenvalues require a square matrix (the equation $Av = \lambda v$ needs $A$ and $\lambda I$ to have the same dimensions). But $A^TA$ and $AA^T$ are always square, always symmetric, and always positive semi-definite. This means the spectral theorem applies to them, and we can use their eigenstructure to understand $A$.</p>
+
+<p>Think of $A^TA$ as measuring "input correlations": the $(i,j)$ entry of $A^TA$ is the dot product of the $i$-th and $j$-th columns of $A$. Similarly, $AA^T$ measures "output correlations": its $(i,j)$ entry is the dot product of the $i$-th and $j$-th rows of $A$.</p>
+
+<p>The eigenstructure of $A^TA$ reveals which input directions produce the largest outputs, and the eigenstructure of $AA^T$ reveals which output directions receive the most energy.</p>
+
+<div class="theorem-box">
+<div class="label">Lemma — Gram matrices are symmetric positive semi-definite</div>
+<p>For any real $m \times n$ matrix $A$, both $A^TA$ and $AA^T$ are symmetric and positive semi-definite.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> Symmetry of $A^TA$: we compute the transpose directly.</p>
+<div class="display-math">$$(A^TA)^T = A^T(A^T)^T = A^TA$$</div>
+<p>So $A^TA$ is symmetric. The same calculation gives $(AA^T)^T = (A^T)^TA^T = AA^T$.</p>
+<p><b>Step 2.</b> Positive semi-definiteness of $A^TA$: for any $x \in \mathbb{R}^n$,</p>
+<div class="display-math">$$x^T(A^TA)x = (Ax)^T(Ax) = \|Ax\|^2 \geq 0$$</div>
+<p>The key step is the associativity $(A^TA)x = A^T(Ax)$, so $x^T(A^TA)x = x^TA^T(Ax) = (Ax)^T(Ax)$. This is a squared norm, hence non-negative.</p>
+<p><b>Step 3.</b> The same argument handles $AA^T$: for any $y \in \mathbb{R}^m$,</p>
+<div class="display-math">$$y^T(AA^T)y = (A^Ty)^T(A^Ty) = \|A^Ty\|^2 \geq 0$$</div>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Since both Gram matrices are symmetric, the spectral theorem (<a href="03-spectral-theorem.html">page 3</a>) guarantees they can be orthogonally diagonalised with real eigenvalues. Since they are also positive semi-definite, all eigenvalues are $\geq 0$.</p>
+
+<p>The remarkable fact is that $A^TA$ and $AA^T$ share the same non-zero eigenvalues, even though they live in different dimensions ($n \times n$ vs $m \times m$). This is the bridge that connects the "input space" $\mathbb{R}^n$ to the "output space" $\mathbb{R}^m$.</p>
+
+<div class="theorem-box">
+<div class="label">Lemma — shared non-zero eigenvalues</div>
+<p>The non-zero eigenvalues of $A^TA$ and $AA^T$ are identical, with the same multiplicities.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> Suppose $A^TAv = \sigma^2 v$ with $v \neq 0$ and $\sigma^2 > 0$. Set $u = Av$.</p>
+<p><b>Step 2.</b> First, $u \neq 0$. Why? If $Av = 0$, then $A^TAv = A^T(0) = 0 = \sigma^2 v$, forcing $\sigma^2 = 0$ (since $v \neq 0$). This contradicts $\sigma^2 > 0$. So $u = Av \neq 0$.</p>
+<p><b>Step 3.</b> Now compute $AA^Tu$:</p>
+<div class="display-math">$$AA^Tu = AA^T(Av) = A(A^TAv) = A(\sigma^2 v) = \sigma^2(Av) = \sigma^2 u$$</div>
+<p>So $u$ is an eigenvector of $AA^T$ with the same eigenvalue $\sigma^2$.</p>
+<p><b>Step 4.</b> The reverse direction is identical: if $AA^Tu = \sigma^2 u$ with $\sigma^2 > 0$, then $v = A^Tu \neq 0$ and $A^TAv = A^T(AA^Tu) = A^T(\sigma^2 u) = \sigma^2(A^Tu) = \sigma^2 v$.</p>
+<p><b>Step 5.</b> For multiplicities: the map $v \mapsto Av$ is a linear injection from the $\sigma^2$-eigenspace of $A^TA$ into the $\sigma^2$-eigenspace of $AA^T$ (injective because $Av = 0$ would force $\sigma^2 = 0$). The reverse map $u \mapsto A^Tu$ is also injective. So both eigenspaces have the same dimension.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<h2>2. Singular values</h2>
+
+<p>Let $r = \operatorname{rank}(A)$. The rank of $A^TA$ equals the rank of $A$ — this is a standard result from linear algebra (<a href="../phase6/04-matrices.html">Phase 6, page 4</a>), proved by showing $\ker(A^TA) = \ker(A)$. Indeed, $A^TAx = 0$ implies $x^TA^TAx = \|Ax\|^2 = 0$, hence $Ax = 0$. Conversely, $Ax = 0$ trivially gives $A^TAx = 0$.</p>
+
+<p>So $A^TA$ has exactly $r$ positive eigenvalues and $n - r$ zero eigenvalues.</p>
+
+<div class="theorem-box">
+<div class="label">Definition — singular values</div>
+<p>The <b>singular values</b> of $A$ are the square roots of the eigenvalues of $A^TA$, ordered as</p>
+<div class="display-math">$$\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0 = \sigma_{r+1} = \cdots = \sigma_n$$</div>
+<p>where $\sigma_i = \sqrt{\lambda_i(A^TA)}$.</p>
+</div>
+
+<p>The singular values are intrinsic to $A$ — they do not depend on any choice of basis. If you change the input basis by an orthogonal matrix $Q$ (replacing $A$ by $AQ$), then $(AQ)^T(AQ) = Q^TA^TAQ$, which is similar to $A^TA$ and therefore has the same eigenvalues. Likewise for a change of output basis. The singular values depend only on how $A$ acts as a linear map, not on how we represent it.</p>
+
+<p>Note that singular values are always non-negative, unlike eigenvalues which can be negative or complex. A symmetric matrix with eigenvalues $3, -2, 1$ has singular values $3, 2, 1$ — the absolute values, reordered.</p>
+
+<p>For a general (non-symmetric) matrix, singular values and eigenvalues are different quantities entirely. The singular values are properties of $A$ as a map between two spaces (how it stretches), while eigenvalues describe $A$ as a self-map of a single space (its fixed directions and scaling factors). The matrix $A = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ has eigenvalue $0$ (with multiplicity 2) but singular value $\sigma_1 = 1$ — it maps $e_2$ to $e_1$ with unit length, even though it has no eigenvectors other than $e_1$ (with eigenvalue 0).</p>
+
+<h2>3. The SVD theorem</h2>
+
+<div class="theorem-box">
+<div class="label">Theorem — Singular Value Decomposition</div>
+<p>For any real $m \times n$ matrix $A$ of rank $r$, there exist an orthogonal matrix $U$ ($m \times m$), an orthogonal matrix $V$ ($n \times n$), and an $m \times n$ matrix $\Sigma$ with $\sigma_1, \ldots, \sigma_r$ on the diagonal and zeros elsewhere, such that</p>
+<div class="display-math">$$A = U\Sigma V^T$$</div>
+</div>
+
+<p>The matrix $\Sigma$ has the same shape as $A$: it is $m \times n$, with $\Sigma_{ii} = \sigma_i$ for $i = 1, \ldots, \min(m,n)$ and all other entries zero. If $m > n$, the bottom $m - n$ rows of $\Sigma$ are all zeros. If $m < n$, the rightmost $n - m$ columns are all zeros.</p>
+
+<div class="proof-box">
+<div class="label">Proof (constructive)</div>
+<p><b>Step 1.</b> Since $A^TA$ is symmetric positive semi-definite, the spectral theorem (<a href="03-spectral-theorem.html">page 3</a>) gives an orthonormal eigenbasis $\{v_1, \ldots, v_n\}$ of $\mathbb{R}^n$ with</p>
+<div class="display-math">$$A^TAv_i = \sigma_i^2 v_i$$</div>
+<p>Arrange these so $\sigma_1 \geq \cdots \geq \sigma_r > 0 = \sigma_{r+1} = \cdots = \sigma_n$. Set $V = [v_1 \mid \cdots \mid v_n]$. This is an $n \times n$ orthogonal matrix.</p>
+<p><b>Step 2.</b> For $i = 1, \ldots, r$, define</p>
+<div class="display-math">$$u_i = \frac{1}{\sigma_i}Av_i$$</div>
+<p>We claim these are unit vectors. Compute:</p>
+<div class="display-math">$$\|u_i\|^2 = \frac{1}{\sigma_i^2}(Av_i)^T(Av_i) = \frac{1}{\sigma_i^2}v_i^T A^TA v_i = \frac{1}{\sigma_i^2}\cdot\sigma_i^2\cdot\|v_i\|^2 = 1$$</div>
+<p><b>Step 3.</b> The vectors $u_1, \ldots, u_r$ are mutually orthogonal. For $i \neq j$:</p>
+<div class="display-math">$$u_i^T u_j = \frac{1}{\sigma_i\sigma_j}(Av_i)^T(Av_j) = \frac{1}{\sigma_i\sigma_j}v_i^T A^TA v_j = \frac{\sigma_j^2}{\sigma_i\sigma_j}v_i^T v_j = 0$$</div>
+<p>since $v_i^Tv_j = 0$ by orthonormality of the eigenbasis.</p>
+<p><b>Step 4.</b> The set $\{u_1, \ldots, u_r\}$ is an orthonormal set in $\mathbb{R}^m$ with $r \leq m$ elements. Extend it to a full orthonormal basis $\{u_1, \ldots, u_m\}$ of $\mathbb{R}^m$ by the Gram-Schmidt procedure (<a href="../phase6/07-inner-products.html">Phase 6, page 7</a>). The vectors $u_{r+1}, \ldots, u_m$ span the orthogonal complement of $\operatorname{col}(A)$ in $\mathbb{R}^m$. Set $U = [u_1 \mid \cdots \mid u_m]$.</p>
+<p><b>Step 5.</b> We verify that $A = U\Sigma V^T$. Since $V$ is orthogonal, it suffices to check $AV = U\Sigma$, i.e., to check column by column that $Av_i = \sigma_i u_i$ for $i \leq r$ and $Av_i = 0$ for $i > r$.</p>
+<p>For $i \leq r$: by construction, $u_i = Av_i / \sigma_i$, so $Av_i = \sigma_i u_i$. This is the $i$-th column of $U\Sigma$.</p>
+<p>For $i > r$: $\|Av_i\|^2 = v_i^T A^TA v_i = \sigma_i^2\|v_i\|^2 = 0$, so $Av_i = 0$. And $\sigma_i = 0$, so the $i$-th column of $U\Sigma$ is also zero.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Notice how the entire proof reduces to one application of the spectral theorem (to $A^TA$) plus a normalisation step. The SVD does not require any new ideas — it is the spectral theorem in disguise, applied to the Gram matrix.</p>
+
+<p>Let us trace through a small example to make the construction concrete. Take $A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix}$, a $3 \times 2$ matrix.</p>
+
+<p>First, $A^TA = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$, which has eigenvalues $3$ and $1$ (check: trace $= 4 = 3 + 1$, determinant $= 3 = 3 \times 1$). So $\sigma_1 = \sqrt{3}$ and $\sigma_2 = 1$.</p>
+
+<p>The eigenvectors of $A^TA$ are $v_1 = \frac{1}{\sqrt{2}}(1, 1)^T$ (for $\lambda = 3$) and $v_2 = \frac{1}{\sqrt{2}}(1, -1)^T$ (for $\lambda = 1$). These form $V$.</p>
+
+<p>Now build $U$: $u_1 = \frac{1}{\sigma_1}Av_1 = \frac{1}{\sqrt{3}} \cdot \frac{1}{\sqrt{2}}A(1,1)^T = \frac{1}{\sqrt{6}}(2, 1, 1)^T$ and $u_2 = \frac{1}{\sigma_2}Av_2 = \frac{1}{\sqrt{2}}A(1,-1)^T = \frac{1}{\sqrt{2}}(0, -1, 1)^T$. These are orthogonal unit vectors in $\mathbb{R}^3$. We extend to a full basis by finding $u_3$ orthogonal to both: $u_3 = \frac{1}{\sqrt{3}}(1, -1, -1)^T$. Then $A = U\Sigma V^T$ with $\Sigma = \begin{pmatrix} \sqrt{3} & 0 \\ 0 & 1 \\ 0 & 0 \end{pmatrix}$.</p>
+
+<p>The third row of zeros in $\Sigma$ reflects the fact that $A$ maps $\mathbb{R}^2$ into a 2-dimensional subspace of $\mathbb{R}^3$ — the column space of $A$. The vector $u_3$ spans the orthogonal complement of $\operatorname{col}(A)$ (the left null space), and $A$ produces no component in that direction.</p>
+
+<p>This example also illustrates the <b>four fundamental subspaces</b> of $A$, all revealed by the SVD:</p>
+
+<p>The <b>column space</b> $\operatorname{col}(A) = \operatorname{span}\{u_1, \ldots, u_r\}$: the first $r$ left singular vectors span the range of $A$. In our example, $\operatorname{col}(A) = \operatorname{span}\{u_1, u_2\}$ is a 2D plane in $\mathbb{R}^3$.</p>
+
+<p>The <b>left null space</b> $\ker(A^T) = \operatorname{span}\{u_{r+1}, \ldots, u_m\}$: the remaining left singular vectors span the orthogonal complement of $\operatorname{col}(A)$. In our example, $\ker(A^T) = \operatorname{span}\{u_3\}$ is a line perpendicular to the column space.</p>
+
+<p>The <b>row space</b> $\operatorname{row}(A) = \operatorname{span}\{v_1, \ldots, v_r\}$: the first $r$ right singular vectors span the row space. In our example, $r = n = 2$, so the row space is all of $\mathbb{R}^2$.</p>
+
+<p>The <b>null space</b> $\ker(A) = \operatorname{span}\{v_{r+1}, \ldots, v_n\}$: the remaining right singular vectors span the null space. In our example, the null space is $\{0\}$ (since $r = n$).</p>
+
+<p>The SVD gives orthonormal bases for all four subspaces simultaneously. This is more than the rank-nullity theorem provides — it gives <em>canonical</em> bases that are geometrically natural (orthogonal and ordered by importance via the singular values).</p>
+
+<p>This is the key difference between the SVD and eigendecomposition. Eigendecomposition works with a single space (it decomposes a square matrix as $A = PDP^{-1}$, mapping $\mathbb{R}^n$ to itself). The SVD works with <em>two</em> spaces: it decomposes a map $A : \mathbb{R}^n \to \mathbb{R}^m$ using an orthonormal basis for the domain ($V$) and a separate orthonormal basis for the codomain ($U$). This is why it applies to rectangular matrices where eigendecomposition cannot.</p>
+
+<p>For a square symmetric matrix, the SVD and eigendecomposition coincide: $A = P\Lambda P^T$ (spectral theorem) is the same as $A = U\Sigma V^T$ with $U = V = P$ and $\Sigma = |\Lambda|$ (singular values are absolute values of eigenvalues). More precisely: if $\lambda_i \geq 0$, then $u_i = v_i$; if $\lambda_i < 0$, then $u_i = -v_i$ (the sign flip absorbs the negative eigenvalue into the left singular vector, making the singular value $|\lambda_i|$ positive).</p>
+
+<p>For a non-symmetric square matrix, the two decompositions are genuinely different. The eigendecomposition uses the same basis for input and output ($A = PDP^{-1}$, with $P$ generally not orthogonal and possibly complex), while the SVD uses different, always real, always orthogonal bases ($A = U\Sigma V^T$, with $U \neq V$ in general). Not every matrix has an eigendecomposition (it may lack a full set of eigenvectors — consider a non-trivial Jordan block from <a href="../phase6/11-jordan-normal-form.html">Phase 6, page 11</a>), but every matrix has an SVD. This universality is the SVD's greatest strength.</p>
+
+<h2>4. Geometric meaning</h2>
+
+<p>The SVD reveals what $A$ does geometrically. Write $A = U\Sigma V^T$ and think of $A$ acting on a vector $x$ in three stages:</p>
+
+<p><b>Stage 1: $V^T$ rotates the input.</b> The matrix $V^T$ is orthogonal, so it acts as a rigid rotation (or rotation-reflection) of $\mathbb{R}^n$. It maps $x$ into the coordinate system defined by the right singular vectors $v_1, \ldots, v_n$. The $i$-th component of $V^Tx$ is $v_i^Tx$ — the projection of $x$ onto the $i$-th right singular vector. No stretching happens here — all distances and angles are preserved.</p>
+
+<p><b>Stage 2: $\Sigma$ stretches along coordinate axes.</b> The diagonal matrix $\Sigma$ multiplies the $i$-th coordinate by $\sigma_i$. Directions with large singular values get amplified; directions with small singular values get compressed; directions with $\sigma_i = 0$ get annihilated entirely (the entire null space of $A$ consists of directions that $\Sigma$ maps to zero). The unit sphere in $\mathbb{R}^n$ maps to an ellipsoid in $\mathbb{R}^m$ (or a degenerate ellipsoid if some $\sigma_i = 0$) with semi-axis lengths $\sigma_1, \sigma_2, \ldots, \sigma_r$. If $m > n$, the ellipsoid lives in a subspace of $\mathbb{R}^m$.</p>
+
+<p><b>Stage 3: $U$ rotates the output.</b> The orthogonal matrix $U$ rigidly rotates the ellipsoid into its final position in $\mathbb{R}^m$. The columns of $U$ — the left singular vectors — point along the axes of the output ellipsoid. Again, no stretching — $U$ just orients the ellipsoid.</p>
+
+<p>In summary: <em>every linear map is a rotation, followed by an axis-aligned stretch, followed by another rotation.</em> The singular values are the stretch factors. The columns of $V$ are the "input directions" (the radii of the sphere that get mapped to the axes of the ellipsoid), and the columns of $U$ are the "output directions" (the axes of the ellipsoid in the target space).</p>
+
+<p>Two important consequences of this picture:</p>
+
+<p>The largest singular value is the maximum stretch factor: $\sigma_1 = \max_{\|x\|=1} \|Ax\|$. This is the <b>operator norm</b> (or spectral norm) of $A$. The maximum is attained at $x = v_1$, where $\|Av_1\| = \sigma_1$.</p>
+
+<p>The smallest <em>non-zero</em> singular value $\sigma_r$ is the minimum stretch factor on the row space of $A$: $\sigma_r = \min_{x \in \operatorname{row}(A), \|x\|=1} \|Ax\|$. The ratio $\kappa(A) = \sigma_1 / \sigma_r$ is the <b>condition number</b> of $A$, measuring how much $A$ distorts shapes. A matrix with $\kappa(A) = 1$ maps the unit sphere to a sphere (it is a scalar multiple of an orthogonal matrix). A matrix with $\kappa(A) = 10^{16}$ maps the unit sphere to a needle-thin ellipsoid — it is effectively singular for numerical purposes. When you solve $Ax = b$ on a computer, the condition number controls how much roundoff errors in $b$ get amplified in $x$: the relative error in $x$ can be up to $\kappa(A)$ times the relative error in $b$.</p>
+
+<p>The <b>pseudoinverse</b> (or Moore-Penrose inverse) $A^+$ also follows immediately from the SVD. If $A = U\Sigma V^T$, then</p>
+
+<div class="display-math">$$A^+ = V\Sigma^+ U^T$$</div>
+
+<p>where $\Sigma^+$ is the $n \times m$ matrix obtained from $\Sigma$ by transposing and inverting each non-zero diagonal entry: $\Sigma^+_{ii} = 1/\sigma_i$ for $i \leq r$ and zero otherwise. You can verify: $AA^+A = U\Sigma V^T \cdot V\Sigma^+ U^T \cdot U\Sigma V^T = U\Sigma\Sigma^+\Sigma V^T = U\Sigma V^T = A$, confirming $A^+$ is a generalised inverse.</p>
+
+<p>The pseudoinverse solves the <b>least-squares problem</b> $\min_x \|Ax - b\|^2$: the minimum-norm solution is $x^* = A^+ b$. When $A$ is square and invertible, $A^+ = A^{-1}$ (since all singular values are non-zero, $\Sigma^+ = \Sigma^{-1}$). When $A$ is rectangular or singular, $A^+$ provides the best substitute for an inverse. This generalises matrix inversion to any matrix of any shape and any rank.</p>
+
+<p>For our earlier example $A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \\ 1 & 0 \end{pmatrix}$, the pseudoinverse $A^+$ is a $2 \times 3$ matrix. The least-squares solution $x^* = A^+b$ gives the best fit when you have more equations (3) than unknowns (2) — the standard situation in data fitting and linear regression.</p>
+
+<p>The connection between SVD and least squares is fundamental. Suppose we want to solve $Ax = b$ where $A$ is $m \times n$ with $m > n$ (overdetermined system). The least-squares solution minimises $\|Ax - b\|^2$. Writing $A = U\Sigma V^T$ and substituting $y = V^Tx$, $c = U^Tb$:</p>
+
+<div class="display-math">$$\|Ax - b\|^2 = \|U\Sigma V^Tx - b\|^2 = \|\Sigma y - c\|^2 = \sum_{i=1}^r (\sigma_i y_i - c_i)^2 + \sum_{i=r+1}^m c_i^2$$</div>
+
+<p>The second sum is constant (it is $\|b_\perp\|^2$, the component of $b$ outside $\operatorname{col}(A)$, which cannot be reduced). Minimising over $y$ gives $y_i = c_i/\sigma_i$ for $i \leq r$. So $x^* = V\Sigma^+U^Tb = A^+b$. The SVD turns the least-squares problem into $r$ trivially solvable one-dimensional problems.</p>
+
+<p>The residual $\|Ax^* - b\|^2 = \sum_{i=r+1}^m c_i^2$ is the squared distance from $b$ to $\operatorname{col}(A)$. If $b \in \operatorname{col}(A)$, the residual is zero and $x^*$ is an exact solution. If not, $x^*$ is the closest thing to a solution — it minimises the error $\|Ax - b\|$. This is the foundation of linear regression, curve fitting, and signal processing.</p>
+
+<p>When $A$ is ill-conditioned (some $\sigma_i$ are very small), the pseudoinverse amplifies noise: dividing by a tiny $\sigma_i$ turns a small error in $b$ into a large error in $x$. The amplification factor is $1/\sigma_r$ — the reciprocal of the smallest singular value — which can be enormous.</p>
+
+<p><b>Truncated SVD regularisation</b> addresses this by setting $\Sigma^+_{ii} = 0$ for all $\sigma_i$ below some threshold $\tau$. This discards the components of the solution corresponding to the smallest singular values — precisely the components most contaminated by noise. You trade a small increase in the residual $\|Ax - b\|$ for a large decrease in the solution norm $\|x\|$ and noise amplification.</p>
+
+<p>The closely related <b>Tikhonov regularisation</b> replaces $\Sigma^+_{ii} = 1/\sigma_i$ by $\sigma_i/(\sigma_i^2 + \alpha)$, where $\alpha > 0$ is a regularisation parameter. This smoothly damps the contribution of small singular values rather than cutting them off sharply. Both methods are essential tools in inverse problems (medical imaging, geophysics, machine learning).</p>
+
+<p>To summarise the four fundamental objects the SVD reveals:</p>
+
+<p>1. The <b>singular values</b> $\sigma_1, \ldots, \sigma_r$ measure the "importance" of each direction — how much the matrix stretches along it.</p>
+
+<p>2. The <b>right singular vectors</b> $v_1, \ldots, v_n$ (columns of $V$) form an orthonormal basis for $\mathbb{R}^n$, with the first $r$ spanning the row space and the remaining $n - r$ spanning the null space.</p>
+
+<p>3. The <b>left singular vectors</b> $u_1, \ldots, u_m$ (columns of $U$) form an orthonormal basis for $\mathbb{R}^m$, with the first $r$ spanning the column space and the remaining $m - r$ spanning the left null space.</p>
+
+<p>4. The <b>rank</b> $r$ is the number of non-zero singular values, and the <b>condition number</b> $\kappa = \sigma_1/\sigma_r$ measures the "difficulty" of the matrix for numerical computation.</p>
+
+<h2>5. Rank and low-rank approximation</h2>
+
+<p>From the SVD $A = U\Sigma V^T$, we can write $A$ as a sum of rank-one matrices:</p>
+
+<div class="display-math">$$A = \sigma_1 u_1 v_1^T + \sigma_2 u_2 v_2^T + \cdots + \sigma_r u_r v_r^T$$</div>
+
+<p>This is the <b>outer product form</b> of the SVD, and it is arguably the most revealing way to write it. Each term is a rank-one "layer" of the matrix, weighted by its singular value.</p>
+
+<p>Each term $\sigma_i \, u_i v_i^T$ is an $m \times n$ matrix of rank one: every column is a scalar multiple of $u_i$, and every row a scalar multiple of $v_i^T$. The weight $\sigma_i$ measures the "importance" of this term — how much of $A$'s action it captures.</p>
+
+<p>The rank of $A$ is exactly $r$, the number of non-zero singular values. This gives a clean characterisation: $\operatorname{rank}(A)$ counts how many independent "stretch directions" $A$ has. A rank-one matrix maps all of $\mathbb{R}^n$ to a single line in $\mathbb{R}^m$; a rank-$r$ matrix maps $\mathbb{R}^n$ to an $r$-dimensional subspace. The SVD organises these contributions by size, from most important ($\sigma_1$) to least ($\sigma_r$).</p>
+
+<p>Now comes the key application. If the singular values decay rapidly — $\sigma_1 \gg \sigma_2 \gg \cdots$ — then the first few terms of the sum capture most of the matrix's structure. Truncating the sum at $k < r$ terms gives an approximation:</p>
+
+<div class="display-math">$$A_k = \sum_{i=1}^{k} \sigma_i \, u_i v_i^T$$</div>
+
+<p>How good is this approximation? Remarkably, the answer is: the best possible, in a very strong sense.</p>
+
+<div class="theorem-box">
+<div class="label">Theorem — Eckart-Young (1936)</div>
+<p>Among all $m \times n$ matrices of rank at most $k$, the truncated SVD $A_k$ minimises the distance to $A$. Specifically:</p>
+<div class="display-math">$$\min_{\operatorname{rank}(B) \leq k} \|A - B\| = \|A - A_k\| = \sigma_{k+1}$$</div>
+<p>in the operator norm, and</p>
+<div class="display-math">$$\min_{\operatorname{rank}(B) \leq k} \|A - B\|_F = \|A - A_k\|_F = \sqrt{\sigma_{k+1}^2 + \cdots + \sigma_r^2}$$</div>
+<p>in the Frobenius norm $\|M\|_F = \sqrt{\sum_{ij} M_{ij}^2} = \sqrt{\sum_i \sigma_i(M)^2}$.</p>
+</div>
+
+<p>This theorem is why the SVD is the workhorse of data science and applied mathematics.</p>
+
+<p><b>Principal Component Analysis (PCA)</b> is precisely the truncated SVD of the centred data matrix. Given $m$ data points in $\mathbb{R}^n$, arranged as rows of an $m \times n$ matrix $X$ (after subtracting the mean), PCA finds the $k$-dimensional subspace that captures the most variance. The right singular vectors $v_1, \ldots, v_k$ of $X$ span this subspace, and the singular values measure the standard deviation along each principal direction.</p>
+
+<p><b>Image compression:</b> a greyscale image is a matrix of pixel intensities. Store only the top $k$ singular values and the corresponding columns of $U$ and $V$. Instead of $mn$ numbers, you store $k(m + n + 1)$ numbers. For a $1000 \times 1000$ image with $k = 50$, that is 100,050 numbers instead of 1,000,000 — a 10x compression with usually imperceptible loss.</p>
+
+<p><b>Recommender systems:</b> a user-item rating matrix (mostly empty) is approximated by a low-rank matrix via truncated SVD. This fills in the missing entries with predictions. The Netflix Prize (2009) was won by methods built on this idea.</p>
+
+<p><b>Latent semantic analysis:</b> in natural language processing, a word-document matrix records how often each word appears in each document. The truncated SVD reveals "latent topics" — groups of words that co-occur, captured by the leading singular vectors. Two documents about the same topic will have similar projections onto the low-rank subspace, even if they use different words.</p>
+
+<p><b>Noise reduction:</b> if $A = A_0 + E$ where $A_0$ is a low-rank "signal" and $E$ is noise, then the truncated SVD $A_k$ (with $k = \operatorname{rank}(A_0)$) approximately recovers $A_0$. The Eckart-Young theorem guarantees this is optimal: no other rank-$k$ matrix is closer to $A$. The error is bounded by $\|A_k - A_0\| \leq 2\|E\|$ (triangle inequality: $\|A_k - A_0\| \leq \|A_k - A\| + \|A - A_0\| = \sigma_{k+1}(A) + \|E\| \leq 2\|E\|$, since the noise pushes singular values up by at most $\|E\|$ by Weyl's inequality applied to singular values).</p>
+
+<p>The Frobenius norm formula also gives us $\|A\|_F^2 = \sigma_1^2 + \cdots + \sigma_r^2 = \operatorname{tr}(A^TA)$, connecting singular values to the trace.</p>
+
+<p>To see Eckart-Young in action: suppose a $1000 \times 500$ matrix has $\sigma_1 = 100$, $\sigma_2 = 50$, $\sigma_3 = 10$, and all remaining singular values below $1$. The rank-3 approximation $A_3$ captures a fraction $\frac{100^2 + 50^2 + 10^2}{\|A\|_F^2} = \frac{12600}{\|A\|_F^2}$ of the total energy. If $\|A\|_F^2 \approx 13000$, then $A_3$ captures over 96% of the matrix with only 3 rank-one components instead of 500. This is precisely the dimension reduction that makes PCA effective: most real-world data matrices have rapidly decaying singular values because the data lives near a low-dimensional subspace.</p>
+
+<p>A subtlety: Eckart-Young gives the best approximation in a fixed-rank class. It does <em>not</em> tell you how to choose $k$. In practice, one plots the singular values and looks for a "gap" — a sharp drop between $\sigma_k$ and $\sigma_{k+1}$ — and truncates there. The singular values above the gap carry "signal"; those below carry "noise."</p>
+
+<p>The Frobenius norm interpretation makes this precise. Define the <b>explained variance ratio</b> for rank $k$ as</p>
+
+<div class="display-math">$$\rho_k = \frac{\sigma_1^2 + \cdots + \sigma_k^2}{\sigma_1^2 + \cdots + \sigma_r^2} = 1 - \frac{\|A - A_k\|_F^2}{\|A\|_F^2}$$</div>
+
+<p>This is the fraction of $A$'s total energy captured by the rank-$k$ approximation. In PCA, $\rho_k$ is called the "proportion of variance explained" by the first $k$ principal components. A common heuristic is to choose $k$ such that $\rho_k \geq 0.95$ (retain 95% of the energy). Making this rigorous requires tools from random matrix theory, which goes beyond CPGE-level material.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Beltrami (1873) and Jordan (1874) independently discovered the SVD for square real matrices, motivated by problems in the theory of bilinear forms. Autonne (1915) and Eckart-Young (1936) extended it to rectangular matrices and proved the optimality of truncated SVD for low-rank approximation. The modern computational algorithm, due to Golub and Kahan (1965), reduced SVD to a sequence of bidiagonalisation steps followed by QR iterations, making it practical for large matrices. Today, variants of their algorithm run inside every major numerical library (LAPACK, NumPy, MATLAB).</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without the spectral theorem for symmetric matrices</b> (<a href="03-spectral-theorem.html">page 3</a>): the entire SVD construction collapses. We need to orthogonally diagonalise $A^TA$, which requires the spectral theorem. No spectral theorem means no orthonormal eigenbasis for $A^TA$, no $V$ matrix, no singular values, no SVD.</p>
+<p><b>Without symmetry of $A^TA$:</b> this failure mode is impossible — $A^TA$ is always symmetric, regardless of $A$. This is precisely why the SVD always exists, even when eigendecomposition does not. A generic non-symmetric square matrix may have no real eigenvalues and cannot be diagonalised over $\mathbb{R}$. But it always has a real SVD, because its Gram matrix is always symmetric.</p>
+<p><b>Without positive semi-definiteness of $A^TA$:</b> also impossible. The identity $x^TA^TAx = \|Ax\|^2 \geq 0$ always holds, so eigenvalues of $A^TA$ are always $\geq 0$ and singular values are always real non-negative numbers. There is no analogue of "negative eigenvalues" or "complex eigenvalues" for singular values — they are always well-behaved.</p>
+<p><b>Without the ordering convention:</b> the SVD still exists but the Eckart-Young theorem requires the singular values to be sorted in decreasing order. If you scramble the order, the truncation $A_k$ (first $k$ terms) is no longer the best rank-$k$ approximation — you would be keeping small singular values and discarding large ones.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Every matrix — any shape, any rank — decomposes as a rotation, a stretch along orthogonal axes (the singular values), and another rotation.</div>
+
+<div class="nav">
+<a href="03-spectral-theorem.html">&larr; Previous: The Spectral Theorem</a>
+<a href="05-rayleigh-courant-fischer.html">Next: The Rayleigh Quotient and Courant-Fischer &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riesz's Lemma and Finite-Dimensional Characterisation — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Riesz's Lemma and Finite-Dimensional Characterisation</h1>
+<p class="subtitle">Phase 14 &mdash; Normed Vector Spaces, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In $\mathbb{R}^n$, the closed unit ball $\overline{B}(0, 1) = \{x : \|x\| \leq 1\}$
+    is compact (Heine&ndash;Borel, Phase 9 page 4). This is the engine behind the extreme
+    value theorem: continuous functions on compact sets attain their bounds.
+  </p>
+  <p>
+    Does this extend to infinite-dimensional Banach spaces? Can we still extract convergent
+    subsequences from bounded sequences? Riesz (1918) proved the devastating answer:
+    <em>no</em>. The closed unit ball is compact if and only if the space is
+    finite-dimensional. Infinite-dimensional analysis is fundamentally harder than anything
+    we have seen so far.
+  </p>
+</div>
+
+<p>
+  Recall from Phase 9, page 4 that a set is <strong>compact</strong> if every sequence in it
+  has a convergent subsequence (sequential compactness, equivalent to compactness in metric
+  spaces). In $\mathbb{R}^n$, the Heine&ndash;Borel theorem says: closed and bounded
+  $\Leftrightarrow$ compact. This is the tool behind almost every "maximum exists" argument
+  in finite-dimensional analysis.
+</p>
+
+<p>
+  To prove that this fails in infinite dimensions, we need a way to build sequences in the
+  unit ball whose elements are "spread apart" &mdash; so far apart that no subsequence can
+  converge. Riesz's lemma is the tool that builds such sequences.
+</p>
+
+<h2>1. Riesz's lemma</h2>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Riesz (1918)</div>
+  <p>
+    Let $X$ be a normed vector space and $Y \subsetneq X$ a <strong>proper closed</strong>
+    subspace. For every $\varepsilon \in (0, 1)$, there exists $x \in X$ with $\|x\| = 1$
+    and
+  </p>
+  <div class="display-math">$$\text{dist}(x, Y) = \inf_{y \in Y} \|x - y\| \geq 1 - \varepsilon.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $Y \subsetneq X$, pick $z \in X \setminus Y$. Since $Y$ is
+    closed, $d = \text{dist}(z, Y) = \inf_{y \in Y} \|z - y\| > 0$ (the infimum over a
+    closed set not containing $z$).
+  </p>
+  <p>
+    <strong>Step 2.</strong> By definition of infimum, there exists $y_0 \in Y$ with
+    $\|z - y_0\| < d / (1 - \varepsilon)$. (Since $\varepsilon < 1$, we have
+    $d / (1 - \varepsilon) > d$, so such a $y_0$ exists.)
+  </p>
+  <p>
+    <strong>Step 3.</strong> Set $x = (z - y_0) / \|z - y_0\|$. Then $\|x\| = 1$. For any
+    $y \in Y$:
+  </p>
+  <div class="display-math">$$\|x - y\| = \frac{\|z - y_0 - \|z - y_0\|\,y\|}{\|z - y_0\|} = \frac{\|z - (y_0 + \|z - y_0\|\,y)\|}{\|z - y_0\|}.$$</div>
+  <p>
+    Since $y_0 + \|z - y_0\|\,y \in Y$ (a subspace), the numerator is at least $d$. So
+  </p>
+  <div class="display-math">$$\|x - y\| \geq \frac{d}{\|z - y_0\|} > \frac{d}{d/(1 - \varepsilon)} = 1 - \varepsilon.$$</div>
+  <p>
+    Since this holds for every $y \in Y$, we have $\text{dist}(x, Y) \geq 1 - \varepsilon$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The lemma says: given a proper closed subspace, you can always find a unit vector that
+  is "nearly as far as possible" from the subspace. The word "nearly" is encoded by the
+  parameter $\varepsilon$. The closer $\varepsilon$ is to 0, the closer the distance is to
+  1 &mdash; but you cannot in general reach distance exactly 1 (more on this in the
+  break-box below).
+</p>
+
+<h2>2. Constructing a sequence with no convergent subsequence</h2>
+
+<p>
+  We now use Riesz's lemma to show that in any infinite-dimensional normed space, the
+  closed unit ball fails to be compact. The strategy: build a sequence of unit vectors
+  that are all pairwise at distance at least $1/2$, so no subsequence can be Cauchy.
+</p>
+
+<div class="proof-box">
+  <div class="label">Construction</div>
+  <p>
+    <strong>Step 1.</strong> Let $X$ be infinite-dimensional. Pick any $x_1 \in X$ with
+    $\|x_1\| = 1$ and set $Y_1 = \text{span}(x_1)$. Since $\dim X = \infty$, $Y_1$ is a
+    proper subspace. It is finite-dimensional, hence closed (Phase 14, page 2: finite-dimensional
+    subspaces are complete, hence closed).
+  </p>
+  <p>
+    <strong>Step 2.</strong> Apply Riesz's lemma with $\varepsilon = 1/2$: there exists
+    $x_2 \in X$ with $\|x_2\| = 1$ and $\text{dist}(x_2, Y_1) \geq 1/2$. In particular,
+    $\|x_2 - x_1\| \geq 1/2$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Set $Y_2 = \text{span}(x_1, x_2)$, again a proper closed
+    subspace. Apply Riesz's lemma: there exists $x_3$ with $\|x_3\| = 1$ and
+    $\text{dist}(x_3, Y_2) \geq 1/2$, so $\|x_3 - x_j\| \geq 1/2$ for $j = 1, 2$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Continuing inductively, we build a sequence $(x_n)$ in the
+    closed unit ball with $\|x_m - x_n\| \geq 1/2$ for all $m \neq n$. No subsequence
+    can be Cauchy (elements stay at least $1/2$ apart), so no subsequence converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. The compactness characterisation</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Riesz (1918)</div>
+  <p>
+    The closed unit ball of a normed vector space $X$ is compact if and only if $X$ is
+    finite-dimensional.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. ($\Leftarrow$)</strong> If $\dim X = n < \infty$, fix a basis and
+    identify $X$ with $\mathbb{R}^n$. By norm equivalence (Phase 14, page 1), the closed
+    unit ball in $\|\cdot\|$ is closed and bounded in $\|\cdot\|_2$. By Heine&ndash;Borel
+    (Phase 9, page 4), it is compact.
+  </p>
+  <p>
+    <strong>Step 2. ($\Rightarrow$)</strong> Equivalently, if $X$ is infinite-dimensional,
+    Section 2 constructs a sequence in the closed unit ball with no convergent subsequence.
+    Hence the closed unit ball is not sequentially compact, hence not compact (in metric
+    spaces, compactness and sequential compactness are equivalent &mdash; Phase 9, page 4).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Consequences</h2>
+
+<p>
+  This theorem is a watershed. In infinite dimensions:
+</p>
+
+<p>
+  <strong>The extreme value theorem needs compactness.</strong> In $\mathbb{R}^n$, a
+  continuous function on a compact set attains its maximum (Phase 9, page 5). In infinite
+  dimensions, the closed unit ball is not compact, so this guarantee vanishes. Consider
+  the normed space $c_0$ of sequences converging to zero (with $\|\cdot\|_\infty$), and
+  the linear functional $\varphi((x_n)) = \sum_{n=1}^{\infty} x_n / 2^n$. This is bounded
+  with $\|\varphi\| = 1$. But for any $x$ with $\|x\|_\infty \leq 1$, we have
+  $\varphi(x) \leq \sum |x_n|/2^n \leq 1$, and equality would require $x_n = 1$ for all
+  $n$ &mdash; but then $x \notin c_0$. So $\varphi$ does not attain its norm on the
+  closed unit ball of $c_0$.
+</p>
+
+<p>
+  <strong>Compactness must be replaced.</strong> In infinite-dimensional analysis, we use
+  substitutes: <strong>weak compactness</strong> (Banach&ndash;Alaoglu theorem),
+  <strong>equicontinuity criteria</strong> (Arzel&agrave;&ndash;Ascoli, Phase 9 page 7),
+  and <strong>tight families</strong> (Prokhorov's theorem in probability). Each captures a
+  piece of what compactness gave us for free in $\mathbb{R}^n$.
+</p>
+
+<p>
+  <strong>Finite-dimensional subspaces are always closed.</strong> A by-product of the
+  proof: any finite-dimensional subspace of a normed space is complete (Phase 14, page 2),
+  hence closed. This is used constantly &mdash; for instance, the kernel of a bounded
+  linear map with finite-dimensional range is automatically closed.
+</p>
+
+<p>
+  <strong>The Bolzano&ndash;Weierstrass property is lost.</strong> In $\mathbb{R}^n$,
+  every bounded sequence has a convergent subsequence (Bolzano&ndash;Weierstrass, Phase 9
+  page 4). In infinite dimensions, this is exactly what Riesz's construction destroys:
+  bounded sequences can have elements that stay permanently far apart. Every technique that
+  relied on extracting convergent subsequences from bounded data must be rethought.
+</p>
+
+<p>
+  This is why infinite-dimensional analysis splits into subspecialties: Hilbert spaces
+  (where an inner product gives extra geometric structure), reflexive Banach spaces (where
+  weak compactness partially restores Bolzano&ndash;Weierstrass), and general Banach spaces
+  (where the bare minimum of completeness is all you have).
+</p>
+
+<h2>5. A concrete example in $\ell^2$</h2>
+
+<p>
+  To make the abstract construction vivid, consider $X = \ell^2$ with the standard
+  orthonormal basis $e_n = (0, \ldots, 0, 1, 0, \ldots)$ (a 1 in position $n$, zeros
+  elsewhere). Each $e_n$ has norm 1, and for $m \neq n$:
+</p>
+
+<div class="display-math">$$\|e_m - e_n\|_2 = \sqrt{|1|^2 + |{-1}|^2} = \sqrt{2}.$$</div>
+
+<p>
+  So $(e_n)$ is a sequence in the closed unit ball with all pairwise distances equal to
+  $\sqrt{2}$. No subsequence can be Cauchy. This is a direct, elementary proof that the
+  unit ball of $\ell^2$ is not compact &mdash; no Riesz lemma needed. But Riesz's lemma
+  gives the result for <em>every</em> infinite-dimensional normed space, not just those
+  with an orthonormal basis.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Frigyes Riesz proved this characterisation in 1918, in the same paper where he
+    introduced the abstract notion of a normed space. The result shocked the mathematical
+    community: it meant that the geometric intuition built in $\mathbb{R}^n$ &mdash; where
+    closed bounded sets are compact &mdash; fails completely in the function spaces that
+    analysis actually needs.
+  </p>
+  <p>
+    This failure drove the development of weak topologies (Banach&ndash;Alaoglu, 1940)
+    and compactness substitutes that remain central to modern analysis. Riesz himself
+    went on to develop the $L^p$ spaces (independently of Fischer) and prove the Riesz
+    representation theorem, further cementing the importance of distinguishing finite from
+    infinite dimensions.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without "closed."</strong> The open unit ball is never compact, even in
+    $\mathbb{R}$: the sequence $x_n = 1 - 1/n$ has no limit in the open ball.
+  </p>
+  <p>
+    <strong>Without "proper subspace" in Riesz's lemma.</strong> If $Y = X$, then every
+    unit vector has distance 0 from $Y$, and the conclusion is trivially false.
+  </p>
+  <p>
+    <strong>The $\varepsilon$ gap.</strong> In infinite dimensions, one generally cannot
+    take $\varepsilon = 0$ in Riesz's lemma &mdash; that is, one cannot always find a unit
+    vector at distance exactly 1 from $Y$. This <em>is</em> possible in some spaces
+    (reflexive Banach spaces, and in particular all Hilbert spaces), but not in general.
+    The gap $\varepsilon > 0$ is essential to the argument. In a Hilbert space, orthogonal
+    projection onto $Y$ gives you the nearest point exactly, so you can take $\varepsilon = 0$.
+    This is one reason Hilbert spaces are so much better behaved than general Banach spaces.
+  </p>
+  <p>
+    <strong>Without "normed space."</strong> In a general metric space, there is no notion
+    of "unit ball" (there is no scaling), and the very statement of the theorem makes no
+    sense. The interplay between the linear structure (subspaces, dimension) and the metric
+    structure (distance, compactness) is what gives Riesz's theorem its content.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">The closed unit ball is compact iff the space is finite-dimensional &mdash; Riesz's lemma kills compactness in infinite dimensions.</div>
+
+<div class="nav">
+  <a href="02-banach-spaces.html">&larr; Previous: Banach Spaces</a>
+  <a href="04-continuous-linear-maps.html">Next: Continuous Linear Maps and the Operator Norm &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Approximation in Hilbert Spaces — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Best Approximation in Hilbert Spaces</h1>
+<p class="subtitle">Phase 14 — Normed Vector Spaces, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Given a point $x$ in a Hilbert space and a closed convex set $C$, is there a unique nearest
+    point in $C$ to $x$? In $\mathbb{R}^n$, the answer is yes — project $x$ onto $C$. But in
+    infinite dimensions, even closed bounded sets need not be compact (Riesz's lemma, page 3),
+    so the infimum of distances might not be attained — a minimising sequence could converge to
+    a point outside $C$.
+  </p>
+  <p>
+    In Hilbert spaces — complete inner product spaces — the <b>parallelogram law</b> saves the
+    day. It forces minimising sequences to be Cauchy, giving both existence and uniqueness of
+    the best approximation.
+  </p>
+</div>
+
+<h2>1. Hilbert Spaces and the Parallelogram Law</h2>
+
+<p>
+  A <b>Hilbert space</b> is a Banach space whose norm comes from an inner product: $\|x\| = \sqrt{\langle x, x \rangle}$.
+  The inner product gives Hilbert spaces a geometric structure that general Banach spaces lack —
+  angles, orthogonality, and projections all make sense.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Parallelogram law</div>
+  <p>
+    In any inner product space, for all $x, y$:
+  </p>
+  <div class="display-math">$$\|x + y\|^2 + \|x - y\|^2 = 2\|x\|^2 + 2\|y\|^2.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> Expand $\|x + y\|^2 = \langle x + y, x + y \rangle = \|x\|^2 + 2\operatorname{Re}\langle x, y \rangle + \|y\|^2$.
+  </p>
+  <p>
+    <b>Step 2.</b> Expand $\|x - y\|^2 = \langle x - y, x - y \rangle = \|x\|^2 - 2\operatorname{Re}\langle x, y \rangle + \|y\|^2$.
+  </p>
+  <p>
+    <b>Step 3.</b> Add: $\|x + y\|^2 + \|x - y\|^2 = 2\|x\|^2 + 2\|y\|^2$. The cross terms cancel.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Geometrically: the sum of the squares of the diagonals of a parallelogram equals the sum of
+  the squares of the four sides. This is a Euclidean identity, and it characterises inner
+  product norms: a norm satisfies the parallelogram law if and only if it comes from an inner
+  product (the <b>von Neumann-Jordan theorem</b>, 1935).
+</p>
+
+<p>
+  The $\ell^p$ norm on $\mathbb{R}^2$ for $p \neq 2$ violates the parallelogram law. Take
+  $x = (1, 0)$ and $y = (0, 1)$: then $\|x + y\|_p^2 + \|x - y\|_p^2 = 2 \cdot 2^{2/p}$,
+  while $2\|x\|_p^2 + 2\|y\|_p^2 = 4$. These are equal only when $p = 2$.
+</p>
+
+<h2>2. The Projection Theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Projection theorem</div>
+  <p>
+    Let $H$ be a Hilbert space, $C \subset H$ a closed convex set, and $x \in H$. Then there
+    exists a unique $p \in C$ such that
+  </p>
+  <div class="display-math">$$\|x - p\| = \inf_{c \in C} \|x - c\| =: d(x, C).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> <em>Existence.</em> Let $d = \inf_{c \in C}\|x - c\|$. Choose a minimising
+    sequence $(c_n)$ in $C$ with $\|x - c_n\| \to d$.
+  </p>
+  <p>
+    <b>Step 2.</b> Apply the parallelogram law to $u = x - c_n$ and $v = x - c_m$:
+  </p>
+  <div class="display-math">$$\|u + v\|^2 + \|u - v\|^2 = 2\|u\|^2 + 2\|v\|^2,$$</div>
+  <p>
+    i.e. $\|2x - c_n - c_m\|^2 + \|c_m - c_n\|^2 = 2\|x - c_n\|^2 + 2\|x - c_m\|^2$.
+  </p>
+  <p>
+    <b>Step 3.</b> Since $C$ is convex, $(c_n + c_m)/2 \in C$, so $\|x - (c_n + c_m)/2\| \geq d$.
+    Therefore $\|2x - c_n - c_m\|^2 = 4\|x - (c_n + c_m)/2\|^2 \geq 4d^2$.
+  </p>
+  <p>
+    <b>Step 4.</b> Substituting:
+  </p>
+  <div class="display-math">$$\|c_m - c_n\|^2 = 2\|x - c_n\|^2 + 2\|x - c_m\|^2 - \|2x - c_n - c_m\|^2 \leq 2\|x - c_n\|^2 + 2\|x - c_m\|^2 - 4d^2.$$</div>
+  <p>
+    As $n, m \to \infty$, the right side tends to $2d^2 + 2d^2 - 4d^2 = 0$. So $(c_n)$ is Cauchy.
+  </p>
+  <p>
+    <b>Step 5.</b> Since $H$ is complete and $C$ is closed, $(c_n)$ converges to some $p \in C$
+    with $\|x - p\| = d$.
+  </p>
+  <p>
+    <b>Step 6.</b> <em>Uniqueness.</em> Suppose $p, q \in C$ both achieve the minimum $d$.
+    Apply the same parallelogram argument with $c_n = p$ and $c_m = q$ for all $n, m$:
+  </p>
+  <div class="display-math">$$\|p - q\|^2 \leq 2d^2 + 2d^2 - 4d^2 = 0,$$</div>
+  <p>
+    so $p = q$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The parallelogram law is used twice: once to show the minimising sequence is Cauchy
+  (existence), and once to show two minimisers must coincide (uniqueness). This is why the
+  theorem fails in general Banach spaces — without the parallelogram law, neither step works.
+</p>
+
+<h2>3. Orthogonal Projection onto Closed Subspaces</h2>
+
+<p>
+  When the closed convex set $C$ is a <b>closed subspace</b> $M$, the projection has an
+  elegant characterisation in terms of orthogonality.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Orthogonal projection</div>
+  <p>
+    Let $M$ be a closed subspace of a Hilbert space $H$ and $x \in H$. The nearest point
+    $p \in M$ to $x$ is the unique element satisfying $x - p \perp M$, i.e.
+    $\langle x - p, m \rangle = 0$ for all $m \in M$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> Let $p$ be the best approximation from Section 2. For any $m \in M$ and
+    $t \in \mathbb{R}$, $p + tm \in M$, so $\|x - p\|^2 \leq \|x - p - tm\|^2$.
+  </p>
+  <p>
+    <b>Step 2.</b> Expanding: $\|x - p\|^2 \leq \|x - p\|^2 - 2t\operatorname{Re}\langle x - p, m \rangle + t^2\|m\|^2$.
+  </p>
+  <p>
+    <b>Step 3.</b> This gives $0 \leq -2t\operatorname{Re}\langle x - p, m \rangle + t^2\|m\|^2$
+    for all $t$. Setting $t = \operatorname{Re}\langle x - p, m \rangle / \|m\|^2$ forces
+    $\operatorname{Re}\langle x - p, m \rangle = 0$. Replacing $m$ by $im$ (in the complex case)
+    gives the imaginary part too, so $\langle x - p, m \rangle = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This gives the <b>orthogonal decomposition</b>: every $x \in H$ can be written uniquely as
+  $x = p + (x - p)$ where $p \in M$ and $x - p \in M^\perp$. That is,
+</p>
+
+<div class="display-math">$$H = M \oplus M^\perp.$$</div>
+
+<p>
+  This generalises the Gram-Schmidt orthogonal projection from finite dimensions (Phase 6,
+  page 8) to the infinite-dimensional setting. It also connects to conditional expectation
+  in probability (Phase 12, page 8): if $H = L^2(\Omega)$ and $M$ is the subspace of
+  $\sigma$-algebra-measurable functions, the orthogonal projection onto $M$ is precisely the
+  conditional expectation $\mathbb{E}[\cdot \mid \mathcal{G}]$.
+</p>
+
+<h2>4. The Riesz Representation Theorem</h2>
+
+<p>
+  In a general normed space, the dual $X^*$ can be mysterious — Hahn-Banach (page 7) tells us
+  it is rich, but gives no concrete description of its elements. In a Hilbert space, the dual
+  has a beautifully simple characterisation.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Riesz representation theorem (for Hilbert spaces)</div>
+  <p>
+    Let $H$ be a Hilbert space. For every bounded linear functional $f \in H^*$, there exists a
+    unique $y \in H$ such that
+  </p>
+  <div class="display-math">$$f(x) = \langle x, y \rangle \quad \text{for all } x \in H.$$</div>
+  <p>
+    Moreover, $\|f\| = \|y\|$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> If $f = 0$, take $y = 0$. Otherwise, let $M = \ker(f)$. Since $f$ is
+    continuous, $M$ is a closed subspace of $H$, and $M \neq H$ (since $f \neq 0$).
+  </p>
+  <p>
+    <b>Step 2.</b> By the orthogonal decomposition, $M^\perp \neq \{0\}$. Pick any
+    $z \in M^\perp$ with $z \neq 0$.
+  </p>
+  <p>
+    <b>Step 3.</b> For any $x \in H$, the element $x - \frac{f(x)}{f(z)}z$ lies in $\ker(f) = M$.
+    So $\langle x - \frac{f(x)}{f(z)}z, z \rangle = 0$, giving
+  </p>
+  <div class="display-math">$$\langle x, z \rangle = \frac{f(x)}{f(z)}\|z\|^2, \quad \text{hence} \quad f(x) = \left\langle x, \frac{\overline{f(z)}}{\|z\|^2}z\right\rangle.$$</div>
+  <p>
+    <b>Step 4.</b> Set $y = \frac{\overline{f(z)}}{\|z\|^2}z$. Then $f(x) = \langle x, y \rangle$
+    for all $x$.
+  </p>
+  <p>
+    <b>Step 5.</b> <em>Uniqueness:</em> if $\langle x, y_1 \rangle = \langle x, y_2 \rangle$
+    for all $x$, then $\langle x, y_1 - y_2 \rangle = 0$ for all $x$; setting $x = y_1 - y_2$
+    gives $y_1 = y_2$.
+  </p>
+  <p>
+    <b>Step 6.</b> <em>Norm:</em> $|f(x)| = |\langle x, y \rangle| \leq \|x\|\,\|y\|$ by
+    Cauchy-Schwarz, so $\|f\| \leq \|y\|$. Equality is achieved at $x = y/\|y\|$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The Riesz representation theorem says $H^* \cong H$ (isometrically, via the conjugate-linear
+  map $y \mapsto \langle \cdot, y \rangle$). A Hilbert space is its own dual. This is a luxury
+  that general Banach spaces do not enjoy.
+</p>
+
+<h2>5. Phase 14 Recap</h2>
+
+<p>
+  Eight pages have built functional analysis from the ground up. Here is the arc:
+</p>
+
+<p>
+  <b>Pages 1-2:</b> Norms and equivalence. All norms on $\mathbb{R}^n$ are equivalent — a
+  finite-dimensional luxury. In infinite dimensions, different norms give genuinely different
+  topologies.
+</p>
+
+<p>
+  <b>Page 3:</b> Riesz's lemma and the failure of compactness. The closed unit ball is compact
+  if and only if the space is finite-dimensional. This is why infinite-dimensional analysis is hard.
+</p>
+
+<p>
+  <b>Page 4:</b> Bounded linear maps. Continuity equals boundedness for linear maps. The operator
+  norm makes $\mathcal{L}(X, Y)$ a normed space — Banach when $Y$ is Banach.
+</p>
+
+<p>
+  <b>Pages 5-6:</b> The Baire-powered theorems. Banach-Steinhaus (pointwise bounded implies
+  uniformly bounded), the open mapping theorem (surjective bounded maps are open), and the
+  closed graph theorem (closed graph implies bounded). All three require completeness, all three
+  use Baire.
+</p>
+
+<p>
+  <b>Page 7:</b> Hahn-Banach. Bounded functionals extend without norm inflation. Uses Zorn's
+  lemma, not Baire. Does not require completeness. Makes the dual space rich.
+</p>
+
+<p>
+  <b>Page 8:</b> Hilbert spaces. The inner product gives geometry — orthogonality, projections,
+  best approximation. The parallelogram law rescues existence and uniqueness. The Riesz
+  representation theorem identifies $H^*$ with $H$.
+</p>
+
+<p>
+  The grand unifying theme: infinite-dimensional spaces require new tools because
+  finite-dimensional intuition fails — compactness breaks, norms diverge, bases are
+  uncountable. But completeness (Baire) and the inner product structure (parallelogram law)
+  restore enough geometry to do analysis.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    David Hilbert developed the theory of integral equations between 1904 and 1910, working
+    with what we now call $\ell^2$ — sequences of square-summable reals. The abstract axioms
+    for Hilbert spaces were given by John von Neumann in 1929, who recognised that the inner
+    product structure (not the specific representation as sequences or functions) was the
+    essential feature.
+  </p>
+  <p>
+    Frigyes Riesz proved the representation theorem in 1907 for $L^2$ spaces, before the
+    abstract framework existed. The projection theorem generalises the finite-dimensional
+    Gram-Schmidt orthogonalisation (Phase 6, page 8) to infinite dimensions — the same
+    geometric idea, but completeness is now needed to ensure the projected point exists.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Without completeness:</b> in an incomplete inner product space, the infimum of
+    $\|x - c\|$ over $c \in C$ may not be attained. The minimising sequence is still Cauchy
+    (the parallelogram law holds in any inner product space), but it may converge to a point
+    outside the space. For example, in the space of polynomials on $[0, 1]$ with the $L^2$
+    inner product, the best $L^2$ approximation to a non-polynomial continuous function
+    does not exist within the space.
+  </p>
+  <p>
+    <b>Without convexity:</b> in a non-convex set, the nearest point may not be unique.
+    Consider the unit circle $S^1$ in $\mathbb{R}^2$ and the origin: every point on $S^1$
+    is equally close. The convexity hypothesis is used in Step 3 of the existence proof to
+    ensure midpoints stay in $C$.
+  </p>
+  <p>
+    <b>Without the inner product (in a general Banach space):</b> best approximation may exist
+    but need not be unique. In $\ell^\infty$, the nearest point in a closed subspace to a given
+    point can be non-unique — the parallelogram law fails, so the Cauchy argument for uniqueness
+    breaks down. Strict convexity of the norm suffices for uniqueness, but general Banach spaces
+    lack it.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  In a Hilbert space, every closed convex set has a unique nearest point — the parallelogram law makes minimising sequences Cauchy, and completeness finishes the job.
+</div>
+
+<div class="nav">
+  <a href="07-hahn-banach.html">&larr; Previous: The Hahn-Banach Theorem</a>
+  <a href="../phase15/01-combinatorial-games.html">Next: Combinatorial Games &rarr;</a>
+</div>
+
+</body>
+</html>

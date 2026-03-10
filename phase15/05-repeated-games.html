@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repeated Games and the Folk Theorem — Phase 15</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Repeated Games and the Folk Theorem</h1>
+<p class="subtitle">Phase 15 (Bonus) &mdash; Game Theory, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The Prisoner's Dilemma (<a href="03-nash-equilibrium.html">page 3</a>) has a depressing
+    conclusion: rational players always defect. But in real life, people cooperate all the time
+    &mdash; because they interact <em>repeatedly</em>. If I defect today, you can punish me
+    tomorrow.
+  </p>
+  <p>
+    Repeated interaction opens the door to cooperation, but only if the game continues long enough
+    and players care enough about the future. The <strong>folk theorem</strong> &mdash; so named
+    because it was known informally before anyone published it &mdash; makes this precise.
+  </p>
+</div>
+
+<h2>1. Repeated games</h2>
+
+<p>
+  Take a <strong>stage game</strong> $G$ with players $1, \ldots, n$, strategy sets $S_i$, and
+  payoff functions $u_i$. In the <strong>repeated game</strong>, $G$ is played over multiple
+  rounds. Players observe all past actions before choosing at each round. We write $a^t =
+  (a_1^t, \ldots, a_n^t)$ for the action profile at round $t$.
+</p>
+
+<p>
+  A <strong>strategy</strong> in the repeated game is a complete contingency plan: for each round
+  $t$ and each possible history $h^t = (a^0, a^1, \ldots, a^{t-1})$, it specifies which action
+  to play. This is vastly more complex than the stage game &mdash; strategies can condition on
+  everything that has happened before.
+</p>
+
+<p>
+  The total payoff uses <strong>discounting</strong>. With discount factor $\delta \in (0, 1)$,
+  player $i$'s payoff in the infinitely repeated game is:
+</p>
+
+<div class="display-math">$$U_i = (1 - \delta) \sum_{t=0}^{\infty} \delta^t u_i(a^t)$$</div>
+
+<p>
+  The factor $(1 - \delta)$ normalises the sum so that receiving payoff $c$ every round gives
+  total payoff $c$. The discount factor captures patience: $\delta$ close to 1 means future
+  payoffs matter almost as much as today's. The geometric series converges because $\delta < 1$
+  (Phase 2, <a href="../phase2/03-monotone-convergence.html">page 3</a>).
+</p>
+
+<h2>2. Finitely repeated Prisoner's Dilemma</h2>
+
+<p>
+  Suppose the Prisoner's Dilemma is repeated exactly $T$ times, and both players know $T$.
+</p>
+
+<p>
+  <strong>Round $T$ (the last round):</strong> this is a one-shot game. Both players face the
+  standard Prisoner's Dilemma with no future consequences. By the dominance argument
+  (<a href="04-dominant-strategies.html">page 4</a>), both defect.
+</p>
+
+<p>
+  <strong>Round $T - 1$:</strong> both players know that round $T$ will produce mutual defection
+  no matter what. So round $T - 1$ is effectively the last round where anything can be influenced.
+  But it is again a one-shot game &mdash; the future is fixed. Both defect.
+</p>
+
+<p>
+  <strong>Round $T - 2$:</strong> by the same reasoning, both defect. The argument unravels
+  backwards to round 1. This is <strong>backward induction</strong>
+  (<a href="01-sequential-games.html">page 1</a>) applied to the repeated game.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; finite unravelling</div>
+  <p>
+    If the stage game has a <em>unique</em> Nash equilibrium, then the finitely repeated game
+    (with known endpoint $T$) has a unique subgame-perfect equilibrium: play the stage Nash
+    equilibrium in every round.
+  </p>
+</div>
+
+<p>
+  Cooperation cannot emerge in finitely repeated games when the stage game has a unique
+  equilibrium. The known endpoint poisons everything. This is why infinite repetition (or
+  uncertainty about when the game ends) is essential.
+</p>
+
+<h2>3. The folk theorem</h2>
+
+<p>
+  For the infinitely repeated game, we need two sets of payoffs.
+</p>
+
+<p>
+  The <strong>feasible payoff set</strong> $V$ is the convex hull of all stage-game payoff
+  vectors $\{(u_1(a), \ldots, u_n(a)) : a \in S\}$. Any point in $V$ can be achieved on average
+  by mixing between different action profiles over time.
+</p>
+
+<p>
+  The <strong>minmax payoff</strong> for player $i$ is:
+</p>
+
+<div class="display-math">$$\underline{v}_i = \min_{\sigma_{-i}} \max_{s_i} u_i(s_i, \sigma_{-i})$$</div>
+
+<p>
+  This is the lowest payoff that the other players can force on $i$ when $i$ best-responds. No
+  rational player accepts less than their minmax value in the long run &mdash; they can always
+  guarantee at least $\underline{v}_i$ by best-responding to the worst case.
+</p>
+
+<p>
+  A payoff vector $v = (v_1, \ldots, v_n)$ is <strong>individually rational</strong> if
+  $v_i \geq \underline{v}_i$ for every player $i$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; folk theorem (Nash equilibrium version)</div>
+  <p>
+    Let $v$ be a feasible and individually rational payoff vector. For $\delta$ sufficiently close
+    to $1$, there exists a Nash equilibrium of the infinitely repeated game with payoff vector $v$.
+  </p>
+</div>
+
+<p>
+  The folk theorem says that <em>anything reasonable can happen</em> in a repeated game, provided
+  players are patient enough. Cooperation, alternation, asymmetric splits &mdash; any payoff that
+  is feasible and individually rational is an equilibrium outcome for some $\delta$.
+</p>
+
+<h2>4. Proof via grim trigger</h2>
+
+<p>
+  We prove the folk theorem for the Prisoner's Dilemma with the standard payoffs: mutual
+  cooperation gives $(2, 2)$, mutual defection gives $(1, 1)$, and unilateral defection gives
+  $(3, 0)$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; grim trigger strategy</div>
+  <p>
+    Cooperate in round 0. In round $t > 0$: cooperate if both players cooperated in every previous
+    round; otherwise defect forever.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof &mdash; grim trigger sustains cooperation</div>
+  <p>
+    <strong>Step 1.</strong> If both players follow grim trigger, they cooperate forever. Each
+    player's payoff is $(1 - \delta) \sum_{t=0}^{\infty} \delta^t \cdot 2 = 2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Suppose player 1 considers deviating at round $t$ (defecting while
+    player 2 cooperates). The immediate gain is $3$ instead of $2$ in round $t$. But from round
+    $t + 1$ onwards, player 2 switches to permanent defection. The best player 1 can do thereafter
+    is also defect, giving payoff $1$ per round.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The payoff from deviating at round $t$ (normalised to round $t$) is:
+  </p>
+  <div class="display-math">$$(1 - \delta)\left[3 + \delta \cdot 1 + \delta^2 \cdot 1 + \cdots\right] = (1 - \delta) \cdot 3 + \delta \cdot 1 = 3 - 2\delta$$</div>
+  <p>
+    <strong>Step 4.</strong> Cooperation is better than deviating when $2 > 3 - 2\delta$, i.e.,
+    $\delta > 1/2$. For any discount factor above $1/2$, neither player wants to deviate from
+    grim trigger. It is a Nash equilibrium.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The general proof works the same way. For an arbitrary feasible, individually rational payoff
+  vector $v$, construct a strategy that plays actions achieving $v$ on average, and punishes any
+  deviator by switching to the minmax strategy against them forever. For $\delta$ close enough to
+  1, the long-run punishment outweighs any short-run gain from deviating.
+</p>
+
+<h2>5. Tit-for-tat</h2>
+
+<p>
+  Grim trigger is effective but harsh: a single defection triggers eternal punishment. In practice,
+  <strong>tit-for-tat</strong> is more robust.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; tit-for-tat</div>
+  <p>
+    Cooperate in round 0. In round $t > 0$, play whatever your opponent played in round $t - 1$.
+  </p>
+</div>
+
+<p>
+  Robert Axelrod (1984) ran computer tournaments where submitted strategies played iterated
+  Prisoner's Dilemma against each other. Tit-for-tat, submitted by Anatol Rapoport, won both
+  tournaments despite being the simplest strategy entered.
+</p>
+
+<p>
+  Why does it work? Tit-for-tat has four properties: (1) <strong>nice</strong> &mdash; it starts
+  by cooperating; (2) <strong>retaliatory</strong> &mdash; it punishes defection immediately;
+  (3) <strong>forgiving</strong> &mdash; it returns to cooperation as soon as the opponent does;
+  (4) <strong>clear</strong> &mdash; its behaviour is easy for the opponent to understand and
+  predict.
+</p>
+
+<p>
+  Tit-for-tat is not a Nash equilibrium of the infinitely repeated game in general (two tit-for-tat
+  players who accidentally defect enter a cycle of alternating defections). But its success in
+  tournaments and evolutionary simulations suggests that <em>robustness</em> against a variety of
+  opponents matters more than equilibrium optimality.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The folk theorem was "folklore" among game theorists in the 1950s &mdash; everyone knew it was
+    true, but no one bothered to publish it. Friedman (1971) gave the first formal version using
+    Nash equilibrium threats. Aumann and Shapley (1976) and Rubinstein (1979) strengthened it to
+    subgame-perfect equilibrium, where the punishment must itself be credible.
+  </p>
+  <p>
+    Axelrod's tournaments (1980, 1984), published in <em>The Evolution of Cooperation</em>,
+    brought repeated games to public attention far beyond economics. Biologists, political
+    scientists, and computer scientists all adopted the framework. The insight &mdash; that
+    cooperation can emerge from pure self-interest, given repetition and patience &mdash; is one
+    of the most celebrated results in all of social science.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without infinite repetition</strong> (or uncertainty about when the game ends):
+    backward induction kills cooperation, as shown in Section 2. A known finite horizon unravels
+    all incentives to cooperate. If the game instead ends at each round with probability $1 -
+    \delta$, this is strategically equivalent to infinite repetition with discount factor $\delta$,
+    and cooperation can be sustained.
+  </p>
+  <p>
+    <strong>Without discounting ($\delta = 1$):</strong> the sum $\sum_{t=0}^{\infty} u_i(a^t)$
+    diverges. Payoffs are not well-defined &mdash; receiving 2 forever and receiving 1 forever both
+    give $+\infty$. Various alternative payoff definitions exist (limit of means, overtaking
+    criterion), but the standard folk theorem requires $\delta < 1$.
+  </p>
+  <p>
+    <strong>Without observability:</strong> if players cannot see past actions, punishment is
+    impossible &mdash; you cannot punish what you cannot detect. The folk theorem fails entirely.
+    Games with <strong>private monitoring</strong> (each player sees only a noisy signal of the
+    others' actions) require much more sophisticated analysis, and cooperation is far harder to
+    sustain.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Repetition transforms the Prisoner's Dilemma: any feasible, individually rational outcome
+  becomes an equilibrium when players are patient enough, because the future provides both
+  the carrot and the stick.
+</div>
+
+<div class="nav">
+  <a href="04-dominant-strategies.html">&larr; Previous: Dominant Strategies</a>
+  <a href="06-mechanism-design.html">Next: Mechanism Design &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dominant Strategies and Iterated Elimination — Phase 15</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Dominant Strategies and Iterated Elimination</h1>
+<p class="subtitle">Phase 15 (Bonus) &mdash; Game Theory, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In the Prisoner's Dilemma (<a href="03-nash-equilibrium.html">page 3</a>), each player has a
+    strategy that is best <em>regardless</em> of what the opponent does &mdash; defect dominates
+    cooperate. Can we simplify other games by removing strategies that are never rational to play?
+  </p>
+  <p>
+    This is <strong>iterated elimination of dominated strategies</strong>. It sometimes solves the
+    game completely without finding equilibria directly. But the order of elimination can matter,
+    and the method often leaves multiple strategies surviving.
+  </p>
+</div>
+
+<h2>1. Strictly dominated strategies</h2>
+
+<p>
+  Consider a finite game with players $i = 1, \ldots, n$. Player $i$ has a strategy set $S_i$ and
+  payoff function $u_i$. Write $\sigma_{-i}$ for a strategy profile of all players except $i$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; strict dominance</div>
+  <p>
+    A strategy $\sigma_i \in S_i$ is <strong>strictly dominated</strong> if there exists
+    $\sigma_i' \in S_i$ such that:
+  </p>
+  <div class="display-math">$$u_i(\sigma_i', \sigma_{-i}) > u_i(\sigma_i, \sigma_{-i}) \quad \text{for all } \sigma_{-i} \in S_{-i}$$</div>
+  <p>
+    We say $\sigma_i'$ <strong>strictly dominates</strong> $\sigma_i$.
+  </p>
+</div>
+
+<p>
+  The inequality must hold for <em>every</em> possible combination of opponents' strategies, not
+  just some. A rational player &mdash; one who maximises their payoff &mdash; never plays a strictly
+  dominated strategy. Why would you, when another strategy does strictly better no matter what?
+</p>
+
+<p>
+  In the Prisoner's Dilemma, Defect strictly dominates Cooperate for both players. If your opponent
+  cooperates, you get 0 (cooperate) vs 3 (defect). If your opponent defects, you get $-3$
+  (cooperate) vs $-1$ (defect). Defect wins in both cases.
+</p>
+
+<h2>2. Iterated elimination of strictly dominated strategies</h2>
+
+<p>
+  If a rational player never plays a strictly dominated strategy, we can remove it from the game.
+  But removing it shrinks the opponents' relevant strategy space, which may cause <em>new</em>
+  strategies to become dominated. So we repeat.
+</p>
+
+<p>
+  <strong>The IESDS procedure:</strong> at round 0, start with the full game. At round $k$, remove
+  every strictly dominated strategy in the game that remains after round $k - 1$. Stop when no
+  further strategies can be eliminated. The surviving set is the <strong>IESDS solution</strong>.
+</p>
+
+<p>
+  A natural worry: does the order in which we eliminate matter? If at round $k$ both strategy $A$
+  and strategy $B$ are dominated, does it matter whether we remove $A$ first or $B$ first?
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; order independence of IESDS</div>
+  <p>
+    In iterated elimination of <em>strictly</em> dominated strategies, the final surviving set of
+    strategy profiles is the same regardless of the order of elimination.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $S^k$ and $T^k$ denote the surviving strategy sets after round $k$
+    under two different elimination orders. We show by induction that $S^k$ and $T^k$ produce the
+    same final result.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Suppose strategy $s_i$ is eliminated at round $k$ in the first order,
+    meaning there exists $s_i'$ with $u_i(s_i', \sigma_{-i}) > u_i(s_i, \sigma_{-i})$ for all
+    $\sigma_{-i} \in S_{-i}^{k-1}$. We claim $s_i$ is also eventually eliminated in the second
+    order.
+  </p>
+  <p>
+    <strong>Step 3.</strong> In the second order, at some round $m$ we have $T_{-i}^m \subseteq
+    S_{-i}^{k-1}$. (This must happen because any strategy eliminated in order 1 by round $k-1$ is
+    strictly dominated in the full game, hence also strictly dominated in the game restricted to
+    $T^m$ for $m$ large enough.) Once $T_{-i}^m \subseteq S_{-i}^{k-1}$, the domination
+    $u_i(s_i', \sigma_{-i}) > u_i(s_i, \sigma_{-i})$ holds a fortiori for all $\sigma_{-i}
+    \in T_{-i}^m$, since the condition was satisfied on the larger set $S_{-i}^{k-1}$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Therefore $s_i$ is dominated in the second order's game at round $m$
+    and will be eliminated at or before round $m$. By symmetry, the same holds in the other
+    direction. Both orders eliminate exactly the same strategies.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Weakly dominated strategies</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; weak dominance</div>
+  <p>
+    A strategy $\sigma_i$ is <strong>weakly dominated</strong> by $\sigma_i'$ if:
+  </p>
+  <div class="display-math">$$u_i(\sigma_i', \sigma_{-i}) \geq u_i(\sigma_i, \sigma_{-i}) \quad \text{for all } \sigma_{-i}$$</div>
+  <p>
+    with <em>strict</em> inequality for at least one $\sigma_{-i}$.
+  </p>
+</div>
+
+<p>
+  The crucial difference: weak dominance only requires "at least as good everywhere, strictly better
+  somewhere." And here order independence <em>fails</em>. Consider this $3 \times 3$ game (row
+  player payoffs only):
+</p>
+
+<div class="display-math">$$\begin{array}{c|ccc}
+ & L & C & R \\
+\hline
+T & 1 & 1 & 0 \\
+M & 1 & 0 & 1 \\
+B & 0 & 1 & 1
+\end{array}$$</div>
+
+<p>
+  Strategy $T$ weakly dominates $B$ (payoffs $1, 1, 0$ vs $0, 1, 1$ &mdash; $T$ is at least as
+  good everywhere, strictly better against $L$). If we eliminate $B$ first, then in the reduced
+  game $M$ is weakly dominated by $T$ (payoffs $1, 0$ vs $1, 1$ against $L, C$). We are left with
+  $T$ only.
+</p>
+<p>
+  But $M$ also weakly dominates $T$ (payoffs $1, 0, 1$ vs $1, 1, 0$). If we eliminate $T$ first,
+  the analysis changes and different strategies survive. The final answer depends on which we
+  removed first.
+</p>
+
+<h2>4. Dominant strategy equilibrium</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; dominant strategy equilibrium</div>
+  <p>
+    A strategy profile $(s_1^*, \ldots, s_n^*)$ is a <strong>dominant strategy equilibrium</strong>
+    if each $s_i^*$ is a (weakly or strictly) dominant strategy for player $i$ &mdash; i.e.,
+    $s_i^*$ (weakly or strictly) dominates every other strategy in $S_i$.
+  </p>
+</div>
+
+<p>
+  When every player has a dominant strategy, the game has a unique prediction that requires no
+  strategic reasoning at all. You do not need to think about what the other player will do &mdash;
+  your best move is the same regardless.
+</p>
+
+<p>
+  <strong>Example 1:</strong> the Prisoner's Dilemma. Defect is strictly dominant for both players,
+  so (Defect, Defect) is the dominant strategy equilibrium.
+</p>
+
+<p>
+  <strong>Example 2:</strong> the Vickrey (second-price sealed-bid) auction. Each bidder submits a
+  sealed bid; the highest bidder wins but pays the second-highest bid. We will prove on
+  <a href="06-mechanism-design.html">page 6</a> that bidding your true valuation is a weakly
+  dominant strategy. This gives a dominant strategy equilibrium where everyone bids truthfully.
+</p>
+
+<p>
+  Dominant strategy equilibria are rare. Most games do not have them, which is why we need the
+  more general concept of Nash equilibrium (<a href="03-nash-equilibrium.html">page 3</a>).
+</p>
+
+<h2>5. Rationalisability</h2>
+
+<p>
+  The strategies that survive IESDS have a deep justification. Bernheim (1984) and Pearce (1984),
+  working independently, showed that the surviving strategies are exactly the
+  <strong>rationalisable</strong> strategies &mdash; those consistent with
+  <strong>common knowledge of rationality</strong>.
+</p>
+
+<p>
+  What does this mean? A strategy $s_i$ is rationalisable if:
+</p>
+
+<p>
+  (a) $s_i$ is a best response to some belief about the opponents' strategies; and<br>
+  (b) that belief assigns positive probability only to strategies that are themselves best
+  responses to some belief; and<br>
+  (c) <em>those</em> beliefs assign positive probability only to strategies that are best
+  responses&hellip; and so on, ad infinitum.
+</p>
+
+<p>
+  This infinite chain of reasoning &mdash; "I am rational, I know you are rational, I know you
+  know I am rational, &hellip;" &mdash; is common knowledge of rationality. The remarkable result
+  is that this chain of reasoning eliminates exactly the same strategies as IESDS. No more, no
+  less.
+</p>
+
+<p>
+  In two-player games, rationalisability and IESDS coincide exactly. In games with three or more
+  players, the equivalence requires allowing players to hold correlated beliefs about opponents
+  (Bernheim 1984).
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Luce and Raiffa (1957) systematised dominance concepts in <em>Games and Decisions</em>, the
+    first comprehensive textbook of game theory after von Neumann and Morgenstern. The
+    order-independence result for strict dominance was formalised by Gilboa, Kalai, and Zemel
+    (1990), though it was known informally much earlier &mdash; it was "obvious" to practitioners
+    but the proof required care.
+  </p>
+  <p>
+    The concept of rationalisability was introduced independently by Bernheim (1984) and Pearce
+    (1984) in back-to-back papers in <em>Econometrica</em>. Their work connected the procedural
+    idea of iterated elimination to the epistemic idea of common knowledge, founding what is now
+    called <strong>epistemic game theory</strong>.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without strict dominance:</strong> as shown in Section 3, weak dominance elimination
+    depends on the order. Different removal sequences can leave different strategies surviving.
+    There is no canonical answer.
+  </p>
+  <p>
+    <strong>Without common knowledge of rationality:</strong> IESDS assumes all players are
+    rational, know all others are rational, know that all know, and so on to infinity. If player 1
+    thinks player 2 might be irrational (or might think player 1 is irrational), then dominated
+    strategies for player 2 might reasonably be expected, and player 1's best response changes. The
+    entire IESDS edifice rests on an infinite tower of mutual knowledge.
+  </p>
+  <p>
+    <strong>Without finite games:</strong> in games with continuous strategy spaces (e.g., choosing
+    a price in $[0, \infty)$), a dominated strategy may not have a single dominating alternative.
+    Instead, for every dominated strategy there is a <em>different</em> strategy that dominates it,
+    and the elimination process may not terminate or may require transfinite induction.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A rational player never plays a strictly dominated strategy; removing such strategies iteratively
+  &mdash; in any order &mdash; reveals the predictions consistent with common knowledge of rationality.
+</div>
+
+<div class="nav">
+  <a href="03-nash-equilibrium.html">&larr; Previous: Nash Equilibrium</a>
+  <a href="05-repeated-games.html">Next: Repeated Games and the Folk Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

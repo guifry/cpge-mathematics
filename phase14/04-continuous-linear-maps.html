@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continuous Linear Maps and the Operator Norm — Phase 14</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Continuous Linear Maps and the Operator Norm</h1>
+<p class="subtitle">Phase 14 &mdash; Normed Vector Spaces, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In finite dimensions, every linear map $T : \mathbb{R}^n \to \mathbb{R}^m$ is
+    continuous. This is a theorem you probably take for granted: matrix multiplication
+    cannot "blow up" a convergent sequence. But in infinite dimensions, this fails. There
+    exist linear maps that send convergent sequences to divergent ones &mdash; the
+    differentiation operator $D : C^1([0,1]) \to C([0,1])$, for instance, is unbounded
+    under the supremum norm.
+  </p>
+  <p>
+    The question becomes: which linear maps between normed spaces are continuous? The
+    answer, due to Riesz and Banach, is clean: exactly the <strong>bounded</strong> ones.
+    And the "size" of such a map is measured by a single number &mdash; the operator norm.
+  </p>
+</div>
+
+<h2>1. Continuity equals boundedness</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Continuity criterion for linear maps</div>
+  <p>
+    Let $T : X \to Y$ be a linear map between normed spaces. The following are equivalent:
+  </p>
+  <p>(i) $T$ is continuous.</p>
+  <p>(ii) $T$ is continuous at $0$.</p>
+  <p>(iii) $T$ is <strong>bounded</strong>: there exists $C \geq 0$ with $\|Tx\| \leq C\|x\|$ for all $x \in X$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. (i) $\Rightarrow$ (ii).</strong> Trivial: continuous everywhere implies
+    continuous at $0$.
+  </p>
+  <p>
+    <strong>Step 2. (ii) $\Rightarrow$ (iii).</strong> Continuous at $0$ means: for
+    $\varepsilon = 1$ there exists $\delta > 0$ with $\|Tx\| < 1$ whenever $\|x\| < \delta$.
+    For arbitrary $x \neq 0$, set $u = \delta x / (2\|x\|)$. Then $\|u\| = \delta/2 < \delta$,
+    so $\|Tu\| < 1$. By linearity,
+    $\|Tx\| = (2\|x\|/\delta)\|Tu\| < 2\|x\|/\delta$. Taking $C = 2/\delta$ gives
+    $\|Tx\| \leq C\|x\|$ (this holds for $x = 0$ trivially).
+  </p>
+  <p>
+    <strong>Step 3. (iii) $\Rightarrow$ (i).</strong> For any $x, y \in X$:
+    $\|Tx - Ty\| = \|T(x - y)\| \leq C\|x - y\|$. So $T$ is Lipschitz continuous,
+    hence continuous everywhere.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The key insight is Step 3: linearity upgrades continuity at a single point to
+  Lipschitz continuity everywhere. This is special to linear maps &mdash; for general
+  functions, continuity at one point says nothing about other points.
+</p>
+
+<h2>2. The operator norm</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Operator norm</div>
+  <p>
+    For a bounded linear map $T : X \to Y$, define
+  </p>
+  <div class="display-math">$$\|T\| = \sup_{\|x\| \leq 1} \|Tx\| = \sup_{\|x\| = 1} \|Tx\| = \sup_{x \neq 0} \frac{\|Tx\|}{\|x\|}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof that the three expressions are equal</div>
+  <p>
+    <strong>Step 1.</strong> Call the three quantities $A$, $B$, $C$ respectively. Since
+    $\{x : \|x\| = 1\} \subset \{x : \|x\| \leq 1\}$, we have $B \leq A$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> For any $x$ with $\|x\| \leq 1$ and $x \neq 0$, set
+    $u = x/\|x\|$. Then $\|u\| = 1$ and $\|Tx\| = \|x\|\,\|Tu\| \leq \|Tu\| \leq B$.
+    Also $\|T(0)\| = 0 \leq B$. So $A \leq B$, giving $A = B$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> For $x \neq 0$, $\|Tx\|/\|x\| = \|T(x/\|x\|)\|$, and
+    $x/\|x\|$ has norm 1. So $C = B$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The operator norm is the smallest constant $C$ that works in $\|Tx\| \leq C\|x\|$.
+  It measures the maximum "stretching factor" of $T$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof that $\|\cdot\|$ is a norm on bounded linear maps</div>
+  <p>
+    <strong>Step 1.</strong> Positive definiteness: $\|T\| \geq 0$ always. If $\|T\| = 0$,
+    then $\|Tx\| \leq 0$ for all $x$ with $\|x\| = 1$, so $Tx = 0$ for all unit vectors,
+    hence $T = 0$ by linearity.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Homogeneity: $\|\lambda T\| = \sup_{\|x\|=1} \|\lambda Tx\| = |\lambda| \sup_{\|x\|=1} \|Tx\| = |\lambda|\,\|T\|$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Triangle inequality: $\|T + S\| = \sup_{\|x\|=1} \|(T+S)x\| \leq \sup_{\|x\|=1} (\|Tx\| + \|Sx\|) \leq \|T\| + \|S\|$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. The space $\mathcal{L}(X, Y)$ is Banach when $Y$ is</h2>
+
+<p>
+  Write $\mathcal{L}(X, Y)$ for the vector space of all bounded linear maps from $X$ to
+  $Y$, equipped with the operator norm.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    If $Y$ is a Banach space, then $\mathcal{L}(X, Y)$ is a Banach space.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $(T_n)$ be Cauchy in $\mathcal{L}(X, Y)$. For each
+    $x \in X$, $\|T_m x - T_n x\| \leq \|T_m - T_n\|\,\|x\| \to 0$, so $(T_n x)$ is
+    Cauchy in $Y$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $Y$ is complete, define $Tx = \lim_{n \to \infty} T_n x$
+    for each $x$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> $T$ is linear: $T(\alpha x + \beta y) = \lim T_n(\alpha x + \beta y) = \alpha \lim T_n x + \beta \lim T_n y = \alpha Tx + \beta Ty$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> $T$ is bounded: since $(T_n)$ is Cauchy, $\|T_n\|$ is bounded
+    (say by $M$). For any $x$, $\|Tx\| = \lim \|T_n x\| \leq M\|x\|$, so $\|T\| \leq M$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> $T_n \to T$ in operator norm: given $\varepsilon > 0$, choose
+    $N$ so that $\|T_m - T_n\| < \varepsilon$ for $m, n \geq N$. For any $x$ with
+    $\|x\| \leq 1$, $\|T_m x - T_n x\| \leq \varepsilon$. Let $m \to \infty$:
+    $\|Tx - T_n x\| \leq \varepsilon$. Taking the supremum over $\|x\| \leq 1$:
+    $\|T - T_n\| \leq \varepsilon$ for all $n \geq N$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. The dual space</h2>
+
+<p>
+  A particularly important case: linear maps from $X$ to the scalars $\mathbb{R}$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Dual space</div>
+  <p>
+    The <strong>dual space</strong> of $X$ is $X^* = \mathcal{L}(X, \mathbb{R})$, the space
+    of all bounded linear functionals $\varphi : X \to \mathbb{R}$.
+  </p>
+</div>
+
+<p>
+  Since $\mathbb{R}$ is complete, the theorem of Section 3 gives us immediately:
+  <strong>$X^*$ is always a Banach space</strong>, even if $X$ itself is not complete.
+  This is a remarkable fact &mdash; the dual of an incomplete normed space is complete.
+</p>
+
+<p>
+  <strong>Finite-dimensional example.</strong> If $X = \mathbb{R}^n$ with the Euclidean
+  norm, then every linear functional has the form $\varphi(x) = a \cdot x$ for some
+  $a \in \mathbb{R}^n$, and $\|\varphi\| = \|a\|_2$. So $(\mathbb{R}^n)^* \cong \mathbb{R}^n$
+  (this is the Riesz representation theorem for inner product spaces &mdash;
+  Phase 13, page 1).
+</p>
+
+<p>
+  <strong>Sequence spaces.</strong> For $1 < p < \infty$ with $1/p + 1/q = 1$, we have
+  $(\ell^p)^* \cong \ell^q$: every bounded linear functional on $\ell^p$ is given by
+  $\varphi((x_n)) = \sum a_n x_n$ for a unique $(a_n) \in \ell^q$, with
+  $\|\varphi\| = \|(a_n)\|_q$. We state this without proof; it requires H&ouml;lder's
+  inequality and a careful density argument.
+</p>
+
+<h2>5. In finite dimensions, all linear maps are continuous</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    If $X$ is a finite-dimensional normed space and $Y$ is any normed space, then every
+    linear map $T : X \to Y$ is bounded (hence continuous).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $\dim X = n$ with basis $(e_1, \ldots, e_n)$. For
+    $x = \sum_{i=1}^{n} \alpha_i e_i$:
+  </p>
+  <div class="display-math">$$\|Tx\| = \left\|\sum_{i=1}^{n} \alpha_i T e_i\right\| \leq \sum_{i=1}^{n} |\alpha_i|\,\|T e_i\|.$$</div>
+  <p>
+    <strong>Step 2.</strong> Set $M = \max_i \|T e_i\|$. Then
+    $\|Tx\| \leq M \sum |\alpha_i| = M \|\alpha\|_1$ where $\alpha = (\alpha_1, \ldots, \alpha_n)$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> By norm equivalence (Phase 14, page 1), there exists $K > 0$
+    with $\|\alpha\|_1 \leq K \|x\|$ (since $x \mapsto \alpha$ is the coordinate map, and
+    $\|\cdot\|_1$ on coordinates is equivalent to $\|\cdot\|$ on $X$). So
+    $\|Tx\| \leq MK\|x\|$, giving $\|T\| \leq MK$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is why linear algebra in $\mathbb{R}^n$ feels so smooth: continuity is automatic.
+  In infinite dimensions, you must <em>earn</em> continuity by proving boundedness.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The equivalence of continuity and boundedness for linear maps was established by Riesz
+    (1918) and Banach (1920s). The operator norm was implicit in Hilbert's work on integral
+    equations (1904&ndash;1910), where he studied bounded bilinear forms on $\ell^2$. The
+    concept of the dual space traces to Hans Hahn (1927), who proved the first version of
+    the Hahn&ndash;Banach extension theorem &mdash; the tool that guarantees $X^*$ is
+    "large enough" to separate points.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without linearity.</strong> A bounded nonlinear function need not be continuous
+    (consider the characteristic function of $\mathbb{Q}$: bounded but discontinuous
+    everywhere). Conversely, a continuous nonlinear function need not be bounded ($f(x) = x$
+    on $\mathbb{R}$). The equivalence of boundedness and continuity is a privilege of
+    linearity.
+  </p>
+  <p>
+    <strong>Without completeness of $Y$.</strong> The space $\mathcal{L}(X, Y)$ need not
+    be complete. You lose the ability to take limits of operator sequences &mdash; a Cauchy
+    sequence of bounded operators might "converge" to something outside the space. This is
+    why Banach space targets are standard in operator theory.
+  </p>
+  <p>
+    <strong>Without finite dimension.</strong> The differentiation operator
+    $D : (C^1([0,1]), \|\cdot\|_\infty) \to (C([0,1]), \|\cdot\|_\infty)$ is linear but
+    unbounded: $\|D(x^n)\|_\infty = n$ while $\|x^n\|_\infty = 1$. There is no constant
+    $C$ with $\|Df\|_\infty \leq C\|f\|_\infty$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">A linear map between normed spaces is continuous iff it is bounded, and the operator norm measures its worst-case stretching.</div>
+
+<div class="nav">
+  <a href="03-riesz-lemma.html">&larr; Previous: Riesz's Lemma and Finite-Dimensional Characterisation</a>
+  <a href="05-banach-steinhaus.html">Next: The Banach&ndash;Steinhaus Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

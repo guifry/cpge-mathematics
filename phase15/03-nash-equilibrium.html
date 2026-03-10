@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nash Equilibrium — Phase 15</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Nash Equilibrium</h1>
+<p class="subtitle">Phase 15 (Bonus) &mdash; Game Theory, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Von Neumann's minimax theorem (previous page) handles zero-sum games &mdash; strictly
+    competitive situations where one player's gain is the other's loss. But most real
+    interactions are not zero-sum. Two firms can compete or collude. Two countries can arm
+    or disarm. A gain for one side need not mean an equal loss for the other.
+  </p>
+  <p>
+    Nash (1950), in a 27-page PhD thesis written at age 21, asked: in <em>any</em> finite
+    game &mdash; any number of players, any payoff structure &mdash; is there a strategy
+    profile from which no player wants to unilaterally deviate? He proved the answer is yes,
+    using Kakutani's fixed-point theorem. The concept now bears his name: <strong>Nash
+    equilibrium</strong>.
+  </p>
+</div>
+
+<h2>1. General $n$-player games</h2>
+
+<p>
+  A <strong>finite $n$-player game in normal form</strong> consists of:
+</p>
+<ul>
+  <li><strong>Players</strong> $\{1, 2, \ldots, n\}$.</li>
+  <li>For each player $i$, a finite set of <strong>pure strategies</strong> $S_i = \{s_i^1, \ldots, s_i^{k_i}\}$.</li>
+  <li>For each player $i$, a <strong>payoff function</strong> $u_i : S_1 \times S_2 \times \cdots \times S_n \to \mathbb{R}$.</li>
+</ul>
+<p>
+  A <strong>strategy profile</strong> is a tuple $s = (s_1, \ldots, s_n)$ with one
+  strategy per player. The payoff to player $i$ under profile $s$ is $u_i(s)$.
+</p>
+<p>
+  A <strong>mixed strategy</strong> for player $i$ is a probability distribution
+  $\sigma_i \in \Delta(S_i)$ over their pure strategies. Under mixed profile
+  $\sigma = (\sigma_1, \ldots, \sigma_n)$, player $i$'s expected payoff is
+</p>
+<div class="display-math">$$u_i(\sigma) = \sum_{s \in S_1 \times \cdots \times S_n} \sigma_1(s_1) \cdots \sigma_n(s_n) \, u_i(s)$$</div>
+<p>
+  We write $\sigma_{-i}$ for the strategies of all players <em>except</em> $i$, and
+  $(\sigma_i, \sigma_{-i})$ for the full profile. This notation lets us isolate one
+  player's choice.
+</p>
+
+<h2>2. Nash equilibrium</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Nash equilibrium</div>
+  <p>
+    A mixed strategy profile $\sigma^* = (\sigma_1^*, \ldots, \sigma_n^*)$ is a
+    <strong>Nash equilibrium</strong> if no player can increase their expected payoff by
+    unilaterally changing their strategy:
+  </p>
+  <div class="display-math">$$u_i(\sigma_i^*, \sigma_{-i}^*) \geq u_i(\sigma_i, \sigma_{-i}^*) \quad \text{for all } i \text{ and all } \sigma_i \in \Delta(S_i)$$</div>
+</div>
+
+<p>
+  The key word is <em>unilaterally</em>. Each player optimises given the others' strategies
+  are fixed. No player has a profitable deviation &mdash; but this does not mean the
+  outcome is globally optimal. It is a <strong>local</strong> stability concept: stable
+  against individual defections, not coordinated ones.
+</p>
+<p>
+  Note that a Nash equilibrium in pure strategies is a special case: each $\sigma_i^*$ is
+  concentrated on a single strategy $s_i^*$, and $u_i(s_i^*, s_{-i}^*) \geq
+  u_i(s_i, s_{-i}^*)$ for all $s_i \in S_i$.
+</p>
+
+<h2>3. The Prisoner's Dilemma</h2>
+
+<p>
+  The most famous game in the social sciences. Two suspects are interrogated separately.
+  Each can <strong>cooperate</strong> (stay silent) or <strong>defect</strong> (betray the
+  other). The payoff matrix (years of reduced sentence, higher is better):
+</p>
+<div class="display-math">$$\begin{array}{c|cc}
+  & C & D \\ \hline
+  C & 3,\, 3 & 0,\, 5 \\
+  D & 5,\, 0 & 1,\, 1
+\end{array}$$</div>
+<p>
+  If both cooperate, each gets 3. If one defects while the other cooperates, the defector
+  gets 5 and the cooperator gets 0. If both defect, each gets 1.
+</p>
+<p>
+  Whatever Player 2 does, Player 1 is better off defecting: if Player 2 cooperates,
+  defecting gives 5 vs 3; if Player 2 defects, defecting gives 1 vs 0. Defection is a
+  <strong>dominant strategy</strong> for both players. The unique Nash equilibrium is
+  $(D, D)$ with payoffs $(1, 1)$.
+</p>
+<p>
+  But $(C, C)$ gives $(3, 3)$ &mdash; strictly better for both. The Nash equilibrium is
+  <strong>Pareto-dominated</strong>: there exists an outcome that every player prefers. This
+  is the dilemma. Rational self-interest leads to a collectively suboptimal outcome.
+  Nash equilibrium captures strategic stability, not social optimality.
+</p>
+
+<h2>4. Nash's existence theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Nash (1950)</div>
+  <p>
+    Every finite game (finitely many players, each with finitely many pure strategies) has
+    at least one Nash equilibrium in mixed strategies.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof sketch</div>
+  <p>
+    <strong>Step 1.</strong> The set of mixed strategy profiles is
+    $\Delta = \Delta(S_1) \times \cdots \times \Delta(S_n)$. Each $\Delta(S_i)$ is a
+    simplex in $\mathbb{R}^{k_i}$ &mdash; compact and convex. Their product $\Delta$ is
+    compact and convex in $\mathbb{R}^{k_1 + \cdots + k_n}$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Define the <strong>best-response correspondence</strong> for
+    each player $i$:
+  </p>
+  <div class="display-math">$$BR_i(\sigma_{-i}) = \arg\max_{\sigma_i \in \Delta(S_i)} u_i(\sigma_i, \sigma_{-i})$$</div>
+  <p>
+    This is the set of mixed strategies that maximise player $i$'s payoff given the others'
+    strategies. The combined best-response correspondence is
+  </p>
+  <div class="display-math">$$BR(\sigma) = BR_1(\sigma_{-1}) \times \cdots \times BR_n(\sigma_{-n})$$</div>
+  <p>
+    A Nash equilibrium is precisely a <strong>fixed point</strong> of $BR$: a profile
+    $\sigma^*$ with $\sigma^* \in BR(\sigma^*)$, meaning every player is already best
+    responding.
+  </p>
+  <p>
+    <strong>Step 3.</strong> We verify the conditions of <strong>Kakutani's fixed-point
+    theorem</strong> (1941), which generalises Brouwer (Phase 9) to set-valued maps:
+    if $F : K \rightrightarrows K$ is a correspondence on a non-empty compact convex set
+    $K \subseteq \mathbb{R}^d$ with non-empty convex values and a closed graph, then $F$
+    has a fixed point.
+  </p>
+  <p>
+    <strong>Step 4.</strong> <em>Non-empty values:</em> $u_i(\sigma_i, \sigma_{-i})$ is
+    continuous in $\sigma_i$ and $\Delta(S_i)$ is compact, so the maximum is attained
+    (we proved this for continuous functions on compact sets in Phase 9, page 5).
+  </p>
+  <p>
+    <strong>Step 5.</strong> <em>Convex values:</em> $u_i(\sigma_i, \sigma_{-i})$ is
+    linear in $\sigma_i$ (it is a weighted sum over $\sigma_i$'s probabilities). If
+    $\sigma_i$ and $\sigma_i'$ both maximise this linear function, then any convex
+    combination $t\sigma_i + (1-t)\sigma_i'$ also maximises it (a linear function's
+    maximum set is convex). So $BR_i(\sigma_{-i})$ is convex.
+  </p>
+  <p>
+    <strong>Step 6.</strong> <em>Closed graph:</em> suppose $\sigma^{(k)} \to \sigma$ and
+    $\tau^{(k)} \in BR(\sigma^{(k)})$ with $\tau^{(k)} \to \tau$. We need $\tau \in
+    BR(\sigma)$. For each $i$: $u_i(\tau_i^{(k)}, \sigma_{-i}^{(k)}) \geq
+    u_i(\sigma_i, \sigma_{-i}^{(k)})$ for all $\sigma_i$. By continuity of $u_i$, taking
+    limits gives $u_i(\tau_i, \sigma_{-i}) \geq u_i(\sigma_i, \sigma_{-i})$ for all
+    $\sigma_i$. So $\tau_i \in BR_i(\sigma_{-i})$.
+  </p>
+  <p>
+    <strong>Step 7.</strong> By Kakutani's theorem, $BR$ has a fixed point $\sigma^*$.
+    This $\sigma^*$ is a Nash equilibrium.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof is non-constructive &mdash; it guarantees existence but does not tell you how
+  to find the equilibrium. Computing Nash equilibria is in general a hard problem (the
+  complexity class PPAD, Daskalakis, Goldberg, and Papadimitriou, 2006).
+</p>
+
+<h2>5. Examples and computation</h2>
+
+<p>
+  <strong>Coordination game.</strong> Two drivers approach each other. Each chooses Left or
+  Right. If both choose the same side, they pass safely (payoff 1 each); otherwise they
+  crash (payoff 0).
+</p>
+<div class="display-math">$$\begin{array}{c|cc}
+  & L & R \\ \hline
+  L & 1,\, 1 & 0,\, 0 \\
+  R & 0,\, 0 & 1,\, 1
+\end{array}$$</div>
+<p>
+  There are two pure Nash equilibria: $(L, L)$ and $(R, R)$. At either, no player wants to
+  switch unilaterally. There is also a mixed equilibrium: each player randomises $50$-$50$.
+  But this mixed equilibrium gives expected payoff $1/2$ &mdash; worse than either pure
+  equilibrium. Mixed equilibria can be inefficient.
+</p>
+<p>
+  <strong>Battle of the Sexes.</strong> Two partners want to spend the evening together.
+  Player 1 prefers the opera (O); Player 2 prefers football (F). Being together matters
+  more than the activity:
+</p>
+<div class="display-math">$$\begin{array}{c|cc}
+  & O & F \\ \hline
+  O & 3,\, 2 & 0,\, 0 \\
+  F & 0,\, 0 & 2,\, 3
+\end{array}$$</div>
+<p>
+  Two pure equilibria: $(O, O)$ with payoffs $(3, 2)$ and $(F, F)$ with payoffs $(2, 3)$.
+  For the mixed equilibrium, each player randomises to make the other indifferent. Player
+  1 plays $O$ with probability $p$; Player 2 is indifferent when
+</p>
+<div class="display-math">$$2p + 0(1-p) = 0 \cdot p + 3(1-p) \implies 2p = 3 - 3p \implies p = 3/5$$</div>
+<p>
+  Similarly, Player 2 plays $O$ with probability $q = 2/5$. The mixed-equilibrium expected
+  payoff for Player 1 is $3(3/5)(2/5) + 2(2/5)(3/5) = 6/5$. Both pure equilibria give
+  higher payoffs &mdash; the mixed equilibrium is again the worst of the three.
+</p>
+<p>
+  The pattern generalises: in $2 \times 2$ games, to find the mixed Nash equilibrium,
+  each player chooses probabilities that make the <em>other</em> player indifferent
+  between their pure strategies. You solve for your opponent's indifference, not your own.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Nash's 1950 paper "Equilibrium Points in N-person Games" is barely a page long in the
+    <em>Proceedings of the National Academy of Sciences</em>. His PhD thesis at Princeton,
+    "Non-Cooperative Games" (27 pages), developed the full theory. The key insight &mdash;
+    reducing equilibrium existence to a fixed-point theorem &mdash; connects game theory
+    to topology (Phase 9) and convex analysis.
+  </p>
+  <p>
+    Nash shared the 1994 Nobel Prize in Economics with Harsanyi (who extended the theory to
+    incomplete information) and Selten (who introduced refinements &mdash; ways to select
+    among multiple equilibria). Nash's personal story, including his struggle with
+    schizophrenia, was told in Sylvia Nasar's biography <em>A Beautiful Mind</em> (1998).
+  </p>
+  <p>
+    Cournot (1838) had essentially described Nash equilibrium for duopoly competition over
+    a century earlier, but without the general existence proof. Nash's contribution was the
+    theorem: every finite game has one.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without finiteness:</strong> if strategy spaces are infinite (say $S_i = [0, 1]$),
+    existence requires additional structure. Glicksberg (1952) proved that Nash equilibria
+    exist in mixed strategies when each $S_i$ is a compact metric space and payoffs are
+    continuous. Without compactness, equilibria may fail to exist: two players each pick a
+    positive integer, the higher number wins &mdash; no best response exists.
+  </p>
+  <p>
+    <strong>Without mixed strategies:</strong> the coordination game with a twist illustrates
+    this. Consider a $3 \times 3$ game based on Rock-Paper-Scissors:
+  </p>
+  <div class="display-math">$$\begin{array}{c|ccc}
+    & R & P & S \\ \hline
+    R & 0,\, 0 & -1,\, 1 & 1,\, -1 \\
+    P & 1,\, -1 & 0,\, 0 & -1,\, 1 \\
+    S & -1,\, 1 & 1,\, -1 & 0,\, 0
+  \end{array}$$</div>
+  <p>
+    No pure Nash equilibrium exists (every pure profile has a profitable deviation). The
+    unique Nash equilibrium is the uniform mixture $(1/3, 1/3, 1/3)$ for each player.
+    Without mixed strategies, this game has no equilibrium at all.
+  </p>
+  <p>
+    <strong>Without rationality:</strong> Nash equilibrium assumes each player is rational
+    (maximises expected payoff) and knows the game structure and the other players'
+    rationality. Behavioural game theory (Camerer, 2003) studies what happens when players
+    are boundedly rational, use heuristics, or have biased beliefs. Experiments consistently
+    show deviations from Nash predictions in games like the Traveller's Dilemma and the
+    Centipede Game.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A Nash equilibrium is a profile where every player is already best responding &mdash; and one always exists in mixed strategies.
+</div>
+
+<div class="nav">
+  <a href="02-minimax.html">&larr; Previous: Zero-Sum Games and the Minimax Theorem</a>
+  <a href="04-dominant-strategies.html">Next: Dominant Strategies &rarr;</a>
+</div>
+
+</body>
+</html>

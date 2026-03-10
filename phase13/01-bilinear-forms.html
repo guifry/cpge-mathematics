@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilinear Forms — Phase 13</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Bilinear Forms</h1>
+<p class="subtitle">Phase 13 &mdash; Bilinear Algebra and Spectral Theory, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In his <em>Disquisitiones Arithmeticae</em> (1801), Gauss attacked a deceptively simple
+    question: which integers can be written in the form $ax^2 + 2bxy + cy^2$ for integer
+    values of $x$ and $y$? For instance, $x^2 + y^2$ represents 5 (take $x = 1, y = 2$) but
+    not 3. The form $x^2 + 2y^2$ represents 3 (take $x = 1, y = 1$) but not 5.
+  </p>
+  <p>
+    Gauss realised that the key to classifying these forms was understanding how they transform
+    under changes of variable. If you substitute $x = \alpha X + \beta Y$, $y = \gamma X + \delta Y$
+    (with $\alpha\delta - \beta\gamma = \pm 1$ to keep integer solutions), the expression
+    $ax^2 + 2bxy + cy^2$ becomes $a'X^2 + 2b'XY + c'Y^2$ &mdash; a new form with different
+    coefficients but the same representational power.
+  </p>
+  <p>
+    This transformation is not a property of quadratic expressions alone. It is a question
+    about <strong>bilinear maps</strong> &mdash; functions that are linear in each variable
+    separately. The expression $ax_1y_1 + b(x_1y_2 + x_2y_1) + cx_2y_2$ is linear in
+    $(x_1, x_2)$ for fixed $(y_1, y_2)$ and vice versa. To study quadratic forms properly,
+    we must first understand bilinear forms.
+  </p>
+</div>
+
+<h2>1. Definition of a bilinear form</h2>
+
+<p>
+  Let $V$ be a real vector space (we work over $\mathbb{R}$ throughout; the complex case
+  requires sesquilinearity, which we shall not need here). A <strong>bilinear form</strong>
+  on $V$ is a function $\varphi : V \times V \to \mathbb{R}$ satisfying two families of
+  conditions:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Bilinear form</div>
+  <p>A map $\varphi : V \times V \to \mathbb{R}$ is <strong>bilinear</strong> if:</p>
+  <p><strong>Linearity in the first variable:</strong> for all $u, u' \in V$, $v \in V$, $\lambda \in \mathbb{R}$,</p>
+  <div class="display-math">$$\varphi(u + u', v) = \varphi(u, v) + \varphi(u', v)$$</div>
+  <div class="display-math">$$\varphi(\lambda u, v) = \lambda\,\varphi(u, v)$$</div>
+  <p><strong>Linearity in the second variable:</strong> for all $u \in V$, $v, v' \in V$, $\lambda \in \mathbb{R}$,</p>
+  <div class="display-math">$$\varphi(u, v + v') = \varphi(u, v) + \varphi(u, v')$$</div>
+  <div class="display-math">$$\varphi(u, \lambda v) = \lambda\,\varphi(u, v)$$</div>
+</div>
+
+<p>
+  In short: fix either argument, and $\varphi$ becomes a linear map in the other. The dot
+  product $\langle u, v \rangle = \sum u_i v_i$ from Phase 6 is the prototypical example &mdash;
+  it is bilinear, symmetric, and positive definite. But bilinear forms need not be any of these
+  last two things.
+</p>
+
+<h2>2. The matrix of a bilinear form</h2>
+
+<p>
+  Let $\mathcal{B} = (e_1, \dots, e_n)$ be a basis of $V$. Any vectors $u, v \in V$ can be
+  written as $u = \sum_i x_i e_i$ and $v = \sum_j y_j e_j$. By bilinearity:
+</p>
+
+<div class="display-math">$$\varphi(u, v) = \sum_{i=1}^n \sum_{j=1}^n x_i\, y_j\, \varphi(e_i, e_j)$$</div>
+
+<p>
+  Define the <strong>matrix of $\varphi$</strong> in basis $\mathcal{B}$ as the $n \times n$
+  matrix $M$ with entries $M_{ij} = \varphi(e_i, e_j)$. Then:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Matrix representation</div>
+  <div class="display-math">$$\varphi(u, v) = [u]_\mathcal{B}^T \, M \, [v]_\mathcal{B}$$</div>
+  <p>where $[u]_\mathcal{B}$ is the column vector of coordinates of $u$ in basis $\mathcal{B}$.</p>
+</div>
+
+<p><strong>Example in $\mathbb{R}^2$.</strong> Take the standard basis and
+  $\varphi(u,v) = 2x_1y_1 + 3x_1y_2 - x_2y_1 + x_2y_2$. Then:</p>
+<div class="display-math">$$M = \begin{pmatrix} 2 & 3 \\ -1 & 1 \end{pmatrix}$$</div>
+<p>You can verify: $\begin{pmatrix}x_1 & x_2\end{pmatrix}\begin{pmatrix}2&3\\-1&1\end{pmatrix}\begin{pmatrix}y_1\\y_2\end{pmatrix} = 2x_1y_1 + 3x_1y_2 - x_2y_1 + x_2y_2$.</p>
+
+<p><strong>Example in $\mathbb{R}^3$.</strong> The standard dot product $\langle u, v \rangle = x_1y_1 + x_2y_2 + x_3y_3$ has matrix $M = I_3$, the $3 \times 3$ identity. A less trivial example: the Lorentz form of special relativity on $\mathbb{R}^3$ (really $\mathbb{R}^{1+2}$), $\varphi(u,v) = u_0 v_0 - u_1 v_1 - u_2 v_2$, has matrix:</p>
+
+<div class="display-math">$$M = \begin{pmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{pmatrix}$$</div>
+
+<p>
+  This is symmetric and non-degenerate ($\det M = 1 \neq 0$) but <em>not</em> positive
+  definite: $\varphi(v, v) = v_0^2 - v_1^2 - v_2^2$ can be negative. The distinction between
+  positive definite and indefinite bilinear forms is the subject of the next page.
+</p>
+
+<h2>3. Change of basis</h2>
+
+<p>
+  Suppose we switch from basis $\mathcal{B}$ to basis $\mathcal{B}'$, with change-of-basis
+  matrix $P$ (so the $j$-th column of $P$ gives the coordinates of the $j$-th new basis
+  vector in the old basis). If $[u]_\mathcal{B} = P[u]_{\mathcal{B}'}$, then:
+</p>
+<div class="display-math">$$\varphi(u,v) = [u]_\mathcal{B}^T M [v]_\mathcal{B} = (P[u]_{\mathcal{B}'})^T M (P[v]_{\mathcal{B}'}) = [u]_{\mathcal{B}'}^T (P^T M P) [v]_{\mathcal{B}'}$$</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Change of basis for bilinear forms</div>
+  <p>If $M$ is the matrix of $\varphi$ in basis $\mathcal{B}$ and $P$ is the change-of-basis
+  matrix from $\mathcal{B}'$ to $\mathcal{B}$, then the matrix of $\varphi$ in
+  $\mathcal{B}'$ is:</p>
+  <div class="display-math">$$M' = P^T M P$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Write $u = \sum_i x_i e_i$ in basis $\mathcal{B}$, and
+    $u = \sum_k x'_k e'_k$ in basis $\mathcal{B}'$. By definition of $P$, we have
+    $[u]_\mathcal{B} = P [u]_{\mathcal{B}'}$, i.e. $x_i = \sum_k P_{ik} x'_k$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Substitute into the matrix formula:
+  </p>
+  <div class="display-math">$$\varphi(u,v) = [u]_\mathcal{B}^T M [v]_\mathcal{B} = (P[u]_{\mathcal{B}'})^T M (P[v]_{\mathcal{B}'})$$</div>
+  <p>
+    <strong>Step 3.</strong> Using $(PX)^T = X^T P^T$:
+  </p>
+  <div class="display-math">$$= [u]_{\mathcal{B}'}^T P^T M P [v]_{\mathcal{B}'}$$</div>
+  <p>
+    Since this holds for all $u, v$, the matrix of $\varphi$ in basis $\mathcal{B}'$ is
+    $M' = P^T M P$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This transformation $M \mapsto P^T M P$ is called <strong>congruence</strong>. It is
+  <em>not</em> the same as similarity ($M \mapsto P^{-1}MP$) which governs change of basis
+  for linear maps (Phase 6). Bilinear forms transform by congruence; endomorphisms transform
+  by similarity.
+</p>
+
+<p>
+  <strong>Concrete example.</strong> Take $M = \begin{pmatrix}2&1\\1&3\end{pmatrix}$ in the
+  standard basis of $\mathbb{R}^2$, and the change-of-basis matrix
+  $P = \begin{pmatrix}1&1\\0&1\end{pmatrix}$ (so the new basis is $(e_1, e_1 + e_2)$). Then:
+</p>
+<div class="display-math">$$M' = P^T M P = \begin{pmatrix}1&0\\1&1\end{pmatrix}\begin{pmatrix}2&1\\1&3\end{pmatrix}\begin{pmatrix}1&1\\0&1\end{pmatrix} = \begin{pmatrix}2&3\\3&7\end{pmatrix}$$</div>
+<p>
+  Different matrices, same bilinear form. You can check: $\det(M') = 14 - 9 = 5 = \det(M) \cdot (\det P)^2$,
+  consistent with $\det(P^TMP) = (\det P)^2 \det M$.
+</p>
+
+<h2>4. Symmetry and skew-symmetry</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Symmetric and skew-symmetric</div>
+  <p>A bilinear form $\varphi$ is <strong>symmetric</strong> if $\varphi(u,v) = \varphi(v,u)$
+  for all $u, v \in V$.</p>
+  <p>It is <strong>skew-symmetric</strong> (or <em>alternating</em>) if
+  $\varphi(u,v) = -\varphi(v,u)$ for all $u, v$.</p>
+</div>
+
+<p>
+  In terms of the matrix: $\varphi$ is symmetric if and only if $M = M^T$, and
+  skew-symmetric if and only if $M = -M^T$. This follows directly from
+  $\varphi(e_i, e_j) = M_{ij}$ and $\varphi(e_j, e_i) = M_{ji}$.
+</p>
+
+<p>
+  Any bilinear form can be decomposed into symmetric and skew-symmetric parts:
+</p>
+<div class="display-math">$$\varphi = \underbrace{\tfrac{1}{2}(\varphi + \varphi^*)}_{\text{symmetric}} + \underbrace{\tfrac{1}{2}(\varphi - \varphi^*)}_{\text{skew-symmetric}}$$</div>
+<p>
+  where $\varphi^*(u,v) = \varphi(v,u)$. This mirrors the decomposition of any matrix as
+  $\tfrac{1}{2}(M + M^T) + \tfrac{1}{2}(M - M^T)$.
+</p>
+
+<p>
+  The dot product is symmetric. The cross product's "scalar triple product"
+  $\varphi(u,v) = \det(u \mid v)$ on $\mathbb{R}^2$ is skew-symmetric: swapping $u$ and $v$
+  negates the determinant.
+</p>
+
+<h2>5. Non-degeneracy</h2>
+
+<p>
+  A bilinear form $\varphi$ defines, for each $u \in V$, a linear functional
+  $\varphi(u, \cdot) : V \to \mathbb{R}$ sending $v \mapsto \varphi(u, v)$. This gives a
+  linear map $\Phi : V \to V^*$ (the dual space, Phase 7) defined by $\Phi(u) = \varphi(u, \cdot)$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Non-degenerate</div>
+  <p>A bilinear form $\varphi$ is <strong>non-degenerate</strong> if the only vector $u$ with
+  $\varphi(u, v) = 0$ for all $v \in V$ is $u = 0$. Equivalently, $\Phi : V \to V^*$ is
+  injective.</p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Non-degeneracy and invertibility</div>
+  <p>Let $V$ be finite-dimensional. Then $\varphi$ is non-degenerate if and only if its
+  matrix $M$ (in any basis) is invertible.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Write $\varphi(u, v) = [u]^T M [v]$. Then
+    $\varphi(u, v) = 0$ for all $v$ means $[u]^T M [v] = 0$ for all column vectors $[v]$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> $[u]^T M [v] = 0$ for all $[v]$ if and only if the row vector
+    $[u]^T M$ is the zero row, i.e. $M^T [u] = 0$, i.e. $[u] \in \ker(M^T)$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> So $\varphi$ is non-degenerate iff $\ker(M^T) = \{0\}$, iff
+    $M^T$ is invertible (Phase 6, page 04), iff $M$ is invertible.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Non-degeneracy means the form can "tell vectors apart": if $u \neq u'$, there exists some
+  $v$ with $\varphi(u, v) \neq \varphi(u', v)$. The dot product is non-degenerate
+  (its matrix is $I_n$, which is certainly invertible). The zero form $\varphi \equiv 0$ is
+  the extreme degenerate case.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Gauss's <em>Disquisitiones Arithmeticae</em> (1801) gave the first systematic treatment
+    of binary quadratic forms $ax^2 + 2bxy + cy^2$, including their equivalence under
+    integer substitutions and the notion of the discriminant $b^2 - ac$. Arthur Cayley (1858)
+    introduced the abstract notion of a bilinear form and its matrix, while James Joseph
+    Sylvester developed the theory of invariants under congruence transformations.
+    The modern treatment &mdash; bilinear forms as maps $V \times V \to K$ with change of
+    basis by congruence &mdash; emerged in the early twentieth century as linear algebra
+    was axiomatised.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without symmetry.</strong> Skew-symmetric bilinear forms behave very differently.
+    For a skew-symmetric form, $\varphi(v, v) = -\varphi(v, v)$, so $\varphi(v, v) = 0$ for
+    all $v$ &mdash; the diagonal of the matrix is always zero. You cannot extract a
+    "quadratic form" from a skew-symmetric bilinear form (the next page depends on symmetry).
+  </p>
+  <p>
+    <strong>Without non-degeneracy.</strong> The map $\Phi : V \to V^*$ has a nontrivial
+    kernel: there exist "invisible" vectors $u \neq 0$ that are orthogonal to everything.
+    The form cannot distinguish $u$ from $0$, and many theorems (e.g. the existence of
+    orthogonal bases) require restricting to the quotient $V / \ker(\Phi)$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">A bilinear form is a dot-product-like machine on a vector space, encoded by a matrix that transforms by congruence $P^TMP$ under change of basis.</div>
+
+<div class="nav">
+  <a href="../phase12/08-conditional-expectation.html">&larr; Previous: Conditional Expectation as Projection</a>
+  <a href="02-quadratic-forms.html">Next: Quadratic Forms and Sylvester's Law &rarr;</a>
+</div>
+
+</body>
+</html>

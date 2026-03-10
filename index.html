@@ -516,9 +516,107 @@
 
 <hr>
 
-<p style="color: var(--dim); font-size: 0.85rem; text-align: center; margin-top: 2rem;">
-  Phases 13&ndash;15 &mdash; coming as you progress.
-</p>
+<p class="phase-label">Phase 13 &mdash; Bilinear Algebra and Spectral Theory</p>
+<p><em>A vibrating string decomposes into harmonics &mdash; eigenvectors of a differential operator. Cauchy (1829) proved symmetric matrices have real eigenvalues. Sylvester (1852) showed the signature of a quadratic form is invariant. The spectral theorem and SVD reveal the geometry hidden inside any matrix.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase13/01-bilinear-forms.html">1. Bilinear Forms</a>
+    <div class="desc">Gauss studies $ax^2 + 2bxy + cy^2$. Bilinear maps, matrix representation, change of basis as congruence $P^TMP$.</div>
+  </li>
+  <li>
+    <a href="phase13/02-quadratic-forms.html">2. Quadratic Forms and Sylvester's Law of Inertia</a>
+    <div class="desc">Every quadratic form diagonalises by completing the square. The signature $(p,q)$ is invariant &mdash; Sylvester's law.</div>
+  </li>
+  <li>
+    <a href="phase13/03-spectral-theorem.html">3. The Spectral Theorem</a>
+    <div class="desc">Symmetric matrices are orthogonally diagonalisable: $A = Q\Lambda Q^T$. Real eigenvalues, orthogonal eigenvectors.</div>
+  </li>
+  <li>
+    <a href="phase13/04-svd.html">4. Singular Value Decomposition</a>
+    <div class="desc">Any matrix, any shape: $A = U\Sigma V^T$. The geometry of linear maps as rotate-stretch-rotate.</div>
+  </li>
+  <li>
+    <a href="phase13/05-rayleigh-courant-fischer.html">5. The Rayleigh Quotient and Courant-Fischer</a>
+    <div class="desc">Eigenvalues as extrema of $x^TAx/x^Tx$. The min-max theorem characterises all eigenvalues variationally.</div>
+  </li>
+  <li>
+    <a href="phase13/06-principal-axis.html">6. The Principal Axis Theorem</a>
+    <div class="desc">Rotate coordinates to align with eigenvectors. Conics, quadrics, positive definiteness, and the Cholesky factorisation. Phase 13 recap.</div>
+  </li>
+</ul>
+
+<hr>
+
+<p class="phase-label">Phase 14 &mdash; Normed Vector Spaces</p>
+<p><em>By the 1920s, mathematicians worked with spaces of functions, not just vectors in &Ropf;&sup n;. Banach asked: what does "distance" mean in infinite dimensions? The answer launched functional analysis &mdash; and revealed that finite-dimensional intuition fails spectacularly.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase14/01-norms.html">1. Norms and Equivalence in Finite Dimension</a>
+    <div class="desc">Many ways to measure size. In &Ropf;&sup n; they all agree. In infinite dimensions, they don't.</div>
+  </li>
+  <li>
+    <a href="phase14/02-banach-spaces.html">2. Banach Spaces</a>
+    <div class="desc">Complete normed spaces. $C([a,b])$ with the sup norm is Banach; with the $L^1$ norm, it is not.</div>
+  </li>
+  <li>
+    <a href="phase14/03-riesz-lemma.html">3. Riesz's Lemma</a>
+    <div class="desc">The closed unit ball is compact iff the space is finite-dimensional. Infinite-dimensional analysis is harder.</div>
+  </li>
+  <li>
+    <a href="phase14/04-continuous-linear-maps.html">4. Continuous Linear Maps and the Operator Norm</a>
+    <div class="desc">Continuous iff bounded. The operator norm measures how much a map can stretch. The dual space $X^*$.</div>
+  </li>
+  <li>
+    <a href="phase14/05-banach-steinhaus.html">5. The Uniform Boundedness Principle</a>
+    <div class="desc">Pointwise bounded implies uniformly bounded &mdash; Banach-Steinhaus. Proves Fourier series can diverge.</div>
+  </li>
+  <li>
+    <a href="phase14/06-open-mapping.html">6. The Open Mapping and Closed Graph Theorems</a>
+    <div class="desc">Surjective operators map open sets to open sets. Closed graph implies continuity. The "holy trinity."</div>
+  </li>
+  <li>
+    <a href="phase14/07-hahn-banach.html">7. The Hahn-Banach Theorem</a>
+    <div class="desc">Extend bounded functionals from subspaces. Separate convex sets by hyperplanes. Requires Zorn's lemma.</div>
+  </li>
+  <li>
+    <a href="phase14/08-best-approximation.html">8. Best Approximation in Hilbert Spaces</a>
+    <div class="desc">The projection theorem in complete inner product spaces. Riesz representation. Phase 14 recap.</div>
+  </li>
+</ul>
+
+<hr>
+
+<p class="phase-label">Phase 15 (Bonus) &mdash; Game Theory</p>
+<p><em>Von Neumann (1928) proved that every zero-sum game has an optimal strategy. Nash (1950) extended this to all finite games. The mathematics of strategic interaction uses nearly every tool from the preceding 14 phases &mdash; topology, convexity, probability, linear algebra.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase15/01-combinatorial-games.html">1. Combinatorial Games</a>
+    <div class="desc">Game trees, backward induction, Zermelo's theorem. Nim and the Sprague-Grundy theory.</div>
+  </li>
+  <li>
+    <a href="phase15/02-minimax.html">2. Zero-Sum Games and the Minimax Theorem</a>
+    <div class="desc">Mixed strategies, saddle points, von Neumann's minimax theorem. Matching pennies solved.</div>
+  </li>
+  <li>
+    <a href="phase15/03-nash-equilibrium.html">3. Nash Equilibrium</a>
+    <div class="desc">No player gains from unilateral deviation. Nash's existence theorem via Kakutani. The Prisoner's Dilemma.</div>
+  </li>
+  <li>
+    <a href="phase15/04-dominant-strategies.html">4. Dominant Strategies and Iterated Elimination</a>
+    <div class="desc">Remove strategies no rational player would use. Order-independence for strict dominance. Rationalisability.</div>
+  </li>
+  <li>
+    <a href="phase15/05-repeated-games.html">5. Repeated Games and the Folk Theorem</a>
+    <div class="desc">Cooperation from self-interest. Grim trigger, tit-for-tat, and the folk theorem.</div>
+  </li>
+  <li>
+    <a href="phase15/06-mechanism-design.html">6. Mechanism Design</a>
+    <div class="desc">Reverse game theory. Vickrey auctions, the revelation principle, Arrow's impossibility theorem. Phase 15 recap.</div>
+  </li>
+</ul>
 
 </body>
 </html>
