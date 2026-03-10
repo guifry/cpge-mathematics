@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basis and Dimension — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Basis and Dimension</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In $\mathbb{R}^3$, three vectors that don't all lie in the same plane can express any
+    point as a combination of them. Two vectors give you only a plane. One gives a line.
+    How many vectors do you <em>need</em> to describe an entire space? And does that number
+    depend on which vectors you pick, or is it an intrinsic property of the space itself?
+  </p>
+  <p>
+    For $\mathbb{R}^3$ the answer feels obvious: three. But what about the space of
+    polynomials of degree $\leq 5$? Or the solution space of a differential equation?
+    Steinitz (1913) proved that the answer is always well-defined: every basis of a given
+    space has the same number of elements. That number is the <b>dimension</b>.
+  </p>
+</div>
+
+<h2>1. Linear combinations and span</h2>
+
+<p>
+  Let $V$ be a vector space over $\mathbb{K}$ and let $v_1, \ldots, v_n \in V$. A
+  <b>linear combination</b> of these vectors is any expression of the form
+</p>
+
+<div class="display-math">$$\lambda_1 v_1 + \lambda_2 v_2 + \cdots + \lambda_n v_n$$</div>
+
+<p>
+  where $\lambda_1, \ldots, \lambda_n \in \mathbb{K}$. The <b>span</b> (or linear hull)
+  of $v_1, \ldots, v_n$ is the set of all such combinations:
+</p>
+
+<div class="display-math">$$\text{Span}(v_1, \ldots, v_n) = \left\{ \sum_{i=1}^{n} \lambda_i v_i : \lambda_i \in \mathbb{K} \right\}$$</div>
+
+<p>
+  The span is always a subspace of $V$ (check the
+  <a href="01-vector-spaces.html">subspace criterion from page 1</a>: it is non-empty
+  since $0 = 0 \cdot v_1 + \cdots + 0 \cdot v_n$, and any linear combination of linear
+  combinations is a linear combination).
+</p>
+
+<p>
+  If $\text{Span}(v_1, \ldots, v_n) = V$, we say $v_1, \ldots, v_n$ <b>span</b> $V$,
+  or form a <b>generating set</b> (or spanning set) for $V$.
+</p>
+
+<h2>2. Linear independence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Linear independence</div>
+  <p>
+    Vectors $v_1, \ldots, v_n \in V$ are <b>linearly independent</b> if the only
+    way to write $0$ as a linear combination is the trivial one:
+  </p>
+  <div class="display-math">$$\lambda_1 v_1 + \cdots + \lambda_n v_n = 0 \implies \lambda_1 = \cdots = \lambda_n = 0$$</div>
+  <p>
+    If the vectors are not linearly independent, they are <b>linearly dependent</b>:
+    there exist scalars $\lambda_i$, not all zero, with $\sum \lambda_i v_i = 0$.
+  </p>
+</div>
+
+<p>
+  Equivalently, $v_1, \ldots, v_n$ are linearly dependent if and only if one of them is a
+  linear combination of the others. To see this: if $\lambda_j \neq 0$ in a non-trivial
+  relation, then $v_j = -\lambda_j^{-1} \sum_{i \neq j} \lambda_i v_i$.
+</p>
+
+<h2>3. Examples in $\mathbb{R}^3$</h2>
+
+<p>
+  The <b>standard basis</b> $e_1 = (1,0,0)$, $e_2 = (0,1,0)$, $e_3 = (0,0,1)$.
+  Suppose $\lambda_1 e_1 + \lambda_2 e_2 + \lambda_3 e_3 = 0$. This gives
+  $(\lambda_1, \lambda_2, \lambda_3) = (0,0,0)$, so they are linearly independent.
+  Every $(a,b,c) = ae_1 + be_2 + ce_3$, so they span $\mathbb{R}^3$.
+</p>
+
+<p>
+  Now consider $u = (1,0,0)$, $v = (0,1,0)$, $w = (1,1,0)$. These are linearly
+  dependent: $w = u + v$, i.e. $1 \cdot u + 1 \cdot v + (-1) \cdot w = 0$. They all
+  lie in the $xy$-plane, so they span only a two-dimensional subspace.
+</p>
+
+<h2>4. Basis: independence meets spanning</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Basis</div>
+  <p>
+    A <b>basis</b> of $V$ is a family of vectors that is both linearly independent and
+    spanning. Equivalently, a basis is a minimal spanning set, or a maximal linearly
+    independent set.
+  </p>
+</div>
+
+<p>
+  The crucial property of a basis is <em>unique representation</em>: every vector can be
+  written as a linear combination in exactly one way.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Unique representation</div>
+  <p>
+    If $(e_1, \ldots, e_n)$ is a basis of $V$, then every $v \in V$ can be written
+    uniquely as $v = \lambda_1 e_1 + \cdots + \lambda_n e_n$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Existence.</strong> Since the $e_i$ span $V$, at least one such expression
+    exists.
+  </p>
+  <p>
+    <strong>Uniqueness.</strong> Suppose $v = \lambda_1 e_1 + \cdots + \lambda_n e_n$
+    and $v = \mu_1 e_1 + \cdots + \mu_n e_n$. Subtracting:
+    $(\lambda_1 - \mu_1)e_1 + \cdots + (\lambda_n - \mu_n)e_n = 0$.
+    By linear independence, $\lambda_i - \mu_i = 0$ for all $i$, so $\lambda_i = \mu_i$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The scalars $(\lambda_1, \ldots, \lambda_n)$ are the <b>coordinates</b> (or components)
+  of $v$ in the basis $(e_1, \ldots, e_n)$. A different basis gives different coordinates
+  for the same vector &mdash; we will study this translation on
+  <a href="04-matrices.html">page 4</a>.
+</p>
+
+<h2>5. The Steinitz exchange lemma</h2>
+
+<p>
+  This is the engine that makes dimension well-defined. It says: an independent set can
+  never be larger than a spanning set.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Steinitz exchange lemma</div>
+  <p>
+    Let $v_1, \ldots, v_m$ be linearly independent in $V$, and let $w_1, \ldots, w_n$
+    span $V$. Then $m \leq n$, and one can replace $m$ of the $w_j$ by $v_1, \ldots, v_m$
+    to obtain a new spanning set.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We proceed by induction on $m$.
+  </p>
+  <p>
+    <strong>Base case ($m = 0$).</strong> There is nothing to prove &mdash; $0 \leq n$
+    and the spanning set is unchanged.
+  </p>
+  <p>
+    <strong>Inductive step.</strong> Suppose the result holds for $m - 1$. By the inductive
+    hypothesis, after replacing $m - 1$ of the $w_j$, we have a spanning set
+    $\{v_1, \ldots, v_{m-1}, w_{i_1}, \ldots, w_{i_{n-m+1}}\}$ (relabelling, call these
+    remaining $w$'s simply $w_1, \ldots, w_r$ where $r = n - m + 1$).
+  </p>
+  <p>
+    <strong>Step 1.</strong> Since this set spans $V$, we can write
+  </p>
+  <div class="display-math">$$v_m = \alpha_1 v_1 + \cdots + \alpha_{m-1} v_{m-1} + \beta_1 w_1 + \cdots + \beta_r w_r$$</div>
+  <p>
+    <strong>Step 2.</strong> At least one $\beta_j \neq 0$. If all $\beta_j = 0$, then
+    $v_m = \alpha_1 v_1 + \cdots + \alpha_{m-1} v_{m-1}$, contradicting the linear
+    independence of $v_1, \ldots, v_m$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Say $\beta_1 \neq 0$ (relabelling if necessary). Then
+  </p>
+  <div class="display-math">$$w_1 = \beta_1^{-1}\bigl(v_m - \alpha_1 v_1 - \cdots - \alpha_{m-1} v_{m-1} - \beta_2 w_2 - \cdots - \beta_r w_r\bigr)$$</div>
+  <p>
+    so $w_1 \in \text{Span}(v_1, \ldots, v_m, w_2, \ldots, w_r)$. Therefore the set
+    $\{v_1, \ldots, v_m, w_2, \ldots, w_r\}$ spans $V$ (anything expressible via the
+    old spanning set is expressible via this one, since $w_1$ is recoverable).
+  </p>
+  <p>
+    <strong>Step 4.</strong> We replaced one $w_j$ by $v_m$, bringing the total
+    replacements to $m$. The new spanning set has $m + (r - 1) = m + n - m = n$ elements.
+    In particular, we needed $r \geq 1$, i.e. $n - m + 1 \geq 1$, so $m \leq n$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. All bases have the same size</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Invariance of basis cardinality</div>
+  <p>
+    If $V$ has a finite basis, then every basis of $V$ has the same number of elements.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $\mathcal{B}_1$ be a basis of size $m$ and $\mathcal{B}_2$ a basis of size $n$.
+    Since $\mathcal{B}_1$ is independent and $\mathcal{B}_2$ spans $V$, Steinitz gives
+    $m \leq n$. Since $\mathcal{B}_2$ is independent and $\mathcal{B}_1$ spans $V$,
+    Steinitz gives $n \leq m$. Therefore $m = n$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>7. Dimension</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Dimension</div>
+  <p>
+    The <b>dimension</b> of a finite-dimensional vector space $V$, written $\dim(V)$,
+    is the number of elements in any basis of $V$. This is well-defined by the theorem above.
+  </p>
+</div>
+
+<p>
+  <b>Examples.</b> $\dim(\mathbb{R}^n) = n$ (standard basis has $n$ vectors).
+  $\dim(\mathbb{R}_d[x]) = d + 1$ (the monomials $1, x, x^2, \ldots, x^d$ form a basis).
+  $\dim(\mathcal{M}_{m,n}(\mathbb{R})) = mn$ (the matrices with a single $1$ and all other
+  entries $0$ form a basis). $\dim(\{0\}) = 0$ (the empty set is a basis of the trivial
+  space).
+</p>
+
+<h2>8. Existence of a basis</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Existence of basis</div>
+  <p>
+    Every finite-dimensional vector space has a basis. More precisely: any linearly
+    independent set can be extended to a basis, and any spanning set can be reduced to
+    a basis.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Extending an independent set.</strong> Let $S = \{v_1, \ldots, v_k\}$ be
+    linearly independent but not spanning. Then there exists $v_{k+1} \in V$ with
+    $v_{k+1} \notin \text{Span}(S)$. The set $S \cup \{v_{k+1}\}$ is linearly independent
+    (if $\lambda_1 v_1 + \cdots + \lambda_k v_k + \lambda_{k+1} v_{k+1} = 0$ with
+    $\lambda_{k+1} \neq 0$, then $v_{k+1} \in \text{Span}(S)$, a contradiction; so
+    $\lambda_{k+1} = 0$, and independence of $S$ forces all others to be $0$ as well).
+  </p>
+  <p>
+    Repeat. Each step increases $|S|$ by one. By Steinitz, $|S|$ can never exceed the
+    size of any spanning set, so the process terminates. When it does, $S$ spans $V$
+    (otherwise we could add another vector), so $S$ is a basis.
+  </p>
+  <p>
+    <strong>Reducing a spanning set.</strong> If $S = \{w_1, \ldots, w_n\}$ spans $V$
+    but is dependent, some $w_j$ is a linear combination of the others. Remove it; the
+    remaining set still spans $V$. Repeat until the set is independent. The result is
+    a basis.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Ernst Steinitz proved the exchange lemma in his monumental 1913 paper
+    <em>Algebraische Theorie der K&ouml;rper</em>, which also laid the foundations of
+    modern field theory. The concept of dimension feels obvious in $\mathbb{R}^3$ &mdash;
+    you need three numbers to specify a point. But in abstract spaces like polynomial
+    spaces, the fact that dimension is well-defined is a genuine theorem requiring
+    proof. Before Steinitz, this was assumed without justification.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Infinite-dimensional spaces.</b> The space of all polynomials $\mathbb{R}[x]$ has
+    no finite basis &mdash; $\{1, x, x^2, \ldots\}$ is a basis, but it is infinite. The
+    space $C[0,1]$ of continuous functions is "even more infinite": it requires an
+    uncountable basis (a <b>Hamel basis</b>), whose existence needs the axiom of choice.
+    Finite-dimensional intuition breaks down: in infinite dimensions, a proper subspace
+    can have the same "size" as the whole space.
+  </p>
+  <p>
+    <b>Drop the field to a ring.</b> Over $\mathbb{Z}$, free modules can have well-defined
+    rank, but general modules need not. The invariant basis number property (every two
+    bases have the same size) can fail for modules over certain rings.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A basis is a linearly independent spanning set; Steinitz guarantees that every basis of a
+  given space has the same size, so dimension is an intrinsic property.
+</div>
+
+<div class="nav">
+  <a href="01-vector-spaces.html">&larr; Previous: Vector Spaces</a>
+  <a href="03-linear-maps.html">Next: Linear Maps &rarr;</a>
+</div>
+
+</body>
+</html>

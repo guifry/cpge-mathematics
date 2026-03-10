@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Normal Form — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Jordan Normal Form</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 11</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Diagonalisation is the dream: reduce every matrix to a diagonal one. But not every
+    matrix is diagonalisable (<a href="06-eigenvalues.html">page 6</a>). The nilpotent
+    matrix $N = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ has eigenvalue $0$ with
+    algebraic multiplicity $2$, yet its eigenspace is one-dimensional. It cannot be made
+    diagonal.
+  </p>
+  <p>
+    What is the "next best thing" after diagonal? Jordan (1870) found the answer: over
+    $\mathbb{C}$, every matrix can be put into an <em>almost</em>-diagonal form &mdash;
+    diagonal entries equal to eigenvalues, with some $1$s on the superdiagonal. This is
+    as simple as a matrix can get, and it classifies matrices up to similarity
+    completely.
+  </p>
+</div>
+
+<h2>1. Jordan blocks</h2>
+
+<p>
+  A <b>Jordan block</b> of size $k$ with eigenvalue $\lambda$ is the $k \times k$
+  matrix:
+</p>
+
+<div class="display-math">$$J_k(\lambda) = \begin{pmatrix} \lambda & 1 & 0 & \cdots & 0 \\ 0 & \lambda & 1 & \cdots & 0 \\ \vdots & & \ddots & \ddots & \vdots \\ 0 & & \cdots & \lambda & 1 \\ 0 & & \cdots & 0 & \lambda \end{pmatrix}.$$</div>
+
+<p>
+  It has $\lambda$ on the diagonal and $1$s on the superdiagonal, zeros elsewhere.
+  When $k = 1$, it is simply $(\lambda)$ &mdash; a diagonal entry. When $\lambda = 0$,
+  the block $J_k(0)$ is a <b>nilpotent</b> matrix: $(J_k(0))^k = 0$ but
+  $(J_k(0))^{k-1} \neq 0$.
+</p>
+
+<p>
+  The eigenspace of $J_k(\lambda)$ is one-dimensional (spanned by $e_1$), regardless
+  of $k$. This is why a single Jordan block of size $k > 1$ is not diagonalisable: it
+  has eigenvalue $\lambda$ with algebraic multiplicity $k$ but geometric multiplicity
+  $1$.
+</p>
+
+<h2>2. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Jordan normal form</div>
+  <p>
+    Let $A$ be an $n \times n$ matrix over $\mathbb{C}$ (or any algebraically closed
+    field). There exists an invertible matrix $P$ such that
+  </p>
+  <div class="display-math">$$P^{-1}AP = \begin{pmatrix} J_{k_1}(\lambda_1) & & \\ & \ddots & \\ & & J_{k_r}(\lambda_r) \end{pmatrix}$$</div>
+  <p>
+    where the right side is a block-diagonal matrix of Jordan blocks. The Jordan form
+    is unique up to reordering the blocks.
+  </p>
+</div>
+
+<p>
+  The eigenvalues $\lambda_1, \ldots, \lambda_r$ need not be distinct &mdash; the same
+  eigenvalue may appear in several blocks of different sizes. Diagonalisable matrices
+  are exactly those whose Jordan blocks all have size $1$.
+</p>
+
+<h2>3. Generalised eigenvectors</h2>
+
+<p>
+  The ordinary eigenspace $E_\lambda = \ker(A - \lambda I)$ may be too small to supply
+  enough basis vectors. The fix is to enlarge it.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Generalised eigenspace</div>
+  <p>
+    For an eigenvalue $\lambda$ of $A$, the <b>generalised eigenspace</b> is
+  </p>
+  <div class="display-math">$$G_\lambda = \ker(A - \lambda I)^n = \{ v \in \mathbb{C}^n : (A - \lambda I)^n v = 0 \}.$$</div>
+</div>
+
+<p>
+  While $\dim E_\lambda$ (the geometric multiplicity) may be less than the algebraic
+  multiplicity $m_\lambda$, the generalised eigenspace always satisfies
+  $\dim G_\lambda = m_\lambda$. This is the key fact that makes Jordan form possible.
+</p>
+
+<p>
+  A <b>Jordan chain</b> of length $k$ for eigenvalue $\lambda$ is a sequence of
+  vectors $v_1, v_2, \ldots, v_k$ where $(A - \lambda I)v_1 = 0$ (so $v_1$ is an
+  ordinary eigenvector), $(A - \lambda I)v_2 = v_1$, $(A - \lambda I)v_3 = v_2$, and
+  so on: $(A - \lambda I)v_j = v_{j-1}$. The last vector $v_k$ satisfies
+  $(A - \lambda I)^k v_k = 0$ but $(A - \lambda I)^{k-1} v_k \neq 0$.
+</p>
+
+<h2>4. Decomposition into generalised eigenspaces</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Generalised eigenspace decomposition</div>
+  <p>
+    Let $A$ be $n \times n$ over $\mathbb{C}$ with distinct eigenvalues
+    $\lambda_1, \ldots, \lambda_s$. Then
+  </p>
+  <div class="display-math">$$\mathbb{C}^n = G_{\lambda_1} \oplus G_{\lambda_2} \oplus \cdots \oplus G_{\lambda_s}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1 (dimensions add up).</strong> Over $\mathbb{C}$, the characteristic
+    polynomial splits: $\chi_A(\lambda) = (-1)^n(\lambda - \lambda_1)^{m_1} \cdots (\lambda - \lambda_s)^{m_s}$
+    with $m_1 + \cdots + m_s = n$. We need $\dim G_{\lambda_i} = m_i$ for each $i$.
+    By Cayley&ndash;Hamilton (<a href="10-cayley-hamilton.html">page 10</a>),
+    $\chi_A(A) = 0$, so $(A - \lambda_1 I)^{m_1} \cdots (A - \lambda_s I)^{m_s} = 0$.
+  </p>
+  <p>
+    <strong>Step 2 (the direct sum).</strong> We show the sum is direct: if
+    $v_1 + \cdots + v_s = 0$ with $v_i \in G_{\lambda_i}$, then each $v_i = 0$.
+    For $j \neq i$, the operator $(A - \lambda_j I)^{m_j}$ kills $v_j$ (since
+    $v_j \in G_{\lambda_j}$) but is invertible on $G_{\lambda_i}$ (since
+    $A - \lambda_j I$ restricted to $G_{\lambda_i}$ has the form
+    $(\lambda_i - \lambda_j)I + N_i$ where $N_i = (A - \lambda_i I)|_{G_{\lambda_i}}$
+    is nilpotent, and $\lambda_i - \lambda_j \neq 0$, so $(\lambda_i - \lambda_j)I + N_i$
+    is invertible, hence so is its $m_j$-th power).
+  </p>
+  <p>
+    Apply $\prod_{j \neq i}(A - \lambda_j I)^{m_j}$ to the equation $\sum v_k = 0$.
+    Every term except $v_i$ vanishes. The operator is invertible on $G_{\lambda_i}$,
+    so the image of $v_i$ is zero, forcing $v_i = 0$.
+  </p>
+  <p>
+    <strong>Step 3 (the sum is everything).</strong> Since the sum is direct,
+    $\dim(G_{\lambda_1} \oplus \cdots \oplus G_{\lambda_s}) = \sum \dim G_{\lambda_i}$.
+    We need this to equal $n$. Consider the polynomial identity: the polynomials
+    $p_i(\lambda) = \prod_{j \neq i}(\lambda - \lambda_j)^{m_j}$ have $\gcd = 1$
+    (they share no common root). By B&eacute;zout's identity for polynomials, there
+    exist polynomials $q_1, \ldots, q_s$ with $\sum q_i p_i = 1$. Substituting
+    $\lambda = A$: $\sum q_i(A) p_i(A) = I$. For any $v \in \mathbb{C}^n$,
+    $v = \sum q_i(A) p_i(A) v$. Now $p_i(A) v \in G_{\lambda_i}$ (since
+    $(A - \lambda_i I)^{m_i} p_i(A) = \chi_A(A) = 0$ by Cayley&ndash;Hamilton, so
+    $p_i(A)$ maps into $\ker(A - \lambda_i I)^{m_i} = G_{\lambda_i}$), and hence
+    $q_i(A) p_i(A) v \in G_{\lambda_i}$ as well (since $G_{\lambda_i}$ is
+    $A$-invariant). So $v \in G_{\lambda_1} + \cdots + G_{\lambda_s}$.
+  </p>
+  <p>
+    The sum is direct and spans $\mathbb{C}^n$, so $\dim G_{\lambda_i} = m_i$ for
+    each $i$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>5. Nilpotent reduction</h2>
+
+<p>
+  The decomposition above reduces the problem to studying each $G_{\lambda_i}$
+  separately. On $G_{\lambda_i}$, the operator $A$ acts as $\lambda_i I + N_i$ where
+  $N_i = (A - \lambda_i I)|_{G_{\lambda_i}}$ is <b>nilpotent</b>: $N_i^{m_i} = 0$.
+  Finding the Jordan form of $A$ on $G_{\lambda_i}$ amounts to finding the Jordan form
+  of the nilpotent operator $N_i$. So the core problem is:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Jordan form for nilpotent operators</div>
+  <p>
+    Let $N$ be a nilpotent operator on a finite-dimensional vector space $V$ (so
+    $N^d = 0$ for some $d$). There exists a basis of $V$ in which $N$ is represented
+    by a block-diagonal matrix of Jordan blocks $J_{k_1}(0), \ldots, J_{k_r}(0)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $d$ be the <b>nilpotency index</b>: $N^d = 0$ but $N^{d-1} \neq 0$. Consider
+    the <b>kernel filtration</b>:
+  </p>
+  <div class="display-math">$$\{0\} = \ker N^0 \subsetneq \ker N \subsetneq \ker N^2 \subsetneq \cdots \subsetneq \ker N^d = V.$$</div>
+  <p>
+    Each inclusion is strict (if $\ker N^k = \ker N^{k+1}$, then
+    $\ker N^{k+j} = \ker N^k$ for all $j \geq 0$, so $\ker N^d = \ker N^k \neq V$,
+    contradicting $N^d = 0$ on $V$).
+  </p>
+  <p>
+    <strong>Step 1 (choose vectors at the top).</strong> Pick a basis for
+    $\ker N^d / \ker N^{d-1}$: choose vectors $w_1, \ldots, w_p$ in
+    $\ker N^d = V$ whose images in the quotient form a basis. These vectors satisfy
+    $N^d w_j = 0$ but $N^{d-1} w_j \neq 0$ (since $w_j \notin \ker N^{d-1}$).
+  </p>
+  <p>
+    <strong>Step 2 (build Jordan chains).</strong> For each $w_j$, form the chain
+    $w_j, Nw_j, N^2 w_j, \ldots, N^{d-1}w_j$. This is a chain of length $d$. Note
+    $N^{d-1} w_j \in \ker N \setminus \{0\}$, so these chains end in genuine
+    eigenvectors.
+  </p>
+  <p>
+    <strong>Step 3 (extend at each level).</strong> The chains from Step 2 contribute
+    vectors at each level of the filtration. At level $\ker N^{d-1}$, we may need
+    additional vectors: extend to a basis of $\ker N^{d-1} / \ker N^{d-2}$ by choosing
+    new vectors $w_{p+1}, \ldots, w_{p+q}$ in $\ker N^{d-1} \setminus \ker N^{d-2}$,
+    and build chains of length $d-1$ from each. Continue down: at each level
+    $\ker N^k / \ker N^{k-1}$, extend the basis using vectors from longer chains
+    already built, then add new chains of length $k$ as needed.
+  </p>
+  <p>
+    <strong>Step 4 (linear independence).</strong> We claim the union of all chains
+    forms a basis. First, the vectors are linearly independent. Suppose
+    $\sum_{j,i} a_{j,i} N^i w_j = 0$ where the sum is over all chains and all levels
+    within each chain. Apply $N^{d-1}$: this kills every term except those where
+    $N^i w_j$ is at the bottom of a length-$d$ chain, giving a relation among vectors
+    that are independent by construction (they were chosen as a basis of a quotient).
+    So those coefficients are zero. Then apply $N^{d-2}$ and repeat. By descending
+    induction, all coefficients vanish.
+  </p>
+  <p>
+    <strong>Step 5 (correct dimension).</strong> At each level $\ker N^k$, the
+    dimension increases by exactly the number of chains of length $\geq k$ (each chain
+    contributes one vector at level $k$). Since we extend to a full basis at each
+    quotient level, the total number of vectors equals
+    $\sum_k (\dim \ker N^k - \dim \ker N^{k-1}) = \dim V$.
+  </p>
+  <p>
+    <strong>Step 6 (the Jordan structure).</strong> In the basis assembled from chains,
+    each chain of length $k$ gives a Jordan block $J_k(0)$: $N$ sends each basis
+    vector to the next one in the chain, and sends the last (the eigenvector) to zero.
+    This is precisely the action of $J_k(0)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. Assembling the full Jordan form</h2>
+
+<p>
+  Combine the two results. For each eigenvalue $\lambda_i$, the generalised eigenspace
+  $G_{\lambda_i}$ has a Jordan basis for the nilpotent part $N_i = (A - \lambda_i I)|_{G_{\lambda_i}}$,
+  giving blocks $J_{k}(0)$. Since $A|_{G_{\lambda_i}} = \lambda_i I + N_i$, these
+  become blocks $J_{k}(\lambda_i)$. Assembling across all eigenvalues gives the
+  full Jordan form.
+</p>
+
+<h2>7. Reading off the structure</h2>
+
+<p>
+  The Jordan form is determined by the <b>rank sequence</b> of powers of
+  $A - \lambda I$ for each eigenvalue $\lambda$:
+</p>
+
+<ul>
+  <li>The number of Jordan blocks for $\lambda$ equals $\dim \ker(A - \lambda I)$ (the geometric multiplicity).</li>
+  <li>The number of blocks of size $\geq k$ equals $\dim \ker(A - \lambda I)^k - \dim \ker(A - \lambda I)^{k-1}$.</li>
+  <li>Equivalently, the number of blocks of size exactly $k$ is $\dim \ker(A - \lambda I)^{k} - 2\dim \ker(A - \lambda I)^{k-1} + \dim \ker(A - \lambda I)^{k-2}$.</li>
+</ul>
+
+<h2>8. Examples</h2>
+
+<p>
+  <b>Example 1.</b> $A = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 1 \\ 0 & 0 & 2 \end{pmatrix}$.
+  This is already a single Jordan block $J_3(2)$. Eigenvalue $\lambda = 2$, algebraic
+  multiplicity $3$. We have $\ker(A - 2I) = \ker\begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix} = \text{span}(e_1)$,
+  so geometric multiplicity $1$. One block of size $3$.
+</p>
+
+<p>
+  <b>Example 2.</b> $A = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
+  Eigenvalues $2$ (algebraic mult $2$) and $3$ (algebraic mult $1$). For $\lambda = 2$:
+  $A - 2I = \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 1 \end{pmatrix}$,
+  $\ker(A - 2I) = \text{span}(e_1)$, dimension $1$. So one Jordan block of size $2$:
+  $J_2(2)$. For $\lambda = 3$: one block $J_1(3) = (3)$. The Jordan form is
+  $\text{diag}(J_2(2), J_1(3))$.
+</p>
+
+<p>
+  <b>Example 3.</b> $A = \begin{pmatrix} 2 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
+  Eigenvalue $2$ has algebraic multiplicity $2$ and $\ker(A - 2I)$ has dimension $2$.
+  So two blocks of size $1$: $J_1(2), J_1(2)$. This matrix is already diagonal. The
+  Jordan form equals $A$.
+</p>
+
+<h2>9. Connection to Cayley&ndash;Hamilton</h2>
+
+<p>
+  The Jordan form makes the minimal and characteristic polynomials transparent.
+  The <b>characteristic polynomial</b> of a Jordan block $J_k(\lambda)$ is
+  $(\lambda_0 - \lambda)^k$ (using $\lambda_0$ to avoid notation clash). For the full
+  Jordan form, the characteristic polynomial is
+  $\chi_A(\lambda) = \prod_i (\lambda_i - \lambda)^{m_i}$ where $m_i$ is the total
+  size of all blocks for $\lambda_i$.
+</p>
+
+<p>
+  The <b>minimal polynomial</b> of $J_k(\lambda)$ is $(\lambda_0 - \lambda)^k$. For
+  the full matrix, $m_A(\lambda) = \prod_i (\lambda_i - \lambda)^{s_i}$ where $s_i$ is
+  the size of the <em>largest</em> Jordan block for $\lambda_i$. The
+  Cayley&ndash;Hamilton theorem says $\chi_A(A) = 0$; the minimal polynomial refines
+  this to the sharpest annihilating polynomial. A matrix is diagonalisable if and only
+  if its minimal polynomial has no repeated roots (all Jordan blocks are $1 \times 1$).
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Camille Jordan introduced the normal form in his 1870 <em>Trait&eacute; des
+    substitutions et des &eacute;quations alg&eacute;briques</em>, motivated by the
+    study of permutation groups and linear substitutions. Weierstrass (1868) had
+    independently developed the theory of <b>elementary divisors</b>, which encodes the
+    same information differently. The two approaches were unified by Frobenius. The
+    Jordan form provides the <em>complete invariant</em> of similarity: two matrices
+    are similar ($P^{-1}AP = B$ for some invertible $P$) if and only if they have the
+    same Jordan form up to block ordering. It is the strongest structure theorem for
+    linear operators over algebraically closed fields.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Over $\mathbb{R}$, the Jordan form may not exist.</b> The rotation matrix
+    $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ has characteristic polynomial
+    $\lambda^2 + 1$, which does not split over $\mathbb{R}$. There are no real
+    eigenvalues, so no Jordan blocks at all. The theorem requires the characteristic
+    polynomial to split into linear factors, which is guaranteed over $\mathbb{C}$
+    (by the fundamental theorem of algebra) but not over $\mathbb{R}$.
+  </p>
+  <p>
+    Over $\mathbb{R}$, the best available result is the <b>real Jordan form</b>, which
+    allows $2 \times 2$ rotation-scaling blocks
+    $\begin{pmatrix} a & -b \\ b & a \end{pmatrix}$ for each pair of complex conjugate
+    eigenvalues $a \pm bi$.
+  </p>
+  <p>
+    <b>Uniqueness fails if you allow different block orderings.</b> The Jordan form is
+    unique only up to permutation of blocks. The matrices
+    $\text{diag}(J_2(1), J_1(1))$ and $\text{diag}(J_1(1), J_2(1))$ represent the
+    same Jordan form.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Over $\mathbb{C}$, every matrix is similar to a block-diagonal matrix of Jordan
+  blocks &mdash; the closest any matrix can get to being diagonal.
+</div>
+
+<div class="nav">
+  <a href="10-cayley-hamilton.html">&larr; Previous: The Cayley&ndash;Hamilton Theorem</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

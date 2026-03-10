@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Weierstrass Approximation Theorem — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Weierstrass Approximation Theorem</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Polynomials are the simplest functions: easy to evaluate, differentiate, integrate. Can every
+    continuous function be approximated to arbitrary precision by a polynomial? Not just at a
+    single point (Taylor does that), but <em>everywhere at once</em> on an interval?
+    Weierstrass (1885) proved yes: on any closed bounded interval, polynomials can get uniformly
+    as close as you like to any continuous function.
+  </p>
+</div>
+
+<h2>1. What "approximation" means</h2>
+
+<p>
+  We want <strong>uniform approximation</strong>. Given $f \in C[a, b]$ (continuous on $[a,b]$)
+  and $\varepsilon > 0$, we seek a polynomial $p$ such that:
+</p>
+<div class="display-math">$$\sup_{x \in [a,b]} |f(x) - p(x)| < \varepsilon$$</div>
+<p>
+  The polynomial is uniformly close to $f$ &mdash; not just close at some points and far at
+  others. In the language of <a href="06-uniform-convergence.html">page 6</a>, we want a
+  <em>sequence</em> of polynomials that converges uniformly to $f$.
+</p>
+
+<h2>2. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Weierstrass Approximation (1885)</div>
+  <p>
+    Let $f : [a, b] \to \mathbb{R}$ be continuous. For every $\varepsilon > 0$, there exists a
+    polynomial $p$ such that $\|f - p\|_\infty = \sup_{x \in [a,b]} |f(x) - p(x)| < \varepsilon$.
+  </p>
+  <p>
+    Equivalently: the polynomials are <strong>dense</strong> in $C[a, b]$ with respect to the
+    sup norm.
+  </p>
+</div>
+
+<p>
+  It suffices to prove this for $[0, 1]$. Given $f \in C[a, b]$, define
+  $g(t) = f(a + t(b - a))$ for $t \in [0, 1]$. Then $g$ is continuous on $[0, 1]$, and a
+  polynomial approximation of $g$ translates back to one of $f$ via the linear substitution
+  $t = (x - a)/(b - a)$.
+</p>
+
+<h2>3. Bernstein polynomials</h2>
+
+<p>
+  Bernstein (1912) gave a beautifully constructive proof. For $f : [0, 1] \to \mathbb{R}$ and
+  $n \geq 1$, define the <strong>$n$-th Bernstein polynomial</strong>:
+</p>
+<div class="display-math">$$B_n(f; x) = \sum_{k=0}^{n} f\!\left(\frac{k}{n}\right) \binom{n}{k} x^k (1 - x)^{n-k}$$</div>
+<p>
+  This is a polynomial of degree $\leq n$ in $x$. It samples $f$ at the equally spaced points
+  $0, 1/n, 2/n, \ldots, 1$ and blends the values using binomial weights. The key claim:
+  $B_n(f; x) \to f(x)$ uniformly on $[0, 1]$.
+</p>
+
+<h2>4. Three preliminary identities</h2>
+
+<p>
+  The binomial weights $p_{n,k}(x) = \binom{n}{k} x^k (1-x)^{n-k}$ satisfy three identities
+  that drive the entire proof. They all follow from the binomial theorem
+  $(x + (1-x))^n = 1$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Bernstein identities</div>
+  <p>(i) $\displaystyle\sum_{k=0}^{n} p_{n,k}(x) = 1$</p>
+  <p>(ii) $\displaystyle\sum_{k=0}^{n} \frac{k}{n}\, p_{n,k}(x) = x$</p>
+  <p>(iii) $\displaystyle\sum_{k=0}^{n} \left(\frac{k}{n} - x\right)^2 p_{n,k}(x) = \frac{x(1-x)}{n}$</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Identity (i).</strong> By the binomial theorem:
+  </p>
+  <div class="display-math">$$\sum_{k=0}^{n} \binom{n}{k} x^k (1-x)^{n-k} = (x + (1-x))^n = 1$$</div>
+  <p>
+    <strong>Identity (ii).</strong> We need $\sum_{k=0}^{n} k \binom{n}{k} x^k (1-x)^{n-k} = nx$.
+    For $k \geq 1$: $k \binom{n}{k} = n \binom{n-1}{k-1}$. Substituting $j = k - 1$:
+  </p>
+  <div class="display-math">$$\sum_{k=1}^{n} n \binom{n-1}{k-1} x^k (1-x)^{n-k} = nx \sum_{j=0}^{n-1} \binom{n-1}{j} x^j (1-x)^{n-1-j} = nx$$</div>
+  <p>
+    by the binomial theorem again. Dividing by $n$: $\sum (k/n)\, p_{n,k}(x) = x$.
+  </p>
+  <p>
+    <strong>Identity (iii).</strong> Expand $(k/n - x)^2 = k^2/n^2 - 2kx/n + x^2$. By (i),
+    $\sum x^2 p_{n,k} = x^2$. By (ii), $\sum (2kx/n) p_{n,k} = 2x^2$. We need
+    $\sum k^2 p_{n,k}(x)/n^2$.
+  </p>
+  <p>
+    Compute $\sum k^2 \binom{n}{k} x^k (1-x)^{n-k}$. Write $k^2 = k(k-1) + k$. We already
+    know $\sum k \binom{n}{k} x^k (1-x)^{n-k} = nx$. For the $k(k-1)$ term: for $k \geq 2$,
+    $k(k-1)\binom{n}{k} = n(n-1)\binom{n-2}{k-2}$. Substituting $j = k - 2$:
+  </p>
+  <div class="display-math">$$\sum_{k=2}^{n} n(n-1)\binom{n-2}{k-2} x^k(1-x)^{n-k} = n(n-1)x^2 \sum_{j=0}^{n-2}\binom{n-2}{j}x^j(1-x)^{n-2-j} = n(n-1)x^2$$</div>
+  <p>
+    So $\sum k^2 p_{n,k} = n(n-1)x^2 + nx$, giving $\sum (k^2/n^2) p_{n,k} = (1 - 1/n)x^2 + x/n$.
+    Putting it together:
+  </p>
+  <div class="display-math">$$\sum \left(\frac{k}{n} - x\right)^2 p_{n,k} = \left(1 - \frac{1}{n}\right)x^2 + \frac{x}{n} - 2x^2 + x^2 = \frac{x - x^2}{n} = \frac{x(1-x)}{n}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Note that $x(1-x) \leq 1/4$ on $[0,1]$ (maximum at $x = 1/2$). So identity (iii) gives:
+</p>
+<div class="display-math">$$\sum_{k=0}^{n} \left(\frac{k}{n} - x\right)^2 p_{n,k}(x) \leq \frac{1}{4n}$$</div>
+<p>
+  This is the crucial quantitative bound: the binomial weights are concentrated near $k/n = x$.
+</p>
+
+<h2>5. Proof of the approximation theorem</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We prove $B_n(f; x) \to f(x)$ uniformly on $[0, 1]$.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Since $f$ is continuous on the closed bounded interval $[0, 1]$, it
+    is <strong>uniformly continuous</strong> (proved in
+    <a href="../phase3/07-integrability.html">Phase 3, page 7</a>): for every $\varepsilon > 0$,
+    there exists $\delta > 0$ such that $|f(s) - f(t)| < \varepsilon$ whenever $|s - t| < \delta$.
+    Also, $f$ is bounded: $|f(x)| \leq K$ for some $K$ and all $x \in [0,1]$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Write the error using identity (i):
+  </p>
+  <div class="display-math">$$B_n(f;x) - f(x) = \sum_{k=0}^{n}\left(f\!\left(\frac{k}{n}\right) - f(x)\right) p_{n,k}(x)$$</div>
+  <p>
+    So:
+  </p>
+  <div class="display-math">$$|B_n(f;x) - f(x)| \leq \sum_{k=0}^{n}\left|f\!\left(\frac{k}{n}\right) - f(x)\right| p_{n,k}(x)$$</div>
+  <p>
+    <strong>Step 3.</strong> Split the sum into two parts. Let $\delta > 0$ be the one from
+    uniform continuity (Step 1). Define:
+  </p>
+  <div class="display-math">$$A = \{k : |k/n - x| < \delta\}, \qquad B = \{k : |k/n - x| \geq \delta\}$$</div>
+  <p>
+    <strong>Step 4. The "near" terms ($k \in A$):</strong> here $|k/n - x| < \delta$, so uniform
+    continuity gives $|f(k/n) - f(x)| < \varepsilon$. Therefore:
+  </p>
+  <div class="display-math">$$\sum_{k \in A} |f(k/n) - f(x)|\, p_{n,k}(x) < \varepsilon \sum_{k \in A} p_{n,k}(x) \leq \varepsilon$$</div>
+  <p>
+    using identity (i).
+  </p>
+  <p>
+    <strong>Step 5. The "far" terms ($k \in B$):</strong> here $|f(k/n) - f(x)| \leq 2K$.
+    We bound the sum using identity (iii). For $k \in B$, we have
+    $(k/n - x)^2 \geq \delta^2$, so $p_{n,k}(x) \leq (k/n - x)^2 p_{n,k}(x) / \delta^2$.
+    Therefore:
+  </p>
+  <div class="display-math">$$\sum_{k \in B} 2K\, p_{n,k}(x) \leq \frac{2K}{\delta^2} \sum_{k \in B} \left(\frac{k}{n} - x\right)^2 p_{n,k}(x) \leq \frac{2K}{\delta^2} \cdot \frac{1}{4n} = \frac{K}{2n\delta^2}$$</div>
+  <p>
+    <strong>Step 6.</strong> Combine:
+  </p>
+  <div class="display-math">$$|B_n(f;x) - f(x)| < \varepsilon + \frac{K}{2n\delta^2}$$</div>
+  <p>
+    This holds for <em>all</em> $x \in [0,1]$ simultaneously (since $\delta$ and $K$ do not
+    depend on $x$). Choose $n_0$ so that $K/(2n_0 \delta^2) < \varepsilon$. Then for all
+    $n \geq n_0$ and all $x \in [0,1]$:
+  </p>
+  <div class="display-math">$$|B_n(f;x) - f(x)| < 2\varepsilon$$</div>
+  <p>
+    Since $\varepsilon$ was arbitrary, $B_n(f) \to f$ uniformly on $[0, 1]$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Example</h2>
+
+<p>
+  Take $f(x) = |x - 1/2|$ on $[0, 1]$. This is continuous but not differentiable at $x = 1/2$
+  &mdash; it has a corner. Nevertheless, the Bernstein polynomials $B_n(f; x)$ are smooth
+  polynomials that converge uniformly to $f$. They smooth out the corner: for finite $n$,
+  $B_n(f)$ is a polynomial (infinitely differentiable), but as $n \to \infty$ the approximation
+  sharpens and the "rounding" near $x = 1/2$ shrinks to nothing.
+</p>
+<p>
+  The first few Bernstein polynomials are:
+</p>
+<div class="display-math">$$B_1(f;x) = \tfrac{1}{2}(1-x) + \tfrac{1}{2}x \cdot 0 + \ldots$$</div>
+<p>
+  Actually, $B_1(f;x) = f(0)(1-x) + f(1)x = \frac{1}{2}(1-x) + \frac{1}{2}x = \frac{1}{2}$
+  &mdash; a constant, the crudest approximation.
+  $B_2(f;x) = \frac{1}{2}(1-x)^2 + 0 \cdot 2x(1-x) + \frac{1}{2}x^2 = \frac{1}{2}(1 - 2x + x^2) + \frac{1}{2}x^2 = \frac{1}{2} - x + x^2$.
+  Each successive $B_n$ gets closer to the V-shape of $|x - 1/2|$.
+</p>
+
+<h2>7. What the theorem means</h2>
+
+<p>
+  The Weierstrass approximation theorem says that polynomials are <em>dense</em> in $C[a,b]$
+  with the sup norm. Every continuous function, no matter how wild, is the uniform limit of
+  polynomials. You cannot distinguish a continuous function from a polynomial by finitely many
+  measurements at finite precision.
+</p>
+<p>
+  A further consequence: since polynomials with <em>rational</em> coefficients are countable,
+  and they approximate all polynomials (hence all continuous functions), the space $C[a,b]$ has
+  a countable dense subset. In the language of topology, $C[a,b]$ is <strong>separable</strong>.
+  (IOU: this will be made precise in Phase 14 when we study normed spaces and Banach spaces.)
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Weierstrass proved his theorem in 1885 using a convolution with a Gaussian-like kernel
+    &mdash; essentially a heat-equation argument. His original proof was non-constructive in
+    spirit. Bernstein's 1912 proof, using the polynomials that now bear his name, was a landmark
+    in constructive analysis: it gives you an <em>explicit</em> sequence of approximating
+    polynomials. The proof uses only the binomial theorem and uniform continuity &mdash; no
+    integration, no Fourier analysis, nothing beyond what we have already established.
+  </p>
+  <p>
+    The theorem deeply influenced 20th-century mathematics. It is a prototype of the
+    Stone&ndash;Weierstrass theorem (1937/1948), which generalises the result to arbitrary
+    compact spaces and algebras of functions. It also motivated the development of functional
+    analysis &mdash; the study of spaces of functions as geometric objects.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Remove the closed bounded interval.</strong> On $[0, \infty)$, the function
+    $f(x) = e^x$ cannot be uniformly approximated by polynomials. Any polynomial $p(x)$ of
+    degree $d$ satisfies $|e^x - p(x)| \to \infty$ as $x \to \infty$, since $e^x$ grows faster
+    than any polynomial. The theorem requires a compact (closed and bounded) domain.
+  </p>
+  <p>
+    <strong>Remove continuity.</strong> The characteristic function of the rationals (Dirichlet's
+    function: $1$ on $\mathbb{Q}$, $0$ on $\mathbb{R} \setminus \mathbb{Q}$) is not the uniform
+    limit of any sequence of polynomials, since polynomials are continuous and the uniform limit
+    of continuous functions is continuous (<a href="06-uniform-convergence.html">page 6</a>).
+  </p>
+  <p>
+    <strong>Derivatives are not approximated.</strong> The Bernstein polynomials $B_n(f)$
+    converge uniformly to $f$, but $B_n'(f)$ need not converge to $f'$ (and $f'$ may not even
+    exist, as the $|x - 1/2|$ example shows). Simultaneous approximation of a function and its
+    derivatives requires additional smoothness assumptions on $f$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every continuous function on a closed interval is the uniform limit of polynomials &mdash;
+  polynomials are dense in $C[a,b]$.
+</div>
+
+<div class="nav">
+  <a href="07-weierstrass-m-test.html">&larr; Previous: The Weierstrass M-Test</a>
+  <a href="../phase6/01-vector-spaces.html">Next: Vector Spaces &rarr;</a>
+</div>
+
+</body>
+</html>

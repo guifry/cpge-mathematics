@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cayley–Hamilton Theorem — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Cayley&ndash;Hamilton Theorem</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 10</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The characteristic polynomial of a matrix $A$ is
+    $\chi_A(\lambda) = \det(A - \lambda I)$, a polynomial in the <em>scalar</em>
+    $\lambda$. Here is a strange question: what happens if you plug the
+    <em>matrix</em> $A$ itself into its own characteristic polynomial? Cayley (1858)
+    tried it for $2 \times 2$ matrices and always got the zero matrix. Hamilton had
+    encountered the same phenomenon with quaternions (1853). Is it always true?
+  </p>
+</div>
+
+<h2>1. The wrong proof</h2>
+
+<p>
+  Before giving the real proof, we must kill a tempting but fatally flawed argument.
+  You might think: $\chi_A(\lambda) = \det(A - \lambda I)$, so just set $\lambda = A$
+  to get $\chi_A(A) = \det(A - AI) = \det(0) = 0$. Done?
+</p>
+
+<p>
+  <em>No.</em> This is nonsense, for a precise reason. The expression
+  $\det(A - \lambda I)$ treats $\lambda$ as a <em>scalar</em>. When you substitute
+  $\lambda = A$, the expression $A - AI$ is well-defined and equals the zero matrix,
+  so $\det(0) = 0$. But $0$ here is the <em>number</em> zero, not the zero matrix.
+  You have proved $0 = 0$, which is useless. The claim $\chi_A(A) = 0$ means the
+  $n \times n$ zero <em>matrix</em>, not the number zero. Substituting a matrix into a
+  determinant is an illegal operation &mdash; the determinant is defined for a matrix
+  argument and returns a scalar, not a matrix.
+</p>
+
+<p>
+  The correct proof requires a completely different approach.
+</p>
+
+<h2>2. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cayley&ndash;Hamilton</div>
+  <p>
+    Let $A$ be an $n \times n$ matrix over a field $K$. Let
+    $\chi_A(\lambda) = \det(A - \lambda I) = c_0 + c_1 \lambda + c_2 \lambda^2 + \cdots + c_{n-1}\lambda^{n-1} + (-1)^n \lambda^n$
+    be its characteristic polynomial. Then
+  </p>
+  <div class="display-math">$$\chi_A(A) = c_0 I + c_1 A + c_2 A^2 + \cdots + (-1)^n A^n = 0.$$</div>
+</div>
+
+<h2>3. Example first</h2>
+
+<p>
+  Take $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$.
+</p>
+
+<p>
+  <strong>Step 1.</strong> Characteristic polynomial:
+  $\chi_A(\lambda) = \det \begin{pmatrix} 1 - \lambda & 2 \\ 3 & 4 - \lambda \end{pmatrix}
+  = (1 - \lambda)(4 - \lambda) - 6 = \lambda^2 - 5\lambda - 2$.
+</p>
+
+<p>
+  <strong>Step 2.</strong> Compute $A^2 - 5A - 2I$:
+</p>
+
+<div class="display-math">$$A^2 = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} = \begin{pmatrix} 7 & 10 \\ 15 & 22 \end{pmatrix}.$$</div>
+
+<div class="display-math">$$A^2 - 5A - 2I = \begin{pmatrix} 7 & 10 \\ 15 & 22 \end{pmatrix} - \begin{pmatrix} 5 & 10 \\ 15 & 20 \end{pmatrix} - \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}. \checkmark$$</div>
+
+<h2>4. Proof</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1 (the adjugate).</strong> The <b>adjugate</b> (classical adjoint) of
+    a matrix $M$ satisfies $M \cdot \text{adj}(M) = \det(M) \cdot I$. Apply this to
+    $M = A - \lambda I$:
+  </p>
+  <div class="display-math">$$(A - \lambda I) \cdot \text{adj}(A - \lambda I) = \det(A - \lambda I) \cdot I = \chi_A(\lambda) \cdot I.$$</div>
+  <p>
+    <strong>Step 2 (expand the adjugate as a polynomial in $\lambda$).</strong>
+    The entries of $\text{adj}(A - \lambda I)$ are cofactors of $A - \lambda I$.
+    Each cofactor is a determinant of an $(n-1) \times (n-1)$ submatrix whose entries
+    are polynomials of degree $\leq 1$ in $\lambda$. So each cofactor is a polynomial
+    of degree $\leq n-1$ in $\lambda$. We can write
+  </p>
+  <div class="display-math">$$\text{adj}(A - \lambda I) = B_0 + B_1 \lambda + B_2 \lambda^2 + \cdots + B_{n-1} \lambda^{n-1}$$</div>
+  <p>
+    where $B_0, B_1, \ldots, B_{n-1}$ are constant $n \times n$ matrices (independent
+    of $\lambda$).
+  </p>
+  <p>
+    <strong>Step 3 (expand both sides).</strong> Write the characteristic polynomial as
+    $\chi_A(\lambda) = c_0 + c_1 \lambda + \cdots + c_n \lambda^n$ where $c_n = (-1)^n$.
+    The right side of our identity is:
+  </p>
+  <div class="display-math">$$\chi_A(\lambda) \cdot I = c_0 I + c_1 I \lambda + c_2 I \lambda^2 + \cdots + c_n I \lambda^n.$$</div>
+  <p>
+    The left side is:
+  </p>
+  <div class="display-math">$$(A - \lambda I)(B_0 + B_1 \lambda + \cdots + B_{n-1}\lambda^{n-1}).$$</div>
+  <p>
+    Expanding and collecting powers of $\lambda$:
+  </p>
+  <div class="display-math">$$AB_0 + (AB_1 - B_0)\lambda + (AB_2 - B_1)\lambda^2 + \cdots + (AB_{n-1} - B_{n-2})\lambda^{n-1} + (-B_{n-1})\lambda^n.$$</div>
+  <p>
+    <strong>Step 4 (equate coefficients).</strong> Matching coefficients of each power
+    of $\lambda$ gives $n + 1$ matrix equations:
+  </p>
+  <div class="display-math">$$\begin{aligned}
+    \lambda^0: & \quad AB_0 = c_0 I \\
+    \lambda^1: & \quad AB_1 - B_0 = c_1 I \\
+    \lambda^2: & \quad AB_2 - B_1 = c_2 I \\
+    & \quad \vdots \\
+    \lambda^{n-1}: & \quad AB_{n-1} - B_{n-2} = c_{n-1} I \\
+    \lambda^n: & \quad -B_{n-1} = c_n I
+  \end{aligned}$$</div>
+  <p>
+    <strong>Step 5 (the telescoping trick).</strong> Multiply the $\lambda^0$ equation
+    by $I$ on the left, the $\lambda^1$ equation by $A$, the $\lambda^2$ equation by
+    $A^2$, and in general the $\lambda^k$ equation by $A^k$:
+  </p>
+  <div class="display-math">$$\begin{aligned}
+    AB_0 &= c_0 I \\
+    A^2 B_1 - AB_0 &= c_1 A \\
+    A^3 B_2 - A^2 B_1 &= c_2 A^2 \\
+    &\;\vdots \\
+    A^n B_{n-1} - A^{n-1} B_{n-2} &= c_{n-1} A^{n-1} \\
+    -A^n B_{n-1} &= c_n A^n
+  \end{aligned}$$</div>
+  <p>
+    <strong>Step 6 (sum).</strong> Add all $n + 1$ equations. On the left, every $B_k$
+    term appears once with a positive sign and once with a negative sign &mdash; they
+    all cancel (a telescoping sum). On the right we get:
+  </p>
+  <div class="display-math">$$0 = c_0 I + c_1 A + c_2 A^2 + \cdots + c_n A^n = \chi_A(A).$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<h2>5. Consequences</h2>
+
+<p>
+  <b>Powers of $A$ are controlled.</b> Since $\chi_A(A) = 0$ and $\chi_A$ has degree
+  $n$, we can express $A^n$ as a linear combination of $I, A, A^2, \ldots, A^{n-1}$.
+  By induction, the same holds for $A^k$ for any $k \geq n$. The set
+  $\{I, A, A^2, \ldots, A^{n-1}\}$ spans all powers of $A$.
+</p>
+
+<p>
+  <b>The minimal polynomial.</b> There may be a polynomial of degree less than $n$
+  that annihilates $A$. The monic polynomial $m_A$ of smallest degree with
+  $m_A(A) = 0$ is called the <b>minimal polynomial</b>. Cayley&ndash;Hamilton tells us
+  $m_A$ divides $\chi_A$ (since $\chi_A$ is an annihilating polynomial and $m_A$ is
+  the smallest). The roots of $m_A$ are exactly the eigenvalues of $A$.
+</p>
+
+<p>
+  <b>An explicit formula for $A^{-1}$.</b> If $A$ is invertible, then $c_0 = \det(A) \neq 0$.
+  From $\chi_A(A) = 0$:
+</p>
+
+<div class="display-math">$$c_0 I + c_1 A + \cdots + c_n A^n = 0.$$</div>
+
+<p>
+  Multiply both sides by $A^{-1}$:
+</p>
+
+<div class="display-math">$$c_0 A^{-1} + c_1 I + c_2 A + \cdots + c_n A^{n-1} = 0$$</div>
+
+<div class="display-math">$$A^{-1} = -\frac{1}{c_0}(c_1 I + c_2 A + \cdots + c_n A^{n-1}).$$</div>
+
+<h2>6. Example: computing $A^{-1}$ via Cayley&ndash;Hamilton</h2>
+
+<p>
+  For $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$ with
+  $\chi_A(\lambda) = \lambda^2 - 5\lambda - 2$, we have $A^2 - 5A - 2I = 0$, so:
+</p>
+
+<div class="display-math">$$A^2 = 5A + 2I, \qquad A(A - 5I) = 2I, \qquad A \cdot \tfrac{1}{2}(A - 5I) = I.$$</div>
+
+<p>
+  Therefore $A^{-1} = \frac{1}{2}(A - 5I) = \frac{1}{2}\begin{pmatrix} -4 & 2 \\ 3 & -1 \end{pmatrix} = \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix}$.
+</p>
+
+<p>
+  Quick check: $\det(A) = 4 - 6 = -2$, so $A^{-1} = \frac{1}{-2}\begin{pmatrix} 4 & -2 \\ -3 & 1 \end{pmatrix} = \begin{pmatrix} -2 & 1 \\ 3/2 & -1/2 \end{pmatrix}$. $\checkmark$
+</p>
+
+<h2>7. A $3 \times 3$ example</h2>
+
+<p>
+  Let $A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix}$.
+  The characteristic polynomial is:
+</p>
+
+<div class="display-math">$$\chi_A(\lambda) = \det \begin{pmatrix} 1 - \lambda & 0 & 0 \\ 0 & -\lambda & -1 \\ 0 & 1 & -\lambda \end{pmatrix} = (1 - \lambda)(\lambda^2 + 1) = -\lambda^3 + \lambda^2 - \lambda + 1.$$</div>
+
+<p>
+  Cayley&ndash;Hamilton predicts $-A^3 + A^2 - A + I = 0$. Let us verify.
+</p>
+
+<div class="display-math">$$A^2 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{pmatrix}, \qquad A^3 = A \cdot A^2 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & -1 & 0 \end{pmatrix}.$$</div>
+
+<div class="display-math">$$-A^3 + A^2 - A + I = \begin{pmatrix} -1 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix} + \begin{pmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{pmatrix} - \begin{pmatrix} 1 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix} + \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}. \checkmark$$</div>
+
+<p>
+  Notice that this matrix has eigenvalues $1, i, -i$. Over $\mathbb{R}$, the minimal
+  polynomial is the same as the characteristic polynomial (none of the factors can be
+  dropped). But for a matrix like $I_3$, the characteristic polynomial is
+  $(\lambda - 1)^3$ while the minimal polynomial is just $\lambda - 1$ &mdash;
+  Cayley&ndash;Hamilton gives the weaker statement.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cayley (1858) verified the theorem for $2 \times 2$ and $3 \times 3$ matrices and
+    stated it in general, but did not give a complete proof &mdash; he wrote that he
+    had "not thought it necessary to undertake the labour of a formal proof." Hamilton
+    (1853) had proved the analogous result for quaternions, which amounts to a
+    $4 \times 4$ case with special structure. Frobenius (1878) gave the first rigorous
+    proof for general matrices. The theorem bridges the two central objects of linear
+    algebra: the characteristic polynomial (an algebraic invariant encoding eigenvalue
+    information) and the matrix algebra (powers and polynomials in $A$).
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>The naive substitution $\lambda = A$ in $\det(A - \lambda I)$.</b> This is the
+    most common error. It conflates scalars and matrices. The determinant function
+    $\det : M_n(K) \to K$ maps matrices to scalars. The expression $\det(A - \lambda I)$
+    is a scalar polynomial in $\lambda$. Setting $\lambda = A$ inside the determinant
+    produces $\det(0) = 0$ (a scalar), not $\chi_A(A) = 0$ (a matrix equation). The
+    correct proof avoids the determinant entirely after extracting the adjugate
+    identity, working instead with polynomial coefficients of matrices.
+  </p>
+  <p>
+    <b>Cayley&ndash;Hamilton does not say $\chi_A$ is the minimal polynomial.</b> For
+    a diagonal matrix $A = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$, the
+    characteristic polynomial is $(\lambda - 2)^2$, but the minimal polynomial is just
+    $\lambda - 2$. Cayley&ndash;Hamilton gives an <em>upper bound</em> on the degree
+    of the minimal polynomial, not an exact value.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every matrix is a root of its own characteristic polynomial &mdash; proved not by
+  naive substitution, but by a careful telescoping argument through the adjugate.
+</div>
+
+<div class="nav">
+  <a href="09-spectral-theorem.html">&larr; Previous: The Spectral Theorem</a>
+  <a href="11-jordan-normal-form.html">Next: Jordan Normal Form &rarr;</a>
+</div>
+
+</body>
+</html>

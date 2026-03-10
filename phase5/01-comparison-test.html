@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Comparison Test — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Comparison Test</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Euler (1735) computed $\sum_{n=1}^{\infty} 1/n^2 = \pi^2/6$, one of the most celebrated
+    results in mathematics. But before you can ask <em>what</em> the sum equals, you need to know
+    that it converges at all. You cannot add infinitely many terms and hope for the best &mdash;
+    the harmonic series $\sum 1/n$ diverges, as we established in
+    <a href="../phase2/03-monotone-convergence.html">Phase 2, page 3</a>. So why should
+    $\sum 1/n^2$ be any different?
+  </p>
+  <p>
+    The idea is simple: if every term of your series is <em>smaller</em> than the corresponding
+    term of a series you already know converges, then your series converges too. You don't need
+    to compute the sum &mdash; you just need a ceiling.
+  </p>
+</div>
+
+<h2>1. A concrete example first</h2>
+
+<p>
+  We want to show $\sum_{n=1}^{\infty} 1/n^2$ converges. Notice that for $n \geq 2$:
+</p>
+<div class="display-math">$$\frac{1}{n^2} \leq \frac{1}{n(n-1)} = \frac{1}{n-1} - \frac{1}{n}$$</div>
+<p>
+  The right-hand side is a <strong>telescoping</strong> series. Its partial sums are:
+</p>
+<div class="display-math">$$\sum_{n=2}^{N} \left(\frac{1}{n-1} - \frac{1}{n}\right) = 1 - \frac{1}{N} \to 1$$</div>
+<p>
+  So the partial sums of $\sum_{n=1}^{\infty} 1/n^2$ satisfy:
+</p>
+<div class="display-math">$$S_N = 1 + \sum_{n=2}^{N} \frac{1}{n^2} \leq 1 + \sum_{n=2}^{N} \frac{1}{n(n-1)} \leq 1 + 1 = 2$$</div>
+<p>
+  The partial sums are increasing (every term is positive) and bounded above by $2$. By the
+  <a href="../phase2/03-monotone-convergence.html">monotone convergence theorem</a> (Phase 2,
+  page 3), the series converges. We haven't computed the sum &mdash; just proved it exists. (Euler
+  later showed it equals $\pi^2/6$, but that requires Fourier analysis from Phase 11.)
+</p>
+
+<h2>2. The Direct Comparison Test</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Direct Comparison Test</div>
+  <p>
+    Let $(a_n)$ and $(b_n)$ be sequences with $0 \leq a_n \leq b_n$ for all $n \geq N_0$ (some
+    fixed $N_0$). Then:
+  </p>
+  <ol>
+    <li>If $\sum b_n$ converges, then $\sum a_n$ converges.</li>
+    <li>If $\sum a_n$ diverges, then $\sum b_n$ diverges.</li>
+  </ol>
+</div>
+
+<p>
+  Part (ii) is the contrapositive of part (i), so we only need to prove (i).
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since finitely many terms do not affect convergence, we may assume
+    $0 \leq a_n \leq b_n$ for all $n \geq 1$ without loss of generality.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Let $A_N = \sum_{n=1}^{N} a_n$ and $B_N = \sum_{n=1}^{N} b_n$ be
+    the partial sums. Since $a_n \geq 0$, the sequence $(A_N)$ is increasing. Since
+    $a_n \leq b_n$, we have $A_N \leq B_N$ for all $N$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> By hypothesis, $\sum b_n$ converges, so $(B_N)$ converges to some
+    limit $B$. Since partial sums of a non-negative series are increasing, $B_N \leq B$ for all
+    $N$. Therefore $A_N \leq B$ for all $N$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> The sequence $(A_N)$ is increasing and bounded above by $B$. By the
+    <a href="../phase2/03-monotone-convergence.html">monotone convergence theorem</a>, it
+    converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. More examples</h2>
+
+<p>
+  <strong>Example 1: $\sum 1/n!$ converges.</strong> For $n \geq 1$, we have $n! \geq 2^{n-1}$
+  (since $n! = 1 \cdot 2 \cdot 3 \cdots n \geq 1 \cdot 2 \cdot 2 \cdots 2 = 2^{n-1}$).
+  Therefore:
+</p>
+<div class="display-math">$$\frac{1}{n!} \leq \frac{1}{2^{n-1}} = \frac{2}{2^n}$$</div>
+<p>
+  The geometric series $\sum 2/2^n = 2$ converges, so $\sum 1/n!$ converges by comparison. (We
+  computed this sum as $e$ in <a href="../phase4/03-exponential.html">Phase 4, page 3</a>.)
+</p>
+
+<p>
+  <strong>Example 2: $\sum 1/2^n$ converges (geometric series).</strong> We can use this as a
+  benchmark. Any series whose terms are eventually smaller than $C/2^n$ (for some constant $C$)
+  converges.
+</p>
+
+<p>
+  <strong>Example 3: divergence direction.</strong> Since $1/\sqrt{n} \geq 1/n$ for $n \geq 1$
+  and $\sum 1/n$ diverges, the comparison test (part ii) gives $\sum 1/\sqrt{n}$ divergent.
+</p>
+
+<p>
+  <strong>Example 4: $\sum 1/(n^2 + 1)$ converges.</strong> For all $n \geq 1$,
+  $n^2 + 1 > n^2$, so $1/(n^2 + 1) < 1/n^2$. Since $\sum 1/n^2$ converges (section 1),
+  comparison gives $\sum 1/(n^2 + 1)$ convergent.
+</p>
+
+<p>
+  <strong>The method in summary:</strong> to prove convergence of $\sum a_n$ (with $a_n \geq 0$),
+  find a convergent series $\sum b_n$ with $a_n \leq b_n$. To prove divergence, find a
+  divergent series $\sum b_n$ with $a_n \geq b_n$. The art is in choosing $b_n$ &mdash;
+  typically a geometric series, a $p$-series ($\sum 1/n^p$), or a telescoping series.
+</p>
+
+<h2>4. The Limit Comparison Test</h2>
+
+<p>
+  The direct comparison test requires $a_n \leq b_n$ exactly. But often two series have terms
+  that are <em>roughly proportional</em> for large $n$ &mdash; say $a_n \approx 3 b_n$ &mdash;
+  without one dominating the other term by term. The limit comparison test handles this.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Limit Comparison Test</div>
+  <p>
+    Let $a_n > 0$ and $b_n > 0$ for all $n$. Suppose:
+  </p>
+  <div class="display-math">$$\lim_{n \to \infty} \frac{a_n}{b_n} = L$$</div>
+  <p>
+    where $0 < L < \infty$. Then $\sum a_n$ and $\sum b_n$ either both converge or both diverge.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $a_n/b_n \to L$ with $L > 0$, choose $\varepsilon = L/2 > 0$.
+    There exists $N$ such that for all $n \geq N$:
+  </p>
+  <div class="display-math">$$L - \frac{L}{2} < \frac{a_n}{b_n} < L + \frac{L}{2}$$</div>
+  <p>
+    That is, $\frac{L}{2}\, b_n < a_n < \frac{3L}{2}\, b_n$ for all $n \geq N$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Suppose $\sum b_n$ converges. Then $\sum \frac{3L}{2}\, b_n$
+    converges (scalar multiple). Since $a_n < \frac{3L}{2}\, b_n$ for $n \geq N$, the direct
+    comparison test gives $\sum a_n$ convergent.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Suppose $\sum b_n$ diverges. Then $\sum \frac{L}{2}\, b_n$ diverges.
+    Since $a_n > \frac{L}{2}\, b_n$ for $n \geq N$, the divergence direction of the direct
+    comparison test gives $\sum a_n$ divergent.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Using the Limit Comparison Test</h2>
+
+<p>
+  <strong>Example 1.</strong> Does $\sum_{n=1}^{\infty} \frac{1}{n^2 + n}$ converge?
+</p>
+<p>
+  Compare with $b_n = 1/n^2$. We have:
+</p>
+<div class="display-math">$$\frac{a_n}{b_n} = \frac{n^2}{n^2 + n} = \frac{1}{1 + 1/n} \to 1$$</div>
+<p>
+  Since $L = 1 \in (0, \infty)$ and $\sum 1/n^2$ converges (section 1), so does
+  $\sum 1/(n^2 + n)$.
+</p>
+
+<p>
+  <strong>Example 2.</strong> Does $\sum_{n=1}^{\infty} \frac{n + 3}{n^3 - n + 1}$ converge?
+</p>
+<p>
+  For large $n$, the dominant terms are $n/n^3 = 1/n^2$. Compare with $b_n = 1/n^2$:
+</p>
+<div class="display-math">$$\frac{a_n}{b_n} = \frac{(n+3)\, n^2}{n^3 - n + 1} = \frac{n^3 + 3n^2}{n^3 - n + 1} \to 1$$</div>
+<p>
+  Converges by limit comparison with $\sum 1/n^2$.
+</p>
+
+<p>
+  <strong>Example 3.</strong> Does $\sum_{n=2}^{\infty} \frac{1}{n \ln n}$ converge?
+</p>
+<p>
+  Compare with $b_n = 1/n$. Then $a_n/b_n = 1/\ln n \to 0$. Here $L = 0$, which is outside the
+  range of the theorem. The limit comparison test does not apply directly. (In fact, this series
+  diverges &mdash; provable by the integral test, which we'll meet in later pages.)
+</p>
+
+<h2>6. The boundary cases $L = 0$ and $L = \infty$</h2>
+
+<p>
+  When $L = 0$: $a_n/b_n \to 0$ means $a_n$ is much smaller than $b_n$. If $\sum b_n$
+  converges, so does $\sum a_n$ (from Step 2 of the proof, the upper bound still works). But if
+  $\sum b_n$ diverges, we cannot conclude anything about $\sum a_n$ &mdash; it might converge
+  (smaller terms) or diverge.
+</p>
+
+<p>
+  When $L = \infty$: $a_n$ is much larger than $b_n$. If $\sum b_n$ diverges, so does
+  $\sum a_n$. But if $\sum b_n$ converges, we cannot conclude anything about $\sum a_n$.
+</p>
+
+<p>
+  In summary: the boundary cases give one-directional information only. The full two-directional
+  equivalence requires $0 < L < \infty$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Augustin-Louis Cauchy systematised convergence tests in his <em>Cours d'analyse</em> (1821),
+    the first rigorous textbook on analysis. Before Cauchy, mathematicians &mdash; Euler chief
+    among them &mdash; manipulated infinite series freely, sometimes obtaining correct results by
+    inspired formal computation, sometimes producing nonsense. Cauchy demanded that every
+    convergence claim come with a proof. The comparison test is the simplest and oldest of his
+    tools: reduce an unknown series to a known one.
+  </p>
+  <p>
+    The limit comparison test is a refinement that appeared throughout the 19th century as
+    analysts developed the theory of asymptotic equivalence. Its power lies in reducing
+    convergence questions to the art of finding the <em>dominant term</em> of a sequence &mdash;
+    the term that controls its behaviour for large $n$.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Wrong direction:</strong> if $a_n \geq b_n \geq 0$ and $\sum b_n$ converges, you
+    know nothing about $\sum a_n$. Example: $a_n = 1/n \geq 1/n^2 = b_n$, and $\sum 1/n^2$
+    converges, but $\sum 1/n$ diverges. Having a convergent <em>lower</em> bound is useless.
+  </p>
+  <p>
+    <strong>$L = 0$ in limit comparison:</strong> $a_n = 1/n^2$, $b_n = 1/n$. Here
+    $a_n/b_n = 1/n \to 0$. The series $\sum b_n$ diverges, but $\sum a_n$ converges. The limit
+    $L = 0$ says "$a_n$ is negligible compared to $b_n$" &mdash; this only helps when $\sum b_n$
+    converges (then $\sum a_n$ converges too), not when $\sum b_n$ diverges.
+  </p>
+  <p>
+    <strong>Negative terms:</strong> the direct comparison test as stated requires
+    $a_n \geq 0$. For series with mixed signs, comparison of absolute values tests
+    <em>absolute</em> convergence. For conditional convergence, you need different tools
+    (the alternating series test on <a href="03-alternating-series.html">page 3</a>).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  To prove a non-negative series converges, trap it beneath a series you already know converges.
+</div>
+
+<div class="nav">
+  <a href="../phase4/06-abel-theorem.html">&larr; Previous: Abel's Theorem</a>
+  <a href="02-ratio-test.html">Next: The Ratio Test &rarr;</a>
+</div>
+
+</body>
+</html>

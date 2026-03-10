@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Maps and the Rank-Nullity Theorem — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Linear Maps and the Rank-Nullity Theorem</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A linear map sends vectors to vectors while preserving the linear structure &mdash;
+    addition and scalar multiplication. Rotations, projections, differentiation of
+    polynomials: all linear maps. Some vectors get sent to zero (the <b>kernel</b>).
+    Some vectors in the codomain get hit (the <b>image</b>). These two sets carry all
+    the structural information about the map.
+  </p>
+  <p>
+    The fundamental question: how are the kernel and image related? The rank-nullity
+    theorem answers with a conservation law &mdash; what you lose (kernel dimension)
+    plus what you hit (image dimension) equals what you started with (domain dimension).
+  </p>
+</div>
+
+<h2>1. Linear maps</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Linear map</div>
+  <p>
+    Let $V$ and $W$ be vector spaces over $\mathbb{K}$. A function $f: V \to W$ is a
+    <b>linear map</b> (or linear transformation, or homomorphism) if for all
+    $u, v \in V$ and $\lambda, \mu \in \mathbb{K}$:
+  </p>
+  <div class="display-math">$$f(\lambda u + \mu v) = \lambda f(u) + \mu f(v)$$</div>
+</div>
+
+<p>
+  This single condition encodes two things: $f(u + v) = f(u) + f(v)$ (additivity) and
+  $f(\lambda v) = \lambda f(v)$ (homogeneity). Together they say: $f$ preserves the
+  linear structure. In particular, $f(0_V) = 0_W$ always (set $\lambda = \mu = 0$).
+</p>
+
+<p>
+  <b>Examples.</b> Rotation by angle $\theta$ in $\mathbb{R}^2$: linear (it preserves
+  addition and scaling geometrically). Projection onto a subspace: linear. The
+  differentiation operator $D: \mathbb{R}_n[x] \to \mathbb{R}_{n-1}[x]$ sending
+  $p \mapsto p'$: linear, because $(p + q)' = p' + q'$ and $(\lambda p)' = \lambda p'$
+  (proved in <a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>).
+  Matrix multiplication $x \mapsto Ax$: linear by the properties of matrix arithmetic.
+</p>
+
+<p>
+  <b>Non-example.</b> The map $f: \mathbb{R} \to \mathbb{R}$, $f(x) = x + 1$ is not
+  linear: $f(0) = 1 \neq 0$.
+</p>
+
+<h2>2. Kernel and image</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Kernel and image</div>
+  <p>
+    Let $f: V \to W$ be linear. The <b>kernel</b> (or null space) is
+    $\ker(f) = \{v \in V : f(v) = 0_W\}$.
+    The <b>image</b> (or range) is
+    $\text{im}(f) = \{f(v) : v \in V\}$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Kernel and image are subspaces</div>
+  <p>
+    If $f: V \to W$ is linear, then $\ker(f)$ is a subspace of $V$ and $\text{im}(f)$
+    is a subspace of $W$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Kernel.</strong> $\ker(f) \neq \emptyset$ since $f(0_V) = 0_W$, so
+    $0_V \in \ker(f)$. Take $u, v \in \ker(f)$ and $\lambda, \mu \in \mathbb{K}$.
+    Then $f(\lambda u + \mu v) = \lambda f(u) + \mu f(v) = \lambda \cdot 0_W + \mu \cdot 0_W = 0_W$,
+    so $\lambda u + \mu v \in \ker(f)$. By the
+    <a href="01-vector-spaces.html">subspace criterion (page 1)</a>, $\ker(f)$ is a subspace.
+  </p>
+  <p>
+    <strong>Image.</strong> $\text{im}(f) \neq \emptyset$ since $f(0_V) = 0_W \in \text{im}(f)$.
+    Take $f(u), f(v) \in \text{im}(f)$ and $\lambda, \mu \in \mathbb{K}$. Then
+    $\lambda f(u) + \mu f(v) = f(\lambda u + \mu v) \in \text{im}(f)$. Subspace criterion
+    satisfied.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>3. Injectivity and the kernel</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Injectivity criterion</div>
+  <p>
+    A linear map $f: V \to W$ is injective if and only if $\ker(f) = \{0_V\}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>($\Rightarrow$)</strong> Suppose $f$ is injective. We know $f(0_V) = 0_W$.
+    If $v \in \ker(f)$, then $f(v) = 0_W = f(0_V)$, so injectivity gives $v = 0_V$.
+    Hence $\ker(f) = \{0_V\}$.
+  </p>
+  <p>
+    <strong>($\Leftarrow$)</strong> Suppose $\ker(f) = \{0_V\}$. If $f(u) = f(v)$, then
+    $f(u - v) = f(u) - f(v) = 0_W$, so $u - v \in \ker(f) = \{0_V\}$, giving $u = v$.
+    Hence $f$ is injective.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  This is a powerful test. To check injectivity of a linear map, you do not need to verify
+  that $f(u) = f(v) \Rightarrow u = v$ for all pairs &mdash; you only need to check
+  that the equation $f(v) = 0$ has the unique solution $v = 0$.
+</p>
+
+<h2>4. Rank and nullity</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Rank and nullity</div>
+  <p>
+    Let $f: V \to W$ be linear with $V$ finite-dimensional. The <b>rank</b> of $f$ is
+    $\text{rk}(f) = \dim(\text{im}(f))$. The <b>nullity</b> of $f$ is
+    $\text{null}(f) = \dim(\ker(f))$.
+  </p>
+</div>
+
+<h2>5. The rank-nullity theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Rank-nullity (dimension theorem)</div>
+  <p>
+    Let $V$ be finite-dimensional and $f: V \to W$ linear. Then
+  </p>
+  <div class="display-math">$$\dim(\ker f) + \dim(\text{im}\, f) = \dim(V)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $k = \dim(\ker f)$. Pick a basis $u_1, \ldots, u_k$ of
+    $\ker(f)$. By the
+    <a href="02-basis-dimension.html">basis extension theorem (page 2)</a>, extend this
+    to a basis $u_1, \ldots, u_k, v_1, \ldots, v_r$ of $V$. Then $k + r = \dim(V)$,
+    so we need to show $\dim(\text{im}\, f) = r$.
+  </p>
+  <p>
+    <strong>Step 2. Claim:</strong> $f(v_1), \ldots, f(v_r)$ span $\text{im}(f)$.
+    Take any $w \in \text{im}(f)$. Then $w = f(x)$ for some $x \in V$. Write
+    $x = \alpha_1 u_1 + \cdots + \alpha_k u_k + \beta_1 v_1 + \cdots + \beta_r v_r$.
+    Applying $f$:
+  </p>
+  <div class="display-math">$$w = f(x) = \alpha_1 \underbrace{f(u_1)}_{= 0} + \cdots + \alpha_k \underbrace{f(u_k)}_{= 0} + \beta_1 f(v_1) + \cdots + \beta_r f(v_r) = \sum_{j=1}^{r} \beta_j f(v_j)$$</div>
+  <p>
+    So $w \in \text{Span}(f(v_1), \ldots, f(v_r))$.
+  </p>
+  <p>
+    <strong>Step 3. Claim:</strong> $f(v_1), \ldots, f(v_r)$ are linearly independent.
+    Suppose $\gamma_1 f(v_1) + \cdots + \gamma_r f(v_r) = 0$. By linearity,
+    $f(\gamma_1 v_1 + \cdots + \gamma_r v_r) = 0$, so
+    $\gamma_1 v_1 + \cdots + \gamma_r v_r \in \ker(f)$. Since $u_1, \ldots, u_k$ is
+    a basis of $\ker(f)$:
+  </p>
+  <div class="display-math">$$\gamma_1 v_1 + \cdots + \gamma_r v_r = \delta_1 u_1 + \cdots + \delta_k u_k$$</div>
+  <p>
+    for some scalars $\delta_i$. Rearranging:
+    $\delta_1 u_1 + \cdots + \delta_k u_k - \gamma_1 v_1 - \cdots - \gamma_r v_r = 0$.
+    But $u_1, \ldots, u_k, v_1, \ldots, v_r$ is a basis of $V$, hence linearly independent.
+    So all $\delta_i = 0$ and all $\gamma_j = 0$.
+  </p>
+  <p>
+    <strong>Conclusion.</strong> $f(v_1), \ldots, f(v_r)$ is a basis of $\text{im}(f)$,
+    so $\dim(\text{im}\, f) = r$. Therefore
+    $\dim(\ker f) + \dim(\text{im}\, f) = k + r = \dim(V)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. Consequences</h2>
+
+<p>
+  <b>Injective $\iff$ surjective for maps between spaces of equal dimension.</b>
+  If $\dim(V) = \dim(W) = n$ and $f: V \to W$ is linear, then rank-nullity gives
+  $\dim(\ker f) + \dim(\text{im}\, f) = n$. If $f$ is injective,
+  $\dim(\ker f) = 0$, so $\dim(\text{im}\, f) = n = \dim(W)$, meaning $f$ is surjective.
+  Conversely, if $f$ is surjective, $\dim(\text{im}\, f) = n$, so $\dim(\ker f) = 0$,
+  meaning $f$ is injective. In summary: for linear maps between equal-dimensional spaces,
+  injective $\iff$ surjective $\iff$ bijective.
+</p>
+
+<p>
+  <b>Square matrices.</b> A matrix $A \in \mathcal{M}_n(\mathbb{R})$ is invertible if
+  and only if $\ker(A) = \{0\}$, if and only if its columns are linearly independent,
+  if and only if its columns span $\mathbb{R}^n$.
+</p>
+
+<h2>7. Example: differentiation</h2>
+
+<p>
+  Consider the differentiation map $D: \mathbb{R}_n[x] \to \mathbb{R}_{n-1}[x]$ sending
+  $p \mapsto p'$. We have $\dim(\mathbb{R}_n[x]) = n + 1$.
+</p>
+
+<p>
+  <b>Kernel.</b> $D(p) = 0$ means $p' = 0$, so $p$ is a constant polynomial.
+  Hence $\ker(D) = \mathbb{R}_0[x]$ and $\dim(\ker D) = 1$.
+</p>
+
+<p>
+  <b>Image.</b> Every polynomial $q$ of degree $\leq n - 1$ is the derivative of some
+  polynomial of degree $\leq n$ (just integrate term by term &mdash; proved in
+  <a href="../phase3/08-fundamental-theorem.html">Phase 3, page 8</a>). So
+  $\text{im}(D) = \mathbb{R}_{n-1}[x]$ and $\dim(\text{im}\, D) = n$.
+</p>
+
+<p>
+  Check: $\dim(\ker D) + \dim(\text{im}\, D) = 1 + n = n + 1 = \dim(\mathbb{R}_n[x])$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The rank-nullity theorem is sometimes attributed to James Joseph Sylvester, who
+    coined the term "nullity" in 1884. But the underlying ideas stretch back to Gauss's
+    work on systems of equations in the 1810s. The modern formulation in terms of abstract
+    vector spaces emerged in the early 20th century. It is arguably the single most
+    fundamental structural result in linear algebra &mdash; every other dimension-counting
+    argument in the subject is a consequence of it.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Infinite dimensions.</b> The right shift operator
+    $T: \mathbb{R}^\mathbb{N} \to \mathbb{R}^\mathbb{N}$ defined by
+    $T(a_1, a_2, a_3, \ldots) = (0, a_1, a_2, \ldots)$ is injective (kernel is trivial)
+    but not surjective (the sequence $(1, 0, 0, \ldots)$ is not in the image). In
+    finite dimensions, injectivity would force surjectivity. The left shift
+    $S(a_1, a_2, \ldots) = (a_2, a_3, \ldots)$ is surjective but not injective. The
+    arithmetic of rank-nullity ($\infty - 1 + \infty = \infty$) becomes meaningless
+    for infinite cardinals.
+  </p>
+  <p>
+    <b>Non-linear maps.</b> For the map $f: \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$,
+    the "kernel" $\{0\}$ is one point and the "image" $[0, \infty)$ is uncountable. There
+    is no dimension equation because $f$ is not linear.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Rank-nullity is a conservation law: what the map kills plus what it hits equals the
+  dimension of the domain.
+</div>
+
+<div class="nav">
+  <a href="02-basis-dimension.html">&larr; Previous: Basis and Dimension</a>
+  <a href="04-matrices.html">Next: Matrices and Change of Basis &rarr;</a>
+</div>
+
+</body>
+</html>

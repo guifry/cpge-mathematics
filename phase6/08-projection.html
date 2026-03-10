@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orthogonal Projection &mdash; Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Orthogonal Projection</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Given a subspace $W$ and a point $v$ not in $W$, what is the closest point in $W$ to $v$?
+    In $\mathbb{R}^3$, this is dropping a perpendicular from $v$ onto a plane. In function spaces,
+    this is finding the best polynomial approximation to a function. Fourier (1807) implicitly
+    solved this when computing his famous coefficients. The answer is always the same:
+    <strong>project orthogonally</strong>.
+  </p>
+</div>
+
+<h2>1. Geometric intuition</h2>
+
+<p>
+  Consider a vector $v$ in $\mathbb{R}^3$ and a plane $W$ through the origin. The closest point
+  in $W$ to $v$ is its "shadow" on $W$ &mdash; the point you reach by dropping a perpendicular.
+  The error vector $v - \text{proj}_W(v)$ is perpendicular to the entire plane.
+</p>
+<p>
+  The same picture works for a line through the origin: the projection of $v$ onto the line spanned
+  by $u$ is $\frac{\langle v, u \rangle}{\|u\|^2} u$. We proved on
+  <a href="07-inner-products.html">page 7</a> that inner products let us measure angles. Now we
+  use them to decompose vectors.
+</p>
+
+<h2>2. The orthogonal complement</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Orthogonal complement</div>
+  <p>
+    Let $W$ be a subspace of an inner product space $V$. The <strong>orthogonal complement</strong>
+    of $W$ is
+  </p>
+  <div class="display-math">$$W^\perp = \{v \in V : \langle v, w \rangle = 0 \text{ for all } w \in W\}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof that $W^\perp$ is a subspace</div>
+  <p>
+    <strong>Step 1.</strong> $0 \in W^\perp$ since $\langle 0, w \rangle = 0$ for all $w$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> If $v_1, v_2 \in W^\perp$, then for any $w \in W$:
+    $\langle v_1 + v_2, w \rangle = \langle v_1, w \rangle + \langle v_2, w \rangle = 0 + 0 = 0$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> If $v \in W^\perp$ and $\alpha \in \mathbb{R}$, then
+    $\langle \alpha v, w \rangle = \alpha \langle v, w \rangle = 0$ for all $w \in W$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Orthogonal decomposition</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Orthogonal decomposition</div>
+  <p>
+    Let $W$ be a finite-dimensional subspace of an inner product space $V$. Every $v \in V$ can be
+    written uniquely as
+  </p>
+  <div class="display-math">$$v = w + w^\perp, \qquad w \in W, \quad w^\perp \in W^\perp.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1 (existence).</strong> Let $e_1, \ldots, e_k$ be an orthonormal basis of $W$
+    (exists by Gram&ndash;Schmidt, <a href="07-inner-products.html">page 7</a>). Define
+  </p>
+  <div class="display-math">$$w = \sum_{i=1}^k \langle v, e_i \rangle \, e_i, \qquad w^\perp = v - w.$$</div>
+  <p>
+    Clearly $w \in W$. We must show $w^\perp \in W^\perp$. For any $e_j$ ($j \leq k$):
+  </p>
+  <div class="display-math">$$\langle w^\perp, e_j \rangle = \langle v, e_j \rangle - \sum_{i=1}^k \langle v, e_i \rangle \langle e_i, e_j \rangle = \langle v, e_j \rangle - \langle v, e_j \rangle = 0.$$</div>
+  <p>
+    Since $e_1, \ldots, e_k$ span $W$ and $\langle w^\perp, \cdot \rangle$ is linear, $w^\perp$
+    is orthogonal to every vector in $W$. So $w^\perp \in W^\perp$.
+  </p>
+  <p>
+    <strong>Step 2 (uniqueness).</strong> Suppose $v = w_1 + w_1^\perp = w_2 + w_2^\perp$ with
+    $w_i \in W$, $w_i^\perp \in W^\perp$. Then $w_1 - w_2 = w_2^\perp - w_1^\perp$. The left
+    side is in $W$, the right side is in $W^\perp$. So the common vector lies in $W \cap W^\perp$.
+    But if $u \in W \cap W^\perp$, then $\langle u, u \rangle = 0$, so $u = 0$ by positive
+    definiteness. Hence $w_1 = w_2$ and $w_1^\perp = w_2^\perp$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Dimension formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Dimension of orthogonal complement</div>
+  <p>
+    If $V$ is finite-dimensional: $\dim(W) + \dim(W^\perp) = \dim(V)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $k = \dim(W)$ and $n = \dim(V)$. Take an orthonormal basis
+    $e_1, \ldots, e_k$ of $W$ and extend it (by Gram&ndash;Schmidt on any extension to a
+    basis of $V$) to an orthonormal basis $e_1, \ldots, e_n$ of $V$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> We claim $e_{k+1}, \ldots, e_n$ is a basis of $W^\perp$. Each $e_j$
+    with $j > k$ is orthogonal to $e_1, \ldots, e_k$ (by orthonormality), hence orthogonal to all
+    of $W$, so $e_j \in W^\perp$. They are linearly independent (being part of an orthonormal set).
+  </p>
+  <p>
+    <strong>Step 3.</strong> Any $u \in W^\perp$ can be written as $u = \sum_{i=1}^n \alpha_i e_i$.
+    For $j \leq k$: $0 = \langle u, e_j \rangle = \alpha_j$. So $u = \sum_{i=k+1}^n \alpha_i e_i \in \operatorname{Span}(e_{k+1}, \ldots, e_n)$.
+  </p>
+  <p>
+    Therefore $\dim(W^\perp) = n - k$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. The projection formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Orthogonal projection</div>
+  <p>
+    If $e_1, \ldots, e_k$ is an orthonormal basis of $W$, the <strong>orthogonal projection</strong>
+    of $v$ onto $W$ is
+  </p>
+  <div class="display-math">$$\operatorname{proj}_W(v) = \sum_{i=1}^k \langle v, e_i \rangle \, e_i.$$</div>
+</div>
+
+<p>
+  This is just the $w$ component from the orthogonal decomposition. We already proved it lies in $W$
+  and that the error $v - \operatorname{proj}_W(v)$ lies in $W^\perp$.
+</p>
+<p>
+  Note that the formula does not depend on which orthonormal basis of $W$ you choose &mdash; the
+  uniqueness of the decomposition guarantees this.
+</p>
+
+<h2>6. Best approximation</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Best approximation</div>
+  <p>
+    $\operatorname{proj}_W(v)$ is the unique closest point in $W$ to $v$:
+  </p>
+  <div class="display-math">$$\|v - \operatorname{proj}_W(v)\| \leq \|v - w\| \quad \text{for all } w \in W,$$</div>
+  <p>with equality if and only if $w = \operatorname{proj}_W(v)$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $p = \operatorname{proj}_W(v)$, so $v - p \in W^\perp$. For any $w \in W$, write
+  </p>
+  <div class="display-math">$$v - w = (v - p) + (p - w).$$</div>
+  <p>
+    Here $v - p \in W^\perp$ and $p - w \in W$ (since $p, w \in W$). These two components are
+    orthogonal, so by the Pythagorean theorem (which holds in any inner product space: if
+    $a \perp b$ then $\|a + b\|^2 = \|a\|^2 + \|b\|^2$):
+  </p>
+  <div class="display-math">$$\|v - w\|^2 = \|v - p\|^2 + \|p - w\|^2 \geq \|v - p\|^2.$$</div>
+  <p>
+    Equality holds iff $\|p - w\|^2 = 0$, i.e., $w = p$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is a beautifully clean result. The Pythagorean theorem splits the squared distance into
+  an unavoidable part ($\|v - p\|^2$, the distance from $v$ to $W$) and an avoidable part
+  ($\|p - w\|^2$, the error from choosing the wrong point in $W$). Minimising means setting
+  the avoidable part to zero.
+</p>
+
+<h2>7. Example</h2>
+
+<p>
+  Project $v = (1, 2, 3)$ onto the plane $W = \operatorname{Span}\{(1, 0, 1), (0, 1, 0)\}$ in
+  $\mathbb{R}^3$.
+</p>
+<p>
+  <strong>Step 1: orthonormalise.</strong> Let $w_1 = (1, 0, 1)$, $w_2 = (0, 1, 0)$. These are
+  already orthogonal: $\langle w_1, w_2 \rangle = 0$. Normalise:
+  $e_1 = \frac{1}{\sqrt{2}}(1, 0, 1)$, $e_2 = (0, 1, 0)$.
+</p>
+<p>
+  <strong>Step 2: compute coefficients.</strong>
+  $\langle v, e_1 \rangle = \frac{1}{\sqrt{2}}(1 + 0 + 3) = \frac{4}{\sqrt{2}} = 2\sqrt{2}$.
+  $\langle v, e_2 \rangle = 2$.
+</p>
+<p>
+  <strong>Step 3: project.</strong>
+</p>
+<div class="display-math">$$\operatorname{proj}_W(v) = 2\sqrt{2} \cdot \frac{1}{\sqrt{2}}(1, 0, 1) + 2 \cdot (0, 1, 0) = 2(1, 0, 1) + (0, 2, 0) = (2, 2, 2).$$</div>
+<p>
+  <strong>Step 4: verify.</strong> The error is $v - \operatorname{proj}_W(v) = (1, 2, 3) - (2, 2, 2) = (-1, 0, 1)$.
+  Check orthogonality: $\langle (-1, 0, 1), (1, 0, 1) \rangle = -1 + 0 + 1 = 0$ and
+  $\langle (-1, 0, 1), (0, 1, 0) \rangle = 0$. The error is indeed perpendicular to $W$.
+</p>
+<p>
+  The distance from $v$ to $W$ is $\|(-1, 0, 1)\| = \sqrt{2}$.
+</p>
+
+<h2>8. Preview: projection as a universal idea</h2>
+
+<p>
+  Orthogonal projection is one of the most widely applicable ideas in mathematics:
+</p>
+<ul>
+  <li><strong>Fourier series:</strong> the Fourier coefficients $a_n = \langle f, e_n \rangle$
+    are exactly the projection of $f$ onto the $n$-th basis function $e_n$ in the inner product
+    space $L^2$. Fourier (1807) was projecting without knowing it.</li>
+  <li><strong>Least squares regression:</strong> fitting a line to data means projecting the
+    observation vector onto the column space of the design matrix. The normal equations
+    $A^T A \hat{x} = A^T b$ are the algebraic expression of "the error must be perpendicular
+    to $W$." Gauss discovered this in 1795 (age 18) to predict the orbit of Ceres.</li>
+  <li><strong>Conditional expectation:</strong> in probability (Phase 12), $E[X | Y]$ is the
+    orthogonal projection of the random variable $X$ onto the subspace of $Y$-measurable
+    random variables, with inner product $\langle X, Y \rangle = E[XY]$. The best $L^2$
+    predictor is a projection. (IOU: this will be formalised in Phase 12.)</li>
+</ul>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Fourier (1807) implicitly used projections when computing his famous coefficients &mdash; each
+    coefficient $a_n = \int f(x) \cos(nx) \, dx$ is $\langle f, \cos(n \cdot) \rangle$ where the
+    cosines form an orthogonal system. Hilbert (1906) recognised projection as the central idea
+    of analysis in infinite-dimensional spaces and proved the projection theorem in full
+    generality. The finite-dimensional version we proved here is the engine behind least-squares
+    regression, discovered by Gauss (1795/1809) and Legendre (1805) independently &mdash; they
+    were competing to predict planetary orbits from noisy astronomical data, and both realised that
+    minimising squared errors gives the projection onto the column space.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Infinite dimensions without completeness.</strong> In an infinite-dimensional inner
+    product space that is not complete, the closest point in a closed subspace $W$ might not exist.
+    The infimum of $\|v - w\|$ over $w \in W$ might not be achieved by any actual vector in $W$
+    &mdash; there is a minimising sequence that converges, but the limit might not lie in the space.
+    You need the space to be <strong>complete</strong> (a <strong>Hilbert space</strong>) for
+    the projection theorem to hold in infinite dimensions. (IOU: Phase 14, Functional Analysis.)
+  </p>
+  <p>
+    <strong>Finite dimensions are safe.</strong> Every finite-dimensional inner product space is
+    automatically complete (IOU: Phase 9 will prove that all norms on $\mathbb{R}^n$ are
+    equivalent and $\mathbb{R}^n$ is complete). So for the linear algebra in this phase,
+    projection always works.
+  </p>
+  <p>
+    <strong>Without an inner product, "closest point" is ill-defined.</strong> In a vector space
+    with no inner product, there is no notion of distance. You cannot project. You need at
+    minimum a norm (which gives distance) and completeness (which guarantees the minimum is
+    achieved). An inner product gives the cleanest theory because the projection has the
+    explicit formula $\sum \langle v, e_i \rangle e_i$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Orthogonal projection decomposes any vector into a best approximation in a subspace plus a perpendicular error &mdash; minimising distance is Pythagoras in action.
+</div>
+
+<div class="nav">
+  <a href="07-inner-products.html">&larr; Prev: Inner Products and Gram&ndash;Schmidt</a>
+  <a href="09-spectral-theorem.html">Next: The Spectral Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

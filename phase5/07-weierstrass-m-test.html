@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Weierstrass M-Test — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Weierstrass M-Test</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You know from <a href="06-uniform-convergence.html">page 6</a> that uniform convergence is
+    the right notion &mdash; it preserves continuity and integrability. But how do you actually
+    <em>prove</em> that a function series $\sum f_n(x)$ converges uniformly? Checking the
+    definition directly means computing $\sup_x |R_N(x)|$ where $R_N$ is the tail of the
+    series, which is often hard. Weierstrass found a shortcut: if you can bound each $|f_n(x)|$
+    by a constant $M_n$ independent of $x$, and $\sum M_n$ converges, the function series
+    converges uniformly.
+  </p>
+</div>
+
+<h2>1. The idea</h2>
+
+<p>
+  The strategy is <strong>domination</strong>. If each function $f_n$ is bounded by a constant
+  $M_n$ (no dependence on $x$), then the function series $\sum f_n(x)$ is controlled by the
+  number series $\sum M_n$. If the number series converges, the function series inherits both
+  absolute and uniform convergence.
+</p>
+<p>
+  This reduces the problem of uniform convergence &mdash; which involves functions &mdash; to
+  ordinary convergence of a series of numbers, which we already know how to handle (comparison
+  test, ratio test, etc., from <a href="01-comparison-test.html">pages 1</a>&ndash;<a href="02-ratio-root-tests.html">2</a>).
+</p>
+
+<h2>2. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Weierstrass M-test</div>
+  <p>
+    Let $(f_n)$ be a sequence of functions defined on a set $D$, and let $(M_n)$ be a sequence
+    of non-negative real numbers such that:
+  </p>
+  <div class="display-math">$$|f_n(x)| \leq M_n \quad \text{for all } x \in D \text{ and all } n$$</div>
+  <p>
+    If $\sum_{n=1}^{\infty} M_n$ converges, then $\sum_{n=1}^{\infty} f_n(x)$ converges
+    uniformly and absolutely on $D$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Absolute convergence.</strong> For each fixed $x \in D$:
+  </p>
+  <div class="display-math">$$\sum_{n=1}^{\infty} |f_n(x)| \leq \sum_{n=1}^{\infty} M_n < \infty$$</div>
+  <p>
+    By the comparison test (<a href="01-comparison-test.html">page 1</a>), $\sum f_n(x)$
+    converges absolutely for each $x \in D$. Let $f(x) = \sum_{n=1}^{\infty} f_n(x)$.
+  </p>
+  <p>
+    <strong>Step 2. Uniform convergence.</strong> Let $S_N(x) = \sum_{n=1}^{N} f_n(x)$ be the
+    $N$-th partial sum. The tail (remainder) is:
+  </p>
+  <div class="display-math">$$|f(x) - S_N(x)| = \left|\sum_{n=N+1}^{\infty} f_n(x)\right| \leq \sum_{n=N+1}^{\infty} |f_n(x)| \leq \sum_{n=N+1}^{\infty} M_n$$</div>
+  <p>
+    <strong>Step 3.</strong> The right-hand side is the tail of the convergent series $\sum M_n$.
+    It does not depend on $x$. Since $\sum M_n$ converges, its tail tends to $0$:
+  </p>
+  <div class="display-math">$$\sum_{n=N+1}^{\infty} M_n \to 0 \quad \text{as } N \to \infty$$</div>
+  <p>
+    <strong>Step 4.</strong> Therefore:
+  </p>
+  <div class="display-math">$$\sup_{x \in D} |f(x) - S_N(x)| \leq \sum_{n=N+1}^{\infty} M_n \to 0$$</div>
+  <p>
+    This is exactly the definition of uniform convergence.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof is short because the hard work is hidden in the comparison test. The M-test is
+  really just "comparison test, but uniformly in $x$."
+</p>
+
+<h2>3. Example: $\sum \sin(nx)/n^2$</h2>
+
+<p>
+  Consider $\sum_{n=1}^{\infty} \frac{\sin(nx)}{n^2}$ on $D = \mathbb{R}$. For all $x$ and
+  all $n$:
+</p>
+<div class="display-math">$$\left|\frac{\sin(nx)}{n^2}\right| \leq \frac{1}{n^2} = M_n$$</div>
+<p>
+  We know $\sum 1/n^2$ converges (the $p$-series with $p = 2 > 1$; this was established in
+  <a href="01-comparison-test.html">page 1</a>). By the M-test, $\sum \sin(nx)/n^2$ converges
+  uniformly and absolutely on all of $\mathbb{R}$.
+</p>
+<p>
+  Since each $\sin(nx)/n^2$ is continuous, the uniform limit is continuous by the theorem on
+  <a href="06-uniform-convergence.html">page 6</a>. So $f(x) = \sum \sin(nx)/n^2$ defines a
+  continuous function on $\mathbb{R}$.
+</p>
+
+<h2>4. Example: the exponential series on bounded intervals</h2>
+
+<p>
+  Consider $\sum_{n=0}^{\infty} x^n / n!$ on $D = [-R, R]$ for a fixed $R > 0$. For all
+  $x \in [-R, R]$:
+</p>
+<div class="display-math">$$\left|\frac{x^n}{n!}\right| \leq \frac{R^n}{n!} = M_n$$</div>
+<p>
+  The series $\sum R^n / n!$ converges (it equals $e^R$, as we proved in
+  <a href="../phase4/03-exponential.html">Phase 4, page 3</a>). By the M-test, $\sum x^n/n!$
+  converges uniformly on $[-R, R]$.
+</p>
+<p>
+  This works for any fixed $R$, so the exponential series converges uniformly on every bounded
+  interval. However, the convergence is <em>not</em> uniform on all of $\mathbb{R}$ (since no
+  single $M_n = R^n/n!$ works for all $x$ simultaneously).
+</p>
+
+<h2>5. A non-example: why the M-test fails for $\sum x^n$ on $[0, 1)$</h2>
+
+<p>
+  Consider $\sum_{n=0}^{\infty} x^n$ on $D = [0, 1)$. We know this converges pointwise to
+  $1/(1-x)$ for each $x \in [0,1)$. Can we apply the M-test?
+</p>
+<p>
+  The "obvious" bound is $|x^n| \leq 1$ for $x \in [0,1)$, giving $M_n = 1$. But
+  $\sum M_n = \sum 1 = \infty$. The M-test is inconclusive.
+</p>
+<p>
+  Could a cleverer bound work? No. The supremum $\sup_{x \in [0,1)} |x^n| = 1$ for every $n$
+  (since $x^n \to 1$ as $x \to 1^-$). So any valid bound satisfies $M_n \geq 1$, and
+  $\sum M_n$ must diverge. The M-test <em>cannot</em> prove uniform convergence here &mdash;
+  and rightly so, because the convergence is not uniform on $[0, 1)$. The partial sums
+  $S_N(x) = (1 - x^{N+1})/(1-x)$, and $\sup_{x \in [0,1)} |1/(1-x) - S_N(x)| =
+  \sup_{x \in [0,1)} x^{N+1}/(1-x) = \infty$.
+</p>
+<p>
+  On $[0, r]$ with $r < 1$, though, $M_n = r^n$ works and $\sum r^n = 1/(1-r)$ converges. The
+  M-test gives uniform convergence on every compact sub-interval &mdash; just not on the full
+  half-open interval $[0, 1)$.
+</p>
+
+<h2>6. Power series converge uniformly on compact subsets</h2>
+
+<div class="theorem-box">
+  <div class="label">Corollary &mdash; Uniform convergence of power series</div>
+  <p>
+    Let $\sum a_n x^n$ be a power series with radius of convergence $R > 0$. For any
+    $0 < r < R$, the series converges uniformly on $[-r, r]$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $r < R$, the series $\sum |a_n| r^n$ converges (we are inside
+    the disc of convergence; absolute convergence holds by
+    <a href="../phase4/02-power-series.html">Phase 4, page 2</a>).
+  </p>
+  <p>
+    <strong>Step 2.</strong> For $x \in [-r, r]$: $|a_n x^n| \leq |a_n| r^n = M_n$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Apply the M-test with $M_n = |a_n| r^n$. The series $\sum M_n$
+    converges, so $\sum a_n x^n$ converges uniformly on $[-r, r]$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is the result that justifies the term-by-term differentiation and integration of power
+  series from <a href="../phase4/05-term-by-term.html">Phase 4, page 5</a>. Those operations
+  required uniform convergence, and the M-test is how we get it. The chain is: M-test
+  $\Rightarrow$ uniform convergence on compact subsets $\Rightarrow$ legitimate term-by-term
+  operations.
+</p>
+
+<h2>7. Normal convergence</h2>
+
+<p>
+  A series of functions $\sum f_n$ is <strong>normally convergent</strong> on $D$ if:
+</p>
+<div class="display-math">$$\sum_{n=1}^{\infty} \sup_{x \in D} |f_n(x)| < \infty$$</div>
+<p>
+  Setting $M_n = \sup_{x \in D} |f_n(x)|$, we see that normal convergence is exactly the
+  condition of the M-test with the tightest possible bounds. So normal convergence implies
+  uniform (and absolute) convergence.
+</p>
+<p>
+  The converse is false: a series can converge uniformly without being normally convergent. But
+  in practice, the M-test (which amounts to verifying normal convergence with possibly looser
+  bounds) is how you prove uniform convergence in almost every concrete case.
+</p>
+
+<h2>8. The M-test and continuity combined</h2>
+
+<p>
+  The M-test is most powerful when combined with the results from
+  <a href="06-uniform-convergence.html">page 6</a>. Suppose each $f_n$ is continuous on $D$,
+  $|f_n(x)| \leq M_n$ for all $x \in D$, and $\sum M_n < \infty$. Then:
+</p>
+<ol>
+  <li>$\sum f_n$ converges uniformly on $D$ (by the M-test).</li>
+  <li>Each partial sum $S_N = \sum_{n=1}^{N} f_n$ is continuous (finite sum of continuous
+    functions).</li>
+  <li>The limit $f = \sum_{n=1}^{\infty} f_n$ is continuous (uniform limit of continuous
+    functions preserves continuity).</li>
+</ol>
+<p>
+  This chain of reasoning is the standard way to prove that a function series defines a
+  continuous function. We used it in section 3 for $\sum \sin(nx)/n^2$.
+</p>
+<p>
+  Similarly, if each $f_n$ is integrable on $[a,b]$ and $\sum M_n$ converges, then term-by-term
+  integration is valid:
+</p>
+<div class="display-math">$$\int_a^b \sum_{n=1}^{\infty} f_n(x)\, dx = \sum_{n=1}^{\infty} \int_a^b f_n(x)\, dx$$</div>
+<p>
+  This is because uniform convergence lets you swap the integral and the limit
+  (<a href="06-uniform-convergence.html">page 6, section 7</a>), and the limit of the partial
+  sums <em>is</em> the series.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Weierstrass developed the M-test in his Berlin lectures during the 1860s&ndash;1880s, where
+    he single-handedly rebuilt the foundations of analysis. His students &mdash; including
+    Cantor, Schwarz, and Mittag-Leffler &mdash; disseminated his methods. The M-test became
+    the standard tool for establishing uniform convergence of power series, Fourier series, and
+    series solutions to differential equations. Before Weierstrass, mathematicians manipulated
+    infinite series of functions with little concern for convergence; after him, such
+    manipulations required justification.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>If $\sum M_n$ diverges:</strong> the test is inconclusive. The function series might
+    still converge uniformly &mdash; the M-test is sufficient, not necessary. For instance,
+    $\sum (-1)^n x^n / n$ converges uniformly on $[0, 1]$ (by the alternating series
+    estimation), but the "obvious" bound $M_n = 1/n$ gives $\sum 1/n = \infty$.
+  </p>
+  <p>
+    <strong>If the bounds depend on $x$:</strong> you do not get uniform convergence, only
+    pointwise. The entire point of the M-test is that $M_n$ is a <em>constant</em>, independent
+    of $x$.
+  </p>
+  <p>
+    <strong>At the boundary of the disc of convergence:</strong> if $r = R$, the series
+    $\sum |a_n| R^n$ might diverge, so the M-test does not apply at the boundary. This is why
+    we proved uniform convergence only on $[-r, r]$ with $r < R$. Boundary behaviour requires
+    separate tools like <a href="../phase4/06-abel-theorem.html">Abel's theorem</a>.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Bound each function by a constant, converge the constants, and uniform convergence follows
+  &mdash; the M-test reduces function series to number series.
+</div>
+
+<div class="nav">
+  <a href="06-uniform-convergence.html">&larr; Previous: Uniform Convergence</a>
+  <a href="08-weierstrass-approximation.html">Next: The Weierstrass Approximation Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

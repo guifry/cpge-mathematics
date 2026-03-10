@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eigenvalues and the Characteristic Polynomial &mdash; Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Eigenvalues and the Characteristic Polynomial</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A linear map transforms space &mdash; it stretches, rotates, shears. But are there special
+    directions that the map merely stretches without rotating? A direction $v$ such that
+    $Av = \lambda v$ &mdash; the map just scales $v$ by $\lambda$. These
+    <strong>eigenvectors</strong> simplify everything: if you can find a basis of eigenvectors,
+    the map becomes diagonal &mdash; just scaling along independent axes. Matrix powers,
+    exponentials, and differential equations all become trivial.
+  </p>
+</div>
+
+<h2>1. Eigenvalues and eigenvectors</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Eigenvalue and eigenvector</div>
+  <p>
+    Let $A$ be an $n \times n$ matrix (or a linear map $V \to V$). A scalar $\lambda$ is an
+    <strong>eigenvalue</strong> of $A$ if there exists a nonzero vector $v$ such that
+    $Av = \lambda v$. The vector $v$ is an <strong>eigenvector</strong> associated to $\lambda$.
+  </p>
+</div>
+
+<p>
+  The requirement $v \neq 0$ is essential. If we allowed $v = 0$, then $A \cdot 0 = \lambda \cdot 0$
+  for every $\lambda$ &mdash; every scalar would be an "eigenvalue," making the concept vacuous.
+</p>
+<p>
+  Geometrically, an eigenvector is a direction that the map preserves (possibly reversing it if
+  $\lambda < 0$ or collapsing it if $\lambda = 0$). The eigenvalue $\lambda$ is the scaling factor
+  along that direction.
+</p>
+
+<h2>2. Finding eigenvalues</h2>
+
+<p>
+  The equation $Av = \lambda v$ rearranges to $(A - \lambda I)v = 0$. We need a nonzero solution $v$,
+  which means $\ker(A - \lambda I) \neq \{0\}$. By the invertibility criterion
+  (<a href="05-determinants.html">page 5</a>), this happens precisely when
+</p>
+<div class="display-math">$$\det(A - \lambda I) = 0.$$</div>
+<p>
+  So finding eigenvalues reduces to finding roots of a polynomial.
+</p>
+
+<h2>3. The characteristic polynomial</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Characteristic polynomial</div>
+  <p>
+    The <strong>characteristic polynomial</strong> of $A \in M_n(\mathbb{K})$ is
+  </p>
+  <div class="display-math">$$\chi_A(\lambda) = \det(A - \lambda I).$$</div>
+  <p>
+    It is a polynomial of degree $n$ in $\lambda$, with leading term $(-\lambda)^n$
+    (equivalently $(-1)^n \lambda^n$). Its roots are exactly the eigenvalues of $A$.
+  </p>
+</div>
+
+<p>
+  <strong>Example.</strong> Let $A = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$. Then
+</p>
+<div class="display-math">$$\chi_A(\lambda) = \det \begin{pmatrix} 2 - \lambda & 1 \\ 0 & 3 - \lambda \end{pmatrix} = (2 - \lambda)(3 - \lambda) - 0 = \lambda^2 - 5\lambda + 6 = (\lambda - 2)(\lambda - 3).$$</div>
+<p>
+  The eigenvalues are $\lambda_1 = 2$ and $\lambda_2 = 3$.
+</p>
+
+<h2>4. Eigenvalue existence</h2>
+
+<p>
+  Over $\mathbb{C}$, the Fundamental Theorem of Algebra guarantees that every polynomial of degree
+  $n \geq 1$ has at least one root. (IOU: this will be proved in Phase 10 or accepted as a deep
+  result of complex analysis.) Therefore every $n \times n$ complex matrix has at least one eigenvalue.
+</p>
+<p>
+  Over $\mathbb{R}$, eigenvalues might not exist. A $90°$ rotation in $\mathbb{R}^2$ has no real
+  eigenvectors &mdash; no direction is preserved or reversed. We will see this concretely in the
+  break-box.
+</p>
+
+<h2>5. Eigenspaces and multiplicities</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Eigenspace, multiplicities</div>
+  <p>
+    The <strong>eigenspace</strong> of $\lambda$ is $E_\lambda = \ker(A - \lambda I)$. It is a
+    subspace of $V$ (closed under addition and scalar multiplication, as any kernel is).
+  </p>
+  <p>
+    The <strong>algebraic multiplicity</strong> $m_a(\lambda)$ is the multiplicity of $\lambda$ as a
+    root of $\chi_A$. The <strong>geometric multiplicity</strong> $m_g(\lambda) = \dim(E_\lambda)$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Geometric $\leq$ algebraic multiplicity</div>
+  <p>For every eigenvalue $\lambda$: $1 \leq m_g(\lambda) \leq m_a(\lambda)$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> $m_g(\lambda) \geq 1$ because $\lambda$ is an eigenvalue, so
+    $E_\lambda$ contains at least one nonzero vector.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Let $k = m_g(\lambda)$ and let $v_1, \ldots, v_k$ be a basis of
+    $E_\lambda$. Extend to a basis $v_1, \ldots, v_k, v_{k+1}, \ldots, v_n$ of $V$. In this
+    basis, the matrix of $A$ has the block form
+  </p>
+  <div class="display-math">$$A' = \begin{pmatrix} \lambda I_k & B \\ 0 & C \end{pmatrix}$$</div>
+  <p>
+    because $Av_i = \lambda v_i$ for $i \leq k$ (so the first $k$ columns are $\lambda e_i$
+    plus something in the span of $v_{k+1}, \ldots, v_n$ &mdash; but actually $Av_i = \lambda v_i$
+    exactly, so the first $k$ columns have $\lambda$ on the diagonal and zeros below in the
+    bottom-left block).
+  </p>
+  <p>
+    <strong>Step 3.</strong> The characteristic polynomial is $\chi_A(\mu) = \det(A' - \mu I)
+    = (\lambda - \mu)^k \det(C - \mu I)$. So $(\lambda - \mu)^k$ divides $\chi_A(\mu)$, meaning
+    the algebraic multiplicity $m_a(\lambda) \geq k = m_g(\lambda)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Eigenvectors for distinct eigenvalues</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Independence of eigenvectors</div>
+  <p>
+    Eigenvectors corresponding to distinct eigenvalues are linearly independent.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By induction on $k$, the number of distinct eigenvalues. For $k = 1$, a single eigenvector
+    is nonzero, hence independent.
+  </p>
+  <p>
+    <strong>Inductive step.</strong> Suppose $v_1, \ldots, v_k$ are eigenvectors for distinct
+    eigenvalues $\lambda_1, \ldots, \lambda_k$ and assume
+  </p>
+  <div class="display-math">$$\alpha_1 v_1 + \alpha_2 v_2 + \cdots + \alpha_k v_k = 0. \qquad (*)$$</div>
+  <p>
+    Apply $A$ to both sides:
+  </p>
+  <div class="display-math">$$\alpha_1 \lambda_1 v_1 + \alpha_2 \lambda_2 v_2 + \cdots + \alpha_k \lambda_k v_k = 0. \qquad (**)$$</div>
+  <p>
+    Compute $(**) - \lambda_k \cdot (*)$:
+  </p>
+  <div class="display-math">$$\alpha_1 (\lambda_1 - \lambda_k) v_1 + \cdots + \alpha_{k-1}(\lambda_{k-1} - \lambda_k) v_{k-1} = 0.$$</div>
+  <p>
+    By the inductive hypothesis, $v_1, \ldots, v_{k-1}$ are linearly independent. So
+    $\alpha_i (\lambda_i - \lambda_k) = 0$ for $i = 1, \ldots, k-1$. Since all eigenvalues are
+    distinct, $\lambda_i - \lambda_k \neq 0$, so $\alpha_i = 0$ for $i < k$. Substituting back
+    into $(*)$: $\alpha_k v_k = 0$, and since $v_k \neq 0$, $\alpha_k = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>7. Diagonalisability</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Diagonalisability criterion</div>
+  <p>An $n \times n$ matrix $A$ is <strong>diagonalisable</strong> if and only if:</p>
+  <ol>
+    <li>$\chi_A$ splits into linear factors (automatic over $\mathbb{C}$), and</li>
+    <li>$m_g(\lambda) = m_a(\lambda)$ for every eigenvalue $\lambda$.</li>
+  </ol>
+  <p>
+    Equivalently, there exists a basis of $V$ consisting entirely of eigenvectors. In matrix terms,
+    $A = PDP^{-1}$ where $D$ is diagonal and $P$'s columns are the eigenvectors.
+  </p>
+</div>
+
+<p>
+  When $A$ has $n$ distinct eigenvalues, the independence theorem above gives $n$ linearly
+  independent eigenvectors &mdash; a basis. So matrices with distinct eigenvalues are always
+  diagonalisable.
+</p>
+
+<h2>8. Example: diagonalising a matrix</h2>
+
+<p>
+  Take $A = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$ from above. Eigenvalues: $2$ and $3$.
+</p>
+<p>
+  <strong>Eigenvector for $\lambda = 2$:</strong> solve $(A - 2I)v = 0$:
+  $\begin{pmatrix} 0 & 1 \\ 0 & 1 \end{pmatrix} v = 0$, so $v_2 = 0$. Take $v_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$.
+</p>
+<p>
+  <strong>Eigenvector for $\lambda = 3$:</strong> solve $(A - 3I)v = 0$:
+  $\begin{pmatrix} -1 & 1 \\ 0 & 0 \end{pmatrix} v = 0$, so $v_1 = v_2$. Take $v_2 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$.
+</p>
+<p>
+  Set $P = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$, $D = \begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}$.
+  Then $P^{-1} = \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix}$. Verify:
+</p>
+<div class="display-math">$$PDP^{-1} = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix} \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 2 & 3 \\ 0 & 3 \end{pmatrix} \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix} = A.$$</div>
+
+<p>
+  The payoff: $A^k = PD^kP^{-1} = P \begin{pmatrix} 2^k & 0 \\ 0 & 3^k \end{pmatrix} P^{-1}$.
+  Powers of a diagonal matrix are trivial. Diagonalisation turns exponentiation from an $O(k)$
+  matrix multiplication problem into a single computation.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy (1829) introduced the characteristic equation while studying quadratic forms &mdash; he
+    needed to find axes along which a conic section aligns with the coordinates. Sylvester coined
+    the word "matrix" in 1850. The term "eigenvalue" comes from German <em>Eigenwert</em> (own value),
+    introduced by Hilbert (1904) in the context of integral equations &mdash; the concept migrated
+    from infinite-dimensional operator theory back to finite matrices. Cayley (1858) showed that
+    every matrix satisfies its own characteristic equation (the Cayley&ndash;Hamilton theorem,
+    which we will prove later in this phase).
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Over $\mathbb{R}$, eigenvalues might not exist.</strong>
+    The rotation matrix $A = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ rotates by $90°$.
+    Its characteristic polynomial is $\chi_A(\lambda) = \lambda^2 + 1$, which has no real roots.
+    Over $\mathbb{C}$, the eigenvalues are $\pm i$ &mdash; the eigenvectors point in "complex
+    directions."
+  </p>
+  <p>
+    <strong>Eigenvalues exist but diagonalisation fails.</strong> The matrix
+    $A = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ has $\chi_A(\lambda) = \lambda^2$, so
+    $\lambda = 0$ with algebraic multiplicity $2$. But $\ker(A) = \operatorname{Span}\{e_1\}$
+    has dimension $1$ &mdash; geometric multiplicity is $1 < 2$. There is no basis of
+    eigenvectors. This is the simplest <strong>nilpotent</strong> matrix: $A \neq 0$ but $A^2 = 0$.
+    The Jordan normal form (later in this phase) handles exactly these cases.
+  </p>
+  <p>
+    <strong>Eigenvectors for the same eigenvalue need not be independent.</strong> The eigenspace
+    $E_\lambda$ is a subspace, so it contains infinitely many eigenvectors (any nonzero scalar
+    multiple of an eigenvector is again an eigenvector). The meaningful quantity is $\dim(E_\lambda)$,
+    not the number of eigenvectors.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Eigenvalues are the roots of $\det(A - \lambda I) = 0$ &mdash; the directions a linear map preserves, and the key to diagonalisation.
+</div>
+
+<div class="nav">
+  <a href="05-determinants.html">&larr; Prev: Determinants</a>
+  <a href="07-inner-products.html">Next: Inner Products and Gram&ndash;Schmidt &rarr;</a>
+</div>
+
+</body>
+</html>

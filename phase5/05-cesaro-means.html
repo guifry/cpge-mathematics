@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cesàro Means — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Cesàro Means</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Consider the sequence $0, 1, 0, 1, 0, 1, \ldots$ It does not converge &mdash; it bounces
+    between $0$ and $1$ forever. But look at its arithmetic means:
+  </p>
+  <div class="display-math">$$\sigma_1 = 0, \quad \sigma_2 = \tfrac{1}{2}, \quad \sigma_3 = \tfrac{1}{3}, \quad \sigma_4 = \tfrac{1}{2}, \quad \sigma_5 = \tfrac{2}{5}, \quad \sigma_6 = \tfrac{1}{2}, \quad \ldots$$</div>
+  <p>
+    These averages seem to settle near $1/2$. Cesàro (1890) asked two questions. First: when a
+    sequence <em>does</em> converge, do its arithmetic means converge to the same limit? Second:
+    can averaging assign a meaningful "limit" to sequences that don't converge at all?
+  </p>
+</div>
+
+<h2>1. Arithmetic means of a sequence</h2>
+
+<p>
+  Given a sequence $(a_n)_{n \geq 1}$, define its <strong>Cesàro means</strong> (or arithmetic
+  means) by:
+</p>
+<div class="display-math">$$\sigma_n = \frac{a_1 + a_2 + \cdots + a_n}{n} = \frac{1}{n}\sum_{k=1}^{n} a_k$$</div>
+<p>
+  The Cesàro mean $\sigma_n$ is the average of the first $n$ terms. It smooths out oscillations:
+  wild swings in $a_n$ get diluted as more terms enter the average.
+</p>
+<p>
+  For $a_n = 0, 1, 0, 1, \ldots$ (i.e. $a_n = (1 - (-1)^n)/2$), the sum of the first $n$ terms
+  is $\lfloor n/2 \rfloor$. So $\sigma_n = \lfloor n/2 \rfloor / n \to 1/2$, confirming what
+  we saw above.
+</p>
+
+<h2>2. The Cesàro mean theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cesàro Mean</div>
+  <p>
+    If $a_n \to L$ as $n \to \infty$, then $\sigma_n \to L$.
+  </p>
+  <p>
+    In words: the arithmetic means of a convergent sequence converge to the same limit.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $\varepsilon > 0$. Since $a_n \to L$, there exists $N$ such that
+    $|a_k - L| < \varepsilon$ for all $k > N$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Split the Cesàro mean:
+  </p>
+  <div class="display-math">$$\sigma_n - L = \frac{1}{n}\sum_{k=1}^{n}(a_k - L) = \frac{1}{n}\sum_{k=1}^{N}(a_k - L) + \frac{1}{n}\sum_{k=N+1}^{n}(a_k - L)$$</div>
+  <p>
+    <strong>Step 3.</strong> Bound each piece. Let $M = \sum_{k=1}^{N} |a_k - L|$. This is a
+    fixed finite number (it depends on $N$ and the sequence, but not on $n$). The first piece
+    satisfies:
+  </p>
+  <div class="display-math">$$\left|\frac{1}{n}\sum_{k=1}^{N}(a_k - L)\right| \leq \frac{M}{n}$$</div>
+  <p>
+    The second piece: each $|a_k - L| < \varepsilon$ for $k > N$, and there are at most $n - N$
+    such terms, so:
+  </p>
+  <div class="display-math">$$\left|\frac{1}{n}\sum_{k=N+1}^{n}(a_k - L)\right| \leq \frac{(n - N)\varepsilon}{n} < \varepsilon$$</div>
+  <p>
+    <strong>Step 4.</strong> Combine. For $n > N$:
+  </p>
+  <div class="display-math">$$|\sigma_n - L| \leq \frac{M}{n} + \varepsilon$$</div>
+  <p>
+    Since $M/n \to 0$, choose $n_0 > N$ with $M/n_0 < \varepsilon$. Then for all $n \geq n_0$:
+  </p>
+  <div class="display-math">$$|\sigma_n - L| < 2\varepsilon$$</div>
+  <p>
+    Since $\varepsilon$ was arbitrary, $\sigma_n \to L$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The key idea: the "early terms" (the first $N$, which might be far from $L$) form a fixed
+  finite sum that gets diluted by $1/n$. The "late terms" (after $N$) are all close to $L$, so
+  their average is close to $L$. The early terms become negligible; the late terms dominate.
+</p>
+
+<h2>3. Examples</h2>
+
+<p>
+  <strong>A convergent sequence.</strong> Take $a_n = 1 + (-1)^n / n$, which converges to $1$.
+  The Cesàro means are:
+</p>
+<div class="display-math">$$\sigma_n = 1 + \frac{1}{n}\sum_{k=1}^{n}\frac{(-1)^k}{k}$$</div>
+<p>
+  The partial sums of $\sum (-1)^k / k$ are bounded (they converge to $-\ln 2$ by
+  <a href="../phase4/06-abel-theorem.html">Phase 4, page 6</a>), so dividing by $n$ sends them to
+  $0$. Hence $\sigma_n \to 1$, confirming the theorem.
+</p>
+<p>
+  <strong>A divergent sequence with convergent means.</strong> Take $a_n = (-1)^n$. This
+  diverges &mdash; it oscillates between $-1$ and $1$. But:
+</p>
+<div class="display-math">$$\sigma_n = \frac{1}{n}\sum_{k=1}^{n}(-1)^k = \begin{cases} 0 & \text{if } n \text{ is even} \\ -1/n & \text{if } n \text{ is odd}\end{cases}$$</div>
+<p>
+  Either way, $\sigma_n \to 0$. The Cesàro mean "sees" the midpoint of the oscillation.
+</p>
+
+<h2>4. A concrete worked example</h2>
+
+<p>
+  Let us trace through the proof with a specific sequence to see the mechanism in action.
+  Take $a_n = (-1)^n / \sqrt{n}$, which converges to $0$ (the terms alternate in sign and
+  shrink to $0$). We verify that $\sigma_n \to 0$.
+</p>
+<p>
+  Let $\varepsilon = 0.1$. We need $|a_k| < 0.1$ for $k > N$, i.e. $1/\sqrt{k} < 0.1$, so
+  $k > 100$. Take $N = 100$.
+</p>
+<p>
+  The "early" piece is $M = \sum_{k=1}^{100} |a_k - 0| = \sum_{k=1}^{100} 1/\sqrt{k}$.
+  This is a finite number &mdash; roughly $\int_1^{100} x^{-1/2}\, dx = 2(\sqrt{100} - 1) = 18$,
+  so $M \approx 18$.
+</p>
+<p>
+  For $n \geq n_0 = \lceil M / \varepsilon \rceil = 180$, we get $M/n < 0.1$. The "late"
+  piece is already bounded by $\varepsilon = 0.1$. So for $n \geq 180$:
+</p>
+<div class="display-math">$$|\sigma_n| < 0.1 + 0.1 = 0.2$$</div>
+<p>
+  With $\varepsilon = 0.01$, we would need $N = 10000$ and $n_0$ around $200 \cdot 10000 / 0.01$
+  &mdash; much larger. The proof works for any $\varepsilon$, but the required $n_0$ grows as
+  $\varepsilon$ shrinks. This is typical of epsilon-delta arguments: they guarantee eventual
+  proximity, without optimising how quickly you get there.
+</p>
+
+<h2>5. Cesàro means of bounded sequences</h2>
+
+<p>
+  The Cesàro mean theorem assumes $a_n \to L$. But what if $a_n$ is merely bounded? The means
+  $\sigma_n$ always satisfy $\liminf a_n \leq \liminf \sigma_n \leq \limsup \sigma_n \leq
+  \limsup a_n$. This is sometimes called the <strong>Cesàro squeeze</strong>: the means cannot
+  escape the range of the original sequence's limit points.
+</p>
+<p>
+  In particular, if $a_n$ is bounded and $\liminf a_n = \limsup a_n = L$, then $a_n \to L$
+  and $\sigma_n \to L$ by the theorem. If $\liminf a_n < \limsup a_n$, the means land somewhere
+  in between &mdash; as we saw with $(-1)^n$, where $\liminf = -1$, $\limsup = 1$, and the
+  Cesàro mean tends to $0$, the midpoint.
+</p>
+
+<h2>6. Cesàro summability</h2>
+
+<p>
+  Given a series $\sum a_n$ with partial sums $S_n = a_1 + \cdots + a_n$, the series is
+  <strong>Cesàro summable</strong> to $L$ if the Cesàro means of $(S_n)$ converge to $L$:
+</p>
+<div class="display-math">$$\frac{S_1 + S_2 + \cdots + S_n}{n} \to L$$</div>
+<p>
+  By the Cesàro mean theorem, every convergent series is Cesàro summable to the same sum. But
+  Cesàro summability is <em>strictly weaker</em> &mdash; it can assign a "sum" to some divergent
+  series.
+</p>
+<p>
+  <strong>Grandi's series.</strong> Consider $1 - 1 + 1 - 1 + \cdots$, i.e. $a_n = (-1)^{n+1}$.
+  The partial sums are:
+</p>
+<div class="display-math">$$S_1 = 1, \quad S_2 = 0, \quad S_3 = 1, \quad S_4 = 0, \quad \ldots$$</div>
+<p>
+  The partial sums oscillate between $0$ and $1$, so the series diverges in the ordinary sense.
+  But the Cesàro means of $(S_n)$ are:
+</p>
+<div class="display-math">$$\frac{S_1 + \cdots + S_n}{n} = \frac{\lceil n/2 \rceil}{n} \to \frac{1}{2}$$</div>
+<p>
+  So Grandi's series is Cesàro summable to $1/2$. This agrees with the Abel sum we computed in
+  <a href="../phase4/06-abel-theorem.html">Phase 4, page 6</a>: $\sum (-1)^n x^n = 1/(1+x)$,
+  and $\lim_{x \to 1^-} 1/(1+x) = 1/2$.
+</p>
+<p>
+  This is no coincidence. Abel summability and Cesàro summability are both <em>regular</em>
+  summation methods: they agree with ordinary convergence when it holds. Moreover, it can be
+  shown that every Cesàro-summable series is also Abel-summable to the same value. The converse
+  is false &mdash; Abel summability is strictly more powerful &mdash; but for the series we
+  encounter in practice, the two methods typically agree.
+</p>
+<p>
+  <strong>Another example.</strong> Consider the series $\sum_{n=0}^{\infty} (-1)^n (n+1)$, i.e.
+  $1 - 2 + 3 - 4 + \cdots$ The partial sums are $S_1 = 1$, $S_2 = -1$, $S_3 = 2$, $S_4 = -2$,
+  $\ldots$ The Cesàro means of $(S_n)$ oscillate with growing amplitude and do not converge, so
+  this series is <em>not</em> Cesàro summable. However, it is Abel summable:
+  $\sum (-1)^n (n+1) x^n = 1/(1+x)^2$ and $\lim_{x \to 1^-} 1/(1+x)^2 = 1/4$. This illustrates
+  that Abel summation reaches further than Cesàro.
+</p>
+
+<h2>7. The converse is false</h2>
+
+<p>
+  The Cesàro mean theorem says: convergence implies Cesàro convergence. The converse fails. We
+  already saw this: $a_n = (-1)^n$ has $\sigma_n \to 0$, but $a_n$ does not converge.
+</p>
+<p>
+  A more dramatic example: let $a_n = n$ when $n$ is a perfect square, and $a_n = 0$ otherwise.
+  Then $a_n$ does not converge (it is unbounded). But the non-zero terms are sparse enough that:
+</p>
+<div class="display-math">$$\sigma_n = \frac{1}{n}\sum_{\substack{k=1 \\ k \text{ is a perfect square}}}^{n} k = \frac{1}{n}\sum_{j=1}^{\lfloor\sqrt{n}\rfloor} j^2$$</div>
+<p>
+  Since $\sum_{j=1}^{m} j^2 = m(m+1)(2m+1)/6 \sim m^3/3$ and $m = \lfloor\sqrt{n}\rfloor \sim
+  \sqrt{n}$, we get $\sigma_n \sim n^{3/2}/(3n) = \sqrt{n}/3 \to \infty$. So in this case,
+  even the Cesàro means diverge.
+</p>
+<p>
+  For a cleaner example where the means converge but the sequence does not: $a_n = (-1)^n$
+  suffices. The point stands: <em>Cesàro convergence is strictly weaker than ordinary
+  convergence</em>.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Ernesto Cesàro introduced this notion of summability in 1890. The idea of "regularising"
+    divergent series by averaging had precursors &mdash; Euler freely assigned values to divergent
+    series by analytic continuation &mdash; but Cesàro gave the first rigorous framework.
+  </p>
+  <p>
+    The real payoff came in 1904 when Fejér proved that the Cesàro means of the Fourier series
+    of any continuous function converge uniformly to that function. This was a triumph: Fourier
+    series suffer from convergence pathologies (the Gibbs phenomenon, du Bois-Reymond's example
+    of a continuous function whose Fourier series diverges at a point), but their Cesàro means
+    always behave well. Cesàro summation rescued Fourier analysis from its convergence troubles.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>The converse fails.</strong> The Cesàro means of $(-1)^n$ converge to $0$, but the
+    sequence itself does not converge. Cesàro convergence is strictly weaker than ordinary
+    convergence. This is a feature, not a bug &mdash; it extends the notion of "limit" to a
+    wider class of sequences.
+  </p>
+  <p>
+    <strong>Cesàro summability is not ordinary summability.</strong> When we say Grandi's series
+    is Cesàro summable to $1/2$, we are <em>not</em> saying it converges to $1/2$ in the ordinary
+    sense. The partial sums still oscillate. Using Cesàro sums as if they were ordinary sums
+    without flagging the distinction is a recipe for error.
+  </p>
+  <p>
+    <strong>Not all divergent sequences are Cesàro summable.</strong> The sequence $a_n = n$
+    has $\sigma_n = (n+1)/2 \to \infty$. Averaging does not help when the terms grow without
+    bound.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The arithmetic means of a convergent sequence converge to the same limit &mdash; and sometimes
+  the means converge even when the sequence itself does not.
+</div>
+
+<div class="nav">
+  <a href="04-absolute-conditional.html">&larr; Previous: Absolute and Conditional Convergence</a>
+  <a href="06-uniform-convergence.html">Next: Uniform Convergence &rarr;</a>
+</div>
+
+</body>
+</html>

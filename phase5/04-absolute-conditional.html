@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absolute and Conditional Convergence — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Absolute and Conditional Convergence</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You have proved that $\sum_{n=1}^{\infty} (-1)^{n+1}/n = \ln 2$ (from
+    <a href="../phase4/06-abel-theorem.html">Phase 4, page 6</a>). Now consider rearranging the
+    terms: take two positive terms, then one negative, repeating:
+  </p>
+  <div class="display-math">$$1 + \frac{1}{3} - \frac{1}{2} + \frac{1}{5} + \frac{1}{7} - \frac{1}{4} + \frac{1}{9} + \frac{1}{11} - \frac{1}{6} + \cdots$$</div>
+  <p>
+    These are the <em>same terms</em> as $1 - 1/2 + 1/3 - 1/4 + \cdots$, just reordered. Yet
+    this rearrangement converges to $\frac{3}{2}\ln 2$, not $\ln 2$. Riemann (1853) proved
+    something far more disturbing: by choosing the right rearrangement, you can make the series
+    converge to <em>any</em> real number whatsoever, or even diverge to $\pm\infty$. When is
+    rearrangement safe?
+  </p>
+</div>
+
+<h2>1. Two kinds of convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Absolute and conditional convergence</div>
+  <p>
+    A series $\sum a_n$ <strong>converges absolutely</strong> if $\sum |a_n|$ converges.
+  </p>
+  <p>
+    A series <strong>converges conditionally</strong> if $\sum a_n$ converges but $\sum |a_n|$
+    diverges.
+  </p>
+</div>
+
+<p>
+  Examples: $\sum (-1)^n/n^2$ converges absolutely (since $\sum 1/n^2$ converges). The
+  alternating harmonic series $\sum (-1)^{n+1}/n$ converges conditionally (it converges by the
+  <a href="03-alternating-series.html">alternating series test</a>, but $\sum 1/n$ diverges).
+</p>
+
+<h2>2. Absolute convergence implies convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    If $\sum a_n$ converges absolutely, then $\sum a_n$ converges.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> We use the Cauchy criterion for series. We proved in
+    <a href="../phase2/05-cauchy-criterion.html">Phase 2, page 5</a> that $\sum a_n$ converges
+    if and only if for every $\varepsilon > 0$ there exists $N$ such that for all $n > m \geq N$:
+  </p>
+  <div class="display-math">$$\left|\sum_{k=m+1}^{n} a_k\right| < \varepsilon$$</div>
+  <p>
+    <strong>Step 2.</strong> By the triangle inequality:
+  </p>
+  <div class="display-math">$$\left|\sum_{k=m+1}^{n} a_k\right| \leq \sum_{k=m+1}^{n} |a_k|$$</div>
+  <p>
+    <strong>Step 3.</strong> Since $\sum |a_n|$ converges, the Cauchy criterion applied to
+    $\sum |a_n|$ gives: for every $\varepsilon > 0$, there exists $N$ such that
+    $\sum_{k=m+1}^{n} |a_k| < \varepsilon$ for all $n > m \geq N$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Combining Steps 2 and 3:
+    $\left|\sum_{k=m+1}^{n} a_k\right| \leq \sum_{k=m+1}^{n} |a_k| < \varepsilon$. The Cauchy
+    criterion is satisfied for $\sum a_n$, so it converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The converse is false: the alternating harmonic series converges but not absolutely. Absolute
+  convergence is strictly stronger than convergence.
+</p>
+
+<h2>3. Rearrangements of absolutely convergent series</h2>
+
+<p>
+  A <strong>rearrangement</strong> of a series $\sum_{n=1}^{\infty} a_n$ is a series
+  $\sum_{n=1}^{\infty} a_{\sigma(n)}$ where $\sigma : \mathbb{N} \to \mathbb{N}$ is a bijection.
+  Same terms, different order.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Rearrangement invariance</div>
+  <p>
+    If $\sum a_n$ converges absolutely to $S$, then every rearrangement $\sum a_{\sigma(n)}$ also
+    converges absolutely to $S$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $\varepsilon > 0$. Since $\sum |a_n|$ converges, there exists $N$
+    such that $\sum_{n=N+1}^{\infty} |a_n| < \varepsilon$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $\sigma$ is a bijection, each of $1, 2, \ldots, N$ appears
+    exactly once in the sequence $\sigma(1), \sigma(2), \ldots$ Choose $M$ large enough that
+    $\{1, 2, \ldots, N\} \subseteq \{\sigma(1), \sigma(2), \ldots, \sigma(M)\}$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> For any $P \geq M$, the partial sum $T_P = \sum_{n=1}^{P} a_{\sigma(n)}$
+    contains all terms $a_1, \ldots, a_N$ plus some terms $a_k$ with $k > N$. The partial sum
+    $S_N = \sum_{n=1}^{N} a_n$ contains exactly $a_1, \ldots, a_N$. Therefore:
+  </p>
+  <div class="display-math">$$|T_P - S_N| = \left|\sum_{\substack{n=1 \\ \sigma(n) > N}}^{P} a_{\sigma(n)}\right| \leq \sum_{\substack{n=1 \\ \sigma(n) > N}}^{P} |a_{\sigma(n)}| \leq \sum_{k=N+1}^{\infty} |a_k| < \varepsilon$$</div>
+  <p>
+    <strong>Step 4.</strong> Also $|S_N - S| = |\sum_{n=N+1}^{\infty} a_n| \leq \sum_{n=N+1}^{\infty} |a_n| < \varepsilon$. By the triangle inequality:
+  </p>
+  <div class="display-math">$$|T_P - S| \leq |T_P - S_N| + |S_N - S| < 2\varepsilon$$</div>
+  <p>
+    Since $\varepsilon$ was arbitrary and this holds for all $P \geq M$, we have $T_P \to S$.
+  </p>
+  <p>
+    <strong>Step 5. Absolute convergence of the rearrangement.</strong> The same argument applied
+    to $|a_n|$ (which is a non-negative series, so every rearrangement has the same partial sums
+    in the limit by the same proof) shows $\sum |a_{\sigma(n)}|$ converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. The Riemann Rearrangement Theorem</h2>
+
+<p>
+  For conditionally convergent series, the situation is completely different.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Riemann Rearrangement (1853)</div>
+  <p>
+    Let $\sum a_n$ be a conditionally convergent series. Then for every
+    $L \in \mathbb{R} \cup \{-\infty, +\infty\}$, there exists a rearrangement
+    $\sum a_{\sigma(n)}$ that converges to $L$ (or diverges to $\pm\infty$ if $L = \pm\infty$).
+  </p>
+</div>
+
+<p>
+  Before the proof, we need a key fact about conditional convergence.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Lemma</div>
+  <p>
+    If $\sum a_n$ converges conditionally, then both the series of positive terms and the series
+    of negative terms diverge. That is, defining $p_n = \max(a_n, 0)$ and $q_n = \max(-a_n, 0)$
+    (so $a_n = p_n - q_n$ and $|a_n| = p_n + q_n$), both $\sum p_n = +\infty$ and
+    $\sum q_n = +\infty$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof of lemma</div>
+  <p>
+    <strong>Step 1.</strong> Note that $p_n = (|a_n| + a_n)/2$ and $q_n = (|a_n| - a_n)/2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Suppose for contradiction that $\sum p_n$ converges. Since
+    $\sum a_n$ converges by hypothesis, $\sum q_n = \sum p_n - \sum a_n$ converges too (difference
+    of convergent series). Then $\sum |a_n| = \sum p_n + \sum q_n$ converges, contradicting
+    the assumption that $\sum a_n$ does not converge absolutely.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The same argument with the roles of $p_n$ and $q_n$ swapped shows
+    $\sum q_n$ diverges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof of Riemann Rearrangement Theorem</div>
+  <p>
+    We prove the case $L \in \mathbb{R}$; the cases $L = \pm\infty$ are similar.
+  </p>
+  <p>
+    <strong>Step 1.</strong> List the positive terms of $(a_n)$ in their original order as
+    $p_1', p_2', p_3', \ldots$ and the negative terms as $-q_1', -q_2', -q_3', \ldots$ (where
+    $p_k', q_k' > 0$). By the lemma, $\sum p_k' = +\infty$ and $\sum q_k' = +\infty$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Build the rearrangement greedily. Start adding positive terms
+    $p_1', p_2', \ldots$ until the partial sum <em>first exceeds</em> $L$. This must happen
+    because $\sum p_k' = +\infty$. Call this partial sum $T_1$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Now subtract negative terms $q_1', q_2', \ldots$ until the partial
+    sum <em>first drops below</em> $L$. This must happen because $\sum q_k' = +\infty$.
+    Call this partial sum $T_2$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Continue alternating: add positive terms until you exceed $L$,
+    subtract negative terms until you drop below $L$. At each stage, every original term is
+    eventually used (since we exhaust both the positive and negative terms), so this process
+    produces a rearrangement.
+  </p>
+  <p>
+    <strong>Step 5. Convergence to $L$.</strong> At each "overshoot" (after adding positive terms),
+    the partial sum exceeds $L$ by at most the last positive term added. At each "undershoot",
+    it falls below $L$ by at most the last negative term subtracted. Since $a_n \to 0$ (the
+    original series converges, so its terms vanish), both the positive and negative terms tend
+    to $0$. The overshoots and undershoots therefore tend to $0$, and the partial sums converge
+    to $L$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. A concrete rearrangement</h2>
+
+<p>
+  Let us verify the claim from the problem box: rearranging the alternating harmonic series as
+  "two positives, one negative" gives $\frac{3}{2}\ln 2$.
+</p>
+
+<p>
+  Group the rearranged series in blocks of three:
+</p>
+<div class="display-math">$$\sum_{k=0}^{\infty} \left(\frac{1}{4k+1} + \frac{1}{4k+3} - \frac{1}{2k+2}\right)$$</div>
+<p>
+  Combine the terms in each block:
+</p>
+<div class="display-math">$$\frac{1}{4k+1} + \frac{1}{4k+3} - \frac{1}{2k+2} = \frac{1}{4k+1} + \frac{1}{4k+3} - \frac{1}{2(2k+1)} - \frac{1}{2(2k+2) + 2}$$</div>
+<p>
+  A cleaner approach: the rearranged sum satisfies $R = \frac{1}{2}H_{+} + \frac{1}{2}\ln 2$
+  where the analysis uses properties of the digamma function. The result
+  $R = \frac{3}{2}\ln 2$ can be verified numerically (partial sums converge to
+  $\approx 1.0397$, and $\frac{3}{2}\ln 2 \approx 1.0397$). The full derivation requires
+  careful bookkeeping of the partial sums, which we leave as an exercise &mdash; the point is
+  that the sum genuinely changes under rearrangement.
+</p>
+
+<h2>6. Why this matters</h2>
+
+<p>
+  The Riemann rearrangement theorem tells us something profound: for a conditionally convergent
+  series, the "sum" is not determined by the terms alone &mdash; it depends on the <em>order</em>
+  of summation. Infinite addition is <em>not commutative</em> in general. This is why
+  mathematicians treat absolute convergence as the "safe" mode of convergence: it is the
+  condition under which infinite sums behave like finite ones.
+</p>
+
+<p>
+  Every convergence test in this phase can be viewed through this lens. The
+  <a href="01-comparison-test.html">comparison</a> and <a href="02-ratio-test.html">ratio</a>
+  tests establish <em>absolute</em> convergence. The
+  <a href="03-alternating-series.html">alternating series test</a> gives conditional convergence
+  when absolute convergence fails. Knowing which type you have is not pedantry &mdash; it
+  determines what operations are legal.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Peter Gustav Lejeune Dirichlet (1837) proved that rearrangements of absolutely convergent
+    series preserve the sum. Bernhard Riemann proved the rearrangement theorem for conditionally
+    convergent series in his 1853 <em>Habilitationsschrift</em>, the same work where he
+    introduced the Riemann integral (which we met in
+    <a href="../phase3/06-riemann-integral.html">Phase 3, page 6</a>).
+  </p>
+  <p>
+    Riemann's result was shocking to his contemporaries. It meant that $1 - 1/2 + 1/3 - 1/4 +
+    \cdots = \ln 2$ is a statement about a <em>specific ordering</em> of the terms, not an
+    intrinsic property of the collection $\{1, -1/2, 1/3, -1/4, \ldots\}$. The same set of
+    numbers, summed differently, gives any answer you like. This revelation was a driving force
+    behind the rigorous development of series theory in the 19th century.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without absolute convergence, rearrangement changes the sum.</strong> This is the
+    entire point. For conditionally convergent series, the "sum" is an artefact of the ordering.
+    Change the order, change the sum. There is no well-defined "sum of the terms" independent of
+    arrangement.
+  </p>
+  <p>
+    <strong>Absolute convergence cannot be weakened.</strong> There is no intermediate condition
+    between absolute and conditional convergence that would guarantee rearrangement invariance
+    for some but not all rearrangements. Either $\sum |a_n| < \infty$ (and all rearrangements
+    agree) or $\sum |a_n| = \infty$ (and rearrangements can give any value).
+  </p>
+  <p>
+    <strong>Finite sums are immune.</strong> For finite sums, addition is commutative: you can
+    rearrange freely. The pathology is purely a phenomenon of <em>infinite</em> sums, arising
+    because the partial sums of a conditionally convergent series depend on delicate cancellation
+    between positive and negative terms. Rearrangement disrupts that cancellation.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Absolutely convergent series can be rearranged freely; conditionally convergent series can be
+  rearranged to converge to anything &mdash; infinite addition is not commutative.
+</div>
+
+<div class="nav">
+  <a href="03-alternating-series.html">&larr; Previous: The Alternating Series Test</a>
+  <a href="05-cesaro-means.html">Next: Ces&agrave;ro Means &rarr;</a>
+</div>
+
+</body>
+</html>

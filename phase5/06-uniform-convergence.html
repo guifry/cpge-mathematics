@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniform Convergence — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Uniform Convergence</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Cauchy (1821) stated what seemed obvious: "the limit of a sequence of continuous functions
+    is continuous." It felt like a theorem that hardly needed proof. But Fourier's work on heat
+    conduction produced sequences of continuous functions whose pointwise limit was discontinuous.
+    Abel (1826) noticed the error. Weierstrass (1841, published later) found the fix: Cauchy's
+    claim is wrong for <em>pointwise</em> convergence, but true for a stronger notion &mdash;
+    <strong>uniform convergence</strong>.
+  </p>
+</div>
+
+<h2>1. Pointwise convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Pointwise convergence</div>
+  <p>
+    A sequence of functions $(f_n)$ defined on a set $D$ <strong>converges pointwise</strong> to
+    $f$ if for every $x \in D$:
+  </p>
+  <div class="display-math">$$\lim_{n \to \infty} f_n(x) = f(x)$$</div>
+  <p>
+    Equivalently: for every $x \in D$ and every $\varepsilon > 0$, there exists $N = N(x, \varepsilon)$
+    such that $|f_n(x) - f(x)| < \varepsilon$ for all $n \geq N$.
+  </p>
+</div>
+
+<p>
+  The critical feature: $N$ depends on $x$. At some points convergence may be fast; at others,
+  agonisingly slow. Different points march at different speeds, and this is what causes trouble.
+</p>
+<p>
+  To see the dependence on $x$ concretely, consider $f_n(x) = x^n$ on $[0, 1]$ (which we
+  analyse fully below). For $x = 0.5$, we have $f_n(0.5) = (0.5)^n$, and $f_{10}(0.5) \approx
+  0.001$ &mdash; close to $0$ already at $n = 10$. But for $x = 0.99$, $f_{10}(0.99) = 0.99^{10}
+  \approx 0.904$, and we need $n \approx 460$ to get $f_n(0.99) < 0.01$. The closer $x$ is to
+  $1$, the larger $N$ must be. No single $N$ works for all $x$ simultaneously.
+</p>
+
+<h2>2. The canonical counterexample</h2>
+
+<p>
+  Define $f_n(x) = x^n$ on $[0, 1]$. Each $f_n$ is continuous (it is a polynomial). What is
+  the pointwise limit?
+</p>
+<ul>
+  <li>If $0 \leq x < 1$: $x^n \to 0$ (since $|x| < 1$).</li>
+  <li>If $x = 1$: $1^n = 1$ for all $n$.</li>
+</ul>
+<p>
+  So the pointwise limit is:
+</p>
+<div class="display-math">$$f(x) = \begin{cases} 0 & \text{if } 0 \leq x < 1 \\ 1 & \text{if } x = 1 \end{cases}$$</div>
+<p>
+  This function is <em>discontinuous</em> at $x = 1$. A sequence of continuous functions has
+  converged to a discontinuous function. Cauchy's "theorem" is false.
+</p>
+<p>
+  The problem is visible: near $x = 1$, convergence is extremely slow. For $x = 1 - 1/n$,
+  we have $f_n(x) = (1 - 1/n)^n \to 1/e \approx 0.37$, far from the limit $f(x) = 0$. The
+  closer $x$ is to $1$, the larger $N(x, \varepsilon)$ must be. No single $N$ works for all $x$.
+</p>
+
+<h2>3. Uniform convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Uniform convergence</div>
+  <p>
+    A sequence $(f_n)$ <strong>converges uniformly</strong> to $f$ on $D$ if:
+  </p>
+  <div class="display-math">$$\sup_{x \in D} |f_n(x) - f(x)| \to 0 \quad \text{as } n \to \infty$$</div>
+  <p>
+    Equivalently: for every $\varepsilon > 0$, there exists $N = N(\varepsilon)$ (independent
+    of $x$) such that $|f_n(x) - f(x)| < \varepsilon$ for all $n \geq N$ and all $x \in D$.
+  </p>
+</div>
+
+<p>
+  The crucial difference: $N$ depends only on $\varepsilon$, not on $x$. The entire function
+  $f_n$ is within $\varepsilon$ of $f$ simultaneously at every point, once $n$ is large enough.
+  Think of a horizontal $\varepsilon$-tube around the graph of $f$ &mdash; uniform convergence
+  means $f_n$ eventually lives entirely inside that tube.
+</p>
+
+<h2>4. The uniform limit of continuous functions is continuous</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Uniform limit preserves continuity</div>
+  <p>
+    Let $(f_n)$ be a sequence of functions continuous on $D \subseteq \mathbb{R}$. If $f_n \to f$
+    uniformly on $D$, then $f$ is continuous on $D$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Fix $x_0 \in D$ and let $\varepsilon > 0$. We must show
+    $|f(x) - f(x_0)| < 3\varepsilon$ for $x$ close to $x_0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $f_n \to f$ uniformly, choose $N$ such that
+    $|f_n(x) - f(x)| < \varepsilon$ for all $x \in D$ and all $n \geq N$. Fix this $N$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Since $f_N$ is continuous at $x_0$, there exists $\delta > 0$ such
+    that $|f_N(x) - f_N(x_0)| < \varepsilon$ whenever $|x - x_0| < \delta$ and $x \in D$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> For $|x - x_0| < \delta$, apply the triangle inequality:
+  </p>
+  <div class="display-math">$$|f(x) - f(x_0)| \leq |f(x) - f_N(x)| + |f_N(x) - f_N(x_0)| + |f_N(x_0) - f(x_0)|$$</div>
+  <p>
+    The first term is $< \varepsilon$ (uniform convergence at $x$). The second is $< \varepsilon$
+    (continuity of $f_N$). The third is $< \varepsilon$ (uniform convergence at $x_0$). So:
+  </p>
+  <div class="display-math">$$|f(x) - f(x_0)| < 3\varepsilon$$</div>
+  <p>
+    Since $\varepsilon$ was arbitrary, $f$ is continuous at $x_0$. Since $x_0$ was arbitrary, $f$
+    is continuous on $D$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is the classic <strong>$3\varepsilon$ argument</strong>. The triangle inequality splits
+  the distance into three hops: from $f$ to $f_n$, across $f_n$ (using its continuity), and
+  back from $f_n$ to $f$. Uniform convergence ensures the first and third hops are small
+  simultaneously for all $x$.
+</p>
+
+<h2>5. A positive example: uniform convergence on $[0, 1/2]$</h2>
+
+<p>
+  The same sequence $f_n(x) = x^n$ <em>does</em> converge uniformly to $f(x) = 0$ on $[0, c]$
+  for any fixed $c < 1$. Let us verify this. On $[0, c]$:
+</p>
+<div class="display-math">$$\sup_{x \in [0, c]} |x^n - 0| = c^n$$</div>
+<p>
+  Since $0 \leq c < 1$, we have $c^n \to 0$. So $\sup |f_n - f| \to 0$, confirming uniform
+  convergence. The limit $f(x) = 0$ is continuous, as the theorem guarantees.
+</p>
+<p>
+  The problem on $[0, 1]$ is entirely due to the endpoint $x = 1$. On any strict sub-interval
+  $[0, c]$ with $c < 1$, everything works perfectly. This pattern &mdash; uniform convergence on
+  compact subsets of the interior, but failure at boundary points &mdash; is typical of power
+  series and recurs throughout analysis.
+</p>
+
+<h2>6. Revisiting the counterexample</h2>
+
+<p>
+  We now confirm that $f_n(x) = x^n$ does <em>not</em> converge uniformly on $[0, 1]$.
+  The pointwise limit is $f(x) = 0$ for $x \in [0,1)$ and $f(1) = 1$. Compute:
+</p>
+<div class="display-math">$$\sup_{x \in [0,1]} |f_n(x) - f(x)| \geq |f_n(1) - f(1)| = |1 - 1| = 0$$</div>
+<p>
+  That bound is useless. Instead, look at the sup over $[0, 1)$. For any $n$, the function
+  $x^n$ is increasing on $[0,1]$, so:
+</p>
+<div class="display-math">$$\sup_{x \in [0,1)} |x^n - 0| = \lim_{x \to 1^-} x^n = 1$$</div>
+<p>
+  So $\sup_{x \in [0,1]} |f_n(x) - f(x)| = 1$ for every $n$ (taking the jump at $x = 1$ into
+  account as well). This does not tend to $0$. The convergence is not uniform, which is why
+  the limit function is discontinuous &mdash; perfectly consistent with our theorem.
+</p>
+
+<h2>7. Uniform convergence preserves integrability</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Swapping limits and integrals</div>
+  <p>
+    Let $(f_n)$ be a sequence of integrable functions on $[a, b]$. If $f_n \to f$ uniformly on
+    $[a, b]$, then $f$ is integrable on $[a, b]$ and:
+  </p>
+  <div class="display-math">$$\lim_{n \to \infty} \int_a^b f_n(x)\, dx = \int_a^b f(x)\, dx$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since each $f_n$ is integrable (hence bounded) and $f_n \to f$
+    uniformly, $f$ is bounded on $[a,b]$. Moreover, $f$ is the uniform limit of continuous
+    functions if each $f_n$ is continuous, hence continuous and integrable. More generally,
+    uniform convergence preserves integrability (the upper and lower sums of $f$ can be
+    controlled by those of $f_n$ plus the uniform error), but the key estimate below works
+    regardless.
+  </p>
+  <p>
+    <strong>Step 2.</strong> For the limit interchange, let $\varepsilon > 0$. Choose $N$ so that
+    $\sup_{x \in [a,b]} |f_n(x) - f(x)| < \varepsilon$ for $n \geq N$. Then for $n \geq N$:
+  </p>
+  <div class="display-math">$$\left|\int_a^b f_n(x)\, dx - \int_a^b f(x)\, dx\right| = \left|\int_a^b (f_n(x) - f(x))\, dx\right|$$</div>
+  <div class="display-math">$$\leq \int_a^b |f_n(x) - f(x)|\, dx \leq \int_a^b \varepsilon\, dx = (b - a)\varepsilon$$</div>
+  <p>
+    Since $\varepsilon$ was arbitrary, $\int_a^b f_n \to \int_a^b f$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is the payoff: uniform convergence lets you <em>swap the limit and the integral</em>.
+  Without uniformity, this can fail. In Phase 4 we used term-by-term integration of power
+  series (<a href="../phase4/05-term-by-term.html">Phase 4, page 5</a>) &mdash; that relied on
+  uniform convergence on compact subsets of the disc of convergence, which is precisely what
+  the <a href="07-weierstrass-m-test.html">Weierstrass M-test</a> provides.
+</p>
+
+<h2>8. The logical structure</h2>
+
+<p>
+  Let us summarise the relationships we have established. Write "p.w." for pointwise and "u."
+  for uniform.
+</p>
+<ul>
+  <li>Uniform convergence $\Rightarrow$ pointwise convergence (immediate from the definitions:
+    if one $N$ works for all $x$, it certainly works for each individual $x$).</li>
+  <li>Pointwise convergence $\not\Rightarrow$ uniform convergence ($x^n$ on $[0,1]$).</li>
+  <li>u. convergence + each $f_n$ continuous $\Rightarrow$ limit $f$ is continuous.</li>
+  <li>u. convergence + each $f_n$ integrable $\Rightarrow$ $\int f_n \to \int f$.</li>
+  <li>u. convergence + each $f_n$ differentiable $\not\Rightarrow$ $f$ differentiable.</li>
+</ul>
+<p>
+  The third point is a common pitfall. To get $f' = \lim f_n'$, the standard theorem requires
+  that the <em>derivatives</em> $f_n'$ converge uniformly (not $f_n$ itself) and that $f_n(x_0)$
+  converges at a single point $x_0$. This stronger condition was used implicitly in
+  <a href="../phase4/05-term-by-term.html">Phase 4, page 5</a> for term-by-term differentiation
+  of power series.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy's erroneous theorem (1821) that the limit of continuous functions is continuous was
+    one of the most productive mistakes in the history of mathematics. Abel pointed out
+    counterexamples in 1826. Seidel (1847) and Stokes (1848) independently identified the issue,
+    each introducing their own version of what we now call uniform convergence. Weierstrass, in
+    unpublished lectures from 1841, gave the definitive formulation. It was the clarification of
+    this single error that drove the entire rigourisation of analysis in the 19th century.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Remove uniform convergence (use pointwise instead).</strong> Continuity fails:
+    $f_n(x) = x^n$ on $[0,1]$ gives a discontinuous limit. Integrability can also fail in more
+    exotic cases.
+  </p>
+  <p>
+    <strong>Uniform convergence does NOT preserve differentiability.</strong> Even if each $f_n$
+    is differentiable and $f_n \to f$ uniformly, $f$ need not be differentiable. Example:
+    $f_n(x) = \sqrt{x^2 + 1/n}$ converges uniformly on $\mathbb{R}$ to $f(x) = |x|$, which is
+    not differentiable at $0$. To preserve derivatives, you need uniform convergence of the
+    <em>derivatives</em> $f_n'$, plus pointwise convergence of $f_n$ at one point.
+  </p>
+  <p>
+    <strong>Convergence on an unbounded domain.</strong> On $[0, \infty)$, $f_n(x) = x/n$
+    converges pointwise to $0$ but not uniformly ($\sup x/n = \infty$). Even on bounded domains,
+    the distinction between pointwise and uniform matters.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Uniform convergence is the price you pay for passing limits through continuous operations
+  &mdash; it forces the entire function to converge at the same rate.
+</div>
+
+<div class="nav">
+  <a href="05-cesaro-means.html">&larr; Previous: Cesàro Means</a>
+  <a href="07-weierstrass-m-test.html">Next: The Weierstrass M-Test &rarr;</a>
+</div>
+
+</body>
+</html>

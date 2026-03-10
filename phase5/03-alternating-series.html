@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Alternating Series Test — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Alternating Series Test</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The harmonic series $\sum 1/n$ diverges &mdash; its partial sums grow without bound. But
+    what if you alternate the signs?
+  </p>
+  <div class="display-math">$$1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \frac{1}{5} - \cdots$$</div>
+  <p>
+    This series converges &mdash; to $\ln 2$, as we showed using Abel's theorem in
+    <a href="../phase4/06-abel-theorem.html">Phase 4, page 6</a>. The alternating signs rescue
+    a divergent series. Why? The positive terms push the partial sums up, the negative terms pull
+    them back down, and each swing is smaller than the last. The partial sums oscillate and close
+    in on a limit. Leibniz (1705) turned this intuition into a theorem.
+  </p>
+</div>
+
+<h2>1. Visualising the partial sums</h2>
+
+<p>
+  Let $S_N = \sum_{n=1}^{N} (-1)^{n+1}/n$. Computing:
+</p>
+<div class="display-math">$$S_1 = 1, \quad S_2 = \frac{1}{2}, \quad S_3 = \frac{5}{6}, \quad S_4 = \frac{7}{12}, \quad S_5 = \frac{47}{60}, \quad S_6 = \frac{37}{60}$$</div>
+<p>
+  The pattern is clear: the odd partial sums $S_1, S_3, S_5, \ldots$ are <em>decreasing</em>,
+  the even partial sums $S_2, S_4, S_6, \ldots$ are <em>increasing</em>, and they interleave:
+</p>
+<div class="display-math">$$S_2 < S_4 < S_6 < \cdots < S \cdots < S_5 < S_3 < S_1$$</div>
+<p>
+  The even sums approach the limit from below, the odd sums from above. The gap between
+  consecutive partial sums is $|S_{N+1} - S_N| = 1/(N+1) \to 0$, so the two subsequences
+  squeeze together.
+</p>
+
+<h2>2. The Alternating Series Test</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Alternating Series Test (Leibniz)</div>
+  <p>
+    Let $(a_n)_{n \geq 1}$ be a sequence of positive real numbers such that:
+  </p>
+  <ol>
+    <li>$(a_n)$ is decreasing: $a_{n+1} \leq a_n$ for all $n$.</li>
+    <li>$a_n \to 0$ as $n \to \infty$.</li>
+  </ol>
+  <p>
+    Then the alternating series $\sum_{n=1}^{\infty} (-1)^{n+1} a_n$ converges. Moreover, if
+    $S$ denotes the sum and $S_N$ the $N$-th partial sum, then:
+  </p>
+  <div class="display-math">$$|S - S_N| \leq a_{N+1}$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Even partial sums are increasing.</strong> Write $S_{2n} = \sum_{k=1}^{2n} (-1)^{k+1} a_k$. Then:
+  </p>
+  <div class="display-math">$$S_{2n+2} - S_{2n} = -a_{2n+1} + a_{2n+2} = -(a_{2n+1} - a_{2n+2}) \leq 0$$</div>
+  <p>
+    Wait &mdash; that gives $S_{2n+2} \leq S_{2n}$. Let us be more careful. We have
+    $S_{2n} = (a_1 - a_2) + (a_3 - a_4) + \cdots + (a_{2n-1} - a_{2n})$. Each bracket
+    $a_{2k-1} - a_{2k} \geq 0$ since $(a_n)$ is decreasing. So:
+  </p>
+  <div class="display-math">$$S_{2n+2} = S_{2n} + (a_{2n+1} - a_{2n+2}) \geq S_{2n}$$</div>
+  <p>
+    The even partial sums are increasing.
+  </p>
+  <p>
+    <strong>Step 2. Even partial sums are bounded above.</strong> Regroup differently:
+    $S_{2n} = a_1 - (a_2 - a_3) - (a_4 - a_5) - \cdots - (a_{2n-2} - a_{2n-1}) - a_{2n}$.
+    Each bracket $a_{2k} - a_{2k+1} \geq 0$, so $S_{2n} \leq a_1$.
+  </p>
+  <p>
+    <strong>Step 3. Convergence of even partial sums.</strong> $(S_{2n})$ is increasing and
+    bounded above by $a_1$. By the
+    <a href="../phase2/03-monotone-convergence.html">monotone convergence theorem</a>
+    (Phase 2, page 3), it converges to some limit $S$.
+  </p>
+  <p>
+    <strong>Step 4. Odd partial sums converge to the same limit.</strong> We have
+    $S_{2n+1} = S_{2n} + a_{2n+1}$. Since $S_{2n} \to S$ and $a_{2n+1} \to 0$:
+  </p>
+  <div class="display-math">$$S_{2n+1} \to S + 0 = S$$</div>
+  <p>
+    <strong>Step 5. Full sequence converges.</strong> Both the even and odd subsequences converge
+    to $S$. For any $\varepsilon > 0$, there exists $N_1$ with $|S_{2n} - S| < \varepsilon$ for
+    $n \geq N_1$ and $N_2$ with $|S_{2n+1} - S| < \varepsilon$ for $n \geq N_2$. Taking
+    $N = \max(2N_1, 2N_2 + 1)$, we have $|S_N - S| < \varepsilon$ for all $N \geq N$. So
+    $S_N \to S$.
+  </p>
+  <p>
+    <strong>Step 6. Error bound.</strong> From Step 1, the even partial sums satisfy
+    $S_{2n} \leq S$. From the odd regrouping, $S_{2n+1} \geq S$. So for any $N$:
+  </p>
+  <ul>
+    <li>If $N$ is even: $S_N \leq S \leq S_{N+1} = S_N + a_{N+1}$, giving
+      $0 \leq S - S_N \leq a_{N+1}$.</li>
+    <li>If $N$ is odd: $S_N \geq S \geq S_{N+1} = S_N - a_{N+1}$, giving
+      $0 \leq S_N - S \leq a_{N+1}$.</li>
+  </ul>
+  <p>In both cases, $|S - S_N| \leq a_{N+1}$.</p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. The error bound in practice</h2>
+
+<p>
+  The error estimate $|S - S_N| \leq a_{N+1}$ is remarkably useful &mdash; you get a free
+  bound on the truncation error just by looking at the first omitted term.
+</p>
+
+<p>
+  <strong>Example.</strong> Approximate $\ln 2 = \sum_{n=1}^{\infty} (-1)^{n+1}/n$ to within
+  $0.01$. We need $a_{N+1} = 1/(N+1) \leq 0.01$, so $N \geq 99$. The partial sum $S_{99}$
+  approximates $\ln 2$ with error at most $1/100 = 0.01$.
+</p>
+
+<p>
+  This is slow convergence &mdash; $99$ terms for two decimal places. But the error bound is
+  <em>guaranteed</em>, not merely estimated. For the series $\sum (-1)^n/n!$ (which sums to
+  $e^{-1}$), we need $1/(N+1)! \leq 0.01$, giving $N = 4$. Factorial decay is vastly faster
+  than harmonic decay.
+</p>
+
+<h2>4. More examples</h2>
+
+<p>
+  <strong>$\sum_{n=1}^{\infty} (-1)^{n+1}/\sqrt{n}$.</strong> The terms $1/\sqrt{n}$ are
+  positive, decreasing, and tend to $0$. By the alternating series test, this converges. But
+  $\sum 1/\sqrt{n}$ diverges (comparison with $\sum 1/n$: $1/\sqrt{n} \geq 1/n$). So this
+  series converges <em>conditionally</em> &mdash; it converges, but not absolutely. We will
+  study this distinction carefully on <a href="04-absolute-conditional.html">page 4</a>.
+</p>
+
+<p>
+  <strong>$\sum_{n=0}^{\infty} (-1)^n/n!$.</strong> Terms $1/n!$ are positive, decreasing
+  (for $n \geq 1$), and tend to $0$. Converges. The sum is $e^{-1}$ by the exponential series
+  from <a href="../phase4/03-exponential.html">Phase 4, page 3</a>. This series also converges
+  absolutely ($\sum 1/n! = e < \infty$).
+</p>
+
+<p>
+  <strong>$\sum_{n=1}^{\infty} (-1)^n \sin(1/n)$.</strong> For $n \geq 1$, $\sin(1/n) > 0$
+  (since $0 < 1/n \leq 1 < \pi$). The function $\sin(1/x)$ is decreasing for $x \geq 1$
+  (since $1/x$ is decreasing and $\sin$ is increasing on $[0,1]$), so $\sin(1/n)$ is
+  decreasing. And $\sin(1/n) \to \sin(0) = 0$. The alternating series test applies:
+  converges.
+</p>
+
+<h2>5. Approximating $\pi$ with the alternating series test</h2>
+
+<p>
+  From <a href="../phase4/06-abel-theorem.html">Phase 4, page 6</a>, we have the Leibniz formula:
+</p>
+<div class="display-math">$$\frac{\pi}{4} = \sum_{n=0}^{\infty} \frac{(-1)^n}{2n+1} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots$$</div>
+<p>
+  The terms $a_n = 1/(2n+1)$ are positive, decreasing, and tend to $0$, so the alternating
+  series test applies. The error bound gives $|\pi/4 - S_N| \leq 1/(2N+3)$. To approximate
+  $\pi$ to within $0.01$, we need $4/(2N+3) \leq 0.01$, so $N \geq 199$. This is extremely
+  slow &mdash; $200$ terms for two decimal places of $\pi$. Archimedes achieved better accuracy
+  with a $96$-sided polygon. The Leibniz formula is beautiful but impractical for computation.
+</p>
+
+<p>
+  By contrast, the series $\pi/4 = \arctan(1/\sqrt{3}) \cdot \sqrt{3}$ or Machin's formula
+  $\pi/4 = 4\arctan(1/5) - \arctan(1/239)$ converge much faster, because the arguments are
+  small and the geometric decay of the power series dominates. But the error bound from the
+  alternating series test applies equally well to those series.
+</p>
+
+<h2>6. A subtlety: "eventually decreasing" suffices</h2>
+
+<p>
+  The theorem requires $(a_n)$ to be decreasing. But in practice, what matters is that $(a_n)$
+  is <em>eventually</em> decreasing &mdash; decreasing for all $n$ beyond some $N_0$. The
+  finitely many initial terms do not affect convergence (they contribute a finite constant to
+  the partial sums). So if $a_n$ decreases for $n \geq 100$ and $a_n \to 0$, the alternating
+  series test still applies.
+</p>
+
+<p>
+  For instance, $\sum_{n=1}^{\infty} (-1)^{n+1} n/(n^2 + 1)$. The terms $a_n = n/(n^2+1)$
+  satisfy $a_1 = 1/2$, $a_2 = 2/5$, $a_3 = 3/10$: decreasing from the start. More carefully,
+  $a_n = 1/(n + 1/n)$, which is decreasing for $n \geq 1$ (since $n + 1/n$ is increasing for
+  $n \geq 1$). And $a_n \to 0$. The alternating series test gives convergence.
+</p>
+
+<h2>7. When the test does not apply</h2>
+
+<p>
+  Consider $\sum_{n=1}^{\infty} (-1)^n a_n$ where $a_n = 1/n$ if $n$ is odd and $a_n = 1/n^2$
+  if $n$ is even. The terms are positive and tend to $0$, but $(a_n)$ is <em>not</em> monotone
+  decreasing: $a_3 = 1/3$ but $a_4 = 1/16$, then $a_5 = 1/5 > 1/16$. The sequence bounces.
+  The alternating series test does not apply, and in fact the convergence of such series requires
+  case-by-case analysis.
+</p>
+
+<p>
+  The key is that the alternating series test is a <em>sufficient</em> condition, not a necessary
+  one. An alternating series might converge even if the terms are not monotone &mdash; but you
+  cannot use this theorem to prove it.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Leibniz stated this test in 1705, making it one of the earliest convergence results. The
+    alternating harmonic series $1 - 1/2 + 1/3 - 1/4 + \cdots$ was among the first examples
+    showing that convergence depends on more than the size of the terms &mdash; the <em>pattern
+    of signs</em> matters profoundly. Two series with the same absolute terms ($1/n$) can have
+    completely different convergence behaviour depending on signs.
+  </p>
+  <p>
+    Leibniz's insight was geometric: the partial sums oscillate and the oscillations shrink. This
+    visual argument was made rigorous by Cauchy in 1821 using the monotone convergence theorem.
+    The error bound $|S - S_N| \leq a_{N+1}$ was already implicit in Leibniz's argument &mdash;
+    the true sum is always trapped between two consecutive partial sums.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without $a_n \to 0$:</strong> the series $\sum (-1)^n$ has $a_n = 1$ (constant, does
+    not tend to $0$). The partial sums alternate between $-1$ and $0$, never settling. More
+    generally, if $a_n \not\to 0$, the divergence test (the terms don't vanish) kills the series
+    immediately, regardless of signs.
+  </p>
+  <p>
+    <strong>Without monotonicity:</strong> the decreasing condition is essential for the
+    interleaving argument. If the terms bounce, even with alternating signs and $a_n \to 0$, the
+    partial sums can fail to converge. Construct $a_n$ by taking $a_{2k-1} = 1/k$ and
+    $a_{2k} = 1/k^2$. Then $a_n \to 0$ but the subsequence of odd-indexed terms decreases too
+    slowly relative to the even-indexed ones, and careful analysis shows the series behaves like
+    $\sum (-1)^n / \sqrt{n}$ scaled &mdash; though in general, non-monotone alternating series
+    require ad hoc arguments.
+  </p>
+  <p>
+    <strong>Without alternating signs:</strong> $\sum 1/n$ has decreasing terms tending to $0$,
+    but all positive. It diverges. The cancellation between positive and negative terms is what
+    makes convergence possible. This is the essence of <em>conditional</em> convergence, which
+    we formalise on <a href="04-absolute-conditional.html">page 4</a>.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Alternating signs rescue a series: if the terms decrease to zero, the partial sums oscillate
+  and squeeze together, converging to a limit trapped between any two consecutive partial sums.
+</div>
+
+<div class="nav">
+  <a href="02-ratio-test.html">&larr; Previous: The Ratio and Root Tests</a>
+  <a href="04-absolute-conditional.html">Next: Absolute and Conditional Convergence &rarr;</a>
+</div>
+
+</body>
+</html>

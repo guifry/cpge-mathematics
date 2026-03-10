@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Determinants &mdash; Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Determinants</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    When does a system $Ax = b$ have a unique solution? Cramer (1750) found a formula
+    involving a mysterious number computed from the coefficients of $A$. Leibniz (1693) had
+    encountered the same quantities when eliminating variables from simultaneous equations.
+    This number &mdash; the <strong>determinant</strong> &mdash; turns out to measure how a
+    linear map scales volume. When it is zero, the map crushes space into a lower dimension
+    and the system either has no solution or infinitely many.
+  </p>
+</div>
+
+<h2>1. The $2 \times 2$ case</h2>
+
+<p>
+  Consider the matrix $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ with columns
+  $v_1 = \begin{pmatrix} a \\ c \end{pmatrix}$ and $v_2 = \begin{pmatrix} b \\ d \end{pmatrix}$.
+  The parallelogram spanned by $v_1$ and $v_2$ has signed area
+</p>
+<div class="display-math">$$\det(A) = ad - bc.$$</div>
+<p>
+  Why? The rectangle on the basis vectors $e_1, e_2$ has area $1$. The linear map sending
+  $e_1 \mapsto v_1$, $e_2 \mapsto v_2$ transforms this rectangle into the parallelogram.
+  The signed area scales by a factor that we <em>define</em> to be $\det(A)$.
+</p>
+<p>
+  <strong>Example.</strong> Let $A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$. Then
+  $\det(A) = 3 \cdot 2 - 1 \cdot 0 = 6$. The columns $(3, 0)$ and $(1, 2)$ span a
+  parallelogram of area $6$. The map doubles and shears space, scaling areas by $6$.
+</p>
+
+<h2>2. The axiomatic definition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Determinant (axiomatic)</div>
+  <p>
+    A <strong>determinant</strong> is a function $\det : M_n(\mathbb{K}) \to \mathbb{K}$
+    satisfying three properties, viewing an $n \times n$ matrix as $n$ column vectors
+    $A = (c_1 \mid c_2 \mid \cdots \mid c_n)$:
+  </p>
+  <ol>
+    <li><strong>Multilinear:</strong> $\det$ is linear in each column separately. That is,
+      $\det(\ldots, \alpha c_j + \beta c_j', \ldots) = \alpha\det(\ldots, c_j, \ldots)
+      + \beta\det(\ldots, c_j', \ldots)$.</li>
+    <li><strong>Alternating:</strong> if two columns are equal, $\det = 0$. Equivalently,
+      swapping two columns flips the sign.</li>
+    <li><strong>Normalised:</strong> $\det(I_n) = 1$.</li>
+  </ol>
+</div>
+
+<p>
+  The equivalence in property 2 follows from multilinearity. If $c_i = c_j$ gives $\det = 0$,
+  then replacing $c_i$ by $c_i + c_j$ and $c_j$ by $c_i + c_j$, expanding by multilinearity
+  and using the vanishing condition, yields $\det(\ldots, c_i, c_j, \ldots) +
+  \det(\ldots, c_j, c_i, \ldots) = 0$ &mdash; swapping flips the sign.
+</p>
+
+<h2>3. Existence and uniqueness: the Leibniz formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Existence and uniqueness</div>
+  <p>
+    There is exactly one function satisfying the three axioms. It is given by:
+  </p>
+  <div class="display-math">$$\det(A) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \prod_{i=1}^{n} a_{i,\sigma(i)}$$</div>
+  <p>where $S_n$ is the set of all permutations of $\{1, \ldots, n\}$ and $\operatorname{sgn}(\sigma) = \pm 1$ is the signature of $\sigma$.</p>
+</div>
+
+<p>
+  <strong>Deriving it for $n = 3$.</strong> Write column $c_j = \sum_i a_{ij} e_i$. By
+  multilinearity, expand $\det(c_1, c_2, c_3)$ into $3^3 = 27$ terms of the form
+  $a_{i_1,1} a_{i_2,2} a_{i_3,3} \det(e_{i_1}, e_{i_2}, e_{i_3})$. By the alternating property,
+  any term with a repeated index vanishes. The surviving terms have $(i_1, i_2, i_3)$
+  running over all permutations of $(1,2,3)$. There are $3! = 6$ of them. By normalisation,
+  $\det(e_1, e_2, e_3) = 1$. Swapping columns introduces a sign flip, so
+  $\det(e_{i_1}, e_{i_2}, e_{i_3}) = \operatorname{sgn}(\sigma)$ where $\sigma(j) = i_j$.
+  The result is:
+</p>
+<div class="display-math">$$\det(A) = a_{11}a_{22}a_{33} + a_{21}a_{32}a_{13} + a_{31}a_{12}a_{23}
+  - a_{31}a_{22}a_{13} - a_{21}a_{12}a_{33} - a_{11}a_{32}a_{23}.$$</div>
+<p>
+  The same argument works for general $n$: expand into $n^n$ terms, keep the $n!$
+  non-vanishing ones, attach the signature. This proves existence. Uniqueness follows because
+  the three axioms forced every step &mdash; we had no choices.
+</p>
+
+<h2>4. Key properties</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; $\det(A^T) = \det(A)$</div>
+  <p>The determinant of the transpose equals the determinant of the original matrix.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    In the Leibniz formula, $\det(A^T) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \prod_i a_{\sigma(i),i}$.
+    Reindex: set $\tau = \sigma^{-1}$. As $\sigma$ runs over $S_n$, so does $\tau$.
+    Since $\operatorname{sgn}(\tau) = \operatorname{sgn}(\sigma)$ and $a_{\sigma(i),i} = a_{j,\tau(j)}$
+    where $j = \sigma(i)$, we get $\det(A^T) = \sum_{\tau} \operatorname{sgn}(\tau) \prod_j a_{j,\tau(j)} = \det(A)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This means every property proved for columns also holds for rows. Row operations work
+  identically to column operations for determinant calculations.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; $\det(AB) = \det(A)\det(B)$</div>
+  <p>The determinant is multiplicative.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Fix $B$ and define $\varphi(A) = \det(AB)/\det(B)$ when $\det(B) \neq 0$, but we proceed
+    more carefully. Define $\Delta(A) = \det(AB)$, viewed as a function of the columns of $A$.
+  </p>
+  <p>
+    <strong>Step 1.</strong> $\Delta$ is multilinear in the columns of $A$. If $A = (c_1 \mid \cdots \mid c_n)$,
+    then $AB$ has columns $Bc_1, \ldots, Bc_n$ (reading $c_j$ as column vectors of coefficients
+    &mdash; actually, $AB$'s $j$-th column is $A$ applied to $B$'s $j$-th column, but let us be
+    precise). The $j$-th column of $AB$ is $\sum_k a_{kj} b_k$ where $b_k$ is the $k$-th column
+    of $B$. This depends linearly on the $j$-th column of $A$. Since $\det$ is multilinear in
+    the columns of $AB$, and each column of $AB$ depends linearly on the corresponding column
+    of $A$, composing gives multilinearity in $A$'s columns.
+  </p>
+  <p>
+    <strong>Step 2.</strong> $\Delta$ is alternating: if two columns of $A$ are equal, the
+    corresponding columns of $AB$ are equal, so $\det(AB) = 0$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> By uniqueness of the determinant (up to a scalar multiple), any
+    multilinear alternating function on $n$ columns is $\lambda \cdot \det$ for some scalar $\lambda$.
+    So $\det(AB) = \lambda \det(A)$ for some $\lambda$ depending only on $B$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Set $A = I$: $\det(B) = \lambda \det(I) = \lambda$. Therefore
+    $\det(AB) = \det(A)\det(B)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Invertibility criterion</div>
+  <p>$A$ is invertible if and only if $\det(A) \neq 0$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    If $A$ is invertible, $AA^{-1} = I$, so $\det(A)\det(A^{-1}) = 1$. Hence $\det(A) \neq 0$.
+  </p>
+  <p>
+    If $A$ is not invertible, its columns are linearly dependent: some column $c_j$ is a linear
+    combination of the others. By multilinearity, write $c_j = \sum_{k \neq j} \alpha_k c_k$
+    and expand. Each resulting determinant has two equal columns, hence vanishes. So $\det(A) = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  One more useful identity: $\det(\lambda A) = \lambda^n \det(A)$, immediate from multilinearity
+  (each of the $n$ columns is scaled by $\lambda$).
+</p>
+
+<h2>5. Cofactor expansion</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Laplace expansion</div>
+  <p>
+    Expanding along row $i$:
+  </p>
+  <div class="display-math">$$\det(A) = \sum_{j=1}^n (-1)^{i+j} a_{ij} M_{ij}$$</div>
+  <p>
+    where $M_{ij}$ is the determinant of the $(n-1) \times (n-1)$ matrix obtained by deleting
+    row $i$ and column $j$. The quantity $C_{ij} = (-1)^{i+j} M_{ij}$ is the <strong>cofactor</strong>.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Fix row $i$. Write $a_{ij}$ as the coefficient of $e_j$ in row $i$. By multilinearity in
+    row $i$ (which holds since $\det(A^T) = \det(A)$), we can write $\det(A)$ as
+    $\sum_j a_{ij} D_j$ where $D_j$ is the determinant with row $i$ replaced by $e_j^T$.
+    In $D_j$, row $i$ has a single $1$ in position $j$. Expanding the Leibniz formula, only
+    permutations with $\sigma(i) = j$ contribute. The sum over such permutations, after
+    accounting for the sign of bringing $e_j$ to position $i$ (which costs $(-1)^{i+j}$
+    transpositions), gives exactly $(-1)^{i+j} M_{ij}$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Geometric interpretation</h2>
+
+<p>
+  For $A \in M_n(\mathbb{R})$, $|\det(A)|$ is the $n$-dimensional volume of the
+  <strong>parallelepiped</strong> spanned by the column vectors. The sign encodes orientation:
+  $\det > 0$ means the columns form a right-handed system (same orientation as the standard
+  basis), $\det < 0$ means left-handed.
+</p>
+<p>
+  <strong>Example in $\mathbb{R}^3$.</strong> The columns $(1, 0, 0)$, $(0, 1, 0)$, $(0, 0, 1)$
+  span the unit cube: $\det(I_3) = 1$. The columns $(2, 0, 0)$, $(0, 3, 0)$, $(0, 0, 4)$
+  span a box of volume $24 = \det \begin{pmatrix} 2 & 0 & 0 \\ 0 & 3 & 0 \\ 0 & 0 & 4 \end{pmatrix}$.
+  Swapping two columns reverses orientation: the determinant flips sign, the volume stays the same.
+</p>
+<p>
+  When $\det(A) = 0$, the columns are linearly dependent &mdash; they lie in a hyperplane. The
+  parallelepiped is flat: zero volume. The map $A$ crushes $n$-dimensional space into a
+  lower-dimensional subspace.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Seki Takakazu (1683) in Japan and Leibniz (1693) in Europe independently encountered
+    determinants while solving systems of equations. Cramer (1750) published the explicit
+    formula $x_i = \det(A_i)/\det(A)$ for the solution of $Ax = b$ (Cramer's rule). Vandermonde
+    (1771) was the first to treat determinants as functions in their own right. Cauchy (1812)
+    gave the first systematic treatment, proved the product formula, and introduced the word
+    "determinant." The axiomatic characterisation (multilinear, alternating, normalised) came
+    later with Weierstrass and the German algebraic school.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Drop the alternating property.</strong> The function $f(A) = \prod_i a_{ii}$
+    (product of diagonal entries) is multilinear in the columns and satisfies $f(I) = 1$,
+    but it is not alternating. It cannot detect singular matrices: the matrix
+    $\begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}$ has equal columns (singular) but $f = 1$.
+    The alternating property is what forces the determinant to see linear dependence.
+  </p>
+  <p>
+    <strong>Drop normalisation.</strong> The zero function is multilinear and alternating.
+    More generally, $\lambda \cdot \det$ satisfies the first two axioms for any scalar $\lambda$.
+    Normalisation pins down the unique choice $\lambda = 1$.
+  </p>
+  <p>
+    <strong>Drop multilinearity.</strong> The function $\operatorname{sgn}(\det(A))$ (returning
+    $\pm 1$ or $0$) is alternating and normalised but not multilinear. It can tell you whether
+    $A$ is invertible and orientation-preserving, but it loses all quantitative information
+    about volume scaling.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The determinant is the unique multilinear alternating normalised function of the columns &mdash;
+  it measures signed volume and detects invertibility.
+</div>
+
+<div class="nav">
+  <a href="04-matrices.html">&larr; Prev: Matrices and Linear Maps</a>
+  <a href="06-eigenvalues.html">Next: Eigenvalues and the Characteristic Polynomial &rarr;</a>
+</div>
+
+</body>
+</html>

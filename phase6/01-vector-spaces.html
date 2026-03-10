@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vector Spaces — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Vector Spaces</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Systems of linear equations appear everywhere &mdash; balancing chemical reactions,
+    analysing electrical circuits, computing forces in a bridge. Gauss (1810s) developed
+    systematic elimination for solving them. But once you solve such a system, a striking
+    pattern emerges: the set of solutions is <em>closed under addition and scaling</em>.
+  </p>
+  <p>
+    If $x$ and $y$ both satisfy a homogeneous system $Ax = 0$, then so does $x + y$ and
+    so does $3x$. The solutions live in some kind of "space." Grassmann (1844) asked:
+    what is the most general structure with these two properties? His answer &mdash; the
+    <b>vector space</b> &mdash; is the foundation of all linear algebra.
+  </p>
+</div>
+
+<h2>1. Motivating example: solutions of $Ax = 0$</h2>
+
+<p>
+  Consider the system $x_1 + 2x_2 - x_3 = 0$. The solutions form a set
+  $S \subseteq \mathbb{R}^3$. Take two solutions, say $v = (1, 0, 1)$ and
+  $w = (-2, 1, 0)$. Then $v + w = (-1, 1, 1)$ satisfies the equation
+  ($-1 + 2 - 1 = 0$), and $5v = (5, 0, 5)$ satisfies it too ($5 + 0 - 5 = 0$).
+</p>
+
+<p>
+  This is not a coincidence. If $Av = 0$ and $Aw = 0$, then
+  $A(v + w) = Av + Aw = 0 + 0 = 0$ and $A(\lambda v) = \lambda Av = \lambda \cdot 0 = 0$.
+  Linearity of matrix multiplication forces $S$ to be closed under addition and scalar
+  multiplication. The zero vector $0$ is always in $S$. So $S$ has a very rigid algebraic
+  structure. Let us axiomatise it.
+</p>
+
+<h2>2. Definition: vector space</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Vector space</div>
+  <p>
+    A <b>vector space</b> over a field $\mathbb{K}$ (for us, $\mathbb{K} = \mathbb{R}$
+    or $\mathbb{C}$) is a set $V$ equipped with two operations:
+  </p>
+  <ul>
+    <li><b>Addition:</b> $V \times V \to V$, written $(u, v) \mapsto u + v$</li>
+    <li><b>Scalar multiplication:</b> $\mathbb{K} \times V \to V$, written $(\lambda, v) \mapsto \lambda v$</li>
+  </ul>
+  <p>satisfying the following eight axioms for all $u, v, w \in V$ and $\lambda, \mu \in \mathbb{K}$:</p>
+  <ol>
+    <li><b>Associativity of addition:</b> $(u + v) + w = u + (v + w)$</li>
+    <li><b>Commutativity of addition:</b> $u + v = v + u$</li>
+    <li><b>Additive identity:</b> there exists $0_V \in V$ such that $v + 0_V = v$</li>
+    <li><b>Additive inverse:</b> for each $v$, there exists $-v$ such that $v + (-v) = 0_V$</li>
+    <li><b>Compatibility of scalar multiplication:</b> $\lambda(\mu v) = (\lambda\mu) v$</li>
+    <li><b>Identity scalar:</b> $1 \cdot v = v$</li>
+    <li><b>Distributivity over vector addition:</b> $\lambda(u + v) = \lambda u + \lambda v$</li>
+    <li><b>Distributivity over scalar addition:</b> $(\lambda + \mu)v = \lambda v + \mu v$</li>
+  </ol>
+  <p>
+    The elements of $V$ are called <b>vectors</b>. The elements of $\mathbb{K}$ are
+    called <b>scalars</b>.
+  </p>
+</div>
+
+<p>
+  Axioms 1&ndash;4 say $(V, +)$ is an abelian group. Axioms 5&ndash;8 say scalar
+  multiplication interacts with addition the way you would expect. The point is that
+  these eight properties are <em>all you need</em> &mdash; every theorem in linear
+  algebra follows from them alone.
+</p>
+
+<p>
+  A few immediate consequences worth noting. First, the zero vector is unique: if $0'$
+  is another additive identity, then $0' = 0' + 0 = 0$. Second, $0 \cdot v = 0_V$ for
+  any $v$ (proof: $0 \cdot v = (0 + 0)v = 0v + 0v$ by axiom 8, so subtracting $0v$ from
+  both sides gives $0_V = 0v$). Third, $(-1) \cdot v = -v$ (proof:
+  $v + (-1)v = 1 \cdot v + (-1)v = (1 + (-1))v = 0v = 0_V$, so $(-1)v$ is the additive
+  inverse of $v$). These small facts get used constantly.
+</p>
+
+<h2>3. Examples</h2>
+
+<p>
+  <b>$\mathbb{R}^n$.</b> The set of $n$-tuples $(x_1, \ldots, x_n)$ with componentwise
+  addition and scalar multiplication. The zero vector is $(0, \ldots, 0)$. All eight
+  axioms are inherited from the arithmetic of $\mathbb{R}$. This is the prototypical
+  vector space.
+</p>
+
+<p>
+  <b>Polynomials of degree $\leq n$.</b> Write $\mathbb{R}_n[x]$ for the set of all
+  polynomials with real coefficients and degree at most $n$. Addition: add coefficients.
+  Scalar multiplication: multiply every coefficient. The zero vector is the zero polynomial.
+  Closure under addition holds because the degree of a sum is at most the max of the
+  degrees. This is a vector space over $\mathbb{R}$.
+</p>
+
+<p>
+  <b>Continuous functions $C[a,b]$.</b> The set of all continuous real-valued functions
+  on $[a,b]$. Addition: $(f + g)(x) = f(x) + g(x)$. Scalar multiplication:
+  $(\lambda f)(x) = \lambda f(x)$. The zero vector is the constant function $0$.
+  The sum and scalar multiple of continuous functions are continuous
+  (proved in <a href="../phase2/06-ivt.html">Phase 2, page 6</a>), so closure holds.
+</p>
+
+<p>
+  <b>$m \times n$ matrices.</b> The set $\mathcal{M}_{m,n}(\mathbb{R})$ of all
+  $m \times n$ real matrices, with entrywise addition and scalar multiplication.
+  The zero vector is the zero matrix. This is really just $\mathbb{R}^{mn}$ in disguise.
+</p>
+
+<h2>4. A non-example</h2>
+
+<p>
+  The set of polynomials of degree <em>exactly</em> $n$ is <b>not</b> a vector space.
+  It fails closure under addition: take $p(x) = x^2$ and $q(x) = -x^2 + 1$. Both have
+  degree exactly 2, but $p + q = 1$ has degree 0. Even worse, the zero polynomial has
+  no well-defined degree, so there is no additive identity in the set.
+</p>
+
+<p>
+  Another non-example: the set $\{(x, y) \in \mathbb{R}^2 : x \geq 0\}$. It contains
+  $v = (1, 0)$, but $(-1) \cdot v = (-1, 0) \notin$ the set. Not closed under scalar
+  multiplication.
+</p>
+
+<h2>5. Subspaces</h2>
+
+<p>
+  Often we care about a subset of a vector space that is itself a vector space with the
+  same operations. We call such a subset a <b>subspace</b>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Subspace</div>
+  <p>
+    Let $V$ be a vector space over $\mathbb{K}$. A subset $W \subseteq V$ is a
+    <b>subspace</b> of $V$ if $W$ is non-empty and is closed under addition and
+    scalar multiplication: for all $u, v \in W$ and $\lambda \in \mathbb{K}$,
+    we have $u + v \in W$ and $\lambda v \in W$.
+  </p>
+</div>
+
+<p>
+  You do not need to check all eight axioms for $W$. Associativity, commutativity,
+  distributivity, etc., are inherited from $V$ because $W \subseteq V$. The only
+  things that could fail are closure (does the operation land back in $W$?) and the
+  existence of identity/inverses. The following criterion makes checking even easier.
+</p>
+
+<h2>6. The subspace criterion</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Subspace criterion</div>
+  <p>
+    Let $V$ be a vector space over $\mathbb{K}$ and $W \subseteq V$. Then $W$ is a
+    subspace of $V$ if and only if:
+  </p>
+  <ol>
+    <li>$W \neq \emptyset$</li>
+    <li>For all $u, v \in W$ and $\lambda, \mu \in \mathbb{K}$: $\lambda u + \mu v \in W$</li>
+  </ol>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> ($\Rightarrow$) If $W$ is a subspace, it contains $0_V$ (since
+    $W \neq \emptyset$, pick $w \in W$; then $0 \cdot w = 0_V \in W$). Closure under
+    addition and scalar multiplication give $\lambda u + \mu v \in W$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> ($\Leftarrow$) Suppose conditions 1 and 2 hold. Since
+    $W \neq \emptyset$, pick any $w \in W$. Setting $\lambda = 0, \mu = 0$ gives
+    $0 \cdot w + 0 \cdot w = 0_V \in W$, so $W$ contains the zero vector.
+  </p>
+  <p>
+    <strong>Step 3.</strong> For any $v \in W$, set $\lambda = -1, \mu = 0$:
+    $(-1)v + 0 \cdot v = -v \in W$. So additive inverses exist in $W$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Closure under addition: set $\lambda = \mu = 1$, giving
+    $u + v \in W$. Closure under scalar multiplication: set $\mu = 0$, giving
+    $\lambda u \in W$. All remaining axioms (associativity, commutativity, distributivity)
+    are inherited from $V$. So $W$ is a vector space under the same operations.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>7. Examples of subspaces</h2>
+
+<p>
+  <b>Lines through the origin in $\mathbb{R}^3$.</b> A line through the origin has the form
+  $W = \{\lambda v : \lambda \in \mathbb{R}\}$ for some fixed non-zero $v$. This is a
+  subspace: $\lambda(\alpha v) + \mu(\beta v) = (\lambda\alpha + \mu\beta) v \in W$.
+</p>
+
+<p>
+  <b>Planes through the origin in $\mathbb{R}^3$.</b> A plane through the origin is the
+  solution set of a single equation $ax + by + cz = 0$. This is exactly the kernel of
+  the matrix $A = (a, b, c)$, and we showed in Section 1 that kernels are subspaces.
+</p>
+
+<p>
+  <b>The kernel of any matrix.</b> More generally, for any $m \times n$ matrix $A$,
+  the set $\ker(A) = \{x \in \mathbb{R}^n : Ax = 0\}$ is a subspace of $\mathbb{R}^n$.
+  This is the motivating example from Section 1.
+</p>
+
+<p>
+  <b>Solution space of a homogeneous linear ODE.</b> The set of solutions to
+  $y'' + y = 0$ is a subspace of $C(\mathbb{R})$: if $f$ and $g$ solve the equation,
+  then $\lambda f + \mu g$ does too, because differentiation is linear. (IOU: we will
+  study the full structure of ODE solution spaces in Phase 8.)
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Hermann Grassmann published his <em>Ausdehnungslehre</em> (Theory of Extension) in
+    1844, giving the first abstract treatment of vector spaces in arbitrary dimensions.
+    The mathematical community almost completely ignored it &mdash; the notation was
+    unfamiliar and the ideas too far ahead of their time. Peano (1888) gave the modern
+    axiomatic definition in his <em>Calcolo geometrico</em>. The concept crystallised
+    slowly through the early 20th century in the work of Steinitz (1913), Banach (1920s),
+    and the Bourbaki group. Today it is the language of all mathematics.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Drop closure under addition.</b> The unit sphere
+    $S = \{v \in \mathbb{R}^3 : \|v\| = 1\}$ is closed under scalar multiplication by
+    $\pm 1$, but $(1,0,0) + (0,1,0) = (1,1,0)$ has norm $\sqrt{2} \neq 1$. Not a subspace.
+  </p>
+  <p>
+    <b>Missing zero vector.</b> The plane $x + y + z = 1$ in $\mathbb{R}^3$ does not
+    contain the origin (since $0 + 0 + 0 = 0 \neq 1$). It "looks flat" but is an
+    <b>affine</b> subspace, not a vector subspace. If you take two points on it and add
+    them, the result satisfies $x + y + z = 2$, not $1$. Closure fails.
+  </p>
+  <p>
+    <b>Drop the field.</b> If you try to build a "vector space" over $\mathbb{Z}$
+    (the integers), you get a <b>module</b>, not a vector space. Modules lack division
+    by scalars, and many key theorems (every subspace has a complement, every linearly
+    independent set extends to a basis) fail. The theory is vastly more complicated.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A vector space is any set where you can add elements and scale them, with the results
+  staying in the set &mdash; eight axioms capture this, and everything else follows.
+</div>
+
+<div class="nav">
+  <a href="../index.html">&larr; Table of contents</a>
+  <a href="02-basis-dimension.html">Next: Basis and Dimension &rarr;</a>
+</div>
+
+</body>
+</html>

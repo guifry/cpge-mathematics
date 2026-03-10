@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ratio and Root Tests — Phase 5</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Ratio and Root Tests</h1>
+<p class="subtitle">Phase 5 &mdash; The Convergence Toolkit, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The <a href="01-comparison-test.html">comparison test</a> requires you to find a known
+    convergent series to compare with &mdash; and finding the right one demands creativity.
+    D'Alembert (1768) asked: can you <em>automate</em> this? The geometric series
+    $\sum r^n$ converges when $|r| < 1$, and its terms satisfy $a_{n+1}/a_n = r$ (constant
+    ratio). What if a series doesn't have a constant ratio, but the ratio <em>approaches</em>
+    a limit? If that limit is less than $1$, the series should eventually behave like a geometric
+    series and converge.
+  </p>
+</div>
+
+<h2>1. The geometric series as a model</h2>
+
+<p>
+  Recall from <a href="../phase2/03-monotone-convergence.html">Phase 2</a>: the geometric series
+  $\sum_{n=0}^{\infty} r^n$ converges to $1/(1-r)$ when $|r| < 1$ and diverges when
+  $|r| \geq 1$. The ratio of consecutive terms is constant:
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{r^{n+1}}{r^n} = r$$</div>
+<p>
+  The ratio test generalises this: if the ratio is not constant but <em>tends</em> to a limit
+  $L$, then convergence depends on whether $L < 1$ or $L > 1$.
+</p>
+
+<p>
+  The intuition: if $|a_{n+1}/a_n| \approx L$ for large $n$, then the terms decay (or grow)
+  roughly like $L^n$. When $L < 1$, this is geometric decay &mdash; fast enough to force
+  convergence. When $L > 1$, the terms grow and the series has no chance.
+</p>
+
+<h2>2. The Ratio Test</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Ratio Test (d'Alembert)</div>
+  <p>
+    Let $\sum a_n$ be a series with $a_n \neq 0$ for all $n$. Suppose:
+  </p>
+  <div class="display-math">$$\lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right| = L$$</div>
+  <p>Then:</p>
+  <ul>
+    <li>If $L < 1$, the series converges absolutely.</li>
+    <li>If $L > 1$, the series diverges.</li>
+    <li>If $L = 1$, the test is inconclusive.</li>
+  </ul>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Case $L < 1$.</strong> Pick $r$ with $L < r < 1$. Let $\varepsilon = r - L > 0$.
+    Since $|a_{n+1}/a_n| \to L$, there exists $N$ such that for all $n \geq N$:
+  </p>
+  <div class="display-math">$$\left|\frac{a_{n+1}}{a_n}\right| < L + \varepsilon = r$$</div>
+  <p>
+    So $|a_{n+1}| < r\,|a_n|$ for all $n \geq N$. Iterating:
+  </p>
+  <div class="display-math">$$|a_{N+k}| < r^k\,|a_N| \quad \text{for all } k \geq 0$$</div>
+  <p>
+    <strong>Step 2.</strong> Therefore $\sum_{k=0}^{\infty} |a_{N+k}| \leq |a_N| \sum_{k=0}^{\infty} r^k = |a_N|/(1-r)$, which converges (geometric series with $|r| < 1$). By the
+    <a href="01-comparison-test.html">comparison test</a>, $\sum_{n=N}^{\infty} |a_n|$ converges.
+    Adding the finitely many terms $|a_1|, \ldots, |a_{N-1}|$ does not affect convergence, so
+    $\sum |a_n|$ converges. The series is absolutely convergent.
+  </p>
+  <p>
+    <strong>Step 3. Case $L > 1$.</strong> Pick $r$ with $1 < r < L$. For $n$ large enough,
+    $|a_{n+1}/a_n| > r > 1$, so $|a_{n+1}| > |a_n|$. The terms $|a_n|$ are eventually increasing
+    and bounded below by $|a_N| > 0$. In particular $a_n \not\to 0$, so the series diverges by the
+    divergence test (if the terms don't tend to zero, the series cannot converge).
+  </p>
+  <p>
+    <strong>Step 4. Case $L = 1$ is inconclusive.</strong> Both $\sum 1/n$ and $\sum 1/n^2$ have
+    ratio $|a_{n+1}/a_n| = n/(n+1) \to 1$. The first diverges, the second converges. No
+    conclusion is possible from the ratio alone.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Examples</h2>
+
+<p>
+  <strong>Example 1: $\sum_{n=1}^{\infty} n/2^n$.</strong>
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{(n+1)/2^{n+1}}{n/2^n} = \frac{n+1}{2n} \to \frac{1}{2}$$</div>
+<p>
+  Since $L = 1/2 < 1$, the series converges absolutely.
+</p>
+
+<p>
+  <strong>Example 2: $\sum_{n=0}^{\infty} 1/n!$.</strong>
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{n!}{(n+1)!} = \frac{1}{n+1} \to 0$$</div>
+<p>
+  $L = 0 < 1$: converges. (We already knew this from
+  <a href="../phase4/03-exponential.html">Phase 4, page 3</a> &mdash; the sum is $e$.)
+</p>
+
+<p>
+  <strong>Example 3: $\sum_{n=1}^{\infty} n!/n^n$.</strong>
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{(n+1)!}{(n+1)^{n+1}} \cdot \frac{n^n}{n!} = \frac{n^n}{(n+1)^n} = \left(\frac{n}{n+1}\right)^n = \frac{1}{(1 + 1/n)^n} \to \frac{1}{e}$$</div>
+<p>
+  Since $1/e \approx 0.368 < 1$, the series converges. Here we used
+  $(1 + 1/n)^n \to e$, which we established in
+  <a href="../phase4/03-exponential.html">Phase 4, page 3</a>.
+</p>
+
+<p>
+  <strong>Example 4: $\sum_{n=1}^{\infty} n^n / n!$ &mdash; divergence.</strong>
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{(n+1)^{n+1}}{(n+1)!} \cdot \frac{n!}{n^n} = \frac{(n+1)^n}{n^n} = \left(1 + \frac{1}{n}\right)^n \to e$$</div>
+<p>
+  Since $e \approx 2.718 > 1$, the series diverges. The terms grow so fast that the factorial in
+  the denominator cannot tame the exponential in the numerator.
+</p>
+
+<p>
+  <strong>Example 5: $\sum_{n=1}^{\infty} 1/n^2$ &mdash; the inconclusive case.</strong>
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \frac{n^2}{(n+1)^2} = \frac{1}{(1 + 1/n)^2} \to 1$$</div>
+<p>
+  The ratio test gives $L = 1$: inconclusive. We know this series converges (from the
+  <a href="01-comparison-test.html">comparison test</a>), but the ratio test cannot see it.
+  Similarly, $\sum 1/n$ has ratio $(n/(n+1)) \to 1$ and diverges. Both live at $L = 1$, on
+  opposite sides of the convergence divide.
+</p>
+
+<h2>4. The Root Test</h2>
+
+<p>
+  Cauchy found a related test that is sometimes more powerful. Instead of looking at the ratio
+  of consecutive terms, look at the $n$-th root of the $n$-th term.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Root Test (Cauchy)</div>
+  <p>
+    Let $\sum a_n$ be a series. Suppose:
+  </p>
+  <div class="display-math">$$\limsup_{n \to \infty} |a_n|^{1/n} = L$$</div>
+  <p>Then:</p>
+  <ul>
+    <li>If $L < 1$, the series converges absolutely.</li>
+    <li>If $L > 1$, the series diverges.</li>
+    <li>If $L = 1$, the test is inconclusive.</li>
+  </ul>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Case $L < 1$.</strong> Pick $r$ with $L < r < 1$. By definition of limsup,
+    $|a_n|^{1/n} < r$ for all sufficiently large $n$, say $n \geq N$. This means
+    $|a_n| < r^n$ for all $n \geq N$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $\sum r^n$ converges (geometric, $r < 1$), the
+    <a href="01-comparison-test.html">comparison test</a> gives $\sum |a_n|$ convergent.
+  </p>
+  <p>
+    <strong>Step 3. Case $L > 1$.</strong> By definition of limsup, $|a_n|^{1/n} > 1$ for
+    infinitely many $n$. For those $n$, $|a_n| > 1$. So $a_n \not\to 0$, and the series
+    diverges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Root test vs ratio test</h2>
+
+<p>
+  A natural question: when do these tests disagree? The answer is that the root test is <em>at
+  least as powerful</em> as the ratio test. Precisely: whenever the ratio test gives a verdict
+  ($L < 1$ or $L > 1$), the root test gives the same verdict. But the root test can sometimes
+  decide when the ratio test cannot.
+</p>
+
+<p>
+  This follows from the inequality (proved in analysis):
+</p>
+<div class="display-math">$$\liminf \frac{|a_{n+1}|}{|a_n|} \leq \liminf |a_n|^{1/n} \leq \limsup |a_n|^{1/n} \leq \limsup \frac{|a_{n+1}|}{|a_n|}$$</div>
+<p>
+  If the ratio has a limit $L$, then $\liminf = \limsup = L$ for the ratio, so the root's
+  limsup is also $L$. But the root's limsup can be well-defined even when the ratio oscillates.
+</p>
+
+<p>
+  <strong>Example where root works but ratio fails.</strong> Define $a_n = 2^{-n}$ if $n$ is odd,
+  $a_n = 3^{-n}$ if $n$ is even. Then:
+</p>
+<div class="display-math">$$\frac{a_{n+1}}{a_n} = \begin{cases} 3^{-n-1}/2^{-n} = (2/3)^n / 3 \to 0 & \text{if } n \text{ odd} \\ 2^{-n-1}/3^{-n} = (3/2)^n / 2 \to \infty & \text{if } n \text{ even} \end{cases}$$</div>
+<p>
+  The ratio has no limit (and liminf $= 0$, limsup $= \infty$), so the ratio test is
+  inconclusive. But $|a_n|^{1/n} \leq 2^{-1} = 1/2$ for odd $n$ and $|a_n|^{1/n} = 3^{-1}$
+  for even $n$, so $\limsup |a_n|^{1/n} = 1/2 < 1$. The root test confirms convergence.
+</p>
+
+<h2>6. The inconclusive case $L = 1$</h2>
+
+<p>
+  Both tests fail when $L = 1$. This is not a weakness of the proof &mdash; it is a genuine
+  boundary.
+</p>
+<ul>
+  <li>$\sum 1/n$: $|a_n|^{1/n} = n^{-1/n} \to 1$. Diverges.</li>
+  <li>$\sum 1/n^2$: $|a_n|^{1/n} = n^{-2/n} \to 1$. Converges.</li>
+</ul>
+<p>
+  At $L = 1$, both convergent and divergent series coexist. No amount of cleverness in the proof
+  can separate them using only the asymptotic growth rate $|a_n|^{1/n}$. You need finer tools:
+  the <a href="01-comparison-test.html">comparison test</a> with a well-chosen benchmark, or
+  the integral test.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Jean le Rond d'Alembert stated the ratio test in 1768, making it one of the first
+    "algorithmic" convergence tests &mdash; a mechanical procedure that, given a series, outputs a
+    verdict. Cauchy refined it and proved the root test in his <em>Cours d'analyse</em> (1821).
+    The root test's use of limsup rather than limit makes it strictly more general, though in
+    practice the ratio test is easier to compute and suffices for most series encountered in
+    analysis.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>$L = 1$ is genuinely inconclusive:</strong> this is not a gap in the proof but a fact
+    about series. At the boundary between geometric convergence and divergence, the ratio and root
+    tests lose their discriminating power. The series $\sum 1/n^p$ has $L = 1$ for every $p > 0$,
+    yet converges for $p > 1$ and diverges for $p \leq 1$.
+  </p>
+  <p>
+    <strong>Ratio test without a limit:</strong> if $|a_{n+1}/a_n|$ oscillates (no limit exists),
+    the ratio test as stated does not apply. The root test, using limsup, may still work.
+  </p>
+  <p>
+    <strong>Non-zero terms required:</strong> the ratio test needs $a_n \neq 0$. If infinitely
+    many terms are zero, the ratio $a_{n+1}/a_n$ is undefined. The root test handles this more
+    gracefully since $0^{1/n} = 0$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  If consecutive terms shrink by a factor less than $1$, the series converges like a geometric
+  series; if they grow, it diverges; at the boundary $L = 1$, you need a different tool.
+</div>
+
+<div class="nav">
+  <a href="01-comparison-test.html">&larr; Previous: The Comparison Test</a>
+  <a href="03-alternating-series.html">Next: The Alternating Series Test &rarr;</a>
+</div>
+
+</body>
+</html>
