@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cayley's Theorem and the Sylow Theorems — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Cayley's Theorem and the Sylow Theorems</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Every group we have encountered &mdash; $\mathbb{Z}/n\mathbb{Z}$, dihedral groups,
+    matrix groups &mdash; can be realised as permutations of some set. Cayley (1854)
+    proved this is no coincidence: <em>every</em> group is isomorphic to a group of
+    permutations. Abstractness is an illusion &mdash; every group is concrete.
+  </p>
+  <p>
+    But knowing a group embeds in $S_n$ is only the beginning. Lagrange told us that
+    subgroup orders divide $|G|$, yet not every divisor need occur (page 2: $A_4$ has no
+    subgroup of order $6$). So which divisors <em>do</em> give subgroups? Sylow (1872)
+    gave a powerful partial answer: prime-power divisors always work.
+  </p>
+</div>
+
+<h2>1. Cayley's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cayley's theorem</div>
+  <p>
+    Every group $G$ is isomorphic to a subgroup of the symmetric group $S_G$ (the group
+    of all bijections $G \to G$).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. Define the left regular representation.</strong> For each $g \in G$,
+    define $\lambda_g: G \to G$ by $\lambda_g(x) = gx$.
+  </p>
+  <p>
+    <strong>Step 2. Each $\lambda_g$ is a bijection.</strong> Injectivity: if $gx = gy$,
+    then $x = y$ by left cancellation. Surjectivity: for any $y \in G$, the element
+    $x = g^{-1}y$ satisfies $\lambda_g(x) = g(g^{-1}y) = y$. So $\lambda_g \in S_G$.
+  </p>
+  <p>
+    <strong>Step 3. The map $\Lambda: G \to S_G$ by $\Lambda(g) = \lambda_g$ is a
+    homomorphism.</strong> For any $x \in G$:
+    $\lambda_{gh}(x) = (gh)x = g(hx) = \lambda_g(\lambda_h(x)) = (\lambda_g \circ \lambda_h)(x)$.
+    So $\Lambda(gh) = \Lambda(g) \circ \Lambda(h)$.
+  </p>
+  <p>
+    <strong>Step 4. $\Lambda$ is injective.</strong> If $\lambda_g = \lambda_h$ (i.e.,
+    $gx = hx$ for all $x$), take $x = e$: $g = h$. So $\ker(\Lambda) = \{e\}$.
+  </p>
+  <p>
+    By the first isomorphism theorem (page 3), $G \cong \text{im}(\Lambda) \leq S_G$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>Corollary:</strong> every finite group of order $n$ is isomorphic to a subgroup
+  of $S_n$. This makes every abstract group "concrete" &mdash; at the cost of embedding
+  it in a possibly enormous symmetric group.
+</p>
+
+<h2>2. Group actions</h2>
+
+<p>
+  Cayley's proof used a specific way for $G$ to act on itself. The general notion is
+  fundamental throughout algebra.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Group action</div>
+  <p>
+    A <strong>group action</strong> of $G$ on a set $X$ is a map $G \times X \to X$,
+    written $(g, x) \mapsto g \cdot x$, satisfying: (i) $e \cdot x = x$ for all $x \in X$,
+    and (ii) $(gh) \cdot x = g \cdot (h \cdot x)$ for all $g, h \in G$, $x \in X$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Orbit and stabiliser</div>
+  <p>
+    The <strong>orbit</strong> of $x$ is $\text{Orb}(x) = \{g \cdot x : g \in G\}$. The
+    <strong>stabiliser</strong> of $x$ is $\text{Stab}(x) = \{g \in G : g \cdot x = x\}$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Orbit-stabiliser</div>
+  <p>
+    For a finite group $G$ acting on a set $X$ and any $x \in X$:
+  </p>
+  <div class="display-math">$$|\text{Orb}(x)| \cdot |\text{Stab}(x)| = |G|$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    First, $\text{Stab}(x) \leq G$ (check: $e \in \text{Stab}(x)$, and if $g, h$ stabilise
+    $x$ then $(gh^{-1}) \cdot x = g \cdot (h^{-1} \cdot x) = g \cdot x = x$ since
+    $h^{-1} \cdot x = h^{-1} \cdot (h \cdot (h^{-1} \cdot x))$; more directly,
+    $h \cdot x = x$ implies $h^{-1} \cdot x = h^{-1} \cdot (h \cdot x) = (h^{-1}h) \cdot x = x$,
+    so $gh^{-1} \in \text{Stab}(x)$).
+  </p>
+  <p>
+    Define $\psi: G/\text{Stab}(x) \to \text{Orb}(x)$ by $\psi(g\,\text{Stab}(x)) = g \cdot x$.
+    This is well-defined: if $g\,\text{Stab}(x) = g'\text{Stab}(x)$, then $g' = gs$ for
+    some $s \in \text{Stab}(x)$, so $g' \cdot x = g \cdot (s \cdot x) = g \cdot x$.
+    It is surjective by definition and injective: $g \cdot x = g' \cdot x$ implies
+    $(g^{-1}g') \cdot x = x$, so $g^{-1}g' \in \text{Stab}(x)$, so $g\,\text{Stab}(x) = g'\text{Stab}(x)$.
+  </p>
+  <p>
+    So $|\text{Orb}(x)| = [G : \text{Stab}(x)] = |G|/|\text{Stab}(x)|$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. The class equation</h2>
+
+<p>
+  Let $G$ act on itself by <strong>conjugation</strong>: $g \cdot x = gxg^{-1}$. The orbit
+  of $x$ is its <strong>conjugacy class</strong>. The stabiliser of $x$ is the
+  <strong>centraliser</strong> $C_G(x) = \{g \in G : gx = xg\}$.
+</p>
+<p>
+  The elements with trivial conjugacy class (orbit $\{x\}$) are exactly the elements of
+  the <strong>centre</strong> $Z(G)$. Partitioning $G$ into conjugacy classes:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Class equation</div>
+  <div class="display-math">$$|G| = |Z(G)| + \sum_{i} [G : C_G(x_i)]$$</div>
+  <p>
+    where the sum runs over one representative $x_i$ from each conjugacy class of size
+    greater than $1$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Corollary &mdash; $p$-groups have nontrivial centre</div>
+  <p>
+    If $|G| = p^n$ for a prime $p$ and $n \geq 1$, then $Z(G) \neq \{e\}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Each $[G:C_G(x_i)] > 1$ divides $|G| = p^n$ (by Lagrange), so each term is divisible
+    by $p$. Then $|Z(G)| = |G| - \sum_i [G:C_G(x_i)] \equiv 0 \pmod{p}$. Since
+    $e \in Z(G)$, we have $|Z(G)| \geq 1$, and since $p$ divides $|Z(G)|$, we get
+    $|Z(G)| \geq p > 1$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Cauchy's theorem</h2>
+
+<p>
+  Before proving Sylow's theorem, we need a key lemma.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cauchy's theorem</div>
+  <p>
+    If $G$ is a finite group and a prime $p$ divides $|G|$, then $G$ contains an element
+    of order $p$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (by induction on $|G|$)</div>
+  <p>
+    <strong>Base case:</strong> $|G| = p$. Then any $g \neq e$ has order dividing $p$
+    (Lagrange) and order $> 1$, so $\text{ord}(g) = p$.
+  </p>
+  <p>
+    <strong>Inductive step:</strong> assume the result for all groups of order less than $|G|$.
+    If some proper subgroup $H < G$ has $p \mid |H|$, apply the inductive hypothesis to $H$.
+    Otherwise, $p \nmid |H|$ for every proper subgroup. Use the class equation:
+    $|G| = |Z(G)| + \sum [G:C_G(x_i)]$. Each $C_G(x_i)$ is a proper subgroup (since
+    $x_i \notin Z(G)$), so $p \nmid |C_G(x_i)|$, which means $p \mid [G:C_G(x_i)]$. Since
+    $p \mid |G|$, we get $p \mid |Z(G)|$. The centre is abelian, so pick any element
+    $z \in Z(G)$ of order $m > 1$. If $p \mid m$, then $z^{m/p}$ has order $p$. If
+    $p \nmid m$, then $\langle z \rangle$ is a proper subgroup with $p \nmid |\langle z \rangle|$,
+    consistent with our assumption. But since $p \mid |Z(G)|$ and $Z(G)$ is abelian, we can
+    apply the inductive hypothesis to $Z(G)$ (which has $p \mid |Z(G)|$ and $|Z(G)| < |G|$
+    since $Z(G)$ would equal $G$ only if $G$ is abelian, in which case every element's order
+    divides $|G|$ and we use the abelian case directly). In either case, an element of
+    order $p$ exists.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. The Sylow theorems</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Sylow theorems</div>
+  <p>
+    Let $G$ be a finite group with $|G| = p^a m$ where $p$ is prime and $\gcd(p, m) = 1$.
+  </p>
+  <ol>
+    <li><strong>Existence:</strong> $G$ has a subgroup of order $p^a$ (a <strong>Sylow
+      $p$-subgroup</strong>).</li>
+    <li><strong>Conjugacy:</strong> all Sylow $p$-subgroups are conjugate to each other.</li>
+    <li><strong>Counting:</strong> the number $n_p$ of Sylow $p$-subgroups satisfies
+      $n_p \equiv 1 \pmod{p}$ and $n_p \mid m$.</li>
+  </ol>
+</div>
+
+<h2>6. Proof of Sylow I</h2>
+
+<div class="proof-box">
+  <div class="label">Proof (by induction on $|G|$)</div>
+  <p>
+    <strong>Base case:</strong> $|G| = 1$. The trivial subgroup has order $p^0 = 1$.
+  </p>
+  <p>
+    <strong>Inductive step:</strong> assume the result for all groups of order less than $|G|$.
+    Write the class equation: $|G| = |Z(G)| + \sum [G:C_G(x_i)]$.
+  </p>
+  <p>
+    <strong>Case 1: $p \mid |Z(G)|$.</strong> By Cauchy's theorem, $Z(G)$ contains an
+    element $z$ of order $p$. Since $z \in Z(G)$, $\langle z \rangle \trianglelefteq G$.
+    The quotient $G/\langle z \rangle$ has order $|G|/p = p^{a-1}m$. By induction, it has
+    a subgroup $\bar{P}$ of order $p^{a-1}$. Let $\pi: G \to G/\langle z \rangle$ be the
+    projection. Then $P = \pi^{-1}(\bar{P})$ is a subgroup of $G$ with
+    $|P| = |\bar{P}| \cdot |\langle z \rangle| = p^{a-1} \cdot p = p^a$.
+  </p>
+  <p>
+    <strong>Case 2: $p \nmid |Z(G)|$.</strong> Since $p \mid |G|$ and $|G| = |Z(G)| + \sum [G:C_G(x_i)]$,
+    there exists some $x_i$ with $p \nmid [G:C_G(x_i)]$. Then $p^a \mid |C_G(x_i)|$
+    (since $|G| = [G:C_G(x_i)] \cdot |C_G(x_i)|$ and $p^a \mid |G|$). But $C_G(x_i)$
+    is a proper subgroup of $G$ (since $x_i \notin Z(G)$), so by induction $C_G(x_i)$
+    has a subgroup of order $p^a$, which is also a subgroup of $G$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>7. Application: groups of order 6</h2>
+
+<p>
+  Let $|G| = 6 = 2 \cdot 3$. By Sylow III, the number $n_3$ of Sylow $3$-subgroups
+  satisfies $n_3 \equiv 1 \pmod{3}$ and $n_3 \mid 2$. The divisors of $2$ are $1$ and $2$.
+  Only $n_3 = 1$ satisfies $n_3 \equiv 1 \pmod{3}$.
+</p>
+<p>
+  So $G$ has a <em>unique</em> Sylow $3$-subgroup $P$, which must be normal (any conjugate
+  of $P$ is also a Sylow $3$-subgroup, and there is only one). We have $P \cong \mathbb{Z}/3\mathbb{Z}$.
+  Let $P = \langle r \rangle$ with $r^3 = e$.
+</p>
+<p>
+  Let $Q$ be a Sylow $2$-subgroup: $|Q| = 2$, so $Q = \langle s \rangle$ with $s^2 = e$.
+  Since $P \cap Q = \{e\}$ (their orders are coprime) and $|PQ| = |P||Q|/|P \cap Q| = 6 = |G|$,
+  we have $G = PQ$. Every element is of the form $r^i s^j$ with $0 \leq i \leq 2$ and $0 \leq j \leq 1$.
+</p>
+<p>
+  Since $P \trianglelefteq G$, we have $srs^{-1} = sr s \in P$, so $srs = r^k$ for some $k$.
+  Applying this twice: $r = s^2 r s^2 = s(srs)s = s(r^k)s = (srs)^k = r^{k^2}$. So
+  $k^2 \equiv 1 \pmod{3}$, giving $k = 1$ or $k = 2$.
+</p>
+<p>
+  If $k = 1$: $sr = rs$, so $G$ is abelian, and $G \cong \mathbb{Z}/6\mathbb{Z}$.
+</p>
+<p>
+  If $k = 2$: $srs = r^{-1}$, which is exactly the dihedral relation. So $G \cong D_3 \cong S_3$.
+</p>
+<p>
+  There are exactly two groups of order $6$, up to isomorphism.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cayley stated his theorem in 1854 but worked only with finite groups and gave what
+    modern standards would consider an incomplete proof. Ludwig Sylow proved his theorems
+    in 1872 for permutation groups; the abstract versions for arbitrary finite groups came
+    later through the work of Frobenius and others. The Sylow theorems remain among the
+    most powerful tools for analysing finite groups &mdash; they appear in virtually every
+    classification argument, from groups of small order to the monumental classification
+    of finite simple groups.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Cayley's embedding is wasteful:</strong> $\mathbb{Z}/3\mathbb{Z}$ embeds in
+    $S_3$ (order $6$). A group of order $n$ embeds in $S_n$ (order $n!$), which is
+    enormous. More efficient embeddings exist &mdash; Cayley gives existence, not optimality.
+  </p>
+  <p>
+    <strong>Sylow gives existence, not uniqueness:</strong> $S_4$ has three distinct Sylow
+    $2$-subgroups, each isomorphic to $D_4$ (order $8$). By Sylow II they are all
+    conjugate, but they are not equal. The unique case ($n_p = 1$) forces normality, which
+    is particularly useful in classification arguments.
+  </p>
+  <p>
+    <strong>Sylow I fails for non-prime-power divisors:</strong> as shown on page 2, $A_4$
+    (order $12$) has no subgroup of order $6$, even though $6 \mid 12$. The Sylow theorems
+    only guarantee subgroups of order $p^a$ (the full prime-power factor), not arbitrary
+    divisors of $|G|$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Cayley says every group lives inside a symmetric group; Sylow says prime-power subgroups
+  always exist &mdash; the twin pillars of finite group structure.
+</div>
+
+<div class="nav">
+  <a href="03-homomorphisms.html">&larr; Previous: Homomorphisms and the First Isomorphism Theorem</a>
+  <a href="05-abelian-groups.html">Next: Classification of Finitely Generated Abelian Groups &rarr;</a>
+</div>
+
+</body>
+</html>

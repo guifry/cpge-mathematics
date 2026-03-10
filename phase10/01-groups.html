@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groups — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Groups</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In 1771, Joseph-Louis Lagrange asked a question that would reshape mathematics: why
+    do formulas exist for solving polynomial equations of degree 2, 3, and 4, but not
+    (apparently) degree 5? He studied what happens when you permute the roots of a
+    polynomial. Some rearrangements leave certain expressions built from the roots
+    unchanged; others don't.
+  </p>
+  <p>
+    The key wasn't the individual permutations &mdash; it was the <em>structure</em> of
+    the collection. Which permutations can you compose? Can you undo any permutation?
+    Does the order of composition matter? Lagrange discovered that these collections of
+    permutations obey specific algebraic laws. The abstract distillation of those laws
+    is the concept of a <strong>group</strong>.
+  </p>
+</div>
+
+<h2>1. The definition</h2>
+
+<p>
+  We extract the essential properties that Lagrange's permutation collections share with
+  integer addition, matrix multiplication, and symmetries of geometric figures.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Group</div>
+  <p>
+    A <strong>group</strong> is a set $G$ together with a binary operation
+    $\cdot : G \times G \to G$ satisfying:
+  </p>
+  <ol>
+    <li><strong>Closure:</strong> for all $a, b \in G$, the product $a \cdot b \in G$.</li>
+    <li><strong>Associativity:</strong> for all $a, b, c \in G$, $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.</li>
+    <li><strong>Identity:</strong> there exists $e \in G$ such that $e \cdot a = a \cdot e = a$ for all $a \in G$.</li>
+    <li><strong>Inverses:</strong> for every $a \in G$, there exists $a^{-1} \in G$ such that $a \cdot a^{-1} = a^{-1} \cdot a = e$.</li>
+  </ol>
+  <p>
+    If additionally $a \cdot b = b \cdot a$ for all $a, b \in G$, the group is called
+    <strong>abelian</strong> (after Niels Henrik Abel).
+  </p>
+</div>
+
+<p>
+  We usually write $ab$ instead of $a \cdot b$, and $(G, \cdot)$ or just $G$ for the group.
+  For additive groups, we write $a + b$, the identity as $0$, and the inverse of $a$ as $-a$.
+</p>
+
+<h2>2. First examples</h2>
+
+<p>
+  <strong>(a) $(\mathbb{Z}, +)$.</strong> The integers under addition. The identity is $0$,
+  the inverse of $n$ is $-n$, and addition is associative and commutative. This is an
+  abelian group.
+</p>
+<p>
+  <strong>(b) $(\mathbb{Z}/n\mathbb{Z}, +)$.</strong> The integers modulo $n$ under
+  addition (we constructed this in Phase 1, page 3). The identity is $\bar{0}$, the
+  inverse of $\bar{k}$ is $\overline{n - k}$. This is an abelian group of order $n$.
+</p>
+<p>
+  <strong>(c) $(\mathbb{R}^*, \times)$.</strong> The nonzero reals under multiplication.
+  The identity is $1$, the inverse of $a$ is $1/a$. Abelian.
+</p>
+<p>
+  <strong>(d) $S_n$.</strong> The <strong>symmetric group</strong> on $n$ elements: all
+  bijections $\{1, 2, \ldots, n\} \to \{1, 2, \ldots, n\}$ under composition. The identity
+  is the identity permutation, the inverse is the inverse function. We have $|S_n| = n!$
+  (there are $n$ choices for where to send $1$, then $n-1$ for $2$, and so on).
+  For $n \geq 3$, $S_n$ is <em>not</em> abelian. For example in $S_3$, let $\sigma = (1\;2)$
+  and $\tau = (1\;3)$. Then $\sigma\tau$ sends $1 \mapsto 3 \mapsto 3$... let us just
+  compute: $\sigma\tau(1) = \sigma(3) = 3$, $\sigma\tau(2) = \sigma(2) = 1$,
+  $\sigma\tau(3) = \sigma(1) = 2$, so $\sigma\tau = (1\;3\;2)$. But
+  $\tau\sigma(1) = \tau(2) = 2$, $\tau\sigma(2) = \tau(1) = 3$,
+  $\tau\sigma(3) = \tau(3) = 1$, so $\tau\sigma = (1\;2\;3)$. Different results.
+</p>
+<p>
+  <strong>(e) $\text{GL}_n(\mathbb{R})$.</strong> The invertible $n \times n$ real matrices
+  under matrix multiplication (we used these in Phase 6). The identity is $I_n$, inverses
+  exist by definition. Non-abelian for $n \geq 2$.
+</p>
+
+<h2>3. Basic properties</h2>
+
+<div class="theorem-box">
+  <div class="label">Proposition &mdash; Uniqueness of identity and inverses</div>
+  <p>
+    In any group $G$: (a) the identity element is unique, (b) the inverse of each element
+    is unique, (c) $(ab)^{-1} = b^{-1}a^{-1}$, and (d) $ab = ac \implies b = c$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(a)</strong> Suppose $e$ and $e'$ are both identities. Then $e = ee' = e'$, using
+    $e'$ as an identity for the first equality and $e$ for the second.
+  </p>
+  <p>
+    <strong>(b)</strong> Suppose $b$ and $c$ are both inverses of $a$. Then
+    $b = be = b(ac) = (ba)c = ec = c$.
+  </p>
+  <p>
+    <strong>(c)</strong> Compute $(ab)(b^{-1}a^{-1}) = a(bb^{-1})a^{-1} = aea^{-1} = aa^{-1} = e$.
+    By uniqueness of inverses, $(ab)^{-1} = b^{-1}a^{-1}$.
+  </p>
+  <p>
+    <strong>(d)</strong> Left-multiply both sides of $ab = ac$ by $a^{-1}$:
+    $a^{-1}(ab) = a^{-1}(ac)$, so $(a^{-1}a)b = (a^{-1}a)c$, so $eb = ec$, so $b = c$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Note the "socks and shoes" rule in (c): the inverse of a product reverses the order. If
+  you put on socks then shoes, you take off shoes then socks.
+</p>
+
+<h2>4. Order of an element</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Order</div>
+  <p>
+    Let $g \in G$. The <strong>order</strong> of $g$, written $\text{ord}(g)$, is the
+    smallest positive integer $n$ such that $g^n = e$. If no such $n$ exists, we say $g$
+    has infinite order.
+  </p>
+</div>
+
+<p>
+  In $\mathbb{Z}/6\mathbb{Z}$: $\text{ord}(\bar{1}) = 6$ (you need to add $1$ six times
+  to get back to $0$). $\text{ord}(\bar{2}) = 3$ because $\bar{2} + \bar{2} + \bar{2} = \bar{6} = \bar{0}$.
+  $\text{ord}(\bar{3}) = 2$ because $\bar{3} + \bar{3} = \bar{0}$.
+</p>
+<p>
+  In $S_3$: a transposition $(1\;2)$ has order $2$ (swap twice and you're back).
+  A $3$-cycle $(1\;2\;3)$ has order $3$. The identity has order $1$.
+</p>
+
+<h2>5. Cyclic groups</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Cyclic group</div>
+  <p>
+    A group $G$ is <strong>cyclic</strong> if there exists $g \in G$ such that every element
+    of $G$ is a power of $g$: $G = \langle g \rangle = \{g^n : n \in \mathbb{Z}\}$. We call
+    $g$ a <strong>generator</strong>.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Classification of cyclic groups</div>
+  <p>
+    Every cyclic group is isomorphic to $\mathbb{Z}$ (if infinite) or
+    $\mathbb{Z}/n\mathbb{Z}$ (if finite of order $n$).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $G = \langle g \rangle$ and define $\varphi: \mathbb{Z} \to G$
+    by $\varphi(k) = g^k$. This is surjective by definition. It is a homomorphism:
+    $\varphi(k + l) = g^{k+l} = g^k g^l = \varphi(k)\varphi(l)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> If $\varphi$ is injective, then $G \cong \mathbb{Z}$. This happens
+    precisely when no positive power of $g$ equals $e$ &mdash; i.e., $g$ has infinite order.
+  </p>
+  <p>
+    <strong>Step 3.</strong> If $g$ has finite order $n$, then $\ker(\varphi) = n\mathbb{Z}$
+    (the set of multiples of $n$). By the first isomorphism theorem (IOU: proved on page 3
+    of this phase), $G \cong \mathbb{Z}/n\mathbb{Z}$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Dihedral groups</h2>
+
+<p>
+  The <strong>dihedral group</strong> $D_n$ is the group of symmetries of a regular $n$-gon.
+  It has $2n$ elements: $n$ rotations and $n$ reflections.
+</p>
+<p>
+  Let $r$ be rotation by $2\pi/n$ and $s$ a reflection. Then every element of $D_n$ is of
+  the form $r^k$ or $sr^k$ for $0 \leq k < n$. The generators satisfy:
+</p>
+<div class="display-math">$$r^n = e, \quad s^2 = e, \quad srs = r^{-1}$$</div>
+<p>
+  The relation $srs = r^{-1}$ (equivalently $sr = r^{-1}s$) is what makes $D_n$ non-abelian
+  for $n \geq 3$: rotating then reflecting differs from reflecting then rotating.
+</p>
+<p>
+  For $n = 3$: the triangle has $3$ rotations ($e, r, r^2$) and $3$ reflections
+  ($s, sr, sr^2$), so $|D_3| = 6$. Each symmetry permutes the three vertices, and every
+  permutation of three vertices is a symmetry of the triangle, so $D_3 \cong S_3$.
+</p>
+<p>
+  For $n = 4$: the square has $8$ symmetries ($4$ rotations, $4$ reflections), so
+  $|D_4| = 8$. This is a proper subgroup of $S_4$ ($24$ elements) &mdash; not every
+  permutation of the four vertices preserves adjacency. The group $D_4$ is our first
+  concrete example of a non-abelian group that is not a symmetric group.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The word "group" (<em>groupe</em>) was coined by &Eacute;variste Galois in 1832, in a
+    letter written the night before his fatal duel. He used it for the collections of
+    permutations that determine the solvability of polynomial equations. Arthur Cayley
+    gave the first abstract definition in 1854, stating the axioms for a general set with
+    an operation. But the full formalisation &mdash; including the explicit axiom of
+    associativity &mdash; was completed by Walther von Dyck in 1882.
+  </p>
+  <p>
+    The concept was implicit in Lagrange's 1771 <em>R&eacute;flexions sur la
+    r&eacute;solution alg&eacute;brique des &eacute;quations</em>, seventy years before
+    anyone gave it a name. Lagrange studied which permutations of roots leave resolvent
+    expressions invariant &mdash; precisely the group-theoretic structure that Galois
+    would later exploit to prove the insolvability of the quintic.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without associativity:</strong> the octonions form a set with multiplication,
+    identity, and inverses, but the operation is not associative. The product $(ab)c$ can
+    differ from $a(bc)$. You lose the ability to write $abc$ unambiguously, and most of
+    group theory collapses. Such structures are called <strong>loops</strong>, not groups.
+  </p>
+  <p>
+    <strong>Without inverses:</strong> $(\mathbb{N}, +)$ satisfies closure, associativity,
+    and has an identity ($0$), but $3$ has no additive inverse in $\mathbb{N}$. This is a
+    <strong>monoid</strong>. You can go forward but cannot undo &mdash; there is no
+    cancellation law.
+  </p>
+  <p>
+    <strong>Without identity:</strong> the positive even integers under multiplication are
+    closed and associative, but $1$ is not even. There is no identity element, so inverses
+    are meaningless. This is merely a <strong>semigroup</strong>.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A group is a set with an operation that lets you combine, undo, and do nothing &mdash;
+  the algebraic structure of symmetry.
+</div>
+
+<div class="nav">
+  <a href="../phase9/07-baire-arzela-ascoli.html">&larr; Previous: Baire Category and Arzel&agrave;-Ascoli</a>
+  <a href="02-subgroups-lagrange.html">Next: Subgroups and Lagrange's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

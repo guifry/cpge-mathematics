@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irreducibility and the Fundamental Theorem of Algebra — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Irreducibility and the Fundamental Theorem of Algebra</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Can every polynomial be broken into simpler factors? Over $\mathbb{R}$, the polynomial
+    $x^2 + 1$ has no real roots, so it cannot be factored into linear pieces &mdash; it is
+    <em>irreducible</em> over $\mathbb{R}$. But over $\mathbb{C}$, it factors as
+    $(x + i)(x - i)$.
+  </p>
+  <p>
+    Gauss (1799) proved that over $\mathbb{C}$, <em>every</em> polynomial has a root &mdash;
+    and therefore factors completely into linear factors. Over $\mathbb{Q}$, the situation is
+    more subtle: how do you tell whether a given polynomial is irreducible?
+  </p>
+</div>
+
+<h2>1. Irreducible polynomials</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Irreducible polynomial</div>
+  <p>
+    A polynomial $f \in K[x]$ is <strong>irreducible</strong> (over $K$) if $\deg(f) \geq 1$
+    and whenever $f = gh$ with $g, h \in K[x]$, either $\deg(g) = 0$ or $\deg(h) = 0$.
+  </p>
+</div>
+
+<p>
+  In other words, $f$ cannot be written as a product of two polynomials of strictly smaller
+  degree. Irreducible polynomials are the "primes" of $K[x]$, just as prime numbers are
+  the atoms of $\mathbb{Z}$.
+</p>
+
+<p>
+  <strong>Examples.</strong> Over $\mathbb{R}$: $x^2 + 1$ is irreducible (no real roots, and
+  degree $2$ means the only possible factorisation would be into two linear factors, each
+  giving a root). Over $\mathbb{Q}$: $x^2 - 2$ is irreducible ($\sqrt{2} \notin \mathbb{Q}$).
+  Over $\mathbb{C}$: no polynomial of degree $\geq 2$ is irreducible (as we shall prove).
+</p>
+
+<h2>2. Unique factorisation</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Unique factorisation in $K[x]$</div>
+  <p>
+    Every polynomial $f \in K[x]$ of degree $\geq 1$ factors as
+  </p>
+  <div class="display-math">$$f = c \cdot p_1 \cdot p_2 \cdots p_r$$</div>
+  <p>
+    where $c \in K^*$ and each $p_i$ is monic irreducible. This factorisation is unique up to
+    reordering of the $p_i$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Existence</strong> by strong induction on $\deg(f)$. If $f$ is irreducible, we are
+    done (take $r = 1$ and $c$ the leading coefficient). Otherwise $f = gh$ with
+    $1 \leq \deg(g), \deg(h) < \deg(f)$. By induction, both $g$ and $h$ factor into
+    irreducibles.
+  </p>
+  <p>
+    <strong>Uniqueness.</strong> The key is the polynomial analogue of Euclid's lemma: if $p$
+    is irreducible and $p \mid fg$, then $p \mid f$ or $p \mid g$. Proof: if $p \nmid f$,
+    then $\gcd(p, f) = 1$ (since $p$ is irreducible and its only divisors are constants and
+    associates of $p$). By B&eacute;zout (page 6), $up + vf = 1$ for some $u, v$. Multiply
+    by $g$: $upg + vfg = g$. Since $p \mid fg$, both terms on the left are divisible by $p$,
+    so $p \mid g$.
+  </p>
+  <p>
+    With Euclid's lemma in hand, uniqueness follows exactly as for integers (Phase 1, page 4):
+    suppose $c \cdot p_1 \cdots p_r = d \cdot q_1 \cdots q_s$. Then $p_1 \mid q_1 \cdots q_s$,
+    so $p_1 \mid q_j$ for some $j$. Since both are monic irreducible, $p_1 = q_j$. Cancel and
+    continue by induction.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Eisenstein's criterion</h2>
+
+<p>
+  How do we test irreducibility over $\mathbb{Q}$? The most powerful elementary tool is
+  Eisenstein's criterion.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Eisenstein's criterion</div>
+  <p>
+    Let $f = a_n x^n + a_{n-1}x^{n-1} + \cdots + a_1 x + a_0 \in \mathbb{Z}[x]$. If there
+    exists a prime $p$ such that:
+  </p>
+  <ol>
+    <li>$p \nmid a_n$,</li>
+    <li>$p \mid a_i$ for all $0 \leq i < n$,</li>
+    <li>$p^2 \nmid a_0$,</li>
+  </ol>
+  <p>then $f$ is irreducible over $\mathbb{Q}$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By Gauss's lemma (Section 4 below), it suffices to show $f$ is irreducible over
+    $\mathbb{Z}$. Suppose $f = gh$ with $g = b_r x^r + \cdots + b_0$ and
+    $h = c_s x^s + \cdots + c_0$ in $\mathbb{Z}[x]$, where $r + s = n$, $r, s \geq 1$.
+  </p>
+  <p>
+    Reducing modulo $p$: since $p \mid a_i$ for $i < n$ and $p \nmid a_n$, we get
+    $\bar{f} = \bar{a}_n x^n$ in $\mathbb{Z}/p\mathbb{Z}[x]$. So $\bar{g} \cdot \bar{h} = \bar{a}_n x^n$.
+    Since $\mathbb{Z}/p\mathbb{Z}[x]$ is a UFD (it's a polynomial ring over a field), and
+    $x$ is irreducible in $\mathbb{Z}/p\mathbb{Z}[x]$, we must have $\bar{g} = \bar{b}_r x^r$
+    and $\bar{h} = \bar{c}_s x^s$. In particular, $p \mid b_0$ and $p \mid c_0$.
+    But $a_0 = b_0 c_0$, so $p^2 \mid a_0$, contradicting hypothesis (3).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>Application: cyclotomic polynomials.</strong> The polynomial
+  $\Phi_p(x) = x^{p-1} + x^{p-2} + \cdots + x + 1 = \frac{x^p - 1}{x - 1}$ is irreducible
+  over $\mathbb{Q}$ for prime $p$. To see this, substitute $x = y + 1$:
+</p>
+
+<div class="display-math">$$\Phi_p(y + 1) = \frac{(y+1)^p - 1}{y} = y^{p-1} + \binom{p}{1}y^{p-2} + \cdots + \binom{p}{p-2}y + \binom{p}{p-1}$$</div>
+
+<p>
+  Since $p \mid \binom{p}{k}$ for $1 \leq k \leq p-1$ and $p^2 \nmid \binom{p}{p-1} = p$,
+  Eisenstein applies with prime $p$.
+</p>
+
+<h2>4. Gauss's lemma</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Gauss's lemma</div>
+  <p>
+    If $f \in \mathbb{Z}[x]$ is primitive (the gcd of its coefficients is $1$) and $f = gh$
+    with $g, h \in \mathbb{Q}[x]$, then there exist $g', h' \in \mathbb{Z}[x]$ with
+    $f = g'h'$ and $\deg(g') = \deg(g)$, $\deg(h') = \deg(h)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Clear denominators: write $g = \frac{a}{b} g_0$ and $h = \frac{c}{d} h_0$ where
+    $g_0, h_0 \in \mathbb{Z}[x]$ are primitive and $a, b, c, d \in \mathbb{Z}$.
+    Then $bd \cdot f = ac \cdot g_0 h_0$.
+  </p>
+  <p>
+    We claim the product of two primitive polynomials is primitive. Let $p$ be any prime.
+    Since $g_0$ is primitive, not all coefficients of $g_0$ are divisible by $p$; let $b_i$ be
+    the first coefficient not divisible by $p$. Similarly let $c_j$ be the first such for $h_0$.
+    The coefficient of $x^{i+j}$ in $g_0 h_0$ is $\sum_{k} b_k c_{i+j-k}$. For $k < i$,
+    $p \mid b_k$; for $k > i$, $i + j - k < j$, so $p \mid c_{i+j-k}$. The only surviving term
+    mod $p$ is $b_i c_j \not\equiv 0$. So $g_0 h_0$ is primitive.
+  </p>
+  <p>
+    Since $f$ and $g_0 h_0$ are both primitive and $bd \cdot f = ac \cdot g_0 h_0$, comparing
+    content gives $bd = \pm ac$. So $f = \pm g_0 h_0$, and we can absorb the sign.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The consequence: to test irreducibility of an integer polynomial over $\mathbb{Q}$, it
+  suffices to check it over $\mathbb{Z}$. This is precisely what Eisenstein's criterion does.
+</p>
+
+<h2>5. The Fundamental Theorem of Algebra</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fundamental Theorem of Algebra</div>
+  <p>
+    Every non-constant polynomial $f \in \mathbb{C}[x]$ has at least one root in $\mathbb{C}$.
+  </p>
+  <p>
+    <strong>Corollary:</strong> $f$ factors completely as $f = c(x - z_1)(x - z_2) \cdots (x - z_n)$
+    where $z_1, \ldots, z_n \in \mathbb{C}$ (with possible repetitions).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (topological argument)</div>
+  <p>
+    Write $f(z) = z^n + a_{n-1}z^{n-1} + \cdots + a_0$ (we may assume $f$ is monic). Consider
+    the image of the circle $|z| = R$ under $f$.
+  </p>
+  <p>
+    For $R$ very large, $f(Re^{i\theta}) \approx R^n e^{in\theta}$: the lower-order terms are
+    negligible compared to $z^n$. So the image curve winds $n$ times around the origin.
+  </p>
+  <p>
+    For $R = 0$, $f(0) = a_0$, a single point. If $a_0 \neq 0$, the image is a point not at
+    the origin, winding $0$ times.
+  </p>
+  <p>
+    As $R$ decreases continuously from large to $0$, the image deforms continuously. The winding
+    number around the origin is an integer and changes continuously, so it can only change when
+    the curve passes through the origin &mdash; i.e., when $f(z) = 0$ for some $|z| = R$.
+    Since the winding number must drop from $n$ to $0$, the curve must pass through the origin
+    for some $R$, giving a root.
+  </p>
+  <p>
+    (The rigorous formulation uses the fact that the winding number is a continuous
+    integer-valued function of $R$ whenever the curve avoids the origin, hence locally constant.
+    This can be made precise with the tools of Phase 9.)
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Consequences</h2>
+
+<p>
+  <strong>(a) $\mathbb{C}$ is algebraically closed.</strong> This means every non-constant
+  polynomial in $\mathbb{C}[x]$ splits into linear factors. Equivalently, the only irreducible
+  polynomials in $\mathbb{C}[x]$ are the linear ones $ax + b$.
+</p>
+
+<p>
+  <strong>(b) Factorisation over $\mathbb{R}$.</strong> Every polynomial $f \in \mathbb{R}[x]$
+  factors into a product of linear and quadratic factors over $\mathbb{R}$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $f \in \mathbb{R}[x]$ and let $z \in \mathbb{C}$ be a non-real root. Since the
+    coefficients of $f$ are real, the conjugate $\bar{z}$ is also a root: $f(\bar{z}) =
+    \overline{f(z)} = 0$. The product $(x - z)(x - \bar{z}) = x^2 - 2\text{Re}(z)x + |z|^2$
+    has real coefficients and divides $f$ in $\mathbb{R}[x]$. Repeating, we extract all
+    complex-conjugate pairs as quadratic factors, leaving only real roots as linear factors.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>(c)</strong> So the irreducible polynomials over $\mathbb{R}$ are: the linear
+  polynomials $ax + b$, and the quadratics $ax^2 + bx + c$ with $b^2 - 4ac < 0$ (negative
+  discriminant, no real roots).
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Gauss gave four proofs of the Fundamental Theorem of Algebra: in 1799 (his doctoral
+    thesis, geometric with gaps), 1816 (two algebraic proofs), and 1849 (a refined version of
+    the first). His 1799 proof was the first to identify and criticise the gaps in earlier
+    attempts by d'Alembert (1746) and Euler.
+  </p>
+  <p>
+    Eisenstein published his irreducibility criterion in 1850, at age 27. He died of
+    tuberculosis in 1852 at age 29, having already made contributions to number theory, analysis,
+    and algebra that Gauss compared favourably to his own early work.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Over $\mathbb{Q}$:</strong> irreducible polynomials exist in every degree.
+    $x^n - 2$ is irreducible over $\mathbb{Q}$ for every $n \geq 1$ (Eisenstein with $p = 2$).
+    There is no analogue of the FTA for $\mathbb{Q}$.
+  </p>
+  <p>
+    <strong>Eisenstein's limits:</strong> $x^4 + 1$ is irreducible over $\mathbb{Q}$, but no
+    prime $p$ satisfies Eisenstein's conditions directly. You need the substitution $x \mapsto x + 1$
+    to obtain $(x+1)^4 + 1 = x^4 + 4x^3 + 6x^2 + 4x + 2$, where Eisenstein applies with $p = 2$.
+    Not all irreducible polynomials are detected by Eisenstein, even after substitution.
+  </p>
+  <p>
+    <strong>The FTA fails over $\mathbb{R}$:</strong> $x^2 + 1$ has no root. It fails over
+    $\mathbb{Q}$: $x^2 - 2$ has no rational root. Algebraic closure &mdash; the property that
+    every polynomial has a root &mdash; is special to $\mathbb{C}$ (and other algebraically
+    closed fields).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Over $\mathbb{C}$ every polynomial splits into linear factors &mdash; the complex numbers
+  are algebraically closed, and Eisenstein detects irreducibility over $\mathbb{Q}$.
+</div>
+
+<div class="nav">
+  <a href="06-rings-polynomials.html">&larr; Previous: Rings and Polynomial Division</a>
+  <a href="08-galois-abel-ruffini.html">Next: Galois Theory and Abel-Ruffini &rarr;</a>
+</div>
+
+</body>
+</html>

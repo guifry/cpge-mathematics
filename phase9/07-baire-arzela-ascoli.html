@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baire Category and Arzelà-Ascoli — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Baire Category and Arzel&agrave;&ndash;Ascoli</h1>
+<p class="subtitle">Phase 9 &mdash; Topology of Metric Spaces, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Two deep questions about "size" and "compactness" in infinite-dimensional spaces.
+  </p>
+  <p>
+    <strong>First:</strong> can $\mathbb{R}$ be written as a countable union of "thin" sets?
+    Intuitively, $\mathbb{R}$ is too large for this. Baire (1899) made "thin" precise and
+    proved the intuition correct: a complete metric space cannot be decomposed into countably
+    many nowhere dense pieces.
+  </p>
+  <p>
+    <strong>Second:</strong> in $\mathbb{R}^n$, Heine&ndash;Borel
+    (<a href="04-compactness.html">page 4</a>) tells us exactly which sets are compact:
+    the closed and bounded ones. But in $C([0, 1])$ with the sup metric, the closed unit
+    ball $\{f : \|f\|_\infty \leq 1\}$ is closed and bounded yet <em>not</em> compact.
+    What extra condition makes a family of functions compact?
+  </p>
+</div>
+
+<h2>1. Nowhere dense sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Nowhere dense</div>
+  <p>
+    A subset $A$ of a metric space $X$ is <strong>nowhere dense</strong> if its closure
+    $\overline{A}$ has empty interior: $\mathrm{int}(\overline{A}) = \varnothing$.
+  </p>
+</div>
+
+<p>
+  Equivalently, $A$ is nowhere dense if every open ball contains an open sub-ball that
+  misses $\overline{A}$. The set is "thin" in the sense that it is dense in no region of
+  the space, no matter how small.
+</p>
+
+<p>
+  <strong>Examples.</strong> $\mathbb{Z}$ in $\mathbb{R}$ is nowhere dense: $\overline{\mathbb{Z}} = \mathbb{Z}$,
+  which contains no interval. The set $\{0\} \cup \{1/n : n \geq 1\}$ is nowhere dense:
+  its closure is itself, and it contains no interval. The Cantor set is nowhere dense (its
+  construction removes all intervals), yet it is uncountable &mdash; nowhere dense does not
+  mean small in the cardinality sense.
+</p>
+
+<h2>2. Meagre and comeagre sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Meagre and comeagre</div>
+  <p>
+    A set $A \subseteq X$ is <strong>meagre</strong> (or of the <strong>first category</strong>)
+    if it is a countable union of nowhere dense sets:
+    $A = \bigcup_{n=1}^{\infty} A_n$ with each $A_n$ nowhere dense.
+  </p>
+  <p>
+    A set is <strong>comeagre</strong> (or <strong>residual</strong>) if its complement is
+    meagre.
+  </p>
+</div>
+
+<p>
+  Meagre sets are "topologically negligible" &mdash; they are the topological analogue of
+  measure-zero sets. A comeagre set contains "most" points in the topological sense. Baire's
+  theorem says that in a complete metric space, comeagre sets are genuinely large.
+</p>
+
+<h2>3. The Baire category theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Baire category theorem</div>
+  <p>
+    Let $(X, d)$ be a complete metric space. Then:
+  </p>
+  <ol>
+    <li>$X$ is not meagre (it is of the <strong>second category</strong>).</li>
+    <li>Every comeagre set is dense.</li>
+    <li>A countable intersection of open dense sets is dense.</li>
+  </ol>
+  <p>
+    These three statements are equivalent.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We prove (3), which is the most useful formulation. Let $G_1, G_2, G_3, \ldots$ be open
+    dense subsets of $X$. We must show $\bigcap_{n=1}^{\infty} G_n$ is dense, i.e. it meets
+    every non-empty open set.
+  </p>
+  <p>
+    Let $U_0$ be a non-empty open set. Since $G_1$ is dense, $U_0 \cap G_1 \neq \varnothing$.
+    This intersection is open (both sets are open), so it contains some closed ball
+    $\overline{B}(x_1, r_1)$ with $r_1 \leq 1$.
+  </p>
+  <p>
+    Since $G_2$ is dense, $B(x_1, r_1) \cap G_2 \neq \varnothing$. Choose
+    $\overline{B}(x_2, r_2) \subseteq B(x_1, r_1) \cap G_2$ with $r_2 \leq 1/2$.
+  </p>
+  <p>
+    Inductively, we obtain nested closed balls
+    $\overline{B}(x_n, r_n) \subseteq B(x_{n-1}, r_{n-1}) \cap G_n$ with $r_n \leq 1/n$.
+    The centres form a Cauchy sequence: for $m > n$, $x_m \in \overline{B}(x_n, r_n)$, so
+    $d(x_m, x_n) \leq r_n \leq 1/n \to 0$.
+  </p>
+  <p>
+    Since $X$ is complete, $x_n \to x^*$ for some $x^* \in X$. For each $n$, the tail
+    $x_m$ ($m \geq n$) lies in the closed ball $\overline{B}(x_n, r_n)$, so $x^*$ does too.
+    Hence $x^* \in \overline{B}(x_n, r_n) \subseteq G_n$ for every $n$, and
+    $x^* \in \overline{B}(x_1, r_1) \subseteq U_0$. Therefore
+    $x^* \in U_0 \cap \bigcap_{n=1}^{\infty} G_n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof is a nested intervals argument in disguise, generalised from $\mathbb{R}$ to
+  arbitrary complete metric spaces. The radii $r_n \to 0$ force the centres to converge;
+  completeness ensures the limit exists; closedness of each ball traps the limit inside.
+</p>
+
+<h2>4. Application: generic continuous functions are nowhere differentiable</h2>
+
+<p>
+  Weierstrass (1872) shocked the mathematical world by exhibiting a continuous function
+  that is differentiable at no point. Baire's theorem shows this is not pathological but
+  <em>typical</em>.
+</p>
+
+<p>
+  For each $n \geq 1$ and $x \in [0, 1]$, define
+</p>
+<div class="display-math">$$D_n = \left\{f \in C([0,1]) : \exists\, x \in [0,1],\, \sup_{0 < |h| < 1/n} \left|\frac{f(x+h) - f(x)}{h}\right| \leq n \right\}$$</div>
+
+<p>
+  Each $D_n$ consists of functions that have a "bounded difference quotient" of size at most
+  $n$ at some point, with resolution $1/n$. One can show each $D_n$ is closed and nowhere
+  dense in $(C([0,1]), \|\cdot\|_\infty)$. The set of functions differentiable at some point
+  is contained in $\bigcup_{n=1}^{\infty} D_n$, which is meagre. By Baire, the comeagre set
+  &mdash; functions differentiable at <em>no</em> point &mdash; is dense. Weierstrass's
+  monster is the norm, not the exception.
+</p>
+
+<h2>5. Equicontinuity</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Equicontinuity</div>
+  <p>
+    Let $K$ be a metric space. A family $\mathcal{F} \subseteq C(K)$ is
+    <strong>equicontinuous</strong> if for every $\varepsilon > 0$ there exists $\delta > 0$
+    such that for all $f \in \mathcal{F}$ and all $x, y \in K$,
+  </p>
+  <div class="display-math">$$d(x, y) < \delta \implies |f(x) - f(y)| < \varepsilon$$</div>
+</div>
+
+<p>
+  The definition looks like uniform continuity, but with an extra uniformity: the same
+  $\delta$ works for every function in $\mathcal{F}$ and every point in $K$ simultaneously.
+  A single function is equicontinuous (as a singleton family) if and only if it is uniformly
+  continuous.
+</p>
+
+<p>
+  <strong>Example.</strong> The family $\{f_n(x) = x/n : n \geq 1\}$ on $[0, 1]$ is
+  equicontinuous: $|f_n(x) - f_n(y)| = |x - y|/n \leq |x - y|$, so $\delta = \varepsilon$
+  works for all $n$. The family $\{g_n(x) = \sin(nx) : n \geq 1\}$ is not: the oscillation
+  frequency grows, so no single $\delta$ controls all functions.
+</p>
+
+<h2>6. The Arzel&agrave;&ndash;Ascoli theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Arzel&agrave;&ndash;Ascoli</div>
+  <p>
+    Let $K$ be a compact metric space. A subset $\mathcal{F} \subseteq C(K)$ (with the sup
+    metric) is <strong>relatively compact</strong> (i.e. $\overline{\mathcal{F}}$ is compact)
+    if and only if $\mathcal{F}$ is bounded and equicontinuous.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof &mdash; Bounded + equicontinuous implies relatively compact</div>
+  <p>
+    Let $(f_n)$ be a sequence in $\mathcal{F}$. We extract a uniformly convergent subsequence
+    using <strong>Cantor's diagonal argument</strong>.
+  </p>
+  <p>
+    Since $K$ is compact, it is separable (totally bounded implies separable): let
+    $\{q_1, q_2, q_3, \ldots\}$ be a countable dense subset.
+  </p>
+  <p>
+    The sequence $(f_n(q_1))_{n \geq 1}$ is bounded in $\mathbb{R}$ (since $\mathcal{F}$
+    is bounded), so by Bolzano&ndash;Weierstrass it has a convergent subsequence
+    $(f_{n_k^{(1)}}(q_1))$. From this subsequence, extract a further subsequence
+    $(f_{n_k^{(2)}})$ such that $(f_{n_k^{(2)}}(q_2))$ converges. Continue: at step $j$,
+    extract a subsequence converging at $q_j$.
+  </p>
+  <p>
+    The <strong>diagonal subsequence</strong> $g_k = f_{n_k^{(k)}}$ converges at every $q_j$
+    (for $j$ fixed, $g_k$ is eventually a subsequence of the $j$-th extraction).
+  </p>
+  <p>
+    We claim $g_k$ converges <em>uniformly</em> on all of $K$. Fix $\varepsilon > 0$.
+    By equicontinuity, choose $\delta > 0$ such that $d(x, y) < \delta$ implies
+    $|f(x) - f(y)| < \varepsilon/3$ for all $f \in \mathcal{F}$. Since $\{q_j\}$ is dense
+    and $K$ is compact, finitely many balls $B(q_{j_1}, \delta), \ldots, B(q_{j_p}, \delta)$
+    cover $K$.
+  </p>
+  <p>
+    Since $g_k$ converges at each $q_{j_i}$, there exists $N$ such that for $k, l \geq N$,
+    $|g_k(q_{j_i}) - g_l(q_{j_i})| < \varepsilon/3$ for all $i = 1, \ldots, p$.
+  </p>
+  <p>
+    For any $x \in K$, choose $q_{j_i}$ with $d(x, q_{j_i}) < \delta$. Then for $k, l \geq N$:
+  </p>
+  <div class="display-math">$$|g_k(x) - g_l(x)| \leq |g_k(x) - g_k(q_{j_i})| + |g_k(q_{j_i}) - g_l(q_{j_i})| + |g_l(q_{j_i}) - g_l(x)| < \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon$$</div>
+  <p>
+    This holds for all $x \in K$, so $\|g_k - g_l\|_\infty < \varepsilon$ for $k, l \geq N$.
+    The subsequence $(g_k)$ is Cauchy in $(C(K), \|\cdot\|_\infty)$, which is complete
+    (<a href="03-completeness.html">page 3</a>), so it converges.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof &mdash; Relatively compact implies bounded + equicontinuous</div>
+  <p>
+    <strong>Bounded:</strong> $\overline{\mathcal{F}}$ is compact, hence totally bounded,
+    hence bounded. So $\mathcal{F} \subseteq \overline{\mathcal{F}}$ is bounded.
+  </p>
+  <p>
+    <strong>Equicontinuous:</strong> Fix $\varepsilon > 0$. Since $\overline{\mathcal{F}}$ is
+    compact (hence totally bounded), cover it by finitely many balls of radius $\varepsilon/3$
+    in the sup norm, centred at $g_1, \ldots, g_m$. Each $g_i$ is continuous on the compact
+    set $K$, hence uniformly continuous (<a href="05-continuity-compactness.html">page 5</a>,
+    Heine's theorem): choose $\delta_i$ so that $d(x, y) < \delta_i$ implies
+    $|g_i(x) - g_i(y)| < \varepsilon/3$. Set $\delta = \min(\delta_1, \ldots, \delta_m)$.
+  </p>
+  <p>
+    For any $f \in \mathcal{F}$, choose $g_i$ with $\|f - g_i\|_\infty < \varepsilon/3$.
+    If $d(x, y) < \delta$:
+  </p>
+  <div class="display-math">$$|f(x) - f(y)| \leq |f(x) - g_i(x)| + |g_i(x) - g_i(y)| + |g_i(y) - f(y)| < \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon$$</div>
+  <p>
+    The same $\delta$ works for all $f \in \mathcal{F}$, so $\mathcal{F}$ is equicontinuous.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>7. Phase 9 recap</h2>
+
+<p>
+  We have completed the topology of metric spaces. Here is what we built:
+</p>
+
+<ul>
+  <li><strong>Page 1:</strong> metric spaces &mdash; the abstraction of distance.</li>
+  <li><strong>Page 2:</strong> open and closed sets &mdash; the topology a metric induces.</li>
+  <li><strong>Page 3:</strong> completeness &mdash; spaces where Cauchy sequences converge.</li>
+  <li><strong>Page 4:</strong> compactness &mdash; open covers, sequential compactness, Heine&ndash;Borel.</li>
+  <li><strong>Page 5:</strong> continuity on compact sets &mdash; extreme values, uniform continuity, homeomorphisms.</li>
+  <li><strong>Page 6:</strong> Banach fixed point theorem &mdash; contractions, iteration, existence proofs.</li>
+  <li><strong>Page 7:</strong> Baire category and Arzel&agrave;&ndash;Ascoli &mdash; topological size and compactness in function spaces.</li>
+</ul>
+
+<p>
+  The properties that made analysis work on $\mathbb{R}$ &mdash; completeness, compactness,
+  the extreme value theorem, uniform continuity &mdash; have been identified and abstracted.
+  They are not accidents of the real number system but consequences of the metric structure.
+  Any space with these properties supports the same theorems.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Ren&eacute; Baire proved the category theorem in his 1899 doctoral thesis, originally
+    for $\mathbb{R}$. The extension to complete metric spaces was straightforward once the
+    abstract framework existed. The theorem became a workhorse of functional analysis:
+    the uniform boundedness principle, the open mapping theorem, and the closed graph theorem
+    all rely on it.
+  </p>
+  <p>
+    Cesare Arzel&agrave; (1882&ndash;1883) and Giulio Ascoli (1884) independently found the
+    compactness criterion for families of functions. Ascoli identified equicontinuity as the
+    key condition; Arzel&agrave; proved the theorem in its modern form. Their result is the
+    main tool for proving existence of solutions to partial differential equations: show that
+    a sequence of approximate solutions is bounded and equicontinuous, extract a convergent
+    subsequence, and verify the limit solves the equation.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without completeness, Baire fails.</strong> $\mathbb{Q} = \bigcup_{q \in \mathbb{Q}} \{q\}$
+    is a countable union of nowhere dense sets (each singleton $\{q\}$ is nowhere dense in
+    $\mathbb{Q}$, since every interval contains irrationals). So $\mathbb{Q}$ is meagre in
+    itself &mdash; it is "topologically small" in its own metric. This cannot happen in a
+    complete space.
+  </p>
+  <p>
+    <strong>Without equicontinuity, Arzel&agrave;&ndash;Ascoli fails.</strong> Consider
+    $f_n(x) = x^n$ on $[0, 1]$. The family is bounded ($\|f_n\|_\infty \leq 1$) but not
+    equicontinuous: near $x = 1$, the functions develop an increasingly sharp transition
+    from values near 0 to the value 1. The sequence converges pointwise to the
+    discontinuous function $\mathbf{1}_{\{1\}}$, but has no uniformly convergent subsequence.
+  </p>
+  <p>
+    <strong>Without boundedness, Arzel&agrave;&ndash;Ascoli fails.</strong> The constant
+    functions $f_n(x) = n$ are equicontinuous (each is Lipschitz with constant 0, and
+    $\delta = 1$ works for any $\varepsilon$). But $\|f_n\|_\infty = n \to \infty$, so no
+    subsequence converges.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Baire says a complete space is topologically large; Arzel&agrave;&ndash;Ascoli says
+  equicontinuity is the missing ingredient for compactness in function spaces.
+</div>
+
+<div class="nav">
+  <a href="06-banach-fixed-point.html">&larr; Previous: The Banach Fixed Point Theorem</a>
+  <a href="../phase10/01-groups.html">Next: Groups &rarr;</a>
+</div>
+
+</body>
+</html>

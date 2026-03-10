@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rings and Polynomial Division — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Rings and Polynomial Division</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Integers have two intertwined operations: you can add them and multiply them, and
+    multiplication distributes over addition. Polynomials behave the same way &mdash; you can
+    add, multiply, and even divide with remainder, just as with integers (Phase 1, page 1).
+    To study integers and polynomials simultaneously, we need a structure that captures both
+    operations at once. That structure is a <strong>ring</strong>.
+  </p>
+</div>
+
+<h2>1. Rings</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Ring</div>
+  <p>
+    A <strong>ring</strong> is a set $R$ equipped with two binary operations $+$ and $\times$
+    such that:
+  </p>
+  <ol>
+    <li>$(R, +)$ is an abelian group (with identity $0$ and additive inverse $-a$).</li>
+    <li>$\times$ is associative: $a(bc) = (ab)c$ for all $a, b, c \in R$.</li>
+    <li>There exists a multiplicative identity $1 \in R$ with $1 \cdot a = a \cdot 1 = a$.</li>
+    <li>Distributivity: $a(b + c) = ab + ac$ and $(a + b)c = ac + bc$.</li>
+  </ol>
+  <p>
+    If additionally $ab = ba$ for all $a, b \in R$, the ring is <strong>commutative</strong>.
+  </p>
+</div>
+
+<p>
+  <strong>Examples.</strong> $\mathbb{Z}$, $\mathbb{Q}$, $\mathbb{R}$, $\mathbb{C}$ are all
+  commutative rings. $\mathbb{Z}/n\mathbb{Z}$ with its addition and multiplication mod $n$ is
+  a commutative ring (Phase 1, page 3). The set $M_n(\mathbb{R})$ of $n \times n$ matrices is
+  a ring under matrix addition and multiplication &mdash; non-commutative for $n \geq 2$.
+</p>
+
+<h2>2. Integral domains and fields</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Zero divisor, integral domain, field</div>
+  <p>
+    An element $a \neq 0$ in a commutative ring $R$ is a <strong>zero divisor</strong> if there
+    exists $b \neq 0$ with $ab = 0$.
+  </p>
+  <p>
+    An <strong>integral domain</strong> is a commutative ring with $1 \neq 0$ and no zero divisors.
+  </p>
+  <p>
+    A <strong>field</strong> is a commutative ring with $1 \neq 0$ where every nonzero element
+    has a multiplicative inverse.
+  </p>
+</div>
+
+<p>
+  $\mathbb{Z}$ is an integral domain: if $ab = 0$ with $a, b \in \mathbb{Z}$, then $a = 0$ or
+  $b = 0$. Every field is an integral domain (if $ab = 0$ and $a \neq 0$, multiply by $a^{-1}$
+  to get $b = 0$). But $\mathbb{Z}/6\mathbb{Z}$ is <em>not</em> an integral domain:
+  $\bar{2} \cdot \bar{3} = \bar{0}$, yet neither $\bar{2}$ nor $\bar{3}$ is zero.
+</p>
+
+<p>
+  We proved in Phase 1, page 3 that $\mathbb{Z}/p\mathbb{Z}$ is a field for $p$ prime: every
+  nonzero element has a multiplicative inverse by B&eacute;zout's identity.
+</p>
+
+<h2>3. Polynomial rings</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Polynomial ring</div>
+  <p>
+    Let $K$ be a field. The <strong>polynomial ring</strong> $K[x]$ consists of all formal
+    expressions $f = a_n x^n + a_{n-1}x^{n-1} + \cdots + a_1 x + a_0$ with $a_i \in K$,
+    with the usual addition and multiplication of polynomials. The <strong>degree</strong>
+    $\deg(f)$ is the largest $n$ with $a_n \neq 0$. By convention, $\deg(0) = -\infty$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Proposition &mdash; $K[x]$ is an integral domain</div>
+  <p>
+    If $K$ is a field and $f, g \in K[x]$ are nonzero, then $fg \neq 0$ and
+    $\deg(fg) = \deg(f) + \deg(g)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $f = a_m x^m + \cdots$ and $g = b_n x^n + \cdots$ with $a_m \neq 0$ and $b_n \neq 0$.
+    The leading term of $fg$ is $a_m b_n x^{m+n}$. Since $K$ is a field (hence an integral
+    domain), $a_m b_n \neq 0$. So $fg \neq 0$ and $\deg(fg) = m + n = \deg(f) + \deg(g)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Euclidean division for polynomials</h2>
+
+<p>
+  The cornerstone property that makes $K[x]$ behave like $\mathbb{Z}$: you can divide with
+  remainder, using degree in place of absolute value.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Euclidean division in $K[x]$</div>
+  <p>
+    Let $f, g \in K[x]$ with $g \neq 0$. There exist unique polynomials $q, r \in K[x]$ such that
+  </p>
+  <div class="display-math">$$f = gq + r \quad \text{with} \quad \deg(r) < \deg(g)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Existence</strong> by strong induction on $\deg(f)$. If $\deg(f) < \deg(g)$, take
+    $q = 0$ and $r = f$. Otherwise, let $f = a_m x^m + \cdots$ and $g = b_n x^n + \cdots$
+    with $m \geq n$. Set
+  </p>
+  <div class="display-math">$$f_1 = f - \frac{a_m}{b_n} x^{m-n} g$$</div>
+  <p>
+    The leading terms cancel, so $\deg(f_1) < \deg(f)$. By the induction hypothesis, $f_1 = gq_1 + r$
+    with $\deg(r) < \deg(g)$. Then $f = g\!\left(\frac{a_m}{b_n} x^{m-n} + q_1\right) + r$.
+  </p>
+  <p>
+    <strong>Uniqueness.</strong> Suppose $f = gq + r = gq' + r'$ with $\deg(r), \deg(r') < \deg(g)$.
+    Then $g(q - q') = r' - r$. If $q \neq q'$, the left side has degree $\geq \deg(g)$, but the
+    right side has degree $< \deg(g)$. Contradiction. So $q = q'$ and $r = r'$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Compare this with integer Euclidean division (Phase 1, page 1). The structure is identical:
+  the proof works by subtracting off the leading term, exactly as long division works by hand.
+  The crucial ingredient is that we can divide by the leading coefficient of $g$ &mdash; this
+  requires $K$ to be a field.
+</p>
+
+<h2>5. GCD and B&eacute;zout for polynomials</h2>
+
+<p>
+  With Euclidean division in hand, the entire arithmetic of Phase 1 carries over. The
+  <strong>Euclidean algorithm</strong> computes $\gcd(f, g)$ by repeated division, exactly
+  as for integers.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; B&eacute;zout's identity for $K[x]$</div>
+  <p>
+    For any $f, g \in K[x]$ not both zero, $\gcd(f, g)$ exists and there are polynomials
+    $u, v \in K[x]$ with $\gcd(f, g) = uf + vg$.
+  </p>
+</div>
+
+<p>
+  The proof is identical to the integer case (Phase 1, page 2): run the Euclidean algorithm
+  backwards. A key consequence: $K[x]$ is a <strong>principal ideal domain</strong> (PID),
+  meaning every ideal $I \trianglelefteq K[x]$ has the form $I = (f) = \{fg : g \in K[x]\}$
+  for some polynomial $f$. The proof: take $f$ to be a nonzero element of $I$ of minimal
+  degree; Euclidean division shows every element of $I$ is a multiple of $f$.
+</p>
+
+<h2>6. Roots and factors</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Factor theorem</div>
+  <p>
+    Let $f \in K[x]$ and $a \in K$. Then $a$ is a root of $f$ (i.e., $f(a) = 0$) if and only
+    if $(x - a)$ divides $f$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By Euclidean division, $f = (x - a)q + r$ with $\deg(r) < 1$, so $r$ is a constant.
+    Evaluating at $x = a$: $f(a) = 0 \cdot q(a) + r = r$. So $r = 0$ iff $f(a) = 0$ iff
+    $(x - a) \mid f$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Corollary &mdash; Bound on roots</div>
+  <p>
+    A nonzero polynomial $f \in K[x]$ of degree $n$ has at most $n$ roots in $K$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By induction on $n$. If $n = 0$, $f$ is a nonzero constant with no roots. If $f$ has a
+    root $a$, then $f = (x - a)g$ with $\deg(g) = n - 1$. Any other root $b \neq a$ satisfies
+    $0 = f(b) = (b - a)g(b)$, and since $K$ is an integral domain and $b - a \neq 0$, we get
+    $g(b) = 0$. By induction, $g$ has at most $n - 1$ roots, so $f$ has at most $n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>This fails without the integral domain condition.</strong> In $\mathbb{Z}/6\mathbb{Z}$,
+  the polynomial $x^2 - x = x(x-1)$ has roots $0, 1, 3, 4$ &mdash; four roots for a degree-$2$
+  polynomial. The issue: $\bar{3} \cdot \bar{2} = \bar{0}$ even though $\bar{3}$ and $\bar{2}$
+  are nonzero, so the induction step breaks.
+</p>
+
+<h2>7. Ideals and quotient rings</h2>
+
+<p>
+  Just as normal subgroups let us build quotient groups (page 3), ideals let us build quotient
+  rings.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Ideal and quotient ring</div>
+  <p>
+    An <strong>ideal</strong> $I$ of a commutative ring $R$ is a subgroup of $(R, +)$ that is
+    closed under multiplication by $R$: if $a \in I$ and $r \in R$, then $ra \in I$.
+    The <strong>quotient ring</strong> $R/I$ consists of the cosets $r + I$ with operations
+    $(r + I) + (s + I) = (r + s) + I$ and $(r + I)(s + I) = rs + I$.
+  </p>
+</div>
+
+<p>
+  The quotient $K[x]/(f)$ is the ring of "polynomials modulo $f$": we compute in $K[x]$
+  but treat any multiple of $f$ as zero. Elements are represented by polynomials of degree
+  less than $\deg(f)$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>
+    If $f \in K[x]$ is irreducible, then $K[x]/(f)$ is a field.
+  </p>
+</div>
+
+<p>
+  The proof mirrors the argument that $\mathbb{Z}/p\mathbb{Z}$ is a field: if $g \not\in (f)$,
+  then $\gcd(f, g) = 1$ (since $f$ is irreducible and $f \nmid g$), so B&eacute;zout gives
+  $uf + vg = 1$, meaning $vg \equiv 1 \pmod{f}$, so $g + (f)$ is invertible.
+</p>
+
+<p>
+  <strong>Example: building $\mathbb{C}$ from $\mathbb{R}$.</strong> The polynomial $x^2 + 1$
+  is irreducible over $\mathbb{R}$. So $\mathbb{R}[x]/(x^2 + 1)$ is a field. Its elements
+  are $a + bx$ with $a, b \in \mathbb{R}$ (since we reduce modulo $x^2 + 1$, replacing $x^2$
+  by $-1$). Writing $i$ for the image of $x$, we get $i^2 = -1$, and
+  $\mathbb{R}[x]/(x^2 + 1) \cong \mathbb{C}$. The complex numbers arise naturally from
+  polynomial arithmetic.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Polynomial division was used informally for centuries, but the systematic parallel with
+    integer arithmetic was made explicit by Gauss in the <em>Disquisitiones Arithmeticae</em>
+    (1801). He treated congruences of polynomials modulo a fixed polynomial exactly as he
+    treated congruences of integers modulo a fixed integer.
+  </p>
+  <p>
+    The abstract notion of a ring was defined by Abraham Fraenkel in 1914 and systematised
+    by Emmy Noether in the 1920s. Noether's insight was that the common structure of
+    $\mathbb{Z}$ and $K[x]$ &mdash; both being PIDs with Euclidean division &mdash; could be
+    abstracted into a unified theory of ideals and modules.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Coefficients not in a field:</strong> in $\mathbb{Z}[x]$, trying to divide $x$ by
+    $2$ gives no polynomial quotient ($\frac{1}{2} \notin \mathbb{Z}$). Euclidean division
+    requires dividing by the leading coefficient, which needs a field.
+  </p>
+  <p>
+    <strong>Not an integral domain:</strong> over $\mathbb{Z}/6\mathbb{Z}$, a degree-$2$
+    polynomial can have $4$ roots. The bound $\deg(f)$ on the number of roots requires the
+    cancellation law, which requires no zero divisors.
+  </p>
+  <p>
+    <strong>Without commutativity:</strong> non-commutative polynomial rings (like
+    $\mathbb{H}[x]$ over the quaternions) exist, but division becomes delicate &mdash;
+    left division and right division may differ, and the root-factor correspondence breaks.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Polynomials over a field behave like integers &mdash; Euclidean division, GCD, and
+  B&eacute;zout all carry over, because both $\mathbb{Z}$ and $K[x]$ are Euclidean domains.
+</div>
+
+<div class="nav">
+  <a href="05-abelian-groups.html">&larr; Previous: Classification of Finitely Generated Abelian Groups</a>
+  <a href="07-irreducibility-fta.html">Next: Irreducibility and the Fundamental Theorem of Algebra &rarr;</a>
+</div>
+
+</body>
+</html>

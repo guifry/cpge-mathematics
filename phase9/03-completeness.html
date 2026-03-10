@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completeness in Metric Spaces — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Completeness in Metric Spaces</h1>
+<p class="subtitle">Phase 9 — Topology of Metric Spaces, Page 3</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>
+In Phase 2, page 5, we proved the Cauchy criterion for $\mathbb{R}$: a sequence converges
+if and only if its terms get arbitrarily close to each other. The "if" direction — Cauchy
+implies convergent — worked because $\mathbb{R}$ has no holes. Every cluster point is
+already a real number.
+</p>
+<p>
+But $\mathbb{Q}$ with the usual metric is <strong>not</strong> like this. The sequence
+$1,\; 1.4,\; 1.41,\; 1.414,\; \ldots$ is Cauchy in $\mathbb{Q}$ — the terms get
+arbitrarily close — yet it converges to $\sqrt{2} \notin \mathbb{Q}$. The limit has
+<em>escaped</em> the space.
+</p>
+<p>
+Which metric spaces have the property that Cauchy sequences can never escape? And when a
+space fails to have it, can we repair the damage?
+</p>
+</div>
+
+<h2>1. Cauchy Sequences in Metric Spaces</h2>
+
+<p>
+We generalise the definition from $\mathbb{R}$ to any metric space $(X, d)$ by replacing
+$|a_m - a_n|$ with $d(a_m, a_n)$.
+</p>
+
+<div class="theorem-box">
+<div class="label">Definition</div>
+<p>
+A sequence $(x_n)$ in a metric space $(X, d)$ is a <strong>Cauchy sequence</strong> if:
+for every $\varepsilon > 0$, there exists $N \in \mathbb{N}$ such that for all
+$m, n \geq N$,
+</p>
+<div class="display-math">$$d(x_m, x_n) < \varepsilon$$</div>
+</div>
+
+<p>
+The key relationship between convergence and the Cauchy property carries over immediately.
+</p>
+
+<div class="theorem-box">
+<div class="label">Proposition</div>
+<p>
+Every convergent sequence in a metric space is Cauchy.
+</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>
+Suppose $x_n \to L$ in $(X, d)$. Fix $\varepsilon > 0$. By convergence, there exists $N$
+such that for all $n \geq N$: $d(x_n, L) < \varepsilon / 2$. For any $m, n \geq N$, the
+triangle inequality gives:
+</p>
+<div class="display-math">$$d(x_m, x_n) \leq d(x_m, L) + d(L, x_n) < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon$$</div>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>
+The converse — Cauchy implies convergent — is <em>not</em> true in general. It depends on
+the space. That dependence is exactly what completeness captures.
+</p>
+
+<h2>2. Complete Metric Spaces</h2>
+
+<div class="theorem-box">
+<div class="label">Definition</div>
+<p>
+A metric space $(X, d)$ is <strong>complete</strong> if every Cauchy sequence in $X$
+converges to a limit in $X$.
+</p>
+</div>
+
+<p>
+The phrase "in $X$" is doing all the work. Cauchy sequences always <em>want</em> to
+converge — their terms are clustering. Completeness means the target is present.
+</p>
+
+<p>
+<strong>$\mathbb{R}$ is complete.</strong> We proved this in Phase 2, page 5 as the Cauchy
+criterion. That proof used Bolzano-Weierstrass, which itself rests on the completeness
+axiom (least upper bound property) of $\mathbb{R}$.
+</p>
+
+<div class="theorem-box">
+<div class="label">Theorem</div>
+<p>
+$\mathbb{R}^n$ with the Euclidean metric is complete.
+</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>
+Let $(\mathbf{x}_k)$ be a Cauchy sequence in $\mathbb{R}^n$, where
+$\mathbf{x}_k = (x_k^{(1)}, \ldots, x_k^{(n)})$. For each coordinate $i$:
+</p>
+<div class="display-math">$$|x_m^{(i)} - x_k^{(i)}| \leq \|\mathbf{x}_m - \mathbf{x}_k\| = d(\mathbf{x}_m, \mathbf{x}_k)$$</div>
+<p>
+So the sequence $(x_k^{(i)})_{k \geq 1}$ is Cauchy in $\mathbb{R}$ for each $i$.
+Since $\mathbb{R}$ is complete, each coordinate sequence converges: $x_k^{(i)} \to L^{(i)}$.
+Set $\mathbf{L} = (L^{(1)}, \ldots, L^{(n)})$. Then:
+</p>
+<div class="display-math">$$d(\mathbf{x}_k, \mathbf{L}) = \sqrt{\sum_{i=1}^{n} |x_k^{(i)} - L^{(i)}|^2} \to 0$$</div>
+<p>
+since each term under the square root tends to zero. Therefore $\mathbf{x}_k \to \mathbf{L}$
+in $\mathbb{R}^n$.
+</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+<div class="label">Theorem</div>
+<p>
+The space $\mathcal{C}([a,b])$ of continuous functions $[a,b] \to \mathbb{R}$, equipped
+with the sup metric $d(f,g) = \sup_{x \in [a,b]} |f(x) - g(x)|$, is complete.
+</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>
+Let $(f_n)$ be Cauchy in $(\mathcal{C}([a,b]),\, d)$. For each fixed $x \in [a,b]$:
+</p>
+<div class="display-math">$$|f_m(x) - f_n(x)| \leq \sup_{t \in [a,b]} |f_m(t) - f_n(t)| = d(f_m, f_n)$$</div>
+<p>
+So $(f_n(x))$ is Cauchy in $\mathbb{R}$, hence converges to some value $f(x)$. This
+defines a function $f : [a,b] \to \mathbb{R}$ pointwise.
+</p>
+<p>
+We need $f$ to be continuous and $d(f_n, f) \to 0$. Fix $\varepsilon > 0$. Since $(f_n)$ is
+Cauchy, there exists $N$ such that for all $m, n \geq N$: $d(f_m, f_n) < \varepsilon / 2$.
+That is, for all $x$: $|f_m(x) - f_n(x)| < \varepsilon / 2$. Letting $m \to \infty$ (with
+$x$ fixed):
+</p>
+<div class="display-math">$$|f(x) - f_n(x)| \leq \frac{\varepsilon}{2} < \varepsilon \quad \text{for all } x \in [a,b], \; n \geq N$$</div>
+<p>
+So $d(f_n, f) \leq \varepsilon / 2 < \varepsilon$ for $n \geq N$: the convergence
+$f_n \to f$ is <strong>uniform</strong>. The uniform limit of continuous functions is
+continuous (Phase 5, page 6), so $f \in \mathcal{C}([a,b])$.
+</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Incomplete Spaces</h2>
+
+<p>
+<strong>$\mathbb{Q}$ is not complete.</strong> Define the sequence $(q_n)$ by truncating
+the decimal expansion of $\sqrt{2}$: $q_1 = 1$, $q_2 = 1.4$, $q_3 = 1.41$,
+$q_4 = 1.414$, and so on. Each $q_n \in \mathbb{Q}$, and $|q_m - q_n| \leq 10^{-\min(m,n)}$
+for $m \neq n$, so the sequence is Cauchy. But $q_n \to \sqrt{2} \notin \mathbb{Q}$.
+</p>
+
+<p>
+<strong>$(0,1)$ is not complete.</strong> The sequence $x_n = 1/n$ lies in $(0,1)$ for
+$n \geq 2$. It is Cauchy: $|1/m - 1/n| \leq 1/n \to 0$. But $x_n \to 0 \notin (0,1)$.
+The limit has escaped through the boundary.
+</p>
+
+<p>
+Here is a subtlety worth pausing on. The interval $(0,1)$ is homeomorphic to $\mathbb{R}$
+via, say, $\varphi(x) = \tan(\pi(x - 1/2))$. And $\mathbb{R}$ <em>is</em> complete.
+So completeness is <strong>not a topological property</strong>. It depends on the specific
+metric, not just on which sets are open or closed. Two spaces can be topologically identical
+yet differ in completeness.
+</p>
+
+<h2>4. Completion</h2>
+
+<p>
+When a space has holes, we can fill them in — systematically.
+</p>
+
+<div class="theorem-box">
+<div class="label">Theorem (existence of completion)</div>
+<p>
+Every metric space $(X, d)$ has a <strong>completion</strong>: a complete metric space
+$(\hat{X}, \hat{d})$ together with an isometric embedding $\iota : X \hookrightarrow \hat{X}$
+such that $\iota(X)$ is dense in $\hat{X}$. The completion is unique up to isometry.
+</p>
+</div>
+
+<p>
+We state this without full proof — the construction mirrors Cantor's. You take equivalence
+classes of Cauchy sequences in $X$, declaring two sequences equivalent when their distance
+tends to zero, then define a metric on these classes. The original space embeds as the
+"constant" sequences.
+</p>
+
+<p>
+The archetype: $\mathbb{R}$ is the completion of $\mathbb{Q}$. Every real number <em>is</em>
+(or can be represented as) an equivalence class of Cauchy sequences of rationals. This was
+Cantor's 1872 construction.
+</p>
+
+<h2>5. Closed Subsets of Complete Spaces</h2>
+
+<p>
+Completeness and closedness are deeply connected. A closed subset "keeps all its limit
+points," which is exactly what completeness needs.
+</p>
+
+<div class="theorem-box">
+<div class="label">Theorem</div>
+<p>
+Let $(X, d)$ be a complete metric space and $A \subseteq X$. Then $A$ (with the restricted
+metric) is complete if and only if $A$ is closed in $X$.
+</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>
+<strong>($\Longrightarrow$) Complete implies closed.</strong> Let $(x_n)$ be a sequence in
+$A$ converging to some $L \in X$. Every convergent sequence is Cauchy (Section 1). Since
+$A$ is complete, this Cauchy sequence converges in $A$. Limits are unique in metric spaces
+(Phase 9, page 1), so $L \in A$. Therefore $A$ contains all its limit points, i.e. $A$ is
+closed.
+</p>
+<p>
+<strong>($\Longleftarrow$) Closed implies complete.</strong> Let $(x_n)$ be Cauchy in $A$.
+Since $A \subseteq X$ and $X$ is complete, $(x_n)$ converges to some $L \in X$. Since
+$A$ is closed and $(x_n) \subseteq A$ with $x_n \to L$, we have $L \in A$. So the Cauchy
+sequence converges in $A$.
+</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>
+This is powerful. To check completeness of a subset of $\mathbb{R}^n$, you just check
+closedness — because $\mathbb{R}^n$ is already complete. For instance: $[a,b]$ is closed
+in $\mathbb{R}$, hence complete. The set $\{1/n : n \geq 1\}$ is not closed (its limit
+point $0$ is missing), hence not complete.
+</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>
+Cantor (1872) constructed $\mathbb{R}$ as equivalence classes of Cauchy sequences of
+rationals — the first completion. Charles Méray independently gave an essentially identical
+construction in 1869, though with less influence. Cantor's motivation was not abstract
+topology but trigonometric series: he needed to understand limit points of sets of real
+numbers, which led him to develop both the completion of $\mathbb{Q}$ and the beginnings
+of set theory.
+</p>
+<p>
+The abstract notion of completeness for metric spaces was formalised by Fréchet (1906),
+who introduced metric spaces themselves, and by Hausdorff (1914), who systematised the
+theory in his <em>Grundzüge der Mengenlehre</em>. Banach (1920s) made completeness central
+to functional analysis: a <strong>Banach space</strong> is a complete normed vector space,
+and the completeness of $\mathcal{C}([a,b])$ under the sup norm is the prototype.
+</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p>
+<strong>Without completeness: the intermediate value theorem fails.</strong> In $\mathbb{Q}$,
+the function $f(x) = x^2 - 2$ satisfies $f(1) = -1 < 0$ and $f(2) = 2 > 0$, yet there
+is no $c \in \mathbb{Q}$ with $f(c) = 0$. The IVT (Phase 2, page 6) relies on the
+completeness of $\mathbb{R}$ — without it, continuous functions can jump over values.
+</p>
+<p>
+<strong>Completeness is not a topological invariant.</strong> The spaces $(0,1)$ and
+$\mathbb{R}$ are homeomorphic (via $x \mapsto \tan(\pi(x - 1/2))$), yet $(0,1)$ with the
+standard metric is incomplete while $\mathbb{R}$ is complete. A homeomorphism preserves
+open sets, closed sets, convergence, continuity — but <em>not</em> completeness. Completeness
+depends on the metric, not the topology.
+</p>
+<p>
+<strong>A complete subspace need not be open.</strong> $\mathbb{Z} \subset \mathbb{R}$ is
+complete (every Cauchy sequence of integers is eventually constant), yet $\mathbb{Z}$ is
+not open in $\mathbb{R}$. Completeness and openness are unrelated properties.
+</p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+A metric space is complete when Cauchy sequences have nowhere to escape to — every would-be limit is already present.
+</div>
+
+<div class="nav">
+<a href="02-open-closed.html">&larr; Previous: Open and Closed Sets</a>
+<a href="04-compactness.html">Next: Compactness &rarr;</a>
+</div>
+
+</body>
+</html>

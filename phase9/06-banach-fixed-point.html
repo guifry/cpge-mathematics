@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Banach Fixed Point Theorem — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Banach Fixed Point Theorem</h1>
+<p class="subtitle">Phase 9 &mdash; Topology of Metric Spaces, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In <a href="../phase8/02-cauchy-lipschitz.html">Phase 8, page 2</a>, we proved the
+    Cauchy&ndash;Lipschitz theorem: if $f$ is Lipschitz in $y$, the ODE $y' = f(t, y)$
+    has a unique local solution. The proof used <strong>Picard iteration</strong>: define
+    an operator $T$, show $T$ brings functions closer together, iterate, and argue the
+    iterates converge to a fixed point.
+  </p>
+  <p>
+    That argument felt specific to ODEs, but the pattern is universal. Banach (1922)
+    isolated the abstract principle: any map that shrinks distances on a complete metric
+    space has exactly one fixed point, and iteration from anywhere converges to it.
+  </p>
+</div>
+
+<h2>1. Fixed points</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Fixed point</div>
+  <p>
+    Let $T : X \to X$ be a map from a set to itself. A point $x \in X$ is a
+    <strong>fixed point</strong> of $T$ if $T(x) = x$.
+  </p>
+</div>
+
+<p>
+  Fixed points are where a transformation does nothing. The map $T(x) = x/2$ on
+  $\mathbb{R}$ has the unique fixed point $x = 0$. The map $T(x) = x + 1$ has no fixed
+  point. The identity map fixes everything.
+</p>
+
+<p>
+  Finding fixed points is equivalent to solving equations: $T(x) = x$ is the same as
+  $T(x) - x = 0$. The power of Banach's theorem is that it gives existence, uniqueness,
+  and a constructive algorithm (iteration) all at once.
+</p>
+
+<h2>2. Contractions</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Contraction mapping</div>
+  <p>
+    Let $(X, d)$ be a metric space. A map $T : X \to X$ is a <strong>contraction</strong>
+    (or <strong>contraction mapping</strong>) if there exists a constant $k \in [0, 1)$ such
+    that
+  </p>
+  <div class="display-math">$$d(T(x), T(y)) \leq k \cdot d(x, y) \quad \text{for all } x, y \in X$$</div>
+  <p>
+    The constant $k$ is called the <strong>contraction constant</strong>.
+  </p>
+</div>
+
+<p>
+  A contraction is Lipschitz continuous with Lipschitz constant $k < 1$, so in particular
+  it is (uniformly) continuous. The key point is the strict inequality $k < 1$: every
+  application of $T$ shrinks all distances by at least a factor of $k$.
+</p>
+
+<p>
+  The map $T(x) = x/2$ on $\mathbb{R}$ is a contraction with $k = 1/2$: we have
+  $|T(x) - T(y)| = |x - y|/2$. The map $T(x) = x/2 + 3$ is also a contraction with
+  $k = 1/2$ (the additive constant drops out when computing $|T(x) - T(y)|$). The map
+  $T(x) = x$ satisfies $|T(x) - T(y)| = |x - y|$ &mdash; it is non-expansive ($k = 1$)
+  but <em>not</em> a contraction, because we require $k$ strictly less than 1.
+</p>
+
+<p>
+  Geometrically, iterating a contraction is like repeatedly zooming in: each application
+  compresses the entire space by a factor of $k$, pulling all points closer together. After
+  $n$ iterations, points that were initially at distance $D$ are at most $k^n D$ apart.
+  Since $k^n \to 0$, everything collapses toward a single point &mdash; the fixed point.
+</p>
+
+<h2>3. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Banach fixed point theorem</div>
+  <p>
+    Let $(X, d)$ be a <strong>complete</strong> metric space and $T : X \to X$ a contraction
+    with constant $k \in [0, 1)$. Then:
+  </p>
+  <ol>
+    <li>$T$ has exactly one fixed point $x^* \in X$.</li>
+    <li>For any starting point $x_0 \in X$, the sequence $x_{n+1} = T(x_n)$ converges to $x^*$.</li>
+  </ol>
+</div>
+
+<h2>4. Proof</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Existence.</strong> Pick any $x_0 \in X$ and define $x_n = T^n(x_0)$
+    (i.e. $x_{n+1} = T(x_n)$). We show $(x_n)$ is Cauchy.
+  </p>
+  <p>
+    First, by induction on the contraction property:
+  </p>
+  <div class="display-math">$$d(x_{n+1}, x_n) = d(T(x_n), T(x_{n-1})) \leq k \cdot d(x_n, x_{n-1}) \leq \cdots \leq k^n \cdot d(x_1, x_0)$$</div>
+  <p>
+    For $m > n$, the triangle inequality gives:
+  </p>
+  <div class="display-math">$$d(x_m, x_n) \leq \sum_{j=n}^{m-1} d(x_{j+1}, x_j) \leq \sum_{j=n}^{m-1} k^j \cdot d(x_1, x_0) \leq \frac{k^n}{1 - k} \cdot d(x_1, x_0)$$</div>
+  <p>
+    Since $k < 1$, we have $k^n \to 0$, so the right-hand side tends to zero as $n \to \infty$.
+    Hence $(x_n)$ is Cauchy.
+  </p>
+  <p>
+    Since $X$ is complete, there exists $x^* \in X$ with $x_n \to x^*$. We show $T(x^*) = x^*$.
+    Since $T$ is continuous (being Lipschitz),
+  </p>
+  <div class="display-math">$$T(x^*) = T\!\left(\lim_{n \to \infty} x_n\right) = \lim_{n \to \infty} T(x_n) = \lim_{n \to \infty} x_{n+1} = x^*$$</div>
+  <p>
+    <strong>Uniqueness.</strong> Suppose $T(x^*) = x^*$ and $T(y^*) = y^*$. Then
+  </p>
+  <div class="display-math">$$d(x^*, y^*) = d(T(x^*), T(y^*)) \leq k \cdot d(x^*, y^*)$$</div>
+  <p>
+    So $(1 - k) \cdot d(x^*, y^*) \leq 0$. Since $1 - k > 0$, this forces $d(x^*, y^*) = 0$,
+    hence $x^* = y^*$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Error estimate</h2>
+
+<p>
+  The proof gives a quantitative convergence rate. From the Cauchy estimate, letting
+  $m \to \infty$:
+</p>
+
+<div class="theorem-box">
+  <div class="label">Corollary &mdash; A priori error bound</div>
+  <div class="display-math">$$d(x_n, x^*) \leq \frac{k^n}{1 - k} \cdot d(x_1, x_0)$$</div>
+</div>
+
+<p>
+  Convergence is geometric with ratio $k$. If $k = 1/2$, each iteration roughly doubles the
+  number of correct digits. If $k = 0.99$, convergence is painfully slow &mdash; you need
+  about 230 iterations to reduce the error by a factor of 10.
+</p>
+
+<p>
+  There is also an <strong>a posteriori</strong> bound, useful when you can measure the last
+  step but not the first:
+</p>
+
+<div class="display-math">$$d(x_n, x^*) \leq \frac{k}{1 - k} \cdot d(x_n, x_{n-1})$$</div>
+
+<p>
+  This follows from the same geometric series argument, starting from $d(x_n, x_{n-1})$
+  instead of $d(x_1, x_0)$.
+</p>
+
+<h2>6. Application: Cauchy&ndash;Lipschitz revisited</h2>
+
+<p>
+  Consider the ODE $y' = f(t, y)$ with $y(0) = y_0$, where $f$ is continuous and Lipschitz
+  in $y$ with constant $L$. The equivalent integral equation is
+</p>
+<div class="display-math">$$y(t) = y_0 + \int_0^t f(s, y(s)) \, ds$$</div>
+
+<p>
+  Define the <strong>Picard operator</strong> $T$ on $C([0, \delta])$ by
+</p>
+<div class="display-math">$$T(\varphi)(t) = y_0 + \int_0^t f(s, \varphi(s)) \, ds$$</div>
+
+<p>
+  For two functions $\varphi, \psi \in C([0, \delta])$:
+</p>
+<div class="display-math">$$|T(\varphi)(t) - T(\psi)(t)| \leq \int_0^t |f(s, \varphi(s)) - f(s, \psi(s))| \, ds \leq L \int_0^t |\varphi(s) - \psi(s)| \, ds \leq L\delta \cdot \|\varphi - \psi\|_\infty$$</div>
+
+<p>
+  So $\|T(\varphi) - T(\psi)\|_\infty \leq L\delta \cdot \|\varphi - \psi\|_\infty$. Choosing
+  $\delta < 1/L$ makes $T$ a contraction on the complete metric space
+  $(C([0, \delta]), \|\cdot\|_\infty)$. Banach's theorem gives a unique fixed point
+  &mdash; the solution to the ODE.
+</p>
+
+<h2>7. Application: Newton's method</h2>
+
+<p>
+  To solve $f(x) = 0$ where $f : \mathbb{R} \to \mathbb{R}$ is smooth, Newton's iteration
+  is
+</p>
+<div class="display-math">$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} = T(x_n)$$</div>
+
+<p>
+  Near a simple root $x^*$ (where $f(x^*) = 0$ and $f'(x^*) \neq 0$), the map $T$ is a
+  contraction. Indeed, $T'(x) = f(x) f''(x) / [f'(x)]^2$, so $T'(x^*) = 0$ since
+  $f(x^*) = 0$. By continuity, $|T'(x)| < 1$ in a neighbourhood of $x^*$, and the
+  mean value theorem gives $|T(x) - T(y)| \leq k|x - y|$ with $k < 1$ on that
+  neighbourhood.
+</p>
+
+<p>
+  Restricting to a closed ball $\overline{B}(x^*, r)$ (which is complete as a closed subset
+  of $\mathbb{R}$) and verifying $T$ maps this ball into itself, Banach's theorem guarantees
+  convergence. In practice, the convergence is even better: since $T'(x^*) = 0$, Newton's
+  method converges <em>quadratically</em> (the error squares at each step).
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Stefan Banach proved this theorem in his 1920 doctoral thesis at the University of
+    Lw&oacute;w (now Lviv), published in 1922. The result was part of his broader programme
+    of founding functional analysis &mdash; the same thesis introduced Banach spaces.
+  </p>
+  <p>
+    Banach was a central figure of the <strong>Lw&oacute;w school of mathematics</strong>,
+    which gathered at the Scottish Caf&eacute; (<em>Kawiarnia Szkocka</em>). Problems were
+    recorded in the famous <em>Scottish Book</em>. Despite working under German occupation
+    during World War II (surviving partly by feeding lice for a typhus research institute),
+    Banach's ideas became foundational to modern analysis.
+  </p>
+  <p>
+    The fixed point theorem unified iteration arguments that had appeared independently in
+    Picard's work on ODEs (1890), Fredholm's integral equations (1903), and many other
+    contexts. It remains one of the most widely applied theorems in mathematics.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without completeness.</strong> Define $T(x) = x/2$ on the open interval $(0, 1)$.
+    Then $|T(x) - T(y)| = |x - y|/2$, so $T$ is a contraction with $k = 1/2$. But the
+    fixed point is $x^* = 0$, which does not belong to $(0, 1)$. The space is not complete,
+    and the Cauchy sequence of iterates escapes.
+  </p>
+  <p>
+    <strong>Without strict contraction ($k = 1$).</strong> The map $T(x) = x + 1/x$ on
+    $[1, \infty)$ satisfies $|T(x) - T(y)| \leq |x - y|$ for large $x, y$ (it is
+    <strong>non-expansive</strong>), but has no fixed point: $T(x) = x$ would require
+    $1/x = 0$. More simply, the identity map $T(x) = x$ satisfies $|T(x) - T(y)| = |x-y|$
+    but every point is a fixed point &mdash; uniqueness fails.
+  </p>
+  <p>
+    <strong>The theorem is global.</strong> The fixed point is unique in <em>all</em> of $X$,
+    not just in some neighbourhood. And iteration converges from <em>any</em> starting point,
+    not just from nearby ones. This is much stronger than local fixed-point theorems.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A contraction on a complete space has exactly one fixed point, and iteration from anywhere
+  converges to it &mdash; the abstract engine behind Picard, Newton, and countless existence
+  proofs.
+</div>
+
+<div class="nav">
+  <a href="05-continuity-compactness.html">&larr; Previous: Continuity on Compact Sets</a>
+  <a href="07-baire-arzela-ascoli.html">Next: Baire Category and Arzel&agrave;&ndash;Ascoli &rarr;</a>
+</div>
+
+</body>
+</html>

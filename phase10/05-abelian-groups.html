@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classification of Finitely Generated Abelian Groups — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Classification of Finitely Generated Abelian Groups</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    How many essentially different abelian groups of order $12$ are there? We know
+    $\mathbb{Z}/12\mathbb{Z}$, but is it the same as $\mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$?
+    Yes &mdash; by the Chinese Remainder Theorem (Phase 1, page 6), since $\gcd(4,3) = 1$.
+    Is it the same as $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/6\mathbb{Z}$? Also yes, since
+    $\mathbb{Z}/6\mathbb{Z} \cong \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$, giving
+    $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$ &mdash;
+    wait, that has two elements of order $2$, while $\mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$
+    has only one. So these are genuinely different groups.
+  </p>
+  <p>
+    The classification theorem says every finitely generated abelian group decomposes uniquely
+    into cyclic pieces, and tells us exactly what those pieces look like.
+  </p>
+</div>
+
+<h2>1. Direct products</h2>
+
+<p>
+  Given groups $(G, \cdot_G)$ and $(H, \cdot_H)$, we build a new group from their Cartesian product.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Direct product</div>
+  <p>
+    The <strong>direct product</strong> $G \times H$ is the set $\{(g, h) : g \in G, h \in H\}$
+    with component-wise operation: $(g_1, h_1)(g_2, h_2) = (g_1 g_2, h_1 h_2)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof that $G \times H$ is a group</div>
+  <p>
+    <strong>Closure:</strong> if $g_1, g_2 \in G$ and $h_1, h_2 \in H$, then $g_1 g_2 \in G$
+    and $h_1 h_2 \in H$, so $(g_1 g_2, h_1 h_2) \in G \times H$.
+  </p>
+  <p>
+    <strong>Associativity:</strong> follows from associativity in each component.
+  </p>
+  <p>
+    <strong>Identity:</strong> $(e_G, e_H)$ satisfies $(e_G, e_H)(g, h) = (e_G g, e_H h) = (g, h)$.
+  </p>
+  <p>
+    <strong>Inverses:</strong> $(g, h)^{-1} = (g^{-1}, h^{-1})$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  If both $G$ and $H$ are abelian, so is $G \times H$. The order is $|G \times H| = |G| \cdot |H|$.
+</p>
+
+<p>
+  <strong>Key example.</strong> $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z} \cong \mathbb{Z}/6\mathbb{Z}$.
+  The element $(\bar{1}, \bar{1})$ has order $\text{lcm}(2, 3) = 6$, so it generates the entire product.
+  This is the Chinese Remainder Theorem for groups (Phase 1, page 6).
+</p>
+
+<h2>2. When does $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/mn\mathbb{Z}$?</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; CRT for groups</div>
+  <p>
+    $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/mn\mathbb{Z}$
+    if and only if $\gcd(m, n) = 1$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>($\Rightarrow$)</strong> Suppose $d = \gcd(m, n) > 1$. Then every element
+    $(a, b) \in \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$ satisfies
+    $\text{lcm}(m,n) \cdot (a, b) = (0, 0)$. Since $\text{lcm}(m,n) = mn/d < mn$, no element
+    has order $mn$. But $\mathbb{Z}/mn\mathbb{Z}$ has an element of order $mn$. So they cannot
+    be isomorphic.
+  </p>
+  <p>
+    <strong>($\Leftarrow$)</strong> If $\gcd(m,n) = 1$, the element $(\bar{1}, \bar{1})$ has
+    order $\text{lcm}(m, n) = mn$. So $\mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$
+    is cyclic of order $mn$, hence isomorphic to $\mathbb{Z}/mn\mathbb{Z}$ by the classification
+    of cyclic groups (page 1).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>Contrast:</strong> $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$ is <em>not</em>
+  cyclic. Every nonzero element has order $2$, so no single element generates the group.
+  This is the <strong>Klein four-group</strong> $V_4$, genuinely different from $\mathbb{Z}/4\mathbb{Z}$.
+</p>
+
+<h2>3. The classification theorem (finite case)</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fundamental theorem of finite abelian groups</div>
+  <p>
+    Every finite abelian group $G$ is isomorphic to a direct product of cyclic groups of
+    prime-power order:
+  </p>
+  <div class="display-math">$$G \cong \mathbb{Z}/p_1^{a_1}\mathbb{Z} \times \mathbb{Z}/p_2^{a_2}\mathbb{Z} \times \cdots \times \mathbb{Z}/p_k^{a_k}\mathbb{Z}$$</div>
+  <p>
+    where each $p_i$ is prime and each $a_i \geq 1$. This decomposition is unique up to
+    reordering of the factors.
+  </p>
+</div>
+
+<h2>4. Proof sketch</h2>
+
+<p>
+  The proof has two main steps: decompose by primes, then classify each prime component.
+</p>
+
+<p>
+  <strong>Step 1: Primary decomposition.</strong> Write $|G| = p_1^{n_1} \cdots p_r^{n_r}$.
+  For each prime $p$, define the <strong>$p$-primary component</strong>:
+</p>
+
+<div class="display-math">$$G_p = \{g \in G : \text{ord}(g) \text{ is a power of } p\}$$</div>
+
+<p>
+  Since $G$ is abelian, $G_p$ is a subgroup (if $g^{p^a} = e$ and $h^{p^b} = e$, then
+  $(gh)^{p^{\max(a,b)}} = g^{p^{\max(a,b)}} h^{p^{\max(a,b)}} = e$ &mdash; here we use
+  commutativity). The map $G_{p_1} \times \cdots \times G_{p_r} \to G$ sending
+  $(g_1, \ldots, g_r) \mapsto g_1 \cdots g_r$ is an isomorphism. This follows from the
+  fact that every element can be uniquely written as a product of elements of coprime order,
+  using B&eacute;zout's identity (Phase 1, page 2).
+</p>
+
+<p>
+  <strong>Step 2: Classify abelian $p$-groups.</strong> We now have an abelian group $G$ of
+  order $p^n$. Proceed by induction on $n$. Take $g \in G$ of maximal order $p^m$. The cyclic
+  subgroup $\langle g \rangle$ has a <strong>complement</strong> $H$ in $G$: a subgroup with
+  $G = \langle g \rangle \times H$. This complement exists because $G$ is abelian and $g$ has
+  maximal order (the proof uses the fact that the quotient $G / \langle g \rangle$ is a smaller
+  abelian $p$-group, and one lifts a complement from the quotient). By induction, $H$ is a
+  product of cyclic $p$-groups, completing the decomposition.
+</p>
+
+<p>
+  <strong>Uniqueness:</strong> the number of elements of order $p$ in $G$ determines the number
+  of factors. More precisely, the sequence of exponents $(a_1, \ldots, a_k)$ (sorted) is
+  determined by the orders of the iterated quotients $G / pG$, $G / p^2 G$, etc.
+</p>
+
+<h2>5. Counting abelian groups</h2>
+
+<p>
+  The classification reduces counting to combinatorics. An abelian group of order
+  $n = p_1^{n_1} \cdots p_r^{n_r}$ corresponds to choosing, for each $p_i$, a
+  <strong>partition</strong> of $n_i$: a way to write $n_i$ as a sum of positive integers
+  (order doesn't matter).
+</p>
+
+<p>
+  <strong>Example: order $36 = 2^2 \cdot 3^2$.</strong> Partitions of $2$: $(2)$ or $(1,1)$.
+  For the factor of $2^2$: either $\mathbb{Z}/4\mathbb{Z}$ or $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z}$.
+  For the factor of $3^2$: either $\mathbb{Z}/9\mathbb{Z}$ or $\mathbb{Z}/3\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$.
+  Total: $2 \times 2 = 4$ abelian groups of order $36$.
+</p>
+
+<p>
+  The four groups are: $\mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/9\mathbb{Z} \cong \mathbb{Z}/36\mathbb{Z}$,
+  $\mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$,
+  $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/9\mathbb{Z}$, and
+  $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$.
+</p>
+
+<p>
+  Back to our motivating question: for order $12 = 2^2 \cdot 3$, partitions of $2$ give $2$ choices,
+  partitions of $1$ give $1$ choice, so there are exactly $2$ abelian groups of order $12$:
+  $\mathbb{Z}/4\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z} \cong \mathbb{Z}/12\mathbb{Z}$ and
+  $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z} \cong \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/6\mathbb{Z}$.
+</p>
+
+<h2>6. The general case: finitely generated abelian groups</h2>
+
+<p>
+  Not every abelian group is finite. $\mathbb{Z}$ is an infinite abelian group generated by
+  a single element. The classification extends to all finitely generated abelian groups by
+  allowing a <strong>free part</strong>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Structure of finitely generated abelian groups</div>
+  <p>
+    Every finitely generated abelian group $G$ is isomorphic to
+  </p>
+  <div class="display-math">$$G \cong \mathbb{Z}^r \times \mathbb{Z}/d_1\mathbb{Z} \times \mathbb{Z}/d_2\mathbb{Z} \times \cdots \times \mathbb{Z}/d_k\mathbb{Z}$$</div>
+  <p>
+    where $r \geq 0$ and $d_1 \mid d_2 \mid \cdots \mid d_k$ with each $d_i \geq 2$.
+    This is the <strong>invariant factor form</strong>. The integer $r$ is the <strong>rank</strong>
+    (the free part), and the $d_i$ are the <strong>invariant factors</strong>.
+  </p>
+  <p>
+    Equivalently, in <strong>elementary divisor form</strong>:
+    $G \cong \mathbb{Z}^r \times \mathbb{Z}/p_1^{a_1}\mathbb{Z} \times \cdots \times \mathbb{Z}/p_m^{a_m}\mathbb{Z}$
+    where each $p_i$ is prime. Both decompositions are unique.
+  </p>
+</div>
+
+<p>
+  The torsion subgroup $T(G) = \{g \in G : g \text{ has finite order}\}$ captures all the
+  finite-order elements, giving $G \cong \mathbb{Z}^r \times T(G)$. The rank $r$ and the
+  torsion part are both invariants of the group.
+</p>
+
+<p>
+  This theorem is really a special case of the structure theorem for finitely generated
+  modules over a principal ideal domain (PID), applied to $\mathbb{Z}$-modules &mdash; which
+  are exactly abelian groups. We will see PIDs on page 6.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The classification of finite abelian groups was proved independently by Leopold Kronecker
+    (1870) and by Ferdinand Georg Frobenius and Ludwig Stickelberger (1879). Kronecker's
+    approach used Smith normal form for integer matrices; Frobenius and Stickelberger gave a
+    more group-theoretic argument.
+  </p>
+  <p>
+    The extension to finitely generated abelian groups rests on the structure theorem for
+    modules over a PID, developed systematically by Emmy Noether and her school in the 1920s.
+    Noether recognised that the parallel between integer arithmetic and polynomial arithmetic
+    &mdash; both being PIDs &mdash; could be unified in a single abstract framework.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Non-abelian groups:</strong> the classification fails spectacularly. There are two
+    groups of order $4$ (both abelian), but already two non-isomorphic groups of order $6$
+    ($\mathbb{Z}/6\mathbb{Z}$ and $S_3$). Groups of order $p^3$ include non-abelian examples,
+    and the classification of finite simple groups took over a century and tens of thousands
+    of pages.
+  </p>
+  <p>
+    <strong>Infinitely generated groups:</strong> $\mathbb{Q}$ under addition is abelian but
+    not a direct sum of cyclic groups. It is divisible (for every $q \in \mathbb{Q}$ and $n \geq 1$,
+    there exists $r$ with $nr = q$), while cyclic groups are never divisible. The theory of
+    infinitely generated abelian groups is vastly more complicated.
+  </p>
+  <p>
+    <strong>Uniqueness subtlety:</strong> $\mathbb{Z}/6\mathbb{Z} \cong \mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$
+    looks like two different decompositions, but the theorem says the <em>prime-power</em>
+    decomposition is unique. Both expressions give the same list: $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/3\mathbb{Z}$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Every finitely generated abelian group is a direct product of cyclic groups &mdash;
+  $\mathbb{Z}$'s for the free part, $\mathbb{Z}/p^a\mathbb{Z}$'s for the torsion.
+</div>
+
+<div class="nav">
+  <a href="04-cayley-sylow.html">&larr; Previous: Cayley's Theorem and the Sylow Theorems</a>
+  <a href="06-rings-polynomials.html">Next: Rings and Polynomial Division &rarr;</a>
+</div>
+
+</body>
+</html>

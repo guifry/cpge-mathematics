@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metric Spaces — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Metric Spaces</h1>
+<p class="subtitle">Phase 9 &mdash; Topology of Metric Spaces, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    By the late 19th century, analysis had outgrown $\mathbb{R}^n$. Mathematicians were
+    routinely working with sequences of <em>functions</em>, sets of continuous maps, spaces
+    of probability distributions. These objects are not points in Euclidean space, yet
+    analysts applied convergence arguments, continuity reasoning, and limit constructions
+    to them as though they were.
+  </p>
+  <p>
+    The machinery worked &mdash; but why? What do all these settings have in common?
+    Fr&eacute;chet (1906) isolated the answer in his doctoral thesis: the only structure
+    you truly need is a notion of <strong>distance</strong>. Give a set a function that
+    measures how far apart two elements are, subject to three natural axioms, and the
+    entire apparatus of limits and continuity follows. He called the result an
+    <em>espace m&eacute;trique</em> &mdash; a metric space.
+  </p>
+</div>
+
+<h2>1. The definition of a metric</h2>
+
+<p>
+  A metric distils the essence of "distance" into three properties. Strip away
+  coordinates, strip away geometry &mdash; these three axioms are what remains.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Metric space</div>
+  <p>
+    A <strong>metric space</strong> is a pair $(X, d)$ where $X$ is a non-empty set and
+    $d : X \times X \to \mathbb{R}$ is a function satisfying, for all $x, y, z \in X$:
+  </p>
+  <ol>
+    <li><strong>Positivity with identity of indiscernibles:</strong> $d(x, y) \geq 0$, and $d(x, y) = 0$ if and only if $x = y$.</li>
+    <li><strong>Symmetry:</strong> $d(x, y) = d(y, x)$.</li>
+    <li><strong>Triangle inequality:</strong> $d(x, z) \leq d(x, y) + d(y, z)$.</li>
+  </ol>
+  <p>
+    The function $d$ is called a <strong>metric</strong> (or <strong>distance function</strong>) on $X$.
+  </p>
+</div>
+
+<p>
+  Axiom 1 says distance is never negative and only zero between a point and itself.
+  Axiom 2 says the distance from $x$ to $y$ is the same as from $y$ to $x$.
+  Axiom 3 says the direct route is never longer than a detour through a third point
+  &mdash; the most geometrically loaded of the three.
+</p>
+
+<h2>2. Examples</h2>
+
+<p>
+  The power of the definition is its generality. All of the following are metric spaces.
+</p>
+
+<p>
+  <strong>(a) The real line.</strong> Take $X = \mathbb{R}$ with $d(x, y) = |x - y|$.
+  Positivity and symmetry are immediate from properties of absolute value. The triangle
+  inequality $|x - z| \leq |x - y| + |y - z|$ was proved in
+  <a href="../phase2/01-completeness.html">Phase 2, page 1</a>. This is the metric that
+  underlies all of single-variable analysis.
+</p>
+
+<p>
+  <strong>(b) Euclidean $\mathbb{R}^n$.</strong> For $\mathbf{x} = (x_1, \ldots, x_n)$
+  and $\mathbf{y} = (y_1, \ldots, y_n)$, define
+</p>
+<div class="display-math">$$d(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{k=1}^{n}(x_k - y_k)^2}$$</div>
+<p>
+  Positivity and symmetry are clear. The triangle inequality follows from
+  the Cauchy&ndash;Schwarz inequality
+  (<a href="../phase6/07-inner-products.html">Phase 6, page 7</a>): for vectors
+  $\mathbf{u}, \mathbf{v} \in \mathbb{R}^n$,
+</p>
+<div class="display-math">$$\|\mathbf{u} + \mathbf{v}\|^2 = \|\mathbf{u}\|^2 + 2\langle \mathbf{u}, \mathbf{v}\rangle + \|\mathbf{v}\|^2 \leq \|\mathbf{u}\|^2 + 2\|\mathbf{u}\|\|\mathbf{v}\| + \|\mathbf{v}\|^2 = (\|\mathbf{u}\| + \|\mathbf{v}\|)^2$$</div>
+<p>
+  so $\|\mathbf{u} + \mathbf{v}\| \leq \|\mathbf{u}\| + \|\mathbf{v}\|$.
+  Setting $\mathbf{u} = \mathbf{x} - \mathbf{y}$ and $\mathbf{v} = \mathbf{y} - \mathbf{z}$
+  gives $d(\mathbf{x}, \mathbf{z}) \leq d(\mathbf{x}, \mathbf{y}) + d(\mathbf{y}, \mathbf{z})$.
+</p>
+
+<p>
+  <strong>(c) The discrete metric.</strong> On any set $X$, define $d(x, y) = 0$ if
+  $x = y$ and $d(x, y) = 1$ if $x \neq y$. All three axioms are trivially satisfied.
+  The triangle inequality holds because the right-hand side is at least 1 whenever
+  $x \neq z$, and 1 is the largest value $d$ ever takes. This metric contains no
+  geometric information &mdash; it is the coarsest possible distance.
+</p>
+
+<p>
+  <strong>(d) Function spaces: the sup metric.</strong> Let $X = C([0, 1])$, the set of
+  continuous functions $f : [0, 1] \to \mathbb{R}$. Define
+</p>
+<div class="display-math">$$d(f, g) = \sup_{x \in [0,1]} |f(x) - g(x)| = \|f - g\|_\infty$$</div>
+<p>
+  This supremum exists because $f - g$ is continuous on a closed bounded interval, hence
+  bounded (IOU: the extreme value theorem will be proved in this phase, page 5).
+  The metric axioms follow from those of $|\cdot|$ on $\mathbb{R}$, applied pointwise
+  then taking the supremum.
+</p>
+
+<p>
+  <strong>(e) The $\ell^2$ space.</strong> Let $X$ be the set of all real sequences
+  $(x_n)_{n \geq 1}$ with $\sum_{n=1}^{\infty} x_n^2 < \infty$. Define
+</p>
+<div class="display-math">$$d(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{n=1}^{\infty}(x_n - y_n)^2}$$</div>
+<p>
+  This extends Euclidean distance to infinitely many dimensions. The triangle inequality
+  follows from Cauchy&ndash;Schwarz for series, exactly as in example (b).
+</p>
+
+<h2>3. Convergence in metric spaces</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Convergence</div>
+  <p>
+    A sequence $(x_n)$ in a metric space $(X, d)$ <strong>converges</strong> to $x \in X$
+    if for every $\varepsilon > 0$, there exists $N \in \mathbb{N}$ such that
+    $n \geq N \implies d(x_n, x) < \varepsilon$.
+  </p>
+</div>
+
+<p>
+  This is exactly the $\varepsilon$-$N$ definition from
+  <a href="../phase2/02-sequences.html">Phase 2, page 2</a>, with $|x_n - x|$ replaced
+  by $d(x_n, x)$. In $(\mathbb{R}, |\cdot|)$, the two definitions are identical.
+</p>
+
+<p>
+  Now consider $C([0, 1])$ with the sup metric. A sequence of functions $(f_n)$ converges
+  to $f$ in this metric precisely when
+</p>
+<div class="display-math">$$\sup_{x \in [0,1]} |f_n(x) - f(x)| \to 0$$</div>
+<p>
+  This says $f_n \to f$ <strong>uniformly</strong> on $[0, 1]$. We defined uniform
+  convergence in <a href="../phase5/06-uniform-convergence.html">Phase 5, page 6</a> and
+  saw its importance for preserving continuity. Now we see it is simply convergence in
+  the metric space $(C([0,1]), \|\cdot\|_\infty)$. The abstract definition of convergence
+  in a metric space unifies all these cases.
+</p>
+
+<p>
+  A natural question: can a sequence converge to two different limits? No &mdash; limits
+  in metric spaces are unique.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Uniqueness of limits</div>
+  <p>
+    If $x_n \to x$ and $x_n \to y$ in a metric space $(X, d)$, then $x = y$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    By the triangle inequality, $0 \leq d(x, y) \leq d(x, x_n) + d(x_n, y)$ for all $n$.
+    Given $\varepsilon > 0$, choose $N$ large enough that $d(x, x_n) < \varepsilon/2$ and
+    $d(x_n, y) < \varepsilon/2$ for all $n \geq N$. Then $d(x, y) < \varepsilon$. Since
+    $\varepsilon$ was arbitrary, $d(x, y) = 0$, so $x = y$ by axiom 1.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Balls and boundedness</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Open and closed balls</div>
+  <p>
+    Let $(X, d)$ be a metric space, $x \in X$, and $r > 0$. The <strong>open ball</strong>
+    of radius $r$ centred at $x$ is
+  </p>
+  <div class="display-math">$$B(x, r) = \{y \in X : d(x, y) < r\}$$</div>
+  <p>
+    The <strong>closed ball</strong> is
+  </p>
+  <div class="display-math">$$\overline{B}(x, r) = \{y \in X : d(x, y) \leq r\}$$</div>
+</div>
+
+<p>
+  In $\mathbb{R}$, $B(x, r) = (x - r, x + r)$: the open interval of radius $r$.
+  In $\mathbb{R}^2$ with the Euclidean metric, balls are discs. In $C([0,1])$ with the
+  sup metric, $B(f, \varepsilon)$ is the set of all continuous functions whose graph lies
+  within a vertical band of width $\varepsilon$ around the graph of $f$.
+</p>
+
+<p>
+  In the discrete metric, $B(x, 1) = \{x\}$ (just the centre) and $B(x, r) = X$ for
+  any $r > 1$. Balls can look very different depending on the metric.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Bounded set, diameter</div>
+  <p>
+    A subset $A \subseteq X$ is <strong>bounded</strong> if there exist $x \in X$ and
+    $r > 0$ with $A \subseteq B(x, r)$. The <strong>diameter</strong> of $A$ is
+  </p>
+  <div class="display-math">$$\text{diam}(A) = \sup\{d(a, b) : a, b \in A\}$$</div>
+  <p>
+    with the convention $\text{diam}(\varnothing) = 0$.
+  </p>
+</div>
+
+<p>
+  A set is bounded if and only if its diameter is finite. This is a short exercise: if
+  $A \subseteq B(x, r)$ then for any $a, b \in A$ the triangle inequality gives
+  $d(a, b) \leq d(a, x) + d(x, b) < 2r$, so $\text{diam}(A) \leq 2r < \infty$.
+  Conversely, if $\text{diam}(A) = M < \infty$, pick any $a_0 \in A$; then
+  $A \subseteq B(a_0, M + 1)$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Maurice Fr&eacute;chet introduced metric spaces in his 1906 doctoral thesis
+    <em>Sur quelques points du calcul fonctionnel</em>, supervised by Hadamard. He
+    originally called the concept a "classe (D)" &mdash; a set equipped with a
+    distance-like function (<em>&eacute;cart</em>). The name "metric space"
+    (<em>metrischer Raum</em>) and the systematic development of the theory came from
+    Felix Hausdorff's landmark 1914 book <em>Grundz&uuml;ge der Mengenlehre</em>.
+  </p>
+  <p>
+    The abstraction was not idle generalisation. By 1900, mathematicians were already
+    computing with function spaces &mdash; Volterra's work on integral equations,
+    Hilbert's work on $\ell^2$ &mdash; but lacked a common language. Fr&eacute;chet's
+    three axioms gave that language: one framework in which points in $\mathbb{R}$,
+    vectors in $\mathbb{R}^n$, continuous functions, and square-summable sequences all
+    live on equal footing.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Drop symmetry.</strong> Define $d(x, y) = |y - x|$ if $y \geq x$ and
+    $d(x, y) = 2|y - x|$ if $y < x$. Going "uphill" costs less than going "downhill."
+    This is a <strong>quasimetric</strong>: it models directed distances, like travel
+    time in a city with one-way streets. Without symmetry, $d(x, y) < \varepsilon$
+    does not imply $d(y, x) < \varepsilon$, so convergence $x_n \to x$ is no longer
+    equivalent to $x \to x_n$ being "close." The theory becomes asymmetric and much
+    harder.
+  </p>
+  <p>
+    <strong>Drop the triangle inequality.</strong> On $\mathbb{R}$, set
+    $d(x, y) = (x - y)^2$. Take $x = 0$, $y = 2$, $z = 1$: then $d(x, z) = 1$,
+    $d(x, y) + d(y, z) = 4 + 1 = 5$ &mdash; fine so far. But take $x = 0$, $y = 1$,
+    $z = 3$: then $d(x, z) = 9$ while $d(x, y) + d(y, z) = 1 + 4 = 5$. The triangle
+    inequality fails. Without it, "closeness" is not transitive: $x$ close to $y$ and
+    $y$ close to $z$ no longer guarantees $x$ close to $z$.
+  </p>
+  <p>
+    <strong>Drop $d(x,y) = 0 \implies x = y$.</strong> On $C([0, 1])$, define
+    $d(f, g) = |f(0) - g(0)|$. Then $d$ satisfies all axioms except this one: any two
+    functions agreeing at $x = 0$ have distance zero, even if they differ wildly
+    elsewhere. This is a <strong>pseudometric</strong>. It identifies distinct objects,
+    destroying the ability to distinguish points.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A metric space is any set where you can measure distance &mdash; three axioms
+  abstract the essential properties of $|x - y|$ on $\mathbb{R}$.
+</div>
+
+<div class="nav">
+  <a href="../phase8/08-poincare-bendixson.html">&larr; Previous: The Poincar&eacute;&ndash;Bendixson Theorem</a>
+  <a href="02-open-closed.html">Next: Open and Closed Sets &rarr;</a>
+</div>
+
+</body>
+</html>

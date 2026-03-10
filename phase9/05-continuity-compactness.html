@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continuity on Compact Sets — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Continuity on Compact Sets</h1>
+<p class="subtitle">Phase 9 &mdash; Topology of Metric Spaces, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    We proved in <a href="../phase3/07-riemann-integral.html">Phase 3, page 7</a> that
+    continuous functions on $[a, b]$ are integrable, and in
+    <a href="../phase2/06-ivt.html">Phase 2, page 6</a> that the intermediate value
+    theorem holds on closed intervals. Both proofs relied on two special properties of
+    $[a, b]$: every open cover has a finite subcover, and every sequence has a convergent
+    subsequence. These are precisely the two faces of <strong>compactness</strong>, which
+    we defined on <a href="04-compactness.html">page 4</a>.
+  </p>
+  <p>
+    Now we state the general versions. What can you guarantee about a continuous function
+    when its domain is compact?
+  </p>
+</div>
+
+<h2>1. Continuous maps between metric spaces</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Continuity</div>
+  <p>
+    Let $(X, d_X)$ and $(Y, d_Y)$ be metric spaces. A function $f : X \to Y$ is
+    <strong>continuous at $x_0 \in X$</strong> if for every $\varepsilon > 0$ there exists
+    $\delta > 0$ such that
+  </p>
+  <div class="display-math">$$d_X(x, x_0) < \delta \implies d_Y(f(x), f(x_0)) < \varepsilon$$</div>
+  <p>
+    We say $f$ is <strong>continuous</strong> if it is continuous at every point of $X$.
+  </p>
+</div>
+
+<p>
+  This is the $\varepsilon$-$\delta$ definition from
+  <a href="../phase2/05-continuity.html">Phase 2, page 5</a>, with absolute values
+  replaced by metrics. There are two equivalent characterisations.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Equivalent characterisations of continuity</div>
+  <p>
+    For $f : (X, d_X) \to (Y, d_Y)$, the following are equivalent:
+  </p>
+  <ol>
+    <li>$f$ is continuous ($\varepsilon$-$\delta$ definition).</li>
+    <li>For every open set $U \subseteq Y$, the preimage $f^{-1}(U)$ is open in $X$.</li>
+    <li>$f$ preserves convergent sequences: $x_n \to x$ in $X$ implies $f(x_n) \to f(x)$ in $Y$.</li>
+  </ol>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(1) $\Rightarrow$ (2).</strong> Let $U \subseteq Y$ be open and take
+    $x_0 \in f^{-1}(U)$. Then $f(x_0) \in U$, so there exists $\varepsilon > 0$ with
+    $B(f(x_0), \varepsilon) \subseteq U$. By continuity at $x_0$, there exists $\delta > 0$
+    with $f(B(x_0, \delta)) \subseteq B(f(x_0), \varepsilon) \subseteq U$. Hence
+    $B(x_0, \delta) \subseteq f^{-1}(U)$, so $f^{-1}(U)$ is open.
+  </p>
+  <p>
+    <strong>(2) $\Rightarrow$ (3).</strong> Suppose $x_n \to x$ and let $\varepsilon > 0$.
+    The set $U = B(f(x), \varepsilon)$ is open in $Y$, so $f^{-1}(U)$ is open in $X$.
+    Since $x \in f^{-1}(U)$, there exists $\delta > 0$ with $B(x, \delta) \subseteq f^{-1}(U)$.
+    Since $x_n \to x$, eventually $x_n \in B(x, \delta)$, so $f(x_n) \in U$, i.e.
+    $d_Y(f(x_n), f(x)) < \varepsilon$.
+  </p>
+  <p>
+    <strong>(3) $\Rightarrow$ (1).</strong> Suppose $f$ is not continuous at $x_0$. Then
+    there exists $\varepsilon > 0$ such that for every $n \geq 1$, there is $x_n$ with
+    $d_X(x_n, x_0) < 1/n$ but $d_Y(f(x_n), f(x_0)) \geq \varepsilon$. Then $x_n \to x_0$
+    but $f(x_n) \not\to f(x_0)$, contradicting (3).
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>2. The extreme value theorem (general)</h2>
+
+<p>
+  On $\mathbb{R}$, a continuous function on $[a, b]$ is bounded and attains its bounds.
+  The general version replaces $[a, b]$ with any compact metric space.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Continuous image of compact is compact</div>
+  <p>
+    Let $f : X \to Y$ be continuous and $K \subseteq X$ compact. Then $f(K)$ is compact in $Y$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $\{U_\alpha\}$ be an open cover of $f(K)$. Each $f^{-1}(U_\alpha)$ is open in $X$
+    (by characterisation (2) above), and $\{f^{-1}(U_\alpha)\}$ covers $K$. Since $K$ is
+    compact, finitely many $f^{-1}(U_{\alpha_1}), \ldots, f^{-1}(U_{\alpha_n})$ cover $K$.
+    Then $U_{\alpha_1}, \ldots, U_{\alpha_n}$ cover $f(K)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Extreme value theorem</div>
+  <p>
+    If $f : K \to \mathbb{R}$ is continuous and $K$ is a compact metric space, then $f$
+    attains its maximum and minimum: there exist $x_{\min}, x_{\max} \in K$ with
+    $f(x_{\min}) \leq f(x) \leq f(x_{\max})$ for all $x \in K$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    $f(K)$ is compact in $\mathbb{R}$. By Heine&ndash;Borel
+    (<a href="04-compactness.html">page 4</a>), $f(K)$ is closed and bounded. Since $f(K)$
+    is bounded, $M = \sup f(K)$ is finite. Since $f(K)$ is closed, $M \in f(K)$, so there
+    exists $x_{\max} \in K$ with $f(x_{\max}) = M$. The argument for the minimum is identical.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Uniform continuity</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Uniform continuity</div>
+  <p>
+    A function $f : (X, d_X) \to (Y, d_Y)$ is <strong>uniformly continuous</strong> if for
+    every $\varepsilon > 0$ there exists $\delta > 0$ such that for <em>all</em>
+    $x, y \in X$,
+  </p>
+  <div class="display-math">$$d_X(x, y) < \delta \implies d_Y(f(x), f(y)) < \varepsilon$$</div>
+</div>
+
+<p>
+  The crucial distinction: in ordinary continuity, $\delta$ may depend on both $\varepsilon$
+  and the point $x_0$. In uniform continuity, a single $\delta$ works for every pair of
+  points simultaneously. Uniform continuity is a global property of the function; ordinary
+  continuity is local.
+</p>
+
+<p>
+  Every uniformly continuous function is continuous (take the same $\delta$ at each point).
+  The converse is false in general &mdash; but it becomes true on compact sets.
+</p>
+
+<h2>4. Heine's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Heine's theorem</div>
+  <p>
+    Let $K$ be a compact metric space and $f : K \to Y$ continuous. Then $f$ is uniformly
+    continuous.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Suppose $f$ is not uniformly continuous. Then there exists $\varepsilon_0 > 0$ such that
+    for every $n \geq 1$, there exist $x_n, y_n \in K$ with $d_X(x_n, y_n) < 1/n$ but
+    $d_Y(f(x_n), f(y_n)) \geq \varepsilon_0$.
+  </p>
+  <p>
+    Since $K$ is compact (hence sequentially compact, <a href="04-compactness.html">page 4</a>),
+    $(x_n)$ has a subsequence $x_{n_k} \to x^* \in K$. Since
+    $d_X(y_{n_k}, x^*) \leq d_X(y_{n_k}, x_{n_k}) + d_X(x_{n_k}, x^*) < 1/n_k + d_X(x_{n_k}, x^*) \to 0$,
+    we also have $y_{n_k} \to x^*$.
+  </p>
+  <p>
+    By continuity of $f$, $f(x_{n_k}) \to f(x^*)$ and $f(y_{n_k}) \to f(x^*)$. So
+    $d_Y(f(x_{n_k}), f(y_{n_k})) \to 0$, contradicting
+    $d_Y(f(x_{n_k}), f(y_{n_k})) \geq \varepsilon_0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This generalises the result from <a href="../phase3/07-riemann-integral.html">Phase 3,
+  page 7</a>, where we proved uniform continuity on $[a, b]$. The proof there used the
+  same contradiction argument, but relied on Bolzano&ndash;Weierstrass specifically in
+  $\mathbb{R}$. Now we see the real engine was sequential compactness.
+</p>
+
+<h2>5. Continuous bijections on compact sets</h2>
+
+<p>
+  A continuous bijection need not have a continuous inverse &mdash; unless the domain is
+  compact.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Continuous bijection from compact space is a homeomorphism</div>
+  <p>
+    Let $K$ be a compact metric space, $Y$ a metric space, and $f : K \to Y$ a continuous
+    bijection. Then $f^{-1} : Y \to K$ is continuous, so $f$ is a homeomorphism.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    It suffices to show $f$ maps closed sets to closed sets (then $f^{-1}$ pulls back closed
+    sets to closed sets, which is continuity by the open-set characterisation applied to
+    complements).
+  </p>
+  <p>
+    Let $C \subseteq K$ be closed. Since $K$ is compact and $C$ is closed, $C$ is compact
+    (<a href="04-compactness.html">page 4</a>: a closed subset of a compact set is compact).
+    Since $f$ is continuous, $f(C)$ is compact (proved above). A compact subset of a metric
+    space is closed (<a href="04-compactness.html">page 4</a>). So $f(C)$ is closed.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The proof is a beautiful chain: closed $\Rightarrow$ compact $\Rightarrow$ compact
+  $\Rightarrow$ closed, with compactness of $K$ and continuity of $f$ doing the heavy
+  lifting at each step.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Eduard Heine proved uniform continuity on closed intervals in 1872, building on ideas of
+    Dirichlet. The generalisation to compact metric spaces came naturally once Fr&eacute;chet
+    introduced abstract metric spaces in 1906 and the notion of compactness was formalised
+    by Alexandroff and Urysohn in the 1920s.
+  </p>
+  <p>
+    The extreme value theorem in $\mathbb{R}$ is due to Weierstrass (1861), who also gave
+    the first rigorous $\varepsilon$-$\delta$ definitions. Its extension to general metric
+    spaces was part of the Bourbaki programme of recasting analysis in topological language.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without compactness, the extreme value theorem fails.</strong> The function
+    $f(x) = 1/x$ on $(0, 1)$ is continuous but unbounded &mdash; $\sup f = +\infty$, never
+    attained. The domain is bounded but not closed, hence not compact.
+  </p>
+  <p>
+    <strong>Without compactness, uniform continuity fails.</strong> The function
+    $f(x) = x^2$ on $\mathbb{R}$ is continuous but not uniformly continuous: for any
+    $\delta > 0$, take $x = 1/\delta$ and $y = x + \delta/2$. Then $|x - y| = \delta/2 < \delta$
+    but $|f(x) - f(y)| = |2x + \delta/2|\cdot\delta/2 > 1$. The domain is closed but
+    not bounded, hence not compact.
+  </p>
+  <p>
+    <strong>Without compactness, a continuous bijection need not be a homeomorphism.</strong>
+    Define $f : [0, 2\pi) \to S^1$ by $t \mapsto (\cos t, \sin t)$. This is a continuous
+    bijection, but $f^{-1}$ is not continuous: as points on $S^1$ approach $(1, 0)$ from
+    above, their preimages approach $0$, but from below their preimages approach $2\pi$.
+    The domain $[0, 2\pi)$ is not compact (not closed in $\mathbb{R}$).
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  On a compact set, continuous functions cannot misbehave &mdash; they are bounded, attain
+  their extremes, and are uniformly continuous.
+</div>
+
+<div class="nav">
+  <a href="04-compactness.html">&larr; Previous: Compactness</a>
+  <a href="06-banach-fixed-point.html">Next: The Banach Fixed Point Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

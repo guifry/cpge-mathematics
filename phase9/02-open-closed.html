@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open and Closed Sets — Phase 9</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Open and Closed Sets</h1>
+<p class="subtitle">Phase 9 &mdash; Topology of Metric Spaces, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    In $\mathbb{R}$, the closed interval $[a, b]$ has a remarkable property: if a
+    sequence $(x_n)$ lives entirely inside $[a, b]$ and converges, its limit stays in
+    $[a, b]$. The open interval $(a, b)$ does not enjoy this &mdash; the sequence
+    $x_n = a + 1/n$ lies in $(a, b)$ for large $n$ but converges to $a$, which is
+    outside.
+  </p>
+  <p>
+    Conversely, every point of $(a, b)$ has "breathing room": you can draw a small
+    interval around it that stays inside $(a, b)$. For $[a, b]$, the endpoints $a$ and
+    $b$ have no such room &mdash; any interval around them spills outside.
+  </p>
+  <p>
+    Cantor (1884) realised these two properties &mdash; "contains all its limit points"
+    versus "every point has room around it" &mdash; are the fundamental distinction.
+    They have nothing to do with square or round brackets. They make sense in any metric
+    space.
+  </p>
+</div>
+
+<h2>1. Open sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Open set</div>
+  <p>
+    Let $(X, d)$ be a metric space. A subset $U \subseteq X$ is <strong>open</strong> if
+    for every $x \in U$, there exists $r > 0$ such that $B(x, r) \subseteq U$.
+  </p>
+</div>
+
+<p>
+  In words: every point of $U$ is an <strong>interior point</strong> &mdash; it sits
+  strictly inside $U$ with room to spare. No point of $U$ is on the "edge."
+</p>
+
+<p>
+  <strong>Examples in $\mathbb{R}$.</strong> The interval $(a, b)$ is open: for any
+  $x \in (a, b)$, take $r = \min(x - a, b - x) > 0$, then $(x - r, x + r) \subseteq (a, b)$.
+  The interval $[a, b]$ is <em>not</em> open: the point $a$ has no open ball
+  $B(a, r) = (a - r, a + r)$ contained in $[a, b]$, since $a - r/2 < a$ lies outside.
+</p>
+
+<p>
+  <strong>Example in a general metric space.</strong> Every open ball $B(x_0, R)$ is
+  itself an open set. To see this, take any $y \in B(x_0, R)$ and set
+  $r = R - d(x_0, y) > 0$. For any $z \in B(y, r)$, the triangle inequality gives
+</p>
+<div class="display-math">$$d(x_0, z) \leq d(x_0, y) + d(y, z) < d(x_0, y) + r = R$$</div>
+<p>
+  so $z \in B(x_0, R)$. Thus $B(y, r) \subseteq B(x_0, R)$.
+</p>
+
+<h2>2. Properties of open sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Open set axioms</div>
+  <p>
+    Let $(X, d)$ be a metric space. Then:
+  </p>
+  <ol>
+    <li>$\varnothing$ and $X$ are open.</li>
+    <li>Any union of open sets is open: if $(U_i)_{i \in I}$ are open, so is $\bigcup_{i \in I} U_i$.</li>
+    <li>Any <em>finite</em> intersection of open sets is open: if $U_1, \ldots, U_n$ are open, so is $U_1 \cap \cdots \cap U_n$.</li>
+  </ol>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(1)</strong> $\varnothing$ is open vacuously: it contains no points, so the
+    condition "for every $x \in \varnothing$, ..." is satisfied with nothing to check.
+    $X$ is open because every ball $B(x, r)$ is a subset of $X$.
+  </p>
+  <p>
+    <strong>(2)</strong> Let $x \in \bigcup_{i \in I} U_i$. Then $x \in U_j$ for some
+    $j \in I$. Since $U_j$ is open, there exists $r > 0$ with $B(x, r) \subseteq U_j
+    \subseteq \bigcup_{i \in I} U_i$.
+  </p>
+  <p>
+    <strong>(3)</strong> Let $x \in U_1 \cap \cdots \cap U_n$. For each $k$, since $U_k$
+    is open, there exists $r_k > 0$ with $B(x, r_k) \subseteq U_k$. Take
+    $r = \min(r_1, \ldots, r_n) > 0$ (this is where finiteness is essential &mdash; a
+    minimum of finitely many positive numbers is positive). Then
+    $B(x, r) \subseteq B(x, r_k) \subseteq U_k$ for every $k$, so
+    $B(x, r) \subseteq U_1 \cap \cdots \cap U_n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The restriction to <em>finite</em> intersections is not a technicality &mdash; it is
+  essential. Consider the open sets $U_n = (-1/n, 1/n)$ in $\mathbb{R}$. Each is open,
+  but
+</p>
+<div class="display-math">$$\bigcap_{n=1}^{\infty} U_n = \{0\}$$</div>
+<p>
+  and $\{0\}$ is not open in $\mathbb{R}$: no interval $(0 - r, 0 + r)$ is contained in
+  $\{0\}$.
+</p>
+
+<h2>3. Closed sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Closed set</div>
+  <p>
+    A subset $F \subseteq X$ is <strong>closed</strong> if its complement $X \setminus F$
+    is open.
+  </p>
+</div>
+
+<p>
+  "Closed" is not the opposite of "open." A set can be both open and closed (like
+  $\varnothing$ and $X$), or neither (like $[0, 1)$ in $\mathbb{R}$). The terminology
+  is unfortunate but entrenched.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Sequential characterisation of closed sets</div>
+  <p>
+    $F \subseteq X$ is closed if and only if whenever $(x_n)$ is a sequence in $F$ that
+    converges to some $x \in X$, then $x \in F$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>($\Rightarrow$)</strong> Suppose $F$ is closed and $(x_n)$ is a sequence in $F$
+    converging to $x$. We show $x \in F$ by contradiction. If $x \notin F$, then
+    $x \in X \setminus F$, which is open. So there exists $r > 0$ with
+    $B(x, r) \subseteq X \setminus F$. But $x_n \to x$ means eventually $d(x_n, x) < r$,
+    so $x_n \in B(x, r) \subseteq X \setminus F$ &mdash; contradicting $x_n \in F$.
+  </p>
+  <p>
+    <strong>($\Leftarrow$)</strong> Suppose $F$ contains all limits of its convergent
+    sequences. We show $X \setminus F$ is open. Take $x \in X \setminus F$. If no ball
+    $B(x, r)$ were contained in $X \setminus F$, then for each $n \geq 1$ the ball
+    $B(x, 1/n)$ would contain some $x_n \in F$. This gives a sequence $(x_n)$ in $F$
+    with $d(x_n, x) < 1/n \to 0$, so $x_n \to x$. By hypothesis, $x \in F$ &mdash;
+    contradicting $x \in X \setminus F$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  This is the precise version of Cantor's insight: a closed set is one that
+  "holds on to all its limit points."
+</p>
+
+<h2>4. Properties of closed sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Closed set axioms</div>
+  <p>
+    Let $(X, d)$ be a metric space. Then:
+  </p>
+  <ol>
+    <li>$\varnothing$ and $X$ are closed.</li>
+    <li>Any intersection of closed sets is closed.</li>
+    <li>Any <em>finite</em> union of closed sets is closed.</li>
+  </ol>
+</div>
+
+<p>
+  These are exactly dual to the open set properties: complement each statement and apply
+  De Morgan's laws ($X \setminus \bigcup F_i = \bigcap (X \setminus F_i)$ and vice
+  versa). Since complements of open sets are closed, unions become intersections and
+  the finiteness condition migrates accordingly.
+</p>
+
+<h2>5. Interior, closure, and boundary</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Interior, closure, boundary</div>
+  <p>
+    Let $A \subseteq X$.
+  </p>
+  <ul>
+    <li>The <strong>interior</strong> $\mathring{A}$ is the largest open set contained in $A$: the union of all open subsets of $A$.</li>
+    <li>The <strong>closure</strong> $\overline{A}$ is the smallest closed set containing $A$: the intersection of all closed supersets of $A$.</li>
+    <li>The <strong>boundary</strong> $\partial A = \overline{A} \setminus \mathring{A}$.</li>
+  </ul>
+</div>
+
+<p>
+  Equivalently, $x \in \mathring{A}$ iff there exists $r > 0$ with $B(x, r) \subseteq A$,
+  and $x \in \overline{A}$ iff every ball $B(x, r)$ meets $A$ (contains at least one
+  point of $A$).
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Closure via limit points</div>
+  <p>
+    $\overline{A} = A \cup A'$, where $A'$ is the set of <strong>limit points</strong>
+    of $A$: points $x \in X$ such that every ball $B(x, r)$ contains a point of $A$
+    distinct from $x$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $C = A \cup A'$. We show $C$ is closed and is the smallest closed set containing $A$.
+  </p>
+  <p>
+    <strong>$C$ is closed.</strong> Take $x \notin C$. Then $x \notin A$ and $x \notin A'$,
+    so there exists $r > 0$ with $B(x, r) \cap (A \setminus \{x\}) = \varnothing$. Since
+    $x \notin A$, we actually have $B(x, r) \cap A = \varnothing$. We claim
+    $B(x, r) \cap A' = \varnothing$ too: if $y \in B(x, r) \cap A'$, choose
+    $\rho = r - d(x, y) > 0$; then $B(y, \rho) \subseteq B(x, r)$, so $B(y, \rho)$
+    contains a point of $A$ &mdash; but $B(x, r) \cap A = \varnothing$, contradiction.
+    Hence $B(x, r) \subseteq X \setminus C$, so $X \setminus C$ is open.
+  </p>
+  <p>
+    <strong>$C$ is the smallest.</strong> Any closed set $F \supseteq A$ must contain
+    $A'$: if $x$ is a limit point of $A$, build a sequence in $A \subseteq F$ converging
+    to $x$; since $F$ is closed, $x \in F$. So $F \supseteq A \cup A' = C$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>Example.</strong> The closure of $\mathbb{Q}$ in $\mathbb{R}$ is $\mathbb{R}$.
+  Every real number is a limit of rationals &mdash; we proved this density property in
+  <a href="../phase2/07-density.html">Phase 2, page 7</a>. Equivalently, every ball
+  $(x - r, x + r)$ contains a rational number.
+</p>
+
+<h2>6. Neither open nor closed</h2>
+
+<p>
+  The half-open interval $[0, 1)$ in $\mathbb{R}$ is neither open nor closed.
+  It is not open because $0$ has no ball $(0 - r, 0 + r) \subseteq [0, 1)$.
+  It is not closed because the sequence $x_n = 1 - 1/n$ lies in $[0, 1)$ but converges
+  to $1 \notin [0, 1)$.
+</p>
+
+<p>
+  Similarly, $\mathbb{Q}$ in $\mathbb{R}$ is neither open nor closed. It is not open
+  because every ball around a rational contains irrationals. It is not closed because
+  $\mathbb{Q}$ does not contain all its limit points &mdash; every irrational is a limit
+  of rationals.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Georg Cantor developed point-set theory in the 1870s and 1880s while studying a
+    concrete problem: under what conditions is a function's trigonometric series
+    representation unique? He needed to understand the structure of "exceptional sets"
+    where uniqueness might fail, and this forced him to define limit points, derived sets,
+    and the distinction between open and closed.
+  </p>
+  <p>
+    The precise definitions and the terminology we use today &mdash; "open set"
+    (<em>offene Menge</em>), "closed set" (<em>abgeschlossene Menge</em>), "neighbourhood"
+    &mdash; were standardised by Hausdorff in <em>Grundz&uuml;ge der Mengenlehre</em>
+    (1914). Hausdorff recognised that the three properties of open sets (the "open set
+    axioms" we proved in Section 2) could serve as the foundation for a theory of
+    topology that does not require a metric at all &mdash; but that is a story for
+    another phase.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Infinite intersections of open sets need not be open.</strong>
+    We saw this already: $\bigcap_{n=1}^{\infty}(-1/n, 1/n) = \{0\}$, a single point,
+    which is not open in $\mathbb{R}$. The proof of finite intersections used
+    $r = \min(r_1, \ldots, r_n) > 0$; with infinitely many $r_k$, the infimum can be
+    zero.
+  </p>
+  <p>
+    <strong>Infinite unions of closed sets need not be closed.</strong>
+    Take $F_n = [1/n, 1 - 1/n]$ in $\mathbb{R}$. Each $F_n$ is closed, but
+  </p>
+  <div class="display-math">$$\bigcup_{n=1}^{\infty} F_n = (0, 1)$$</div>
+  <p>
+    which is open, not closed. The limit points $0$ and $1$ escape every finite stage
+    but are limits of the whole union.
+  </p>
+  <p>
+    <strong>The topology depends on the metric.</strong> Equip $\mathbb{R}$ with the
+    discrete metric ($d(x,y) = 1$ for $x \neq y$). Then $B(x, 1/2) = \{x\}$, so every
+    singleton is open, hence every subset of $\mathbb{R}$ is a union of singletons and
+    therefore open. Every set is also closed (its complement is open). In the discrete
+    metric, <em>every</em> set is simultaneously open and closed &mdash;
+    <strong>clopen</strong>. The concepts of "open" and "closed" are not intrinsic to the
+    set $\mathbb{R}$; they depend on which metric you choose.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Open sets give every point breathing room; closed sets hold on to all their limit
+  points &mdash; the two notions are complementary.
+</div>
+
+<div class="nav">
+  <a href="01-metric-spaces.html">&larr; Previous: Metric Spaces</a>
+  <a href="03-completeness.html">Next: Completeness in Metric Spaces &rarr;</a>
+</div>
+
+</body>
+</html>

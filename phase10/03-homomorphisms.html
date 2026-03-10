@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homomorphisms and the First Isomorphism Theorem — Phase 10</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Homomorphisms and the First Isomorphism Theorem</h1>
+<p class="subtitle">Phase 10 &mdash; Abstract Algebra, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Different groups can have identical structure. The additive group
+    $(\mathbb{Z}/2\mathbb{Z}, +) = \{\bar{0}, \bar{1}\}$ and the multiplicative group
+    $(\{1, -1\}, \times)$ both have two elements, and their multiplication tables match
+    perfectly: the "interesting" element combined with itself gives the identity.
+  </p>
+  <p>
+    Cayley (1854) asked: when should we consider two groups "the same"? And what happens
+    when you map one group into another while preserving the operation &mdash; what can
+    you learn from the elements that get sent to the identity? The answer is the first
+    isomorphism theorem, arguably the most important single result in abstract algebra.
+  </p>
+</div>
+
+<h2>1. Homomorphisms</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Group homomorphism</div>
+  <p>
+    A map $\varphi: G \to H$ between groups is a <strong>homomorphism</strong> if
+  </p>
+  <div class="display-math">$$\varphi(ab) = \varphi(a)\varphi(b) \quad \text{for all } a, b \in G$$</div>
+  <p>
+    If $\varphi$ is also bijective, it is an <strong>isomorphism</strong>, and we write
+    $G \cong H$.
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Proposition &mdash; Basic properties of homomorphisms</div>
+  <p>
+    Let $\varphi: G \to H$ be a homomorphism. Then:
+    (a) $\varphi(e_G) = e_H$, and (b) $\varphi(a^{-1}) = \varphi(a)^{-1}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(a)</strong> $\varphi(e_G) = \varphi(e_G e_G) = \varphi(e_G)\varphi(e_G)$.
+    Multiply both sides on the left by $\varphi(e_G)^{-1}$: $e_H = \varphi(e_G)$.
+  </p>
+  <p>
+    <strong>(b)</strong> $\varphi(a)\varphi(a^{-1}) = \varphi(aa^{-1}) = \varphi(e_G) = e_H$.
+    By uniqueness of inverses in $H$, $\varphi(a^{-1}) = \varphi(a)^{-1}$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>2. Kernel and image</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Kernel and image</div>
+  <p>
+    For a homomorphism $\varphi: G \to H$:
+  </p>
+  <div class="display-math">$$\ker(\varphi) = \{g \in G : \varphi(g) = e_H\}, \qquad \text{im}(\varphi) = \{\varphi(g) : g \in G\}$$</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Proposition</div>
+  <p>
+    $\ker(\varphi) \leq G$ and $\text{im}(\varphi) \leq H$. Moreover, $\varphi$ is
+    injective if and only if $\ker(\varphi) = \{e_G\}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Kernel is a subgroup:</strong> $e_G \in \ker(\varphi)$ by part (a) above, so
+    $\ker(\varphi) \neq \varnothing$. For $a, b \in \ker(\varphi)$:
+    $\varphi(ab^{-1}) = \varphi(a)\varphi(b)^{-1} = e_H e_H^{-1} = e_H$, so
+    $ab^{-1} \in \ker(\varphi)$. By the subgroup test (page 2), $\ker(\varphi) \leq G$.
+  </p>
+  <p>
+    <strong>Image is a subgroup:</strong> $e_H = \varphi(e_G) \in \text{im}(\varphi)$. For
+    $\varphi(a), \varphi(b) \in \text{im}(\varphi)$:
+    $\varphi(a)\varphi(b)^{-1} = \varphi(ab^{-1}) \in \text{im}(\varphi)$.
+  </p>
+  <p>
+    <strong>Injectivity criterion:</strong> ($\Rightarrow$) If $\varphi$ is injective and
+    $\varphi(g) = e_H = \varphi(e_G)$, then $g = e_G$. ($\Leftarrow$) Suppose
+    $\ker(\varphi) = \{e_G\}$ and $\varphi(a) = \varphi(b)$. Then
+    $\varphi(ab^{-1}) = \varphi(a)\varphi(b)^{-1} = e_H$, so $ab^{-1} = e_G$, so $a = b$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Normal subgroups</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Normal subgroup</div>
+  <p>
+    A subgroup $N \leq G$ is <strong>normal</strong>, written $N \trianglelefteq G$, if
+    $gNg^{-1} = N$ for every $g \in G$. Equivalently, $gN = Ng$ for every $g \in G$
+    (left and right cosets coincide).
+  </p>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Proposition &mdash; Kernels are normal</div>
+  <p>
+    For any homomorphism $\varphi: G \to H$, $\ker(\varphi) \trianglelefteq G$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $n \in \ker(\varphi)$ and $g \in G$. Then
+    $\varphi(gng^{-1}) = \varphi(g)\varphi(n)\varphi(g)^{-1} = \varphi(g) e_H \varphi(g)^{-1} = e_H$.
+    So $gng^{-1} \in \ker(\varphi)$, and since $g$ was arbitrary, $g\ker(\varphi)g^{-1} \subseteq \ker(\varphi)$.
+    Replacing $g$ by $g^{-1}$ gives the reverse inclusion.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Further examples: every subgroup of an abelian group is normal (since $gng^{-1} = n$
+  always). The alternating group $A_n \trianglelefteq S_n$ (it is the kernel of the sign
+  homomorphism). The <strong>centre</strong> $Z(G) = \{g \in G : gx = xg \text{ for all } x \in G\}$
+  is always normal.
+</p>
+
+<h2>4. Quotient groups</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Quotient group</div>
+  <p>
+    For $N \trianglelefteq G$, the <strong>quotient group</strong> $G/N$ is the set of
+    left cosets $\{gN : g \in G\}$ with multiplication $(gN)(hN) = (gh)N$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof that $G/N$ is a well-defined group</div>
+  <p>
+    <strong>Well-defined:</strong> suppose $gN = g'N$ and $hN = h'N$. Then $g' = gn_1$ and
+    $h' = hn_2$ for some $n_1, n_2 \in N$. So $g'h' = gn_1 hn_2$. We need $gn_1 h n_2 \in (gh)N$.
+    Since $N$ is normal, $n_1 h = h n_3$ for some $n_3 \in N$ (because $h^{-1}n_1 h \in N$).
+    So $g'h' = g h n_3 n_2 \in (gh)N$.
+  </p>
+  <p>
+    <strong>Group axioms:</strong> associativity is inherited from $G$. The identity is $eN = N$.
+    The inverse of $gN$ is $g^{-1}N$, since $(gN)(g^{-1}N) = (gg^{-1})N = N$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The normality of $N$ is essential. Without it, the product of cosets depends on which
+  representatives you choose, and the "multiplication" is not a function.
+</p>
+
+<h2>5. The first isomorphism theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; First isomorphism theorem</div>
+  <p>
+    If $\varphi: G \to H$ is a group homomorphism, then
+  </p>
+  <div class="display-math">$$G / \ker(\varphi) \cong \text{im}(\varphi)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $K = \ker(\varphi)$. Define $\Phi: G/K \to \text{im}(\varphi)$ by $\Phi(gK) = \varphi(g)$.
+  </p>
+  <p>
+    <strong>Well-defined:</strong> if $gK = g'K$, then $g' = gk$ for some $k \in K$, so
+    $\varphi(g') = \varphi(gk) = \varphi(g)\varphi(k) = \varphi(g) e_H = \varphi(g)$.
+  </p>
+  <p>
+    <strong>Homomorphism:</strong> $\Phi(gK \cdot hK) = \Phi((gh)K) = \varphi(gh) = \varphi(g)\varphi(h) = \Phi(gK)\Phi(hK)$.
+  </p>
+  <p>
+    <strong>Injective:</strong> if $\Phi(gK) = e_H$, then $\varphi(g) = e_H$, so $g \in K$,
+    so $gK = K$ is the identity in $G/K$.
+  </p>
+  <p>
+    <strong>Surjective:</strong> every element of $\text{im}(\varphi)$ is $\varphi(g)$ for
+    some $g$, which is $\Phi(gK)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The theorem says: collapse the kernel to a point, and what remains is a faithful copy
+  of the image. A homomorphism's output is determined by its input modulo the kernel.
+</p>
+
+<h2>6. Applications</h2>
+
+<p>
+  <strong>(a) Sign homomorphism.</strong> Define $\text{sgn}: S_n \to \{1, -1\}$ by
+  $\text{sgn}(\sigma) = (-1)^k$ where $\sigma$ is a product of $k$ transpositions. This
+  is a surjective homomorphism with $\ker(\text{sgn}) = A_n$. The first isomorphism
+  theorem gives $S_n / A_n \cong \mathbb{Z}/2\mathbb{Z}$.
+</p>
+<p>
+  <strong>(b) Determinant.</strong> The map $\det: \text{GL}_n(\mathbb{R}) \to \mathbb{R}^*$
+  is a surjective homomorphism with $\ker(\det) = \text{SL}_n(\mathbb{R})$. So
+  $\text{GL}_n(\mathbb{R}) / \text{SL}_n(\mathbb{R}) \cong \mathbb{R}^*$.
+</p>
+<p>
+  <strong>(c) Reduction modulo $n$.</strong> The map $\pi: \mathbb{Z} \to \mathbb{Z}/n\mathbb{Z}$
+  by $k \mapsto \bar{k}$ is a surjective homomorphism with $\ker(\pi) = n\mathbb{Z}$.
+  The first isomorphism theorem gives $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n\mathbb{Z}$
+  &mdash; a tautology, but it shows the quotient construction from Phase 1, page 3 is an
+  instance of a universal algebraic pattern.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The isomorphism theorems were proved by Emmy Noether in the 1920s, though special cases
+    had appeared earlier in the work of Dedekind and Jordan. Noether's insight was to
+    shift the focus of algebra from explicit computations to structure-preserving maps.
+    Instead of asking "what are the elements?", she asked "what are the homomorphisms?"
+    This perspective &mdash; study objects via their maps &mdash; became the foundation
+    of modern algebra and eventually of category theory.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without normality, the quotient fails:</strong> take $H = \{e, (1\;2)\}$ in
+    $S_3$. The left coset $(1\;3)H = \{(1\;3), (1\;2\;3)\}$ and the right coset
+    $H(1\;3) = \{(1\;3), (1\;3\;2)\}$ are different. If you try to define
+    $(gH)(g'H) = (gg')H$, the result depends on which representatives you pick &mdash;
+    the "multiplication" is not well-defined.
+  </p>
+  <p>
+    <strong>Without the homomorphism property:</strong> if $\varphi: G \to H$ is just a
+    surjective function (no algebraic compatibility), the fibres $\varphi^{-1}(h)$ have
+    no group structure and there is no isomorphism theorem. The entire machinery depends
+    on $\varphi$ respecting the operation.
+  </p>
+  <p>
+    <strong>Trivial kernel does not mean isomorphism:</strong> $\ker(\varphi) = \{e\}$
+    gives injectivity, not bijectivity. The inclusion $\mathbb{Z} \hookrightarrow \mathbb{R}$
+    by $n \mapsto n$ is an injective homomorphism, but $\mathbb{Z} \not\cong \mathbb{R}$.
+    You also need surjectivity.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The first isomorphism theorem: a homomorphism's image is a copy of the domain modulo the
+  kernel &mdash; what you see equals what you are, minus what you forget.
+</div>
+
+<div class="nav">
+  <a href="02-subgroups-lagrange.html">&larr; Previous: Subgroups and Lagrange's Theorem</a>
+  <a href="04-cayley-sylow.html">Next: Cayley's Theorem and the Sylow Theorems &rarr;</a>
+</div>
+
+</body>
+</html>
