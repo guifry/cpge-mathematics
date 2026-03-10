@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jarl Lindeberg</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/lindeberg.jpg" alt="Jarl Lindeberg" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Jarl Lindeberg</h1>
+      <p class="mathematician-dates">1876–1932</p>
+      <p class="mathematician-nationality">Finnish</p>
+      <p class="mathematician-areas">Probability, analysis</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase12/07-central-limit-theorem.html">Lindeberg condition for the CLT</a> &mdash; Phase 12, page 7</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Lindeberg&rsquo;s method (swapping)</b> &mdash; the technique of replacing random variables one at a time in a sum to prove convergence, later refined by Chatterjee and widely used in random matrix theory.</li>
+    <li><b>Feller&ndash;Lindeberg CLT</b> &mdash; Feller (1935) proved that the Lindeberg condition is not only sufficient but also necessary (under mild regularity) for the CLT, completing Lindeberg&rsquo;s programme.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Jarl Waldemar Lindeberg was born and died in Helsinki. He studied at the University of Helsinki, where he spent his entire career, and earned his doctorate in 1906 with work on differential equations. His shift to probability theory came later, and his output in the field was small in volume but enormous in impact.</p>
+
+    <p>Lindeberg&rsquo;s 1922 paper &ldquo;&Uuml;ber das Exponentialgesetz in der Wahrscheinlichkeitsrechnung&rdquo; gave the definitive conditions under which the Central Limit Theorem holds for sums of independent but <em>not necessarily identically distributed</em> random variables. The key insight is the <b>Lindeberg condition</b>: the contribution of any single summand to the total variance must become negligible as the number of summands grows. Formally, for each $\varepsilon > 0$,</p>
+
+    <p>$$\frac{1}{s_n^2} \sum_{k=1}^n E\bigl[(X_k - \mu_k)^2 \,\mathbf{1}_{|X_k - \mu_k| > \varepsilon s_n}\bigr] \to 0$$</p>
+
+    <p>where $s_n^2$ is the total variance. This condition says that no single variable dominates the sum &mdash; the CLT works because the sum genuinely averages out many small contributions.</p>
+
+    <p>The proof technique Lindeberg introduced &mdash; replacing the actual random variables with Gaussian ones, one at a time, and bounding the error at each step &mdash; has become a standard method in probability known as the <em>Lindeberg swapping trick</em>. It reappears in random matrix theory, in Stein&rsquo;s method for normal approximation, and in many other limit theorems.</p>
+
+    <p>Lindeberg published relatively few papers and is not well known outside probability theory. He had no doctoral students and held no prestigious positions. Yet his 1922 paper is one of the most cited in the history of probability, and his condition remains the standard criterion for the CLT in the non-identical case.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 12</td><td><a href="../phase12/07-central-limit-theorem.html">The Central Limit Theorem</a></td><td>Lindeberg condition (1922): weakened the i.i.d. requirement for the CLT</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

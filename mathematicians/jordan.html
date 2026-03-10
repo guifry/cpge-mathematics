@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camille Jordan &mdash; Mathematician Profile</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/jordan.jpg" alt="Camille Jordan" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Camille Jordan</h1>
+      <p class="mathematician-dates">1838&ndash;1922</p>
+      <p class="mathematician-nationality">French</p>
+      <p class="mathematician-areas">Algebra, topology, analysis</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase6/11-jordan-normal-form.html">Jordan normal form (1870)</a> &mdash; Phase 6, page 11</li>
+    <li><a href="../phase8/08-poincare-bendixson.html">Jordan curve theorem</a> &mdash; Phase 8, page 8</li>
+    <li><a href="../phase10/03-homomorphisms.html">Isomorphism theorems (precursor)</a> &mdash; Phase 10, page 3</li>
+    <li><a href="../phase13/04-svd.html">Singular value decomposition (co-discoverer, 1874)</a> &mdash; Phase 13, page 4</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Jordan measure (Jordan content)</b> &mdash; an early formalisation of the notion of "area" for bounded sets, precursor to Lebesgue measure.</li>
+    <li><b><em>Trait&eacute; des substitutions et des &eacute;quations alg&eacute;briques</em></b> &mdash; the first textbook on group theory (1870), which made Galois's ideas accessible.</li>
+    <li><b>Jordan&ndash;H&ouml;lder theorem</b> &mdash; the composition factors of a finite group are unique up to order and isomorphism.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Marie Ennemond Camille Jordan was born in Lyon and educated at the &Eacute;cole Polytechnique. He spent his career split between the &Eacute;cole Polytechnique and the Coll&egrave;ge de France, and was elected to the Acad&eacute;mie des Sciences in 1881. He worked simultaneously as a mathematician and as an engineer in the Corps des Mines.</p>
+
+    <p>Jordan's 1870 <em>Trait&eacute; des substitutions</em> was the first systematic exposition of group theory. It made Galois's revolutionary but fragmentary ideas &mdash; published posthumously and largely ignored for decades &mdash; accessible to the mathematical community. The book introduced permutation groups, normal subgroups, and composition series, and it contains the Jordan normal form for matrices over algebraically closed fields. The Jordan normal form is the strongest structure theorem for linear maps: it gives the complete similarity invariant of a matrix, reducing every endomorphism to a canonical block-diagonal form.</p>
+
+    <p>In topology, Jordan stated and attempted to prove the curve theorem that bears his name: a simple closed curve in the plane divides it into exactly two connected components. His proof had gaps, and the first rigorous proof was given by Oswald Veblen in 1905. Despite the flawed proof, Jordan's identification of the result as a theorem needing proof (rather than an obvious fact) was itself a significant insight. The Jordan curve theorem is essential for the Poincar&eacute;&ndash;Bendixson theorem on planar dynamical systems.</p>
+
+    <p>Jordan independently discovered the singular value decomposition for square matrices in 1874, one year after Beltrami. He also developed Jordan measure (Jordan content), an early notion of area that was later superseded by Lebesgue measure but remains useful as a pedagogical stepping stone. The isomorphism theorems for groups, often attributed to Noether, had precursors in Jordan's and Dedekind's work. Jordan died in Paris in 1922, one of the most versatile mathematicians of the 19th century.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 6</td><td><a href="../phase6/11-jordan-normal-form.html">Jordan Normal Form</a></td><td>Introduced Jordan blocks and normal form (1870)</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/11-jordan-normal-form.html">Jordan Normal Form</a></td><td>Historical: <em>Trait&eacute; des substitutions</em></td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/11-jordan-normal-form.html">Jordan Normal Form</a></td><td>Complete invariant of matrix similarity</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/04-linear-odes.html">Linear ODE Solution Structure</a></td><td>Jordan blocks used for non-diagonalisable systems</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/06-matrix-exponential.html">Systems and the Matrix Exponential</a></td><td>Computing $e^{At}$ via Jordan form</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/07-stability.html">Stability and Lyapunov's Method</a></td><td>Jordan blocks determine stability: polynomial growth factors</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/08-poincare-bendixson.html">The Poincar&eacute;-Bendixson Theorem</a></td><td>Jordan curve theorem: simple closed curve divides the plane</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/08-poincare-bendixson.html">The Poincar&eacute;-Bendixson Theorem</a></td><td>Jordan curve theorem fails in $\mathbb{R}^3$ (why chaos is possible)</td></tr>
+      <tr><td>Phase 10</td><td><a href="../phase10/03-homomorphisms.html">Homomorphisms and the First Isomorphism Theorem</a></td><td>Precursor to isomorphism theorems (before Noether)</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/03-spectral-theorem.html">The Spectral Theorem</a></td><td>Jordan normal form as alternative for non-symmetric matrices</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/04-svd.html">Singular Value Decomposition</a></td><td>Co-discovered SVD for square matrices (1874)</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/05-rayleigh-courant-fischer.html">The Rayleigh Quotient and Courant-Fischer</a></td><td>Jordan blocks: eigenvalue sensitivity for non-symmetric matrices</td></tr>
+      <tr><td>Phase 14</td><td><a href="../phase14/08-best-approximation.html">Best Approximation in Hilbert Spaces</a></td><td>Von Neumann&ndash;Jordan theorem (parallelogram law characterisation)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

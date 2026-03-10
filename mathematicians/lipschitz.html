@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rudolf Lipschitz — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/lipschitz.jpg" alt="Rudolf Lipschitz" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Rudolf Lipschitz</h1>
+      <p class="mathematician-dates">1832–1903</p>
+      <p class="mathematician-nationality">German</p>
+      <p class="mathematician-areas">Analysis, differential equations, differential geometry, number theory</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase8/02-cauchy-lipschitz.html">Cauchy-Lipschitz theorem (Picard-Lindel&ouml;f)</a> — Phase 8, page 2</li>
+    <li><a href="../phase8/02-cauchy-lipschitz.html">Lipschitz condition for ODE uniqueness</a> — Phase 8, page 2</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Lipschitz algebras</b> — spaces of Lipschitz functions, now central to metric geometry and non-commutative geometry.</li>
+    <li><b>Contributions to Clifford algebras</b> — Lipschitz independently developed what are now called Clifford algebras, extending Hamilton's quaternions.</li>
+    <li><b>Work on Bessel functions</b> — systematic study of Bessel function expansions and their convergence.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Rudolf Otto Sigismund Lipschitz was born in K&ouml;nigsberg (now Kaliningrad) in 1832 and spent most of his career at the University of Bonn. He was a broad mathematician in the nineteenth-century tradition, contributing to analysis, number theory, differential geometry, and algebra.</p>
+
+    <p>Lipschitz's most enduring contribution is the condition that bears his name. In 1876, he identified the precise regularity assumption on the right-hand side $f(t,y)$ of an ordinary differential equation $y' = f(t,y)$ that guarantees uniqueness of solutions: there must exist a constant $L$ such that $|f(t, y_1) - f(t, y_2)| \leq L|y_1 - y_2|$ for all $(t, y_1), (t, y_2)$ in the domain. This <b>Lipschitz condition</b> is stronger than continuity but weaker than differentiability, and it became the cornerstone of the Cauchy-Lipschitz (Picard-Lindel&ouml;f) existence and uniqueness theorem.</p>
+
+    <p>The concept proved far more versatile than its original context. Lipschitz continuity now appears throughout analysis and geometry: in fixed-point theory (contractions are Lipschitz with constant less than one), in metric space theory, in the study of Sobolev spaces, and in modern machine learning (Lipschitz constraints stabilise neural networks). Lipschitz died in Bonn in 1903, the same year that Peano's existence theorem (which drops the Lipschitz condition but loses uniqueness) became widely known.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 3</td><td><a href="../phase3/07-integrability.html">Integrability</a></td><td>Lipschitz continuous functions are integrable</td></tr>
+      <tr><td>Phase 4</td><td><a href="../phase4/03-exponential.html">The Exponential Function</a></td><td>Cauchy-Lipschitz referenced for ODE uniqueness</td></tr>
+      <tr><td>Phase 4</td><td><a href="../phase4/04-trig-series.html">Trigonometric Series</a></td><td>Cauchy-Lipschitz referenced for uniqueness of trig ODE</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/01-first-order-odes.html">First-Order ODEs</a></td><td>Lipschitz condition introduced as key regularity assumption</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/02-cauchy-lipschitz.html">The Cauchy-Lipschitz Theorem</a></td><td>Lipschitz condition defined; Cauchy-Lipschitz theorem proved</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/03-gronwall.html">Gronwall's Inequality</a></td><td>Lipschitz condition used for continuous dependence on initial data</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/04-linear-odes.html">Linear ODEs</a></td><td>Cauchy-Lipschitz applied to linear systems</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/06-matrix-exponential.html">The Matrix Exponential</a></td><td>Linear systems are Lipschitz; Cauchy-Lipschitz guarantees global solutions</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/08-poincare-bendixson.html">The Poincar&eacute;-Bendixson Theorem</a></td><td>Lipschitz condition for flow uniqueness</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/06-banach-fixed-point.html">Banach Fixed-Point Theorem</a></td><td>Cauchy-Lipschitz revisited via Banach contraction</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/07-baire-arzela-ascoli.html">Baire and Arzel&agrave;-Ascoli</a></td><td>Lipschitz functions as example of equicontinuity</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/05-rayleigh-courant-fischer.html">Courant-Fischer</a></td><td>Eigenvalues of symmetric matrices are Lipschitz functions of entries</td></tr>
+      <tr><td>Phase 14</td><td><a href="../phase14/01-norms.html">Norms</a></td><td>Every norm is Lipschitz with respect to $\|\cdot\|_2$</td></tr>
+      <tr><td>Phase 14</td><td><a href="../phase14/04-continuous-linear-maps.html">Continuous Linear Maps</a></td><td>Bounded linear maps are Lipschitz continuous</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

@@ -22,7 +22,7 @@
 
 <div class="problem-box">
 <div class="label">The problem</div>
-<p>In 1807, Joseph Fourier made a scandalous claim to the French Academy of Sciences: <em>any</em> periodic function — even a square wave with sharp corners — can be written as a sum of smooth sines and cosines. Lagrange, sitting on the review committee, declared this impossible. How could infinitely differentiable functions add up to something with a discontinuity?</p>
+<p>In 1807, Joseph <a href="../mathematicians/fourier.html">Fourier</a> made a scandalous claim to the French Academy of Sciences: <em>any</em> periodic function — even a square wave with sharp corners — can be written as a sum of smooth sines and cosines. <a href="../mathematicians/lagrange.html">Lagrange</a>, sitting on the review committee, declared this impossible. How could infinitely differentiable functions add up to something with a discontinuity?</p>
 <p>Fourier was right, mostly. The exceptions — functions whose Fourier series diverges — turned out to be more interesting than the rule, and the quest to understand them drove a century of mathematical progress.</p>
 <p>But the starting question is entirely concrete: given a periodic signal, how do you decompose it into pure frequencies? And once you have the decomposition, can you recover the original signal by summing up the pieces?</p>
 </div>
@@ -72,7 +72,7 @@
 <div class="display-math">$$\int_{-\pi}^{\pi} \sin(mx)\sin(nx)\,dx = \pi\delta_{mn}$$</div>
 <div class="display-math">$$\int_{-\pi}^{\pi} \cos(mx)\sin(nx)\,dx = 0 \quad \text{for all } m, n$$</div>
 <div class="display-math">$$\int_{-\pi}^{\pi} 1\,dx = 2\pi$$</div>
-<p>Here $\delta_{mn}$ is the Kronecker delta: $1$ if $m = n$, and $0$ otherwise.</p>
+<p>Here $\delta_{mn}$ is the <a href="../mathematicians/kronecker.html">Kronecker</a> delta: $1$ if $m = n$, and $0$ otherwise.</p>
 </div>
 
 <p>In words: different frequencies are orthogonal to each other, and same-frequency sine and cosine are orthogonal to each other. The norms are: $\|1\|^2 = \langle 1, 1 \rangle = 2\pi$, and $\|\cos(nx)\|^2 = \|\sin(nx)\|^2 = \pi$ for all $n \geq 1$.</p>
@@ -166,7 +166,7 @@
 
 <div class="display-math">$$f(x) = \frac{4}{\pi}\left(\sin x + \frac{\sin 3x}{3} + \frac{\sin 5x}{5} + \frac{\sin 7x}{7} + \cdots\right) = \frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin\bigl((2k+1)x\bigr)}{2k+1}$$</div>
 
-<p>Sharp corners assembled from smooth waves. Each additional sine term sharpens the approximation a little more — with 10 terms you can already see the square shape clearly — but the corners are never perfect with finitely many terms. The partial sums always overshoot slightly near the discontinuities (this is the Gibbs phenomenon, which we study on page 4 of this phase).</p>
+<p>Sharp corners assembled from smooth waves. Each additional sine term sharpens the approximation a little more — with 10 terms you can already see the square shape clearly — but the corners are never perfect with finitely many terms. The partial sums always overshoot slightly near the discontinuities (this is the <a href="../mathematicians/gibbs.html">Gibbs</a> phenomenon, which we study on page 4 of this phase).</p>
 
 <p>Notice the pattern: only <em>odd</em> harmonics appear (frequencies $1, 3, 5, 7, \ldots$). This is because the square wave has a special symmetry: $f(x + \pi) = -f(x)$ (it is <b>half-wave antisymmetric</b>). You can verify: if $0 < x < \pi$, then $x + \pi$ lands in $(\pi, 2\pi)$, which by periodicity is the same as $(-\pi, 0)$, where $f = -1 = -f(x)$. Any function with this property has $a_{2k} = b_{2k} = 0$ for all $k$.</p>
 
@@ -202,7 +202,7 @@
 
 <div class="display-math">$$\frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots$$</div>
 
-<p>This is the Leibniz formula for $\pi/4$, which we derived by a completely different method (the arctangent series) in <a href="../phase4/06-leibniz-series.html">Phase 4, page 6</a>. Fourier analysis gives it for free as a substitution into a known series. This is a recurring theme: Fourier series often yield surprising number-theoretic identities when evaluated at specific points.</p>
+<p>This is the <a href="../mathematicians/leibniz.html">Leibniz</a> formula for $\pi/4$, which we derived by a completely different method (the arctangent series) in <a href="../phase4/06-leibniz-series.html">Phase 4, page 6</a>. Fourier analysis gives it for free as a substitution into a known series. This is a recurring theme: Fourier series often yield surprising number-theoretic identities when evaluated at specific points.</p>
 
 <p>We could also set $x = \pi/6$, where $\sin(n\pi/6)$ takes the values $1/2, \sqrt{3}/2, 1, \sqrt{3}/2, 1/2, 0, -1/2, \ldots$ to obtain yet another identity. Each substitution "reads off" a different numerical series from the same Fourier expansion.</p>
 
@@ -212,7 +212,7 @@
 
 <p>The real Fourier series involves three families ($1$, $\cos$, $\sin$) and three coefficient formulas ($a_0$, $a_n$, $b_n$). There is a more compact formulation using complex exponentials.</p>
 
-<p>Recall Euler's formula $e^{inx} = \cos(nx) + i\sin(nx)$ (which we established in <a href="../phase4/03-euler-formula.html">Phase 4, page 3</a>). From it, $\cos(nx) = \frac{e^{inx} + e^{-inx}}{2}$ and $\sin(nx) = \frac{e^{inx} - e^{-inx}}{2i}$. Substituting into the real Fourier series, each pair $a_n\cos(nx) + b_n\sin(nx)$ can be rewritten in terms of $e^{inx}$ and $e^{-inx}$.</p>
+<p>Recall <a href="../mathematicians/euler.html">Euler</a>'s formula $e^{inx} = \cos(nx) + i\sin(nx)$ (which we established in <a href="../phase4/03-euler-formula.html">Phase 4, page 3</a>). From it, $\cos(nx) = \frac{e^{inx} + e^{-inx}}{2}$ and $\sin(nx) = \frac{e^{inx} - e^{-inx}}{2i}$. Substituting into the real Fourier series, each pair $a_n\cos(nx) + b_n\sin(nx)$ can be rewritten in terms of $e^{inx}$ and $e^{-inx}$.</p>
 
 <p>Define the <b>complex Fourier coefficients</b>:</p>
 
@@ -256,16 +256,16 @@
 <div class="label">Historical note</div>
 <p>Fourier presented his theory to the Institut de France in 1807, in a memoir on heat conduction. His goal was to solve the heat equation $\frac{\partial u}{\partial t} = k\frac{\partial^2 u}{\partial x^2}$ on a metal bar. The key insight: if you decompose the initial temperature distribution into sines and cosines, each frequency component evolves independently. Specifically, if the initial temperature is $u(x,0) = \sin(nx)$, then the solution is $u(x,t) = e^{-kn^2 t}\sin(nx)$ — the mode decays exponentially, with high frequencies vanishing fastest. For arbitrary initial data, decompose into Fourier modes, let each evolve, and sum up.</p>
 <p>This was the birth of Fourier analysis: a method for solving differential equations by decomposing into simpler components that each evolve independently.</p>
-<p>The review committee of Lagrange, Laplace, and Legendre was deeply sceptical. Lagrange, the most vocal critic, maintained that discontinuous functions could never be represented by sums of continuous ones. He had a point — the convergence theory did not exist yet.</p>
-<p>Fourier's full treatise, <em>Th&eacute;orie analytique de la chaleur</em>, was finally published in 1822. But it contained no rigorous convergence proofs. That gap was filled by Dirichlet in 1829, who gave the first conditions under which a Fourier series provably converges to the function it represents.</p>
-<p>The impact went far beyond physics. The convergence question for Fourier series drove 19th-century mathematicians to develop the modern theory of integration (Riemann, then Lebesgue), the theory of sets (Cantor), and the rigorous foundations of analysis (Weierstrass). A single question — "when does this trigonometric series converge?" — reshaped the whole of mathematics. We take up the convergence story on <a href="02-convergence.html">page 2</a>.</p>
+<p>The review committee of Lagrange, <a href="../mathematicians/laplace.html">Laplace</a>, and <a href="../mathematicians/legendre.html">Legendre</a> was deeply sceptical. Lagrange, the most vocal critic, maintained that discontinuous functions could never be represented by sums of continuous ones. He had a point — the convergence theory did not exist yet.</p>
+<p>Fourier's full treatise, <em>Th&eacute;orie analytique de la chaleur</em>, was finally published in 1822. But it contained no rigorous convergence proofs. That gap was filled by <a href="../mathematicians/dirichlet.html">Dirichlet</a> in 1829, who gave the first conditions under which a Fourier series provably converges to the function it represents.</p>
+<p>The impact went far beyond physics. The convergence question for Fourier series drove 19th-century mathematicians to develop the modern theory of integration (<a href="../mathematicians/riemann.html">Riemann</a>, then <a href="../mathematicians/lebesgue.html">Lebesgue</a>), the theory of sets (<a href="../mathematicians/cantor.html">Cantor</a>), and the rigorous foundations of analysis (<a href="../mathematicians/weierstrass.html">Weierstrass</a>). A single question — "when does this trigonometric series converge?" — reshaped the whole of mathematics. We take up the convergence story on <a href="02-convergence.html">page 2</a>.</p>
 </div>
 
 <div class="break-box">
 <div class="label">What breaks</div>
 <p><b>Without periodicity:</b> the trigonometric system is orthogonal on $[-\pi, \pi]$ specifically because sine and cosine are periodic. The integrals $\int_{-\pi}^{\pi}\cos(mx)\cos(nx)\,dx = 0$ rely on cancellation over a full period. For a non-periodic function defined on all of $\mathbb{R}$, you cannot decompose into discrete frequencies. Instead, you need the <b>Fourier transform</b> — a continuous integral $\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)e^{-i\xi x}\,dx$ replacing the discrete sum of coefficients.</p>
 <p><b>Without square-integrability:</b> the Fourier coefficients are defined by integrals of the form $\int f(x)\cos(nx)\,dx$. For this integral to exist, we need at least $f \cdot \cos(nx)$ to be integrable, which requires $f$ itself to be integrable. If $f$ is not integrable — say $f(x) = 1/x^2$ near $0$, whose integral diverges — the coefficients do not exist. Square-integrability ($\int |f|^2 < \infty$) is actually stronger than what we need for the coefficients to exist (plain integrability $\int |f| < \infty$ suffices), but it is the right condition for the $L^2$ theory, where we can measure convergence in norm.</p>
-<p><b>Coefficients exist but convergence fails:</b> you can compute Fourier coefficients for any integrable function, but the resulting series $\frac{a_0}{2} + \sum(a_n\cos nx + b_n\sin nx)$ may not converge back to $f$. Du Bois-Reymond (1876) constructed a continuous function whose Fourier series diverges at a specific point. Having the coefficients is only half the story. The other half — convergence — is the subject of <a href="02-convergence.html">page 2</a>.</p>
+<p><b>Coefficients exist but convergence fails:</b> you can compute Fourier coefficients for any integrable function, but the resulting series $\frac{a_0}{2} + \sum(a_n\cos nx + b_n\sin nx)$ may not converge back to $f$. <a href="../mathematicians/du-bois-reymond.html">Du Bois-Reymond</a> (1876) constructed a continuous function whose Fourier series diverges at a specific point. Having the coefficients is only half the story. The other half — convergence — is the subject of <a href="02-convergence.html">page 2</a>.</p>
 </div>
 
 <hr>

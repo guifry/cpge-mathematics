@@ -39,3 +39,34 @@ figcaption { color: var(--dim); font-size: 0.85rem; margin-top: 0.5rem; }
 table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
 th, td { padding: 0.5rem 0.8rem; border: 1px solid var(--accent2); text-align: left; }
 th { background: var(--surface); color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+a { color: var(--accent); }
+.mathematician-header { display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 2rem; }
+.mathematician-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); flex-shrink: 0; }
+.mathematician-info h1 { margin-bottom: 0.5rem; }
+.mathematician-dates { color: var(--dim); font-size: 1.05rem; margin-bottom: 0.3rem; }
+.mathematician-nationality { color: var(--dim); font-size: 0.95rem; margin-bottom: 0.3rem; }
+.mathematician-areas { color: var(--accent); font-size: 0.9rem; font-style: italic; margin-bottom: 0; }
+.mathematician-theorems { list-style: disc; margin: 0.5rem 0 1rem 1.5rem; }
+.mathematician-theorems li { margin-bottom: 0.4rem; }
+.mathematician-bio { line-height: 1.8; }
+.mathematician-references { width: 100%; }
+.mathematician-references td a { text-decoration: none; }
+.mathematician-references td a:hover { text-decoration: underline; }
+.mathematician-references tr { cursor: pointer; }
+.mathematician-references tr:hover { background: var(--surface); }
+.timeline-container { margin: 2rem 0; }
+.timeline-row { display: flex; align-items: flex-end; gap: 0; padding-bottom: 2rem; border-bottom: 3px solid var(--accent2); margin-bottom: 1rem; position: relative; flex-wrap: wrap; justify-content: flex-start; }
+.timeline-entry { display: flex; flex-direction: column; align-items: center; width: 90px; position: relative; cursor: pointer; text-decoration: none; }
+.timeline-entry .timeline-line { width: 2px; height: 40px; background: var(--accent2); }
+.timeline-entry .timeline-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.timeline-entry:hover .timeline-photo { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3); }
+.timeline-entry .timeline-name { font-size: 0.7rem; color: var(--dim); text-align: center; margin-top: 0.3rem; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.timeline-entry .timeline-year { font-size: 0.6rem; color: var(--dim); }
+.timeline-tooltip { display: none; position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--accent2); border-radius: 6px; padding: 0.8rem 1rem; min-width: 200px; max-width: 280px; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.timeline-entry:hover .timeline-tooltip { display: block; }
+.timeline-tooltip .tt-name { color: var(--accent); font-weight: bold; font-size: 0.9rem; margin-bottom: 0.3rem; }
+.timeline-tooltip .tt-dates { color: var(--dim); font-size: 0.8rem; margin-bottom: 0.2rem; }
+.timeline-tooltip .tt-nationality { color: var(--dim); font-size: 0.8rem; margin-bottom: 0.4rem; }
+.timeline-tooltip .tt-theorems { list-style: disc; margin: 0 0 0 1rem; padding: 0; font-size: 0.75rem; color: var(--text); }
+.timeline-tooltip .tt-theorems li { margin-bottom: 0.2rem; }
+.timeline-era { color: var(--dim); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1.5rem; margin-bottom: 0.5rem; }

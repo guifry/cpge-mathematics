@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pierre de Fermat — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/fermat.jpg" alt="Pierre de Fermat" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Pierre de Fermat</h1>
+      <p class="mathematician-dates">1601–1665</p>
+      <p class="mathematician-nationality">French</p>
+      <p class="mathematician-areas">Number theory, calculus, probability, optics</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase1/04-fermat-little.html">Fermat's little theorem</a> — Phase 1, page 4</li>
+    <li><a href="../phase3/01-derivative.html">Fermat's theorem on stationary points</a> — Phase 3, page 1</li>
+    <li><a href="../phase3/01-derivative.html">Method of adequality (proto-derivative)</a> — Phase 3, page 1</li>
+    <li><a href="../phase12/01-probability-spaces.html">Probability correspondence with Pascal (1654)</a> — Phase 12, page 1</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Fermat's Last Theorem</b> — the claim that $x^n + y^n = z^n$ has no positive integer solutions for $n \geq 3$. Stated in 1637, proved by Andrew Wiles in 1995.</li>
+    <li><b>Fermat's principle of least time</b> — light travels between two points along the path that takes the least time. The foundation of geometric optics.</li>
+    <li><b>Fermat numbers</b> — $F_n = 2^{2^n} + 1$. Fermat conjectured all are prime; Euler showed $F_5$ is not.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Fermat was a lawyer by profession — a councillor at the Parliament of Toulouse — and a mathematician by passion. He published almost nothing during his lifetime, preferring to communicate results in letters to other mathematicians, often without proof. This habit produced some of the most productive and frustrating correspondence in mathematical history.</p>
+
+    <p>In number theory, Fermat's little theorem ($a^{p-1} \equiv 1 \pmod{p}$ for $p$ prime and $\gcd(a,p) = 1$) is the foundation of modern primality testing and public-key cryptography. He stated it in a 1640 letter to Frénicle de Bessy, characteristically without proof. His "Last Theorem" — the marginal note claiming $x^n + y^n = z^n$ has no positive integer solutions for $n \geq 3$ — took 358 years to prove.</p>
+
+    <p>In calculus, Fermat developed the method of adequality around 1636 to find maxima and minima of curves. The idea was essentially the derivative: set $f(x)$ "approximately equal" to $f(x + e)$, divide by $e$, then set $e = 0$. This predates Newton and Leibniz by decades and gives Fermat a strong claim to being the inventor of differential calculus — at least the part concerned with optimisation.</p>
+
+    <p>In 1654, Fermat and Pascal exchanged letters about the "problem of points" — how to divide stakes fairly in an interrupted game of chance. This correspondence is the founding document of probability theory. Fermat's approach was combinatorial: enumerate all possible continuations and count favourable outcomes. Together, they transformed gambling intuitions into mathematics.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 0</td><td><a href="../phase0/06-coordinate-geometry.html">Coordinate Geometry</a></td><td>Arrived at coordinate geometry independently of Descartes</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/01-divisibility.html">Divisibility and the Euclidean Algorithm</a></td><td>Fermat's little theorem rests on Bézout's identity</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/04-fermat-little.html">Fermat's Little Theorem</a></td><td>Stated $a^{p-1} \equiv 1 \pmod{p}$ in letter to Frénicle (1640)</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/04-fermat-little.html">Fermat's Little Theorem</a></td><td>Fermat primality test and Carmichael numbers</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/05-euler-totient.html">Euler's Totient Function</a></td><td>Fermat's theorem as special case of Euler's theorem</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/07-diophantine.html">Diophantine Equations</a></td><td>Fermat's Last Theorem and Pythagorean triples</td></tr>
+      <tr><td>Phase 3</td><td><a href="../phase3/01-derivative.html">The Derivative</a></td><td>Method of adequality (1636) — proto-derivative for maxima/minima</td></tr>
+      <tr><td>Phase 3</td><td><a href="../phase3/01-derivative.html">The Derivative</a></td><td>Fermat's theorem on stationary points</td></tr>
+      <tr><td>Phase 3</td><td><a href="../phase3/04-mean-value-theorem.html">The Mean Value Theorem</a></td><td>Fermat's theorem used in the proof of MVT</td></tr>
+      <tr><td>Phase 10</td><td><a href="../phase10/02-subgroups-lagrange.html">Subgroups and Lagrange's Theorem</a></td><td>Fermat's little theorem recovered from Lagrange's theorem</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/01-probability-spaces.html">Probability Spaces</a></td><td>Correspondence with Pascal (1654), founding probability</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/03-expectation.html">Random Variables and Expectation</a></td><td>Problem of points with Pascal</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+</body>
+</html>

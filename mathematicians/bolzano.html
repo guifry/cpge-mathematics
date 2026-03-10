@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bernard Bolzano — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/bolzano.jpg" alt="Bernard Bolzano" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Bernard Bolzano</h1>
+      <p class="mathematician-dates">1781–1848</p>
+      <p class="mathematician-nationality">Bohemian (Czech)</p>
+      <p class="mathematician-areas">Analysis, logic, philosophy of mathematics</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase2/04-bolzano-weierstrass.html">Bolzano-Weierstrass theorem</a> — Phase 2, page 4</li>
+    <li><a href="../phase2/06-ivt.html">First rigorous proof of the Intermediate Value Theorem</a> — Phase 2, page 6</li>
+    <li><a href="../phase9/04-compactness.html">Bolzano-Weierstrass in metric spaces</a> — Phase 9, page 4</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Bolzano function</b> — constructed an early example of a continuous nowhere-differentiable function, decades before Weierstrass's famous example.</li>
+    <li><b><em>Paradoxien des Unendlichen</em></b> — posthumous work (1851) on paradoxes of the infinite, anticipating Cantor's set theory by several decades.</li>
+    <li><b>Rigorous foundations</b> — among the first to insist on purely arithmetical proofs in analysis, rejecting geometric intuition as a substitute for rigour.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Bolzano was a Catholic priest, philosopher, and mathematician in Prague who saw more clearly than almost anyone in his generation that "obvious" geometric intuition was not a valid foundation for analysis. While his contemporaries — and even giants like Euler — freely assumed that continuous curves must cross axes and bounded sequences must cluster somewhere, Bolzano demanded proofs.</p>
+    <p>In 1817, he gave the first rigorous proof of the Intermediate Value Theorem: if a continuous function is negative at one end of an interval and positive at the other, it must be zero somewhere in between. This sounds obvious when you draw a picture, but Bolzano understood that the completeness of the real numbers was needed to make it work — on $\mathbb{Q}$, continuous functions can jump over values without hitting them.</p>
+    <p>The same 1817 paper contained the Bolzano-Weierstrass theorem — every bounded sequence has a convergent subsequence. This result, later rediscovered and popularised by Weierstrass, became one of the pillars of real analysis. It appears throughout this course: in the proof of the extreme value theorem (Phase 3), in the Cauchy criterion (Phase 2), in compactness (Phase 9), and in the Arzelà-Ascoli theorem (Phase 9).</p>
+    <p>Bolzano's mathematical work was largely ignored in his lifetime, partly because he published in obscure venues and partly because he was dismissed from his university position in 1819 for political reasons — his sermons criticised war, social inequality, and the Habsburg establishment. His ideas on the infinite, continuity, and rigour were rediscovered independently by Weierstrass, Cantor, and Dedekind decades later.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 0</td><td><a href="../phase0/03-sqrt2-irrational.html">√2 is Irrational</a></td><td>Cauchy sequences and Dedekind cuts to fill gaps in $\mathbb{Q}$</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/01-completeness.html">Completeness of ℝ</a></td><td>Bolzano-Weierstrass listed as key consequence of completeness</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/03-monotone-convergence.html">Monotone Convergence Theorem</a></td><td>Rigourisation of analysis by Bolzano (1817)</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/04-bolzano-weierstrass.html">Bolzano-Weierstrass Theorem</a></td><td>Proved bounded sequences have convergent subsequences (1817)</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/05-cauchy-criterion.html">Cauchy Criterion</a></td><td>Bolzano-Weierstrass used in proof of Cauchy criterion</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/06-ivt.html">Connected Sets and the IVT</a></td><td>First rigorous proof of the IVT (1817)</td></tr>
+      <tr><td>Phase 2</td><td><a href="../phase2/07-dense-subsets.html">Dense Subsets</a></td><td>Bolzano-Weierstrass referenced as key result</td></tr>
+      <tr><td>Phase 3</td><td><a href="../phase3/04-mean-value-theorem.html">The Mean Value Theorem</a></td><td>Bolzano-Weierstrass used in extreme value theorem proof</td></tr>
+      <tr><td>Phase 3</td><td><a href="../phase3/07-integrability.html">Integrability and Properties</a></td><td>Bolzano-Weierstrass used in proof by contradiction</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/08-poincare-bendixson.html">The Poincar&eacute;-Bendixson Theorem</a></td><td>Bolzano-Weierstrass used for sequence extraction</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/04-compactness.html">Compactness</a></td><td>Bolzano-Weierstrass generalised to metric spaces</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/05-continuity-compactness.html">Continuity on Compact Sets</a></td><td>Bolzano-Weierstrass in contradiction argument</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/07-baire-arzela-ascoli.html">Baire Category and Arzelà-Ascoli</a></td><td>Bolzano-Weierstrass for extracting convergent subsequence</td></tr>
+      <tr><td>Phase 14</td><td><a href="../phase14/03-riesz-lemma.html">Riesz's Lemma and Finite-Dimensional Characterisation</a></td><td>Bolzano-Weierstrass fails in infinite dimensions</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

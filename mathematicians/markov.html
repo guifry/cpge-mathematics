@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrey Markov</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/markov.jpg" alt="Andrey Markov" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Andrey Markov</h1>
+      <p class="mathematician-dates">1856–1922</p>
+      <p class="mathematician-nationality">Russian</p>
+      <p class="mathematician-areas">Probability, number theory, analysis</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase12/05-markov-chebyshev.html">Markov&rsquo;s inequality</a> &mdash; Phase 12, page 5</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Markov chains</b> &mdash; introduced stochastic processes where the future depends only on the present state, not the past. Foundational for modern probability, statistical physics, and computer science.</li>
+    <li><b>Markov&rsquo;s theorem on continued fractions</b> &mdash; characterised the worst-approximable irrational numbers via Markov triples.</li>
+    <li><b>Extension of the Central Limit Theorem</b> &mdash; proved CLT-type results for dependent random variables, beyond the i.i.d. case.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Andrey Andreyevich Markov was born in Ryazan, Russia. He studied at Saint Petersburg University under Chebyshev, who became his doctoral supervisor and lifelong intellectual influence. The Petersburg school of probability, built by Chebyshev, was the strongest in the world at the time, and Markov became its most distinguished product.</p>
+
+    <p>Markov&rsquo;s inequality (1884) is the simplest and most general tail bound in probability: for a non-negative random variable $X$ with finite expectation, $P(X \geq a) \leq E[X]/a$. Despite its simplicity, it is the root of an entire tree of concentration inequalities. Chebyshev&rsquo;s inequality is a direct corollary (apply Markov to $(X - \mu)^2$), and the &ldquo;transform then apply Markov&rdquo; strategy underpins Chernoff bounds and all exponential tail estimates.</p>
+
+    <p>Markov&rsquo;s greatest innovation was the theory of <em>Markov chains</em>, introduced in 1906. He was motivated partly by a desire to extend the law of large numbers beyond independent variables and partly by a polemical disagreement with the theologian Pavel Nekrasov, who claimed that the law of large numbers implied human free will. Markov showed that dependence between variables does not prevent convergence &mdash; demolishing Nekrasov&rsquo;s argument with a mathematical counterexample.</p>
+
+    <p>He was known for his prickly temperament and willingness to engage in public disputes. He resigned from the Russian Orthodox Church in protest and asked the Tsar to exempt him from Russian citizenship. He died in Petrograd in 1922, having lived long enough to see the revolution transform the country he had spent his career fighting with.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 12</td><td><a href="../phase12/04-variance.html">Variance and Covariance</a></td><td>Navigation link to Markov and Chebyshev inequalities</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/05-markov-chebyshev.html">Markov and Chebyshev Inequalities</a></td><td>Markov&rsquo;s inequality (1884): $P(X \geq a) \leq E[X]/a$</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/05-markov-chebyshev.html">Markov and Chebyshev Inequalities</a></td><td>Chebyshev&rsquo;s doctoral supervisor; the &ldquo;transform then apply Markov&rdquo; strategy</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/05-markov-chebyshev.html">Markov and Chebyshev Inequalities</a></td><td>Tightness example showing Markov cannot be improved in general</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/06-law-of-large-numbers.html">The Law of Large Numbers</a></td><td>Markov&rsquo;s inequality applied in the proof of the weak law</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/08-conditional-expectation.html">Conditional Expectation as Projection</a></td><td>Markov and Chebyshev in the phase summary</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carl Friedrich Gauss — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/gauss.jpg" alt="Carl Friedrich Gauss" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Carl Friedrich Gauss</h1>
+      <p class="mathematician-dates">1777–1855</p>
+      <p class="mathematician-nationality">German</p>
+      <p class="mathematician-areas">Number theory, algebra, analysis, astronomy, geodesy</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase1/02-primes.html">Fundamental Theorem of Arithmetic (rigorous proof)</a> — Phase 1, page 2</li>
+    <li><a href="../phase1/03-modular-arithmetic.html">Modular arithmetic (Disquisitiones Arithmeticae)</a> — Phase 1, page 3</li>
+    <li><a href="../phase6/01-vector-spaces.html">Gaussian elimination</a> — Phase 6, page 1</li>
+    <li><a href="../phase6/08-projection.html">Least squares (orbit of Ceres)</a> — Phase 6, page 8</li>
+    <li><a href="../phase7/08-stokes-divergence.html">Divergence theorem (Gauss-Ostrogradsky)</a> — Phase 7, page 8</li>
+    <li><a href="../phase10/06-rings-polynomials.html">Polynomial arithmetic</a> — Phase 10, page 6</li>
+    <li><a href="../phase10/07-irreducibility-fta.html">Gauss's lemma and Fundamental Theorem of Algebra</a> — Phase 10, page 7</li>
+    <li><a href="../phase13/01-bilinear-forms.html">Classification of binary quadratic forms</a> — Phase 13, page 1</li>
+    <li><a href="../phase13/02-quadratic-forms.html">Completing the square (Gauss's method)</a> — Phase 13, page 2</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Theorema Egregium</b> — Gaussian curvature is intrinsic to the surface, independent of how it sits in space.</li>
+    <li><b>Gauss's law in electromagnetism</b> — electric flux through a closed surface is proportional to enclosed charge; one of Maxwell's equations.</li>
+    <li><b>Non-Euclidean geometry</b> — independently discovered hyperbolic geometry but never published, fearing controversy.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Gauss was a child prodigy from a working-class family in Brunswick. The famous story — summing the integers from 1 to 100 as a schoolboy by pairing $1+100, 2+99, \ldots$ — captures his characteristic approach: find the structure, then the calculation becomes trivial.</p>
+    <p>His <em>Disquisitiones Arithmeticae</em> (1801), published when he was 24, essentially created modern number theory. It systematised modular arithmetic, proved the Fundamental Theorem of Arithmetic rigorously, classified binary quadratic forms, and proved the constructibility of the regular 17-gon. The book set the standard for mathematical rigour that would define the 19th century.</p>
+    <p>Gauss gave four proofs of the Fundamental Theorem of Algebra across his career. His doctoral thesis (1799) gave the first, though it relied on geometric intuition. Later proofs used increasingly algebraic methods. His lemma on irreducibility — that a polynomial irreducible over $\mathbb{Z}$ stays irreducible over $\mathbb{Q}$ — remains a fundamental tool in algebra.</p>
+    <p>In applied mathematics, Gauss predicted the orbit of the asteroid Ceres from just a few observations using the method of least squares (1801), making him famous across Europe. He went on to major contributions in geodesy, electromagnetism, and optics. His motto was <em>pauca sed matura</em> — "few but ripe" — and he notoriously withheld results until he deemed them perfect, causing priority disputes with Legendre and others. He spent his entire career at Göttingen, turning it into the world's leading mathematical centre.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 1</td><td><a href="../phase1/02-primes.html">Prime Numbers and the Fundamental Theorem of Arithmetic</a></td><td>First rigorous proof of unique factorisation</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/03-modular-arithmetic.html">Modular Arithmetic</a></td><td>Published <em>Disquisitiones Arithmeticae</em> (1801)</td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/06-crt.html">The Chinese Remainder Theorem</a></td><td>CRT treatment in the <em>Disquisitiones</em></td></tr>
+      <tr><td>Phase 1</td><td><a href="../phase1/07-diophantine.html">Diophantine Equations</a></td><td>Gauss's lemma used in proof</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/01-vector-spaces.html">Vector Spaces</a></td><td>Developed Gaussian elimination (1810s)</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/03-linear-maps.html">Linear Maps and the Rank-Nullity Theorem</a></td><td>Underlying ideas trace back to Gauss</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/04-matrices.html">Matrices and Change of Basis</a></td><td>Used coefficient tables for elimination</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/08-projection.html">Orthogonal Projection</a></td><td>Discovered least squares (1795) to predict orbit of Ceres</td></tr>
+      <tr><td>Phase 7</td><td><a href="../phase7/06-multiple-integrals.html">Multiple Integrals and Fubini's Theorem</a></td><td>Gaussian integral via polar coordinates</td></tr>
+      <tr><td>Phase 7</td><td><a href="../phase7/08-stokes-divergence.html">The Divergence Theorem and Stokes' Theorem</a></td><td>Stated divergence theorem (1813)</td></tr>
+      <tr><td>Phase 10</td><td><a href="../phase10/06-rings-polynomials.html">Rings and Polynomial Division</a></td><td>Analogy between integer and polynomial arithmetic</td></tr>
+      <tr><td>Phase 10</td><td><a href="../phase10/07-irreducibility-fta.html">Irreducibility and the Fundamental Theorem of Algebra</a></td><td>Four proofs of FTA; Gauss's lemma</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/08-conditional-expectation.html">Conditional Expectation as Projection</a></td><td>Linear regression (1809)</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/01-bilinear-forms.html">Bilinear Forms</a></td><td>Classification of binary quadratic forms in <em>Disquisitiones</em> (1801)</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/02-quadratic-forms.html">Quadratic Forms and Sylvester's Law of Inertia</a></td><td>Completing the square (Gauss's method)</td></tr>
+      <tr><td>Phase 13</td><td><a href="../phase13/06-principal-axis.html">The Principal Axis Theorem</a></td><td>Gaussian elimination for Cholesky factorisation</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

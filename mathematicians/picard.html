@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&Eacute;mile Picard — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/picard.jpg" alt="Émile Picard" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>&Eacute;mile Picard</h1>
+      <p class="mathematician-dates">1856–1941</p>
+      <p class="mathematician-nationality">French</p>
+      <p class="mathematician-areas">Analysis, algebraic geometry, differential equations</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase8/02-cauchy-lipschitz.html">Picard iteration — constructive proof of Cauchy-Lipschitz</a> — Phase 8, page 2</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Picard's little theorem</b> — a non-constant entire function takes every complex value with at most one exception.</li>
+    <li><b>Picard's great theorem</b> — in any neighbourhood of an essential singularity, a holomorphic function takes every complex value with at most one exception, infinitely often.</li>
+    <li><b>Picard-Lefschetz theory</b> — foundational work on the topology of algebraic varieties and the monodromy of families of algebraic curves.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Charles &Eacute;mile Picard was born in Paris in 1856 and became one of the dominant figures in French mathematics at the turn of the twentieth century. He entered the &Eacute;cole Normale Sup&eacute;rieure at sixteen and was appointed to the Sorbonne at the remarkably young age of twenty-nine.</p>
+
+    <p>Picard's most celebrated results in complex analysis — his "little" and "great" theorems on the range of entire and meromorphic functions — are among the most beautiful in the subject. But his impact on this course comes through his work on differential equations. In 1890, Picard gave the elegant constructive proof of the Cauchy-Lipschitz theorem using successive approximations: define a sequence of functions by iterating the integral operator $T[\phi](t) = y_0 + \int_{t_0}^t f(s, \phi(s))\, ds$, and show that the sequence converges uniformly to the unique solution.</p>
+
+    <p>This <b>Picard iteration</b> was a landmark in the development of functional analysis. It showed that an existence theorem for differential equations could be reduced to a fixed-point argument — an idea that Banach would later abstract into the contraction mapping principle. The method is beautifully explicit: for $y' = y$, $y(0) = 1$, the Picard iterates $1, 1+t, 1+t+t^2/2, \ldots$ converge to $e^t$, reconstructing the power series term by term.</p>
+
+    <p>Picard served as Permanent Secretary of the Acad&eacute;mie des Sciences for over twenty years and received almost every honour available to a French mathematician. He died in Paris in 1941.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 8</td><td><a href="../phase8/02-cauchy-lipschitz.html">The Cauchy-Lipschitz Theorem</a></td><td>Picard iteration — constructive successive approximation proof (1890)</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/02-cauchy-lipschitz.html">The Cauchy-Lipschitz Theorem</a></td><td>Picard operator and convergence of iterates</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/02-cauchy-lipschitz.html">The Cauchy-Lipschitz Theorem</a></td><td>Example: Picard iteration for $y' = y$ reconstructs $e^t$</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/02-cauchy-lipschitz.html">The Cauchy-Lipschitz Theorem</a></td><td>Historical context — Picard-Lindel&ouml;f naming</td></tr>
+      <tr><td>Phase 9</td><td><a href="../phase9/06-banach-fixed-point.html">Banach Fixed-Point Theorem</a></td><td>Picard iteration as a special case of Banach contraction</td></tr>
+      <tr><td>Phase 14</td><td><a href="../phase14/02-banach-spaces.html">Banach Spaces</a></td><td>Picard-Lindel&ouml;f relies on completeness</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Francesco Paolo Cantelli</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/cantelli.jpg" alt="Francesco Paolo Cantelli" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Francesco Paolo Cantelli</h1>
+      <p class="mathematician-dates">1875–1966</p>
+      <p class="mathematician-nationality">Italian</p>
+      <p class="mathematician-areas">Probability, actuarial science</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase12/05-markov-chebyshev.html">Cantelli&rsquo;s inequality (one-sided Chebyshev)</a> &mdash; Phase 12, page 5</li>
+    <li><a href="../phase12/06-law-of-large-numbers.html">Borel&ndash;Cantelli lemma</a> &mdash; Phase 12, page 6</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Strong law of large numbers</b> &mdash; gave one of the early rigorous proofs of the strong law for independent identically distributed variables.</li>
+    <li><b>Glivenko&ndash;Cantelli theorem</b> &mdash; the empirical distribution function converges uniformly to the true distribution function almost surely.</li>
+    <li><b>Actuarial mathematics</b> &mdash; applied probability theory to insurance and pension problems, helping to place Italian actuarial science on rigorous foundations.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Francesco Paolo Cantelli was born in Palermo, Sicily. He studied mathematics at the University of Palermo before moving to Rome, where he spent most of his career as professor of actuarial mathematics at the University of Rome La Sapienza.</p>
+
+    <p>Cantelli&rsquo;s work sits at the intersection of pure probability theory and its applications to insurance. His one-sided version of Chebyshev&rsquo;s inequality &mdash; giving a tighter bound when you only care about deviation in one direction &mdash; is a staple of probability courses. Where Chebyshev gives $P(|X - \mu| \geq k\sigma) \leq 1/k^2$, Cantelli sharpens this to $P(X - \mu \geq k\sigma) \leq 1/(1 + k^2)$ for the one-sided case.</p>
+
+    <p>His name is most famously attached to the Borel&ndash;Cantelli lemma (1917), which he proved independently of Borel (1909). The first lemma states that if the sum of probabilities of a sequence of events converges, then the probability that infinitely many of them occur is zero. The converse, requiring independence, is the second Borel&ndash;Cantelli lemma. Together they are the technical workhorse behind almost sure convergence results, including the strong law of large numbers.</p>
+
+    <p>Cantelli also proved, with Glivenko, that empirical distribution functions converge uniformly to the true distribution &mdash; the Glivenko&ndash;Cantelli theorem, sometimes called the &ldquo;fundamental theorem of statistics.&rdquo; He was active well into old age, continuing to publish into his eighties, and died in Rome at ninety.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 12</td><td><a href="../phase12/05-markov-chebyshev.html">Markov and Chebyshev Inequalities</a></td><td>Cantelli&rsquo;s inequality: one-sided Chebyshev bound $P(X - \mu \geq k\sigma) \leq 1/(1+k^2)$</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/05-markov-chebyshev.html">Markov and Chebyshev Inequalities</a></td><td>Examples comparing Chebyshev and Cantelli bounds</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/06-law-of-large-numbers.html">The Law of Large Numbers</a></td><td>First Borel&ndash;Cantelli lemma (Cantelli 1917)</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/06-law-of-large-numbers.html">The Law of Large Numbers</a></td><td>Second Borel&ndash;Cantelli lemma (converse, with independence)</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/06-law-of-large-numbers.html">The Law of Large Numbers</a></td><td>Historical context: Borel (1909) and Cantelli (1917)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>

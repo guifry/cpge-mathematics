@@ -28,9 +28,9 @@
     fluctuations around $\mu$? Are they symmetric? Concentrated? Spread out?
   </p>
   <p>
-    De Moivre (1733) discovered something extraordinary while studying coin flips. He found that
+    <a href="../mathematicians/de-moivre.html">De Moivre</a> (1733) discovered something extraordinary while studying coin flips. He found that
     the distribution of the number of heads, properly centred and scaled, approaches a specific
-    bell-shaped curve — regardless of whether the coin is fair. Laplace later showed this holds
+    bell-shaped curve — regardless of whether the coin is fair. <a href="../mathematicians/laplace.html">Laplace</a> later showed this holds
     for <em>any</em> distribution with finite variance. The properly scaled sum
     $\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}}$ always approaches the same bell curve: the
     <b>Gaussian distribution</b>. Tall or short, rich or poor, the sum of many independent
@@ -162,7 +162,7 @@
   <div class="display-math">$$M_{Z_n}(t) = M_{\frac{1}{\sqrt{n}}\sum X_i}(t)
   = \prod_{i=1}^{n} M_{X_i}\!\left(\frac{t}{\sqrt{n}}\right) = \left[M_{X_1}\!\left(\frac{t}{\sqrt{n}}\right)\right]^n$$</div>
   <p>
-    <b>Step 2.</b> Taylor-expand $M_{X_1}(s)$ around $s = 0$. Since $M_{X_1}(0) = 1$,
+    <b>Step 2.</b> <a href="../mathematicians/taylor.html">Taylor</a>-expand $M_{X_1}(s)$ around $s = 0$. Since $M_{X_1}(0) = 1$,
     $M_{X_1}'(0) = E[X_1] = 0$, and $M_{X_1}''(0) = E[X_1^2] = 1$:
   </p>
   <div class="display-math">$$M_{X_1}(s) = 1 + s \cdot 0 + \frac{s^2}{2}\cdot 1 + O(s^3)
@@ -241,8 +241,8 @@
     De Moivre (1733) proved the first CLT for coin flips — the de Moivre–Laplace theorem — as an
     approximation to the binomial. Laplace (1812) extended the result to sums of general random
     variables in his <em>Théorie analytique des probabilités</em>. The name "Central Limit
-    Theorem" was coined by Pólya (1920), reflecting the theorem's <em>central</em> importance in
-    probability theory. Lindeberg (1922) and Lévy (1935) gave the most general versions, weakening
+    Theorem" was coined by <a href="../mathematicians/polya.html">Pólya</a> (1920), reflecting the theorem's <em>central</em> importance in
+    probability theory. <a href="../mathematicians/lindeberg.html">Lindeberg</a> (1922) and <a href="../mathematicians/levy.html">Lévy</a> (1935) gave the most general versions, weakening
     the i.i.d. requirement to allow non-identically distributed summands (the Lindeberg condition).
     The MGF proof we have given follows the approach of Laplace, made rigorous by Lévy.
   </p>
@@ -251,7 +251,7 @@
 <div class="break-box">
   <div class="label">What breaks</div>
   <p>
-    <b>Without finite variance.</b> The CLT fails completely. If $X_i$ are i.i.d. Cauchy (which
+    <b>Without finite variance.</b> The CLT fails completely. If $X_i$ are i.i.d. <a href="../mathematicians/cauchy.html">Cauchy</a> (which
     has no finite mean, let alone variance), then $\bar{X}_n$ is again Cauchy — not Gaussian.
     Heavy-tailed distributions with infinite variance have their own limit theorems, converging to
     stable distributions rather than the Gaussian.

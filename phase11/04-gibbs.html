@@ -23,7 +23,7 @@
 <div class="problem-box">
 <div class="label">The problem</div>
 <p>Look at the partial sums of the square wave's Fourier series near $x = 0$ — the point of discontinuity. As $N$ increases, the partial sums develop a sharp spike that overshoots the jump. You might expect this overshoot to shrink as $N \to \infty$, but it does not. It approaches a fixed height of about 9% above and below the true value.</p>
-<p>This is the <b>Gibbs phenomenon</b>, first correctly explained by J. Willard Gibbs in 1899. Fourier series approximate the function closer and closer in an average sense (Parseval, <a href="03-parseval.html">page 3</a>), but near discontinuities, they permanently overshoot. The ringing narrows but never diminishes. Understanding exactly why this happens — and computing the precise overshoot — is the goal of this page.</p>
+<p>This is the <b>Gibbs phenomenon</b>, first correctly explained by J. Willard <a href="../mathematicians/gibbs.html">Gibbs</a> in 1899. Fourier series approximate the function closer and closer in an average sense (Parseval, <a href="03-parseval.html">page 3</a>), but near discontinuities, they permanently overshoot. The ringing narrows but never diminishes. Understanding exactly why this happens — and computing the precise overshoot — is the goal of this page.</p>
 </div>
 
 <h2>1. The overshoot in pictures</h2>
@@ -64,7 +64,7 @@
 
 <p>To confirm this is a maximum (not a minimum), check the sign of $S_N'$ on either side. For $0 < x < \pi/(2N)$, we have $0 < 2Nx < \pi$, so $\sin(2Nx) > 0$ and $\sin x > 0$, giving $S_N'(x) > 0$. For $\pi/(2N) < x < 2\pi/(2N) = \pi/N$, we have $\pi < 2Nx < 2\pi$, so $\sin(2Nx) < 0$ and $\sin x > 0$, giving $S_N'(x) < 0$. The function increases then decreases: $x^* = \pi/(2N)$ is indeed a local maximum.</p>
 
-<p>Moreover, this is the <em>tallest</em> maximum to the right of the discontinuity. The subsequent maxima occur at $x = 3\pi/(2N), 5\pi/(2N), \ldots$, and they are progressively smaller. To see why, think ahead to the Riemann sum in Section 3: the value of $S_N$ at each maximum is determined by how much of the $\sin(t)/t$ integral gets captured. The first maximum captures the integral from $0$ to $\pi$, where $\sin(t)/t$ is mostly positive. Later maxima correspond to integrals that include more of the oscillatory tail, where positive and negative contributions largely cancel.</p>
+<p>Moreover, this is the <em>tallest</em> maximum to the right of the discontinuity. The subsequent maxima occur at $x = 3\pi/(2N), 5\pi/(2N), \ldots$, and they are progressively smaller. To see why, think ahead to the <a href="../mathematicians/riemann.html">Riemann</a> sum in Section 3: the value of $S_N$ at each maximum is determined by how much of the $\sin(t)/t$ integral gets captured. The first maximum captures the integral from $0$ to $\pi$, where $\sin(t)/t$ is mostly positive. Later maxima correspond to integrals that include more of the oscillatory tail, where positive and negative contributions largely cancel.</p>
 
 <p>There are also local <em>minima</em> between the maxima, producing the characteristic ringing pattern. The entire oscillatory structure compresses towards $x = 0$ as $N$ increases, but the amplitude of each successive oscillation stays fixed relative to the jump size.</p>
 
@@ -168,7 +168,7 @@
 
 <p>In signal processing, the Gibbs phenomenon is sometimes called <b>ringing</b>. It appears whenever a signal with sharp transitions is reconstructed from a finite bandwidth — this is a fundamental limitation of bandlimited approximation, not a defect in any particular algorithm.</p>
 
-<p>To understand <em>why</em> the overshoot persists and never diminishes, we need to examine the underlying mechanism. The partial sum $S_N(f)$ can be expressed as a <b>convolution</b> — a weighted sliding average — of $f$ against a kernel function called the <b>Dirichlet kernel</b>:</p>
+<p>To understand <em>why</em> the overshoot persists and never diminishes, we need to examine the underlying mechanism. The partial sum $S_N(f)$ can be expressed as a <b>convolution</b> — a weighted sliding average — of $f$ against a kernel function called the <b><a href="../mathematicians/dirichlet.html">Dirichlet</a> kernel</b>:</p>
 
 <div class="display-math">$$S_N(f)(x) = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(t)\,D_N(x - t)\,dt$$</div>
 
@@ -178,7 +178,7 @@
 
 <p>This kernel oscillates wildly — it has $2N$ lobes, alternately positive and negative, with the central lobe dominating. It takes large negative values. It is not a "moving average" in the usual sense — a true moving average would use non-negative weights, guaranteeing that the output lies between $f$'s minimum and maximum. The Dirichlet kernel's negative lobes give negative weight to parts of $f$, which is how $S_N(f)$ can exceed $f$'s actual values near a discontinuity.</p>
 
-<p>The Fejér kernel (used in Cesàro means) is $F_N(u) = \frac{1}{N+1}\bigl(\frac{\sin((N+1)u/2)}{\sin(u/2)}\bigr)^2$. Being a perfect square, it is non-negative everywhere. This is precisely why Cesàro means avoid the Gibbs phenomenon: they compute a genuine weighted average of $f$, which must lie between $f$'s extreme values.</p>
+<p>The <a href="../mathematicians/fejer.html">Fejér</a> kernel (used in Cesàro means) is $F_N(u) = \frac{1}{N+1}\bigl(\frac{\sin((N+1)u/2)}{\sin(u/2)}\bigr)^2$. Being a perfect square, it is non-negative everywhere. This is precisely why Cesàro means avoid the Gibbs phenomenon: they compute a genuine weighted average of $f$, which must lie between $f$'s extreme values.</p>
 
 <h2>6. Preventing Gibbs — smoothing</h2>
 

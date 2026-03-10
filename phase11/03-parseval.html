@@ -89,11 +89,11 @@
 
 <p>An important corollary of Bessel's inequality: since the series $\sum_{n=1}^{\infty}(a_n^2 + b_n^2)$ converges (it is bounded above by $\|f\|^2/\pi$), we must have $a_n^2 + b_n^2 \to 0$ as $n \to \infty$. In particular, $a_n \to 0$ and $b_n \to 0$.</p>
 
-<p>This is the <b>Riemann-Lebesgue lemma</b> (in its trigonometric form): the Fourier coefficients of any square-integrable function tend to zero. Intuitively, higher and higher frequencies oscillate too rapidly to correlate with a fixed function. The function simply does not "contain" energy at arbitrarily high frequencies.</p>
+<p>This is the <b><a href="../mathematicians/riemann.html">Riemann</a>-<a href="../mathematicians/lebesgue.html">Lebesgue</a> lemma</b> (in its trigonometric form): the Fourier coefficients of any square-integrable function tend to zero. Intuitively, higher and higher frequencies oscillate too rapidly to correlate with a fixed function. The function simply does not "contain" energy at arbitrarily high frequencies.</p>
 
 <p>Note how Bessel gives us this for free — it is a direct consequence of the convergent series having its general term tend to zero. The general Riemann-Lebesgue lemma (valid for merely integrable, not necessarily square-integrable functions) requires a separate argument involving approximation by step functions. But for $L^2$ functions, Bessel's inequality is all you need.</p>
 
-<p>The decay rate of the Fourier coefficients carries information about the smoothness of $f$. If $f$ is $C^k$ (i.e. $k$ times continuously differentiable), then $a_n, b_n = O(1/n^{k+1})$. If $f$ has a jump discontinuity, the coefficients decay like $1/n$ — the slowest possible rate. This slow decay is directly responsible for the Gibbs phenomenon we will study on <a href="04-gibbs.html">page 4</a>.</p>
+<p>The decay rate of the Fourier coefficients carries information about the smoothness of $f$. If $f$ is $C^k$ (i.e. $k$ times continuously differentiable), then $a_n, b_n = O(1/n^{k+1})$. If $f$ has a jump discontinuity, the coefficients decay like $1/n$ — the slowest possible rate. This slow decay is directly responsible for the <a href="../mathematicians/gibbs.html">Gibbs</a> phenomenon we will study on <a href="04-gibbs.html">page 4</a>.</p>
 
 <h2>3. Best approximation property</h2>
 
@@ -132,7 +132,7 @@
 
 <p>This is Bessel's inequality promoted to an equality. The gap $\|f - S_N\|^2$ that was merely non-negative in Bessel's proof must actually tend to zero. Physically: no energy leaks out of the Fourier representation. Every bit of the signal's energy is accounted for by its frequency components. In quantum mechanics, this becomes the statement that a wave function's total probability is preserved under a change of basis — the deep reason Parseval matters far beyond Fourier analysis.</p>
 
-<p>The proof strategy is elegant: we already know $\|f\|^2 = \|S_N\|^2 + \|f - S_N\|^2$. For Parseval, we must show $\|f - S_N\|^2 \to 0$. The best approximation property (Section 3) is the key: it lets us bound $\|f - S_N\|$ by the error of <em>any</em> trigonometric polynomial, and Weierstrass guarantees good ones exist.</p>
+<p>The proof strategy is elegant: we already know $\|f\|^2 = \|S_N\|^2 + \|f - S_N\|^2$. For Parseval, we must show $\|f - S_N\|^2 \to 0$. The best approximation property (Section 3) is the key: it lets us bound $\|f - S_N\|$ by the error of <em>any</em> trigonometric polynomial, and <a href="../mathematicians/weierstrass.html">Weierstrass</a> guarantees good ones exist.</p>
 
 <div class="proof-box">
 <div class="label">Proof</div>
@@ -174,7 +174,7 @@
 
 <div class="display-math">$$\sum_{n=1}^{\infty}\frac{1}{n^2} = \frac{\pi^2}{6}$$</div>
 
-<p>This is the <b>Basel problem</b>, posed by Pietro Mengoli in 1644 and famously solved by Euler in 1735. Parseval gives a clean, systematic proof. The answer falls directly out of energy conservation applied to the sawtooth wave.</p>
+<p>This is the <b>Basel problem</b>, posed by Pietro <a href="../mathematicians/mengoli.html">Mengoli</a> in 1644 and famously solved by <a href="../mathematicians/euler.html">Euler</a> in 1735. Parseval gives a clean, systematic proof. The answer falls directly out of energy conservation applied to the sawtooth wave.</p>
 
 <p>Let us verify the numerical plausibility. The partial sums $1 + 1/4 + 1/9 + 1/16 + \cdots$ converge slowly: the first ten terms give $\approx 1.5498$, while $\pi^2/6 \approx 1.6449$. But the exact answer is irrational and transcendental — you would never guess $\pi^2/6$ from the numerics alone. That it emerges from Parseval is remarkable: a sum over integers equals a quantity defined by a circle.</p>
 
@@ -257,7 +257,7 @@
 <div class="history-box">
 <div class="label">Historical note</div>
 <p>Bessel proved his inequality in 1828 while studying planetary perturbations — Fourier analysis arose simultaneously from heat conduction (Fourier) and celestial mechanics (Bessel). The inequality was a tool for bounding errors in orbital calculations.</p>
-<p>Parseval stated his identity in 1799, a full eight years before Fourier's memoir, but without proof. The rigorous proof required the <b>completeness</b> of the trigonometric system: the fact that sines and cosines span all of $L^2$. This was established by Fischer and Riesz in 1907 as part of the creation of modern $L^2$ theory.</p>
+<p>Parseval stated his identity in 1799, a full eight years before Fourier's memoir, but without proof. The rigorous proof required the <b>completeness</b> of the trigonometric system: the fact that sines and cosines span all of $L^2$. This was established by <a href="../mathematicians/fischer.html">Fischer</a> and <a href="../mathematicians/riesz.html">Riesz</a> in 1907 as part of the creation of modern $L^2$ theory.</p>
 <p>The Basel problem ($\sum 1/n^2 = \pi^2/6$) was posed by Mengoli in 1644 and resisted attack for nearly a century. Euler cracked it in 1735 using a daring (and not fully rigorous) factorisation of $\sin x / x$, making his reputation overnight. Parseval's theorem gives a clean, conceptual proof: the answer falls out of energy conservation applied to $f(x) = x$.</p>
 </div>
 

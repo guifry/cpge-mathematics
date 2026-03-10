@@ -23,7 +23,7 @@
 <div class="problem-box">
 <div class="label">The problem</div>
 <p>On <a href="01-fourier-series.html">page 1</a>, we computed Fourier coefficients and wrote the square wave as $f(x) = \frac{4}{\pi}\sum_{k=0}^{\infty} \frac{\sin((2k+1)x)}{2k+1}$. But does this infinite sum actually equal $f(x)$?</p>
-<p>At points where $f$ is continuous, yes — Dirichlet proved this in 1829. At the discontinuity $x = 0$, the partial sums converge to $0$, the average of the left and right limits ($-1$ and $+1$). But this averaging behaviour is not at all obvious from the formula. And for wilder functions, things can go badly wrong: there exist continuous functions whose Fourier series diverges at certain points.</p>
+<p>At points where $f$ is continuous, yes — <a href="../mathematicians/dirichlet.html">Dirichlet</a> proved this in 1829. At the discontinuity $x = 0$, the partial sums converge to $0$, the average of the left and right limits ($-1$ and $+1$). But this averaging behaviour is not at all obvious from the formula. And for wilder functions, things can go badly wrong: there exist continuous functions whose Fourier series diverges at certain points.</p>
 <p>The central question of this page: <em>when exactly does a Fourier series converge, and to what value?</em></p>
 </div>
 
@@ -114,7 +114,7 @@
 
 <p>In fact, $\int_{-\pi}^{\pi} |D_N(u)|\,du \sim C\log N$: the total variation of $D_N$ grows without bound. This is why convergence of Fourier series is a hard theorem rather than a trivial observation, and why it can fail for some continuous functions.</p>
 
-<h2>3. The Riemann-Lebesgue lemma</h2>
+<h2>3. The <a href="../mathematicians/riemann.html">Riemann</a>-<a href="../mathematicians/lebesgue.html">Lebesgue</a> lemma</h2>
 
 <p>Before tackling Dirichlet's theorem, we need a fundamental fact about oscillatory integrals. This lemma appears everywhere in analysis — it is the engine behind most Fourier convergence results.</p>
 
@@ -221,12 +221,12 @@
 <div class="display-math">$$b_n = \frac{1}{n}\left(\frac{1}{\pi}\int_{-\pi}^{\pi} f'(x)\cos(nx)\,dx\right) = \frac{\alpha_n}{n}$$</div>
 <p>where $\alpha_n$ is the $n$-th Fourier cosine coefficient of $f'$. The same argument gives $a_n = \beta_n / n$ where $\beta_n$ is a Fourier sine coefficient of $f'$.</p>
 <p><b>Step 3.</b> The derivative $f'$ is piecewise continuous and hence square-integrable: $\int_{-\pi}^{\pi} |f'(x)|^2\,dx < \infty$. By <b>Bessel's inequality</b> (IOU: proved on <a href="03-parseval.html">page 3</a>), the sum of squares of any set of Fourier coefficients is bounded by $\frac{1}{\pi}\int |f'|^2$. In particular, $\sum_{n=1}^{\infty} \alpha_n^2 < \infty$ and $\sum_{n=1}^{\infty} \beta_n^2 < \infty$.</p>
-<p><b>Step 4.</b> Apply Cauchy-Schwarz (see <a href="../phase6/07-inner-products.html">Phase 6, page 7</a>) to bound the sum of absolute values:</p>
+<p><b>Step 4.</b> Apply <a href="../mathematicians/cauchy.html">Cauchy</a>-<a href="../mathematicians/schwarz.html">Schwarz</a> (see <a href="../phase6/07-inner-products.html">Phase 6, page 7</a>) to bound the sum of absolute values:</p>
 <div class="display-math">$$\sum_{n=1}^{\infty} |b_n| = \sum_{n=1}^{\infty} \frac{|\alpha_n|}{n} \leq \left(\sum_{n=1}^{\infty} \alpha_n^2\right)^{1/2}\left(\sum_{n=1}^{\infty}\frac{1}{n^2}\right)^{1/2} < \infty$$</div>
 <p>The series $\sum 1/n^2 = \pi^2/6$ converges (we established this as the Basel problem in <a href="../phase4/05-basel-problem.html">Phase 4, page 5</a>). So the right-hand side is finite, and $\sum |b_n| < \infty$. The identical argument (integrating by parts with $\cos(nx)$ instead of $\sin(nx)$) gives $\sum |a_n| < \infty$.</p>
 <p><b>Step 5.</b> For each $n$ and every $x$:</p>
 <div class="display-math">$$|a_n\cos(nx) + b_n\sin(nx)| \leq |a_n| + |b_n| =: M_n$$</div>
-<p>We have shown $\sum M_n < \infty$. By the <b>Weierstrass M-test</b> (see <a href="../phase5/07-weierstrass-m-test.html">Phase 5, page 7</a>), the Fourier series converges uniformly on $[-\pi, \pi]$.</p>
+<p>We have shown $\sum M_n < \infty$. By the <b><a href="../mathematicians/weierstrass.html">Weierstrass</a> M-test</b> (see <a href="../phase5/07-weierstrass-m-test.html">Phase 5, page 7</a>), the Fourier series converges uniformly on $[-\pi, \pi]$.</p>
 <div class="qed">&#8718;</div>
 </div>
 
@@ -240,9 +240,9 @@
 
 <p>The correspondence also has a converse flavour: if you know the Fourier coefficients decay like $O(1/n^k)$, you can deduce (under appropriate conditions) that $f$ has some degree of differentiability. The Fourier coefficients encode the regularity of the function — they are a "fingerprint" of smoothness.</p>
 
-<p>At the extreme end: for analytic functions (those with convergent Taylor series on a strip around the real axis in the complex plane), the Fourier coefficients decay <em>exponentially</em>: $|c_n| \leq Ce^{-\alpha|n|}$ for some $\alpha > 0$. The width of the analyticity strip determines $\alpha$. This is why analytic functions are so well-behaved from the Fourier perspective — even 5 or 10 terms of the series give an excellent approximation.</p>
+<p>At the extreme end: for analytic functions (those with convergent <a href="../mathematicians/taylor.html">Taylor</a> series on a strip around the real axis in the complex plane), the Fourier coefficients decay <em>exponentially</em>: $|c_n| \leq Ce^{-\alpha|n|}$ for some $\alpha > 0$. The width of the analyticity strip determines $\alpha$. This is why analytic functions are so well-behaved from the Fourier perspective — even 5 or 10 terms of the series give an excellent approximation.</p>
 
-<p>At the other extreme: a function with a jump discontinuity has coefficients that decay like $1/n$ — the slowest possible rate for a bounded function. This is precisely why Fourier series struggle with discontinuities and why phenomena like Gibbs overshoot appear.</p>
+<p>At the other extreme: a function with a jump discontinuity has coefficients that decay like $1/n$ — the slowest possible rate for a bounded function. This is precisely why Fourier series struggle with discontinuities and why phenomena like <a href="../mathematicians/gibbs.html">Gibbs</a> overshoot appear.</p>
 
 <p>For the sawtooth $f(x) = x$ on $(-\pi, \pi)$: $f$ is smooth on the open interval, but the periodic extension has a jump at $\pm\pi$, so $b_n = O(1/n)$. If instead we took $f(x) = x(\pi - x)(\pi + x)$ on $[-\pi, \pi]$ — a smooth function with $f(-\pi) = f(\pi) = 0$ — integration by parts gives $a_n, b_n = O(1/n^4)$, and the Fourier series converges very rapidly.</p>
 
@@ -252,9 +252,9 @@
 
 <div class="history-box">
 <div class="label">Historical note</div>
-<p>Dirichlet published his convergence theorem in 1829 in Crelle's Journal (the first major German mathematics journal), under the title <em>Sur la convergence des s&eacute;ries trigonom&eacute;triques</em>. It was written in French, the international language of mathematics at the time. This was the first rigorous proof that a Fourier series converges to the function it represents, under explicit conditions. Before Dirichlet, Fourier's claims were unproved conjectures, and Lagrange had actively denied their validity.</p>
-<p>Dirichlet's work was a watershed for analysis. It forced mathematicians to think carefully about what "function" meant — Dirichlet himself gave his famous definition of "arbitrary function" (any assignment of values, not necessarily given by a formula) in this very paper. The question "for which functions does the Fourier series converge?" drove much of 19th-century analysis. Riemann extended the theory to broader function classes. Du Bois-Reymond (1876) shocked the community by constructing a continuous function whose Fourier series diverges at a point.</p>
-<p>The ultimate positive result came only in 1966, when Lennart Carleson proved that the Fourier series of any square-integrable function converges almost everywhere. This is one of the deepest results in 20th-century analysis — the proof is over 30 pages of intricate estimation. Carleson received the Abel Prize in 2006, largely for this work.</p>
+<p>Dirichlet published his convergence theorem in 1829 in Crelle's Journal (the first major German mathematics journal), under the title <em>Sur la convergence des s&eacute;ries trigonom&eacute;triques</em>. It was written in French, the international language of mathematics at the time. This was the first rigorous proof that a Fourier series converges to the function it represents, under explicit conditions. Before Dirichlet, Fourier's claims were unproved conjectures, and <a href="../mathematicians/lagrange.html">Lagrange</a> had actively denied their validity.</p>
+<p>Dirichlet's work was a watershed for analysis. It forced mathematicians to think carefully about what "function" meant — Dirichlet himself gave his famous definition of "arbitrary function" (any assignment of values, not necessarily given by a formula) in this very paper. The question "for which functions does the Fourier series converge?" drove much of 19th-century analysis. Riemann extended the theory to broader function classes. <a href="../mathematicians/du-bois-reymond.html">Du Bois-Reymond</a> (1876) shocked the community by constructing a continuous function whose Fourier series diverges at a point.</p>
+<p>The ultimate positive result came only in 1966, when Lennart <a href="../mathematicians/carleson.html">Carleson</a> proved that the Fourier series of any square-integrable function converges almost everywhere. This is one of the deepest results in 20th-century analysis — the proof is over 30 pages of intricate estimation. Carleson received the <a href="../mathematicians/abel.html">Abel</a> Prize in 2006, largely for this work.</p>
 <p>Lebesgue's theory of integration (1901) was itself motivated in part by Fourier convergence problems. The question "what is the largest class of functions for which the Fourier series converges?" demanded a broader notion of integration, and Lebesgue provided it.</p>
 </div>
 
@@ -262,7 +262,7 @@
 <div class="label">What breaks</div>
 <p><b>Without piecewise smoothness:</b> there exist <em>continuous</em> functions whose Fourier series diverges at a point. Paul du Bois-Reymond constructed the first such example in 1876, and it shocked the mathematical community. It showed that continuity alone does not guarantee pointwise convergence.</p>
 <p>How bad can it get? Carleson (1966) proved the deepest positive result: for any $L^2$ function, the Fourier series converges <em>almost everywhere</em> (everywhere except on a set of measure zero). This includes all continuous functions. So for continuous functions, divergence can only happen on a "negligible" set.</p>
-<p>For merely $L^1$ functions (integrable but not square-integrable), the situation is worse: Kolmogorov (1926) constructed an integrable function whose Fourier series diverges <em>everywhere</em>. So some regularity beyond bare integrability is essential.</p>
+<p>For merely $L^1$ functions (integrable but not square-integrable), the situation is worse: <a href="../mathematicians/kolmogorov.html">Kolmogorov</a> (1926) constructed an integrable function whose Fourier series diverges <em>everywhere</em>. So some regularity beyond bare integrability is essential.</p>
 <p><b>Without periodicity matching ($f(-\pi) \neq f(\pi)$):</b> Dirichlet's theorem still applies, so the series converges pointwise everywhere. But it does <em>not</em> converge uniformly. Near the artificial jump at $\pm\pi$ (where the periodic extension glues together), the partial sums develop persistent overshoot of about $9\%$ of the jump height. This is the <b>Gibbs phenomenon</b>, which we study on page 4. The overshoot does not shrink as $N \to \infty$ — it just narrows.</p>
 <p><b>Pointwise convergence does not imply uniform convergence:</b> the square wave's Fourier series converges pointwise at every point (by Dirichlet's theorem), but <em>not</em> uniformly. The convergence is slowest near the discontinuities, where the partial sums always overshoot. For the square wave, $\sup_x |S_N(f)(x) - f(x)|$ does not tend to $0$ — it stays above $0.08$ no matter how large $N$ is. Uniform convergence requires the periodic extension to be continuous.</p>
 <p><b>The decay rate matters for applications.</b> The Riemann-Lebesgue lemma tells us $a_n, b_n \to 0$, but that alone does not guarantee convergence of the series $\sum(a_n\cos nx + b_n\sin nx)$. Compare with the harmonic series: $1/n \to 0$ but $\sum 1/n = \infty$. You need the coefficients to decay fast enough that $\sum(|a_n| + |b_n|) < \infty$. This absolute convergence is guaranteed when $a_n, b_n = O(1/n^{1+\varepsilon})$ for any $\varepsilon > 0$, and in particular when $a_n, b_n = O(1/n^2)$ — which is precisely the decay rate for $C^1$ functions with $f(-\pi) = f(\pi)$. This is the uniform convergence criterion proved above.</p>

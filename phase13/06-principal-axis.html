@@ -66,7 +66,7 @@
 
 <p>This generalises to $n$ coupled oscillators: the potential energy is a quadratic form in $n$ variables, represented by an $n \times n$ symmetric positive definite matrix (positive definite because the equilibrium is stable). The principal axis theorem gives $n$ independent normal modes, each vibrating at its own frequency $\omega_i = \sqrt{\lambda_i}$.</p>
 
-<p>In the limit $n \to \infty$, this becomes the spectral theory of vibrating strings and membranes — the Fourier modes $\sin(k\pi x / L)$ are the eigenvectors of the Laplacian operator, and the eigenvalues $\lambda_k = (k\pi/L)^2$ give the squared frequencies. The principal axis theorem for finite-dimensional quadratic forms and the Fourier decomposition for infinite-dimensional function spaces are the same idea at different scales. The unification of these two viewpoints was one of Hilbert's great achievements (1904-1910) and the birth of functional analysis, which we study in <a href="../phase14/01-norms.html">Phase 14</a>.</p>
+<p>In the limit $n \to \infty$, this becomes the spectral theory of vibrating strings and membranes — the Fourier modes $\sin(k\pi x / L)$ are the eigenvectors of the Laplacian operator, and the eigenvalues $\lambda_k = (k\pi/L)^2$ give the squared frequencies. The principal axis theorem for finite-dimensional quadratic forms and the Fourier decomposition for infinite-dimensional function spaces are the same idea at different scales. The unification of these two viewpoints was one of <a href="../mathematicians/hilbert.html">Hilbert</a>'s great achievements (1904-1910) and the birth of functional analysis, which we study in <a href="../phase14/01-norms.html">Phase 14</a>.</p>
 
 <h2>2. Worked example</h2>
 
@@ -128,7 +128,7 @@
 
 <p>Note $A_{13} = A_{31} = -1$ (half the coefficient of $xz$, which is $-2$). The block structure is helpful: since the $(2,1)$ and $(2,3)$ entries are zero, the second eigenvector is $e_2 = (0,1,0)^T$ with eigenvalue $2$. The remaining eigenvalues come from the $2 \times 2$ block $\begin{pmatrix} 3 & -1 \\ -1 & 3 \end{pmatrix}$, giving $\lambda = 4$ and $\lambda = 2$. So the eigenvalues are $2, 2, 4$ — all positive, confirming this is an ellipsoid. In the eigenbasis, the equation becomes $2X^2 + 2Y^2 + 4Z^2 = 1$, an <b>oblate spheroid</b> (circular cross-section in the $XY$-plane, compressed along $Z$).</p>
 
-<p>The eigenvalues of $A$ — which are coordinate-free invariants — determine the geometry completely. Two quadratic forms describe the same type of curve (up to rotation and scaling) if and only if their matrices have the same signs of eigenvalues. This is Sylvester's law of inertia (<a href="02-quadratic-forms.html">page 2</a>) in geometric language: the <b>signature</b> $(p, q)$ (number of positive, number of negative eigenvalues) is the complete invariant for congruence classes.</p>
+<p>The eigenvalues of $A$ — which are coordinate-free invariants — determine the geometry completely. Two quadratic forms describe the same type of curve (up to rotation and scaling) if and only if their matrices have the same signs of eigenvalues. This is <a href="../mathematicians/sylvester.html">Sylvester</a>'s law of inertia (<a href="02-quadratic-forms.html">page 2</a>) in geometric language: the <b>signature</b> $(p, q)$ (number of positive, number of negative eigenvalues) is the complete invariant for congruence classes.</p>
 
 <p>A subtlety: the principal axis theorem classifies the <em>shape</em> of the curve (ellipse vs. hyperbola), but the specific eigenvalues determine the <em>size</em>. Two ellipses $\lambda_1 X^2 + \lambda_2 Y^2 = 1$ and $\mu_1 X^2 + \mu_2 Y^2 = 1$ have the same shape (both ellipses) but different dimensions. The ratio $\lambda_1/\lambda_2$ determines the eccentricity; when $\lambda_1 = \lambda_2$, the ellipse is a circle.</p>
 
@@ -154,7 +154,7 @@
 
 <p><b>Step 2 — (ii) $\Rightarrow$ (i).</b> By the principal axis theorem, $x^TAx = \sum_{i=1}^n \lambda_i y_i^2$ where $y = P^Tx$. If all $\lambda_i > 0$ and $x \neq 0$, then $y = P^Tx \neq 0$ (since $P$ is invertible). So at least one $y_i \neq 0$, and the sum $\sum \lambda_i y_i^2 > 0$.</p>
 
-<p><b>Step 3 — (ii) $\Rightarrow$ (iii).</b> Each leading principal submatrix $A_k$ is itself real symmetric. Its eigenvalues $\mu_1, \ldots, \mu_k$ interlace those of $A$ by the Cauchy interlacing theorem (<a href="05-rayleigh-courant-fischer.html">page 5</a>): $\lambda_i \leq \mu_i \leq \lambda_{i + n - k}$ for appropriate indices. In particular, $\mu_i \geq \lambda_i > 0$ for each $i = 1, \ldots, k$. So every eigenvalue of $A_k$ is positive, and $\det(A_k) = \prod_{i=1}^k \mu_i > 0$ (by the determinant-eigenvalue identity from <a href="05-rayleigh-courant-fischer.html">page 5</a>).</p>
+<p><b>Step 3 — (ii) $\Rightarrow$ (iii).</b> Each leading principal submatrix $A_k$ is itself real symmetric. Its eigenvalues $\mu_1, \ldots, \mu_k$ interlace those of $A$ by the <a href="../mathematicians/cauchy.html">Cauchy</a> interlacing theorem (<a href="05-rayleigh-courant-fischer.html">page 5</a>): $\lambda_i \leq \mu_i \leq \lambda_{i + n - k}$ for appropriate indices. In particular, $\mu_i \geq \lambda_i > 0$ for each $i = 1, \ldots, k$. So every eigenvalue of $A_k$ is positive, and $\det(A_k) = \prod_{i=1}^k \mu_i > 0$ (by the determinant-eigenvalue identity from <a href="05-rayleigh-courant-fischer.html">page 5</a>).</p>
 
 <p><b>Step 4 — (iii) $\Rightarrow$ (i).</b> We prove this by induction on $n$.</p>
 <p><em>Base case</em> ($n = 1$): $A = (a_{11})$ with $\det(A_1) = a_{11} > 0$. Then $Q(x) = a_{11}x_1^2 > 0$ for $x_1 \neq 0$.</p>
@@ -219,7 +219,7 @@
 
 <p>This whitening transformation $z = \Lambda^{-1/2}P^T(x - \mu)$ (where $\Sigma = P\Lambda P^T$) is used as a preprocessing step throughout machine learning and signal processing. It decorrelates the features, equalises their variances, and simplifies downstream algorithms. The principal axis theorem guarantees this transformation exists and is unique (up to the choice of eigenvectors within degenerate eigenspaces).</p>
 
-<p>A related application: <b>Fisher's linear discriminant analysis</b>. Given two classes of data with means $\mu_1, \mu_2$ and covariance matrices $\Sigma_1, \Sigma_2$, we want the direction $w$ that best separates the class means relative to the within-class scatter. This amounts to maximising the <b>generalised Rayleigh quotient</b></p>
+<p>A related application: <b><a href="../mathematicians/fisher.html">Fisher</a>'s linear discriminant analysis</b>. Given two classes of data with means $\mu_1, \mu_2$ and covariance matrices $\Sigma_1, \Sigma_2$, we want the direction $w$ that best separates the class means relative to the within-class scatter. This amounts to maximising the <b>generalised Rayleigh quotient</b></p>
 
 <div class="display-math">$$R(w) = \frac{w^T(\mu_1 - \mu_2)(\mu_1 - \mu_2)^Tw}{w^T(\Sigma_1 + \Sigma_2)w}$$</div>
 
@@ -257,7 +257,7 @@
 
 <div class="history-box">
 <div class="label">Historical note</div>
-<p>Euler (1748) was the first to classify conics by rotation, using trigonometric substitution to eliminate cross-terms. Lagrange (1759) extended the method to quadratic forms in three variables. Cauchy (1829) proved the spectral theorem for real symmetric matrices, placing the classification on a rigorous algebraic foundation and showing that the eigenvalues are the "natural" coefficients. Sylvester (1852) introduced the law of inertia and the notion of signature, proving that the number of positive and negative eigenvalues is basis-independent. The principal axis theorem in its modern form — as an immediate corollary of the spectral theorem — synthesises the work of Euler, Cauchy, and Sylvester. Hilbert (1904) extended the spectral theorem to compact self-adjoint operators on infinite-dimensional spaces, opening the door to functional analysis (Phase 14).</p>
+<p><a href="../mathematicians/euler.html">Euler</a> (1748) was the first to classify conics by rotation, using trigonometric substitution to eliminate cross-terms. <a href="../mathematicians/lagrange.html">Lagrange</a> (1759) extended the method to quadratic forms in three variables. Cauchy (1829) proved the spectral theorem for real symmetric matrices, placing the classification on a rigorous algebraic foundation and showing that the eigenvalues are the "natural" coefficients. Sylvester (1852) introduced the law of inertia and the notion of signature, proving that the number of positive and negative eigenvalues is basis-independent. The principal axis theorem in its modern form — as an immediate corollary of the spectral theorem — synthesises the work of Euler, Cauchy, and Sylvester. Hilbert (1904) extended the spectral theorem to compact self-adjoint operators on infinite-dimensional spaces, opening the door to functional analysis (Phase 14).</p>
 </div>
 
 <div class="break-box">

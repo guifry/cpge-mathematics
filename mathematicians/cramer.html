@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabriel Cramer — Mathematician</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/cramer.jpg" alt="Gabriel Cramer" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Gabriel Cramer</h1>
+      <p class="mathematician-dates">1704–1752</p>
+      <p class="mathematician-nationality">Swiss</p>
+      <p class="mathematician-areas">Linear algebra, algebraic curves</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase6/05-determinants.html">Cramer's rule</a> — Phase 6, page 5</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Cramer's paradox</b> — the observation that two distinct cubic curves can intersect in 9 points, yet a cubic is determined by 9 points. Euler resolved this.</li>
+    <li><b><em>Introduction à l'analyse des lignes courbes algébriques</em></b> (1750) — a systematic classification of algebraic curves, the first treatise of its kind.</li>
+    <li><b>Editing of the Bernoulli brothers</b> — Cramer edited the collected works of both Jacob and Johann Bernoulli, preserving their mathematical legacy.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Gabriel Cramer was a Genevan mathematician who became co-chair of mathematics at the Académie de Calvin at the remarkable age of twenty. The chair was shared — Cramer held it jointly with Giovanni Ludovico Calandrini, with the understanding that each would travel in alternate years to broaden his mathematical horizons. This arrangement took Cramer across Europe, where he met Johann Bernoulli, Euler, Fontenelle, and other leading figures.</p>
+
+    <p>Cramer is remembered primarily for a single result: Cramer's rule (1750), which gives an explicit formula for the solution of a system of $n$ linear equations in $n$ unknowns. If $Ax = b$ and $A$ is invertible, then $x_i = \det(A_i) / \det(A)$, where $A_i$ is $A$ with its $i$-th column replaced by $b$. The formula is elegant and theoretically important — it proves that the solution depends rationally on the coefficients — though for large systems it is computationally impractical.</p>
+
+    <p>His major publication, <em>Introduction à l'analyse des lignes courbes algébriques</em> (1750), was the first systematic treatment of algebraic curves. In it, Cramer classified curves by degree and studied their intersections, leading to what is now called Cramer's paradox: two cubic curves generically intersect in $3 \times 3 = 9$ points, but a cubic is determined by $\binom{3+2}{2} - 1 = 9$ points. So nine points should determine a unique cubic, yet two distinct cubics pass through them. Euler clarified the resolution: the nine intersection points are not in "general position."</p>
+
+    <p>Cramer also edited the collected works of both Bernoulli brothers. He died at 48, during a journey to the south of France undertaken for health reasons.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 6</td><td><a href="../phase6/04-matrices.html">Matrices and Change of Basis</a></td><td>Organised coefficients systematically to state his rule (1750)</td></tr>
+      <tr><td>Phase 6</td><td><a href="../phase6/05-determinants.html">Determinants</a></td><td>Cramer's rule: $x_i = \det(A_i)/\det(A)$ (1750)</td></tr>
+      <tr><td>Phase 8</td><td><a href="../phase8/05-variation-of-parameters.html">Variation of Parameters</a></td><td>Cramer's rule applied to solve for parameter derivatives</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+</body>
+</html>

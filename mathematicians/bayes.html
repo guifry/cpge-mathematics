@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thomas Bayes</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="mathematician-profile">
+  <div class="mathematician-header">
+    <img src="images/bayes.jpg" alt="Thomas Bayes" class="mathematician-photo">
+    <div class="mathematician-info">
+      <h1>Thomas Bayes</h1>
+      <p class="mathematician-dates">1701–1761</p>
+      <p class="mathematician-nationality">British</p>
+      <p class="mathematician-areas">Probability, theology</p>
+    </div>
+  </div>
+
+  <h2>Theorems in this course</h2>
+  <ul class="mathematician-theorems">
+    <li><a href="../phase12/02-bayes.html">Bayes&rsquo; theorem</a> &mdash; Phase 12, page 2</li>
+  </ul>
+
+  <h2>Other notable contributions</h2>
+  <ul class="mathematician-theorems">
+    <li><b>Inverse probability</b> &mdash; posed the problem of inferring causes from effects, laying the groundwork for all of Bayesian inference.</li>
+    <li><b>Divine Benevolence</b> &mdash; wrote a theological treatise (1731) defending God&rsquo;s goodness, reflecting his career as a Presbyterian minister.</li>
+    <li><b>Asymptotic series for Stirling&rsquo;s formula</b> &mdash; produced one of the earliest rigorous treatments of the error in Stirling&rsquo;s approximation.</li>
+  </ul>
+
+  <hr>
+
+  <div class="mathematician-bio">
+    <p>Thomas Bayes was an English Presbyterian minister and mathematician, born in London to a family of nonconformist clergy. He was educated privately &mdash; dissenters were barred from Oxford and Cambridge &mdash; and spent most of his adult life as minister of the Mount Sion chapel in Tunbridge Wells, Kent.</p>
+
+    <p>Bayes published only two works in his lifetime, neither on probability. His mathematical fame rests entirely on a single paper published posthumously in 1763 by his friend Richard Price: &ldquo;An Essay towards solving a Problem in the Doctrine of Chances.&rdquo; In it, Bayes posed and solved the problem of <em>inverse probability</em>: given that an event has occurred, what can we infer about the underlying probability that caused it?</p>
+
+    <p>The theorem itself is a straightforward consequence of the definition of conditional probability and the law of total probability. Its power lies not in the algebra but in the conceptual shift: it tells you how to <em>update</em> your beliefs in the light of evidence. The prior probability $P(B)$ represents what you knew before observing, the likelihood $P(A|B)$ quantifies the evidence, and the posterior $P(B|A)$ is your updated state of knowledge. The base rate matters more than most people intuitively expect &mdash; a theme the medical screening example on page 2 illustrates vividly.</p>
+
+    <p>Laplace independently discovered and greatly extended the result in his <em>Th&eacute;orie analytique des probabilit&eacute;s</em> (1812), applying it systematically to problems in astronomy and demography. The &ldquo;Bayesian&rdquo; label, however, stuck to Bayes. Today the theorem is the foundation of an entire school of statistics, used in spam filters, medical diagnosis, machine learning, and any setting where beliefs must be updated with data.</p>
+  </div>
+
+  <h2>References in this course</h2>
+  <table class="mathematician-references">
+    <thead>
+      <tr><th>Phase</th><th>Page</th><th>Referenced for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phase 12</td><td><a href="../phase12/01-probability-spaces.html">Probability Spaces</a></td><td>Navigation link to Bayes&rsquo; theorem</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/02-bayes.html">Conditional Probability and Bayes' Theorem</a></td><td>Bayes&rsquo; theorem: $P(B|A) = P(A|B)\,P(B)/P(A)$</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/02-bayes.html">Conditional Probability and Bayes' Theorem</a></td><td>Biographical context: Presbyterian minister, posthumous 1763 publication</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/02-bayes.html">Conditional Probability and Bayes' Theorem</a></td><td>Break-box: Bayes is meaningless without the prior $P(B)$</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/03-expectation.html">Random Variables and Expectation</a></td><td>Navigation link back to Bayes&rsquo; theorem</td></tr>
+      <tr><td>Phase 12</td><td><a href="../phase12/08-conditional-expectation.html">Conditional Expectation as Projection</a></td><td>Bayes&rsquo; theorem in the phase summary</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="nav">
+  <a href="index.html">&larr; All mathematicians</a>
+</div>
+
+</body>
+</html>
