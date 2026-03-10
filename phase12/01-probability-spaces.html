@@ -83,7 +83,7 @@ Three axioms. Everything else follows. Let us derive the immediate consequences.
 <p>$P(\varnothing) = 0$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-empty-set">
 <div class="label">Proof</div>
 <p>
 <b>Step 1.</b> Write $\Omega = \Omega \cup \varnothing \cup \varnothing \cup \cdots$
@@ -105,7 +105,7 @@ equals zero is if $P(\varnothing) = 0$.
 <p>$P(A^c) = 1 - P(A)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-complement-rule">
 <div class="label">Proof</div>
 <p>
 <b>Step 1.</b> $\Omega = A \cup A^c$ and $A \cap A^c = \varnothing$.
@@ -125,7 +125,7 @@ $P(\Omega) = P(A) + P(A^c)$.
 <p>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-inclusion-exclusion-two-sets">
 <div class="label">Proof</div>
 <p>
 <b>Step 1.</b> Decompose: $A \cup B = (A \setminus B) \cup (A \cap B) \cup (B \setminus A)$.
@@ -198,7 +198,7 @@ then for any event $A$:
 <div class="display-math">$$P(A) = \sum_{i=1}^{n} P(A \cap B_i)$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-total-probability">
 <div class="label">Proof</div>
 <p>
 <b>Step 1.</b> Since the $B_i$ partition $\Omega$, we have
@@ -226,7 +226,7 @@ We proved the two-set formula above. For three sets:
 </p>
 <div class="display-math">$$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$$</div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-inclusion-exclusion-three-sets">
 <div class="label">Proof (three sets)</div>
 <p>
 <b>Step 1.</b> Write $A \cup B \cup C = (A \cup B) \cup C$ and apply the two-set formula:

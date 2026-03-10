@@ -50,7 +50,7 @@
   <p>$E[\bar{X}_n] = \mu$ and $\text{Var}(\bar{X}_n) = \sigma^2/n$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-sample-mean-lemma">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> By linearity of expectation (page 3):
@@ -81,7 +81,7 @@
   <p>This is <strong>convergence in probability</strong>: $\bar{X}_n \xrightarrow{P} \mu$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-chebyshev">
   <div class="label">Proof (<a href="../mathematicians/chebyshev.html">Chebyshev</a>)</div>
   <p>
     Apply Chebyshev's inequality (page 5) to $\bar{X}_n$:
@@ -143,7 +143,7 @@
   <p>If $\sum_{n=1}^{\infty} P(A_n) < \infty$, then $P(A_n \text{ i.o.}) = 0$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-first-borel-cantelli">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> For each $n$,
@@ -170,7 +170,7 @@
   </p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-second-borel-cantelli">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> We show $P\!\big(\bigcap_{k=n}^{m} A_k^c\big) \to 0$ as
@@ -196,7 +196,7 @@
   The full proof without this assumption uses truncation arguments; we omit it.
 </p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-fourth-moment-method">
   <div class="label">Proof (fourth moment method)</div>
   <p>
     <strong>Step 1.</strong> Let $S_n = \sum_{i=1}^n (X_i - \mu)$. We bound

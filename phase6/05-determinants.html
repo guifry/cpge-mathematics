@@ -113,7 +113,7 @@
   <p>The determinant of the transpose equals the determinant of the original matrix.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-det-transpose">
   <div class="label">Proof</div>
   <p>
     In the Leibniz formula, $\det(A^T) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \prod_i a_{\sigma(i),i}$.
@@ -134,7 +134,7 @@
   <p>The determinant is multiplicative.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-det-product">
   <div class="label">Proof</div>
   <p>
     Fix $B$ and define $\varphi(A) = \det(AB)/\det(B)$ when $\det(B) \neq 0$, but we proceed
@@ -170,7 +170,7 @@
   <p>$A$ is invertible if and only if $\det(A) \neq 0$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-invertibility-criterion">
   <div class="label">Proof</div>
   <p>
     If $A$ is invertible, $AA^{-1} = I$, so $\det(A)\det(A^{-1}) = 1$. Hence $\det(A) \neq 0$.
@@ -202,7 +202,7 @@
   </p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-laplace-expansion">
   <div class="label">Proof</div>
   <p>
     Fix row $i$. Write $a_{ij}$ as the coefficient of $e_j$ in row $i$. By multilinearity in

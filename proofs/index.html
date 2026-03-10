@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proof Registry — CPGE Mathematics</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.registry-count {
+  color: var(--accent);
+  font-size: 1.4rem;
+  margin: 1.5rem 0 1rem;
+}
+.registry-count span {
+  font-weight: bold;
+}
+.filter-section {
+  margin: 1rem 0;
+}
+.filter-section h3 {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+.filter-pill {
+  background: var(--surface);
+  color: var(--dim);
+  border: 1px solid var(--accent2);
+  border-radius: 12px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.filter-pill:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.filter-pill.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.search-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+.search-box {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+}
+.search-box:focus {
+  border-color: var(--accent);
+}
+.search-box::placeholder {
+  color: var(--dim);
+}
+.clear-btn {
+  background: var(--surface);
+  color: var(--dim);
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.clear-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.proof-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.proof-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.proof-table td {
+  vertical-align: top;
+  padding: 0.4rem 0.6rem;
+}
+.proof-table tr:hover td {
+  background: var(--surface);
+}
+.tag-pill {
+  display: inline-block;
+  background: var(--accent2);
+  color: var(--dim);
+  border-radius: 8px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  margin: 0.1rem 0.15rem;
+  white-space: nowrap;
+}
+.no-results {
+  text-align: center;
+  color: var(--dim);
+  padding: 2rem;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<h1>Proof Registry</h1>
+<p class="subtitle">Every proof in the course, searchable and filterable</p>
+
+<div class="registry-count"><span id="count">302</span> proofs across 16 phases</div>
+
+<div class="search-row">
+  <input type="text" class="search-box" id="search" placeholder="Search proofs, authors, categories, tags...">
+  <button class="clear-btn" id="clear">Clear all</button>
+</div>
+
+<div class="filter-section">
+  <h3>Categories</h3>
+  <div class="filter-row" id="cat-filters">
+    <span class="filter-pill" data-category="Abstract Algebra">Abstract Algebra</span>
+    <span class="filter-pill" data-category="Analysis">Analysis</span>
+    <span class="filter-pill" data-category="Calculus">Calculus</span>
+    <span class="filter-pill" data-category="Differential Equations">Differential Equations</span>
+    <span class="filter-pill" data-category="Fourier Analysis">Fourier Analysis</span>
+    <span class="filter-pill" data-category="Functional Analysis">Functional Analysis</span>
+    <span class="filter-pill" data-category="Game Theory">Game Theory</span>
+    <span class="filter-pill" data-category="Geometry">Geometry</span>
+    <span class="filter-pill" data-category="Linear Algebra">Linear Algebra</span>
+    <span class="filter-pill" data-category="Multivariable Calculus">Multivariable Calculus</span>
+    <span class="filter-pill" data-category="Number Theory">Number Theory</span>
+    <span class="filter-pill" data-category="Probability">Probability</span>
+    <span class="filter-pill" data-category="Series & Convergence">Series & Convergence</span>
+    <span class="filter-pill" data-category="Spectral Theory">Spectral Theory</span>
+    <span class="filter-pill" data-category="Topology">Topology</span>
+  </div>
+</div>
+
+<div class="filter-section">
+  <h3>Tags</h3>
+  <div class="filter-row" id="tag-filters">
+    <span class="filter-pill" data-tag="inequalities">inequalities</span>
+    <span class="filter-pill" data-tag="series">series</span>
+    <span class="filter-pill" data-tag="convergence">convergence</span>
+    <span class="filter-pill" data-tag="continuity">continuity</span>
+    <span class="filter-pill" data-tag="sequences">sequences</span>
+    <span class="filter-pill" data-tag="limits">limits</span>
+    <span class="filter-pill" data-tag="geometry">geometry</span>
+    <span class="filter-pill" data-tag="differentiation">differentiation</span>
+    <span class="filter-pill" data-tag="norms">norms</span>
+    <span class="filter-pill" data-tag="divisibility">divisibility</span>
+    <span class="filter-pill" data-tag="topology">topology</span>
+    <span class="filter-pill" data-tag="integration">integration</span>
+    <span class="filter-pill" data-tag="group-theory">group-theory</span>
+    <span class="filter-pill" data-tag="completeness">completeness</span>
+    <span class="filter-pill" data-tag="probability">probability</span>
+    <span class="filter-pill" data-tag="induction">induction</span>
+    <span class="filter-pill" data-tag="orthogonality">orthogonality</span>
+    <span class="filter-pill" data-tag="constructive">constructive</span>
+    <span class="filter-pill" data-tag="eigenvalues">eigenvalues</span>
+    <span class="filter-pill" data-tag="compactness">compactness</span>
+    <span class="filter-pill" data-tag="combinatorics">combinatorics</span>
+    <span class="filter-pill" data-tag="primes">primes</span>
+    <span class="filter-pill" data-tag="trigonometry">trigonometry</span>
+    <span class="filter-pill" data-tag="ring-theory">ring-theory</span>
+    <span class="filter-pill" data-tag="polynomial">polynomial</span>
+    <span class="filter-pill" data-tag="projection">projection</span>
+    <span class="filter-pill" data-tag="contradiction">contradiction</span>
+    <span class="filter-pill" data-tag="game-theory">game-theory</span>
+    <span class="filter-pill" data-tag="approximation">approximation</span>
+    <span class="filter-pill" data-tag="spectral">spectral</span>
+    <span class="filter-pill" data-tag="measure-theory">measure-theory</span>
+    <span class="filter-pill" data-tag="area">area</span>
+    <span class="filter-pill" data-tag="power-series">power-series</span>
+    <span class="filter-pill" data-tag="signal-analysis">signal-analysis</span>
+    <span class="filter-pill" data-tag="modular-arithmetic">modular-arithmetic</span>
+    <span class="filter-pill" data-tag="quadratic">quadratic</span>
+    <span class="filter-pill" data-tag="optimisation">optimisation</span>
+    <span class="filter-pill" data-tag="bilinear">bilinear</span>
+    <span class="filter-pill" data-tag="taylor">taylor</span>
+    <span class="filter-pill" data-tag="fixed-point">fixed-point</span>
+    <span class="filter-pill" data-tag="convexity">convexity</span>
+    <span class="filter-pill" data-tag="minimax">minimax</span>
+    <span class="filter-pill" data-tag="nash">nash</span>
+  </div>
+</div>
+
+<table class="proof-table">
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Page</th>
+      <th>Proof</th>
+      <th>Author</th>
+      <th>Category</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+  <tbody id="proof-body">
+  </tbody>
+</table>
+
+<div class="no-results" id="no-results" style="display:none">No proofs match the current filters.</div>
+
+<div class="nav" style="margin-top:2rem">
+  <a href="../index.html">&larr; Table of contents</a>
+  <a href="../mathematicians/index.html">Mathematician Timeline &rarr;</a>
+</div>
+
+<script>
+const PROOFS = [
+  {phase:0,pageNum:1,pageFile:"../phase0/01-similar-triangles.html",pageTitle:"Similar Triangles and Measurement",proofLink:"../phase0/01-similar-triangles.html#proof-sketch",proofLabel:"Thales' theorem (sketch)",author:"Thales",authorLink:"../mathematicians/thales.html",category:"Geometry",tags:["geometry", "area", "orthogonality", "measure-theory"]},
+  {phase:0,pageNum:1,pageFile:"../phase0/01-similar-triangles.html",pageTitle:"Similar Triangles and Measurement",proofLink:"../phase0/01-similar-triangles.html#proof-of-the-similar-triangles-theorem",proofLabel:"the Similar Triangles theorem",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Geometry",tags:["constructive", "modular-arithmetic", "geometry", "area", "measure-theory"]},
+  {phase:0,pageNum:2,pageFile:"../phase0/02-pythagorean-theorem.html",pageTitle:"02. The Pythagorean Theorem",proofLink:"../phase0/02-pythagorean-theorem.html#proof-1-area-rearrangement",proofLabel:"1 \u2014 Area rearrangement",author:"",authorLink:"",category:"Geometry",tags:["geometry", "area", "combinatorics"]},
+  {phase:0,pageNum:2,pageFile:"../phase0/02-pythagorean-theorem.html",pageTitle:"02. The Pythagorean Theorem",proofLink:"../phase0/02-pythagorean-theorem.html#proof-2-via-similar-triangles-euclid",proofLabel:"2 \u2014 Via similar triangles (Euclid)",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Geometry",tags:["sequences", "geometry", "area", "orthogonality", "combinatorics"]},
+  {phase:0,pageNum:3,pageFile:"../phase0/03-sqrt2-irrational.html",pageTitle:"\u221a2 is Irrational",proofLink:"../phase0/03-sqrt2-irrational.html#proof-theorem",proofLabel:"\u221a2 is irrational",author:"",authorLink:"",category:"Geometry",tags:["contradiction", "divisibility"]},
+  {phase:0,pageNum:4,pageFile:"../phase0/04-trigonometry.html",pageTitle:"Trigonometry from Scratch",proofLink:"../phase0/04-trigonometry.html#proof-derivation",proofLabel:"Derivation",author:"",authorLink:"",category:"Geometry",tags:["limits", "integration", "geometry", "trigonometry", "orthogonality", "ring-theory"]},
+  {phase:0,pageNum:5,pageFile:"../phase0/05-unit-circle.html",pageTitle:"The Unit Circle",proofLink:"../phase0/05-unit-circle.html#proof-theorem-sine-and-cosine-are-bounded",proofLabel:"Sine and Cosine Are Bounded",author:"",authorLink:"",category:"Geometry",tags:["inequalities", "geometry", "trigonometry"]},
+  {phase:1,pageNum:1,pageFile:"../phase1/01-divisibility.html",pageTitle:"Divisibility and the Euclidean Algorithm",proofLink:"../phase1/01-divisibility.html#proof-theorem-division-algorithm",proofLabel:"Theorem (Division algorithm)",author:"",authorLink:"",category:"Number Theory",tags:["constructive", "inequalities", "divisibility", "ring-theory"]},
+  {phase:1,pageNum:1,pageFile:"../phase1/01-divisibility.html",pageTitle:"Divisibility and the Euclidean Algorithm",proofLink:"../phase1/01-divisibility.html#proof-theorem-division-algorithm-2",proofLabel:"Theorem (Division algorithm)",author:"",authorLink:"",category:"Number Theory",tags:["divisibility", "combinatorics"]},
+  {phase:1,pageNum:1,pageFile:"../phase1/01-divisibility.html",pageTitle:"Divisibility and the Euclidean Algorithm",proofLink:"../phase1/01-divisibility.html#proof-lemma",proofLabel:"Lemma",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Number Theory",tags:["divisibility"]},
+  {phase:1,pageNum:1,pageFile:"../phase1/01-divisibility.html",pageTitle:"Divisibility and the Euclidean Algorithm",proofLink:"../phase1/01-divisibility.html#proof-theorem-bezouts-identity",proofLabel:"Theorem (Bezout's identity)",author:"Bezout",authorLink:"../mathematicians/bezout.html",category:"Number Theory",tags:["divisibility", "combinatorics"]},
+  {phase:1,pageNum:1,pageFile:"../phase1/01-divisibility.html",pageTitle:"Divisibility and the Euclidean Algorithm",proofLink:"../phase1/01-divisibility.html#proof-theorem-bezouts-identity-2",proofLabel:"Theorem (Bezout's identity)",author:"Bezout",authorLink:"../mathematicians/bezout.html",category:"Number Theory",tags:["inequalities", "primes", "divisibility"]},
+  {phase:1,pageNum:2,pageFile:"../phase1/02-primes.html",pageTitle:"Prime Numbers and the Fundamental Theorem of Arithmetic",proofLink:"../phase1/02-primes.html#proof-definition",proofLabel:"Definition",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Number Theory",tags:["constructive", "primes", "divisibility"]},
+  {phase:1,pageNum:2,pageFile:"../phase1/02-primes.html",pageTitle:"Prime Numbers and the Fundamental Theorem of Arithmetic",proofLink:"../phase1/02-primes.html#proof-theorem-euclid-elements-ix20",proofLabel:"Theorem (Euclid, Elements IX.20)",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Number Theory",tags:["contradiction", "primes", "divisibility"]},
+  {phase:1,pageNum:2,pageFile:"../phase1/02-primes.html",pageTitle:"Prime Numbers and the Fundamental Theorem of Arithmetic",proofLink:"../phase1/02-primes.html#proof-of-existence-by-strong-induction",proofLabel:"existence (by strong induction)",author:"",authorLink:"",category:"Number Theory",tags:["induction", "inequalities", "primes"]},
+  {phase:1,pageNum:2,pageFile:"../phase1/02-primes.html",pageTitle:"Prime Numbers and the Fundamental Theorem of Arithmetic",proofLink:"../phase1/02-primes.html#proof-of-uniqueness-using-euclids-lemma",proofLabel:"uniqueness (using Euclid's lemma)",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Number Theory",tags:["induction", "contradiction", "inequalities", "primes", "ring-theory"]},
+  {phase:1,pageNum:2,pageFile:"../phase1/02-primes.html",pageTitle:"Prime Numbers and the Fundamental Theorem of Arithmetic",proofLink:"../phase1/02-primes.html#proof-via-fta",proofLabel:"via FTA",author:"",authorLink:"",category:"Number Theory",tags:["contradiction", "primes"]},
+  {phase:1,pageNum:3,pageFile:"../phase1/03-modular-arithmetic.html",pageTitle:"Modular Arithmetic",proofLink:"../phase1/03-modular-arithmetic.html#proof-equivalence-relation",proofLabel:"equivalence relation",author:"",authorLink:"",category:"Number Theory",tags:["divisibility", "modular-arithmetic"]},
+  {phase:1,pageNum:3,pageFile:"../phase1/03-modular-arithmetic.html",pageTitle:"Modular Arithmetic",proofLink:"../phase1/03-modular-arithmetic.html#proof-theorem-compatibility",proofLabel:"Theorem (compatibility)",author:"",authorLink:"",category:"Number Theory",tags:["modular-arithmetic"]},
+  {phase:1,pageNum:3,pageFile:"../phase1/03-modular-arithmetic.html",pageTitle:"Modular Arithmetic",proofLink:"../phase1/03-modular-arithmetic.html#proof-theorem-cancellation",proofLabel:"Theorem (cancellation)",author:"",authorLink:"",category:"Number Theory",tags:["primes", "divisibility", "modular-arithmetic"]},
+  {phase:1,pageNum:3,pageFile:"../phase1/03-modular-arithmetic.html",pageTitle:"Modular Arithmetic",proofLink:"../phase1/03-modular-arithmetic.html#proof-theorem-modular-inverse",proofLabel:"Theorem (modular inverse)",author:"Bezout",authorLink:"../mathematicians/bezout.html",category:"Number Theory",tags:["divisibility", "modular-arithmetic", "combinatorics"]},
+  {phase:1,pageNum:4,pageFile:"../phase1/04-fermat-little.html",pageTitle:"Fermat's Little Theorem",proofLink:"../phase1/04-fermat-little.html#proof-theorem-fermats-little-theorem",proofLabel:"Theorem (Fermat's Little Theorem)",author:"Fermat",authorLink:"../mathematicians/fermat.html",category:"Number Theory",tags:["inequalities", "primes", "divisibility", "modular-arithmetic"]},
+  {phase:1,pageNum:5,pageFile:"../phase1/05-euler-totient.html",pageTitle:"Euler's Totient Function and Theorem",proofLink:"../phase1/05-euler-totient.html#proof-theorem-2",proofLabel:"Euler's theorem",author:"Fermat",authorLink:"../mathematicians/fermat.html",category:"Number Theory",tags:["inequalities", "primes", "divisibility"]},
+  {phase:1,pageNum:5,pageFile:"../phase1/05-euler-totient.html",pageTitle:"Euler's Totient Function and Theorem",proofLink:"../phase1/05-euler-totient.html#proof-sketch-2",proofLabel:"Euler's totient multiplicativity (sketch)",author:"",authorLink:"",category:"Number Theory",tags:["primes", "divisibility", "modular-arithmetic"]},
+  {phase:1,pageNum:5,pageFile:"../phase1/05-euler-totient.html",pageTitle:"Euler's Totient Function and Theorem",proofLink:"../phase1/05-euler-totient.html#proof-theorem-euler-1763",proofLabel:"Theorem (Euler, 1763)",author:"Euler",authorLink:"../mathematicians/euler.html",category:"Number Theory",tags:["primes", "divisibility", "modular-arithmetic"]},
+  {phase:1,pageNum:6,pageFile:"../phase1/06-crt.html",pageTitle:"The Chinese Remainder Theorem",proofLink:"../phase1/06-crt.html#proof-proof-existence",proofLabel:"Proof &mdash; existence",author:"",authorLink:"",category:"Number Theory",tags:["induction", "constructive", "series", "primes", "divisibility"]},
+  {phase:1,pageNum:7,pageFile:"../phase1/07-diophantine.html",pageTitle:"Diophantine Equations",proofLink:"../phase1/07-diophantine.html#proof-theorem-existence-criterion",proofLabel:"Theorem (Existence criterion)",author:"Bezout",authorLink:"../mathematicians/bezout.html",category:"Number Theory",tags:["divisibility"]},
+  {phase:1,pageNum:7,pageFile:"../phase1/07-diophantine.html",pageTitle:"Diophantine Equations",proofLink:"../phase1/07-diophantine.html#proof-theorem-general-solution",proofLabel:"Theorem (General solution)",author:"",authorLink:"",category:"Number Theory",tags:["primes", "divisibility"]},
+  {phase:1,pageNum:7,pageFile:"../phase1/07-diophantine.html",pageTitle:"Diophantine Equations",proofLink:"../phase1/07-diophantine.html#proof-derivation-2",proofLabel:"derivation",author:"",authorLink:"",category:"Number Theory",tags:["contradiction", "primes", "divisibility"]},
+  {phase:2,pageNum:2,pageFile:"../phase2/02-squeeze-theorem.html",pageTitle:"The Squeeze Theorem",proofLink:"../phase2/02-squeeze-theorem.html#proof-theorem-squeeze-theorem",proofLabel:"Squeeze Theorem",author:"",authorLink:"",category:"Analysis",tags:["convergence", "limits", "inequalities", "sequences"]},
+  {phase:2,pageNum:3,pageFile:"../phase2/03-monotone-convergence.html",pageTitle:"The Monotone Convergence Theorem",proofLink:"../phase2/03-monotone-convergence.html#proof-monotone-convergence-theorem",proofLabel:"Monotone Convergence Theorem",author:"",authorLink:"",category:"Analysis",tags:["constructive", "convergence", "limits", "inequalities", "sequences", "completeness"]},
+  {phase:2,pageNum:4,pageFile:"../phase2/04-bolzano-weierstrass.html",pageTitle:"The Bolzano-Weierstrass Theorem",proofLink:"../phase2/04-bolzano-weierstrass.html#proof-theorem-bolzano-weierstrass",proofLabel:"Weierstrass)",author:"Weierstrass",authorLink:"../mathematicians/weierstrass.html",category:"Analysis",tags:["contradiction", "constructive", "convergence", "limits", "inequalities", "sequences"]},
+  {phase:2,pageNum:5,pageFile:"../phase2/05-cauchy-criterion.html",pageTitle:"The Cauchy Criterion",proofLink:"../phase2/05-cauchy-criterion.html#proof",proofLabel:"Cauchy criterion (\u27f9 direction)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Analysis",tags:["convergence", "limits", "inequalities", "sequences", "geometry", "completeness"]},
+  {phase:2,pageNum:5,pageFile:"../phase2/05-cauchy-criterion.html",pageTitle:"The Cauchy Criterion",proofLink:"../phase2/05-cauchy-criterion.html#proof-2",proofLabel:"Cauchy criterion (\u27f8 direction)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Analysis",tags:["constructive", "convergence", "limits", "inequalities", "sequences", "geometry", "completeness", "ring-theory"]},
+  {phase:2,pageNum:6,pageFile:"../phase2/06-ivt.html",pageTitle:"Connected Sets and the IVT",proofLink:"../phase2/06-ivt.html#proof-intermediate-value-theorem",proofLabel:"Intermediate Value Theorem",author:"Bolzano",authorLink:"../mathematicians/bolzano.html",category:"Analysis",tags:["convergence", "continuity", "limits", "inequalities", "sequences", "completeness"]},
+  {phase:2,pageNum:7,pageFile:"../phase2/07-dense-subsets.html",pageTitle:"Dense Subsets",proofLink:"../phase2/07-dense-subsets.html#proof-theorem-1-density-of-mathbbq",proofLabel:"Density of $\\mathbb{Q}$",author:"",authorLink:"",category:"Analysis",tags:["inequalities", "sequences"]},
+  {phase:2,pageNum:7,pageFile:"../phase2/07-dense-subsets.html",pageTitle:"Dense Subsets",proofLink:"../phase2/07-dense-subsets.html#proof-theorem-2-density-of-mathbbr-setminus-mathbbq",proofLabel:"Density of $\\mathbb{R} \\setminus \\mathbb{Q}$",author:"",authorLink:"",category:"Analysis",tags:["inequalities"]},
+  {phase:3,pageNum:1,pageFile:"../phase3/01-derivative.html",pageTitle:"The Derivative",proofLink:"../phase3/01-derivative.html#proof-theorem-power-rule-positive-integers",proofLabel:"Power rule (positive integers)",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation", "series", "combinatorics"]},
+  {phase:3,pageNum:1,pageFile:"../phase3/01-derivative.html",pageTitle:"The Derivative",proofLink:"../phase3/01-derivative.html#proof-theorem-differentiable-rightarrow-continuous",proofLabel:"Differentiable $\\Rightarrow$ continuous",author:"",authorLink:"",category:"Calculus",tags:["convergence", "continuity", "limits", "differentiation", "ring-theory"]},
+  {phase:3,pageNum:1,pageFile:"../phase3/01-derivative.html",pageTitle:"The Derivative",proofLink:"../phase3/01-derivative.html#proof-for-local-maximum",proofLabel:"for local maximum",author:"Fermat",authorLink:"../mathematicians/fermat.html",category:"Calculus",tags:["limits", "differentiation", "inequalities"]},
+  {phase:3,pageNum:2,pageFile:"../phase3/02-differentiation-rules.html",pageTitle:"Differentiation Rules",proofLink:"../phase3/02-differentiation-rules.html#proof-theorem-sum-rule",proofLabel:"Theorem (Sum Rule)",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation"]},
+  {phase:3,pageNum:2,pageFile:"../phase3/02-differentiation-rules.html",pageTitle:"Differentiation Rules",proofLink:"../phase3/02-differentiation-rules.html#proof-theorem-constant-multiple-rule",proofLabel:"Theorem (Constant Multiple Rule)",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation"]},
+  {phase:3,pageNum:2,pageFile:"../phase3/02-differentiation-rules.html",pageTitle:"Differentiation Rules",proofLink:"../phase3/02-differentiation-rules.html#proof-theorem-product-rule",proofLabel:"Theorem (Product Rule)",author:"",authorLink:"",category:"Calculus",tags:["continuity", "limits", "differentiation"]},
+  {phase:3,pageNum:2,pageFile:"../phase3/02-differentiation-rules.html",pageTitle:"Differentiation Rules",proofLink:"../phase3/02-differentiation-rules.html#proof-theorem-quotient-rule",proofLabel:"Theorem (Quotient Rule)",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation"]},
+  {phase:3,pageNum:2,pageFile:"../phase3/02-differentiation-rules.html",pageTitle:"Differentiation Rules",proofLink:"../phase3/02-differentiation-rules.html#proof-theorem-chain-rule",proofLabel:"Theorem (Chain Rule)",author:"",authorLink:"",category:"Calculus",tags:["continuity", "limits", "differentiation"]},
+  {phase:3,pageNum:3,pageFile:"../phase3/03-trig-derivatives.html",pageTitle:"Derivatives of Sine and Cosine",proofLink:"../phase3/03-trig-derivatives.html#proof-limtheta-to-0-fracsinthetatheta-1",proofLabel:"$\\lim_{\\theta \\to 0} \\frac{\\sin\\theta}{\\theta} = 1$",author:"",authorLink:"",category:"Calculus",tags:["convergence", "continuity", "limits", "differentiation", "inequalities", "geometry", "area", "trigonometry"]},
+  {phase:3,pageNum:3,pageFile:"../phase3/03-trig-derivatives.html",pageTitle:"Derivatives of Sine and Cosine",proofLink:"../phase3/03-trig-derivatives.html#proof-limtheta-to-0-fraccostheta-1theta-0",proofLabel:"$\\lim_{\\theta \\to 0} \\frac{\\cos\\theta - 1}{\\theta} = 0$",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation", "inequalities", "geometry", "area", "trigonometry"]},
+  {phase:3,pageNum:3,pageFile:"../phase3/03-trig-derivatives.html",pageTitle:"Derivatives of Sine and Cosine",proofLink:"../phase3/03-trig-derivatives.html#proof-theorem-3",proofLabel:"Derivative of sine",author:"",authorLink:"",category:"Calculus",tags:["limits", "differentiation", "geometry", "trigonometry", "group-theory"]},
+  {phase:3,pageNum:3,pageFile:"../phase3/03-trig-derivatives.html",pageTitle:"Derivatives of Sine and Cosine",proofLink:"../phase3/03-trig-derivatives.html#proof-theorem-4",proofLabel:"Derivative of cosine",author:"",authorLink:"",category:"Calculus",tags:["differentiation", "geometry", "trigonometry", "group-theory"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-maximum-minimum-is-identical",proofLabel:"maximum; minimum is identical",author:"Weierstrass",authorLink:"../mathematicians/weierstrass.html",category:"Calculus",tags:["contradiction", "convergence", "continuity", "limits", "inequalities", "sequences", "completeness"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-theorem-rollersquos-theorem",proofLabel:"Rolle&rsquo;s theorem",author:"Rolle",authorLink:"../mathematicians/rolle.html",category:"Calculus",tags:["continuity", "differentiation", "inequalities"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-theorem-mean-value-theorem-lagrange",proofLabel:"Mean Value Theorem (Lagrange)",author:"Lagrange",authorLink:"../mathematicians/lagrange.html",category:"Calculus",tags:["continuity", "differentiation", "geometry", "group-theory"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-corollary-1-zero-derivative-means-constant",proofLabel:"Zero derivative means constant",author:"",authorLink:"",category:"Calculus",tags:["differentiation", "sequences"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-corollary-2-positive-derivative-means-strictly-increasing",proofLabel:"Positive derivative means strictly increasing",author:"",authorLink:"",category:"Calculus",tags:["differentiation"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-corollary-3-equal-derivatives-means-constant-difference",proofLabel:"Equal derivatives means constant difference",author:"",authorLink:"",category:"Calculus",tags:["differentiation"]},
+  {phase:3,pageNum:4,pageFile:"../phase3/04-mean-value-theorem.html",pageTitle:"The Mean Value Theorem",proofLink:"../phase3/04-mean-value-theorem.html#proof-theorem-cauchyrsquos-mean-value-theorem",proofLabel:"Cauchy&rsquo;s Mean Value Theorem",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Calculus",tags:["continuity", "differentiation"]},
+  {phase:3,pageNum:5,pageFile:"../phase3/05-lhopital.html",pageTitle:"L'H&ocirc;pital's Rule",proofLink:"../phase3/05-lhopital.html#proof-theorem-lhocircpitals-rule-00",proofLabel:"L'H&ocirc;pital's rule ($0/0$)",author:"",authorLink:"",category:"Calculus",tags:["continuity", "differentiation"]},
+  {phase:3,pageNum:6,pageFile:"../phase3/06-riemann-integral.html",pageTitle:"The Riemann Integral",proofLink:"../phase3/06-riemann-integral.html#proof-theorem-refinement-inequality",proofLabel:"Refinement inequality",author:"",authorLink:"",category:"Calculus",tags:["induction", "integration", "inequalities"]},
+  {phase:3,pageNum:6,pageFile:"../phase3/06-riemann-integral.html",pageTitle:"The Riemann Integral",proofLink:"../phase3/06-riemann-integral.html#proof-theorem-5",proofLabel:"Riemann integral well-definedness",author:"",authorLink:"",category:"Calculus",tags:["integration", "inequalities", "geometry"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-by-contradiction-using-bolzano-weierstrass",proofLabel:"by contradiction, using Bolzano\u2013Weierstrass",author:"Weierstrass",authorLink:"../mathematicians/weierstrass.html",category:"Calculus",tags:["contradiction", "convergence", "continuity", "inequalities", "sequences"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-theorem-integrability-of-continuous-functions",proofLabel:"Integrability of continuous functions",author:"Riemann",authorLink:"../mathematicians/riemann.html",category:"Calculus",tags:["continuity", "inequalities", "series"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-for-f-increasing-decreasing-is-identical",proofLabel:"for $f$ increasing; decreasing is identical",author:"Riemann",authorLink:"../mathematicians/riemann.html",category:"Calculus",tags:["continuity", "inequalities", "series"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-in-two-steps",proofLabel:"in two steps",author:"",authorLink:"",category:"Calculus",tags:["integration", "inequalities"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-theorem-monotonicity-of-the-integral",proofLabel:"Monotonicity of the integral",author:"",authorLink:"",category:"Calculus",tags:["integration", "inequalities"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-theorem-triangle-inequality-for-integrals",proofLabel:"Triangle inequality for integrals",author:"",authorLink:"",category:"Calculus",tags:["integration", "inequalities", "geometry"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-theorem-additivity-chaslesrsquos-relation",proofLabel:"Additivity (Chasles&rsquo;s relation)",author:"",authorLink:"",category:"Calculus",tags:["inequalities"]},
+  {phase:3,pageNum:7,pageFile:"../phase3/07-integrability.html",pageTitle:"Integrability and Properties",proofLink:"../phase3/07-integrability.html#proof-theorem-f-is-continuous",proofLabel:"$F$ is continuous",author:"",authorLink:"",category:"Calculus",tags:["continuity", "limits", "inequalities", "area"]},
+  {phase:3,pageNum:8,pageFile:"../phase3/08-fundamental-theorem.html",pageTitle:"The Fundamental Theorem of Calculus",proofLink:"../phase3/08-fundamental-theorem.html#proof-theorem-fundamental-theorem-of-calculus-part-1",proofLabel:"Fundamental Theorem of Calculus, Part 1",author:"",authorLink:"",category:"Calculus",tags:["continuity", "differentiation", "integration", "inequalities", "area", "approximation"]},
+  {phase:3,pageNum:8,pageFile:"../phase3/08-fundamental-theorem.html",pageTitle:"The Fundamental Theorem of Calculus",proofLink:"../phase3/08-fundamental-theorem.html#proof-theorem-fundamental-theorem-of-calculus-part-2",proofLabel:"Fundamental Theorem of Calculus, Part 2",author:"",authorLink:"",category:"Calculus",tags:["constructive", "continuity", "differentiation", "integration", "sequences"]},
+  {phase:3,pageNum:9,pageFile:"../phase3/09-integration-techniques.html",pageTitle:"Integration Techniques",proofLink:"../phase3/09-integration-techniques.html#proof-theorem-substitution-rule",proofLabel:"Theorem (Substitution Rule)",author:"",authorLink:"",category:"Calculus",tags:["continuity", "differentiation", "integration"]},
+  {phase:3,pageNum:9,pageFile:"../phase3/09-integration-techniques.html",pageTitle:"Integration Techniques",proofLink:"../phase3/09-integration-techniques.html#proof-theorem-integration-by-parts",proofLabel:"Theorem (Integration by Parts)",author:"",authorLink:"",category:"Calculus",tags:["continuity", "differentiation", "integration", "trigonometry"]},
+  {phase:4,pageNum:1,pageFile:"../phase4/01-taylor-theorem.html",pageTitle:"Taylor's Theorem",proofLink:"../phase4/01-taylor-theorem.html#proof-taylors-theorem",proofLabel:"Taylor's theorem (Lagrange form of the remainder)",author:"Taylor",authorLink:"../mathematicians/taylor.html",category:"Series & Convergence",tags:["differentiation", "inequalities", "polynomial", "group-theory", "taylor"]},
+  {phase:4,pageNum:1,pageFile:"../phase4/01-taylor-theorem.html",pageTitle:"Taylor's Theorem",proofLink:"../phase4/01-taylor-theorem.html#proof-integral-remainder",proofLabel:"by induction using integration by parts",author:"",authorLink:"",category:"Series & Convergence",tags:["induction", "continuity", "limits", "integration", "inequalities", "taylor"]},
+  {phase:4,pageNum:2,pageFile:"../phase4/02-power-series.html",pageTitle:"Power Series and Radius of Convergence",proofLink:"../phase4/02-power-series.html#proof-convergence-lemma",proofLabel:"Lemma",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "inequalities", "series", "sequences", "power-series"]},
+  {phase:4,pageNum:2,pageFile:"../phase4/02-power-series.html",pageTitle:"Power Series and Radius of Convergence",proofLink:"../phase4/02-power-series.html#proof-radius-of-convergence",proofLabel:"Radius of convergence",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "inequalities", "series", "completeness", "power-series"]},
+  {phase:4,pageNum:3,pageFile:"../phase4/03-exponential.html",pageTitle:"The Exponential Function",proofLink:"../phase4/03-exponential.html#proof-functional-equation",proofLabel:"Functional equation",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Series & Convergence",tags:["convergence", "series", "combinatorics"]},
+  {phase:4,pageNum:3,pageFile:"../phase4/03-exponential.html",pageTitle:"The Exponential Function",proofLink:"../phase4/03-exponential.html#proof-exp-derivative",proofLabel:"Exponential derivative",author:"",authorLink:"",category:"Series & Convergence",tags:["differentiation", "series"]},
+  {phase:4,pageNum:3,pageFile:"../phase4/03-exponential.html",pageTitle:"The Exponential Function",proofLink:"../phase4/03-exponential.html#proof-limit-definition-of-e",proofLabel:"Derivation",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences", "combinatorics"]},
+  {phase:4,pageNum:4,pageFile:"../phase4/04-trig-series.html",pageTitle:"Sine and Cosine from Scratch",proofLink:"../phase4/04-trig-series.html#proof-trig-derivatives",proofLabel:"Trigonometric derivatives from series",author:"",authorLink:"",category:"Series & Convergence",tags:["differentiation", "inequalities", "series", "trigonometry"]},
+  {phase:4,pageNum:4,pageFile:"../phase4/04-trig-series.html",pageTitle:"Sine and Cosine from Scratch",proofLink:"../phase4/04-trig-series.html#proof-pythagorean-identity",proofLabel:"Pythagorean identity",author:"",authorLink:"",category:"Series & Convergence",tags:["differentiation", "series", "trigonometry"]},
+  {phase:4,pageNum:4,pageFile:"../phase4/04-trig-series.html",pageTitle:"Sine and Cosine from Scratch",proofLink:"../phase4/04-trig-series.html#proof-addition-formulas",proofLabel:"Addition formulas (sketch)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Series & Convergence",tags:["differentiation", "series", "trigonometry", "completeness"]},
+  {phase:4,pageNum:5,pageFile:"../phase4/05-term-by-term.html",pageTitle:"Term-by-Term Operations",proofLink:"../phase4/05-term-by-term.html#proof-uniform-convergence-compact-subsets",proofLabel:"Uniform convergence on compact subsets",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "inequalities", "series", "compactness", "power-series"]},
+  {phase:4,pageNum:5,pageFile:"../phase4/05-term-by-term.html",pageTitle:"Term-by-Term Operations",proofLink:"../phase4/05-term-by-term.html#proof-term-by-term-differentiation",proofLabel:"outline",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "differentiation", "series", "power-series"]},
+  {phase:4,pageNum:5,pageFile:"../phase4/05-term-by-term.html",pageTitle:"Term-by-Term Operations",proofLink:"../phase4/05-term-by-term.html#proof-term-by-term-integration",proofLabel:"Integrating a power series",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "continuity", "differentiation", "integration", "inequalities", "series", "compactness", "power-series"]},
+  {phase:4,pageNum:5,pageFile:"../phase4/05-term-by-term.html",pageTitle:"Term-by-Term Operations",proofLink:"../phase4/05-term-by-term.html#proof-uniqueness-of-coefficients",proofLabel:"Uniqueness of coefficients",author:"",authorLink:"",category:"Series & Convergence",tags:["induction", "differentiation", "series", "sequences", "power-series"]},
+  {phase:4,pageNum:6,pageFile:"../phase4/06-abel-theorem.html",pageTitle:"Abel's Theorem",proofLink:"../phase4/06-abel-theorem.html#proof-abels-theorem",proofLabel:"Abel (1826)",author:"Abel",authorLink:"../mathematicians/abel.html",category:"Series & Convergence",tags:["convergence", "continuity", "limits", "integration", "inequalities", "series", "power-series"]},
+  {phase:5,pageNum:1,pageFile:"../phase5/01-comparison-test.html",pageTitle:"The Comparison Test",proofLink:"../phase5/01-comparison-test.html#proof-direct-comparison-test",proofLabel:"Direct Comparison Test",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences"]},
+  {phase:5,pageNum:1,pageFile:"../phase5/01-comparison-test.html",pageTitle:"The Comparison Test",proofLink:"../phase5/01-comparison-test.html#proof-limit-comparison-test",proofLabel:"Limit Comparison Test",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series"]},
+  {phase:5,pageNum:2,pageFile:"../phase5/02-ratio-test.html",pageTitle:"The Ratio and Root Tests",proofLink:"../phase5/02-ratio-test.html#proof-ratio-test",proofLabel:"Ratio Test (d'Alembert)",author:"d'Alembert",authorLink:"../mathematicians/dalembert.html",category:"Series & Convergence",tags:["convergence", "inequalities", "series"]},
+  {phase:5,pageNum:2,pageFile:"../phase5/02-ratio-test.html",pageTitle:"The Ratio and Root Tests",proofLink:"../phase5/02-ratio-test.html#proof-root-test",proofLabel:"Root Test (Cauchy)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Series & Convergence",tags:["convergence", "series"]},
+  {phase:5,pageNum:3,pageFile:"../phase5/03-alternating-series.html",pageTitle:"The Alternating Series Test",proofLink:"../phase5/03-alternating-series.html#proof-alternating-series-test",proofLabel:"Alternating Series Test (Leibniz)",author:"Leibniz",authorLink:"../mathematicians/leibniz.html",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences", "group-theory"]},
+  {phase:5,pageNum:4,pageFile:"../phase5/04-absolute-conditional.html",pageTitle:"Absolute and Conditional Convergence",proofLink:"../phase5/04-absolute-conditional.html#proof-absolute-implies-convergence",proofLabel:"Absolute convergence implies convergence",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "inequalities", "series", "geometry"]},
+  {phase:5,pageNum:4,pageFile:"../phase5/04-absolute-conditional.html",pageTitle:"Absolute and Conditional Convergence",proofLink:"../phase5/04-absolute-conditional.html#proof-rearrangement-invariance",proofLabel:"Rearrangement invariance",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences", "probability"]},
+  {phase:5,pageNum:4,pageFile:"../phase5/04-absolute-conditional.html",pageTitle:"Absolute and Conditional Convergence",proofLink:"../phase5/04-absolute-conditional.html#proof-of-lemma",proofLabel:"lemma",author:"",authorLink:"",category:"Series & Convergence",tags:["contradiction", "convergence", "series"]},
+  {phase:5,pageNum:4,pageFile:"../phase5/04-absolute-conditional.html",pageTitle:"Absolute and Conditional Convergence",proofLink:"../phase5/04-absolute-conditional.html#proof-riemann-rearrangement-theorem",proofLabel:"Riemann Rearrangement Theorem",author:"Riemann",authorLink:"../mathematicians/riemann.html",category:"Series & Convergence",tags:["contradiction", "constructive", "convergence", "series"]},
+  {phase:5,pageNum:5,pageFile:"../phase5/05-cesaro-means.html",pageTitle:"Ces\u00e0ro Means",proofLink:"../phase5/05-cesaro-means.html#proof-cesaro-mean-theorem",proofLabel:"Ces\u00e0ro Mean",author:"Ces\u00e0ro",authorLink:"../mathematicians/cesaro.html",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences"]},
+  {phase:5,pageNum:6,pageFile:"../phase5/06-uniform-convergence.html",pageTitle:"Uniform Convergence",proofLink:"../phase5/06-uniform-convergence.html#proof-uniform-limit-preserves-continuity",proofLabel:"Uniform limit preserves continuity",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "continuity", "limits", "inequalities", "sequences"]},
+  {phase:5,pageNum:6,pageFile:"../phase5/06-uniform-convergence.html",pageTitle:"Uniform Convergence",proofLink:"../phase5/06-uniform-convergence.html#proof-swapping-limits-and-integrals",proofLabel:"Swapping limits and integrals",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "continuity", "limits", "integration", "inequalities", "sequences"]},
+  {phase:5,pageNum:7,pageFile:"../phase5/07-weierstrass-m-test.html",pageTitle:"The Weierstrass M-Test",proofLink:"../phase5/07-weierstrass-m-test.html#proof-weierstrass-m-test",proofLabel:"Weierstrass M-test",author:"Weierstrass",authorLink:"../mathematicians/weierstrass.html",category:"Series & Convergence",tags:["convergence", "limits", "inequalities", "series", "sequences"]},
+  {phase:5,pageNum:7,pageFile:"../phase5/07-weierstrass-m-test.html",pageTitle:"The Weierstrass M-Test",proofLink:"../phase5/07-weierstrass-m-test.html#proof-uniform-convergence-of-power-series",proofLabel:"Uniform convergence of power series",author:"",authorLink:"",category:"Series & Convergence",tags:["convergence", "inequalities", "series", "compactness", "power-series"]},
+  {phase:5,pageNum:8,pageFile:"../phase5/08-weierstrass-approximation.html",pageTitle:"The Weierstrass Approximation Theorem",proofLink:"../phase5/08-weierstrass-approximation.html#proof-bernstein-identities",proofLabel:"Bernstein identities",author:"Bernstein",authorLink:"../mathematicians/bernstein.html",category:"Series & Convergence",tags:["inequalities", "series", "combinatorics", "approximation"]},
+  {phase:5,pageNum:8,pageFile:"../phase5/08-weierstrass-approximation.html",pageTitle:"The Weierstrass Approximation Theorem",proofLink:"../phase5/08-weierstrass-approximation.html#proof-weierstrass-approximation-theorem",proofLabel:"Bernstein identities",author:"Bernstein",authorLink:"../mathematicians/bernstein.html",category:"Series & Convergence",tags:["continuity", "inequalities", "series", "combinatorics", "approximation"]},
+  {phase:6,pageNum:1,pageFile:"../phase6/01-vector-spaces.html",pageTitle:"Vector Spaces",proofLink:"../phase6/01-vector-spaces.html#proof-subspace-criterion",proofLabel:"Subspace criterion",author:"",authorLink:"",category:"Linear Algebra",tags:["eigenvalues"]},
+  {phase:6,pageNum:2,pageFile:"../phase6/02-basis-dimension.html",pageTitle:"Basis and Dimension",proofLink:"../phase6/02-basis-dimension.html#proof-unique-representation",proofLabel:"Unique representation",author:"",authorLink:"",category:"Linear Algebra",tags:["combinatorics"]},
+  {phase:6,pageNum:2,pageFile:"../phase6/02-basis-dimension.html",pageTitle:"Basis and Dimension",proofLink:"../phase6/02-basis-dimension.html#proof-steinitz-exchange-lemma",proofLabel:"Steinitz exchange lemma",author:"Steinitz",authorLink:"../mathematicians/steinitz.html",category:"Linear Algebra",tags:["induction", "inequalities", "ring-theory"]},
+  {phase:6,pageNum:2,pageFile:"../phase6/02-basis-dimension.html",pageTitle:"Basis and Dimension",proofLink:"../phase6/02-basis-dimension.html#proof-invariance-of-basis-cardinality",proofLabel:"Invariance of basis cardinality",author:"",authorLink:"",category:"Linear Algebra",tags:["inequalities", "ring-theory", "probability"]},
+  {phase:6,pageNum:2,pageFile:"../phase6/02-basis-dimension.html",pageTitle:"Basis and Dimension",proofLink:"../phase6/02-basis-dimension.html#proof-existence-of-basis",proofLabel:"Existence of basis",author:"",authorLink:"",category:"Linear Algebra",tags:["contradiction", "combinatorics"]},
+  {phase:6,pageNum:3,pageFile:"../phase6/03-linear-maps.html",pageTitle:"Linear Maps and the Rank-Nullity Theorem",proofLink:"../phase6/03-linear-maps.html#proof-kernel-image-subspaces",proofLabel:"Kernel and image are subspaces",author:"",authorLink:"",category:"Linear Algebra",tags:["eigenvalues"]},
+  {phase:6,pageNum:3,pageFile:"../phase6/03-linear-maps.html",pageTitle:"Linear Maps and the Rank-Nullity Theorem",proofLink:"../phase6/03-linear-maps.html#proof-injectivity-criterion",proofLabel:"Injectivity criterion",author:"",authorLink:"",category:"Linear Algebra",tags:["eigenvalues"]},
+  {phase:6,pageNum:3,pageFile:"../phase6/03-linear-maps.html",pageTitle:"Linear Maps and the Rank-Nullity Theorem",proofLink:"../phase6/03-linear-maps.html#proof-rank-nullity",proofLabel:"Rank-nullity (dimension theorem)",author:"",authorLink:"",category:"Linear Algebra",tags:["series"]},
+  {phase:6,pageNum:4,pageFile:"../phase6/04-matrices.html",pageTitle:"Matrices and Change of Basis",proofLink:"../phase6/04-matrices.html#proof-matrix-formula",proofLabel:"Definition \u2014 Matrix of a linear map",author:"",authorLink:"",category:"Linear Algebra",tags:["series"]},
+  {phase:6,pageNum:4,pageFile:"../phase6/04-matrices.html",pageTitle:"Matrices and Change of Basis",proofLink:"../phase6/04-matrices.html#proof-composition-multiplication",proofLabel:"Composition corresponds to matrix multiplication",author:"",authorLink:"",category:"Linear Algebra",tags:["eigenvalues"]},
+  {phase:6,pageNum:4,pageFile:"../phase6/04-matrices.html",pageTitle:"Matrices and Change of Basis",proofLink:"../phase6/04-matrices.html#proof-change-of-basis",proofLabel:"Change of basis formula",author:"",authorLink:"",category:"Linear Algebra",tags:["eigenvalues"]},
+  {phase:6,pageNum:5,pageFile:"../phase6/05-determinants.html",pageTitle:"Determinants",proofLink:"../phase6/05-determinants.html#proof-det-transpose",proofLabel:"$\\det(A^T) = \\det(A)$",author:"",authorLink:"",category:"Linear Algebra",tags:["series"]},
+  {phase:6,pageNum:5,pageFile:"../phase6/05-determinants.html",pageTitle:"Determinants",proofLink:"../phase6/05-determinants.html#proof-det-product",proofLabel:"$\\det(AB) = \\det(A)\\det(B)$",author:"",authorLink:"",category:"Linear Algebra",tags:["series"]},
+  {phase:6,pageNum:5,pageFile:"../phase6/05-determinants.html",pageTitle:"Determinants",proofLink:"../phase6/05-determinants.html#proof-invertibility-criterion",proofLabel:"Invertibility criterion",author:"",authorLink:"",category:"Linear Algebra",tags:["series", "combinatorics"]},
+  {phase:6,pageNum:5,pageFile:"../phase6/05-determinants.html",pageTitle:"Determinants",proofLink:"../phase6/05-determinants.html#proof-laplace-expansion",proofLabel:"Laplace expansion",author:"Laplace",authorLink:"../mathematicians/laplace.html",category:"Linear Algebra",tags:["series", "ring-theory", "combinatorics"]},
+  {phase:6,pageNum:6,pageFile:"../phase6/06-eigenvalues.html",pageTitle:"Eigenvalues and the Characteristic Polynomial",proofLink:"../phase6/06-eigenvalues.html#proof-geometric-leq-algebraic-multiplicity",proofLabel:"Geometric $\\leq$ algebraic multiplicity",author:"",authorLink:"",category:"Linear Algebra",tags:["inequalities", "polynomial", "divisibility", "eigenvalues"]},
+  {phase:6,pageNum:6,pageFile:"../phase6/06-eigenvalues.html",pageTitle:"Eigenvalues and the Characteristic Polynomial",proofLink:"../phase6/06-eigenvalues.html#proof-eigenvector-independence",proofLabel:"Independence of eigenvectors",author:"",authorLink:"",category:"Linear Algebra",tags:["induction", "inequalities", "polynomial", "divisibility", "eigenvalues"]},
+  {phase:6,pageNum:7,pageFile:"../phase6/07-inner-products.html",pageTitle:"Inner Products and Gram&ndash;Schmidt",proofLink:"../phase6/07-inner-products.html#proof-cauchy-schwarz",proofLabel:"Cauchy\u2013Schwarz inequality",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Linear Algebra",tags:["inequalities", "geometry", "orthogonality", "quadratic"]},
+  {phase:6,pageNum:7,pageFile:"../phase6/07-inner-products.html",pageTitle:"Inner Products and Gram&ndash;Schmidt",proofLink:"../phase6/07-inner-products.html#proof-triangle-inequality",proofLabel:"Triangle inequality",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Linear Algebra",tags:["inequalities", "geometry", "trigonometry", "orthogonality", "ring-theory"]},
+  {phase:6,pageNum:7,pageFile:"../phase6/07-inner-products.html",pageTitle:"Inner Products and Gram&ndash;Schmidt",proofLink:"../phase6/07-inner-products.html#proof-gram-schmidt",proofLabel:"Gram\u2013Schmidt orthogonalisation",author:"Gram",authorLink:"../mathematicians/gram.html",category:"Linear Algebra",tags:["induction", "constructive", "inequalities", "series", "geometry", "orthogonality", "projection", "combinatorics", "norms"]},
+  {phase:6,pageNum:8,pageFile:"../phase6/08-projection.html",pageTitle:"Orthogonal Projection",proofLink:"../phase6/08-projection.html#proof-orthogonal-complement-subspace",proofLabel:"that $W^\\perp$ is a subspace",author:"",authorLink:"",category:"Linear Algebra",tags:["geometry", "orthogonality", "projection", "measure-theory"]},
+  {phase:6,pageNum:8,pageFile:"../phase6/08-projection.html",pageTitle:"Orthogonal Projection",proofLink:"../phase6/08-projection.html#proof-orthogonal-decomposition",proofLabel:"Orthogonal decomposition",author:"",authorLink:"",category:"Linear Algebra",tags:["inequalities", "series", "geometry", "orthogonality", "projection", "norms"]},
+  {phase:6,pageNum:8,pageFile:"../phase6/08-projection.html",pageTitle:"Orthogonal Projection",proofLink:"../phase6/08-projection.html#proof-orthogonal-complement-dimension",proofLabel:"Dimension of orthogonal complement",author:"",authorLink:"",category:"Linear Algebra",tags:["inequalities", "series", "geometry", "orthogonality", "projection", "norms"]},
+  {phase:6,pageNum:8,pageFile:"../phase6/08-projection.html",pageTitle:"Orthogonal Projection",proofLink:"../phase6/08-projection.html#proof-best-approximation",proofLabel:"Best approximation",author:"",authorLink:"",category:"Linear Algebra",tags:["inequalities", "orthogonality", "projection", "approximation"]},
+  {phase:6,pageNum:9,pageFile:"../phase6/09-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase6/09-spectral-theorem.html#proof-real-eigenvalues",proofLabel:"Eigenvalues of a real symmetric matrix are real",author:"",authorLink:"",category:"Linear Algebra",tags:["sequences", "eigenvalues", "orthogonality", "spectral", "norms"]},
+  {phase:6,pageNum:9,pageFile:"../phase6/09-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase6/09-spectral-theorem.html#proof-eigenvector-orthogonality",proofLabel:"Eigenvectors for distinct eigenvalues are orthogonal",author:"",authorLink:"",category:"Linear Algebra",tags:["geometry", "eigenvalues", "orthogonality", "spectral"]},
+  {phase:6,pageNum:9,pageFile:"../phase6/09-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase6/09-spectral-theorem.html#proof-spectral-theorem",proofLabel:"Spectral theorem for real symmetric matrices",author:"",authorLink:"",category:"Linear Algebra",tags:["induction", "constructive", "polynomial", "geometry", "eigenvalues", "orthogonality", "spectral", "norms"]},
+  {phase:6,pageNum:10,pageFile:"../phase6/10-cayley-hamilton.html",pageTitle:"The Cayley&ndash;Hamilton Theorem",proofLink:"../phase6/10-cayley-hamilton.html#proof-cayley-hamilton",proofLabel:"Cayley\u2013Hamilton",author:"Cayley",authorLink:"../mathematicians/cayley.html",category:"Linear Algebra",tags:["inequalities", "polynomial", "eigenvalues"]},
+  {phase:6,pageNum:11,pageFile:"../phase6/11-jordan-normal-form.html",pageTitle:"Jordan Normal Form",proofLink:"../phase6/11-jordan-normal-form.html#proof-generalised-eigenspace-decomposition",proofLabel:"Generalised eigenspace decomposition",author:"",authorLink:"",category:"Linear Algebra",tags:["series", "polynomial", "divisibility", "eigenvalues", "norms"]},
+  {phase:6,pageNum:11,pageFile:"../phase6/11-jordan-normal-form.html",pageTitle:"Jordan Normal Form",proofLink:"../phase6/11-jordan-normal-form.html#proof-nilpotent-jordan-form",proofLabel:"Jordan form for nilpotent operators",author:"Jordan",authorLink:"../mathematicians/jordan.html",category:"Linear Algebra",tags:["induction", "constructive", "inequalities", "series", "eigenvalues", "norms"]},
+  {phase:7,pageNum:1,pageFile:"../phase7/01-partial-derivatives.html",pageTitle:"Partial Derivatives and the Gradient",proofLink:"../phase7/01-partial-derivatives.html#proof-continuous-partials-differentiability",proofLabel:"Continuous partials imply differentiability",author:"",authorLink:"",category:"Multivariable Calculus",tags:["continuity", "differentiation", "inequalities"]},
+  {phase:7,pageNum:2,pageFile:"../phase7/02-chain-rule.html",pageTitle:"The Multivariable Chain Rule",proofLink:"../phase7/02-chain-rule.html#proof-multivariable-chain-rule",proofLabel:"Multivariable chain rule",author:"",authorLink:"",category:"Multivariable Calculus",tags:["differentiation", "inequalities"]},
+  {phase:7,pageNum:3,pageFile:"../phase7/03-schwarz.html",pageTitle:"Schwarz's Theorem",proofLink:"../phase7/03-schwarz.html#proof-schwarz-theorem",proofLabel:"Schwarz (Clairaut\u2013Schwarz)",author:"Schwarz",authorLink:"../mathematicians/schwarz.html",category:"Multivariable Calculus",tags:["continuity", "polynomial", "group-theory"]},
+  {phase:7,pageNum:4,pageFile:"../phase7/04-implicit-inverse.html",pageTitle:"The Implicit and Inverse Function Theorems",proofLink:"../phase7/04-implicit-inverse.html#proof-implicit-derivative-formula",proofLabel:"Implicit function theorem",author:"",authorLink:"",category:"Multivariable Calculus",tags:["continuity", "differentiation"]},
+  {phase:7,pageNum:4,pageFile:"../phase7/04-implicit-inverse.html",pageTitle:"The Implicit and Inverse Function Theorems",proofLink:"../phase7/04-implicit-inverse.html#proof-implicit-function-existence",proofLabel:"existence, key steps",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Multivariable Calculus",tags:["continuity", "differentiation", "inequalities", "completeness", "topology", "fixed-point"]},
+  {phase:7,pageNum:4,pageFile:"../phase7/04-implicit-inverse.html",pageTitle:"The Implicit and Inverse Function Theorems",proofLink:"../phase7/04-implicit-inverse.html#proof-inverse-function-theorem",proofLabel:"Inverse function theorem",author:"",authorLink:"",category:"Multivariable Calculus",tags:["differentiation", "topology"]},
+  {phase:7,pageNum:5,pageFile:"../phase7/05-lagrange-multipliers.html",pageTitle:"Lagrange Multipliers and the Second Derivative Test",proofLink:"../phase7/05-lagrange-multipliers.html#proof-second-derivative-test",proofLabel:"Second derivative test",author:"",authorLink:"",category:"Multivariable Calculus",tags:["differentiation", "inequalities", "eigenvalues", "group-theory", "taylor", "spectral"]},
+  {phase:7,pageNum:5,pageFile:"../phase7/05-lagrange-multipliers.html",pageTitle:"Lagrange Multipliers and the Second Derivative Test",proofLink:"../phase7/05-lagrange-multipliers.html#proof-lagrange-multipliers",proofLabel:"Lagrange multipliers",author:"Lagrange",authorLink:"../mathematicians/lagrange.html",category:"Multivariable Calculus",tags:["differentiation", "topology", "group-theory"]},
+  {phase:7,pageNum:6,pageFile:"../phase7/06-multiple-integrals.html",pageTitle:"Multiple Integrals and Fubini's Theorem",proofLink:"../phase7/06-multiple-integrals.html#proof-fubinis-theorem",proofLabel:"Fubini's theorem",author:"Fubini",authorLink:"../mathematicians/fubini.html",category:"Multivariable Calculus",tags:["convergence", "continuity", "integration", "inequalities", "series", "geometry", "compactness", "approximation"]},
+  {phase:7,pageNum:7,pageFile:"../phase7/07-greens-theorem.html",pageTitle:"Green's Theorem",proofLink:"../phase7/07-greens-theorem.html#proof-greens-theorem",proofLabel:"Green's theorem",author:"Green",authorLink:"../mathematicians/green.html",category:"Multivariable Calculus",tags:["integration", "inequalities", "topology"]},
+  {phase:7,pageNum:7,pageFile:"../phase7/07-greens-theorem.html",pageTitle:"Green's Theorem",proofLink:"../phase7/07-greens-theorem.html#proof-conservative-fields",proofLabel:"Conservative fields on simply connected domains",author:"",authorLink:"",category:"Multivariable Calculus",tags:["differentiation", "integration", "topology"]},
+  {phase:7,pageNum:8,pageFile:"../phase7/08-stokes-divergence.html",pageTitle:"The Divergence Theorem and Stokes' Theorem",proofLink:"../phase7/08-stokes-divergence.html#proof-divergence-theorem",proofLabel:"Divergence theorem (Gauss\u2013Ostrogradsky)",author:"Gauss",authorLink:"../mathematicians/gauss.html",category:"Multivariable Calculus",tags:["integration", "inequalities", "area", "completeness", "topology", "norms"]},
+  {phase:7,pageNum:8,pageFile:"../phase7/08-stokes-divergence.html",pageTitle:"The Divergence Theorem and Stokes' Theorem",proofLink:"../phase7/08-stokes-divergence.html#proof-stokes-theorem",proofLabel:"Stokes' theorem",author:"Stokes",authorLink:"../mathematicians/stokes.html",category:"Multivariable Calculus",tags:["integration", "inequalities", "projection", "topology", "norms"]},
+  {phase:8,pageNum:1,pageFile:"../phase8/01-first-order-odes.html",pageTitle:"First-Order Ordinary Differential Equations",proofLink:"../phase8/01-first-order-odes.html#proof-theorem-integrating-factor-method",proofLabel:"Integrating factor method",author:"",authorLink:"",category:"Differential Equations",tags:["continuity", "integration"]},
+  {phase:8,pageNum:2,pageFile:"../phase8/02-cauchy-lipschitz.html",pageTitle:"The Cauchy&ndash;Lipschitz Theorem",proofLink:"../phase8/02-cauchy-lipschitz.html#proof-theorem-cauchy-lipschitz-picard-lindeloumlf",proofLabel:"Cauchy\u2013Lipschitz (Picard\u2013Lindel&ouml;f)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Differential Equations",tags:["induction", "constructive", "convergence", "continuity", "limits", "integration", "inequalities", "series", "compactness", "fixed-point", "approximation"]},
+  {phase:8,pageNum:3,pageFile:"../phase8/03-gronwall.html",pageTitle:"Gronwall's Inequality",proofLink:"../phase8/03-gronwall.html#proof-theorem-gronwalls-inequality-integral-form",proofLabel:"Gronwall's inequality (integral form)",author:"Gronwall",authorLink:"../mathematicians/gronwall.html",category:"Analysis",tags:["continuity", "differentiation", "integration", "inequalities"]},
+  {phase:8,pageNum:3,pageFile:"../phase8/03-gronwall.html",pageTitle:"Gronwall's Inequality",proofLink:"../phase8/03-gronwall.html#proof-theorem-continuous-dependence",proofLabel:"Continuous dependence",author:"Lipschitz",authorLink:"../mathematicians/lipschitz.html",category:"Analysis",tags:["continuity", "integration", "inequalities"]},
+  {phase:8,pageNum:3,pageFile:"../phase8/03-gronwall.html",pageTitle:"Gronwall's Inequality",proofLink:"../phase8/03-gronwall.html#proof-theorem-global-existence-under-linear-growth",proofLabel:"Global existence under linear growth",author:"Lipschitz",authorLink:"../mathematicians/lipschitz.html",category:"Analysis",tags:["limits", "integration", "inequalities"]},
+  {phase:8,pageNum:4,pageFile:"../phase8/04-linear-odes.html",pageTitle:"Linear ODE Solution Structure",proofLink:"../phase8/04-linear-odes.html#proof-theorem-superposition-principle",proofLabel:"Superposition principle",author:"",authorLink:"",category:"Differential Equations",tags:["differentiation"]},
+  {phase:8,pageNum:4,pageFile:"../phase8/04-linear-odes.html",pageTitle:"Linear ODE Solution Structure",proofLink:"../phase8/04-linear-odes.html#proof-theorem-dimension-equals-order",proofLabel:"Dimension equals order",author:"",authorLink:"",category:"Differential Equations",tags:["continuity", "limits", "differentiation"]},
+  {phase:8,pageNum:4,pageFile:"../phase8/04-linear-odes.html",pageTitle:"Linear ODE Solution Structure",proofLink:"../phase8/04-linear-odes.html#proof-theorem-wronskian-test-for-linear-independence",proofLabel:"Wronskian test for linear independence",author:"",authorLink:"",category:"Differential Equations",tags:["differentiation"]},
+  {phase:8,pageNum:4,pageFile:"../phase8/04-linear-odes.html",pageTitle:"Linear ODE Solution Structure",proofLink:"../phase8/04-linear-odes.html#proof-theorem-abels-identity-second-order-case",proofLabel:"Abel's identity (second-order case)",author:"Abel",authorLink:"../mathematicians/abel.html",category:"Differential Equations",tags:["differentiation"]},
+  {phase:8,pageNum:5,pageFile:"../phase8/05-variation-of-parameters.html",pageTitle:"Variation of Parameters",proofLink:"../phase8/05-variation-of-parameters.html#proof-theorem-variation-of-parameters",proofLabel:"Variation of parameters",author:"",authorLink:"",category:"Differential Equations",tags:["constructive", "integration", "group-theory"]},
+  {phase:8,pageNum:6,pageFile:"../phase8/06-matrix-exponential.html",pageTitle:"Systems and the Matrix Exponential",proofLink:"../phase8/06-matrix-exponential.html#proof-theorem-convergence-of-the-matrix-exponential",proofLabel:"Convergence of the matrix exponential",author:"",authorLink:"",category:"Differential Equations",tags:["induction", "convergence", "inequalities", "series", "power-series", "norms"]},
+  {phase:8,pageNum:6,pageFile:"../phase8/06-matrix-exponential.html",pageTitle:"Systems and the Matrix Exponential",proofLink:"../phase8/06-matrix-exponential.html#proof-theorem-solution-of-linear-systems",proofLabel:"Solution of linear systems",author:"",authorLink:"",category:"Differential Equations",tags:["convergence", "differentiation", "inequalities", "series"]},
+  {phase:8,pageNum:6,pageFile:"../phase8/06-matrix-exponential.html",pageTitle:"Systems and the Matrix Exponential",proofLink:"../phase8/06-matrix-exponential.html#proof-theorem-properties-of-eat",proofLabel:"Properties of $e^{At}$",author:"",authorLink:"",category:"Differential Equations",tags:["induction", "series"]},
+  {phase:8,pageNum:7,pageFile:"../phase8/07-stability.html",pageTitle:"Stability and Lyapunov's Method",proofLink:"../phase8/07-stability.html#proof-theorem-stability-of-linear-systems",proofLabel:"Stability of linear systems",author:"Jordan",authorLink:"../mathematicians/jordan.html",category:"Differential Equations",tags:["inequalities", "eigenvalues", "norms"]},
+  {phase:8,pageNum:7,pageFile:"../phase8/07-stability.html",pageTitle:"Stability and Lyapunov's Method",proofLink:"../phase8/07-stability.html#proof-theorem-linearisation-principle-hartman-grobman",proofLabel:"Linearisation principle (Hartman-Grobman)",author:"",authorLink:"",category:"Differential Equations",tags:["inequalities", "eigenvalues", "game-theory"]},
+  {phase:8,pageNum:7,pageFile:"../phase8/07-stability.html",pageTitle:"Stability and Lyapunov's Method",proofLink:"../phase8/07-stability.html#proof-theorem-lyapunov-stability-theorem",proofLabel:"Lyapunov stability theorem",author:"",authorLink:"",category:"Differential Equations",tags:["continuity", "inequalities", "compactness", "game-theory"]},
+  {phase:8,pageNum:8,pageFile:"../phase8/08-poincare-bendixson.html",pageTitle:"The Poincar&eacute;-Bendixson Theorem",proofLink:"../phase8/08-poincare-bendixson.html#proof-theorem-properties-of-omega-limit-sets",proofLabel:"Properties of omega-limit sets",author:"",authorLink:"",category:"Differential Equations",tags:["contradiction", "convergence", "continuity", "limits", "inequalities", "sequences", "compactness", "topology"]},
+  {phase:8,pageNum:8,pageFile:"../phase8/08-poincare-bendixson.html",pageTitle:"The Poincar&eacute;-Bendixson Theorem",proofLink:"../phase8/08-poincare-bendixson.html#proof-lemma-invariance-of-omega-limit-sets",proofLabel:"Invariance of omega-limit sets",author:"",authorLink:"",category:"Differential Equations",tags:["contradiction", "continuity", "limits", "sequences", "probability"]},
+  {phase:8,pageNum:8,pageFile:"../phase8/08-poincare-bendixson.html",pageTitle:"The Poincar&eacute;-Bendixson Theorem",proofLink:"../phase8/08-poincare-bendixson.html#proof-theorem-poincareacute-bendixson",proofLabel:"Poincar&eacute;-Bendixson",author:"",authorLink:"",category:"Differential Equations",tags:["constructive", "convergence", "limits", "inequalities", "sequences", "compactness", "probability"]},
+  {phase:9,pageNum:1,pageFile:"../phase9/01-metric-spaces.html",pageTitle:"Metric Spaces",proofLink:"../phase9/01-metric-spaces.html#proof-theorem-uniqueness-of-limits",proofLabel:"Uniqueness of limits",author:"",authorLink:"",category:"Topology",tags:["convergence", "limits", "inequalities", "sequences", "geometry", "topology"]},
+  {phase:9,pageNum:2,pageFile:"../phase9/02-open-closed.html",pageTitle:"Open and Closed Sets",proofLink:"../phase9/02-open-closed.html#proof-theorem-open-set-axioms",proofLabel:"Open set axioms",author:"",authorLink:"",category:"Topology",tags:["topology"]},
+  {phase:9,pageNum:2,pageFile:"../phase9/02-open-closed.html",pageTitle:"Open and Closed Sets",proofLink:"../phase9/02-open-closed.html#proof-theorem-sequential-characterisation-of-closed-sets",proofLabel:"Sequential characterisation of closed sets",author:"",authorLink:"",category:"Topology",tags:["contradiction", "convergence", "limits", "inequalities", "sequences", "topology"]},
+  {phase:9,pageNum:2,pageFile:"../phase9/02-open-closed.html",pageTitle:"Open and Closed Sets",proofLink:"../phase9/02-open-closed.html#proof-theorem-closure-via-limit-points",proofLabel:"Closure via limit points",author:"",authorLink:"",category:"Topology",tags:["contradiction", "constructive", "limits", "sequences", "topology", "ring-theory"]},
+  {phase:9,pageNum:3,pageFile:"../phase9/03-completeness.html",pageTitle:"Completeness in Metric Spaces",proofLink:"../phase9/03-completeness.html#proof-definition-2",proofLabel:"Definition",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Topology",tags:["convergence", "inequalities", "sequences", "completeness", "topology"]},
+  {phase:9,pageNum:3,pageFile:"../phase9/03-completeness.html",pageTitle:"Completeness in Metric Spaces",proofLink:"../phase9/03-completeness.html#proof-theorem-6",proofLabel:"Completeness of R^n",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Topology",tags:["convergence", "limits", "inequalities", "series", "sequences", "completeness", "topology", "ring-theory"]},
+  {phase:9,pageNum:3,pageFile:"../phase9/03-completeness.html",pageTitle:"Completeness in Metric Spaces",proofLink:"../phase9/03-completeness.html#proof-theorem-7",proofLabel:"Nested closed sets characterisation",author:"",authorLink:"",category:"Topology",tags:["convergence", "continuity", "limits", "inequalities", "series", "completeness", "topology"]},
+  {phase:9,pageNum:3,pageFile:"../phase9/03-completeness.html",pageTitle:"Completeness in Metric Spaces",proofLink:"../phase9/03-completeness.html#proof-theorem-8",proofLabel:"Banach fixed-point theorem",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Topology",tags:["constructive", "convergence", "limits", "sequences", "completeness", "topology"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-of-lebesgue-number-lemma",proofLabel:"Lebesgue number lemma",author:"Lebesgue",authorLink:"../mathematicians/lebesgue.html",category:"Topology",tags:["inequalities", "compactness", "topology"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-sequentially-compact-implies-compact",proofLabel:"sequentially compact implies compact",author:"",authorLink:"",category:"Topology",tags:["constructive", "inequalities", "sequences", "compactness"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-compact-implies-sequentially-compact",proofLabel:"compact implies sequentially compact",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Topology",tags:["constructive", "limits", "inequalities", "sequences", "compactness"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-theorem-heine-borel",proofLabel:"Borel)",author:"Heine",authorLink:"../mathematicians/heine.html",category:"Topology",tags:["convergence", "limits", "inequalities", "sequences", "compactness"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-theorem-9",proofLabel:"Heine-Borel theorem",author:"",authorLink:"",category:"Topology",tags:["limits", "inequalities", "sequences", "compactness", "completeness", "topology"]},
+  {phase:9,pageNum:4,pageFile:"../phase9/04-compactness.html",pageTitle:"Compactness",proofLink:"../phase9/04-compactness.html#proof-of-c",proofLabel:"Sequential compactness equivalence",author:"Heine",authorLink:"../mathematicians/heine.html",category:"Topology",tags:["continuity", "compactness", "topology"]},
+  {phase:9,pageNum:5,pageFile:"../phase9/05-continuity-compactness.html",pageTitle:"Continuity on Compact Sets",proofLink:"../phase9/05-continuity-compactness.html#proof-theorem-equivalent-characterisations-of-continuity",proofLabel:"Equivalent characterisations of continuity",author:"",authorLink:"",category:"Topology",tags:["convergence", "continuity", "inequalities", "sequences", "compactness", "topology"]},
+  {phase:9,pageNum:5,pageFile:"../phase9/05-continuity-compactness.html",pageTitle:"Continuity on Compact Sets",proofLink:"../phase9/05-continuity-compactness.html#proof-theorem-continuous-image-of-compact-is-compact",proofLabel:"Continuous image of compact is compact",author:"",authorLink:"",category:"Topology",tags:["continuity", "inequalities", "compactness", "topology"]},
+  {phase:9,pageNum:5,pageFile:"../phase9/05-continuity-compactness.html",pageTitle:"Continuity on Compact Sets",proofLink:"../phase9/05-continuity-compactness.html#proof-theorem-extreme-value-theorem",proofLabel:"Extreme value theorem",author:"",authorLink:"",category:"Topology",tags:["continuity", "inequalities", "compactness", "topology"]},
+  {phase:9,pageNum:5,pageFile:"../phase9/05-continuity-compactness.html",pageTitle:"Continuity on Compact Sets",proofLink:"../phase9/05-continuity-compactness.html#proof-theorem-heines-theorem",proofLabel:"Heine's theorem",author:"Heine",authorLink:"../mathematicians/heine.html",category:"Topology",tags:["continuity", "inequalities", "sequences", "compactness", "topology"]},
+  {phase:9,pageNum:5,pageFile:"../phase9/05-continuity-compactness.html",pageTitle:"Continuity on Compact Sets",proofLink:"../phase9/05-continuity-compactness.html#proof-theorem-continuous-bijection-from-compact-space-is-a-homeomorphism",proofLabel:"Continuous bijection from compact space is a homeomorphism",author:"",authorLink:"",category:"Topology",tags:["continuity", "compactness", "topology"]},
+  {phase:9,pageNum:6,pageFile:"../phase9/06-banach-fixed-point.html",pageTitle:"The Banach Fixed Point Theorem",proofLink:"../phase9/06-banach-fixed-point.html#proof-theorem-banach-fixed-point-theorem",proofLabel:"Banach fixed point theorem",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Topology",tags:["induction", "convergence", "continuity", "inequalities", "series", "sequences", "geometry", "completeness", "topology", "fixed-point"]},
+  {phase:9,pageNum:7,pageFile:"../phase9/07-baire-arzela-ascoli.html",pageTitle:"Baire Category and Arzel&agrave;&ndash;Ascoli",proofLink:"../phase9/07-baire-arzela-ascoli.html#proof-theorem-baire-category-theorem",proofLabel:"Baire category theorem",author:"Baire",authorLink:"../mathematicians/baire.html",category:"Topology",tags:["induction", "inequalities", "sequences", "completeness", "topology"]},
+  {phase:9,pageNum:7,pageFile:"../phase9/07-baire-arzela-ascoli.html",pageTitle:"Baire Category and Arzel&agrave;&ndash;Ascoli",proofLink:"../phase9/07-baire-arzela-ascoli.html#proof-bounded-equicontinuous-implies-relatively-compact",proofLabel:"Bounded + equicontinuous implies relatively compact",author:"",authorLink:"",category:"Topology",tags:["convergence", "continuity", "inequalities", "sequences", "compactness", "topology", "signal-analysis"]},
+  {phase:9,pageNum:7,pageFile:"../phase9/07-baire-arzela-ascoli.html",pageTitle:"Baire Category and Arzel&agrave;&ndash;Ascoli",proofLink:"../phase9/07-baire-arzela-ascoli.html#proof-relatively-compact-implies-bounded-equicontinuous",proofLabel:"Relatively compact implies bounded + equicontinuous",author:"",authorLink:"",category:"Topology",tags:["convergence", "continuity", "inequalities", "compactness", "norms"]},
+  {phase:10,pageNum:1,pageFile:"../phase10/01-groups.html",pageTitle:"Groups",proofLink:"../phase10/01-groups.html#proof-definition-group",proofLabel:"Definition \u2014 Group",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "group-theory"]},
+  {phase:10,pageNum:1,pageFile:"../phase10/01-groups.html",pageTitle:"Groups",proofLink:"../phase10/01-groups.html#proof-theorem-classification-of-cyclic-groups",proofLabel:"Classification of cyclic groups",author:"",authorLink:"",category:"Abstract Algebra",tags:["geometry", "group-theory"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-theorem-subgroup-test",proofLabel:"Subgroup test",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "group-theory"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-theorem-cosets-partition-g",proofLabel:"Cosets partition $G$",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "group-theory"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-theorem-lagranges-theorem",proofLabel:"Lagrange's theorem",author:"Lagrange",authorLink:"../mathematicians/lagrange.html",category:"Abstract Algebra",tags:["inequalities", "divisibility", "group-theory", "combinatorics"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-corollary-a-order-of-elements-divides-g",proofLabel:"Order of elements divides $|G|$",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "sequences", "divisibility", "geometry", "group-theory", "ring-theory", "combinatorics"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-corollary-b-groups-of-prime-order-are-cyclic",proofLabel:"Groups of prime order are cyclic",author:"Lagrange",authorLink:"../mathematicians/lagrange.html",category:"Abstract Algebra",tags:["inequalities", "primes", "divisibility", "geometry", "group-theory"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-corollary-c-fermats-little-theorem-recovered",proofLabel:"Fermat's little theorem recovered",author:"Fermat",authorLink:"../mathematicians/fermat.html",category:"Abstract Algebra",tags:["primes", "divisibility", "geometry", "group-theory"]},
+  {phase:10,pageNum:2,pageFile:"../phase10/02-subgroups-lagrange.html",pageTitle:"Subgroups and Lagrange's Theorem",proofLink:"../phase10/02-subgroups-lagrange.html#proof-that-a4-has-no-subgroup-of-order-6",proofLabel:"that $A_4$ has no subgroup of order 6",author:"Lagrange",authorLink:"../mathematicians/lagrange.html",category:"Abstract Algebra",tags:["inequalities", "divisibility", "geometry", "group-theory", "norms"]},
+  {phase:10,pageNum:3,pageFile:"../phase10/03-homomorphisms.html",pageTitle:"Homomorphisms and the First Isomorphism Theorem",proofLink:"../phase10/03-homomorphisms.html#proof-definition-group-homomorphism",proofLabel:"Definition \u2014 Group homomorphism",author:"",authorLink:"",category:"Abstract Algebra",tags:["group-theory"]},
+  {phase:10,pageNum:3,pageFile:"../phase10/03-homomorphisms.html",pageTitle:"Homomorphisms and the First Isomorphism Theorem",proofLink:"../phase10/03-homomorphisms.html#proof-definition-kernel-and-image",proofLabel:"Definition \u2014 Kernel and image",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "group-theory"]},
+  {phase:10,pageNum:3,pageFile:"../phase10/03-homomorphisms.html",pageTitle:"Homomorphisms and the First Isomorphism Theorem",proofLink:"../phase10/03-homomorphisms.html#proof-definition-normal-subgroup",proofLabel:"Definition \u2014 Normal subgroup",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "geometry", "group-theory", "norms"]},
+  {phase:10,pageNum:3,pageFile:"../phase10/03-homomorphisms.html",pageTitle:"Homomorphisms and the First Isomorphism Theorem",proofLink:"../phase10/03-homomorphisms.html#proof-that-gn-is-a-well-defined-group",proofLabel:"that $G/N$ is a well-defined group",author:"",authorLink:"",category:"Abstract Algebra",tags:["geometry", "group-theory", "norms"]},
+  {phase:10,pageNum:3,pageFile:"../phase10/03-homomorphisms.html",pageTitle:"Homomorphisms and the First Isomorphism Theorem",proofLink:"../phase10/03-homomorphisms.html#proof-theorem-first-isomorphism-theorem",proofLabel:"First isomorphism theorem",author:"",authorLink:"",category:"Abstract Algebra",tags:["group-theory", "norms"]},
+  {phase:10,pageNum:4,pageFile:"../phase10/04-cayley-sylow.html",pageTitle:"Cayley's Theorem and the Sylow Theorems",proofLink:"../phase10/04-cayley-sylow.html#proof-theorem-cayleys-theorem",proofLabel:"Cayley's theorem",author:"Cayley",authorLink:"../mathematicians/cayley.html",category:"Abstract Algebra",tags:["inequalities", "primes", "group-theory"]},
+  {phase:10,pageNum:4,pageFile:"../phase10/04-cayley-sylow.html",pageTitle:"Cayley's Theorem and the Sylow Theorems",proofLink:"../phase10/04-cayley-sylow.html#proof-theorem-orbit-stabiliser",proofLabel:"Orbit-stabiliser",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "group-theory"]},
+  {phase:10,pageNum:4,pageFile:"../phase10/04-cayley-sylow.html",pageTitle:"Cayley's Theorem and the Sylow Theorems",proofLink:"../phase10/04-cayley-sylow.html#proof-corollary-p-groups-have-nontrivial-centre",proofLabel:"$p$-groups have nontrivial centre",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "series", "primes", "divisibility", "group-theory"]},
+  {phase:10,pageNum:4,pageFile:"../phase10/04-cayley-sylow.html",pageTitle:"Cayley's Theorem and the Sylow Theorems",proofLink:"../phase10/04-cayley-sylow.html#proof-by-induction-on-g",proofLabel:"by induction on $|G|$",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Abstract Algebra",tags:["induction", "inequalities", "primes", "divisibility", "geometry", "group-theory"]},
+  {phase:10,pageNum:4,pageFile:"../phase10/04-cayley-sylow.html",pageTitle:"Cayley's Theorem and the Sylow Theorems",proofLink:"../phase10/04-cayley-sylow.html#proof-by-induction-on-g-2",proofLabel:"by induction on $|G|$",author:"Sylow",authorLink:"../mathematicians/sylow.html",category:"Abstract Algebra",tags:["induction", "series", "primes", "divisibility", "geometry", "projection", "group-theory", "combinatorics"]},
+  {phase:10,pageNum:5,pageFile:"../phase10/05-abelian-groups.html",pageTitle:"Classification of Finitely Generated Abelian Groups",proofLink:"../phase10/05-abelian-groups.html#proof-that-g-times-h-is-a-group",proofLabel:"that $G \\times H$ is a group",author:"",authorLink:"",category:"Abstract Algebra",tags:["constructive", "group-theory"]},
+  {phase:10,pageNum:5,pageFile:"../phase10/05-abelian-groups.html",pageTitle:"Classification of Finitely Generated Abelian Groups",proofLink:"../phase10/05-abelian-groups.html#proof-theorem-crt-for-groups",proofLabel:"CRT for groups",author:"",authorLink:"",category:"Abstract Algebra",tags:["divisibility", "group-theory"]},
+  {phase:10,pageNum:6,pageFile:"../phase10/06-rings-polynomials.html",pageTitle:"Rings and Polynomial Division",proofLink:"../phase10/06-rings-polynomials.html#proof-definition-polynomial-ring",proofLabel:"Definition \u2014 Polynomial ring",author:"",authorLink:"",category:"Abstract Algebra",tags:["integration", "polynomial", "ring-theory"]},
+  {phase:10,pageNum:6,pageFile:"../phase10/06-rings-polynomials.html",pageTitle:"Rings and Polynomial Division",proofLink:"../phase10/06-rings-polynomials.html#proof-theorem-euclidean-division-in-kx",proofLabel:"Euclidean division in $K[x]$",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Abstract Algebra",tags:["induction", "polynomial", "ring-theory"]},
+  {phase:10,pageNum:6,pageFile:"../phase10/06-rings-polynomials.html",pageTitle:"Rings and Polynomial Division",proofLink:"../phase10/06-rings-polynomials.html#proof-theorem-factor-theorem",proofLabel:"Factor theorem",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Abstract Algebra",tags:["polynomial", "divisibility", "geometry", "ring-theory"]},
+  {phase:10,pageNum:6,pageFile:"../phase10/06-rings-polynomials.html",pageTitle:"Rings and Polynomial Division",proofLink:"../phase10/06-rings-polynomials.html#proof-corollary-bound-on-roots",proofLabel:"Bound on roots",author:"Euclid",authorLink:"../mathematicians/euclid.html",category:"Abstract Algebra",tags:["induction", "integration", "inequalities", "polynomial", "ring-theory"]},
+  {phase:10,pageNum:7,pageFile:"../phase10/07-irreducibility-fta.html",pageTitle:"Irreducibility and the Fundamental Theorem of Algebra",proofLink:"../phase10/07-irreducibility-fta.html#proof-theorem-unique-factorisation-in-kx",proofLabel:"Unique factorisation in $K[x]$",author:"",authorLink:"",category:"Abstract Algebra",tags:["induction", "inequalities", "polynomial", "divisibility", "ring-theory"]},
+  {phase:10,pageNum:7,pageFile:"../phase10/07-irreducibility-fta.html",pageTitle:"Irreducibility and the Fundamental Theorem of Algebra",proofLink:"../phase10/07-irreducibility-fta.html#proof-theorem-eisensteins-criterion",proofLabel:"Eisenstein's criterion",author:"",authorLink:"",category:"Abstract Algebra",tags:["inequalities", "primes"]},
+  {phase:10,pageNum:7,pageFile:"../phase10/07-irreducibility-fta.html",pageTitle:"Irreducibility and the Fundamental Theorem of Algebra",proofLink:"../phase10/07-irreducibility-fta.html#proof-theorem-gausss-lemma",proofLabel:"Gauss's lemma",author:"Gauss",authorLink:"../mathematicians/gauss.html",category:"Abstract Algebra",tags:["inequalities", "series", "polynomial", "primes", "divisibility", "ring-theory"]},
+  {phase:10,pageNum:7,pageFile:"../phase10/07-irreducibility-fta.html",pageTitle:"Irreducibility and the Fundamental Theorem of Algebra",proofLink:"../phase10/07-irreducibility-fta.html#proof-topological-argument",proofLabel:"topological argument",author:"",authorLink:"",category:"Abstract Algebra",tags:["continuity", "polynomial", "geometry", "completeness", "topology"]},
+  {phase:10,pageNum:7,pageFile:"../phase10/07-irreducibility-fta.html",pageTitle:"Irreducibility and the Fundamental Theorem of Algebra",proofLink:"../phase10/07-irreducibility-fta.html#proof-theorem-fundamental-theorem-of-algebra",proofLabel:"Fundamental Theorem of Algebra",author:"",authorLink:"",category:"Abstract Algebra",tags:["sequences", "polynomial", "divisibility", "quadratic"]},
+  {phase:10,pageNum:8,pageFile:"../phase10/08-galois-abel-ruffini.html",pageTitle:"Galois Theory and Abel-Ruffini",proofLink:"../phase10/08-galois-abel-ruffini.html#proof-theorem-tower-law",proofLabel:"Tower law",author:"",authorLink:"",category:"Abstract Algebra",tags:["series"]},
+  {phase:10,pageNum:8,pageFile:"../phase10/08-galois-abel-ruffini.html",pageTitle:"Galois Theory and Abel-Ruffini",proofLink:"../phase10/08-galois-abel-ruffini.html#proof-that-a5-is-simple",proofLabel:"that $A_5$ is simple",author:"",authorLink:"",category:"Abstract Algebra",tags:["divisibility", "geometry", "group-theory", "norms"]},
+  {phase:11,pageNum:1,pageFile:"../phase11/01-fourier-series.html",pageTitle:"Fourier Series",proofLink:"../phase11/01-fourier-series.html#proof-the-trigonometric-system",proofLabel:"The trigonometric system",author:"Fourier",authorLink:"../mathematicians/fourier.html",category:"Fourier Analysis",tags:["integration", "inequalities", "series", "geometry", "trigonometry", "orthogonality", "signal-analysis", "norms"]},
+  {phase:11,pageNum:2,pageFile:"../phase11/02-convergence.html",pageTitle:"Convergence of Fourier Series",proofLink:"../phase11/02-convergence.html#proof-closed-form-of-the-dirichlet-kernel",proofLabel:"Closed form of the Dirichlet kernel",author:"Dirichlet",authorLink:"../mathematicians/dirichlet.html",category:"Fourier Analysis",tags:["convergence", "continuity", "series", "trigonometry", "signal-analysis"]},
+  {phase:11,pageNum:2,pageFile:"../phase11/02-convergence.html",pageTitle:"Convergence of Fourier Series",proofLink:"../phase11/02-convergence.html#proof-the-riemann-lebesgue-lemma",proofLabel:"The Riemann-Lebesgue lemma",author:"Riemann",authorLink:"../mathematicians/riemann.html",category:"Fourier Analysis",tags:["convergence", "limits", "integration", "inequalities", "series", "trigonometry", "combinatorics", "signal-analysis", "approximation"]},
+  {phase:11,pageNum:2,pageFile:"../phase11/02-convergence.html",pageTitle:"Convergence of Fourier Series",proofLink:"../phase11/02-convergence.html#proof-dirichlets-convergence-theorem",proofLabel:"Dirichlet's convergence theorem",author:"Dirichlet",authorLink:"../mathematicians/dirichlet.html",category:"Fourier Analysis",tags:["constructive", "convergence", "continuity", "limits", "differentiation", "integration", "series", "trigonometry", "signal-analysis", "game-theory"]},
+  {phase:11,pageNum:2,pageFile:"../phase11/02-convergence.html",pageTitle:"Convergence of Fourier Series",proofLink:"../phase11/02-convergence.html#proof-uniform-convergence",proofLabel:"Uniform convergence",author:"Fourier",authorLink:"../mathematicians/fourier.html",category:"Fourier Analysis",tags:["convergence", "continuity", "differentiation", "integration", "inequalities", "series", "primes", "trigonometry", "signal-analysis"]},
+  {phase:11,pageNum:3,pageFile:"../phase11/03-parseval.html",pageTitle:"Bessel's Inequality and Parseval's Theorem",proofLink:"../phase11/03-parseval.html#proof-via-projection",proofLabel:"via projection",author:"Parseval",authorLink:"../mathematicians/parseval.html",category:"Fourier Analysis",tags:["convergence", "limits", "inequalities", "series", "sequences", "geometry", "trigonometry", "orthogonality", "projection", "signal-analysis"]},
+  {phase:11,pageNum:3,pageFile:"../phase11/03-parseval.html",pageTitle:"Bessel's Inequality and Parseval's Theorem",proofLink:"../phase11/03-parseval.html#proof-direct-proof",proofLabel:"Direct proof",author:"Fourier",authorLink:"../mathematicians/fourier.html",category:"Fourier Analysis",tags:["convergence", "limits", "integration", "inequalities", "series", "sequences", "geometry", "trigonometry", "projection", "signal-analysis"]},
+  {phase:11,pageNum:3,pageFile:"../phase11/03-parseval.html",pageTitle:"Bessel's Inequality and Parseval's Theorem",proofLink:"../phase11/03-parseval.html#proof-best-approximation-property",proofLabel:"Best approximation property",author:"",authorLink:"",category:"Fourier Analysis",tags:["inequalities", "polynomial", "trigonometry", "orthogonality", "projection", "optimisation", "approximation"]},
+  {phase:11,pageNum:3,pageFile:"../phase11/03-parseval.html",pageTitle:"Bessel's Inequality and Parseval's Theorem",proofLink:"../phase11/03-parseval.html#proof-parsevals-theorem",proofLabel:"Parseval's theorem",author:"Weierstrass",authorLink:"../mathematicians/weierstrass.html",category:"Fourier Analysis",tags:["continuity", "limits", "inequalities", "polynomial", "geometry", "trigonometry", "probability", "signal-analysis", "approximation", "game-theory"]},
+  {phase:12,pageNum:1,pageFile:"../phase12/01-probability-spaces.html",pageTitle:"Probability Spaces",proofLink:"../phase12/01-probability-spaces.html#proof-definition-probability-measure",proofLabel:"Definition \u2014 Probability measure",author:"",authorLink:"",category:"Probability",tags:["inequalities", "series", "sequences", "probability", "measure-theory"]},
+  {phase:12,pageNum:1,pageFile:"../phase12/01-probability-spaces.html",pageTitle:"Probability Spaces",proofLink:"../phase12/01-probability-spaces.html#proof-definition-probability-measure-2",proofLabel:"Definition \u2014 Probability measure",author:"",authorLink:"",category:"Probability",tags:["inequalities", "series", "sequences", "probability", "measure-theory"]},
+  {phase:12,pageNum:1,pageFile:"../phase12/01-probability-spaces.html",pageTitle:"Probability Spaces",proofLink:"../phase12/01-probability-spaces.html#proof-definition-probability-measure-3",proofLabel:"Definition \u2014 Probability measure",author:"",authorLink:"",category:"Probability",tags:["sequences", "probability", "measure-theory"]},
+  {phase:12,pageNum:1,pageFile:"../phase12/01-probability-spaces.html",pageTitle:"Probability Spaces",proofLink:"../phase12/01-probability-spaces.html#proof-theorem-total-probability",proofLabel:"Total probability",author:"",authorLink:"",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:1,pageFile:"../phase12/01-probability-spaces.html",pageTitle:"Probability Spaces",proofLink:"../phase12/01-probability-spaces.html#proof-three-sets",proofLabel:"three sets",author:"",authorLink:"",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:2,pageFile:"../phase12/02-bayes.html",pageTitle:"Conditional Probability and Bayes' Theorem",proofLink:"../phase12/02-bayes.html#proof-theorem-bayes-theorem",proofLabel:"Bayes' theorem",author:"Bayes",authorLink:"../mathematicians/bayes.html",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:3,pageFile:"../phase12/03-expectation.html",pageTitle:"Random Variables and Expectation",proofLink:"../phase12/03-expectation.html#proof-discrete-case",proofLabel:"discrete case",author:"",authorLink:"",category:"Probability",tags:["series", "combinatorics", "probability"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-variance",proofLabel:"Variance",author:"",authorLink:"",category:"Probability",tags:["ring-theory", "probability"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-theorem-10",proofLabel:"Variance of a sum",author:"",authorLink:"",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-theorem-11",proofLabel:"Covariance bilinearity",author:"",authorLink:"",category:"Probability",tags:["probability", "measure-theory"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-theorem-12",proofLabel:"Variance of a sum (general case)",author:"",authorLink:"",category:"Probability",tags:["probability", "bilinear"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-discrete-case-2",proofLabel:"discrete case",author:"",authorLink:"",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:4,pageFile:"../phase12/04-variance.html",pageTitle:"Variance and Covariance",proofLink:"../phase12/04-variance.html#proof-theorem-13",proofLabel:"Variance under independence",author:"",authorLink:"",category:"Probability",tags:["inequalities", "orthogonality", "probability", "norms", "measure-theory"]},
+  {phase:12,pageNum:5,pageFile:"../phase12/05-markov-chebyshev.html",pageTitle:"Markov and Chebyshev Inequalities",proofLink:"../phase12/05-markov-chebyshev.html#proof-theorem-markovs-inequality",proofLabel:"Theorem (Markov's inequality)",author:"Markov",authorLink:"../mathematicians/markov.html",category:"Probability",tags:["inequalities", "series", "probability"]},
+  {phase:12,pageNum:5,pageFile:"../phase12/05-markov-chebyshev.html",pageTitle:"Markov and Chebyshev Inequalities",proofLink:"../phase12/05-markov-chebyshev.html#proof-theorem-chebyshevs-inequality",proofLabel:"Theorem (Chebyshev's inequality)",author:"Markov",authorLink:"../mathematicians/markov.html",category:"Probability",tags:["inequalities", "probability"]},
+  {phase:12,pageNum:5,pageFile:"../phase12/05-markov-chebyshev.html",pageTitle:"Markov and Chebyshev Inequalities",proofLink:"../phase12/05-markov-chebyshev.html#proof-theorem-cantellis-inequality",proofLabel:"Theorem (Cantelli's inequality)",author:"Chebyshev",authorLink:"../mathematicians/chebyshev.html",category:"Probability",tags:["differentiation", "inequalities", "optimisation", "probability"]},
+  {phase:12,pageNum:6,pageFile:"../phase12/06-law-of-large-numbers.html",pageTitle:"The Law of Large Numbers",proofLink:"../phase12/06-law-of-large-numbers.html#proof-lemma-2",proofLabel:"Lemma",author:"Kolmogorov",authorLink:"../mathematicians/kolmogorov.html",category:"Probability",tags:["series", "probability"]},
+  {phase:12,pageNum:6,pageFile:"../phase12/06-law-of-large-numbers.html",pageTitle:"The Law of Large Numbers",proofLink:"../phase12/06-law-of-large-numbers.html#proof-chebyshev",proofLabel:"Chebyshev",author:"Chebyshev",authorLink:"../mathematicians/chebyshev.html",category:"Probability",tags:["convergence", "inequalities", "probability"]},
+  {phase:12,pageNum:6,pageFile:"../phase12/06-law-of-large-numbers.html",pageTitle:"The Law of Large Numbers",proofLink:"../phase12/06-law-of-large-numbers.html#proof-theorem-strong-law-of-large-numbers",proofLabel:"Theorem (Strong law of large numbers)",author:"Borel",authorLink:"../mathematicians/borel.html",category:"Probability",tags:["convergence", "continuity", "inequalities", "series", "probability"]},
+  {phase:12,pageNum:6,pageFile:"../phase12/06-law-of-large-numbers.html",pageTitle:"The Law of Large Numbers",proofLink:"../phase12/06-law-of-large-numbers.html#proof-theorem-strong-law-of-large-numbers-2",proofLabel:"Theorem (Strong law of large numbers)",author:"Borel",authorLink:"../mathematicians/borel.html",category:"Probability",tags:["continuity", "inequalities", "series", "probability"]},
+  {phase:12,pageNum:6,pageFile:"../phase12/06-law-of-large-numbers.html",pageTitle:"The Law of Large Numbers",proofLink:"../phase12/06-law-of-large-numbers.html#proof-fourth-moment-method",proofLabel:"fourth moment method",author:"",authorLink:"",category:"Probability",tags:["inequalities", "series"]},
+  {phase:12,pageNum:7,pageFile:"../phase12/07-central-limit-theorem.html",pageTitle:"The Central Limit Theorem",proofLink:"../phase12/07-central-limit-theorem.html#proof-theorem-central-limit-theorem",proofLabel:"Central Limit Theorem",author:"",authorLink:"",category:"Probability",tags:["convergence", "limits", "inequalities", "series", "taylor", "probability"]},
+  {phase:12,pageNum:8,pageFile:"../phase12/08-conditional-expectation.html",pageTitle:"Conditional Expectation as Projection",proofLink:"../phase12/08-conditional-expectation.html#proof-theorem-law-of-iterated-expectations",proofLabel:"Law of iterated expectations",author:"",authorLink:"",category:"Probability",tags:["series", "projection", "probability"]},
+  {phase:12,pageNum:8,pageFile:"../phase12/08-conditional-expectation.html",pageTitle:"Conditional Expectation as Projection",proofLink:"../phase12/08-conditional-expectation.html#proof-theorem-conditional-expectation-is-projection",proofLabel:"Conditional expectation is projection",author:"",authorLink:"",category:"Probability",tags:["geometry", "orthogonality", "projection", "optimisation", "probability", "measure-theory"]},
+  {phase:13,pageNum:1,pageFile:"../phase13/01-bilinear-forms.html",pageTitle:"Bilinear Forms",proofLink:"../phase13/01-bilinear-forms.html#proof-theorem-change-of-basis-for-bilinear-forms",proofLabel:"Change of basis for bilinear forms",author:"",authorLink:"",category:"Spectral Theory",tags:["series", "bilinear"]},
+  {phase:13,pageNum:1,pageFile:"../phase13/01-bilinear-forms.html",pageTitle:"Bilinear Forms",proofLink:"../phase13/01-bilinear-forms.html#proof-theorem-non-degeneracy-and-invertibility",proofLabel:"Non-degeneracy and invertibility",author:"",authorLink:"",category:"Spectral Theory",tags:["bilinear"]},
+  {phase:13,pageNum:2,pageFile:"../phase13/02-quadratic-forms.html",pageTitle:"Quadratic Forms and Sylvester's Law of Inertia",proofLink:"../phase13/02-quadratic-forms.html#proof-theorem-polarisation-identity",proofLabel:"Polarisation identity",author:"Gauss",authorLink:"../mathematicians/gauss.html",category:"Spectral Theory",tags:["quadratic", "bilinear"]},
+  {phase:13,pageNum:2,pageFile:"../phase13/02-quadratic-forms.html",pageTitle:"Quadratic Forms and Sylvester's Law of Inertia",proofLink:"../phase13/02-quadratic-forms.html#proof-gausss-method-completing-the-square",proofLabel:"Gauss's method \u2014 completing the square",author:"Gauss",authorLink:"../mathematicians/gauss.html",category:"Spectral Theory",tags:["induction", "inequalities", "series", "completeness", "quadratic", "bilinear"]},
+  {phase:13,pageNum:2,pageFile:"../phase13/02-quadratic-forms.html",pageTitle:"Quadratic Forms and Sylvester's Law of Inertia",proofLink:"../phase13/02-quadratic-forms.html#proof-theorem-sylvesters-law-of-inertia",proofLabel:"Sylvester's law of inertia",author:"Sylvester",authorLink:"../mathematicians/sylvester.html",category:"Spectral Theory",tags:["contradiction", "inequalities", "quadratic"]},
+  {phase:13,pageNum:3,pageFile:"../phase13/03-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase13/03-spectral-theorem.html#proof-theorem-real-eigenvalues",proofLabel:"Real eigenvalues",author:"",authorLink:"",category:"Spectral Theory",tags:["series", "polynomial", "eigenvalues", "spectral"]},
+  {phase:13,pageNum:3,pageFile:"../phase13/03-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase13/03-spectral-theorem.html#proof-theorem-orthogonality-of-eigenvectors",proofLabel:"Orthogonality of eigenvectors",author:"",authorLink:"",category:"Spectral Theory",tags:["geometry", "eigenvalues", "orthogonality", "spectral"]},
+  {phase:13,pageNum:3,pageFile:"../phase13/03-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase13/03-spectral-theorem.html#proof-by-induction-on-n",proofLabel:"by induction on $n$",author:"",authorLink:"",category:"Spectral Theory",tags:["induction", "polynomial", "geometry", "eigenvalues", "orthogonality", "spectral", "norms"]},
+  {phase:13,pageNum:3,pageFile:"../phase13/03-spectral-theorem.html",pageTitle:"The Spectral Theorem",proofLink:"../phase13/03-spectral-theorem.html#proof-theorem-spectral-decomposition",proofLabel:"Spectral decomposition",author:"",authorLink:"",category:"Spectral Theory",tags:["series", "eigenvalues", "orthogonality", "projection", "spectral"]},
+  {phase:13,pageNum:4,pageFile:"../phase13/04-svd.html",pageTitle:"Singular Value Decomposition",proofLink:"../phase13/04-svd.html#proof-lemma-gram-matrices-are-symmetric-positive-semi-definite",proofLabel:"Gram matrices are symmetric positive semi-definite",author:"Gram",authorLink:"../mathematicians/gram.html",category:"Spectral Theory",tags:["inequalities", "norms"]},
+  {phase:13,pageNum:4,pageFile:"../phase13/04-svd.html",pageTitle:"Singular Value Decomposition",proofLink:"../phase13/04-svd.html#proof-lemma-shared-non-zero-eigenvalues",proofLabel:"shared non-zero eigenvalues",author:"",authorLink:"",category:"Spectral Theory",tags:["inequalities", "eigenvalues"]},
+  {phase:13,pageNum:4,pageFile:"../phase13/04-svd.html",pageTitle:"Singular Value Decomposition",proofLink:"../phase13/04-svd.html#proof-constructive",proofLabel:"constructive",author:"",authorLink:"",category:"Spectral Theory",tags:["constructive", "inequalities", "orthogonality", "spectral", "norms"]},
+  {phase:13,pageNum:5,pageFile:"../phase13/05-rayleigh-courant-fischer.html",pageTitle:"The Rayleigh Quotient and Courant-Fischer",proofLink:"../phase13/05-rayleigh-courant-fischer.html#proof-theorem-rayleighs-principle",proofLabel:"Rayleigh's principle",author:"Rayleigh",authorLink:"../mathematicians/rayleigh.html",category:"Spectral Theory",tags:["inequalities", "series", "eigenvalues", "optimisation", "quadratic", "norms"]},
+  {phase:13,pageNum:5,pageFile:"../phase13/05-rayleigh-courant-fischer.html",pageTitle:"The Rayleigh Quotient and Courant-Fischer",proofLink:"../phase13/05-rayleigh-courant-fischer.html#proof-theorem-courant-fischer-min-max",proofLabel:"Courant-Fischer min-max",author:"Courant",authorLink:"../mathematicians/courant.html",category:"Spectral Theory",tags:["constructive", "inequalities", "series", "probability", "minimax"]},
+  {phase:13,pageNum:5,pageFile:"../phase13/05-rayleigh-courant-fischer.html",pageTitle:"The Rayleigh Quotient and Courant-Fischer",proofLink:"../phase13/05-rayleigh-courant-fischer.html#proof-theorem-cauchy-interlacing",proofLabel:"Cauchy interlacing",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Spectral Theory",tags:["inequalities", "eigenvalues", "optimisation"]},
+  {phase:13,pageNum:5,pageFile:"../phase13/05-rayleigh-courant-fischer.html",pageTitle:"The Rayleigh Quotient and Courant-Fischer",proofLink:"../phase13/05-rayleigh-courant-fischer.html#proof-theorem-14",proofLabel:"Courant-Fischer minimax theorem",author:"",authorLink:"",category:"Spectral Theory",tags:["series", "eigenvalues", "orthogonality", "completeness", "spectral"]},
+  {phase:13,pageNum:6,pageFile:"../phase13/06-principal-axis.html",pageTitle:"The Principal Axis Theorem",proofLink:"../phase13/06-principal-axis.html#proof-theorem-principal-axis-theorem",proofLabel:"Principal axis theorem",author:"",authorLink:"",category:"Spectral Theory",tags:["eigenvalues", "orthogonality", "quadratic", "spectral", "norms"]},
+  {phase:13,pageNum:6,pageFile:"../phase13/06-principal-axis.html",pageTitle:"The Principal Axis Theorem",proofLink:"../phase13/06-principal-axis.html#proof-theorem-equivalent-conditions-for-positive-definiteness",proofLabel:"equivalent conditions for positive definiteness",author:"",authorLink:"",category:"Spectral Theory",tags:["induction", "inequalities", "series", "eigenvalues", "completeness"]},
+  {phase:14,pageNum:1,pageFile:"../phase14/01-norms.html",pageTitle:"Norms and Equivalence in Finite Dimension",proofLink:"../phase14/01-norms.html#proof-theorem-norm-equivalence-in-finite-dimension",proofLabel:"Norm equivalence in finite dimension",author:"",authorLink:"",category:"Functional Analysis",tags:["continuity", "inequalities", "series", "geometry", "compactness", "completeness", "topology", "norms"]},
+  {phase:14,pageNum:2,pageFile:"../phase14/02-banach-spaces.html",pageTitle:"Banach Spaces",proofLink:"../phase14/02-banach-spaces.html#proof-of-completeness",proofLabel:"completeness",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Functional Analysis",tags:["convergence", "continuity", "limits", "inequalities", "sequences", "completeness", "ring-theory", "norms"]},
+  {phase:14,pageNum:2,pageFile:"../phase14/02-banach-spaces.html",pageTitle:"Banach Spaces",proofLink:"../phase14/02-banach-spaces.html#proof-of-incompleteness",proofLabel:"incompleteness",author:"",authorLink:"",category:"Functional Analysis",tags:["convergence", "continuity", "limits", "inequalities", "series", "sequences", "completeness", "norms"]},
+  {phase:14,pageNum:2,pageFile:"../phase14/02-banach-spaces.html",pageTitle:"Banach Spaces",proofLink:"../phase14/02-banach-spaces.html#proof-theorem-characterisation-of-banach-spaces",proofLabel:"Characterisation of Banach spaces",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["convergence", "inequalities", "series", "sequences", "completeness", "norms"]},
+  {phase:14,pageNum:2,pageFile:"../phase14/02-banach-spaces.html",pageTitle:"Banach Spaces",proofLink:"../phase14/02-banach-spaces.html#proof-theorem-15",proofLabel:"Completeness of L^p",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Functional Analysis",tags:["convergence", "inequalities", "series", "sequences", "completeness", "norms"]},
+  {phase:14,pageNum:3,pageFile:"../phase14/03-riesz-lemma.html",pageTitle:"Riesz's Lemma and Finite-Dimensional Characterisation",proofLink:"../phase14/03-riesz-lemma.html#proof-lemma-riesz-1918",proofLabel:"Riesz (1918)",author:"Riesz",authorLink:"../mathematicians/riesz.html",category:"Functional Analysis",tags:["constructive", "convergence", "inequalities", "sequences", "topology", "norms"]},
+  {phase:14,pageNum:3,pageFile:"../phase14/03-riesz-lemma.html",pageTitle:"Riesz's Lemma and Finite-Dimensional Characterisation",proofLink:"../phase14/03-riesz-lemma.html#proof-construction",proofLabel:"Construction",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Functional Analysis",tags:["induction", "constructive", "convergence", "inequalities", "sequences", "compactness", "completeness", "norms", "game-theory"]},
+  {phase:14,pageNum:3,pageFile:"../phase14/03-riesz-lemma.html",pageTitle:"Riesz's Lemma and Finite-Dimensional Characterisation",proofLink:"../phase14/03-riesz-lemma.html#proof-theorem-riesz-1918",proofLabel:"Riesz (1918)",author:"Cauchy",authorLink:"../mathematicians/cauchy.html",category:"Functional Analysis",tags:["constructive", "convergence", "inequalities", "sequences", "compactness", "norms"]},
+  {phase:14,pageNum:4,pageFile:"../phase14/04-continuous-linear-maps.html",pageTitle:"Continuous Linear Maps and the Operator Norm",proofLink:"../phase14/04-continuous-linear-maps.html#proof-theorem-continuity-criterion-for-linear-maps",proofLabel:"Continuity criterion for linear maps",author:"",authorLink:"",category:"Functional Analysis",tags:["continuity", "inequalities", "norms"]},
+  {phase:14,pageNum:4,pageFile:"../phase14/04-continuous-linear-maps.html",pageTitle:"Continuous Linear Maps and the Operator Norm",proofLink:"../phase14/04-continuous-linear-maps.html#proof-that-the-three-expressions-are-equal",proofLabel:"that the three expressions are equal",author:"Lipschitz",authorLink:"../mathematicians/lipschitz.html",category:"Functional Analysis",tags:["continuity", "inequalities", "norms"]},
+  {phase:14,pageNum:4,pageFile:"../phase14/04-continuous-linear-maps.html",pageTitle:"Continuous Linear Maps and the Operator Norm",proofLink:"../phase14/04-continuous-linear-maps.html#proof-that-cdot-is-a-norm-on-bounded-linear-maps",proofLabel:"that $\\|\\cdot\\|$ is a norm on bounded linear maps",author:"",authorLink:"",category:"Functional Analysis",tags:["continuity", "inequalities", "geometry", "norms", "measure-theory"]},
+  {phase:14,pageNum:4,pageFile:"../phase14/04-continuous-linear-maps.html",pageTitle:"Continuous Linear Maps and the Operator Norm",proofLink:"../phase14/04-continuous-linear-maps.html#proof-theorem-16",proofLabel:"Continuity-boundedness equivalence",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["continuity", "inequalities", "completeness", "norms"]},
+  {phase:14,pageNum:4,pageFile:"../phase14/04-continuous-linear-maps.html",pageTitle:"Continuous Linear Maps and the Operator Norm",proofLink:"../phase14/04-continuous-linear-maps.html#proof-theorem-17",proofLabel:"Finite-dimensional linear maps are continuous",author:"",authorLink:"",category:"Functional Analysis",tags:["continuity", "inequalities", "series", "norms"]},
+  {phase:14,pageNum:5,pageFile:"../phase14/05-banach-steinhaus.html",pageTitle:"The Uniform Boundedness Principle",proofLink:"../phase14/05-banach-steinhaus.html#proof-proof-via-baires-category-theorem",proofLabel:"Proof via Baire's Category Theorem",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Topology",tags:["continuity", "inequalities", "geometry", "completeness", "topology"]},
+  {phase:14,pageNum:6,pageFile:"../phase14/06-open-mapping.html",pageTitle:"The Open Mapping and Closed Graph Theorems",proofLink:"../phase14/06-open-mapping.html#proof-the-open-mapping-theorem",proofLabel:"The Open Mapping Theorem",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["induction", "convergence", "series", "topology"]},
+  {phase:14,pageNum:6,pageFile:"../phase14/06-open-mapping.html",pageTitle:"The Open Mapping and Closed Graph Theorems",proofLink:"../phase14/06-open-mapping.html#proof-the-bounded-inverse-theorem",proofLabel:"The Bounded Inverse Theorem",author:"Newton",authorLink:"../mathematicians/newton.html",category:"Functional Analysis",tags:["convergence", "continuity", "inequalities", "topology"]},
+  {phase:14,pageNum:6,pageFile:"../phase14/06-open-mapping.html",pageTitle:"The Open Mapping and Closed Graph Theorems",proofLink:"../phase14/06-open-mapping.html#proof-closed-graph-implies-bounded",proofLabel:"closed graph implies bounded",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["continuity", "inequalities", "projection", "completeness"]},
+  {phase:14,pageNum:7,pageFile:"../phase14/07-hahn-banach.html",pageTitle:"The Hahn-Banach Theorem",proofLink:"../phase14/07-hahn-banach.html#proof-interval-is-non-empty",proofLabel:"interval is non-empty",author:"",authorLink:"",category:"Functional Analysis",tags:["inequalities", "geometry"]},
+  {phase:14,pageNum:7,pageFile:"../phase14/07-hahn-banach.html",pageTitle:"The Hahn-Banach Theorem",proofLink:"../phase14/07-hahn-banach.html#proof-consequences",proofLabel:"Consequences",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["sequences", "norms"]},
+  {phase:14,pageNum:8,pageFile:"../phase14/08-best-approximation.html",pageTitle:"Best Approximation in Hilbert Spaces",proofLink:"../phase14/08-best-approximation.html#proof-hilbert-spaces-and-the-parallelogram-law",proofLabel:"Hilbert Spaces and the Parallelogram Law",author:"Banach",authorLink:"../mathematicians/banach.html",category:"Functional Analysis",tags:["geometry", "orthogonality", "projection", "norms", "approximation"]},
+  {phase:14,pageNum:8,pageFile:"../phase14/08-best-approximation.html",pageTitle:"Best Approximation in Hilbert Spaces",proofLink:"../phase14/08-best-approximation.html#proof-the-projection-theorem",proofLabel:"The Projection Theorem",author:"Hilbert",authorLink:"../mathematicians/hilbert.html",category:"Functional Analysis",tags:["convergence", "limits", "inequalities", "sequences", "geometry", "projection", "completeness", "convexity", "optimisation", "approximation"]},
+  {phase:14,pageNum:8,pageFile:"../phase14/08-best-approximation.html",pageTitle:"Best Approximation in Hilbert Spaces",proofLink:"../phase14/08-best-approximation.html#proof-orthogonal-projection-onto-closed-subspaces",proofLabel:"Orthogonal Projection onto Closed Subspaces",author:"Hilbert",authorLink:"../mathematicians/hilbert.html",category:"Functional Analysis",tags:["inequalities", "geometry", "orthogonality", "projection", "convexity", "approximation"]},
+  {phase:14,pageNum:8,pageFile:"../phase14/08-best-approximation.html",pageTitle:"Best Approximation in Hilbert Spaces",proofLink:"../phase14/08-best-approximation.html#proof-the-riesz-representation-theorem",proofLabel:"The Riesz Representation Theorem",author:"Hilbert",authorLink:"../mathematicians/hilbert.html",category:"Functional Analysis",tags:["continuity", "inequalities", "geometry", "orthogonality", "norms", "approximation"]},
+  {phase:15,pageNum:1,pageFile:"../phase15/01-combinatorial-games.html",pageTitle:"Combinatorial Games",proofLink:"../phase15/01-combinatorial-games.html#proof-theorem-zermelo-1913",proofLabel:"Zermelo (1913)",author:"Zermelo",authorLink:"../mathematicians/zermelo.html",category:"Game Theory",tags:["induction", "combinatorics", "game-theory"]},
+  {phase:15,pageNum:1,pageFile:"../phase15/01-combinatorial-games.html",pageTitle:"Combinatorial Games",proofLink:"../phase15/01-combinatorial-games.html#proof-theorem-nim-strategy-bouton-1901",proofLabel:"Nim strategy (Bouton, 1901)",author:"",authorLink:"",category:"Game Theory",tags:["combinatorics", "game-theory"]},
+  {phase:15,pageNum:2,pageFile:"../phase15/02-minimax.html",pageTitle:"Zero-Sum Games and the Minimax Theorem",proofLink:"../phase15/02-minimax.html#proof-lemma-max-min-leq-min-max",proofLabel:"Max-min $\\leq$ min-max",author:"",authorLink:"",category:"Game Theory",tags:["inequalities", "game-theory", "minimax"]},
+  {phase:15,pageNum:3,pageFile:"../phase15/03-nash-equilibrium.html",pageTitle:"Nash Equilibrium",proofLink:"../phase15/03-nash-equilibrium.html#proof-sketch-3",proofLabel:"Nash equilibrium existence (sketch)",author:"Nash",authorLink:"../mathematicians/nash.html",category:"Game Theory",tags:["continuity", "limits", "inequalities", "compactness", "fixed-point", "convexity", "optimisation", "combinatorics", "game-theory", "nash"]},
+  {phase:15,pageNum:4,pageFile:"../phase15/04-dominant-strategies.html",pageTitle:"Dominant Strategies and Iterated Elimination",proofLink:"../phase15/04-dominant-strategies.html#proof-theorem-order-independence-of-iesds",proofLabel:"order independence of IESDS",author:"",authorLink:"",category:"Game Theory",tags:["induction", "game-theory"]},
+  {phase:15,pageNum:5,pageFile:"../phase15/05-repeated-games.html",pageTitle:"Repeated Games and the Folk Theorem",proofLink:"../phase15/05-repeated-games.html#proof-grim-trigger-sustains-cooperation",proofLabel:"grim trigger sustains cooperation",author:"",authorLink:"",category:"Game Theory",tags:["series", "norms", "game-theory", "nash"]},
+  {phase:15,pageNum:6,pageFile:"../phase15/06-mechanism-design.html",pageTitle:"Mechanism Design",proofLink:"../phase15/06-mechanism-design.html#proof-theorem-truthful-bidding-in-the-vickrey-auction",proofLabel:"truthful bidding in the Vickrey auction",author:"",authorLink:"",category:"Game Theory",tags:["inequalities", "game-theory"]},
+  {phase:15,pageNum:6,pageFile:"../phase15/06-mechanism-design.html",pageTitle:"Mechanism Design",proofLink:"../phase15/06-mechanism-design.html#proof-sketch-4",proofLabel:"Gibbard-Satterthwaite theorem (sketch)",author:"",authorLink:"",category:"Game Theory",tags:["constructive", "game-theory"]},
+  {phase:15,pageNum:6,pageFile:"../phase15/06-mechanism-design.html",pageTitle:"Mechanism Design",proofLink:"../phase15/06-mechanism-design.html#proof-sketch-for-2-voters-and-3-candidates-a-b-c",proofLabel:"sketch for 2 voters and 3 candidates $A, B, C$",author:"",authorLink:"",category:"Game Theory",tags:["game-theory"]},
+];
+
+const tbody = document.getElementById('proof-body');
+const countEl = document.getElementById('count');
+const searchBox = document.getElementById('search');
+const clearBtn = document.getElementById('clear');
+const noResults = document.getElementById('no-results');
+
+let activeCats = new Set();
+let activeTags = new Set();
+
+function renderTable() {
+  const query = searchBox.value.toLowerCase().trim();
+  let visible = 0;
+  const frag = document.createDocumentFragment();
+
+  for (const p of PROOFS) {
+    // Category filter (union)
+    if (activeCats.size > 0 && !activeCats.has(p.category)) continue;
+
+    // Tag filter (union — show if proof has ANY selected tag)
+    if (activeTags.size > 0 && !p.tags.some(t => activeTags.has(t))) continue;
+
+    // Search filter
+    if (query) {
+      const hay = (p.proofLabel + ' ' + p.author + ' ' + p.category + ' ' + p.tags.join(' ') + ' ' + p.pageTitle).toLowerCase();
+      if (!hay.includes(query)) continue;
+    }
+
+    visible++;
+    const tr = document.createElement('tr');
+
+    // Phase
+    const tdPhase = document.createElement('td');
+    tdPhase.textContent = 'Phase ' + p.phase;
+    tr.appendChild(tdPhase);
+
+    // Page
+    const tdPage = document.createElement('td');
+    const pageA = document.createElement('a');
+    pageA.href = p.pageFile;
+    pageA.textContent = p.pageTitle;
+    tdPage.appendChild(pageA);
+    tr.appendChild(tdPage);
+
+    // Proof
+    const tdProof = document.createElement('td');
+    const proofA = document.createElement('a');
+    proofA.href = p.proofLink;
+    proofA.textContent = p.proofLabel;
+    tdProof.appendChild(proofA);
+    tr.appendChild(tdProof);
+
+    // Author
+    const tdAuthor = document.createElement('td');
+    if (p.author && p.authorLink) {
+      const authorA = document.createElement('a');
+      authorA.href = p.authorLink;
+      authorA.textContent = p.author;
+      tdAuthor.appendChild(authorA);
+    } else if (p.author) {
+      tdAuthor.textContent = p.author;
+    }
+    tr.appendChild(tdAuthor);
+
+    // Category
+    const tdCat = document.createElement('td');
+    tdCat.textContent = p.category;
+    tr.appendChild(tdCat);
+
+    // Tags
+    const tdTags = document.createElement('td');
+    for (const t of p.tags) {
+      const span = document.createElement('span');
+      span.className = 'tag-pill';
+      span.textContent = t;
+      tdTags.appendChild(span);
+    }
+    tr.appendChild(tdTags);
+
+    frag.appendChild(tr);
+  }
+
+  tbody.innerHTML = '';
+  tbody.appendChild(frag);
+  countEl.textContent = visible;
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+
+// Category pills
+document.querySelectorAll('[data-category]').forEach(el => {
+  el.addEventListener('click', () => {
+    const cat = el.dataset.category;
+    if (activeCats.has(cat)) { activeCats.delete(cat); el.classList.remove('active'); }
+    else { activeCats.add(cat); el.classList.add('active'); }
+    renderTable();
+  });
+});
+
+// Tag pills
+document.querySelectorAll('[data-tag]').forEach(el => {
+  el.addEventListener('click', () => {
+    const tag = el.dataset.tag;
+    if (activeTags.has(tag)) { activeTags.delete(tag); el.classList.remove('active'); }
+    else { activeTags.add(tag); el.classList.add('active'); }
+    renderTable();
+  });
+});
+
+// Search
+searchBox.addEventListener('input', renderTable);
+
+// Clear
+clearBtn.addEventListener('click', () => {
+  searchBox.value = '';
+  activeCats.clear();
+  activeTags.clear();
+  document.querySelectorAll('.filter-pill.active').forEach(el => el.classList.remove('active'));
+  renderTable();
+});
+
+// Initial render
+renderTable();
+</script>
+
+</body>
+</html>

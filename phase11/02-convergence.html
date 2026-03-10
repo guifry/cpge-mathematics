@@ -74,7 +74,7 @@
 <p>At $u = 0$ (and more generally $u = 2k\pi$), $D_N(0) = N + \frac{1}{2}$ by continuity.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-closed-form-of-the-dirichlet-kernel">
 <div class="label">Proof</div>
 <p>The trick is to multiply by $2\sin(u/2)$ and watch a telescoping cancellation. This is a standard technique for summing cosine series.</p>
 <p><b>Step 1.</b> Compute $2\sin(u/2) \cdot D_N(u)$:</p>
@@ -126,7 +126,7 @@
 
 <p>The intuition is physical. Imagine $f$ as a slowly varying "envelope" and $\sin(Nx)$ as a rapidly oscillating carrier wave. Over each half-period of the oscillation (length $\pi/N$), $f$ is nearly constant, so the integral of $f(x)\sin(Nx)$ over that half-period is approximately $f(x_0) \int \sin(Nx)\,dx \approx 0$, since sine integrates to zero over a half-period. As $N \to \infty$, the cancellation becomes perfect.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-the-riemann-lebesgue-lemma">
 <div class="label">Proof</div>
 <p>We prove the sine case; the cosine case is identical.</p>
 <p><b>Step 1.</b> First suppose $f = \mathbf{1}_{[c,d]}$ is the characteristic function of a subinterval $[c, d] \subseteq [a, b]$. Then:</p>
@@ -172,7 +172,7 @@
 
 <p><em>At a jump discontinuity:</em> if $f$ jumps from $L = f(x^-)$ on the left to $R = f(x^+)$ on the right, the series converges to $\frac{L + R}{2}$ — the midpoint of the jump. For the square wave at $x = 0$: $f(0^-) = -1$, $f(0^+) = +1$, so $S_N(f)(0) \to \frac{-1 + 1}{2} = 0$. This is why we defined $f(0) = 0$ on <a href="01-fourier-series.html">page 1</a> — the Fourier series "wants" the function to take the average value at discontinuities.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-dirichlets-convergence-theorem">
 <div class="label">Proof</div>
 <p>Fix a point $x_0 \in [-\pi, \pi]$. We show $S_N(f)(x_0) \to \frac{f(x_0^+) + f(x_0^-)}{2}$. The strategy: rewrite $S_N(f)(x_0) - \frac{f(x_0^+) + f(x_0^-)}{2}$ as an oscillatory integral, then kill it with Riemann-Lebesgue.</p>
 <p><b>Step 1.</b> Using $S_N(f)(x_0) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x_0 - t)\,D_N(t)\,dt$ and the fact that $\frac{1}{\pi}\int_{-\pi}^{\pi} D_N(t)\,dt = 1$, write:</p>
@@ -209,7 +209,7 @@
 
 <p>The condition $f(-\pi) = f(\pi)$ ensures that the $2\pi$-periodic extension of $f$ is continuous at $x = \pm\pi$ (where the copies of $[-\pi, \pi]$ are "glued together"). If $f(-\pi) \neq f(\pi)$, the periodic extension has a jump discontinuity at every odd multiple of $\pi$, and uniform convergence fails there. The function $f(x) = x$ on $[-\pi, \pi]$ is a prime example: $f(-\pi) = -\pi \neq \pi = f(\pi)$, which is why the sawtooth wave's Fourier series converges only pointwise, not uniformly.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-uniform-convergence">
 <div class="label">Proof</div>
 <p><b>Step 1.</b> We show the Fourier coefficients decay like $O(1/n)$ by integrating by parts. For $b_n$:</p>
 <div class="display-math">$$b_n = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin(nx)\,dx$$</div>

@@ -110,7 +110,7 @@
   <p>Equality holds if and only if $u$ and $v$ are proportional (one is a scalar multiple of the other).</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-cauchy-schwarz">
   <div class="label">Proof</div>
   <p>
     If $v = 0$, both sides are $0$. Assume $v \neq 0$. For any $t \in \mathbb{R}$, positive
@@ -147,7 +147,7 @@
   <p>$\|u + v\| \leq \|u\| + \|v\|$ for all $u, v$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-triangle-inequality">
   <div class="label">Proof</div>
   <p>
     Square both sides (both are non-negative, so squaring preserves the inequality):
@@ -189,7 +189,7 @@
 <p>For $k \geq 2$, first subtract the projections onto the previously built vectors:</p>
 <div class="display-math">$$\tilde{e}_k = v_k - \sum_{j=1}^{k-1} \langle v_k, e_j \rangle \, e_j, \qquad e_k = \frac{\tilde{e}_k}{\|\tilde{e}_k\|}.$$</div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-gram-schmidt">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> Base case: $e_1 = v_1 / \|v_1\|$ has norm $1$ and spans the same line

@@ -59,7 +59,7 @@
 <div class="display-math">$$\frac{a_0^2}{2} + \sum_{n=1}^{\infty}(a_n^2 + b_n^2) \leq \frac{1}{\pi}\int_{-\pi}^{\pi} |f(x)|^2\,dx$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-via-projection">
 <div class="label">Proof (via projection)</div>
 <p><b>Step 1.</b> Let $V_N = \text{span}\{1, \cos x, \sin x, \ldots, \cos Nx, \sin Nx\}$. This is a $(2N+1)$-dimensional subspace of $L^2([-\pi, \pi])$, equipped with the orthogonal basis given by the trigonometric system.</p>
 <p><b>Step 2.</b> The partial sum $S_N(f)$ is the orthogonal projection of $f$ onto $V_N$. Why? By the projection theorem (<a href="../phase6/08-projections.html">Phase 6, page 8</a>), the projection of $f$ onto a subspace spanned by an orthogonal basis $\{e_k\}$ is $\sum_k \frac{\langle f, e_k \rangle}{\|e_k\|^2} e_k$. The Fourier coefficients are exactly these ratios: $a_n = \langle f, \cos(n\cdot) \rangle / \|\cos(n\cdot)\|^2$ with $\|\cos(n\cdot)\|^2 = \pi$. So $S_N(f)$ is the projection.</p>
@@ -73,7 +73,7 @@
 
 <p>Here is a second proof that avoids the projection theorem entirely, using nothing beyond the definition of Fourier coefficients.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-direct-proof">
 <div class="label">Direct proof</div>
 <p><b>Step 1.</b> Start from the obvious fact $\|f - S_N(f)\|^2 \geq 0$. Expand:</p>
 <div class="display-math">$$0 \leq \int_{-\pi}^{\pi} |f(x) - S_N(f)(x)|^2\,dx = \|f\|^2 - 2\langle f, S_N(f)\rangle + \|S_N(f)\|^2$$</div>
@@ -104,7 +104,7 @@
 <p>with equality if and only if $T_N = S_N(f)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-best-approximation-property">
 <div class="label">Proof</div>
 <p><b>Step 1.</b> Let $T_N$ be any trigonometric polynomial of degree $\leq N$. Then $T_N \in V_N$, and $S_N(f) - T_N \in V_N$ (since $V_N$ is a vector space).</p>
 <p><b>Step 2.</b> Since $f - S_N(f)$ is orthogonal to every element of $V_N$ (this is the defining property of the projection), we have $f - S_N(f) \perp S_N(f) - T_N$.</p>
@@ -134,7 +134,7 @@
 
 <p>The proof strategy is elegant: we already know $\|f\|^2 = \|S_N\|^2 + \|f - S_N\|^2$. For Parseval, we must show $\|f - S_N\|^2 \to 0$. The best approximation property (Section 3) is the key: it lets us bound $\|f - S_N\|$ by the error of <em>any</em> trigonometric polynomial, and <a href="../mathematicians/weierstrass.html">Weierstrass</a> guarantees good ones exist.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-parsevals-theorem">
 <div class="label">Proof</div>
 <p><b>Step 1.</b> From the Pythagorean decomposition in the proof of Bessel's inequality:</p>
 <div class="display-math">$$\|f\|^2 = \|S_N(f)\|^2 + \|f - S_N(f)\|^2$$</div>

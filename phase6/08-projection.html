@@ -56,7 +56,7 @@
   <div class="display-math">$$W^\perp = \{v \in V : \langle v, w \rangle = 0 \text{ for all } w \in W\}.$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-orthogonal-complement-subspace">
   <div class="label">Proof that $W^\perp$ is a subspace</div>
   <p>
     <strong>Step 1.</strong> $0 \in W^\perp$ since $\langle 0, w \rangle = 0$ for all $w$.
@@ -83,7 +83,7 @@
   <div class="display-math">$$v = w + w^\perp, \qquad w \in W, \quad w^\perp \in W^\perp.$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-orthogonal-decomposition">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1 (existence).</strong> Let $e_1, \ldots, e_k$ be an orthonormal basis of $W$
@@ -117,7 +117,7 @@
   </p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-orthogonal-complement-dimension">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> Let $k = \dim(W)$ and $n = \dim(V)$. Take an orthonormal basis
@@ -170,7 +170,7 @@
   <p>with equality if and only if $w = \operatorname{proj}_W(v)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-best-approximation">
   <div class="label">Proof</div>
   <p>
     Let $p = \operatorname{proj}_W(v)$, so $v - p \in W^\perp$. For any $w \in W$, write

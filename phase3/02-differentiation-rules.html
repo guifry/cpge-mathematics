@@ -50,7 +50,7 @@
   <div class="display-math">$$(f + g)'(x) = f'(x) + g'(x).$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-theorem-sum-rule">
   <div class="label">Proof</div>
   <p>Write out the difference quotient of $f + g$:</p>
   <div class="display-math">$$\frac{(f+g)(x+h) - (f+g)(x)}{h} = \frac{f(x+h) + g(x+h) - f(x) - g(x)}{h}.$$</div>
@@ -79,7 +79,7 @@
   <div class="display-math">$$(cf)'(x) = c \cdot f'(x).$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-theorem-constant-multiple-rule">
   <div class="label">Proof</div>
   <div class="display-math">$$\frac{(cf)(x+h) - (cf)(x)}{h} = \frac{c\,f(x+h) - c\,f(x)}{h} = c \cdot \frac{f(x+h) - f(x)}{h}.$$</div>
   <p>
@@ -111,7 +111,7 @@
   <div class="display-math">$$(fg)'(x) = f'(x)\,g(x) + f(x)\,g'(x).$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-theorem-product-rule">
   <div class="label">Proof</div>
   <p>Write the difference quotient of $fg$:</p>
   <div class="display-math">$$\frac{f(x+h)\,g(x+h) - f(x)\,g(x)}{h}.$$</div>
@@ -159,7 +159,7 @@
   <div class="display-math">$$\left(\frac{f}{g}\right)'(x) = \frac{f'(x)\,g(x) - f(x)\,g'(x)}{g(x)^2}.$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-theorem-quotient-rule">
   <div class="label">Proof</div>
   <p>
     Let $h = f/g$, so that $f = h \cdot g$. Applying the product rule to $f = hg$:
@@ -199,7 +199,7 @@
   <div class="display-math">$$(f \circ g)'(x) = f'(g(x)) \cdot g'(x).$$</div>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-theorem-chain-rule">
   <div class="label">Proof</div>
   <p>
     Let $u = g(x)$. Since $f$ is differentiable at $u$, the difference quotient

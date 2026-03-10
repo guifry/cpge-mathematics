@@ -54,7 +54,7 @@
   <p>$\text{Var}(X) = E[X^2] - (E[X])^2$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-variance-computational-formula">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> Expand the square: $(X - \mu)^2 = X^2 - 2\mu X + \mu^2$.
@@ -93,7 +93,7 @@
   <p>For constants $a, b \in \mathbb{R}$: $\text{Var}(aX + b) = a^2\,\text{Var}(X)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-variance-scaling">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> $E[aX + b] = aE[X] + b = a\mu + b$.
@@ -126,7 +126,7 @@
   <p>$\text{Cov}(X, Y) = E[XY] - E[X]\,E[Y]$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-covariance-formula">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> Expand:
@@ -154,7 +154,7 @@
   <p>$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\,\text{Cov}(X, Y)$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-variance-of-sums">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> Let $\mu = E[X + Y] = E[X] + E[Y]$. Then
@@ -183,7 +183,7 @@
   <p>If $X$ and $Y$ are independent, then $E[XY] = E[X]\,E[Y]$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-independent-variables-variance">
   <div class="label">Proof (discrete case)</div>
   <p>
     <strong>Step 1.</strong> By definition of expectation for a function of two variables:
@@ -242,7 +242,7 @@
   <p>$|\rho(X, Y)| \leq 1$, with equality iff $Y = aX + b$ for some constants $a, b$.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-correlation-bound">
   <div class="label">Proof</div>
   <p>
     <strong>Step 1.</strong> The map $(U, V) \mapsto E[UV]$ is an inner product on the

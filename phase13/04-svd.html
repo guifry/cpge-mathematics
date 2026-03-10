@@ -41,7 +41,7 @@
 <p>For any real $m \times n$ matrix $A$, both $A^TA$ and $AA^T$ are symmetric and positive semi-definite.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-lemma-gram-matrices-are-symmetric-positive-semi-definite">
 <div class="label">Proof</div>
 <p><b>Step 1.</b> Symmetry of $A^TA$: we compute the transpose directly.</p>
 <div class="display-math">$$(A^TA)^T = A^T(A^T)^T = A^TA$$</div>
@@ -63,7 +63,7 @@
 <p>The non-zero eigenvalues of $A^TA$ and $AA^T$ are identical, with the same multiplicities.</p>
 </div>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-lemma-shared-non-zero-eigenvalues">
 <div class="label">Proof</div>
 <p><b>Step 1.</b> Suppose $A^TAv = \sigma^2 v$ with $v \neq 0$ and $\sigma^2 > 0$. Set $u = Av$.</p>
 <p><b>Step 2.</b> First, $u \neq 0$. Why? If $Av = 0$, then $A^TAv = A^T(0) = 0 = \sigma^2 v$, forcing $\sigma^2 = 0$ (since $v \neq 0$). This contradicts $\sigma^2 > 0$. So $u = Av \neq 0$.</p>
@@ -104,7 +104,7 @@
 
 <p>The matrix $\Sigma$ has the same shape as $A$: it is $m \times n$, with $\Sigma_{ii} = \sigma_i$ for $i = 1, \ldots, \min(m,n)$ and all other entries zero. If $m > n$, the bottom $m - n$ rows of $\Sigma$ are all zeros. If $m < n$, the rightmost $n - m$ columns are all zeros.</p>
 
-<div class="proof-box">
+<div class="proof-box" id="proof-constructive">
 <div class="label">Proof (constructive)</div>
 <p><b>Step 1.</b> Since $A^TA$ is symmetric positive semi-definite, the spectral theorem (<a href="03-spectral-theorem.html">page 3</a>) gives an orthonormal eigenbasis $\{v_1, \ldots, v_n\}$ of $\mathbb{R}^n$ with</p>
 <div class="display-math">$$A^TAv_i = \sigma_i^2 v_i$$</div>
