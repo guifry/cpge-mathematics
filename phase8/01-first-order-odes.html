@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First-Order ODEs — Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>First-Order Ordinary Differential Equations</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A colony of bacteria doubles every hour. If $P(t)$ is the population at time $t$, the
+    rate of growth is proportional to the current size: $P'(t) = kP(t)$. Find the function
+    $P$. This is the simplest <strong>differential equation</strong>: a relationship between
+    a function and its derivative, and you must recover the function itself.
+  </p>
+  <p>
+    Newton invented calculus largely to solve such equations &mdash; the motion of planets
+    under gravity, the cooling of a hot object, the flow of water through a pipe. Each of
+    these phenomena is described not by giving $y(t)$ directly, but by saying how fast $y$
+    changes. The challenge: go from the rate of change back to the function.
+  </p>
+</div>
+
+<h2>1. Definitions</h2>
+
+<p>
+  An <strong>ordinary differential equation</strong> (ODE) is an equation involving a
+  function $y(t)$ of a single variable and one or more of its derivatives $y', y'', \ldots$.
+  The word "ordinary" distinguishes these from <em>partial</em> differential equations,
+  which involve functions of several variables and partial derivatives.
+</p>
+<p>
+  The <strong>order</strong> of the ODE is the highest derivative that appears. A
+  <strong>first-order</strong> ODE has the general form
+</p>
+<div class="display-math">$$y' = f(t, y)$$</div>
+<p>
+  where $f$ is a given function of two variables. A <strong>solution</strong> is a
+  differentiable function $y(t)$ defined on some interval $I$ such that $y'(t) = f(t, y(t))$
+  for every $t \in I$.
+</p>
+<p>
+  An <strong>initial value problem</strong> (IVP) specifies in addition an
+  <strong>initial condition</strong> $y(t_0) = y_0$. We seek a solution passing through
+  the point $(t_0, y_0)$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; General and particular solutions</div>
+  <p>
+    The <strong>general solution</strong> of a first-order ODE is the family of all
+    solutions, typically involving one arbitrary constant. A <strong>particular solution</strong>
+    is obtained by fixing the constant via an initial condition.
+  </p>
+</div>
+
+<h2>2. Separable equations</h2>
+
+<p>
+  The simplest class. A first-order ODE is <strong>separable</strong> if it can be written as
+</p>
+<div class="display-math">$$y' = f(t)\, g(y)$$</div>
+<p>
+  where the right-hand side factors into a function of $t$ alone times a function of $y$
+  alone. When $g(y) \neq 0$, we separate variables:
+</p>
+<div class="display-math">$$\frac{dy}{g(y)} = f(t)\, dt$$</div>
+<p>
+  and integrate both sides. The left side is integrated with respect to $y$, the right with
+  respect to $t$. This works because of the chain rule and the
+  <a href="../phase3/08-fundamental-theorem.html">Fundamental Theorem of Calculus</a>:
+  if $G$ is an antiderivative of $1/g$ and $F$ is an antiderivative of $f$, then
+  $G(y(t)) = F(t) + C$.
+</p>
+
+<p><strong>Example.</strong> Solve $y' = ky$ where $k$ is a constant.</p>
+
+<p>
+  Separate: $dy/y = k\, dt$. Integrate: $\ln|y| = kt + C$. Exponentiate:
+  $|y| = e^{kt + C} = e^C \cdot e^{kt}$. Writing $A = \pm e^C$ (which absorbs the sign
+  and the constant), we get
+</p>
+<div class="display-math">$$y(t) = A e^{kt}$$</div>
+<p>
+  The initial condition $y(0) = y_0$ forces $A = y_0$, giving $y(t) = y_0 e^{kt}$.
+  This is <strong>exponential growth</strong> ($k > 0$) or <strong>decay</strong> ($k < 0$).
+  Note that $y = 0$ is also a solution (the case $A = 0$), which we lost when dividing by $y$.
+  Always check for this.
+</p>
+
+<p><strong>Example.</strong> Solve $y' = t y^2$, $y(0) = 1$.</p>
+
+<p>
+  Separate: $dy/y^2 = t\, dt$. Integrate: $-1/y = t^2/2 + C$. Initial condition:
+  $-1/1 = 0 + C$, so $C = -1$. Thus $y = -1/(t^2/2 - 1) = 2/(2 - t^2)$.
+  This solution blows up at $t = \sqrt{2}$ &mdash; it does not exist for all time.
+</p>
+
+<p><strong>Example.</strong> Newton's law of cooling: $T' = -k(T - T_{\text{env}})$.</p>
+
+<p>
+  Let $u = T - T_{\text{env}}$. Then $u' = T' = -ku$, so $u(t) = u(0) e^{-kt}$. The
+  temperature approaches the environment exponentially: $T(t) = T_{\text{env}} + (T_0 -
+  T_{\text{env}}) e^{-kt}$. The rate of cooling is proportional to the temperature
+  difference &mdash; a larger gap means faster cooling, exactly matching physical intuition.
+</p>
+
+<h2>3. Linear first-order equations</h2>
+
+<p>
+  A first-order ODE is <strong>linear</strong> if it has the form
+</p>
+<div class="display-math">$$y' + p(t)\, y = q(t)$$</div>
+<p>
+  where $p$ and $q$ are given continuous functions. The key idea is the
+  <strong>integrating factor</strong>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Integrating factor method</div>
+  <p>
+    Let $p$ and $q$ be continuous on an interval $I$. Define
+    $\mu(t) = e^{\int_{t_0}^t p(s)\, ds}$. Then the general solution of
+    $y' + p(t)y = q(t)$ on $I$ is
+  </p>
+  <div class="display-math">$$y(t) = \frac{1}{\mu(t)} \left[ y_0 + \int_{t_0}^t \mu(s)\, q(s)\, ds \right]$$</div>
+  <p>where $y(t_0) = y_0$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Multiply both sides of $y' + p(t)y = q(t)$ by
+    $\mu(t) = e^{\int_{t_0}^t p(s)\, ds}$. Note that $\mu'(t) = p(t)\mu(t)$
+    by the chain rule and the
+    <a href="../phase3/08-fundamental-theorem.html">Fundamental Theorem</a>.
+  </p>
+  <p>
+    <strong>Step 2.</strong> The left side becomes $\mu y' + \mu p y = \mu y' + \mu' y$.
+    By the <a href="../phase3/02-differentiation-rules.html">product rule</a>, this equals
+    $(\mu y)'$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> So $(\mu y)' = \mu q$. Integrate from $t_0$ to $t$:
+  </p>
+  <div class="display-math">$$\mu(t) y(t) - \mu(t_0) y(t_0) = \int_{t_0}^t \mu(s)\, q(s)\, ds$$</div>
+  <p>
+    Since $\mu(t_0) = e^0 = 1$, we get $\mu(t) y(t) = y_0 + \int_{t_0}^t \mu q\, ds$.
+    Divide by $\mu(t)$ (which is never zero since it is an exponential).
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p><strong>Example.</strong> Solve $y' + 2t\, y = t$, $y(0) = 1$.</p>
+<p>
+  Here $p(t) = 2t$, so $\mu(t) = e^{\int_0^t 2s\, ds} = e^{t^2}$. Then
+</p>
+<div class="display-math">$$e^{t^2} y = 1 + \int_0^t s\, e^{s^2}\, ds = 1 + \frac{1}{2}(e^{t^2} - 1) = \frac{1}{2} + \frac{1}{2} e^{t^2}$$</div>
+<p>
+  (using the substitution $u = s^2$ for the integral). Dividing by $e^{t^2}$:
+</p>
+<div class="display-math">$$y(t) = \frac{1}{2} e^{-t^2} + \frac{1}{2}$$</div>
+
+<h2>4. Bernoulli equations</h2>
+
+<p>
+  A <strong>Bernoulli equation</strong> has the form
+</p>
+<div class="display-math">$$y' + p(t)\, y = q(t)\, y^n$$</div>
+<p>
+  where $n \neq 0, 1$. This is nonlinear because of $y^n$, but a substitution linearises it.
+</p>
+<p>
+  Set $v = y^{1-n}$. Then $v' = (1-n) y^{-n} y'$. Multiply the Bernoulli equation by
+  $(1-n) y^{-n}$:
+</p>
+<div class="display-math">$$(1-n) y^{-n} y' + (1-n) p(t)\, y^{1-n} = (1-n) q(t)$$</div>
+<p>
+  The left side is $v' + (1-n) p(t)\, v$, which is linear in $v$. Solve by the integrating
+  factor method, then recover $y = v^{1/(1-n)}$.
+</p>
+
+<p><strong>Example.</strong> Solve $y' + y = y^2$.</p>
+<p>
+  Here $n = 2$, so $v = y^{-1}$, $v' = -y^{-2} y'$. Dividing the equation by $y^2$:
+  $y^{-2}y' + y^{-1} = 1$, i.e. $-v' + v = 1$, or $v' - v = -1$. The integrating factor
+  is $e^{-t}$: $(e^{-t}v)' = -e^{-t}$, so $e^{-t}v = e^{-t} + C$, giving $v = 1 + Ce^t$.
+  Thus $y = 1/v = 1/(1 + Ce^t)$.
+</p>
+<p>
+  Notice that as $t \to \infty$, if $C > 0$ then $y \to 0$, and if $C < 0$ then $y$ blows
+  up at $t = -\ln|C|$. The equilibrium solutions are $y = 0$ (stable) and $y = 1$
+  (unstable) &mdash; set $y' + y = y^2$, i.e. $y' = y^2 - y = y(y-1) = 0$.
+</p>
+
+<h2>5. Existence and uniqueness: the question</h2>
+
+<p>
+  Does every IVP have a solution? Is it unique? Consider $y' = \sqrt{y}$ with $y(0) = 0$.
+</p>
+<p>
+  The constant function $y(t) = 0$ is a solution. But so is
+</p>
+<div class="display-math">$$y(t) = \begin{cases} 0 & \text{if } t \leq c \\ \frac{(t - c)^2}{4} & \text{if } t > c \end{cases}$$</div>
+<p>
+  for <em>any</em> $c \geq 0$. Check: for $t > c$, $y' = (t-c)/2$ and
+  $\sqrt{y} = (t-c)/2$. At $t = c$, $y = 0$ and $y' = 0 = \sqrt{0}$. So uniqueness fails
+  &mdash; there are infinitely many solutions through the origin.
+</p>
+<p>
+  In contrast, $y' = y$ with $y(0) = 1$ has the unique solution $y = e^t$. What
+  distinguishes these two cases? The answer lies in a condition on $f(t,y)$ called the
+  <strong>Lipschitz condition</strong>. For $f(t,y) = y$, the function is "well-behaved"
+  in $y$. For $f(t,y) = \sqrt{y}$, the derivative $\partial f / \partial y = 1/(2\sqrt{y})$
+  blows up at $y = 0$, so the function changes too fast near the initial point. Making this
+  precise is the subject of <a href="02-cauchy-lipschitz.html">the next page</a>.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Newton (1660s&ndash;80s) and Leibniz (1680s) developed techniques for solving specific
+    ODEs alongside the invention of calculus itself. The Bernoulli family &mdash; Jakob,
+    Johann, and Daniel &mdash; solved numerous types throughout the late 17th and early 18th
+    centuries, often in competitive public challenges. The brachistochrone problem (1696),
+    posed by Johann Bernoulli, led to the calculus of variations, an entire field built on
+    differential equations. The systematic theory of when solutions exist and when they are
+    unique had to wait for Cauchy and Lipschitz in the 19th century.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Not every ODE has a closed-form solution.</strong> Even the innocent-looking
+    $y' = e^{y^2}$ cannot be solved in terms of elementary functions. The solution exists
+    (by the Peano existence theorem) but cannot be written down.
+  </p>
+  <p>
+    <strong>Solutions may not exist for all time.</strong> The equation $y' = y^2$ with
+    $y(0) = 1$ gives $y = 1/(1-t)$ by separation. This blows up at $t = 1$: the solution
+    escapes to infinity in finite time. The equation is perfectly well-defined, but no
+    solution exists on the interval $[0, \infty)$.
+  </p>
+  <p>
+    <strong>Dividing by zero in separation.</strong> When we write $dy/g(y) = f(t)\, dt$,
+    we implicitly assume $g(y) \neq 0$. The roots of $g$ give constant solutions
+    ($y = c$ where $g(c) = 0$) that the separation method misses. Always check for these
+    <strong>equilibrium solutions</strong> separately.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  A first-order ODE asks you to recover a function from its rate of change; separable and
+  linear equations have systematic solution methods, but existence and uniqueness are not
+  guaranteed without further conditions.
+</div>
+
+<div class="nav">
+  <a href="../phase7/03-schwarz.html">&larr; Previous: Schwarz's Theorem</a>
+  <a href="02-cauchy-lipschitz.html">Next: The Cauchy&ndash;Lipschitz Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

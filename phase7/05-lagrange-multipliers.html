@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lagrange Multipliers and the Second Derivative Test &mdash; Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Lagrange Multipliers and the Second Derivative Test</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You want to maximise a function $f(x,y)$ &mdash; but you are not free to roam all of
+    $\mathbb{R}^2$. You must stay on a curve $g(x,y) = c$. Setting $\nabla f = 0$ will not
+    help: the critical point of $f$ may lie far from the constraint.
+  </p>
+  <p>
+    Lagrange (1788) faced exactly this in mechanics: maximise energy subject to conservation
+    laws. His insight was geometric. At a constrained extremum, you cannot improve $f$ by
+    moving along the constraint. This means the component of $\nabla f$ tangent to the
+    constraint must vanish &mdash; so $\nabla f$ must be perpendicular to the constraint
+    surface. But $\nabla g$ is also perpendicular to that surface. Therefore
+    $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
+  </p>
+</div>
+
+<h2>1. Unconstrained optimisation: critical points</h2>
+
+<p>
+  Recall from single-variable calculus (<a href="../phase3/04-mean-value-theorem.html">Phase 3,
+  page 4</a>) that a local extremum of $f$ at an interior point forces $f'(a) = 0$. The
+  multivariable analogue: if $f: U \to \mathbb{R}$ (with $U \subseteq \mathbb{R}^n$ open) has
+  a local extremum at $a$, then $\nabla f(a) = 0$. The proof is the same &mdash; restrict $f$
+  to each coordinate axis through $a$ and apply the one-variable result to get each partial
+  derivative equal to zero.
+</p>
+<p>
+  A point where $\nabla f(a) = 0$ is a <strong>critical point</strong>. But not every critical
+  point is an extremum &mdash; it could be a saddle point. We need a way to classify them.
+</p>
+
+<h2>2. The Hessian matrix</h2>
+
+<p>
+  The <strong>Hessian</strong> of $f$ at $a$ is the matrix of second partial derivatives:
+</p>
+<div class="display-math">$$H_f(a) = \begin{pmatrix} \frac{\partial^2 f}{\partial x_1^2}(a) & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n}(a) \\ \vdots & \ddots & \vdots \\ \frac{\partial^2 f}{\partial x_n \partial x_1}(a) & \cdots & \frac{\partial^2 f}{\partial x_n^2}(a) \end{pmatrix}$$</div>
+<p>
+  By Schwarz's theorem (page 3), if $f$ is $C^2$ then mixed partials commute, so $H_f(a)$ is
+  symmetric. The <a href="../phase6/09-spectral-theorem.html">spectral theorem (Phase 6,
+  page 9)</a> then guarantees $H_f(a)$ has real eigenvalues and is orthogonally diagonalisable.
+</p>
+
+<h2>3. The second derivative test</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Second derivative test</div>
+  <p>
+    Let $f: U \to \mathbb{R}$ be $C^2$ with $\nabla f(a) = 0$. Then:
+  </p>
+  <p>(i) If $H_f(a)$ is positive definite (all eigenvalues $> 0$), then $a$ is a strict local minimum.</p>
+  <p>(ii) If $H_f(a)$ is negative definite (all eigenvalues $< 0$), then $a$ is a strict local maximum.</p>
+  <p>(iii) If $H_f(a)$ is indefinite (eigenvalues of both signs), then $a$ is a saddle point.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $f$ is $C^2$ and $\nabla f(a) = 0$, Taylor's theorem gives
+  </p>
+  <div class="display-math">$$f(a + h) = f(a) + \tfrac{1}{2} h^T H_f(a)\, h + o(\|h\|^2)$$</div>
+  <p>
+    <strong>Step 2.</strong> Suppose $H_f(a)$ is positive definite. Let $\lambda_{\min} > 0$
+    be its smallest eigenvalue. For any unit vector $u$, we have
+    $u^T H_f(a)\, u \geq \lambda_{\min}$ (this follows from the spectral decomposition). So
+    $h^T H_f(a)\, h \geq \lambda_{\min} \|h\|^2$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The remainder satisfies $|o(\|h\|^2)| \leq \varepsilon \|h\|^2$
+    for $\|h\|$ small enough. Choose $\varepsilon = \lambda_{\min}/4$. Then for small $h$:
+  </p>
+  <div class="display-math">$$f(a + h) - f(a) = \tfrac{1}{2} h^T H_f(a)\, h + o(\|h\|^2) \geq \tfrac{1}{2}\lambda_{\min}\|h\|^2 - \tfrac{\lambda_{\min}}{4}\|h\|^2 = \tfrac{\lambda_{\min}}{4}\|h\|^2 > 0$$</div>
+  <p>
+    So $f(a+h) > f(a)$ for all small $h \neq 0$: strict local minimum.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Negative definite: apply the argument to $-f$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Indefinite: there exist unit vectors $u, v$ with
+    $u^T H_f(a)\, u > 0$ and $v^T H_f(a)\, v < 0$. Along $h = tu$, for small $t > 0$,
+    $f(a + tu) > f(a)$; along $h = tv$, $f(a + tv) < f(a)$. So $a$ is neither a max nor a min.
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  In two variables, positive definite means $\det(H_f) > 0$ and $f_{xx} > 0$; negative
+  definite means $\det(H_f) > 0$ and $f_{xx} < 0$; indefinite means $\det(H_f) < 0$. When
+  $\det(H_f) = 0$ the test is inconclusive.
+</p>
+<p>
+  <strong>Example.</strong> Consider $f(x,y) = x^2 - y^2$. The gradient is
+  $\nabla f = (2x, -2y)$, which vanishes at the origin. The Hessian is
+</p>
+<div class="display-math">$$H_f = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}.$$</div>
+<p>
+  The eigenvalues are $2$ and $-2$: both signs, so $H_f$ is indefinite. The origin is a
+  <strong>saddle point</strong>. Along the $x$-axis, $f$ increases; along the $y$-axis, $f$
+  decreases. The surface $z = x^2 - y^2$ looks like a horse saddle at the origin.
+</p>
+
+<h2>4. Constrained optimisation: the geometric insight</h2>
+
+<p>
+  Now restrict to a constraint $g(x,y) = c$. At a constrained extremum $a$, you cannot improve
+  $f$ by moving along the constraint surface. Any tangent direction $v$ to the level set
+  $g = c$ at $a$ satisfies $\nabla g(a) \cdot v = 0$ (the gradient is perpendicular to level
+  sets). And if $a$ is a constrained extremum, the directional derivative of $f$ along $v$ must
+  be zero: $\nabla f(a) \cdot v = 0$.
+</p>
+<p>
+  So $\nabla f(a)$ is orthogonal to every tangent direction of the constraint. But $\nabla g(a)$
+  is also orthogonal to every tangent direction (assuming $\nabla g(a) \neq 0$, so the tangent
+  space is $(n-1)$-dimensional). In $\mathbb{R}^n$, the orthogonal complement of an
+  $(n-1)$-dimensional subspace is one-dimensional, spanned by $\nabla g(a)$. Therefore
+  $\nabla f(a) = \lambda \nabla g(a)$ for some $\lambda \in \mathbb{R}$.
+</p>
+
+<h2>5. The Lagrange multiplier theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Lagrange multipliers</div>
+  <p>
+    Let $f, g: U \to \mathbb{R}$ be $C^1$ on an open set $U \subseteq \mathbb{R}^n$. If $f$
+    has a local extremum at $a$ subject to the constraint $g(a) = c$, and
+    $\nabla g(a) \neq 0$, then there exists $\lambda \in \mathbb{R}$ such that
+  </p>
+  <div class="display-math">$$\nabla f(a) = \lambda\, \nabla g(a).$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $\nabla g(a) \neq 0$, some partial derivative
+    $\partial g / \partial x_j(a) \neq 0$. Without loss of generality, say $j = n$: we have
+    $\frac{\partial g}{\partial x_n}(a) \neq 0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> By the implicit function theorem
+    (<a href="04-implicit-inverse.html">page 4</a>), near $a$ we can solve $g(x, x_n) = c$
+    for $x_n = \varphi(x_1, \ldots, x_{n-1})$, where $\varphi$ is $C^1$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Define $F(x_1, \ldots, x_{n-1}) = f(x_1, \ldots, x_{n-1}, \varphi(x_1, \ldots, x_{n-1}))$.
+    Since $a$ is a constrained extremum of $f$, the point
+    $(a_1, \ldots, a_{n-1})$ is an unconstrained extremum of $F$. So
+    $\frac{\partial F}{\partial x_i} = 0$ for $i = 1, \ldots, n-1$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> By the chain rule:
+  </p>
+  <div class="display-math">$$\frac{\partial F}{\partial x_i} = \frac{\partial f}{\partial x_i} + \frac{\partial f}{\partial x_n} \frac{\partial \varphi}{\partial x_i} = 0 \quad (i = 1, \ldots, n-1).$$</div>
+  <p>
+    <strong>Step 5.</strong> Differentiating $g(x_1, \ldots, x_{n-1}, \varphi) = c$ with
+    respect to $x_i$ gives
+    $\frac{\partial g}{\partial x_i} + \frac{\partial g}{\partial x_n}\frac{\partial \varphi}{\partial x_i} = 0$,
+    so $\frac{\partial \varphi}{\partial x_i} = -\frac{\partial g / \partial x_i}{\partial g / \partial x_n}$.
+  </p>
+  <p>
+    <strong>Step 6.</strong> Substituting into Step 4:
+    $\frac{\partial f}{\partial x_i} - \frac{\partial f}{\partial x_n}\frac{\partial g / \partial x_i}{\partial g / \partial x_n} = 0$.
+    Set $\lambda = \frac{\partial f / \partial x_n}{\partial g / \partial x_n}$. Then
+    $\frac{\partial f}{\partial x_i} = \lambda \frac{\partial g}{\partial x_i}$ for
+    $i = 1, \ldots, n-1$. And by definition of $\lambda$,
+    $\frac{\partial f}{\partial x_n} = \lambda \frac{\partial g}{\partial x_n}$. So
+    $\nabla f(a) = \lambda \nabla g(a)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. Multiple constraints</h2>
+
+<p>
+  With $k$ constraints $g_1 = c_1, \ldots, g_k = c_k$ (where $k < n$), the constraint surface
+  has dimension $n - k$. At a constrained extremum, $\nabla f$ must be orthogonal to this
+  $(n-k)$-dimensional tangent space. The gradients $\nabla g_1, \ldots, \nabla g_k$ span the
+  normal space (provided they are linearly independent). So:
+</p>
+<div class="display-math">$$\nabla f(a) = \lambda_1 \nabla g_1(a) + \cdots + \lambda_k \nabla g_k(a).$$</div>
+
+<h2>7. Example: maximise $xyz$ on a plane</h2>
+
+<p>
+  Maximise $f(x,y,z) = xyz$ subject to $g(x,y,z) = x + y + z = 1$ with $x, y, z > 0$.
+</p>
+<p>
+  $\nabla f = (yz, xz, xy)$ and $\nabla g = (1, 1, 1)$. Setting $\nabla f = \lambda \nabla g$:
+  $yz = \lambda$, $xz = \lambda$, $xy = \lambda$. From the first two: $yz = xz$, so $y = z$
+  (since $z > 0$). Similarly $x = y$. With the constraint: $3x = 1$, so $x = y = z = 1/3$.
+  The maximum value is $f = 1/27$.
+</p>
+<p>
+  To confirm it is a maximum rather than a minimum: $f > 0$ at the critical point, and $f \to 0$
+  as any variable approaches $0$ (which is the boundary of our domain). So the interior
+  critical point must be the global maximum on this domain.
+</p>
+
+<h2>8. Example: closest point on an ellipse</h2>
+
+<p>
+  Find the point on the ellipse $x^2/4 + y^2 = 1$ closest to $(1, 0)$. Minimise
+  $f(x,y) = (x-1)^2 + y^2$ subject to $g(x,y) = x^2/4 + y^2 = 1$.
+</p>
+<p>
+  $\nabla f = (2(x-1), 2y)$, $\nabla g = (x/2, 2y)$. Setting $\nabla f = \lambda \nabla g$:
+</p>
+<div class="display-math">$$2(x - 1) = \lambda x/2, \qquad 2y = 2\lambda y.$$</div>
+<p>
+  From the second equation, either $y = 0$ or $\lambda = 1$. If $\lambda = 1$: the first
+  equation gives $2(x-1) = x/2$, so $4x - 4 = x$, hence $x = 4/3$. Then
+  $y^2 = 1 - (4/3)^2/4 = 1 - 4/9 = 5/9$. Distance squared: $(4/3 - 1)^2 + 5/9 = 1/9 + 5/9 = 2/3$.
+</p>
+<p>
+  If $y = 0$: the constraint gives $x = \pm 2$. Distances squared: $(2-1)^2 = 1$ and
+  $(-2-1)^2 = 9$. The minimum distance squared is $2/3$, achieved at $(4/3, \pm\sqrt{5}/3)$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Lagrange introduced the multiplier method in <em>M&eacute;canique analytique</em> (1788),
+    motivated by constrained problems in classical mechanics &mdash; finding equilibria of
+    systems with physical constraints (rigid rods, surfaces, etc.). The multiplier $\lambda$ is
+    not merely a computational trick: it has physical meaning. In economics, $\lambda$ measures
+    the rate of change of the optimal value with respect to the constraint level $c$ &mdash;
+    the <b>shadow price</b>. In mechanics, it gives the constraint force.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>If $\nabla g(a) = 0$:</strong> the theorem gives no information. Consider
+    $g(x,y) = x^2 - y^2 = 0$ at the origin. The level set is two crossing lines $y = \pm x$,
+    not a smooth curve &mdash; the constraint surface has a singularity. Any function $f$ can
+    have a constrained extremum there without the multiplier equation being satisfied.
+  </p>
+  <p>
+    <strong>If you forget to check the boundary:</strong> Lagrange multipliers find interior
+    critical points of $f$ on the constraint surface. If the constraint region is not compact
+    (e.g. the constraint is $x + y \leq 1$ rather than $= 1$), you must also check boundary
+    behaviour and behaviour at infinity.
+  </p>
+  <p>
+    <strong>If constraints are dependent:</strong> with multiple constraints, if
+    $\nabla g_1, \ldots, \nabla g_k$ are linearly dependent at $a$, the normal space has
+    lower dimension than expected and the multiplier equation may fail. This is the
+    <b>constraint qualification</b> condition.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  At a constrained extremum, $\nabla f$ is a linear combination of the constraint gradients
+  &mdash; you cannot improve $f$ by moving along the constraint surface.
+</div>
+
+<div class="nav">
+  <a href="04-implicit-inverse.html">&larr; Previous: Implicit and Inverse Function Theorems</a>
+  <a href="06-multiple-integrals.html">Next: Multiple Integrals and Fubini's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

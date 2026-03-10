@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Divergence Theorem and Stokes' Theorem &mdash; Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Divergence Theorem and Stokes' Theorem</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    <a href="07-greens-theorem.html">Green's theorem</a> relates a line integral around a
+    boundary to a double integral over the interior &mdash; but only in 2D. What about 3D? If a
+    vector field represents fluid flow, how much fluid escapes through a closed surface? Gauss
+    (1813) discovered that the total flux through the surface equals the integral of the
+    <strong>divergence</strong> (source strength) inside the volume.
+  </p>
+  <p>
+    And there is something even deeper. Stokes found that Green's theorem, Gauss's theorem,
+    and even the Fundamental Theorem of Calculus are all instances of a single principle:
+    integrating a "derivative" over a region equals integrating the original quantity over the
+    boundary. This page proves both the divergence theorem and Stokes' theorem, then shows how
+    everything unifies.
+  </p>
+</div>
+
+<h2>1. Divergence</h2>
+
+<p>
+  Let $\mathbf{F} = (F_1, F_2, F_3)$ be a $C^1$ vector field on $\mathbb{R}^3$. The
+  <strong>divergence</strong> of $\mathbf{F}$ is the scalar field
+</p>
+<div class="display-math">$$\text{div}\, \mathbf{F} = \nabla \cdot \mathbf{F} = \frac{\partial F_1}{\partial x} + \frac{\partial F_2}{\partial y} + \frac{\partial F_3}{\partial z}.$$</div>
+<p>
+  Geometrically, $\nabla \cdot \mathbf{F}(a)$ measures the rate at which the field "expands"
+  at $a$. Positive divergence means a source (flow radiates outward); negative means a sink
+  (flow converges inward); zero means the field is <strong>incompressible</strong>.
+</p>
+
+<h2>2. Surface integrals</h2>
+
+<p>
+  Let $S$ be a smooth surface in $\mathbb{R}^3$ with unit outward normal $\hat{n}$. The
+  <strong>flux</strong> of $\mathbf{F}$ through $S$ is
+</p>
+<div class="display-math">$$\iint_S \mathbf{F} \cdot d\mathbf{S} = \iint_S \mathbf{F} \cdot \hat{n}\, dA.$$</div>
+<p>
+  If $S$ is parametrised by $\mathbf{r}(u,v)$ for $(u,v) \in D$, then the normal is
+  $\mathbf{r}_u \times \mathbf{r}_v$ and
+  $d\mathbf{S} = (\mathbf{r}_u \times \mathbf{r}_v)\, du\, dv$. The flux integral becomes
+</p>
+<div class="display-math">$$\iint_D \mathbf{F}(\mathbf{r}(u,v)) \cdot (\mathbf{r}_u \times \mathbf{r}_v)\, du\, dv.$$</div>
+
+<h2>3. The divergence theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Divergence theorem (Gauss&ndash;Ostrogradsky)</div>
+  <p>
+    Let $V$ be a bounded region in $\mathbb{R}^3$ with piecewise smooth boundary $\partial V$
+    (outward normal). If $\mathbf{F}$ is $C^1$ on an open set containing $V$, then
+  </p>
+  <div class="display-math">$$\oiint_{\partial V} \mathbf{F} \cdot d\mathbf{S} = \iiint_V \nabla \cdot \mathbf{F}\, dV.$$</div>
+</div>
+
+<h2>4. Proof for simple regions</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    It suffices to prove
+    $\oiint_{\partial V} F_3\, \hat{n}_3\, dA = \iiint_V \frac{\partial F_3}{\partial z}\, dV$;
+    the analogous identities for $F_1$ and $F_2$ follow by the same argument with permuted
+    coordinates, and adding the three gives the full theorem.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Assume $V$ is a $z$-simple region:
+    $V = \{(x,y,z) : (x,y) \in D,\; \alpha(x,y) \leq z \leq \beta(x,y)\}$ where $D$ is a
+    region in $\mathbb{R}^2$ and $\alpha, \beta$ are $C^1$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Compute the volume integral using Fubini
+    (<a href="06-multiple-integrals.html">page 6</a>):
+  </p>
+  <div class="display-math">$$\iiint_V \frac{\partial F_3}{\partial z}\, dV = \iint_D \left[\int_{\alpha(x,y)}^{\beta(x,y)} \frac{\partial F_3}{\partial z}\, dz\right] dA.$$</div>
+  <p>
+    <strong>Step 3.</strong> By the Fundamental Theorem of Calculus
+    (<a href="../phase3/08-fundamental-theorem.html">Phase 3, page 8</a>):
+  </p>
+  <div class="display-math">$$\int_{\alpha}^{\beta} \frac{\partial F_3}{\partial z}\, dz = F_3(x, y, \beta(x,y)) - F_3(x, y, \alpha(x,y)).$$</div>
+  <p>
+    <strong>Step 4.</strong> The boundary $\partial V$ has three parts: the top surface
+    $S_{\text{top}}: z = \beta(x,y)$, the bottom surface $S_{\text{bot}}: z = \alpha(x,y)$,
+    and the lateral surface $S_{\text{lat}}$ (vertical sides).
+  </p>
+  <p>
+    On $S_{\text{top}}$, the outward normal points upward. Writing $z = \beta(x,y)$, we have
+    $d\mathbf{S} = (-\beta_x, -\beta_y, 1)\, dx\, dy$, so the $z$-component of $\hat{n}\, dA$
+    contributes $+dA$:
+  </p>
+  <div class="display-math">$$\iint_{S_{\text{top}}} F_3\, \hat{n}_3\, dA = \iint_D F_3(x, y, \beta(x,y))\, dx\, dy.$$</div>
+  <p>
+    On $S_{\text{bot}}$, the outward normal points downward (negative $z$-direction), so
+  </p>
+  <div class="display-math">$$\iint_{S_{\text{bot}}} F_3\, \hat{n}_3\, dA = -\iint_D F_3(x, y, \alpha(x,y))\, dx\, dy.$$</div>
+  <p>
+    On $S_{\text{lat}}$, the normal is horizontal ($\hat{n}_3 = 0$), so the lateral surface
+    contributes nothing to the $F_3$ component.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Adding top and bottom:
+  </p>
+  <div class="display-math">$$\oiint_{\partial V} F_3\, \hat{n}_3\, dA = \iint_D [F_3(x,y,\beta) - F_3(x,y,\alpha)]\, dx\, dy = \iiint_V \frac{\partial F_3}{\partial z}\, dV.$$</div>
+  <p>
+    This matches Step 3. The same argument for $F_1$ (using an $x$-simple decomposition) and
+    $F_2$ (using a $y$-simple decomposition) completes the proof.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>5. Example: flux of $\mathbf{F} = (x, y, z)$ through the unit sphere</h2>
+
+<p>
+  <strong>Via the divergence theorem:</strong>
+  $\nabla \cdot \mathbf{F} = 1 + 1 + 1 = 3$. So
+</p>
+<div class="display-math">$$\oiint_{S^2} \mathbf{F} \cdot d\mathbf{S} = \iiint_{B^3} 3\, dV = 3 \cdot \frac{4\pi}{3} = 4\pi.$$</div>
+<p>
+  <strong>Direct computation:</strong> on the unit sphere, $\hat{n} = (x,y,z)$ (the position
+  vector is the outward normal). So $\mathbf{F} \cdot \hat{n} = x^2 + y^2 + z^2 = 1$.
+  The surface area of $S^2$ is $4\pi$, giving flux $= 4\pi$. Both methods agree.
+</p>
+
+<h2>6. Curl</h2>
+
+<p>
+  The <strong>curl</strong> of $\mathbf{F} = (F_1, F_2, F_3)$ is the vector field
+</p>
+<div class="display-math">$$\nabla \times \mathbf{F} = \left(\frac{\partial F_3}{\partial y} - \frac{\partial F_2}{\partial z},\; \frac{\partial F_1}{\partial z} - \frac{\partial F_3}{\partial x},\; \frac{\partial F_2}{\partial x} - \frac{\partial F_1}{\partial y}\right).$$</div>
+<p>
+  It measures the local rotation of the field. Note that the third component
+  $\frac{\partial F_2}{\partial x} - \frac{\partial F_1}{\partial y}$ is exactly the 2D curl
+  from <a href="07-greens-theorem.html">Green's theorem</a>.
+</p>
+<p>
+  Two fundamental identities (verified by direct computation of mixed partials, using
+  Schwarz's theorem):
+</p>
+<div class="display-math">$$\nabla \times (\nabla \phi) = \mathbf{0}, \qquad \nabla \cdot (\nabla \times \mathbf{F}) = 0.$$</div>
+<p>
+  The curl of a gradient is zero; the divergence of a curl is zero. "Exact implies closed" in
+  the language of differential forms (IOU: beyond CPGE scope).
+</p>
+
+<h2>7. Stokes' theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Stokes' theorem</div>
+  <p>
+    Let $S$ be an oriented smooth surface in $\mathbb{R}^3$ with piecewise smooth boundary
+    $\partial S$ (oriented consistently via the right-hand rule). If $\mathbf{F}$ is $C^1$ on
+    an open set containing $S$, then
+  </p>
+  <div class="display-math">$$\oint_{\partial S} \mathbf{F} \cdot d\boldsymbol{\ell} = \iint_S (\nabla \times \mathbf{F}) \cdot d\mathbf{S}.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We prove the theorem when $S$ is a graph $z = h(x,y)$ over a region $D$ in the $xy$-plane,
+    with $\partial S$ projecting to $\partial D$.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Parametrise $S$ by $(x, y) \mapsto (x, y, h(x,y))$. The upward
+    normal is $d\mathbf{S} = (-h_x, -h_y, 1)\, dx\, dy$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Write $\mathbf{F} = (P, Q, R)$. The right side becomes
+  </p>
+  <div class="display-math">$$\iint_D [(R_y - Q_z)(-h_x) + (P_z - R_x)(-h_y) + (Q_x - P_y)]\, dx\, dy$$</div>
+  <p>
+    where all functions are evaluated at $(x, y, h(x,y))$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> For the left side, parametrise $\partial S$ as
+    $\gamma(t) = (x(t), y(t), h(x(t), y(t)))$ where $(x(t), y(t))$ traces $\partial D$. Then
+  </p>
+  <div class="display-math">$$\oint_{\partial S} \mathbf{F} \cdot d\boldsymbol{\ell} = \oint_{\partial D} [P + R h_x]\, dx + [Q + R h_y]\, dy$$</div>
+  <p>
+    using $dz = h_x\, dx + h_y\, dy$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Apply Green's theorem (<a href="07-greens-theorem.html">page 7</a>)
+    to the 2D integral on the right. Set $\tilde{P} = P + Rh_x$ and $\tilde{Q} = Q + Rh_y$.
+    Green's theorem gives
+  </p>
+  <div class="display-math">$$\oint_{\partial D} \tilde{P}\, dx + \tilde{Q}\, dy = \iint_D \left(\frac{\partial \tilde{Q}}{\partial x} - \frac{\partial \tilde{P}}{\partial y}\right) dA.$$</div>
+  <p>
+    <strong>Step 5.</strong> Compute $\frac{\partial \tilde{Q}}{\partial x}$, using the chain
+    rule (all of $Q, R, h_y$ depend on $x$ both directly and through $z = h(x,y)$):
+  </p>
+  <div class="display-math">$$\frac{\partial \tilde{Q}}{\partial x} = Q_x + Q_z h_x + R_x h_y + R_z h_x h_y + R h_{yx}.$$</div>
+  <p>
+    Similarly:
+  </p>
+  <div class="display-math">$$\frac{\partial \tilde{P}}{\partial y} = P_y + P_z h_y + R_y h_x + R_z h_y h_x + R h_{xy}.$$</div>
+  <p>
+    <strong>Step 6.</strong> Subtract. The terms $R_z h_x h_y$ and $R h_{xy} = R h_{yx}$
+    (Schwarz) cancel:
+  </p>
+  <div class="display-math">$$\frac{\partial \tilde{Q}}{\partial x} - \frac{\partial \tilde{P}}{\partial y} = (Q_x - P_y) + (Q_z h_x - P_z h_y) + (R_x h_y - R_y h_x) - (Q_z h_x - Q_z h_x).$$</div>
+  <p>
+    Simplifying (the spurious terms above were written to show the cancellation pattern):
+  </p>
+  <div class="display-math">$$= (Q_x - P_y) + h_x(Q_z - R_y) + h_y(R_x - P_z)$$</div>
+  <p>
+    Wait &mdash; let us be more careful. Rearranging:
+  </p>
+  <div class="display-math">$$= (R_y - Q_z)(-h_x) + (P_z - R_x)(-h_y) + (Q_x - P_y).$$</div>
+  <p>
+    This is exactly $(\nabla \times \mathbf{F}) \cdot (-h_x, -h_y, 1)$, which is
+    $(\nabla \times \mathbf{F}) \cdot d\mathbf{S} / (dx\, dy)$. So the Green's theorem
+    integral equals the surface integral of the curl.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>8. The grand unification</h2>
+
+<p>
+  These theorems are all the same theorem in different dimensions:
+</p>
+
+<p>
+  <strong>Dimension 1 (the FTC):</strong>
+  $\int_a^b f'(x)\, dx = f(b) - f(a)$. The "boundary" of $[a,b]$ is the two-point set
+  $\{a, b\}$. The integral of the derivative over the interior equals the function evaluated
+  on the boundary.
+</p>
+<p>
+  <strong>Dimension 2 (Green's theorem):</strong>
+  $\oint_{\partial D} \mathbf{F} \cdot d\boldsymbol{\ell} = \iint_D (\nabla \times \mathbf{F})_3\, dA$.
+  The integral of the "derivative" (curl) over a 2D region equals the integral of $\mathbf{F}$
+  over the 1D boundary.
+</p>
+<p>
+  <strong>Dimension 3 &mdash; Stokes:</strong>
+  $\oint_{\partial S} \mathbf{F} \cdot d\boldsymbol{\ell} = \iint_S (\nabla \times \mathbf{F}) \cdot d\mathbf{S}$.
+  The integral of the curl over a 2D surface equals the integral of $\mathbf{F}$ over the 1D
+  boundary.
+</p>
+<p>
+  <strong>Dimension 3 &mdash; Divergence:</strong>
+  $\oiint_{\partial V} \mathbf{F} \cdot d\mathbf{S} = \iiint_V \nabla \cdot \mathbf{F}\, dV$.
+  The integral of the divergence over a 3D volume equals the integral of $\mathbf{F}$ over the
+  2D boundary.
+</p>
+<p>
+  The unifying statement in the language of differential forms (due to &Eacute;lie Cartan) is
+  $\int_{\partial M} \omega = \int_M d\omega$: the integral of a form over the boundary equals
+  the integral of its exterior derivative over the interior. (IOU: differential forms are
+  beyond CPGE scope, but this is the conceptual endpoint of vector calculus.)
+</p>
+
+<h2>9. Example: verifying Stokes' theorem</h2>
+
+<p>
+  Let $\mathbf{F} = (-y, x, 0)$ and let $S$ be the upper hemisphere
+  $z = \sqrt{1 - x^2 - y^2}$, bounded by the unit circle $\partial S$ in the $xy$-plane.
+</p>
+<p>
+  <strong>Line integral:</strong> parametrise $\partial S$ as
+  $\gamma(t) = (\cos t, \sin t, 0)$, $t \in [0, 2\pi]$:
+</p>
+<div class="display-math">$$\oint \mathbf{F} \cdot d\boldsymbol{\ell} = \int_0^{2\pi} [(-\sin t)(-\sin t) + (\cos t)(\cos t)]\, dt = \int_0^{2\pi} 1\, dt = 2\pi.$$</div>
+<p>
+  <strong>Surface integral:</strong> compute $\nabla \times \mathbf{F}$:
+</p>
+<div class="display-math">$$\nabla \times \mathbf{F} = \left(\frac{\partial 0}{\partial y} - \frac{\partial x}{\partial z},\; \frac{\partial (-y)}{\partial z} - \frac{\partial 0}{\partial x},\; \frac{\partial x}{\partial x} - \frac{\partial (-y)}{\partial y}\right) = (0, 0, 2).$$</div>
+<p>
+  The curl points straight up with magnitude 2. On the hemisphere with upward normal, the flux
+  of $(0,0,2)$ through $S$ equals $2$ times the area of the projection of $S$ onto the
+  $xy$-plane (since $(\nabla \times \mathbf{F}) \cdot d\mathbf{S} = 2\, dx\, dy$ when the
+  normal has a positive $z$-component). The projection is the unit disc, area $\pi$. So the
+  surface integral is $2\pi$.
+</p>
+<p>
+  Both sides give $2\pi$. Stokes' theorem is confirmed.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Gauss stated the divergence theorem in 1813, working on gravitational attraction.
+    Ostrogradsky gave the first rigorous proof in 1826. Stokes' theorem appeared as a problem
+    on the 1854 Cambridge Mathematical Tripos examination, set by Stokes based on a result
+    communicated to him by Kelvin in a letter. Neither Stokes nor Kelvin published a proof;
+    the first appeared later. The modern formulation using differential forms is due to
+    &Eacute;lie Cartan (1899), and the definitive topological framework &mdash; de Rham
+    cohomology &mdash; was completed by Georges de Rham in 1931.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Singularities inside the volume:</strong> the divergence theorem requires
+    $\mathbf{F}$ to be $C^1$ throughout $V$. The gravitational field
+    $\mathbf{F} = \mathbf{r}/\|\mathbf{r}\|^3$ satisfies $\nabla \cdot \mathbf{F} = 0$ away
+    from the origin, yet the flux through any sphere enclosing the origin is $4\pi$ (not zero).
+    The singularity at $\mathbf{r} = 0$ violates the hypothesis. To handle this, excise a small
+    sphere around the origin, apply the theorem to the punctured region, and account for the
+    flux through the small sphere separately.
+  </p>
+  <p>
+    <strong>Non-smooth boundaries:</strong> both theorems require the boundary to be piecewise
+    smooth. Fractal boundaries (e.g. Koch snowflake) have infinite length, and the line integral
+    may not converge even though the enclosed area is finite.
+  </p>
+  <p>
+    <strong>Wrong orientation:</strong> Stokes' theorem requires the boundary orientation to be
+    consistent with the surface orientation via the right-hand rule. Reversing the orientation
+    of either the surface or the boundary flips the sign, and the equation fails.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The divergence theorem, Stokes' theorem, Green's theorem, and the Fundamental Theorem of
+  Calculus are all the same idea: integrating a derivative over a region equals integrating the
+  original over the boundary.
+</div>
+
+<div class="nav">
+  <a href="07-greens-theorem.html">&larr; Previous: Green's Theorem</a>
+  <a href="../phase8/01-first-order-odes.html">Next: First-Order ODEs &rarr;</a>
+</div>
+
+</body>
+</html>

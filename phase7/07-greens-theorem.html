@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green's Theorem &mdash; Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Green's Theorem</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A vector field $\mathbf{F} = (P, Q)$ represents a force or flow in the plane. You walk
+    along a closed curve $\partial D$. How much work does the field do on you? You could
+    parametrise the curve and compute a line integral &mdash; but this can be painful for
+    complicated curves.
+  </p>
+  <p>
+    Green (1828) discovered a remarkable shortcut: the line integral around the boundary equals
+    a double integral over the enclosed region. Circulation around the boundary = total curl
+    inside. This connects a one-dimensional computation (along the boundary) to a
+    two-dimensional one (over the interior), and it is the first glimpse of a deep pattern that
+    will culminate in Stokes' theorem.
+  </p>
+</div>
+
+<h2>1. Line integrals</h2>
+
+<p>
+  Let $\gamma: [a,b] \to \mathbb{R}^2$ be a piecewise $C^1$ curve, $\gamma(t) = (x(t), y(t))$.
+  Given a vector field $\mathbf{F} = (P, Q)$, the <strong>line integral</strong> of
+  $\mathbf{F}$ along $\gamma$ is
+</p>
+<div class="display-math">$$\int_\gamma P\, dx + Q\, dy = \int_a^b \bigl[P(\gamma(t))\, x'(t) + Q(\gamma(t))\, y'(t)\bigr]\, dt.$$</div>
+<p>
+  This measures the <strong>work</strong> done by the force $\mathbf{F}$ on a particle
+  travelling along $\gamma$. The integrand $\mathbf{F} \cdot \gamma'$ is the component of the
+  force in the direction of motion.
+</p>
+<p>
+  Key properties: the line integral is independent of the parametrisation (only the direction
+  matters, not the speed). Reversing the direction of traversal negates the integral. If
+  $\gamma$ is a closed curve (i.e. $\gamma(a) = \gamma(b)$), we write
+  $\oint_\gamma$ and call it a <strong>circulation</strong> integral.
+</p>
+<p>
+  If $\mathbf{F} = \nabla \phi$ is a gradient field, then the line integral from point $A$ to
+  point $B$ depends only on the endpoints:
+  $\int_\gamma \nabla\phi \cdot d\gamma = \phi(B) - \phi(A)$. This follows from the chain
+  rule: $\frac{d}{dt}\phi(\gamma(t)) = \nabla\phi \cdot \gamma'(t)$, and integrating gives
+  the FTC (<a href="../phase3/08-fundamental-theorem.html">Phase 3, page 8</a>). In
+  particular, the integral around any closed curve is zero.
+</p>
+
+<h2>2. Example: line integral around the unit circle</h2>
+
+<p>
+  Let $\mathbf{F} = (y, x)$ and let $\gamma(t) = (\cos t, \sin t)$ for $t \in [0, 2\pi]$.
+  Then $x'(t) = -\sin t$, $y'(t) = \cos t$, so
+</p>
+<div class="display-math">$$\int_\gamma y\, dx + x\, dy = \int_0^{2\pi} [\sin t \cdot (-\sin t) + \cos t \cdot \cos t]\, dt = \int_0^{2\pi} (\cos^2 t - \sin^2 t)\, dt = \int_0^{2\pi} \cos 2t\, dt = 0.$$</div>
+<p>
+  Zero work. This is not a coincidence &mdash; $(y, x) = \nabla(xy)$, and a gradient field does
+  zero work around any closed curve. We will prove this shortly as a corollary of Green's
+  theorem.
+</p>
+
+<h2>3. Green's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Green's theorem</div>
+  <p>
+    Let $D \subseteq \mathbb{R}^2$ be a bounded region with piecewise smooth boundary
+    $\partial D$ oriented counterclockwise. If $P, Q$ are $C^1$ on an open set containing $D$,
+    then
+  </p>
+  <div class="display-math">$$\oint_{\partial D} P\, dx + Q\, dy = \iint_D \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dA.$$</div>
+</div>
+
+<h2>4. Proof for simple regions</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We prove the theorem when $D$ is both a type I and type II region. We show
+    $\oint P\, dx = -\iint \frac{\partial P}{\partial y}\, dA$ and
+    $\oint Q\, dy = \iint \frac{\partial Q}{\partial x}\, dA$ separately; adding them gives
+    the result.
+  </p>
+  <p>
+    <strong>Step 1.</strong> Write $D$ as a type I region:
+    $D = \{(x,y) : a \leq x \leq b,\; g_1(x) \leq y \leq g_2(x)\}$. Compute the right side:
+  </p>
+  <div class="display-math">$$-\iint_D \frac{\partial P}{\partial y}\, dA = -\int_a^b \int_{g_1(x)}^{g_2(x)} \frac{\partial P}{\partial y}(x,y)\, dy\, dx.$$</div>
+  <p>
+    <strong>Step 2.</strong> Apply the Fundamental Theorem of Calculus
+    (<a href="../phase3/08-fundamental-theorem.html">Phase 3, page 8</a>) to the inner
+    integral:
+  </p>
+  <div class="display-math">$$\int_{g_1(x)}^{g_2(x)} \frac{\partial P}{\partial y}(x,y)\, dy = P(x, g_2(x)) - P(x, g_1(x)).$$</div>
+  <p>
+    So
+  </p>
+  <div class="display-math">$$-\iint_D \frac{\partial P}{\partial y}\, dA = -\int_a^b [P(x, g_2(x)) - P(x, g_1(x))]\, dx = \int_a^b P(x, g_1(x))\, dx - \int_a^b P(x, g_2(x))\, dx.$$</div>
+  <p>
+    <strong>Step 3.</strong> Now compute $\oint_{\partial D} P\, dx$. The boundary consists of
+    four pieces: the bottom curve $y = g_1(x)$ from $x = a$ to $x = b$ (left to right), the
+    right side, the top curve $y = g_2(x)$ from $x = b$ to $x = a$ (right to left), and the
+    left side. On the vertical sides, $x$ is constant so $dx = 0$ and those pieces contribute
+    nothing. On the bottom:
+  </p>
+  <div class="display-math">$$\int_{\text{bottom}} P\, dx = \int_a^b P(x, g_1(x))\, dx.$$</div>
+  <p>
+    On the top (traversed from right to left):
+  </p>
+  <div class="display-math">$$\int_{\text{top}} P\, dx = \int_b^a P(x, g_2(x))\, dx = -\int_a^b P(x, g_2(x))\, dx.$$</div>
+  <p>
+    <strong>Step 4.</strong> Adding:
+    $\oint P\, dx = \int_a^b P(x, g_1(x))\, dx - \int_a^b P(x, g_2(x))\, dx$. This equals
+    the expression in Step 2. So $\oint P\, dx = -\iint \frac{\partial P}{\partial y}\, dA$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Similarly, writing $D$ as a type II region
+    $\{(x,y) : c \leq y \leq d,\; h_1(y) \leq x \leq h_2(y)\}$ and applying the FTC to the
+    $x$-integral gives $\oint Q\, dy = \iint \frac{\partial Q}{\partial x}\, dA$. The argument
+    is identical with the roles of $x$ and $y$ swapped.
+  </p>
+  <p>
+    <strong>Step 6.</strong> Adding both equations:
+    $\oint P\, dx + Q\, dy = \iint \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dA$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  For more general regions, decompose $D$ into pieces that are both type I and type II. The
+  boundary integrals along internal cuts cancel (each internal edge is traversed twice in
+  opposite directions), leaving only the integral along $\partial D$.
+</p>
+
+<h2>5. The 2D curl</h2>
+
+<p>
+  The quantity $\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}$ is the
+  <strong>curl</strong> of $\mathbf{F} = (P, Q)$ in two dimensions. It measures how much the
+  field "rotates" at each point. Green's theorem says: the total circulation around $\partial D$
+  equals the total curl inside $D$.
+</p>
+
+<h2>6. Conservative fields</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Conservative fields on simply connected domains</div>
+  <p>
+    Let $\mathbf{F} = (P, Q)$ be $C^1$ on a simply connected open set $U \subseteq
+    \mathbb{R}^2$. The following are equivalent:
+  </p>
+  <p>(i) $\frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}$ everywhere in $U$.</p>
+  <p>(ii) $\oint_\gamma \mathbf{F} \cdot d\gamma = 0$ for every closed curve $\gamma$ in $U$.</p>
+  <p>(iii) $\mathbf{F} = \nabla \phi$ for some $C^2$ function $\phi: U \to \mathbb{R}$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(iii) $\Rightarrow$ (i):</strong> If $\mathbf{F} = \nabla \phi = (\phi_x, \phi_y)$,
+    then $P = \phi_x$, $Q = \phi_y$, and
+    $\frac{\partial P}{\partial y} = \phi_{xy} = \phi_{yx} = \frac{\partial Q}{\partial x}$
+    by Schwarz's theorem (page 3).
+  </p>
+  <p>
+    <strong>(i) $\Rightarrow$ (ii):</strong> by Green's theorem, the integrand of the double
+    integral vanishes, so $\oint \mathbf{F} \cdot d\gamma = 0$.
+  </p>
+  <p>
+    <strong>(ii) $\Rightarrow$ (iii):</strong> fix a point $a \in U$. For any $x \in U$, define
+    $\phi(x) = \int_\gamma \mathbf{F} \cdot d\gamma$ where $\gamma$ is any path from $a$ to
+    $x$ in $U$. This is well-defined: if $\gamma_1, \gamma_2$ are two such paths,
+    $\gamma_1$ followed by $\gamma_2^{-1}$ is a closed curve, so
+    $\int_{\gamma_1} - \int_{\gamma_2} = 0$ by (ii). One verifies
+    $\frac{\partial \phi}{\partial x_i}(x) = F_i(x)$ by differentiating under the integral
+    along a short segment in the $x_i$-direction.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>7. Area via Green's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Area formula</div>
+  <p>
+    If $D$ is a bounded region with piecewise smooth boundary $\partial D$ oriented
+    counterclockwise, then
+  </p>
+  <div class="display-math">$$\text{Area}(D) = \frac{1}{2}\oint_{\partial D} x\, dy - y\, dx.$$</div>
+</div>
+
+<p>
+  Take $P = -y/2$, $Q = x/2$. Then
+  $\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = \frac{1}{2} + \frac{1}{2} = 1$.
+  Green's theorem gives $\oint P\, dx + Q\, dy = \iint_D 1\, dA = \text{Area}(D)$.
+</p>
+
+<h2>8. Verification: $\mathbf{F} = (-y, x)$ on the unit disc</h2>
+
+<p>
+  Take $P = -y$, $Q = x$ on the unit disc $D$. The line integral around $\partial D$ (the unit
+  circle, $\gamma(t) = (\cos t, \sin t)$):
+</p>
+<div class="display-math">$$\oint (-y)\, dx + x\, dy = \int_0^{2\pi} [-\sin t \cdot (-\sin t) + \cos t \cdot \cos t]\, dt = \int_0^{2\pi} 1\, dt = 2\pi.$$</div>
+<p>
+  The double integral:
+  $\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = 1 - (-1) = 2$. So
+</p>
+<div class="display-math">$$\iint_D 2\, dA = 2 \cdot \pi (1)^2 = 2\pi.$$</div>
+<p>
+  Both sides equal $2\pi$. Green's theorem checks out.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    George Green (1793&ndash;1841) was a self-taught British mathematician. His father was a
+    baker and miller; Green had only one year of formal schooling. In 1828 he published
+    <em>An Essay on the Application of Mathematical Analysis to the Theories of Electricity
+    and Magnetism</em>, containing what we now call Green's theorem, Green's functions, and
+    foundational ideas in potential theory. He printed 51 copies, distributed mainly to friends
+    and subscribers of his local library in Nottingham. The work was virtually unknown until
+    William Thomson (Lord Kelvin) rediscovered it in the 1840s and brought it to the attention
+    of the mathematical world.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without simple connectedness:</strong> the equivalence (i) $\Leftrightarrow$ (ii)
+    fails. Consider $\mathbf{F} = \left(\frac{-y}{x^2+y^2},\, \frac{x}{x^2+y^2}\right)$ on
+    $\mathbb{R}^2 \setminus \{0\}$. Direct computation gives
+    $\frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}$ everywhere in the domain.
+    Yet around the unit circle,
+    $\oint \mathbf{F} \cdot d\gamma = \int_0^{2\pi} 1\, dt = 2\pi \neq 0$. The hole at the
+    origin prevents us from applying Green's theorem &mdash; the region enclosed by the curve
+    does not lie entirely in the domain.
+  </p>
+  <p>
+    <strong>Without smoothness of the boundary:</strong> if $\partial D$ has cusps or
+    self-intersections, the orientation is ill-defined and the theorem may fail. The piecewise
+    smooth condition ensures each piece has a well-defined tangent (and hence normal) direction.
+  </p>
+  <p>
+    <strong>Without $C^1$ on the field:</strong> if $P$ or $Q$ has a discontinuity inside $D$,
+    the double integral may not equal the line integral. The proof relied on applying the FTC
+    to continuous partial derivatives.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Green's theorem converts a line integral around a closed curve into a double integral of the
+  curl over the interior &mdash; boundary circulation equals interior rotation.
+</div>
+
+<div class="nav">
+  <a href="06-multiple-integrals.html">&larr; Previous: Multiple Integrals and Fubini's Theorem</a>
+  <a href="08-stokes-divergence.html">Next: The Divergence Theorem and Stokes' Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stability and Lyapunov's Method &mdash; Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Stability and Lyapunov's Method</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A pendulum hanging straight down is stable: push it slightly and it oscillates back.
+    A pencil balanced on its tip is unstable: the tiniest perturbation sends it falling.
+    Both are equilibria &mdash; states where nothing changes &mdash; yet they respond to
+    disturbances in opposite ways.
+  </p>
+  <p>
+    How do you formalise "stable" and "unstable" for a general ODE
+    $\mathbf{y}' = f(\mathbf{y})$? Lyapunov (1892) found a remarkable answer: you can
+    prove stability <em>without solving the equation</em>, using an "energy-like" function
+    that decreases along solutions.
+  </p>
+</div>
+
+<h2>1. Equilibria</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Equilibrium point</div>
+  <p>
+    A point $\bar{\mathbf{y}} \in \mathbb{R}^n$ is an <b>equilibrium</b> (or
+    <b>fixed point</b>) of $\mathbf{y}' = f(\mathbf{y})$ if $f(\bar{\mathbf{y}}) = 0$.
+  </p>
+</div>
+
+<p>
+  If $\mathbf{y}(0) = \bar{\mathbf{y}}$, the constant function
+  $\mathbf{y}(t) = \bar{\mathbf{y}}$ solves the ODE for all $t$. The system sits there
+  forever. The question is: what happens when you start <em>near</em>
+  $\bar{\mathbf{y}}$?
+</p>
+
+<h2>2. Definitions of stability</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Lyapunov stability</div>
+  <p>
+    The equilibrium $\bar{\mathbf{y}}$ is:
+  </p>
+  <ul>
+    <li><b>Stable</b> if for every $\varepsilon > 0$, there exists $\delta > 0$ such that
+      $\|\mathbf{y}(0) - \bar{\mathbf{y}}\| < \delta$ implies
+      $\|\mathbf{y}(t) - \bar{\mathbf{y}}\| < \varepsilon$ for all $t \geq 0$.</li>
+    <li><b>Asymptotically stable</b> if it is stable and additionally
+      $\mathbf{y}(t) \to \bar{\mathbf{y}}$ as $t \to \infty$.</li>
+    <li><b>Unstable</b> if it is not stable.</li>
+  </ul>
+</div>
+
+<p>
+  Stability means nearby trajectories stay nearby forever. Asymptotic stability means they
+  actually converge back. The $\varepsilon$-$\delta$ structure mirrors the definition of
+  continuity from <a href="../phase2/01-completeness.html">Phase 2</a> &mdash; stability is a
+  form of continuous dependence on initial conditions, but stronger because it holds for all
+  future time.
+</p>
+
+<h2>3. Linear stability</h2>
+
+<p>
+  For the linear system $\mathbf{y}' = A\mathbf{y}$, the origin is the equilibrium. We can
+  classify its stability entirely from the eigenvalues of $A$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Stability of linear systems</div>
+  <p>
+    Let $\lambda_1, \ldots, \lambda_n$ be the eigenvalues of $A$ (counted with multiplicity,
+    possibly complex). The equilibrium $\mathbf{0}$ is:
+  </p>
+  <ul>
+    <li><b>Asymptotically stable</b> iff $\operatorname{Re}(\lambda_k) < 0$ for all $k$.</li>
+    <li><b>Stable</b> iff $\operatorname{Re}(\lambda_k) \leq 0$ for all $k$ and every
+      eigenvalue with $\operatorname{Re}(\lambda_k) = 0$ has trivial Jordan blocks
+      (i.e. its geometric multiplicity equals its algebraic multiplicity).</li>
+    <li><b>Unstable</b> if any eigenvalue has $\operatorname{Re}(\lambda_k) > 0$.</li>
+  </ul>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The solution is $\mathbf{y}(t) = e^{At}\mathbf{y}_0$
+    (<a href="06-matrix-exponential.html">page 6</a>). Write $A = PJP^{-1}$ in Jordan normal
+    form (<a href="../phase6/11-jordan-normal-form.html">Phase 6, page 11</a>). Then
+    $e^{At} = P\,e^{Jt}\,P^{-1}$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> For a Jordan block $J_m(\lambda)$, the entries of $e^{J_m(\lambda)t}$
+    are $\frac{t^k}{k!}e^{\lambda t}$ for $k = 0, 1, \ldots, m-1$
+    (<a href="06-matrix-exponential.html">page 6, section 7</a>).
+  </p>
+  <p>
+    <strong>Step 3.</strong> If $\operatorname{Re}(\lambda) < 0$: the exponential decay
+    $|e^{\lambda t}| = e^{\operatorname{Re}(\lambda)t} \to 0$ dominates any polynomial
+    $t^k$, so $t^k e^{\lambda t} \to 0$ as $t \to \infty$.
+    Therefore $e^{At} \to 0$, giving $\mathbf{y}(t) \to 0$. This is asymptotic stability.
+  </p>
+  <p>
+    <strong>Step 4.</strong> If $\operatorname{Re}(\lambda) = 0$ and the Jordan block is
+    $1 \times 1$: $|e^{\lambda t}| = 1$, so the contribution is bounded. If the block is
+    larger ($m \geq 2$): terms $t^k e^{\lambda t}$ with $k \geq 1$ satisfy
+    $|t^k e^{\lambda t}| = t^k \to \infty$. So the solution grows unboundedly &mdash;
+    instability.
+  </p>
+  <p>
+    <strong>Step 5.</strong> If $\operatorname{Re}(\lambda) > 0$: $|e^{\lambda t}| \to \infty$
+    and $\mathbf{y}(t)$ diverges. Unstable.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>4. Linearisation</h2>
+
+<p>
+  For a nonlinear system $\mathbf{y}' = f(\mathbf{y})$ near an equilibrium
+  $\bar{\mathbf{y}}$, Taylor-expand $f$ around $\bar{\mathbf{y}}$:
+</p>
+<div class="display-math">$$f(\mathbf{y}) = f(\bar{\mathbf{y}}) + Df(\bar{\mathbf{y}})(\mathbf{y} - \bar{\mathbf{y}}) + O(\|\mathbf{y} - \bar{\mathbf{y}}\|^2).$$</div>
+<p>
+  Since $f(\bar{\mathbf{y}}) = 0$, the <b>linearisation</b> is
+  $\mathbf{z}' = J\mathbf{z}$ where $\mathbf{z} = \mathbf{y} - \bar{\mathbf{y}}$ and
+  $J = Df(\bar{\mathbf{y}})$ is the <b>Jacobian matrix</b>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Linearisation principle (Hartman-Grobman)</div>
+  <p>
+    Suppose $\bar{\mathbf{y}}$ is a <b>hyperbolic</b> equilibrium: every eigenvalue of
+    $J = Df(\bar{\mathbf{y}})$ has nonzero real part. Then the nonlinear system has the
+    same stability type as its linearisation near $\bar{\mathbf{y}}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Write $\mathbf{z}' = J\mathbf{z} + r(\mathbf{z})$ where
+    $r(\mathbf{z}) = O(\|\mathbf{z}\|^2)$, i.e.
+    $\|r(\mathbf{z})\| \leq C\|\mathbf{z}\|^2$ for $\|\mathbf{z}\|$ small.
+  </p>
+  <p>
+    <strong>Step 2.</strong> The solution of the linearised system is
+    $\mathbf{z}_L(t) = e^{Jt}\mathbf{z}_0$. By the variation of constants formula
+    (the vector analogue of <a href="05-variation-of-parameters.html">page 5</a>), the
+    nonlinear solution satisfies
+  </p>
+  <div class="display-math">$$\mathbf{z}(t) = e^{Jt}\mathbf{z}_0 + \int_0^t e^{J(t-s)}r(\mathbf{z}(s))\,ds.$$</div>
+  <p>
+    <strong>Step 3.</strong> If all eigenvalues of $J$ have $\operatorname{Re}(\lambda) < 0$,
+    there exist constants $M, \alpha > 0$ such that $\|e^{Jt}\| \leq Me^{-\alpha t}$ for
+    $t \geq 0$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Set $\varphi(t) = \|\mathbf{z}(t)\|$. Then
+  </p>
+  <div class="display-math">$$\varphi(t) \leq Me^{-\alpha t}\|\mathbf{z}_0\| + \int_0^t Me^{-\alpha(t-s)}C\,\varphi(s)^2\,ds.$$</div>
+  <p>
+    <strong>Step 5.</strong> For $\|\mathbf{z}_0\|$ sufficiently small,
+    Gronwall's inequality (<a href="03-gronwall.html">page 3</a>) applied to
+    $e^{\alpha t}\varphi(t)$ shows that $\varphi(t) \to 0$ exponentially. The nonlinear
+    remainder $r$ is too small to overcome the linear decay.
+  </p>
+  <p>
+    <strong>Step 6.</strong> If any eigenvalue has $\operatorname{Re}(\lambda) > 0$, solutions
+    along the corresponding eigenspace grow exponentially for the linear system, and the
+    nonlinear remainder cannot prevent this growth for sufficiently small perturbations.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>5. Lyapunov's direct method</h2>
+
+<p>
+  Linearisation requires computing eigenvalues. Lyapunov found a way to prove stability
+  using a single clever function &mdash; no eigenvalues, no explicit solutions.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Lyapunov function</div>
+  <p>
+    Let $\bar{\mathbf{y}}$ be an equilibrium of $\mathbf{y}' = f(\mathbf{y})$. A
+    continuously differentiable function $V: U \to \mathbb{R}$ defined on a neighbourhood
+    $U$ of $\bar{\mathbf{y}}$ is a <b>Lyapunov function</b> if:
+  </p>
+  <ul>
+    <li>$V(\bar{\mathbf{y}}) = 0$ and $V(\mathbf{y}) > 0$ for
+      $\mathbf{y} \neq \bar{\mathbf{y}}$ in $U$ (<b>positive definite</b>).</li>
+    <li>$\dot{V}(\mathbf{y}) = \nabla V(\mathbf{y}) \cdot f(\mathbf{y}) \leq 0$ in $U$
+      (<b>non-increasing along solutions</b>).</li>
+  </ul>
+</div>
+
+<p>
+  The quantity $\dot{V}$ is the time derivative of $V$ along trajectories:
+  $\frac{d}{dt}V(\mathbf{y}(t)) = \nabla V \cdot \mathbf{y}' = \nabla V \cdot f(\mathbf{y})$.
+  If $V$ represents "energy," then $\dot{V} \leq 0$ means energy never increases.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Lyapunov stability theorem</div>
+  <p>
+    If a Lyapunov function $V$ exists for the equilibrium $\bar{\mathbf{y}}$, then
+    $\bar{\mathbf{y}}$ is <b>stable</b>. If additionally $\dot{V}(\mathbf{y}) < 0$ for
+    $\mathbf{y} \neq \bar{\mathbf{y}}$ (strict decrease), then $\bar{\mathbf{y}}$ is
+    <b>asymptotically stable</b>.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. (Stability.)</strong> Without loss of generality, take
+    $\bar{\mathbf{y}} = \mathbf{0}$. Let $\varepsilon > 0$ be given, small enough that
+    the closed ball $\overline{B}_\varepsilon = \{\|\mathbf{y}\| \leq \varepsilon\}$ lies
+    in $U$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> On the sphere $\|\mathbf{y}\| = \varepsilon$, $V$ is continuous
+    and positive, so it attains a minimum $m = \min_{\|\mathbf{y}\| = \varepsilon} V(\mathbf{y}) > 0$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Since $V$ is continuous and $V(\mathbf{0}) = 0$, there exists
+    $\delta > 0$ such that $\|\mathbf{y}\| < \delta$ implies $V(\mathbf{y}) < m$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Take $\|\mathbf{y}(0)\| < \delta$. Then
+    $V(\mathbf{y}(0)) < m$. Since $\dot{V} \leq 0$, the function $t \mapsto V(\mathbf{y}(t))$
+    is non-increasing, so $V(\mathbf{y}(t)) \leq V(\mathbf{y}(0)) < m$ for all $t \geq 0$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> If $\mathbf{y}(t)$ ever reached $\|\mathbf{y}(t)\| = \varepsilon$,
+    we would have $V(\mathbf{y}(t)) \geq m$, contradicting Step 4. So
+    $\|\mathbf{y}(t)\| < \varepsilon$ for all $t \geq 0$. This is stability.
+  </p>
+  <p>
+    <strong>Step 6. (Asymptotic stability.)</strong> Suppose $\dot{V} < 0$ for
+    $\mathbf{y} \neq \mathbf{0}$. The function $V(\mathbf{y}(t))$ is strictly decreasing
+    and bounded below by $0$, so it converges to some limit $\ell \geq 0$.
+  </p>
+  <p>
+    <strong>Step 7.</strong> Suppose $\ell > 0$. Then $\mathbf{y}(t)$ stays in the compact
+    annulus $\{V(\mathbf{y}) \geq \ell\} \cap \overline{B}_\varepsilon$, which does not
+    contain $\mathbf{0}$ (since $V(\mathbf{0}) = 0 < \ell$). On this compact set,
+    $\dot{V}$ is continuous, negative, and bounded away from zero: $\dot{V} \leq -\mu < 0$
+    for some $\mu > 0$.
+  </p>
+  <p>
+    <strong>Step 8.</strong> Then $V(\mathbf{y}(t)) \leq V(\mathbf{y}(0)) - \mu t \to -\infty$,
+    contradicting $V \geq 0$. So $\ell = 0$, meaning $V(\mathbf{y}(t)) \to 0$. Since $V$
+    is positive definite, $\mathbf{y}(t) \to \mathbf{0}$.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>6. Example: the damped pendulum</h2>
+
+<p>
+  The equation $\theta'' + b\,\theta' + \sin\theta = 0$ (with damping $b > 0$) models a
+  pendulum with friction. Write as a system: $x_1 = \theta$, $x_2 = \theta'$, so
+</p>
+<div class="display-math">$$x_1' = x_2, \qquad x_2' = -\sin x_1 - b\,x_2.$$</div>
+<p>
+  The origin $(0, 0)$ is an equilibrium (pendulum hanging straight down). Define the
+  <b>total energy</b>:
+</p>
+<div class="display-math">$$V(x_1, x_2) = (1 - \cos x_1) + \frac{1}{2}x_2^2.$$</div>
+<p>
+  This is the sum of potential energy $(1 - \cos\theta \geq 0)$ and kinetic energy
+  $(\frac{1}{2}\dot{\theta}^2 \geq 0)$, with $V(0, 0) = 0$. For $(x_1, x_2)$ near the
+  origin with $|x_1| < \pi$, we have $V > 0$ unless $x_1 = x_2 = 0$. So $V$ is positive
+  definite near the origin.
+</p>
+<p>
+  Compute the orbital derivative:
+</p>
+<div class="display-math">$$\dot{V} = \frac{\partial V}{\partial x_1}\,x_1' + \frac{\partial V}{\partial x_2}\,x_2' = (\sin x_1)(x_2) + x_2(-\sin x_1 - b\,x_2) = -b\,x_2^2 \leq 0.$$</div>
+<p>
+  Since $\dot{V} \leq 0$, Lyapunov's theorem gives <b>stability</b>. Note that $\dot{V} = 0$
+  when $x_2 = 0$ (zero velocity), not just at the origin. So $\dot{V}$ is not strictly
+  negative, and we cannot directly conclude asymptotic stability from the theorem above.
+</p>
+<p>
+  However, by <b>LaSalle's invariance principle</b>: if $\dot{V} = 0$ only on a set where
+  the largest invariant subset is $\{\mathbf{0}\}$, then the origin is asymptotically stable.
+  Here $\dot{V} = 0$ forces $x_2 = 0$, and if $x_2(t) = 0$ for all $t$, then
+  $x_2' = -\sin x_1 = 0$, forcing $x_1 = 0$ (near the origin). So the origin is indeed
+  asymptotically stable. (LaSalle's principle is a refinement we state without full proof;
+  it is not part of the standard CPGE curriculum.)
+</p>
+
+<h2>7. The stable manifold theorem</h2>
+
+<p>
+  Near a hyperbolic equilibrium, the eigenspaces of the Jacobian organise the geometry
+  of trajectories.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Stable manifold theorem</div>
+  <p>
+    Let $\bar{\mathbf{y}}$ be a hyperbolic equilibrium of $\mathbf{y}' = f(\mathbf{y})$ with
+    Jacobian $J = Df(\bar{\mathbf{y}})$. Let $E^s$ be the eigenspace of $J$ corresponding
+    to eigenvalues with $\operatorname{Re}(\lambda) < 0$, and $E^u$ the eigenspace for
+    $\operatorname{Re}(\lambda) > 0$. Then there exist smooth manifolds $W^s$ (the
+    <b>stable manifold</b>) and $W^u$ (the <b>unstable manifold</b>) such that:
+  </p>
+  <ul>
+    <li>$W^s$ is tangent to $E^s$ at $\bar{\mathbf{y}}$ and $W^u$ is tangent to $E^u$.</li>
+    <li>Solutions starting on $W^s$ approach $\bar{\mathbf{y}}$ exponentially as
+      $t \to +\infty$.</li>
+    <li>Solutions starting on $W^u$ approach $\bar{\mathbf{y}}$ exponentially as
+      $t \to -\infty$ (equivalently, they depart exponentially as $t \to +\infty$).</li>
+  </ul>
+</div>
+
+<p>
+  The full proof uses the contraction mapping principle on a suitable function space and
+  requires tools from topology (Phase 9). (IOU: the complete proof will be accessible after
+  Phase 9.) The key insight: near a hyperbolic equilibrium, the nonlinear flow is a
+  "bent" version of the linear flow, with the bending controlled by the higher-order terms.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Lyapunov developed his stability theory in his 1892 doctoral thesis, one of the most
+    influential theses in the history of mathematics. The <em>direct method</em> (using
+    energy-like functions rather than explicit solutions) was revolutionary: it works for
+    nonlinear systems where no closed-form solution exists. Poincar&eacute; had studied
+    stability of orbits in celestial mechanics in the 1880s, focusing on geometric and
+    topological methods. Hadamard (1901) and Perron (1928) proved the stable manifold
+    theorem. LaSalle refined Lyapunov's approach in the 1960s for cases where $\dot{V}$
+    is only non-negative definite.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Remove hyperbolicity (eigenvalues on the imaginary axis):</b> linearisation fails
+    completely. The system $\dot{x} = -y + x(x^2 + y^2)$, $\dot{y} = x + y(x^2 + y^2)$
+    has linearisation at the origin with eigenvalues $\pm i$ (a centre). But the nonlinear
+    system spirals <em>outward</em> &mdash; the origin is unstable despite the linearisation
+    being (neutrally) stable. In the centre case, the nonlinear terms decide everything.
+  </p>
+  <p>
+    <b>Wrong Lyapunov function:</b> failure to find a Lyapunov function does not prove
+    instability. The method is not an "if and only if" &mdash; it is sufficient but not
+    necessary (though converse Lyapunov theorems exist under stronger hypotheses). Finding
+    the right $V$ is an art: there is no systematic procedure for nonlinear systems.
+  </p>
+  <p>
+    <b>Stability $\neq$ asymptotic stability:</b> the harmonic oscillator
+    $y'' + y = 0$ has the origin as a stable but not asymptotically stable equilibrium.
+    Solutions orbit forever without converging. Energy $V = \frac{1}{2}(y^2 + y'^2)$ has
+    $\dot{V} = 0$ &mdash; energy is conserved, giving stability, but no dissipation means
+    no convergence.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Find a function that decreases along trajectories and you have proved stability without
+  solving the equation.
+</div>
+
+<div class="nav">
+  <a href="06-matrix-exponential.html">&larr; Previous: Systems and the Matrix Exponential</a>
+  <a href="08-poincare-bendixson.html">Next: The Poincar&eacute;-Bendixson Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

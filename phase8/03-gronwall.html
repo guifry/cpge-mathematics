@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gronwall's Inequality — Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Gronwall's Inequality</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You know a solution to an ODE exists and is unique
+    (<a href="02-cauchy-lipschitz.html">page 2</a>). But how fast can it grow? If you
+    perturb the initial condition slightly, does the solution change by a little or a lot?
+  </p>
+  <p>
+    These questions reduce to a single pattern: you have a non-negative function $u(t)$ that
+    satisfies an integral inequality &mdash; $u$ is bounded by $\alpha$ plus its own
+    integral &mdash; and you need a bound on $u$ itself. Gronwall (1919) proved that such a
+    function grows at most exponentially. This one inequality is the master tool for
+    stability, uniqueness, and continuous dependence in ODE theory.
+  </p>
+</div>
+
+<h2>1. The setup</h2>
+
+<p>
+  Suppose $u(t) \geq 0$ satisfies an inequality of the form
+</p>
+<div class="display-math">$$u(t) \leq \alpha + \int_{t_0}^t \beta(s)\, u(s)\, ds$$</div>
+<p>
+  for $t \in [t_0, T]$, where $\alpha \geq 0$ is a constant and $\beta(s) \geq 0$ is a
+  continuous function. The right side involves $u$ itself inside the integral &mdash; so this
+  is an <em>implicit</em> bound. We want an <em>explicit</em> bound: $u(t) \leq$
+  something involving only $\alpha$, $\beta$, and $t$.
+</p>
+<p>
+  The na&iuml;ve approach &mdash; substitute the inequality back into itself &mdash; yields
+  an infinite chain. Gronwall's inequality cuts through this by giving the exact answer in
+  one step.
+</p>
+
+<h2>2. The inequality</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Gronwall's inequality (integral form)</div>
+  <p>
+    Let $u, \beta : [t_0, T] \to [0, \infty)$ be continuous. Let $\alpha \geq 0$. If
+  </p>
+  <div class="display-math">$$u(t) \leq \alpha + \int_{t_0}^t \beta(s)\, u(s)\, ds \quad \text{for all } t \in [t_0, T]$$</div>
+  <p>then</p>
+  <div class="display-math">$$u(t) \leq \alpha \exp\!\left(\int_{t_0}^t \beta(s)\, ds\right) \quad \text{for all } t \in [t_0, T]$$</div>
+</div>
+
+<h2>3. Proof</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Define the function
+  </p>
+  <div class="display-math">$$v(t) = \alpha + \int_{t_0}^t \beta(s)\, u(s)\, ds$$</div>
+  <p>
+    By hypothesis, $u(t) \leq v(t)$. Also, $v(t_0) = \alpha$ and $v$ is differentiable with
+  </p>
+  <div class="display-math">$$v'(t) = \beta(t)\, u(t)$$</div>
+  <p>
+    by the <a href="../phase3/08-fundamental-theorem.html">Fundamental Theorem of Calculus</a>.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $u(t) \leq v(t)$, we get $v'(t) = \beta(t) u(t) \leq
+    \beta(t) v(t)$. So $v$ satisfies the differential inequality
+  </p>
+  <div class="display-math">$$v'(t) - \beta(t)\, v(t) \leq 0$$</div>
+  <p>
+    <strong>Step 3.</strong> Multiply both sides by the positive factor
+    $e^{-\int_{t_0}^t \beta(s)\, ds}$. Define $B(t) = \int_{t_0}^t \beta(s)\, ds$, so
+    the factor is $e^{-B(t)}$. We get
+  </p>
+  <div class="display-math">$$v'(t)\, e^{-B(t)} - \beta(t)\, v(t)\, e^{-B(t)} \leq 0$$</div>
+  <p>
+    The left side is exactly $\frac{d}{dt}\!\left[v(t)\, e^{-B(t)}\right]$. This is
+    because $(v e^{-B})' = v' e^{-B} + v(-\beta)e^{-B} = (v' - \beta v)e^{-B}$, using
+    the <a href="../phase3/02-differentiation-rules.html">product rule</a> and
+    $B'(t) = \beta(t)$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> So $\frac{d}{dt}[v(t) e^{-B(t)}] \leq 0$ on $[t_0, T]$. The
+    function $v(t) e^{-B(t)}$ is non-increasing. Therefore, for all $t \geq t_0$:
+  </p>
+  <div class="display-math">$$v(t)\, e^{-B(t)} \leq v(t_0)\, e^{-B(t_0)} = \alpha \cdot e^0 = \alpha$$</div>
+  <p>
+    <strong>Step 5.</strong> Multiply both sides by $e^{B(t)} > 0$:
+  </p>
+  <div class="display-math">$$v(t) \leq \alpha\, e^{B(t)} = \alpha \exp\!\left(\int_{t_0}^t \beta(s)\, ds\right)$$</div>
+  <p>
+    Since $u(t) \leq v(t)$, we conclude
+    $u(t) \leq \alpha \exp\!\left(\int_{t_0}^t \beta(s)\, ds\right)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>4. The constant-coefficient case</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Gronwall's inequality (constant $\beta$)</div>
+  <p>
+    If $\beta(s) = \beta$ is constant, the inequality simplifies to: whenever
+    $u(t) \leq \alpha + \beta \int_{t_0}^t u(s)\, ds$, we have
+  </p>
+  <div class="display-math">$$u(t) \leq \alpha\, e^{\beta(t - t_0)}$$</div>
+</div>
+
+<p>
+  This follows immediately since $\int_{t_0}^t \beta\, ds = \beta(t - t_0)$.
+</p>
+
+<h2>5. Continuous dependence on initial conditions</h2>
+
+<p>
+  Consider the ODE $y' = f(t, y)$ where $f$ is Lipschitz in $y$ with constant $L$. Let $y$
+  and $z$ be solutions with $y(t_0) = y_0$ and $z(t_0) = z_0$ respectively (same equation,
+  different starting points).
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Continuous dependence</div>
+  <p>
+    $|y(t) - z(t)| \leq |y_0 - z_0|\, e^{L(t - t_0)}$ for all $t$ in the common interval
+    of existence.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Both solutions satisfy the integral equation:
+  </p>
+  <div class="display-math">$$y(t) = y_0 + \int_{t_0}^t f(s, y(s))\, ds, \qquad z(t) = z_0 + \int_{t_0}^t f(s, z(s))\, ds$$</div>
+  <p>
+    <strong>Step 2.</strong> Subtract:
+  </p>
+  <div class="display-math">$$y(t) - z(t) = (y_0 - z_0) + \int_{t_0}^t [f(s, y(s)) - f(s, z(s))]\, ds$$</div>
+  <p>
+    <strong>Step 3.</strong> Take absolute values and apply the Lipschitz condition:
+  </p>
+  <div class="display-math">$$|y(t) - z(t)| \leq |y_0 - z_0| + L \int_{t_0}^t |y(s) - z(s)|\, ds$$</div>
+  <p>
+    <strong>Step 4.</strong> Set $u(t) = |y(t) - z(t)|$ and $\alpha = |y_0 - z_0|$. The
+    inequality is $u(t) \leq \alpha + L \int_{t_0}^t u(s)\, ds$. Apply Gronwall with
+    constant $\beta = L$:
+  </p>
+  <div class="display-math">$$|y(t) - z(t)| \leq |y_0 - z_0|\, e^{L(t - t_0)}$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  This is a powerful result. It says that if two solutions start $\varepsilon$ apart, they
+  stay within $\varepsilon e^{L(t-t_0)}$ of each other. The divergence is at most
+  exponential, controlled by the Lipschitz constant.
+</p>
+
+<p><strong>Example.</strong> Consider $y' = \sin(y)$, which is Lipschitz with $L = 1$ (since
+  $|\cos y| \leq 1$). If $y(0) = 0.01$ and $z(0) = 0$, then $|y(t) - z(t)| \leq 0.01
+  \cdot e^t$. After $t = 5$ seconds, the solutions differ by at most $0.01 \cdot e^5 \approx
+  1.48$. The bound is pessimistic (the actual solutions stay much closer because $\sin(y)
+  \approx y$ near zero and the trajectories converge to zero), but it gives a guaranteed
+  worst case.
+</p>
+
+<h2>6. Uniqueness as a corollary</h2>
+
+<p>
+  Set $y_0 = z_0$ in the continuous dependence theorem. Then $\alpha = 0$ and we get
+  $|y(t) - z(t)| \leq 0$ for all $t$. Since $|y(t) - z(t)| \geq 0$, we conclude
+  $y(t) = z(t)$. This gives a second proof of uniqueness in Cauchy&ndash;Lipschitz &mdash;
+  cleaner than the iterative argument.
+</p>
+
+<h2>7. Linear growth and global existence</h2>
+
+<p>
+  When does a solution exist for all time, rather than blowing up at some finite $T$? A
+  sufficient condition is <strong>linear growth</strong>.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Global existence under linear growth</div>
+  <p>
+    If $|f(t, y)| \leq M(1 + |y|)$ for all $(t, y)$ in the domain, and $f$ is Lipschitz in
+    $y$, then the solution of $y' = f(t,y)$, $y(t_0) = y_0$ exists for all $t \geq t_0$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> From the integral equation:
+  </p>
+  <div class="display-math">$$|y(t)| \leq |y_0| + \int_{t_0}^t |f(s, y(s))|\, ds \leq |y_0| + M \int_{t_0}^t (1 + |y(s)|)\, ds$$</div>
+  <p>
+    <strong>Step 2.</strong> Rearrange: $|y(t)| \leq (|y_0| + M(t - t_0)) + M \int_{t_0}^t |y(s)|\, ds$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Apply Gronwall with $u(t) = |y(t)|$,
+    $\alpha = |y_0| + M(T - t_0)$ (on any interval $[t_0, T]$), and $\beta = M$:
+  </p>
+  <div class="display-math">$$|y(t)| \leq (|y_0| + M(T - t_0))\, e^{M(t - t_0)}$$</div>
+  <p>
+    This bound is finite for every finite $T$. So $y$ cannot blow up in finite time, and the
+    solution extends to all of $[t_0, \infty)$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Compare with $y' = y^2$ (quadratic, not linear growth): the solution $y = 1/(1-t)$
+  blows up at $t = 1$. The linear growth condition rules out such behaviour.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Thomas Hakon Gronwall (1877&ndash;1932), a Swedish-American mathematician, proved his
+    inequality in 1919 while studying parabolic differential equations. Richard Bellman
+    (1920&ndash;1984) proved the more general version with variable $\alpha(t)$ and $\beta(t)$
+    in 1943. The inequality is sometimes called the Gronwall&ndash;Bellman inequality. It has
+    become indispensable: it appears in every ODE textbook and extends to partial differential
+    equations, stochastic calculus, and control theory. Wherever you need to turn an integral
+    inequality into a pointwise bound, Gronwall is the tool.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Remove $u \geq 0$.</strong> The inequality becomes meaningless &mdash; a
+    function that is allowed to be negative can trivially satisfy
+    $u(t) \leq \alpha + \int \beta u\, ds$ while being arbitrarily negative (that does not
+    violate the upper bound).
+  </p>
+  <p>
+    <strong>Remove continuity.</strong> The proof uses the Fundamental Theorem of Calculus
+    to differentiate $v$. Without continuity of $u$ and $\beta$, the integral may not be
+    differentiable, and the argument collapses. (There are generalised versions for
+    $L^1$ functions, but the standard proof requires continuity.)
+  </p>
+  <p>
+    <strong>Is the exponential bound tight?</strong> Yes. The function $u(t) = \alpha
+    e^{\beta(t - t_0)}$ satisfies $u(t) = \alpha + \beta \int_{t_0}^t u(s)\, ds$ with
+    equality &mdash; it is the solution of $u' = \beta u$, $u(t_0) = \alpha$. So the
+    bound cannot be improved in general.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  If a non-negative function is bounded by a constant plus its own integral, it grows at most
+  exponentially &mdash; this single inequality controls uniqueness, stability, and blow-up.
+</div>
+
+<div class="nav">
+  <a href="02-cauchy-lipschitz.html">&larr; Previous: The Cauchy&ndash;Lipschitz Theorem</a>
+  <a href="04-linear-odes.html">Next: Linear ODE Solution Structure &rarr;</a>
+</div>
+
+</body>
+</html>

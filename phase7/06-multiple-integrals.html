@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiple Integrals and Fubini's Theorem &mdash; Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Multiple Integrals and Fubini's Theorem</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Archimedes computed the area under a curve by slicing it into thin rectangles. But what about
+    the <em>volume</em> under a surface $z = f(x,y)$? You need to integrate over a
+    two-dimensional region. The natural approach: slice the region into thin strips, integrate
+    along each strip, then integrate the results. But can you always reduce a double integral to
+    two nested single integrals? And does the order matter &mdash; integrate first in $x$ then
+    $y$, or vice versa?
+  </p>
+  <p>
+    Fubini (1907) answered: yes, the double integral equals either iterated integral, provided
+    the function is integrable. This is the theorem that makes multivariable integration
+    computable.
+  </p>
+</div>
+
+<h2>1. The double integral</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Double integral over a rectangle</div>
+  <p>
+    Let $R = [a,b] \times [c,d]$ and $f: R \to \mathbb{R}$ be bounded. Partition $[a,b]$ into
+    $a = x_0 < x_1 < \cdots < x_m = b$ and $[c,d]$ into $c = y_0 < y_1 < \cdots < y_n = d$.
+    This gives $mn$ sub-rectangles $R_{ij} = [x_{i-1}, x_i] \times [y_{j-1}, y_j]$. Choose
+    sample points $(x_i^*, y_j^*) \in R_{ij}$. The <strong>Riemann sum</strong> is
+  </p>
+  <div class="display-math">$$S = \sum_{i=1}^{m} \sum_{j=1}^{n} f(x_i^*, y_j^*)\, \Delta x_i\, \Delta y_j.$$</div>
+  <p>
+    If $S$ converges to a limit as the mesh $\max(\Delta x_i, \Delta y_j) \to 0$, independent
+    of the choice of sample points, we say $f$ is <strong>integrable</strong> on $R$ and write
+    $\iint_R f(x,y)\, dA$ for the limit.
+  </p>
+</div>
+
+<p>
+  This directly generalises the single-variable Riemann integral
+  (<a href="../phase3/06-riemann-integral.html">Phase 3, page 6</a>) from intervals to
+  rectangles. Continuous functions on $R$ are integrable, as are bounded functions with
+  discontinuities confined to a set of measure zero (IOU: measure theory, Phase 14).
+</p>
+
+<h2>2. Fubini's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Fubini's theorem</div>
+  <p>
+    Let $f: R \to \mathbb{R}$ be continuous on the rectangle $R = [a,b] \times [c,d]$. Then
+  </p>
+  <div class="display-math">$$\iint_R f(x,y)\, dA = \int_a^b \left(\int_c^d f(x,y)\, dy\right) dx = \int_c^d \left(\int_a^b f(x,y)\, dx\right) dy.$$</div>
+  <p>
+    The double integral equals either iterated integral, and the order of integration does not
+    matter.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since $f$ is continuous on the compact set $R$, it is uniformly
+    continuous: for every $\varepsilon > 0$ there exists $\delta > 0$ such that
+    $|f(x,y) - f(x', y')| < \varepsilon$ whenever $\|(x,y) - (x',y')\| < \delta$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Define $F(x) = \int_c^d f(x,y)\, dy$. This is well-defined for
+    each $x \in [a,b]$ since $y \mapsto f(x,y)$ is continuous. We claim $F$ is continuous. Fix
+    $x_0$ and let $|x - x_0| < \delta$. Then for every $y$,
+    $|f(x,y) - f(x_0,y)| < \varepsilon$ (uniform continuity). So
+  </p>
+  <div class="display-math">$$|F(x) - F(x_0)| = \left|\int_c^d [f(x,y) - f(x_0,y)]\, dy\right| \leq \varepsilon(d - c).$$</div>
+  <p>
+    <strong>Step 3.</strong> Take a partition of $R$ with mesh $< \delta$. Each Riemann sum for
+    the double integral can be written as
+  </p>
+  <div class="display-math">$$S = \sum_{i=1}^m \left(\sum_{j=1}^n f(x_i^*, y_j^*)\, \Delta y_j\right) \Delta x_i.$$</div>
+  <p>
+    The inner sum $\sum_j f(x_i^*, y_j^*)\, \Delta y_j$ is a Riemann sum for
+    $\int_c^d f(x_i^*, y)\, dy = F(x_i^*)$, approximating it with error at most
+    $\varepsilon(d-c)$ (by uniform continuity of $f$, each term $f(x_i^*, y_j^*)$ is within
+    $\varepsilon$ of $f(x_i^*, y)$ for $y \in [y_{j-1}, y_j]$).
+  </p>
+  <p>
+    <strong>Step 4.</strong> So $S = \sum_i F(x_i^*)\, \Delta x_i + E$ where the total error
+    satisfies $|E| \leq \varepsilon(d-c)(b-a)$. As mesh $\to 0$,
+    $\sum_i F(x_i^*)\, \Delta x_i \to \int_a^b F(x)\, dx$. Since $\varepsilon$ was arbitrary,
+    $S \to \int_a^b F(x)\, dx = \int_a^b \left(\int_c^d f(x,y)\, dy\right) dx$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> But $S$ also converges to $\iint_R f\, dA$ (by definition of the
+    double integral). So $\iint_R f\, dA = \int_a^b \int_c^d f(x,y)\, dy\, dx$. Swapping the
+    roles of $x$ and $y$ gives the other iterated integral.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The full measure-theoretic version (Tonelli&ndash;Fubini theorem) extends this to Lebesgue
+  integrable functions and $\sigma$-finite measure spaces. (IOU: Lebesgue integration,
+  Phase 14.)
+</p>
+
+<h2>3. Integration over general regions</h2>
+
+<p>
+  For a region $D$ that is not a rectangle, we use iterated integrals with variable limits. If
+  $D = \{(x,y) : a \leq x \leq b,\; g_1(x) \leq y \leq g_2(x)\}$ (a <strong>type I
+  region</strong>), then
+</p>
+<div class="display-math">$$\iint_D f\, dA = \int_a^b \int_{g_1(x)}^{g_2(x)} f(x,y)\, dy\, dx.$$</div>
+<p>
+  Similarly, if $D = \{(x,y) : c \leq y \leq d,\; h_1(y) \leq x \leq h_2(y)\}$ (a
+  <strong>type II region</strong>), integrate first in $x$ then $y$.
+</p>
+
+<h2>4. Change of variables</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Change of variables for double integrals</div>
+  <p>
+    Let $T: U \to V$ be a $C^1$ bijection between open sets in $\mathbb{R}^2$ with
+    $\det(J_T) \neq 0$ on $U$. If $f$ is integrable on $V$, then
+  </p>
+  <div class="display-math">$$\iint_V f(x,y)\, dx\, dy = \iint_U f(T(u,v))\, |\det(J_T(u,v))|\, du\, dv.$$</div>
+</div>
+
+<p>
+  The factor $|\det(J_T)|$ is the local area scaling &mdash; the absolute value of the
+  <a href="../phase6/05-determinants.html">determinant (Phase 6, page 5)</a> of the Jacobian
+  matrix. It measures how much $T$ stretches or compresses area near each point.
+</p>
+<p>
+  The intuition: a small rectangle $[u, u + du] \times [v, v + dv]$ in the $(u,v)$-plane maps
+  to a small parallelogram in the $(x,y)$-plane, spanned by
+  $\frac{\partial T}{\partial u}\, du$ and $\frac{\partial T}{\partial v}\, dv$. The area of
+  this parallelogram is $|\det(J_T)|\, du\, dv$. So the Jacobian determinant converts "area in
+  the new coordinates" to "area in the old coordinates."
+</p>
+<p>
+  This is the multivariable generalisation of the single-variable substitution rule
+  $\int f(g(t))\, |g'(t)|\, dt$, where $|g'(t)|$ is the one-dimensional "Jacobian."
+</p>
+
+<h2>5. Example: area of an ellipse</h2>
+
+<p>
+  Compute the area of the ellipse $x^2/a^2 + y^2/b^2 \leq 1$. Use the substitution
+  $x = au$, $y = bv$, which maps the unit disc $u^2 + v^2 \leq 1$ to the ellipse. The
+  Jacobian is $|\det J_T| = ab$. So
+</p>
+<div class="display-math">$$\text{Area} = \iint_{u^2+v^2 \leq 1} ab\, du\, dv = ab \cdot \pi = \pi ab.$$</div>
+
+<h2>6. Example: the Gaussian integral via polar coordinates</h2>
+
+<p>
+  Compute $I = \int_{-\infty}^{\infty} e^{-x^2}\, dx$. The trick: consider $I^2$.
+</p>
+<div class="display-math">$$I^2 = \int_{-\infty}^{\infty} e^{-x^2}\, dx \int_{-\infty}^{\infty} e^{-y^2}\, dy = \iint_{\mathbb{R}^2} e^{-(x^2 + y^2)}\, dx\, dy.$$</div>
+<p>
+  Switch to polar coordinates: $x = r\cos\theta$, $y = r\sin\theta$. The Jacobian is
+</p>
+<div class="display-math">$$J_T = \begin{pmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{pmatrix}, \qquad |\det(J_T)| = r.$$</div>
+<p>
+  The integral becomes
+</p>
+<div class="display-math">$$I^2 = \int_0^{2\pi} \int_0^{\infty} e^{-r^2}\, r\, dr\, d\theta = 2\pi \int_0^{\infty} r\, e^{-r^2}\, dr.$$</div>
+<p>
+  Substitute $u = r^2$, $du = 2r\, dr$:
+</p>
+<div class="display-math">$$\int_0^{\infty} r\, e^{-r^2}\, dr = \frac{1}{2}\int_0^{\infty} e^{-u}\, du = \frac{1}{2}.$$</div>
+<p>
+  So $I^2 = \pi$, giving the famous result
+  $\int_{-\infty}^{\infty} e^{-x^2}\, dx = \sqrt{\pi}$.
+</p>
+
+<h2>7. Triple integrals and higher dimensions</h2>
+
+<p>
+  Everything generalises. A triple integral $\iiint_V f\, dV$ sums over a three-dimensional
+  region. Fubini reduces it to three nested integrals. The change of variables formula uses
+  $|\det(J_T)|$ for a map $T: \mathbb{R}^3 \to \mathbb{R}^3$.
+</p>
+<p>
+  <strong>Cylindrical coordinates:</strong> $(x, y, z) = (r\cos\theta, r\sin\theta, z)$ with
+  Jacobian $r$. Use when the region has circular symmetry about the $z$-axis.
+</p>
+<p>
+  <strong>Spherical coordinates:</strong>
+  $(x, y, z) = (\rho\sin\phi\cos\theta, \rho\sin\phi\sin\theta, \rho\cos\phi)$ with Jacobian
+  $\rho^2 \sin\phi$. Use for regions with full spherical symmetry.
+</p>
+
+<h2>8. Example: volume of a sphere via spherical coordinates</h2>
+
+<p>
+  Compute the volume of the ball $B = \{(x,y,z) : x^2 + y^2 + z^2 \leq R^2\}$. In spherical
+  coordinates, the ball is $\{(\rho, \phi, \theta) : 0 \leq \rho \leq R,\;
+  0 \leq \phi \leq \pi,\; 0 \leq \theta \leq 2\pi\}$:
+</p>
+<div class="display-math">$$\iiint_B dV = \int_0^{2\pi} \int_0^{\pi} \int_0^{R} \rho^2 \sin\phi\, d\rho\, d\phi\, d\theta.$$</div>
+<p>
+  The integral factors: $\int_0^{2\pi} d\theta = 2\pi$,
+  $\int_0^{\pi} \sin\phi\, d\phi = [-\cos\phi]_0^{\pi} = 2$,
+  $\int_0^{R} \rho^2\, d\rho = R^3/3$. The volume is
+  $2\pi \cdot 2 \cdot R^3/3 = \frac{4}{3}\pi R^3$.
+</p>
+<p>
+  This is Archimedes' formula, now derived cleanly from the change of variables theorem. The
+  factor $\rho^2 \sin\phi$ in the Jacobian is doing all the geometric work &mdash; it accounts
+  for the fact that thin shells at larger radius enclose more volume, and that slices near the
+  poles are thinner than slices near the equator.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Fubini proved his theorem rigorously in 1907, but the idea of computing double integrals as
+    iterated single integrals was used throughout the 18th century by Euler and Lagrange without
+    formal justification. Jacobi (1841) formalised the role of the Jacobian determinant in
+    change of variables, explaining why $r$ appears in polar coordinates and $r^2 \sin\phi$ in
+    spherical coordinates. The Gaussian integral $\int e^{-x^2}\, dx = \sqrt{\pi}$ was first
+    evaluated by Laplace (1774) using the same polar coordinate trick; Poisson popularised it
+    in 1809.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Fubini without integrability:</strong> there exist bounded functions on $[0,1]^2$
+    where the two iterated integrals both exist but are <em>not equal</em>. The classic
+    construction uses a function that is not Riemann integrable as a function of two variables
+    (it has too many discontinuities). In these cases, there is no well-defined double integral,
+    and the iterated integrals disagree. (The Lebesgue version of Fubini avoids this for
+    $L^1$ functions &mdash; IOU: Phase 14.)
+  </p>
+  <p>
+    <strong>Change of variables at singular points:</strong> the formula requires
+    $\det(J_T) \neq 0$. At the origin in polar coordinates, $r = 0$ and the Jacobian vanishes
+    &mdash; the map collapses the entire line $\theta \in [0, 2\pi]$ to a single point. This
+    is harmless here (a single point has measure zero), but in other situations singularities of
+    the transformation can cause genuine problems.
+  </p>
+  <p>
+    <strong>Wrong orientation:</strong> forgetting the absolute value $|\det J_T|$ flips the
+    sign of the integral when $T$ reverses orientation. In single-variable calculus, reversing
+    limits negates the integral; the absolute value in the $n$-dimensional formula accounts for
+    this automatically.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Fubini's theorem turns a multidimensional integral into nested one-dimensional integrals;
+  the Jacobian determinant corrects for how a coordinate change distorts area.
+</div>
+
+<div class="nav">
+  <a href="05-lagrange-multipliers.html">&larr; Previous: Lagrange Multipliers</a>
+  <a href="07-greens-theorem.html">Next: Green's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

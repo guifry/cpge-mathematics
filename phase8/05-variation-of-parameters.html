@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variation of Parameters &mdash; Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Variation of Parameters</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You know how to solve $y'' + y = 0$: the solutions are $c_1 \cos t + c_2 \sin t$
+    (we built these from <a href="../phase4/04-trig-series.html">their power series</a>).
+    But what about $y'' + y = \sec t$? The right-hand side is not zero &mdash; it is a
+    <b>forcing term</b> pushing the system away from its natural oscillation.
+  </p>
+  <p>
+    Lagrange (1774) invented a beautifully simple trick: take the homogeneous solutions and
+    let their "constants" vary. Instead of $y = c_1 \cos t + c_2 \sin t$, try
+    $y = u_1(t)\cos t + u_2(t)\sin t$ and determine the functions $u_1, u_2$. The method
+    works for <em>any</em> forcing term &mdash; no guessing required.
+  </p>
+</div>
+
+<h2>1. The non-homogeneous problem</h2>
+
+<p>
+  Consider a second-order linear ODE with a forcing term:
+</p>
+<div class="display-math">$$y'' + p(t)\,y' + q(t)\,y = g(t).$$</div>
+<p>
+  Write $L[y] = y'' + p(t)\,y' + q(t)\,y$ for the <b>linear differential operator</b>.
+  Linearity means $L[\alpha y_1 + \beta y_2] = \alpha\, L[y_1] + \beta\, L[y_2]$.
+</p>
+<p>
+  Suppose $y_h$ solves the homogeneous equation $L[y_h] = 0$ and $y_p$ solves
+  $L[y_p] = g(t)$. Then $y = y_h + y_p$ solves the full equation:
+</p>
+<div class="display-math">$$L[y_h + y_p] = L[y_h] + L[y_p] = 0 + g(t) = g(t).$$</div>
+<p>
+  So the <b>general solution</b> of the non-homogeneous equation is: homogeneous general
+  solution plus any one particular solution. All that remains is to find $y_p$.
+</p>
+
+<h2>2. The ansatz</h2>
+
+<p>
+  Let $y_1, y_2$ be a <b>fundamental system</b> of $L[y] = 0$ &mdash; two linearly
+  independent solutions, so the homogeneous general solution is $c_1 y_1 + c_2 y_2$
+  (see <a href="04-linear-odes.html">page 4</a>).
+</p>
+<p>
+  The idea: seek a particular solution in the form
+</p>
+<div class="display-math">$$y_p(t) = u_1(t)\, y_1(t) + u_2(t)\, y_2(t)$$</div>
+<p>
+  where $u_1$ and $u_2$ are unknown functions. We have <em>two</em> unknowns but only
+  <em>one</em> equation ($L[y_p] = g$). This gives us freedom to impose an extra condition.
+</p>
+
+<h2>3. The key trick</h2>
+
+<p>
+  Differentiate the ansatz:
+</p>
+<div class="display-math">$$y_p' = u_1'\, y_1 + u_1\, y_1' + u_2'\, y_2 + u_2\, y_2'.$$</div>
+<p>
+  This has four terms, two of which involve $u_1'$ and $u_2'$. To keep $y_p''$ manageable,
+  we impose the <b>Lagrange condition</b>:
+</p>
+<div class="display-math">$$u_1'\, y_1 + u_2'\, y_2 = 0.$$</div>
+<p>
+  With this constraint, the derivative simplifies to
+</p>
+<div class="display-math">$$y_p' = u_1\, y_1' + u_2\, y_2'.$$</div>
+<p>
+  Differentiate again:
+</p>
+<div class="display-math">$$y_p'' = u_1\, y_1'' + u_2\, y_2'' + u_1'\, y_1' + u_2'\, y_2'.$$</div>
+
+<h2>4. Substitution into the ODE</h2>
+
+<p>
+  Substitute $y_p$, $y_p'$, $y_p''$ into $L[y_p] = g$:
+</p>
+<div class="display-math">$$\bigl(u_1\, y_1'' + u_2\, y_2'' + u_1'\, y_1' + u_2'\, y_2'\bigr) + p\bigl(u_1\, y_1' + u_2\, y_2'\bigr) + q\bigl(u_1\, y_1 + u_2\, y_2\bigr) = g.$$</div>
+<p>
+  Regroup by factor:
+</p>
+<div class="display-math">$$u_1\underbrace{(y_1'' + p\,y_1' + q\,y_1)}_{L[y_1] = 0} + u_2\underbrace{(y_2'' + p\,y_2' + q\,y_2)}_{L[y_2] = 0} + u_1'\,y_1' + u_2'\,y_2' = g.$$</div>
+<p>
+  Since $y_1$ and $y_2$ are homogeneous solutions, $L[y_1] = L[y_2] = 0$. What survives is:
+</p>
+<div class="display-math">$$u_1'\, y_1' + u_2'\, y_2' = g(t).$$</div>
+
+<h2>5. The system and Cramer's rule</h2>
+
+<p>
+  We now have two equations in two unknowns $u_1'$ and $u_2'$:
+</p>
+<div class="display-math">$$\begin{cases} u_1'\, y_1 + u_2'\, y_2 = 0 \\ u_1'\, y_1' + u_2'\, y_2' = g(t) \end{cases}$$</div>
+<p>
+  The determinant of the coefficient matrix is the <b>Wronskian</b>
+  $W(t) = y_1\, y_2' - y_1'\, y_2$, which is nonzero because $y_1, y_2$ are linearly
+  independent (<a href="04-linear-odes.html">page 4</a>). By Cramer's rule:
+</p>
+<div class="display-math">$$u_1' = \frac{\begin{vmatrix} 0 & y_2 \\ g & y_2' \end{vmatrix}}{W} = \frac{-y_2\, g}{W}, \qquad u_2' = \frac{\begin{vmatrix} y_1 & 0 \\ y_1' & g \end{vmatrix}}{W} = \frac{y_1\, g}{W}.$$</div>
+<p>
+  Integrate to obtain $u_1$ and $u_2$.
+</p>
+
+<h2>6. The variation of parameters formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Variation of parameters</div>
+  <p>
+    Let $y_1, y_2$ be a fundamental system of $y'' + p(t)\,y' + q(t)\,y = 0$ with Wronskian
+    $W$. A particular solution of $y'' + p(t)\,y' + q(t)\,y = g(t)$ is
+  </p>
+  <div class="display-math">$$y_p(t) = -y_1(t)\int_{t_0}^{t} \frac{y_2(s)\,g(s)}{W(s)}\,ds \;+\; y_2(t)\int_{t_0}^{t} \frac{y_1(s)\,g(s)}{W(s)}\,ds.$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> We seek $y_p = u_1 y_1 + u_2 y_2$ with the Lagrange condition
+    $u_1' y_1 + u_2' y_2 = 0$. As derived above, substituting into the ODE and using
+    $L[y_1] = L[y_2] = 0$ yields the system
+  </p>
+  <div class="display-math">$$u_1' y_1 + u_2' y_2 = 0, \qquad u_1' y_1' + u_2' y_2' = g.$$</div>
+  <p>
+    <strong>Step 2.</strong> Since $W = y_1 y_2' - y_1' y_2 \neq 0$, Cramer's rule gives
+    $u_1' = -y_2 g / W$ and $u_2' = y_1 g / W$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Integrate: $u_1(t) = -\int_{t_0}^{t} y_2(s)\,g(s)/W(s)\,ds$ and
+    $u_2(t) = \int_{t_0}^{t} y_1(s)\,g(s)/W(s)\,ds$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> The particular solution is
+    $y_p = u_1 y_1 + u_2 y_2$, which gives the stated formula. We verify directly:
+    $y_p(t_0) = 0$ and $y_p'(t_0) = 0$ (from the Lagrange condition and the fundamental
+    theorem of calculus), and $L[y_p] = g$ by construction.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>7. Example: $y'' + y = \sec t$</h2>
+
+<p>
+  The homogeneous equation $y'' + y = 0$ has fundamental system $y_1 = \cos t$,
+  $y_2 = \sin t$. The Wronskian is
+</p>
+<div class="display-math">$$W = \cos t \cdot \cos t - (-\sin t)\cdot \sin t = \cos^2 t + \sin^2 t = 1.$$</div>
+<p>
+  Apply the formula with $g(t) = \sec t$:
+</p>
+<div class="display-math">$$u_1' = -\frac{\sin t \cdot \sec t}{1} = -\frac{\sin t}{\cos t} = -\tan t.$$</div>
+<div class="display-math">$$u_1 = -\int \tan t\, dt = \ln|\cos t|.$$</div>
+<div class="display-math">$$u_2' = \frac{\cos t \cdot \sec t}{1} = 1.$$</div>
+<div class="display-math">$$u_2 = \int 1\, dt = t.$$</div>
+<p>
+  Therefore the particular solution is
+</p>
+<div class="display-math">$$y_p = \cos t \ln|\cos t| + t\sin t.$$</div>
+<p>
+  The general solution is $y = c_1 \cos t + c_2 \sin t + \cos t \ln|\cos t| + t \sin t$.
+</p>
+<p>
+  Note the $t \sin t$ term: the forcing function $\sec t$ creates a response that grows
+  linearly in amplitude &mdash; a <b>secular term</b>. This kind of growth is invisible to
+  methods like undetermined coefficients, which cannot handle $\sec t$ at all (it is not a
+  polynomial, exponential, or sinusoid). Variation of parameters handles it without difficulty.
+</p>
+<p>
+  Let us verify: $y_p' = -\sin t \ln|\cos t| + \cos t \cdot \frac{-\sin t}{-\cos t} \cdot (-1) + \sin t + t\cos t$.
+  Simplifying carefully: $y_p' = -\sin t \ln|\cos t| + \sin t + t\cos t$. Then
+  $y_p'' = -\cos t \ln|\cos t| + \frac{\sin^2 t}{\cos t} + \cos t - t\sin t + \cos t$.
+  We get $y_p'' + y_p = \frac{\sin^2 t}{\cos t} + \cos t = \frac{\sin^2 t + \cos^2 t}{\cos t} = \sec t$.
+  Correct.
+</p>
+
+<h2>8. Example: $y'' - y = e^{2t}$</h2>
+
+<p>
+  The homogeneous equation $y'' - y = 0$ has solutions $y_1 = e^t$, $y_2 = e^{-t}$, with
+  Wronskian $W = e^t(-e^{-t}) - e^t \cdot e^{-t} = -1 - 1 = -2$.
+</p>
+<p>
+  By variation of parameters:
+</p>
+<div class="display-math">$$u_1' = -\frac{e^{-t} \cdot e^{2t}}{-2} = \frac{e^t}{2}, \qquad u_1 = \frac{e^t}{2}.$$</div>
+<div class="display-math">$$u_2' = \frac{e^t \cdot e^{2t}}{-2} = -\frac{e^{3t}}{2}, \qquad u_2 = -\frac{e^{3t}}{6}.$$</div>
+<div class="display-math">$$y_p = \frac{e^t}{2} \cdot e^t - \frac{e^{3t}}{6} \cdot e^{-t} = \frac{e^{2t}}{2} - \frac{e^{2t}}{6} = \frac{e^{2t}}{3}.$$</div>
+<p>
+  You can verify: $y_p'' - y_p = 4e^{2t}/3 - e^{2t}/3 = e^{2t}$. Correct.
+</p>
+<p>
+  For this particular forcing term, the <b>method of undetermined coefficients</b> is
+  faster: guess $y_p = Ae^{2t}$, substitute, get $4A - A = 1$, so $A = 1/3$. But
+  undetermined coefficients only works when $g(t)$ is a polynomial, exponential, sine,
+  cosine, or a product of these. Variation of parameters works for <em>any</em> continuous
+  $g(t)$.
+</p>
+
+<h2>9. Extension to $n$-th order</h2>
+
+<p>
+  For an $n$-th order equation $L[y] = g$ with fundamental system $y_1, \ldots, y_n$, the
+  variation of parameters formula generalises. Write $y_p = \sum_{k=1}^{n} u_k\, y_k$ with
+  conditions $\sum_k u_k'\, y_k^{(j)} = 0$ for $j = 0, 1, \ldots, n-2$ and
+  $\sum_k u_k'\, y_k^{(n-1)} = g$. The system is
+</p>
+<div class="display-math">$$\begin{pmatrix} y_1 & \cdots & y_n \\ y_1' & \cdots & y_n' \\ \vdots & \ddots & \vdots \\ y_1^{(n-1)} & \cdots & y_n^{(n-1)} \end{pmatrix} \begin{pmatrix} u_1' \\ u_2' \\ \vdots \\ u_n' \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ g \end{pmatrix}.$$</div>
+<p>
+  The coefficient matrix is the Wronskian matrix. Its determinant $W \neq 0$
+  (linear independence), so Cramer's rule gives each $u_k'$ as a ratio of determinants.
+  Then integrate to find $u_k$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Lagrange introduced variation of parameters in 1774, in his work on celestial mechanics.
+    The name comes from the idea of letting the "parameters" (constants of integration) in
+    the homogeneous solution become functions of time. Euler had used similar ideas earlier for
+    specific equations, but Lagrange gave the general method. It extends naturally to systems
+    of ODEs: the matrix version replaces the Wronskian scalar with the fundamental matrix.
+    Unlike undetermined coefficients (which requires guessing the form of $y_p$ and only
+    works for special forcing functions), variation of parameters handles any continuous
+    right-hand side.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Remove the fundamental system:</b> the method requires knowing $y_1, y_2$ explicitly.
+    If you cannot solve the homogeneous equation, you cannot apply variation of parameters.
+    The formula shifts the difficulty from "solve the non-homogeneous equation" to "solve the
+    homogeneous equation and then integrate."
+  </p>
+  <p>
+    <b>Non-integrable forcing terms:</b> the integrals $\int y_i\, g / W\, dt$ may not have
+    closed-form antiderivatives. For instance, $y'' + y = e^{-t^2}$ leads to integrals
+    involving the error function. The formula still gives an <em>integral representation</em>
+    of the solution, which is valuable for analysis (bounding, asymptotics) even when you
+    cannot write a neat formula.
+  </p>
+  <p>
+    <b>Remove linearity:</b> for nonlinear ODEs $y'' + f(y) = g(t)$, the superposition
+    principle fails &mdash; $y_h + y_p$ is no longer a solution. The entire method collapses.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Let the constants vary: if you know the homogeneous solutions, the Wronskian and an
+  integral give you the particular solution for any forcing term.
+</div>
+
+<div class="nav">
+  <a href="04-linear-odes.html">&larr; Previous: Linear ODEs and the Wronskian</a>
+  <a href="06-matrix-exponential.html">Next: Systems and the Matrix Exponential &rarr;</a>
+</div>
+
+</body>
+</html>

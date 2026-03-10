@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems and the Matrix Exponential &mdash; Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Systems and the Matrix Exponential</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Two springs are coupled together. Their displacements $x_1$ and $x_2$ satisfy
+    simultaneous ODEs: $x_1'' = -k_1 x_1 + k(x_2 - x_1)$ and
+    $x_2'' = -k_2 x_2 - k(x_2 - x_1)$. Each equation involves <em>both</em> unknowns.
+  </p>
+  <p>
+    More generally, any system of linear ODEs can be written as
+    $\mathbf{y}' = A\mathbf{y}$ where $A$ is a matrix and $\mathbf{y}$ is a vector.
+    For a scalar ODE, the solution of $y' = ay$ is $y(t) = e^{at}y(0)$. By analogy,
+    the solution should be $\mathbf{y}(t) = e^{At}\mathbf{y}(0)$. But what does it
+    mean to exponentiate a <em>matrix</em>?
+  </p>
+</div>
+
+<h2>1. Systems of linear ODEs</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Linear system</div>
+  <p>
+    A <b>first-order linear system</b> is $\mathbf{y}'(t) = A\,\mathbf{y}(t)$, where
+    $A$ is an $n \times n$ real matrix and $\mathbf{y}: \mathbb{R} \to \mathbb{R}^n$.
+  </p>
+</div>
+
+<p>
+  Any $n$-th order linear ODE can be rewritten as a first-order system. Given
+  $y^{(n)} + a_{n-1}y^{(n-1)} + \cdots + a_0 y = 0$, set
+  $\mathbf{y} = (y,\, y',\, \ldots,\, y^{(n-1)})^T$. Then $\mathbf{y}' = A\mathbf{y}$
+  where $A$ is the <b>companion matrix</b>:
+</p>
+<div class="display-math">$$A = \begin{pmatrix} 0 & 1 & 0 & \cdots & 0 \\ 0 & 0 & 1 & \cdots & 0 \\ \vdots & & & \ddots & \vdots \\ 0 & 0 & 0 & \cdots & 1 \\ -a_0 & -a_1 & -a_2 & \cdots & -a_{n-1} \end{pmatrix}.$$</div>
+<p>
+  So the theory of systems subsumes the theory of higher-order linear ODEs.
+</p>
+
+<h2>2. The matrix exponential</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Matrix exponential</div>
+  <p>
+    For an $n \times n$ matrix $A$, the <b>matrix exponential</b> is
+  </p>
+  <div class="display-math">$$e^{A} = \sum_{k=0}^{\infty} \frac{A^k}{k!} = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots$$</div>
+  <p>
+    where $A^0 = I$ (the identity matrix).
+  </p>
+</div>
+
+<p>
+  This is the power series for $e^x$ from
+  <a href="../phase4/03-exponential.html">Phase 4, page 3</a> with $x$ replaced by $A$.
+  We write $e^{At}$ for the exponential of the matrix $tA$.
+</p>
+
+<h2>3. Convergence</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Convergence of the matrix exponential</div>
+  <p>
+    The series $\sum_{k=0}^{\infty} A^k t^k / k!$ converges absolutely for every
+    $n \times n$ matrix $A$ and every $t \in \mathbb{R}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Use any submultiplicative matrix norm $\|\cdot\|$ (for instance,
+    the operator norm). Then $\|A^k\| \leq \|A\|^k$ by induction on $k$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Therefore
+    $\left\|\frac{A^k t^k}{k!}\right\| \leq \frac{\|A\|^k |t|^k}{k!}$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The series $\sum_{k=0}^{\infty} \frac{\|A\|^k |t|^k}{k!}$
+    equals $e^{\|A\| |t|}$, which converges (it is the scalar exponential series).
+  </p>
+  <p>
+    <strong>Step 4.</strong> By the Weierstrass M-test
+    (<a href="../phase5/07-weierstrass-m-test.html">Phase 5, page 7</a>), the matrix series
+    converges absolutely and uniformly on every bounded interval $|t| \leq R$.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>4. The solution formula</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Solution of linear systems</div>
+  <p>
+    The unique solution of $\mathbf{y}' = A\mathbf{y}$, $\mathbf{y}(0) = \mathbf{y}_0$
+    is $\mathbf{y}(t) = e^{At}\mathbf{y}_0$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. (It solves the ODE.)</strong> Differentiate term by term. Since the
+    series converges uniformly on bounded intervals, term-by-term differentiation is
+    justified (<a href="../phase4/05-term-by-term.html">Phase 4, page 5</a>):
+  </p>
+  <div class="display-math">$$\frac{d}{dt} e^{At} = \frac{d}{dt}\sum_{k=0}^{\infty} \frac{A^k t^k}{k!} = \sum_{k=1}^{\infty} \frac{A^k \cdot k \cdot t^{k-1}}{k!} = \sum_{k=1}^{\infty} \frac{A^k t^{k-1}}{(k-1)!} = A\sum_{j=0}^{\infty} \frac{A^j t^j}{j!} = A\,e^{At}.$$</div>
+  <p>
+    So $\mathbf{y}'(t) = A\,e^{At}\mathbf{y}_0 = A\,\mathbf{y}(t)$.
+  </p>
+  <p>
+    <strong>Step 2. (Initial condition.)</strong> At $t = 0$:
+    $e^{A \cdot 0} = e^0 = I$, so $\mathbf{y}(0) = I \cdot \mathbf{y}_0 = \mathbf{y}_0$.
+  </p>
+  <p>
+    <strong>Step 3. (Uniqueness.)</strong> The function $f(\mathbf{y}) = A\mathbf{y}$ is
+    Lipschitz with constant $\|A\|$. By the Cauchy-Lipschitz theorem
+    (<a href="02-cauchy-lipschitz.html">page 2</a>), the solution is unique.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>5. Properties of the matrix exponential</h2>
+
+<p>
+  The matrix exponential inherits several properties from the scalar exponential, but with
+  an important caveat about commutativity.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Properties of $e^{At}$</div>
+  <p>(i) $e^{0} = I$.</p>
+  <p>(ii) $e^{(s+t)A} = e^{sA}\, e^{tA}$ for all $s, t \in \mathbb{R}$.</p>
+  <p>(iii) $(e^{At})^{-1} = e^{-At}$.</p>
+  <p>(iv) If $A = PBP^{-1}$, then $e^{At} = P\,e^{Bt}\,P^{-1}$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>(i)</strong> Direct: $e^0 = \sum A^k \cdot 0^k / k! = I + 0 + 0 + \cdots = I$.
+  </p>
+  <p>
+    <strong>(ii)</strong> Since $sA$ and $tA$ commute (both are multiples of $A$), we can
+    multiply the series by the Cauchy product. The same argument as for the scalar functional
+    equation in <a href="../phase4/03-exponential.html">Phase 4, page 3</a> gives
+  </p>
+  <div class="display-math">$$e^{sA}\,e^{tA} = \sum_{m=0}^{\infty}\sum_{j=0}^{m} \frac{(sA)^j}{j!}\frac{(tA)^{m-j}}{(m-j)!} = \sum_{m=0}^{\infty} \frac{A^m}{m!}\sum_{j=0}^{m}\binom{m}{j}s^j t^{m-j} = \sum_{m=0}^{\infty}\frac{A^m (s+t)^m}{m!} = e^{(s+t)A}.$$</div>
+  <p>
+    <strong>(iii)</strong> Set $s = t$ and $s = -t$ in (ii):
+    $e^{At}\,e^{-At} = e^{0} = I$.
+  </p>
+  <p>
+    <strong>(iv)</strong> Since $A^k = PB^kP^{-1}$ (by induction), we have
+    $\sum A^k t^k/k! = P\left(\sum B^k t^k/k!\right)P^{-1} = P\,e^{Bt}\,P^{-1}$.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<p>
+  <b>Warning:</b> in general, $e^{A+B} \neq e^A\,e^B$ unless $AB = BA$. The proof of (ii)
+  used commutativity of $sA$ and $tA$ crucially. For non-commuting matrices, the
+  Baker-Campbell-Hausdorff formula gives the correction: $e^A e^B = e^{A + B + \frac{1}{2}[A,B] + \cdots}$
+  where $[A,B] = AB - BA$ is the commutator.
+</p>
+
+<h2>6. Computing $e^{At}$: the diagonalisable case</h2>
+
+<p>
+  If $A$ is diagonalisable (<a href="../phase6/06-eigenvalues.html">Phase 6, page 6</a>),
+  write $A = PDP^{-1}$ where $D = \operatorname{diag}(\lambda_1, \ldots, \lambda_n)$.
+  By property (iv):
+</p>
+<div class="display-math">$$e^{At} = P\,e^{Dt}\,P^{-1} = P\begin{pmatrix}e^{\lambda_1 t} & & 0 \\ & \ddots & \\ 0 & & e^{\lambda_n t}\end{pmatrix}P^{-1}.$$</div>
+<p>
+  This is the <em>spectral decomposition</em> of the matrix exponential. Each eigenvalue
+  $\lambda_k$ contributes a mode $e^{\lambda_k t}$: exponential growth if
+  $\text{Re}(\lambda_k) > 0$, decay if $\text{Re}(\lambda_k) < 0$, oscillation if
+  $\lambda_k$ is purely imaginary.
+</p>
+
+<h2>7. Computing $e^{At}$: the Jordan form</h2>
+
+<p>
+  When $A$ is not diagonalisable, use the Jordan normal form
+  (<a href="../phase6/11-jordan-normal-form.html">Phase 6, page 11</a>):
+  $A = PJP^{-1}$ where $J$ is block-diagonal with Jordan blocks. For a single Jordan block
+  $J_m(\lambda) = \lambda I + N$ where $N$ is the $m \times m$ nilpotent shift matrix
+  ($N^m = 0$), we have:
+</p>
+<div class="display-math">$$e^{J_m(\lambda)t} = e^{\lambda t}\, e^{Nt} = e^{\lambda t}\left(I + Nt + \frac{N^2 t^2}{2!} + \cdots + \frac{N^{m-1}t^{m-1}}{(m-1)!}\right).$$</div>
+<p>
+  This is a <em>finite</em> sum because $N^k = 0$ for $k \geq m$. Note that $\lambda I$ and
+  $N$ commute, so $e^{(\lambda I + N)t} = e^{\lambda I t}\,e^{Nt}$ is valid here. Explicitly:
+</p>
+<div class="display-math">$$e^{J_m(\lambda)t} = e^{\lambda t}\begin{pmatrix} 1 & t & t^2/2! & \cdots & t^{m-1}/(m-1)! \\ 0 & 1 & t & \cdots & t^{m-2}/(m-2)! \\ \vdots & & \ddots & \ddots & \vdots \\ 0 & 0 & \cdots & 1 & t \\ 0 & 0 & \cdots & 0 & 1 \end{pmatrix}.$$</div>
+<p>
+  The polynomial factors $t^k$ multiplying $e^{\lambda t}$ are what distinguish the Jordan
+  case from the diagonal case: repeated eigenvalues with nontrivial Jordan blocks produce
+  polynomial-times-exponential solutions.
+</p>
+
+<h2>8. Example: rotation</h2>
+
+<p>
+  Solve $\mathbf{y}' = A\mathbf{y}$ with
+  $A = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$.
+</p>
+<p>
+  <strong>Step 1.</strong> Find the eigenvalues: $\det(A - \lambda I) = \lambda^2 + 1 = 0$,
+  so $\lambda = \pm i$.
+</p>
+<p>
+  <strong>Step 2.</strong> Compute $e^{At}$ directly from the series. Note that
+  $A^2 = -I$, $A^3 = -A$, $A^4 = I$, and the pattern repeats with period 4. Grouping:
+</p>
+<div class="display-math">$$e^{At} = \left(1 - \frac{t^2}{2!} + \frac{t^4}{4!} - \cdots\right)I + \left(t - \frac{t^3}{3!} + \frac{t^5}{5!} - \cdots\right)A = (\cos t)\,I + (\sin t)\,A.$$</div>
+<div class="display-math">$$e^{At} = \begin{pmatrix}\cos t & \sin t \\ -\sin t & \cos t\end{pmatrix}.$$</div>
+<p>
+  This is the rotation matrix through angle $t$. The solution
+  $\mathbf{y}(t) = e^{At}\mathbf{y}_0$ traces a circle &mdash; which makes sense, since the
+  system $y_1' = y_2$, $y_2' = -y_1$ describes simple harmonic oscillation.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The matrix exponential was introduced by Laguerre (1867) and developed systematically by
+    Poincar&eacute; and Lyapunov in the late 19th century. It sits at the intersection of
+    three major threads: power series (Phase 4), linear algebra (Phase 6), and differential
+    equations (this phase). The formula $\mathbf{y}(t) = e^{At}\mathbf{y}_0$ is the
+    cornerstone of linear systems theory and appears throughout physics &mdash; in quantum
+    mechanics, the time evolution operator is $U(t) = e^{-iHt/\hbar}$ where $H$ is the
+    Hamiltonian matrix.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Non-commuting matrices:</b> $e^{A+B} \neq e^A e^B$ unless $AB = BA$. This is the
+    single most common error. The Baker-Campbell-Hausdorff formula gives the correction terms
+    involving iterated commutators $[A,B]$, $[A,[A,B]]$, etc. &mdash; far more complex than
+    the scalar case.
+  </p>
+  <p>
+    <b>Non-linear systems:</b> for $\mathbf{y}' = f(\mathbf{y})$ with nonlinear $f$, no
+    matrix exponential exists. The solution operator (the <b>flow map</b>
+    $\phi_t(\mathbf{y}_0)$) is still well-defined by Cauchy-Lipschitz
+    (<a href="02-cauchy-lipschitz.html">page 2</a>), but there is no explicit formula for it
+    in general. The matrix exponential is a luxury of linearity.
+  </p>
+  <p>
+    <b>Non-constant $A(t)$:</b> if the matrix depends on time, $\mathbf{y}' = A(t)\mathbf{y}$,
+    then $e^{\int_0^t A(s)\,ds}$ is generally <em>not</em> the solution (because
+    $A(t_1)$ and $A(t_2)$ may not commute). The solution requires the
+    <b>time-ordered exponential</b> (Dyson series), which is considerably harder.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  $e^{At}$ is a matrix-valued power series that solves every linear constant-coefficient
+  system at once &mdash; diagonalise to compute it, or use Jordan blocks.
+</div>
+
+<div class="nav">
+  <a href="05-variation-of-parameters.html">&larr; Previous: Variation of Parameters</a>
+  <a href="07-stability.html">Next: Stability and Lyapunov's Method &rarr;</a>
+</div>
+
+</body>
+</html>

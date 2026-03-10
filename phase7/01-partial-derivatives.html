@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partial Derivatives and the Gradient — Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Partial Derivatives and the Gradient</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 1</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Temperature in a room depends on position: $T(x, y, z)$ gives the temperature at each
+    point. If you walk east, the temperature changes at one rate. If you walk north, at
+    another. If you climb, at yet another. You already know how to differentiate a function
+    of one variable (<a href="../phase3/01-derivative.html">Phase 3, page 1</a>). But $T$
+    depends on <em>three</em> variables simultaneously. How do you measure its rate of
+    change in a single direction?
+  </p>
+  <p>
+    Euler, working on fluid mechanics in the 1730s, introduced the idea: hold all variables
+    fixed except one, and differentiate with respect to that one. This gives a
+    <b>partial derivative</b> &mdash; the rate of change in one coordinate direction. Collect
+    all partial derivatives into a vector and you get the <b>gradient</b>, which points in
+    the direction of steepest ascent.
+  </p>
+</div>
+
+<h2>1. Functions of several variables</h2>
+
+<p>
+  A <strong>function of several variables</strong> is a map $f: U \to \mathbb{R}$ where
+  $U \subseteq \mathbb{R}^n$ is an open set. The input is a point
+  $a = (a_1, \ldots, a_n) \in \mathbb{R}^n$; the output is a real number $f(a)$.
+</p>
+<p>
+  Examples you already know in disguise: the distance from the origin,
+  $f(x, y) = \sqrt{x^2 + y^2}$, is a function $\mathbb{R}^2 \to \mathbb{R}$.
+  A polynomial like $g(x, y) = x^2 y + 3xy^2 - 7$ is another.
+  Temperature $T(x, y, z)$, pressure $P(V, T)$ in thermodynamics &mdash; these are all
+  functions of several variables.
+</p>
+
+<h2>2. Partial derivatives</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Partial derivative</div>
+  <p>
+    Let $f: U \subseteq \mathbb{R}^n \to \mathbb{R}$ and $a \in U$. The
+    <strong>partial derivative of $f$ with respect to $x_i$ at $a$</strong> is
+  </p>
+  <div class="display-math">$$\frac{\partial f}{\partial x_i}(a) = \lim_{h \to 0} \frac{f(a + h e_i) - f(a)}{h}$$</div>
+  <p>
+    where $e_i = (0, \ldots, 0, 1, 0, \ldots, 0)$ is the $i$-th standard basis vector.
+    If this limit exists, we say $f$ has a partial derivative with respect to $x_i$ at $a$.
+  </p>
+</div>
+
+<p>
+  In plain language: freeze every variable except $x_i$, then differentiate with respect to
+  $x_i$ as a single-variable function. You already know how to do this &mdash; it is exactly
+  the derivative from <a href="../phase3/01-derivative.html">Phase 3, page 1</a>, applied to
+  the function $t \mapsto f(a_1, \ldots, a_{i-1}, t, a_{i+1}, \ldots, a_n)$.
+</p>
+<p>
+  Standard notations: $\dfrac{\partial f}{\partial x}$, $f_x$, $\partial_x f$, $D_x f$.
+  All mean the same thing.
+</p>
+
+<h2>3. A concrete computation</h2>
+
+<p>
+  Let $f(x, y) = x^2 y + \sin(xy)$. We compute both partial derivatives at a general
+  point $(x, y)$.
+</p>
+<p>
+  <strong>Partial derivative with respect to $x$:</strong> treat $y$ as a constant.
+</p>
+<div class="display-math">$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2 y) + \frac{\partial}{\partial x}(\sin(xy)) = 2xy + y\cos(xy)$$</div>
+<p>
+  For $x^2 y$: $y$ is a constant, so this is $y \cdot 2x$. For $\sin(xy)$: the chain rule
+  (<a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>) gives
+  $\cos(xy) \cdot y$, since $\frac{\partial}{\partial x}(xy) = y$.
+</p>
+<p>
+  <strong>Partial derivative with respect to $y$:</strong> treat $x$ as a constant.
+</p>
+<div class="display-math">$$\frac{\partial f}{\partial y} = x^2 + x\cos(xy)$$</div>
+
+<h2>4. The gradient</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Gradient</div>
+  <p>
+    If all partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$ exist at $a$, the
+    <strong>gradient</strong> of $f$ at $a$ is the vector
+  </p>
+  <div class="display-math">$$\nabla f(a) = \left(\frac{\partial f}{\partial x_1}(a), \ldots, \frac{\partial f}{\partial x_n}(a)\right)$$</div>
+</div>
+
+<p>
+  For our example: $\nabla f(x,y) = (2xy + y\cos(xy),\; x^2 + x\cos(xy))$.
+</p>
+<p>
+  The gradient is a vector in $\mathbb{R}^n$ &mdash; it lives in the same space as the
+  input, not the output. Geometrically, it points in the direction of steepest increase
+  of $f$, and its magnitude $\|\nabla f\|$ is the rate of increase in that direction. We
+  will make this precise with directional derivatives.
+</p>
+
+<h2>5. Directional derivatives</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Directional derivative</div>
+  <p>
+    Let $v \in \mathbb{R}^n$ be a unit vector ($\|v\| = 1$). The <strong>directional
+    derivative</strong> of $f$ at $a$ in the direction $v$ is
+  </p>
+  <div class="display-math">$$D_v f(a) = \lim_{t \to 0} \frac{f(a + tv) - f(a)}{t}$$</div>
+</div>
+
+<p>
+  Partial derivatives are the special case $v = e_i$. The directional derivative measures
+  the rate of change along any direction, not just along coordinate axes.
+</p>
+<p>
+  When $f$ is differentiable (defined below), the directional derivative has a clean formula:
+  $D_v f(a) = \nabla f(a) \cdot v$. This is why the gradient points in the direction of
+  steepest ascent: the dot product $\nabla f \cdot v$ is maximised when $v$ points in the
+  same direction as $\nabla f$, by the Cauchy-Schwarz inequality
+  (<a href="../phase6/07-inner-products.html">Phase 6, page 7</a>).
+</p>
+
+<h2>6. Differentiability &mdash; the total derivative</h2>
+
+<p>
+  Having all partial derivatives is <em>not enough</em> to guarantee that $f$ behaves well.
+  The correct multivariable notion of "differentiable" is stronger.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Differentiability (total derivative)</div>
+  <p>
+    A function $f: \mathbb{R}^n \to \mathbb{R}$ is <strong>differentiable</strong> at $a$
+    if there exists a linear map $L: \mathbb{R}^n \to \mathbb{R}$ such that
+  </p>
+  <div class="display-math">$$f(a + h) = f(a) + L(h) + o(\|h\|)$$</div>
+  <p>
+    meaning $\displaystyle\lim_{h \to 0} \frac{f(a+h) - f(a) - L(h)}{\|h\|} = 0$.
+    The linear map $L$ is called the <strong>total derivative</strong> of $f$ at $a$,
+    written $Df(a)$.
+  </p>
+</div>
+
+<p>
+  If $f$ is differentiable, then $Df(a)$ is the linear map $h \mapsto \nabla f(a) \cdot h$.
+  As a matrix (a $1 \times n$ row vector), $Df(a)$ is simply the gradient written as a row.
+  This connects to the Jacobian matrix on <a href="02-chain-rule.html">page 2</a>.
+</p>
+<p>
+  The key point: differentiability means $f$ is well-approximated by a linear function near
+  $a$. The partial derivatives existing only means the function behaves linearly along each
+  axis &mdash; it says nothing about what happens in between.
+</p>
+
+<h2>7. Partial derivatives existing does not imply differentiability</h2>
+
+<p>
+  This is the most important subtlety on this page. Consider:
+</p>
+<div class="display-math">$$f(x, y) = \begin{cases} \dfrac{xy}{\sqrt{x^2 + y^2}} & \text{if } (x,y) \neq (0,0) \\ 0 & \text{if } (x,y) = (0,0) \end{cases}$$</div>
+<p>
+  Both partial derivatives exist at the origin. Along the $x$-axis ($y = 0$):
+  $f(x, 0) = 0$ for all $x$, so $f_x(0,0) = 0$. Similarly $f_y(0,0) = 0$.
+  So $\nabla f(0,0) = (0, 0)$.
+</p>
+<p>
+  If $f$ were differentiable at the origin, we would need
+  $f(h_1, h_2) = 0 + 0 + o(\|(h_1, h_2)\|)$, i.e.
+  $f(h_1, h_2)/\|(h_1, h_2)\| \to 0$. But along the line $y = x$:
+</p>
+<div class="display-math">$$\frac{f(t, t)}{\|(t, t)\|} = \frac{t^2 / \sqrt{2t^2}}{|t|\sqrt{2}} = \frac{|t|/\sqrt{2}}{|t|\sqrt{2}} = \frac{1}{2}$$</div>
+<p>
+  This does not tend to $0$. So $f$ is not differentiable at the origin, despite both
+  partial derivatives existing there. The partial derivatives capture behaviour along the
+  axes; differentiability captures behaviour in <em>all</em> directions simultaneously.
+</p>
+
+<h2>8. A sufficient condition for differentiability</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Continuous partials imply differentiability</div>
+  <p>
+    Let $f: \mathbb{R}^n \to \mathbb{R}$. If all partial derivatives
+    $\frac{\partial f}{\partial x_i}$ exist and are continuous in a neighbourhood of $a$,
+    then $f$ is differentiable at $a$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We prove the case $n = 2$; the general case follows by the same argument applied to
+    each variable in turn. Write $h = (h_1, h_2)$ and consider:
+  </p>
+  <div class="display-math">$$f(a_1 + h_1, a_2 + h_2) - f(a_1, a_2)$$</div>
+  <p>
+    <strong>Step 1.</strong> Split into two increments:
+  </p>
+  <div class="display-math">$$= \bigl[f(a_1 + h_1, a_2 + h_2) - f(a_1, a_2 + h_2)\bigr] + \bigl[f(a_1, a_2 + h_2) - f(a_1, a_2)\bigr]$$</div>
+  <p>
+    <strong>Step 2.</strong> Apply the single-variable mean value theorem
+    (<a href="../phase3/04-mean-value-theorem.html">Phase 3, page 4</a>) to each bracket.
+    For the first bracket, $g(t) = f(t, a_2 + h_2)$ is a function of $t$ alone.
+    By the MVT, there exists $\theta_1$ between $a_1$ and $a_1 + h_1$ such that:
+  </p>
+  <div class="display-math">$$f(a_1 + h_1, a_2 + h_2) - f(a_1, a_2 + h_2) = h_1 \frac{\partial f}{\partial x_1}(\theta_1, a_2 + h_2)$$</div>
+  <p>
+    For the second bracket, similarly there exists $\theta_2$ between $a_2$ and $a_2 + h_2$:
+  </p>
+  <div class="display-math">$$f(a_1, a_2 + h_2) - f(a_1, a_2) = h_2 \frac{\partial f}{\partial x_2}(a_1, \theta_2)$$</div>
+  <p>
+    <strong>Step 3.</strong> Combine:
+  </p>
+  <div class="display-math">$$f(a + h) - f(a) = h_1 \frac{\partial f}{\partial x_1}(\theta_1, a_2 + h_2) + h_2 \frac{\partial f}{\partial x_2}(a_1, \theta_2)$$</div>
+  <p>
+    <strong>Step 4.</strong> Add and subtract the gradient term $h_1 f_{x_1}(a) + h_2 f_{x_2}(a)$:
+  </p>
+  <div class="display-math">$$f(a+h) - f(a) - \nabla f(a) \cdot h = h_1\bigl[f_{x_1}(\theta_1, a_2+h_2) - f_{x_1}(a)\bigr] + h_2\bigl[f_{x_2}(a_1, \theta_2) - f_{x_2}(a)\bigr]$$</div>
+  <p>
+    <strong>Step 5.</strong> Divide by $\|h\|$ and bound. Since $|h_1| \leq \|h\|$ and
+    $|h_2| \leq \|h\|$:
+  </p>
+  <div class="display-math">$$\frac{|f(a+h) - f(a) - \nabla f(a) \cdot h|}{\|h\|} \leq |f_{x_1}(\theta_1, a_2+h_2) - f_{x_1}(a)| + |f_{x_2}(a_1, \theta_2) - f_{x_2}(a)|$$</div>
+  <p>
+    As $h \to 0$, both $(\theta_1, a_2 + h_2) \to a$ and $(a_1, \theta_2) \to a$.
+    Since $f_{x_1}$ and $f_{x_2}$ are continuous at $a$, both terms tend to $0$.
+    Therefore $f(a+h) = f(a) + \nabla f(a) \cdot h + o(\|h\|)$, so $f$ is differentiable.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Functions whose partial derivatives are all continuous are called <strong>$C^1$</strong>
+  functions. The theorem says: $C^1$ implies differentiable. The converse is false &mdash;
+  a function can be differentiable everywhere without having continuous partial derivatives,
+  but such examples are pathological.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euler introduced partial derivatives in the 1730s to study fluid flow and vibrating
+    strings. He used notation like $\left(\frac{dP}{dx}\right)$ with the understanding that
+    other variables are held fixed. The modern $\partial$ symbol was introduced by Legendre
+    (1786) and popularised by Jacobi (1841), who systematised the calculus of several
+    variables. The distinction between existence of partial derivatives and differentiability
+    was clarified in the 19th century, as analysts (Weierstrass, Schwarz) encountered
+    pathological functions that violated naive expectations.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without continuity of partial derivatives:</strong> the counterexample in section
+    7 has partial derivatives at the origin, but they are not continuous there, and $f$ is
+    not differentiable. The theorem's hypothesis is genuinely needed.
+  </p>
+  <p>
+    <strong>Partial derivatives without differentiability:</strong> the formula
+    $D_v f = \nabla f \cdot v$ fails. In the counterexample, $\nabla f(0,0) = (0,0)$
+    predicts $D_v f = 0$ in every direction. But $D_{(1/\sqrt{2},\, 1/\sqrt{2})} f(0,0) = 1/\sqrt{2} \neq 0$. The gradient formula requires differentiability, not just existence
+    of partials.
+  </p>
+  <p>
+    <strong>Without differentiability for the total derivative:</strong> if $f$ is not
+    differentiable, there is no linear approximation $L$ with $f(a+h) = f(a) + L(h) + o(\|h\|)$. The function bends too sharply near $a$ for any single linear map to
+    approximate it. This is the multivariable analogue of a corner in one dimension.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Partial derivatives measure change along each axis; the gradient collects them into a
+  vector pointing uphill &mdash; but only differentiability guarantees the linear
+  approximation works.
+</div>
+
+<div class="nav">
+  <a href="../phase6/11-jordan-normal-form.html">&larr; Previous: Jordan Normal Form</a>
+  <a href="02-chain-rule.html">Next: The Multivariable Chain Rule &rarr;</a>
+</div>
+
+</body>
+</html>

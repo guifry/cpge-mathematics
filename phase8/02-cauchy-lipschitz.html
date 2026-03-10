@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cauchy–Lipschitz Theorem — Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Cauchy&ndash;Lipschitz Theorem</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    On <a href="01-first-order-odes.html">page 1</a>, we saw that $y' = \sqrt{y}$ with
+    $y(0) = 0$ has infinitely many solutions, while $y' = y$ with $y(0) = 1$ has exactly one.
+    What distinguishes these cases? When can you trust that an initial value problem has a
+    solution, and that it is the <em>only</em> one?
+  </p>
+  <p>
+    Cauchy and Lipschitz identified the key condition: if the right-hand side $f(t, y)$
+    does not change too rapidly in $y$ &mdash; formalised by the <strong>Lipschitz
+    condition</strong> &mdash; then the solution exists and is unique. The proof is
+    constructive: Picard's iteration builds the solution as a limit of successive
+    approximations.
+  </p>
+</div>
+
+<h2>1. The Lipschitz condition</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Lipschitz continuity in $y$</div>
+  <p>
+    Let $D \subseteq \mathbb{R}^2$. A function $f : D \to \mathbb{R}$ is
+    <strong>Lipschitz in $y$</strong> on $D$ if there exists a constant $L \geq 0$ such that
+  </p>
+  <div class="display-math">$$|f(t, y_1) - f(t, y_2)| \leq L\, |y_1 - y_2|$$</div>
+  <p>
+    for all $(t, y_1), (t, y_2) \in D$. The smallest such $L$ is the
+    <strong>Lipschitz constant</strong>.
+  </p>
+</div>
+
+<p>
+  Lipschitz continuity is stronger than continuity but weaker than differentiability. The
+  condition says that $f$ cannot change faster than linearly in $y$: the slope of the
+  "secant" in $y$ is bounded by $L$, uniformly over all pairs.
+</p>
+<p>
+  If $\partial f / \partial y$ exists and is continuous on a convex domain $D$, then $f$ is
+  Lipschitz in $y$ with $L = \sup_{D} |\partial f / \partial y|$ (by the
+  <a href="../phase3/04-mean-value-theorem.html">Mean Value Theorem</a>: $|f(t,y_1) -
+  f(t,y_2)| = |\frac{\partial f}{\partial y}(t, \xi)| \cdot |y_1 - y_2|$ for some $\xi$
+  between $y_1$ and $y_2$). This gives a practical test: compute $\partial f / \partial y$
+  and check whether it is bounded.
+</p>
+
+<h2>2. Examples: Lipschitz or not?</h2>
+
+<p>
+  <strong>$f(t, y) = y$.</strong> We have $|f(t, y_1) - f(t, y_2)| = |y_1 - y_2|$, so
+  $L = 1$. Lipschitz everywhere.
+</p>
+<p>
+  <strong>$f(t, y) = t^2 + \sin y$.</strong> Since $|\sin y_1 - \sin y_2| \leq |y_1 - y_2|$
+  (the derivative of $\sin$ is bounded by $1$), this is Lipschitz with $L = 1$.
+</p>
+<p>
+  <strong>$f(t, y) = \sqrt{y}$ for $y \geq 0$.</strong> Near $y = 0$, the derivative
+  $1/(2\sqrt{y}) \to \infty$. More concretely: $|\sqrt{y} - \sqrt{0}| = \sqrt{y}$, while
+  $|y - 0| = y$. The ratio $\sqrt{y}/y = 1/\sqrt{y} \to \infty$ as $y \to 0^+$. No
+  finite $L$ works. This is <em>not</em> Lipschitz near $y = 0$, which explains why
+  uniqueness fails for $y' = \sqrt{y}$, $y(0) = 0$.
+</p>
+<p>
+  <strong>$f(t, y) = y^2$.</strong> On any bounded set $|y| \leq M$, we have
+  $|y_1^2 - y_2^2| = |y_1 + y_2||y_1 - y_2| \leq 2M|y_1 - y_2|$, so $f$ is
+  <strong>locally Lipschitz</strong>. This suffices for a local existence and uniqueness
+  result &mdash; the theorem applies on any bounded region containing the initial point.
+</p>
+<p>
+  The distinction between globally Lipschitz and locally Lipschitz matters for long-time
+  behaviour. A locally Lipschitz $f$ guarantees a unique solution exists on some interval
+  around $t_0$, but that interval may be finite (blow-up can occur, as we saw with
+  $y' = y^2$ on <a href="01-first-order-odes.html">page 1</a>). A globally Lipschitz $f$
+  (Lipschitz on all of $\mathbb{R}^2$) guarantees a global solution.
+</p>
+
+<h2>3. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Cauchy&ndash;Lipschitz (Picard&ndash;Lindel&ouml;f)</div>
+  <p>
+    Let $f(t, y)$ be continuous on a rectangle
+    $R = [t_0 - a, t_0 + a] \times [y_0 - b, y_0 + b]$ and Lipschitz in $y$ on $R$ with
+    constant $L$. Let $M = \max_{(t,y) \in R} |f(t,y)|$ and
+    $\alpha = \min(a, \, b/M)$. Then the initial value problem
+  </p>
+  <div class="display-math">$$y' = f(t, y), \quad y(t_0) = y_0$$</div>
+  <p>
+    has a <strong>unique</strong> solution on the interval $[t_0 - \alpha, t_0 + \alpha]$.
+  </p>
+</div>
+
+<p>
+  The number $\alpha = \min(a, b/M)$ deserves attention. The constraint $\alpha \leq a$
+  keeps us inside the rectangle in $t$. The constraint $\alpha \leq b/M$ ensures the
+  solution stays inside the rectangle in $y$: since $|y'| \leq M$, the solution cannot
+  move more than $M\alpha \leq b$ away from $y_0$ in time $\alpha$.
+</p>
+
+<h2>4. Picard iteration</h2>
+
+<p>
+  The proof is constructive. First, observe that the IVP is equivalent to an integral
+  equation. Integrating $y' = f(t, y)$ from $t_0$ to $t$ and using $y(t_0) = y_0$:
+</p>
+<div class="display-math">$$y(t) = y_0 + \int_{t_0}^t f(s, y(s))\, ds$$</div>
+<p>
+  Any continuous solution of the IVP satisfies this equation, and vice versa (differentiate
+  both sides using the <a href="../phase3/08-fundamental-theorem.html">Fundamental
+  Theorem</a>). Define the <strong>Picard operator</strong>
+  $T[\varphi](t) = y_0 + \int_{t_0}^t f(s, \varphi(s))\, ds$. A solution is a fixed point:
+  $T[y] = y$.
+</p>
+<p>
+  <strong>Picard iteration</strong> builds successive approximations:
+</p>
+<div class="display-math">$$y_0(t) = y_0, \qquad y_{n+1}(t) = y_0 + \int_{t_0}^t f(s, y_n(s))\, ds$$</div>
+
+<h2>5. Proof of the Cauchy&ndash;Lipschitz theorem</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    We work on $I = [t_0 - \alpha, t_0 + \alpha]$ where $\alpha = \min(a, b/M)$.
+  </p>
+  <p>
+    <strong>Step 1. The iterates stay in $R$.</strong> By induction. $y_0(t) = y_0$ clearly
+    satisfies $|y_0(t) - y_0| = 0 \leq b$. If $|y_n(t) - y_0| \leq b$ for all $t \in I$,
+    then $(s, y_n(s)) \in R$ and $|f(s, y_n(s))| \leq M$, so
+  </p>
+  <div class="display-math">$$|y_{n+1}(t) - y_0| = \left|\int_{t_0}^t f(s, y_n(s))\, ds\right| \leq M|t - t_0| \leq M\alpha \leq b$$</div>
+  <p>
+    <strong>Step 2. Bound the successive differences.</strong> Define
+    $e_n(t) = |y_{n+1}(t) - y_n(t)|$. For $n = 0$:
+  </p>
+  <div class="display-math">$$e_0(t) = |y_1(t) - y_0| = \left|\int_{t_0}^t f(s, y_0)\, ds\right| \leq M|t - t_0|$$</div>
+  <p>
+    For $n \geq 1$, using the Lipschitz condition:
+  </p>
+  <div class="display-math">$$e_n(t) = \left|\int_{t_0}^t [f(s, y_n(s)) - f(s, y_{n-1}(s))]\, ds\right| \leq L \int_{t_0}^t e_{n-1}(s)\, ds$$</div>
+  <p>
+    where we use $|t - t_0|$ in the absolute value of the integral (taking $t > t_0$; the
+    case $t < t_0$ is symmetric). By induction:
+  </p>
+  <div class="display-math">$$e_n(t) \leq \frac{M L^n |t - t_0|^{n+1}}{(n+1)!}$$</div>
+  <p>
+    The base case $n = 0$ holds. For the inductive step, if the bound holds for $e_{n-1}$:
+  </p>
+  <div class="display-math">$$e_n(t) \leq L \int_{t_0}^t \frac{M L^{n-1} |s - t_0|^n}{n!}\, ds = \frac{M L^n |t - t_0|^{n+1}}{(n+1)!}$$</div>
+  <p>
+    <strong>Step 3. Uniform convergence.</strong> The Picard iterates satisfy
+    $y_{n+1} = y_0 + \sum_{k=0}^n (y_{k+1} - y_k)$, so $y = \lim y_n$ exists if and only
+    if the telescoping series $\sum_{k=0}^\infty (y_{k+1} - y_k)$ converges. By Step 2,
+  </p>
+  <div class="display-math">$$\sum_{k=0}^\infty \sup_{t \in I} e_k(t) \leq \sum_{k=0}^\infty \frac{M L^k \alpha^{k+1}}{(k+1)!} \leq \frac{M}{L} \sum_{k=0}^\infty \frac{(L\alpha)^{k+1}}{(k+1)!} = \frac{M}{L}(e^{L\alpha} - 1) < \infty$$</div>
+  <p>
+    By the <a href="../phase5/07-weierstrass-m-test.html">Weierstrass M-test</a>, the series
+    converges uniformly on $I$. So $y_n \to y$ uniformly for some continuous function $y$.
+  </p>
+  <p>
+    <strong>Step 4. The limit solves the integral equation.</strong> Since $y_n \to y$
+    uniformly and $f$ is continuous (hence uniformly continuous on the compact set $R$),
+    $f(s, y_n(s)) \to f(s, y(s))$ uniformly in $s$. By
+    <a href="../phase5/06-uniform-convergence.html">uniform convergence of integrals</a>:
+  </p>
+  <div class="display-math">$$y(t) = \lim_{n \to \infty} y_{n+1}(t) = y_0 + \lim_{n \to \infty} \int_{t_0}^t f(s, y_n(s))\, ds = y_0 + \int_{t_0}^t f(s, y(s))\, ds$$</div>
+  <p>
+    So $y$ satisfies the integral equation, hence the IVP.
+  </p>
+  <p>
+    <strong>Step 5. Uniqueness.</strong> Suppose $y$ and $z$ both solve the IVP on $I$. Then
+  </p>
+  <div class="display-math">$$|y(t) - z(t)| = \left|\int_{t_0}^t [f(s, y(s)) - f(s, z(s))]\, ds\right| \leq L \int_{t_0}^t |y(s) - z(s)|\, ds$$</div>
+  <p>
+    Set $u(t) = |y(t) - z(t)|$. Then $u(t) \leq L \int_{t_0}^t u(s)\, ds$ with $u(t_0) = 0$.
+    By <a href="03-gronwall.html">Gronwall's inequality</a> (next page), $u(t) \leq 0$. Since
+    $u \geq 0$, we get $u = 0$, i.e. $y = z$.
+  </p>
+  <p>
+    (Alternatively, iterate the bound: $u(t) \leq L^n |t - t_0|^n / n! \cdot \sup u \to 0$
+    as $n \to \infty$. This avoids using Gronwall.)
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>6. Example: Picard iteration for $y' = y$</h2>
+
+<p>
+  Take $y' = y$, $y(0) = 1$. Here $f(t, y) = y$. The Picard iterates are:
+</p>
+<div class="display-math">$$y_0(t) = 1$$</div>
+<div class="display-math">$$y_1(t) = 1 + \int_0^t 1\, ds = 1 + t$$</div>
+<div class="display-math">$$y_2(t) = 1 + \int_0^t (1 + s)\, ds = 1 + t + \frac{t^2}{2}$$</div>
+<div class="display-math">$$y_3(t) = 1 + \int_0^t \left(1 + s + \frac{s^2}{2}\right) ds = 1 + t + \frac{t^2}{2} + \frac{t^3}{6}$$</div>
+<p>
+  By induction, $y_n(t) = \sum_{k=0}^n t^k / k!$. The limit is $\sum_{k=0}^\infty t^k / k!
+  = e^t$, consistent with the power series definition from
+  <a href="../phase4/03-exponential.html">Phase 4, page 3</a>. The Picard iterates are
+  precisely the partial sums of the Taylor series of $e^t$.
+</p>
+
+<p>
+  This is no coincidence. For an analytic ODE, the Picard iterates often reconstruct the
+  Taylor series of the solution term by term. Each iteration adds one more order of
+  accuracy.
+</p>
+
+<p><strong>Example.</strong> Consider $y' = 2ty$, $y(0) = 1$. This is separable:
+  $dy/y = 2t\, dt$, giving $\ln|y| = t^2 + C$, so $y = e^{t^2}$. Let us verify with
+  Picard: $y_0 = 1$, $y_1(t) = 1 + \int_0^t 2s \cdot 1\, ds = 1 + t^2$. Then
+  $y_2(t) = 1 + \int_0^t 2s(1 + s^2)\, ds = 1 + t^2 + t^4/2$. The pattern gives
+  $y_n(t) = \sum_{k=0}^n t^{2k}/k!$, which converges to $e^{t^2}$ &mdash; the
+  <a href="../phase4/01-taylor-theorem.html">Taylor series</a> composed with $t^2$.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy (1820s&ndash;30s) proved existence using his method of majorants &mdash; bounding
+    the solution by a known convergent series. Lipschitz (1876) identified the condition that
+    bears his name: a bound on how fast $f$ varies in $y$. Picard (1890) gave the elegant
+    iterative proof using successive approximations, reducing the problem to a fixed-point
+    argument. Lindel&ouml;f simplified and extended the result. The theorem is called
+    Cauchy&ndash;Lipschitz in France and Picard&ndash;Lindel&ouml;f elsewhere &mdash; one of
+    mathematics' national naming disputes.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Remove the Lipschitz condition &mdash; uniqueness fails.</strong>
+    $y' = y^{2/3}$, $y(0) = 0$ has both $y = 0$ and $y = (t/3)^3$ as solutions. Here
+    $\partial f / \partial y = \frac{2}{3} y^{-1/3} \to \infty$ at $y = 0$.
+  </p>
+  <p>
+    <strong>Remove continuity of $f$ &mdash; existence can fail.</strong> If $f$ is
+    discontinuous, the integral in the Picard iteration may not make sense, and the
+    successive approximations may not converge.
+  </p>
+  <p>
+    <strong>Keep only continuity (no Lipschitz) &mdash; existence holds but not uniqueness.</strong>
+    The <strong>Peano existence theorem</strong> (1890) guarantees at least one solution when
+    $f$ is merely continuous. But uniqueness requires the Lipschitz condition. In a sense,
+    Lipschitz controls the sensitivity of the ODE to perturbations in $y$: if nearby initial
+    values lead to wildly different trajectories, you cannot pin down a single solution.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  If $f(t, y)$ is Lipschitz in $y$, the initial value problem $y' = f(t,y)$, $y(t_0) = y_0$
+  has exactly one solution &mdash; and Picard iteration constructs it.
+</div>
+
+<div class="nav">
+  <a href="01-first-order-odes.html">&larr; Previous: First-Order ODEs</a>
+  <a href="03-gronwall.html">Next: Gronwall's Inequality &rarr;</a>
+</div>
+
+</body>
+</html>

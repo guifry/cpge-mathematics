@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear ODE Solution Structure — Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Linear ODE Solution Structure</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A vibrating spring satisfies $x'' + \omega^2 x = 0$. Both $\cos(\omega t)$ and
+    $\sin(\omega t)$ are solutions. So is any linear combination
+    $A\cos(\omega t) + B\sin(\omega t)$. The set of all solutions forms a two-dimensional
+    vector space &mdash; it has the same algebraic structure as $\mathbb{R}^2$.
+  </p>
+  <p>
+    This is where <a href="../phase6/01-vector-spaces.html">linear algebra</a> meets
+    differential equations. The linearity of differentiation means the solution set of a
+    linear ODE inherits the structure of a vector space. Finding <em>all</em> solutions
+    reduces to finding a <em>basis</em> &mdash; $n$ independent solutions for an $n$-th
+    order equation &mdash; and taking linear combinations.
+  </p>
+</div>
+
+<h2>1. Definitions</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Linear ODE</div>
+  <p>
+    An $n$-th order <strong>linear ODE</strong> has the form
+  </p>
+  <div class="display-math">$$y^{(n)} + a_{n-1}(t)\, y^{(n-1)} + \cdots + a_1(t)\, y' + a_0(t)\, y = g(t)$$</div>
+  <p>
+    where $a_0, \ldots, a_{n-1}$ and $g$ are continuous functions on an interval $I$. The
+    equation is <strong>homogeneous</strong> if $g(t) = 0$ for all $t$. Otherwise it is
+    <strong>non-homogeneous</strong>.
+  </p>
+</div>
+
+<p>
+  Define the <strong>linear differential operator</strong>
+  $\mathcal{L}[y] = y^{(n)} + a_{n-1} y^{(n-1)} + \cdots + a_0 y$. Then the homogeneous
+  equation is $\mathcal{L}[y] = 0$ and the non-homogeneous equation is
+  $\mathcal{L}[y] = g$.
+</p>
+<p>
+  The operator $\mathcal{L}$ is linear: $\mathcal{L}[c_1 y_1 + c_2 y_2] = c_1
+  \mathcal{L}[y_1] + c_2 \mathcal{L}[y_2]$. This follows from the linearity of
+  differentiation, which we proved in
+  <a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>.
+</p>
+
+<h2>2. The solution space is a vector space</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Superposition principle</div>
+  <p>
+    The set $S = \{y \in C^n(I) : \mathcal{L}[y] = 0\}$ of all solutions to the
+    homogeneous equation is a <a href="../phase6/01-vector-spaces.html">vector subspace</a>
+    of $C^n(I)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The zero function satisfies $\mathcal{L}[0] = 0$, so $0 \in S$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Let $y_1, y_2 \in S$ and $c_1, c_2 \in \mathbb{R}$. Then
+    $\mathcal{L}[c_1 y_1 + c_2 y_2] = c_1 \mathcal{L}[y_1] + c_2 \mathcal{L}[y_2]
+    = c_1 \cdot 0 + c_2 \cdot 0 = 0$. So $c_1 y_1 + c_2 y_2 \in S$.
+  </p>
+  <p>
+    By the <a href="../phase6/01-vector-spaces.html">subspace criterion</a>, $S$ is a vector
+    subspace.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>3. Dimension of the solution space</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Dimension equals order</div>
+  <p>
+    The solution space of an $n$-th order homogeneous linear ODE with continuous coefficients
+    on an interval $I$ is exactly $n$-dimensional.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Fix $t_0 \in I$. Define the map
+    $\Phi : S \to \mathbb{R}^n$ by
+  </p>
+  <div class="display-math">$$\Phi(y) = (y(t_0),\; y'(t_0),\; \ldots,\; y^{(n-1)}(t_0))$$</div>
+  <p>
+    This sends each solution to its initial data at $t_0$.
+  </p>
+  <p>
+    <strong>Step 2. $\Phi$ is linear.</strong> $\Phi(c_1 y_1 + c_2 y_2) = c_1 \Phi(y_1) +
+    c_2 \Phi(y_2)$ because differentiation and evaluation are linear.
+  </p>
+  <p>
+    <strong>Step 3. $\Phi$ is injective.</strong> Suppose $\Phi(y) = 0$, meaning
+    $y(t_0) = y'(t_0) = \cdots = y^{(n-1)}(t_0) = 0$. The zero function also satisfies
+    these initial conditions. By the <a href="02-cauchy-lipschitz.html">Cauchy&ndash;Lipschitz
+    theorem</a> (which extends to $n$-th order linear systems &mdash; the Lipschitz condition
+    holds because the coefficients are continuous and the equation is linear), the solution is
+    unique. So $y = 0$. Thus $\ker \Phi = \{0\}$.
+  </p>
+  <p>
+    <strong>Step 4. $\Phi$ is surjective.</strong> For any
+    $(c_0, c_1, \ldots, c_{n-1}) \in \mathbb{R}^n$, the IVP $\mathcal{L}[y] = 0$ with
+    $y(t_0) = c_0, y'(t_0) = c_1, \ldots, y^{(n-1)}(t_0) = c_{n-1}$ has a solution by
+    Cauchy&ndash;Lipschitz. That solution maps to $(c_0, \ldots, c_{n-1})$ under $\Phi$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> So $\Phi$ is a linear isomorphism from $S$ to $\mathbb{R}^n$.
+    Therefore $\dim S = \dim \mathbb{R}^n = n$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  This is a remarkable fact. Finding <em>all</em> solutions of an $n$-th order homogeneous
+  linear ODE amounts to finding $n$ linearly independent solutions. Every other solution is
+  a linear combination of these.
+</p>
+
+<h2>4. The Wronskian</h2>
+
+<p>
+  How do you check whether $n$ solutions are linearly independent? The answer is a
+  determinant.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Wronskian</div>
+  <p>
+    Given $n$ functions $y_1, \ldots, y_n$ that are $(n-1)$ times differentiable, the
+    <strong>Wronskian</strong> is
+  </p>
+  <div class="display-math">$$W(y_1, \ldots, y_n)(t) = \det \begin{pmatrix} y_1(t) & y_2(t) & \cdots & y_n(t) \\ y_1'(t) & y_2'(t) & \cdots & y_n'(t) \\ \vdots & \vdots & & \vdots \\ y_1^{(n-1)}(t) & y_2^{(n-1)}(t) & \cdots & y_n^{(n-1)}(t) \end{pmatrix}$$</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Wronskian test for linear independence</div>
+  <p>
+    Let $y_1, \ldots, y_n$ be solutions of $\mathcal{L}[y] = 0$ on $I$. Then:
+  </p>
+  <p>(a) If $W(t_0) \neq 0$ for some $t_0 \in I$, then $y_1, \ldots, y_n$ are linearly
+  independent (they form a basis of $S$).</p>
+  <p>(b) If $W(t_0) = 0$ for some $t_0 \in I$, then $W(t) = 0$ for ALL $t \in I$, and the
+  solutions are linearly dependent.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Suppose $c_1 y_1 + \cdots + c_n y_n = 0$ on $I$. Differentiating
+    $k$ times ($k = 0, 1, \ldots, n-1$) and evaluating at $t_0$:
+  </p>
+  <div class="display-math">$$\begin{pmatrix} y_1(t_0) & \cdots & y_n(t_0) \\ y_1'(t_0) & \cdots & y_n'(t_0) \\ \vdots & & \vdots \\ y_1^{(n-1)}(t_0) & \cdots & y_n^{(n-1)}(t_0) \end{pmatrix} \begin{pmatrix} c_1 \\ \vdots \\ c_n \end{pmatrix} = \begin{pmatrix} 0 \\ \vdots \\ 0 \end{pmatrix}$$</div>
+  <p>
+    If $W(t_0) \neq 0$, the matrix is invertible
+    (<a href="../phase6/05-determinants.html">Phase 6, page 5</a>), so
+    $c_1 = \cdots = c_n = 0$. The solutions are linearly independent.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Part (b) follows from Abel's identity (below), which shows that
+    $W$ is either always zero or never zero on $I$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<h2>5. Abel's identity</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Abel's identity (second-order case)</div>
+  <p>
+    If $y_1, y_2$ are solutions of $y'' + p(t)y' + q(t)y = 0$ on $I$, then their Wronskian
+    satisfies
+  </p>
+  <div class="display-math">$$W(t) = W(t_0) \exp\!\left(-\int_{t_0}^t p(s)\, ds\right)$$</div>
+  <p>for any $t_0, t \in I$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The Wronskian is $W = y_1 y_2' - y_1' y_2$. Differentiate:
+  </p>
+  <div class="display-math">$$W' = y_1 y_2'' - y_1'' y_2$$</div>
+  <p>
+    (The cross terms $y_1' y_2'$ cancel: $y_1' y_2' + y_1 y_2'' - y_1'' y_2 - y_1' y_2'
+    = y_1 y_2'' - y_1'' y_2$.)
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $y_1$ and $y_2$ solve the ODE:
+    $y_1'' = -p y_1' - q y_1$ and $y_2'' = -p y_2' - q y_2$. Substitute:
+  </p>
+  <div class="display-math">$$W' = y_1(-p y_2' - q y_2) - (-p y_1' - q y_1) y_2$$</div>
+  <div class="display-math">$$= -p y_1 y_2' - q y_1 y_2 + p y_1' y_2 + q y_1 y_2$$</div>
+  <div class="display-math">$$= -p(y_1 y_2' - y_1' y_2) = -p\, W$$</div>
+  <p>
+    <strong>Step 3.</strong> So $W$ satisfies the first-order linear ODE $W' = -p(t) W$.
+    By the method of <a href="01-first-order-odes.html">page 1</a> (separable equation):
+  </p>
+  <div class="display-math">$$W(t) = W(t_0) \exp\!\left(-\int_{t_0}^t p(s)\, ds\right)$$</div>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  Since the exponential is never zero, $W(t) = 0$ for some $t$ if and only if $W(t_0) = 0$
+  if and only if $W(t) = 0$ for all $t$. The Wronskian is either identically zero or
+  never zero. This completes the proof of part (b) of the Wronskian test.
+</p>
+
+<h2>6. Constant-coefficient equations</h2>
+
+<p>
+  The most important special case: all coefficients $a_i$ are constants. Consider the
+  second-order equation
+</p>
+<div class="display-math">$$y'' + by' + cy = 0$$</div>
+<p>
+  The <strong>exponential ansatz</strong>: try $y = e^{rt}$. Then $y' = re^{rt}$,
+  $y'' = r^2 e^{rt}$. Substituting:
+</p>
+<div class="display-math">$$r^2 e^{rt} + b r e^{rt} + c e^{rt} = (r^2 + br + c) e^{rt} = 0$$</div>
+<p>
+  Since $e^{rt} \neq 0$, we need $r^2 + br + c = 0$. This is the
+  <strong>characteristic equation</strong>. Its roots determine the form of the solution.
+</p>
+
+<p><strong>Case 1: Two distinct real roots $r_1 \neq r_2$.</strong></p>
+<p>
+  Both $e^{r_1 t}$ and $e^{r_2 t}$ are solutions. Their Wronskian at $t = 0$ is
+  $W(0) = r_2 - r_1 \neq 0$ (compute the $2 \times 2$ determinant), so they are linearly
+  independent. The general solution is
+</p>
+<div class="display-math">$$y = c_1 e^{r_1 t} + c_2 e^{r_2 t}$$</div>
+
+<p><strong>Case 2: Repeated root $r_1 = r_2 = r = -b/2$.</strong></p>
+<p>
+  We have one solution $e^{rt}$. For a second, try $y = te^{rt}$. Then
+  $y' = e^{rt} + rte^{rt} = (1 + rt)e^{rt}$ and
+  $y'' = (2r + r^2 t)e^{rt}$. Substitute into $y'' + by' + cy = 0$:
+</p>
+<div class="display-math">$$(2r + r^2 t + b + brt + ct) e^{rt} = ((r^2 + br + c)t + (2r + b)) e^{rt}$$</div>
+<p>
+  The coefficient of $t$ vanishes since $r$ is a root. The constant term is $2r + b = 0$
+  since $r = -b/2$ (the repeated root condition $b^2 = 4c$ gives $2r + b = -b + b = 0$).
+  So $te^{rt}$ is indeed a solution. The Wronskian of $e^{rt}$ and $te^{rt}$ at $t = 0$
+  is $1 \neq 0$. General solution:
+</p>
+<div class="display-math">$$y = (c_1 + c_2 t) e^{rt}$$</div>
+
+<p><strong>Case 3: Complex conjugate roots $r = \alpha \pm i\beta$ ($\beta \neq 0$).</strong></p>
+<p>
+  Formally, $e^{(\alpha + i\beta)t}$ is a solution. Using the
+  <a href="../phase4/03-exponential.html">exponential of a complex number</a>:
+  $e^{(\alpha + i\beta)t} = e^{\alpha t}(\cos\beta t + i\sin\beta t)$. Since the equation
+  has real coefficients, the real and imaginary parts are separately solutions (substitute
+  and separate). So $e^{\alpha t}\cos\beta t$ and $e^{\alpha t}\sin\beta t$ are real
+  solutions. Their Wronskian at $t = 0$ is $\beta \neq 0$. General solution:
+</p>
+<div class="display-math">$$y = e^{\alpha t}(c_1 \cos\beta t + c_2 \sin\beta t)$$</div>
+
+<p><strong>Example.</strong> $y'' + 4y' + 5y = 0$. Characteristic equation:
+$r^2 + 4r + 5 = 0$, roots $r = -2 \pm i$. So $\alpha = -2$, $\beta = 1$, and the
+general solution is $y = e^{-2t}(c_1 \cos t + c_2 \sin t)$. The factor $e^{-2t}$
+causes the oscillations to decay &mdash; a <strong>damped vibration</strong>.</p>
+
+<h2>7. Higher-order constant-coefficient equations</h2>
+
+<p>
+  For $y^{(n)} + a_{n-1} y^{(n-1)} + \cdots + a_0 y = 0$, the same ansatz $y = e^{rt}$
+  gives the <strong>characteristic polynomial</strong> $r^n + a_{n-1} r^{n-1} + \cdots +
+  a_0 = 0$. By the
+  <a href="../phase4/03-exponential.html">Fundamental Theorem of Algebra</a> (IOU: this will
+  be proved properly in a later phase on complex analysis), it has $n$ roots over
+  $\mathbb{C}$ (counted with multiplicity).
+</p>
+<p>
+  Each simple real root $r$ contributes $e^{rt}$. A real root of multiplicity $m$ contributes
+  $e^{rt}, te^{rt}, \ldots, t^{m-1}e^{rt}$. Complex conjugate roots $\alpha \pm i\beta$
+  of multiplicity $m$ contribute
+  $t^k e^{\alpha t}\cos\beta t$ and $t^k e^{\alpha t}\sin\beta t$ for $k = 0, \ldots, m-1$.
+  Together, these give exactly $n$ linearly independent solutions.
+</p>
+<p>
+  This is deeply connected to eigenvalues. Rewrite the $n$-th order equation as a first-order
+  system $\mathbf{y}' = A\mathbf{y}$ where
+  $\mathbf{y} = (y, y', \ldots, y^{(n-1)})^T$ and $A$ is the
+  <strong>companion matrix</strong>. The characteristic polynomial of the ODE is exactly the
+  characteristic polynomial of $A$
+  (<a href="../phase6/06-eigenvalues.html">Phase 6, page 6</a>), and the roots $r$ are
+  the eigenvalues. The exponential solutions $e^{rt}$ correspond to eigenvectors, and the
+  $t^k e^{rt}$ terms arise from
+  <a href="../phase6/11-jordan-normal-form.html">Jordan blocks</a>.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Euler (1743) solved constant-coefficient ODEs using the exponential ansatz &mdash; guess
+    $y = e^{rt}$ and see what happens. D'Alembert (1748) handled the complex root case,
+    extracting real solutions from complex exponentials. The Wronskian is named after
+    J&oacute;zef Hoene-Wro&nacute;ski (1812), a Polish mathematician with grand philosophical
+    ambitions who introduced the determinant in a much broader (and often confused) context.
+    Its systematic use in ODE theory is due to later mathematicians. Abel's identity (1827)
+    reveals that the Wronskian satisfies its own first-order ODE &mdash; connecting the
+    independence of solutions to the coefficients of the equation without needing to solve it.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Remove linearity.</strong> The sum of two solutions of $y' = y^2$ is generally
+    not a solution: if $y_1' = y_1^2$ and $y_2' = y_2^2$, then
+    $(y_1 + y_2)' = y_1^2 + y_2^2 \neq (y_1 + y_2)^2$ in general. The vector space
+    structure &mdash; and the reduction to finding a basis &mdash; is a gift of linearity.
+    Without it, there is no systematic method for finding all solutions.
+  </p>
+  <p>
+    <strong>Non-constant coefficients.</strong> The exponential ansatz fails completely. For
+    $y'' + t\, y = 0$ (the Airy equation), solutions cannot be expressed in terms of
+    elementary functions. The solution space is still two-dimensional (by the theorem above),
+    but finding a basis requires power series or special functions.
+  </p>
+  <p>
+    <strong>The Wronskian test requires the functions to be solutions.</strong> For arbitrary
+    (non-solution) functions, $W = 0$ at a point does not imply $W = 0$ everywhere. The
+    functions $f(t) = t^2$ and $g(t) = t|t|$ have $W(0) = 0$ but $W(t) \neq 0$ for
+    $t \neq 0$. Abel's identity &mdash; and the "all or nothing" property of $W$ &mdash;
+    depends on the functions actually satisfying a linear ODE.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The solution space of an $n$-th order homogeneous linear ODE is an $n$-dimensional vector
+  space; for constant coefficients, a basis comes from the roots of the characteristic
+  polynomial.
+</div>
+
+<div class="nav">
+  <a href="03-gronwall.html">&larr; Previous: Gronwall's Inequality</a>
+  <a href="05-variation-of-parameters.html">Next: Variation of Parameters &rarr;</a>
+</div>
+
+</body>
+</html>

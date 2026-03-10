@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schwarz's Theorem — Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Schwarz's Theorem</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 3</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    If $f(x, y)$ has second-order partial derivatives, you can differentiate in two orders:
+    first with respect to $x$ then $y$ (giving $f_{xy}$), or first $y$ then $x$ (giving
+    $f_{yx}$). Are these always equal? In every polynomial or trig function you try, they
+    are. Euler used this freely without proof throughout the 18th century. But is it actually
+    a theorem, or just a coincidence?
+  </p>
+  <p>
+    Schwarz (1873) found the precise answer: the mixed partials are equal whenever they are
+    <em>continuous</em>. Without continuity, they can differ &mdash; Peano (1890) gave a
+    clean counterexample. This page proves the theorem and exhibits the counterexample.
+  </p>
+</div>
+
+<h2>1. Second-order partial derivatives</h2>
+
+<p>
+  If $f: \mathbb{R}^2 \to \mathbb{R}$ has partial derivatives $f_x$ and $f_y$, and these
+  are themselves partially differentiable, we get four <strong>second-order partial
+  derivatives</strong>:
+</p>
+<div class="display-math">$$f_{xx} = \frac{\partial^2 f}{\partial x^2}, \quad f_{yy} = \frac{\partial^2 f}{\partial y^2}, \quad f_{xy} = \frac{\partial^2 f}{\partial y \, \partial x}, \quad f_{yx} = \frac{\partial^2 f}{\partial x \, \partial y}$$</div>
+<p>
+  Notation: $f_{xy}$ means differentiate first with respect to $x$, then with respect to
+  $y$. In Leibniz notation, $\frac{\partial^2 f}{\partial y \, \partial x}$ reads right to
+  left: first $x$, then $y$. The two notations agree on the order of differentiation.
+</p>
+
+<h2>2. An example where mixed partials agree</h2>
+
+<p>
+  Let $f(x, y) = x^3 y + x y^4$. Compute $f_{xy}$ and $f_{yx}$.
+</p>
+<p>
+  First route: $f_x = 3x^2 y + y^4$, then $f_{xy} = \frac{\partial}{\partial y}(3x^2 y + y^4) = 3x^2 + 4y^3$.
+</p>
+<p>
+  Second route: $f_y = x^3 + 4xy^3$, then $f_{yx} = \frac{\partial}{\partial x}(x^3 + 4xy^3) = 3x^2 + 4y^3$.
+</p>
+<p>
+  They agree: $f_{xy} = f_{yx} = 3x^2 + 4y^3$. This always happens for polynomials.
+  Let us prove why.
+</p>
+
+<h2>3. Schwarz's theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Schwarz (Clairaut&ndash;Schwarz)</div>
+  <p>
+    Let $f: U \subseteq \mathbb{R}^2 \to \mathbb{R}$ where $U$ is open. If $f_{xy}$ and
+    $f_{yx}$ both exist and are continuous in a neighbourhood of $(a, b)$, then
+  </p>
+  <div class="display-math">$$f_{xy}(a, b) = f_{yx}(a, b)$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Define the <strong>second difference</strong>. For small $h, k \neq 0$:
+  </p>
+  <div class="display-math">$$\Delta(h, k) = f(a+h, b+k) - f(a+h, b) - f(a, b+k) + f(a, b)$$</div>
+  <p>
+    We will compute $\Delta$ two ways &mdash; by grouping along $x$ first, then along $y$
+    first &mdash; and compare.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Group along $x$ first. Define $\varphi(x) = f(x, b+k) - f(x, b)$.
+    Then $\Delta = \varphi(a+h) - \varphi(a)$.
+  </p>
+  <p>
+    By the mean value theorem (<a href="../phase3/04-mean-value-theorem.html">Phase 3, page 4</a>),
+    there exists $\alpha$ between $a$ and $a+h$ such that:
+  </p>
+  <div class="display-math">$$\Delta = h \, \varphi'(\alpha) = h \bigl[f_x(\alpha, b+k) - f_x(\alpha, b)\bigr]$$</div>
+  <p>
+    Apply the MVT again to $t \mapsto f_x(\alpha, t)$: there exists $\beta$ between $b$
+    and $b+k$ such that:
+  </p>
+  <div class="display-math">$$\Delta = hk \, f_{xy}(\alpha, \beta) \qquad \text{where } \alpha \in (a, a+h),\; \beta \in (b, b+k) \tag{I}$$</div>
+  <p>
+    <strong>Step 3.</strong> Group along $y$ first. Define $\psi(y) = f(a+h, y) - f(a, y)$.
+    Then $\Delta = \psi(b+k) - \psi(b)$.
+  </p>
+  <p>
+    By the MVT, there exists $\beta'$ between $b$ and $b+k$ with
+    $\Delta = k \, \psi'(\beta') = k[f_y(a+h, \beta') - f_y(a, \beta')]$. Apply MVT again:
+    there exists $\alpha'$ between $a$ and $a+h$ with:
+  </p>
+  <div class="display-math">$$\Delta = hk \, f_{yx}(\alpha', \beta') \qquad \text{where } \alpha' \in (a, a+h),\; \beta' \in (b, b+k) \tag{II}$$</div>
+  <p>
+    <strong>Step 4.</strong> From (I) and (II):
+  </p>
+  <div class="display-math">$$f_{xy}(\alpha, \beta) = f_{yx}(\alpha', \beta')$$</div>
+  <p>
+    <strong>Step 5.</strong> Let $h, k \to 0$. Then $\alpha, \alpha' \to a$ and
+    $\beta, \beta' \to b$ (since they lie between $a$ and $a+h$, and $b$ and $b+k$
+    respectively). By the continuity of $f_{xy}$ and $f_{yx}$ at $(a, b)$:
+  </p>
+  <div class="display-math">$$f_{xy}(a, b) = \lim_{h,k \to 0} f_{xy}(\alpha, \beta) = \lim_{h,k \to 0} f_{yx}(\alpha', \beta') = f_{yx}(a, b)$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>4. Peano's counterexample</h2>
+
+<p>
+  The continuity hypothesis is essential. Consider:
+</p>
+<div class="display-math">$$f(x, y) = \begin{cases} \dfrac{xy(x^2 - y^2)}{x^2 + y^2} & \text{if } (x, y) \neq (0, 0) \\ 0 & \text{if } (x, y) = (0, 0) \end{cases}$$</div>
+<p>
+  We will show $f_{xy}(0, 0) = -1$ and $f_{yx}(0, 0) = 1$.
+</p>
+<p>
+  <strong>Computing $f_x(0, y)$.</strong> For $y \neq 0$:
+</p>
+<div class="display-math">$$f_x(0, y) = \lim_{h \to 0} \frac{f(h, y) - f(0, y)}{h} = \lim_{h \to 0} \frac{hy(h^2 - y^2)/(h^2 + y^2)}{h} = \frac{y(0 - y^2)}{0 + y^2} = -y$$</div>
+<p>
+  And $f_x(0, 0) = \lim_{h \to 0} f(h, 0)/h = 0$. So $f_x(0, y) = -y$ for all $y$.
+</p>
+<p>
+  <strong>Computing $f_{yx}(0, 0)$.</strong> Differentiate $f_x(0, y) = -y$ with respect to $y$:
+</p>
+<div class="display-math">$$f_{yx}(0, 0) = \frac{\partial}{\partial y}\bigl[f_x(0, y)\bigr]\Big|_{y=0} = \frac{d}{dy}(-y)\Big|_{y=0} = -1$$</div>
+<p>
+  <strong>Computing $f_y(x, 0)$.</strong> By symmetry of the original function (swapping
+  $x$ and $y$ flips the sign of $x^2 - y^2$): for $x \neq 0$,
+</p>
+<div class="display-math">$$f_y(x, 0) = \lim_{k \to 0} \frac{f(x, k) - f(x, 0)}{k} = \lim_{k \to 0} \frac{xk(x^2 - k^2)/(x^2 + k^2)}{k} = \frac{x \cdot x^2}{x^2} = x$$</div>
+<p>
+  And $f_y(0, 0) = 0$. So $f_y(x, 0) = x$ for all $x$.
+</p>
+<p>
+  <strong>Computing $f_{xy}(0, 0)$.</strong> Differentiate $f_y(x, 0) = x$ with respect to $x$:
+</p>
+<div class="display-math">$$f_{xy}(0, 0) = \frac{\partial}{\partial x}\bigl[f_y(x, 0)\bigr]\Big|_{x=0} = \frac{d}{dx}(x)\Big|_{x=0} = 1$$</div>
+<p>
+  So $f_{xy}(0, 0) = 1 \neq -1 = f_{yx}(0, 0)$. The mixed partials differ at the origin.
+  The point is that $f_{xy}$ and $f_{yx}$ exist everywhere but are <em>discontinuous</em>
+  at $(0, 0)$ &mdash; exactly the hypothesis Schwarz's theorem requires.
+</p>
+
+<h2>5. Why the mixed partials are discontinuous</h2>
+
+<p>
+  Let us verify that $f_{xy}$ is indeed discontinuous at the origin. Away from the origin,
+  we can compute $f_{xy}$ by standard differentiation. First, expanding $f(x,y)$:
+</p>
+<div class="display-math">$$f(x, y) = \frac{x^3 y - xy^3}{x^2 + y^2}$$</div>
+<p>
+  Differentiating (a lengthy but routine quotient rule computation) gives:
+</p>
+<div class="display-math">$$f_x(x, y) = \frac{y(x^4 + 4x^2 y^2 - y^4)}{(x^2 + y^2)^2} \quad \text{for } (x,y) \neq (0,0)$$</div>
+<p>
+  and then:
+</p>
+<div class="display-math">$$f_{xy}(x, y) = \frac{x^6 + 9x^4 y^2 - 9x^2 y^4 - y^6}{(x^2 + y^2)^3} \quad \text{for } (x,y) \neq (0,0)$$</div>
+<p>
+  Along the $x$-axis ($y = 0$): $f_{xy}(x, 0) = x^6/x^6 = 1$. Along the $y$-axis
+  ($x = 0$): $f_{xy}(0, y) = -y^6/y^6 = -1$. So $f_{xy}$ takes the values $1$ and $-1$
+  arbitrarily close to the origin. It has no limit there &mdash; it is genuinely
+  discontinuous. This is exactly the gap that Schwarz's theorem exploits: continuity of
+  the mixed partials is what forces them to agree.
+</p>
+
+<h2>6. The Hessian matrix</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Hessian matrix</div>
+  <p>
+    For $f: \mathbb{R}^n \to \mathbb{R}$ with continuous second partial derivatives, the
+    <strong>Hessian matrix</strong> of $f$ at $a$ is
+  </p>
+  <div class="display-math">$$H_f(a) = \begin{pmatrix} \dfrac{\partial^2 f}{\partial x_1^2} & \dfrac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \dfrac{\partial^2 f}{\partial x_1 \partial x_n} \\[6pt] \dfrac{\partial^2 f}{\partial x_2 \partial x_1} & \dfrac{\partial^2 f}{\partial x_2^2} & \cdots & \dfrac{\partial^2 f}{\partial x_2 \partial x_n} \\[6pt] \vdots & \vdots & \ddots & \vdots \\[6pt] \dfrac{\partial^2 f}{\partial x_n \partial x_1} & \dfrac{\partial^2 f}{\partial x_n \partial x_2} & \cdots & \dfrac{\partial^2 f}{\partial x_n^2} \end{pmatrix}$$</div>
+</div>
+
+<p>
+  By Schwarz's theorem, $H_f$ is symmetric: $\frac{\partial^2 f}{\partial x_i \partial x_j} = \frac{\partial^2 f}{\partial x_j \partial x_i}$ when the second partials are
+  continuous. This is a real symmetric matrix, so the spectral theorem
+  (<a href="../phase6/09-spectral-theorem.html">Phase 6, page 9</a>) applies: $H_f$ has
+  real eigenvalues and an orthonormal basis of eigenvectors. This will be essential for
+  classifying critical points (second derivative test, coming in a later page).
+</p>
+
+<h2>7. Higher-order generalisation</h2>
+
+<p>
+  Schwarz's theorem generalises: if $f$ is $C^k$ (all partial derivatives up to order $k$
+  exist and are continuous), then the order of differentiation does not matter. For instance,
+  $f_{xyz} = f_{xzy} = f_{yxz} = f_{yzx} = f_{zxy} = f_{zyx}$ when $f$ is $C^3$. The
+  proof is by induction, applying the two-variable version at each step.
+</p>
+<p>
+  This means that for $C^k$ functions, the $k$-th order partial derivatives are determined
+  by the <em>number</em> of times you differentiate with respect to each variable, not the
+  order. There are $\binom{n+k-1}{k}$ distinct $k$-th order partial derivatives of a
+  function of $n$ variables.
+</p>
+
+<h2>8. A concrete Hessian computation</h2>
+
+<p>
+  Let $f(x, y) = x^3 - 3xy^2$. The gradient is $\nabla f = (3x^2 - 3y^2,\; -6xy)$. The
+  Hessian is:
+</p>
+<div class="display-math">$$H_f = \begin{pmatrix} 6x & -6y \\ -6y & -6x \end{pmatrix}$$</div>
+<p>
+  Check: $f_{xy} = \frac{\partial}{\partial y}(3x^2 - 3y^2) = -6y$ and
+  $f_{yx} = \frac{\partial}{\partial x}(-6xy) = -6y$. They agree, as Schwarz guarantees
+  (all partials here are polynomials, hence continuous). The Hessian is symmetric.
+</p>
+<p>
+  At the origin: $H_f(0,0) = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$. This zero
+  matrix gives no information about the nature of the critical point &mdash; the second
+  derivative test is inconclusive. Indeed, $(0,0)$ is a saddle point of $f$ (the function
+  is $x^3$ along the $x$-axis and $-3xy^2$ otherwise), but you cannot see this from the
+  Hessian alone. Higher-order terms matter when the Hessian vanishes.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Clairaut (1740) first stated that mixed partials commute for specific cases he
+    encountered in mechanics. Euler used the result freely and without proof throughout his
+    prolific output. Schwarz (1873) gave the first rigorous proof with the correct
+    hypothesis (continuity of the mixed partials). The counterexample above is due to Peano
+    (1890), who specialised in finding pathological functions that showed exactly where
+    classical assumptions break down. The history reflects a recurring pattern: a result is
+    used for a century, then someone identifies the precise conditions under which it holds.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without continuity of mixed partials:</strong> Peano's counterexample gives
+    $f_{xy}(0,0) = 1$ and $f_{yx}(0,0) = -1$. The mixed partials exist everywhere, but
+    are discontinuous at the origin. Schwarz's theorem genuinely needs continuity &mdash;
+    mere existence is not enough.
+  </p>
+  <p>
+    <strong>Without the Hessian being symmetric:</strong> the spectral theorem does not
+    apply. You cannot diagonalise $H_f$ with an orthonormal basis of eigenvectors, and the
+    second derivative test (which relies on the signs of the eigenvalues) becomes
+    inapplicable. The entire machinery of classifying critical points depends on Schwarz's
+    theorem making the Hessian symmetric.
+  </p>
+  <p>
+    <strong>Without second partial derivatives existing:</strong> there is no Hessian at
+    all. The function is only $C^1$ at best, and you cannot determine the curvature or the
+    nature of critical points from first-order information alone.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Mixed partial derivatives commute when they are continuous &mdash; and this symmetry makes
+  the Hessian a real symmetric matrix, unlocking the spectral theorem for optimisation.
+</div>
+
+<div class="nav">
+  <a href="02-chain-rule.html">&larr; Previous: The Multivariable Chain Rule</a>
+  <a href="04-implicit-inverse.html">Next: The Implicit and Inverse Function Theorems &rarr;</a>
+</div>
+
+</body>
+</html>

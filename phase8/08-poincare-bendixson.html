@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Poincar&eacute;-Bendixson Theorem &mdash; Phase 8</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Poincar&eacute;-Bendixson Theorem</h1>
+<p class="subtitle">Phase 8 &mdash; Differential Equations, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Poincar&eacute; (1881&ndash;1886) studied the long-term behaviour of ODEs in the plane.
+    A remarkable rigidity appears in two dimensions: if a solution stays bounded forever and
+    does not settle at an equilibrium, it must approach a periodic orbit. There is no other
+    possibility &mdash; no chaos, no quasi-periodicity, no strange attractors. Chaos requires
+    at least three dimensions. Why is the plane so special?
+  </p>
+</div>
+
+<h2>1. Omega-limit sets</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Omega-limit set</div>
+  <p>
+    For a solution $\mathbf{y}(t)$ of $\mathbf{y}' = f(\mathbf{y})$ defined for all
+    $t \geq 0$, the <b>omega-limit set</b> is
+  </p>
+  <div class="display-math">$$\omega(\mathbf{y}) = \bigcap_{T \geq 0} \overline{\{\mathbf{y}(t) : t \geq T\}}.$$</div>
+  <p>
+    Equivalently, $p \in \omega(\mathbf{y})$ iff there exists a sequence $t_n \to \infty$
+    with $\mathbf{y}(t_n) \to p$.
+  </p>
+</div>
+
+<p>
+  The omega-limit set captures where the trajectory "ends up" as $t \to \infty$. It is
+  the set of all accumulation points of the orbit in forward time.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Properties of omega-limit sets</div>
+  <p>
+    If the trajectory $\{\mathbf{y}(t) : t \geq 0\}$ is bounded, then $\omega(\mathbf{y})$
+    is nonempty, compact, and connected.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1. (Nonempty.)</strong> The trajectory lies in a bounded set.
+    By Bolzano-Weierstrass
+    (<a href="../phase2/04-bolzano-weierstrass.html">Phase 2, page 4</a>, generalised to
+    $\mathbb{R}^2$), any sequence $\mathbf{y}(n)$ for $n = 1, 2, 3, \ldots$ has a
+    convergent subsequence. Its limit is in $\omega(\mathbf{y})$.
+  </p>
+  <p>
+    <strong>Step 2. (Closed.)</strong> $\omega(\mathbf{y})$ is an intersection of closed
+    sets (closures), hence closed.
+  </p>
+  <p>
+    <strong>Step 3. (Bounded.)</strong> $\omega(\mathbf{y})$ lies in the closure of the
+    (bounded) trajectory, hence is bounded.
+  </p>
+  <p>
+    <strong>Step 4. (Compact.)</strong> Closed and bounded in $\mathbb{R}^2$, so compact
+    by Heine-Borel.
+  </p>
+  <p>
+    <strong>Step 5. (Connected.)</strong> Suppose $\omega(\mathbf{y}) = U_1 \cup U_2$ with
+    $U_1, U_2$ nonempty, disjoint, and closed (in the subspace topology). Since they are
+    compact and disjoint, $d = \inf\{\|p_1 - p_2\| : p_1 \in U_1, p_2 \in U_2\} > 0$.
+    For large $t$, the trajectory $\mathbf{y}(t)$ must visit within $d/3$ of both $U_1$ and
+    $U_2$ infinitely often. By continuity of $\mathbf{y}(t)$, the intermediate value theorem
+    shows $\mathbf{y}$ must pass through the "gap" between $U_1$ and $U_2$, producing
+    accumulation points outside $U_1 \cup U_2$ &mdash; a contradiction.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>2. Flow invariance</h2>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Invariance of omega-limit sets</div>
+  <p>
+    $\omega(\mathbf{y})$ is <b>invariant</b> under the flow: if
+    $p \in \omega(\mathbf{y})$, then the entire orbit through $p$ lies in
+    $\omega(\mathbf{y})$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $p \in \omega(\mathbf{y})$. Then there exists $t_n \to \infty$
+    with $\mathbf{y}(t_n) \to p$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Let $\phi_s$ denote the flow map (the solution at time $s$
+    starting from a given point). By continuous dependence on initial conditions
+    (<a href="02-cauchy-lipschitz.html">page 2</a>):
+    $\phi_s(\mathbf{y}(t_n)) \to \phi_s(p)$ as $n \to \infty$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> But $\phi_s(\mathbf{y}(t_n)) = \mathbf{y}(t_n + s)$. Since
+    $t_n + s \to \infty$, the point $\phi_s(p)$ is a limit of $\mathbf{y}$ along a
+    sequence of times tending to infinity. So $\phi_s(p) \in \omega(\mathbf{y})$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> This holds for every $s \in \mathbb{R}$ (both forward and
+    backward time), so the entire orbit through $p$ lies in $\omega(\mathbf{y})$.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>3. The Jordan curve theorem</h2>
+
+<p>
+  The key topological ingredient is a fact specific to the plane.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Jordan curve theorem</div>
+  <p>
+    A simple closed curve (continuous, injective on $[0,1)$ with endpoints identified) in
+    $\mathbb{R}^2$ separates the plane into exactly two connected components: a bounded
+    <b>interior</b> and an unbounded <b>exterior</b>.
+  </p>
+</div>
+
+<p>
+  This is a deep topological result. Its proof requires tools from algebraic topology
+  (IOU: accessible after Phase 9). We use it as a black box here. The critical point: this
+  theorem is <em>false</em> in $\mathbb{R}^3$ &mdash; a closed curve in 3D does not
+  separate space. This is why the Poincar&eacute;-Bendixson theorem is fundamentally
+  two-dimensional.
+</p>
+
+<h2>4. The transversal argument</h2>
+
+<p>
+  A <b>transversal</b> $\Sigma$ at a point $q$ is a short line segment through $q$ that
+  crosses the flow (i.e. $f(q)$ is not tangent to $\Sigma$). In two dimensions, a trajectory
+  that returns to the same transversal must do so <em>monotonically</em>.
+</p>
+<p>
+  Here is why. Suppose the trajectory leaves $q_1 \in \Sigma$, travels through the plane,
+  and returns to $q_2 \in \Sigma$. The arc of trajectory from $q_1$ to $q_2$, together with
+  the segment of $\Sigma$ between $q_1$ and $q_2$, forms a simple closed curve. By the Jordan
+  curve theorem, this curve separates the plane into inside and outside. The next return to
+  $\Sigma$ must hit a point $q_3$ on the <em>same side</em> of $q_2$ as $q_2$ is of $q_1$
+  (because the trajectory cannot cross itself &mdash; uniqueness of solutions from
+  Cauchy-Lipschitz). So the successive return points $q_1, q_2, q_3, \ldots$ form a
+  <b>monotone sequence</b> on $\Sigma$.
+</p>
+<p>
+  A monotone bounded sequence converges (monotone convergence theorem from
+  <a href="../phase2/03-monotone-convergence.html">Phase 2, page 3</a>). So the return points
+  converge to a limit, and the trajectory through that limit point is periodic (it returns to
+  exactly the same point on $\Sigma$).
+</p>
+
+<h2>5. The theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Poincar&eacute;-Bendixson</div>
+  <p>
+    Let $f \in C^1(\mathbb{R}^2, \mathbb{R}^2)$ and let $\mathbf{y}(t)$ be a solution of
+    $\mathbf{y}' = f(\mathbf{y})$ with bounded forward orbit. If $\omega(\mathbf{y})$
+    contains no equilibria, then $\omega(\mathbf{y})$ is a periodic orbit
+    (a <b>limit cycle</b>).
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Since the orbit is bounded, $\omega(\mathbf{y})$ is nonempty,
+    compact, and connected (section 1). It is flow-invariant (section 2). Since it contains
+    no equilibria, $f(p) \neq 0$ for every $p \in \omega(\mathbf{y})$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Pick any $p \in \omega(\mathbf{y})$ and construct a transversal
+    $\Sigma$ through $p$. This is possible because $f(p) \neq 0$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Since $p \in \omega(\mathbf{y})$, the trajectory $\mathbf{y}(t)$
+    returns near $p$ infinitely often, hence crosses $\Sigma$ infinitely often (for $\Sigma$
+    short enough, the flow is transverse and must cross rather than miss). Let the crossing
+    points be $q_1, q_2, q_3, \ldots$ along $\Sigma$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> By the monotonicity argument of section 4, the sequence
+    $(q_n)$ is monotone on $\Sigma$ and bounded, so it converges to some point
+    $q^* \in \Sigma$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> The limit $q^*$ lies in $\omega(\mathbf{y})$ (it is a limit of
+    points $\mathbf{y}(t_n)$ with $t_n \to \infty$). By flow invariance, the orbit through
+    $q^*$ lies in $\omega(\mathbf{y})$.
+  </p>
+  <p>
+    <strong>Step 6.</strong> The orbit through $q^*$ must also return to $\Sigma$ (since
+    $\omega(\mathbf{y})$ is compact and invariant, the orbit cannot escape to infinity). Let
+    it return to $q^{**} \in \Sigma$. But $q^{**} \in \omega(\mathbf{y})$, and by the same
+    monotonicity argument applied to the orbit in $\omega(\mathbf{y})$, the return points
+    must also converge &mdash; but since $q^*$ is already the limit, we get $q^{**} = q^*$.
+  </p>
+  <p>
+    <strong>Step 7.</strong> So the orbit through $q^*$ returns to $q^*$: it is periodic.
+    Call it $\gamma$.
+  </p>
+  <p>
+    <strong>Step 8.</strong> We claim $\omega(\mathbf{y}) = \gamma$. We already know
+    $\gamma \subseteq \omega(\mathbf{y})$. For the reverse inclusion: take any
+    $p' \in \omega(\mathbf{y})$. The orbit through $p'$ lies in $\omega(\mathbf{y})$
+    (invariance). Using transversals and the monotonicity argument at various points of
+    $\gamma$, one shows that $p'$ must lie on $\gamma$ &mdash; otherwise, the orbit through
+    $p'$ would produce crossings of a transversal that violate monotonicity.
+  </p>
+  <div class="qed">&squ;</div>
+</div>
+
+<h2>6. No chaos in two dimensions</h2>
+
+<div class="theorem-box">
+  <div class="label">Corollary &mdash; Trichotomy in 2D</div>
+  <p>
+    For $\mathbf{y}' = f(\mathbf{y})$ in $\mathbb{R}^2$ with $f \in C^1$, every bounded
+    forward orbit has one of three long-term behaviours:
+  </p>
+  <ul>
+    <li>Convergence to an equilibrium.</li>
+    <li>Convergence to a periodic orbit (limit cycle).</li>
+    <li>The trajectory is itself periodic.</li>
+  </ul>
+  <p>There are no other possibilities.</p>
+</div>
+
+<p>
+  This is extraordinary. In two dimensions, the qualitative dynamics are completely
+  classified: equilibria, periodic orbits, and nothing else. No chaotic wandering, no
+  quasi-periodic motion on tori, no fractal attractors.
+</p>
+
+<h2>7. Example: the van der Pol oscillator</h2>
+
+<p>
+  The <b>van der Pol equation</b> $x'' - \mu(1 - x^2)x' + x = 0$ (with $\mu > 0$) models
+  a self-exciting oscillator. Write as a system:
+</p>
+<div class="display-math">$$x_1' = x_2, \qquad x_2' = \mu(1 - x_1^2)\,x_2 - x_1.$$</div>
+<p>
+  <strong>Step 1. The only equilibrium is the origin.</strong> Setting $x_2 = 0$ and
+  $\mu(1 - x_1^2) \cdot 0 - x_1 = 0$ gives $x_1 = 0$.
+</p>
+<p>
+  <strong>Step 2. The origin is unstable.</strong> The Jacobian at the origin is
+  $J = \begin{pmatrix} 0 & 1 \\ -1 & \mu \end{pmatrix}$. Its eigenvalues satisfy
+  $\lambda^2 - \mu\lambda + 1 = 0$, giving
+  $\lambda = \frac{\mu \pm \sqrt{\mu^2 - 4}}{2}$. For any $\mu > 0$, the real part of both
+  eigenvalues is $\mu/2 > 0$ (check: the sum of eigenvalues is $\mu > 0$, and for
+  $\mu < 2$ the eigenvalues are complex with real part $\mu/2$). So the origin is unstable
+  by <a href="07-stability.html">page 7</a>.
+</p>
+<p>
+  <strong>Step 3. Trajectories are bounded.</strong> For $|x_1|$ and $|x_2|$ large enough,
+  one can construct a <b>trapping region</b> &mdash; a closed curve that trajectories can
+  enter but not leave. The damping term $-\mu(1 - x_1^2)x_2$ is strongly negative for
+  $|x_1| > 1$ and large $|x_2|$, which prevents unbounded growth. (The full construction
+  uses a Li&eacute;nard plane transformation and is standard but lengthy; we omit the
+  details.)
+</p>
+<p>
+  <strong>Step 4. Poincar&eacute;-Bendixson applies.</strong> The only equilibrium (the
+  origin) is unstable, so trajectories starting near it move away. They are bounded, so their
+  omega-limit sets are nonempty. If the omega-limit set contained the origin, the trajectory
+  would have to approach it &mdash; but the origin is unstable, a contradiction. So
+  $\omega(\mathbf{y})$ contains no equilibria, and by Poincar&eacute;-Bendixson, it is a
+  limit cycle.
+</p>
+<p>
+  This was one of the first rigorous proofs of the existence of a <b>self-sustained
+  oscillation</b>: the system settles into a periodic motion regardless of initial conditions.
+  Van der Pol discovered this experimentally in radio circuits in the 1920s.
+</p>
+
+<h2>8. Why three dimensions are different</h2>
+
+<p>
+  The <b>Lorenz system</b> (1963):
+</p>
+<div class="display-math">$$\dot{x} = \sigma(y - x), \qquad \dot{y} = x(\rho - z) - y, \qquad \dot{z} = xy - \beta z$$</div>
+<p>
+  with parameters $\sigma = 10$, $\rho = 28$, $\beta = 8/3$, has bounded trajectories that
+  never settle to an equilibrium or periodic orbit. They wander chaotically on a <b>strange
+  attractor</b> &mdash; a fractal set with sensitive dependence on initial conditions.
+</p>
+<p>
+  Why does Poincar&eacute;-Bendixson fail here? The Jordan curve theorem is the key: a
+  closed curve in $\mathbb{R}^2$ separates the plane, forcing trajectories to cross
+  transversals monotonically. In $\mathbb{R}^3$, a closed curve does <em>not</em> separate
+  space &mdash; trajectories can wind around and past each other freely. The monotonicity
+  argument collapses, and chaotic behaviour becomes possible.
+</p>
+<p>
+  This is a profound dimensional threshold: two dimensions are too constrained for chaos,
+  while three dimensions are rich enough. The Lorenz system was the first concrete
+  demonstration that deterministic ODEs can produce apparently random behaviour &mdash;
+  a cornerstone of chaos theory.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Poincar&eacute; proved the theorem as part of his monumental study of curves defined by
+    differential equations (1881&ndash;1886), motivated by celestial mechanics and the
+    three-body problem. He introduced the concepts of limit cycles, omega-limit sets, and
+    the <em>qualitative theory</em> of ODEs &mdash; studying the geometry of solutions rather
+    than seeking explicit formulas. Bendixson (1901) sharpened and clarified the result.
+    The Lorenz attractor, discovered numerically by the meteorologist Edward Lorenz (1963)
+    while modelling atmospheric convection, demonstrated that Poincar&eacute;-Bendixson
+    genuinely fails in three dimensions. Lorenz's paper "Deterministic Nonperiodic Flow"
+    launched chaos theory.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Dimension $\geq 3$:</b> the Lorenz attractor shows that bounded trajectories in
+    $\mathbb{R}^3$ can be chaotic. The Jordan curve theorem fails (curves do not separate
+    $\mathbb{R}^3$), so the transversal monotonicity argument is unavailable.
+  </p>
+  <p>
+    <b>Equilibria in $\omega(\mathbf{y})$:</b> if the omega-limit set contains equilibria,
+    more complex structures are possible. <b>Homoclinic orbits</b> (trajectories that leave
+    an equilibrium and return to it) and <b>heteroclinic connections</b> (trajectories
+    connecting different equilibria) can appear. The Poincar&eacute;-Bendixson theorem
+    has a generalisation covering this case: $\omega(\mathbf{y})$ is then a union of
+    equilibria and orbits connecting them.
+  </p>
+  <p>
+    <b>Discontinuous vector fields:</b> uniqueness of solutions is essential. If trajectories
+    can cross (because the vector field is not Lipschitz), the monotonicity on transversals
+    breaks down. Consider $f$ with a discontinuity along a line: trajectories arriving from
+    both sides can merge, destroying the one-to-one correspondence that the proof requires.
+  </p>
+  <p>
+    <b>Unbounded trajectories:</b> if the orbit is not bounded, the omega-limit set may be
+    empty (the trajectory escapes to infinity), and the theorem says nothing.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  In the plane, bounded trajectories must converge to an equilibrium or a periodic orbit
+  &mdash; the Jordan curve theorem forbids anything more complex.
+</div>
+
+<div class="nav">
+  <a href="07-stability.html">&larr; Previous: Stability and Lyapunov's Method</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

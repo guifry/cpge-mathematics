@@ -296,8 +296,88 @@
 
 <hr>
 
+<p class="phase-label">Phase 7 &mdash; Multivariable Calculus</p>
+<p><em>Temperature, pressure, velocity &mdash; quantities that depend on position in space. Newton's calculus handled one variable. The real world has three spatial dimensions plus time. Euler, Lagrange, and Gauss extended calculus to multiple variables.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase7/01-partial-derivatives.html">1. Partial Derivatives and the Gradient</a>
+    <div class="desc">Temperature varies across a room. Differentiate in each direction separately. The gradient points uphill.</div>
+  </li>
+  <li>
+    <a href="phase7/02-chain-rule.html">2. The Multivariable Chain Rule</a>
+    <div class="desc">A particle moves through a temperature field. The chain rule is matrix multiplication &mdash; the Jacobian.</div>
+  </li>
+  <li>
+    <a href="phase7/03-schwarz.html">3. Schwarz's Theorem</a>
+    <div class="desc">Does the order of differentiation matter? $f_{xy} = f_{yx}$ when the mixed partials are continuous. Peano's counterexample.</div>
+  </li>
+  <li>
+    <a href="phase7/04-implicit-inverse.html">4. The Implicit and Inverse Function Theorems</a>
+    <div class="desc">When can you solve $F(x,y) = 0$ for $y$? When the Jacobian is invertible. Two theorems, one engine.</div>
+  </li>
+  <li>
+    <a href="phase7/05-lagrange-multipliers.html">5. Lagrange Multipliers and the Second Derivative Test</a>
+    <div class="desc">Optimise under constraints. At a constrained extremum, $\nabla f = \lambda \nabla g$. The Hessian classifies critical points.</div>
+  </li>
+  <li>
+    <a href="phase7/06-multiple-integrals.html">6. Multiple Integrals and Fubini's Theorem</a>
+    <div class="desc">Volume under a surface. Double integrals as iterated single integrals. Change of variables and the Gaussian integral.</div>
+  </li>
+  <li>
+    <a href="phase7/07-greens-theorem.html">7. Green's Theorem</a>
+    <div class="desc">Circulation around a boundary equals total curl inside. Line integrals, conservative fields, the area formula.</div>
+  </li>
+  <li>
+    <a href="phase7/08-stokes-divergence.html">8. The Divergence Theorem and Stokes' Theorem</a>
+    <div class="desc">Flux through a surface = divergence inside. The grand unification: FTC, Green, Gauss, Stokes &mdash; all one theorem. Phase 7 recap.</div>
+  </li>
+</ul>
+
+<hr>
+
+<p class="phase-label">Phase 8 &mdash; Differential Equations</p>
+<p><em>A population grows proportionally to its size. A spring oscillates. A pendulum swings. Newton invented calculus largely to solve these equations &mdash; find a function from a relationship between the function and its derivatives.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase8/01-first-order-odes.html">1. First-Order ODEs</a>
+    <div class="desc">Separable and linear equations. The integrating factor. When solutions exist, when they blow up.</div>
+  </li>
+  <li>
+    <a href="phase8/02-cauchy-lipschitz.html">2. The Cauchy-Lipschitz Theorem</a>
+    <div class="desc">Existence and uniqueness. The Lipschitz condition, Picard iteration, and the constructive proof.</div>
+  </li>
+  <li>
+    <a href="phase8/03-gronwall.html">3. Gronwall's Inequality</a>
+    <div class="desc">The universal growth bound. If $u \leq \alpha + \beta\int u$, then $u \leq \alpha e^{\beta t}$. Continuous dependence on initial data.</div>
+  </li>
+  <li>
+    <a href="phase8/04-linear-odes.html">4. Linear ODE Solution Structure</a>
+    <div class="desc">Solutions form a vector space. The Wronskian, Abel's identity, constant-coefficient equations via the characteristic polynomial.</div>
+  </li>
+  <li>
+    <a href="phase8/05-variation-of-parameters.html">5. Variation of Parameters</a>
+    <div class="desc">Lagrange's method for non-homogeneous equations. Let the constants vary &mdash; the Wronskian does the rest.</div>
+  </li>
+  <li>
+    <a href="phase8/06-matrix-exponential.html">6. Systems and the Matrix Exponential</a>
+    <div class="desc">$\mathbf{y}(t) = e^{At}\mathbf{y}(0)$. Exponentiating a matrix via its power series. Diagonalisation and Jordan form compute it.</div>
+  </li>
+  <li>
+    <a href="phase8/07-stability.html">7. Stability and Lyapunov's Method</a>
+    <div class="desc">Prove stability without solving the ODE. Energy-like functions, linearisation, eigenvalue criteria. The stable manifold.</div>
+  </li>
+  <li>
+    <a href="phase8/08-poincare-bendixson.html">8. The Poincar&eacute;-Bendixson Theorem</a>
+    <div class="desc">In 2D, bounded trajectories either settle or orbit. No chaos below three dimensions. Phase 8 recap.</div>
+  </li>
+</ul>
+
+<hr>
+
 <p style="color: var(--dim); font-size: 0.85rem; text-align: center; margin-top: 2rem;">
-  Phases 7&ndash;15 &mdash; coming as you progress.
+  Phases 9&ndash;15 &mdash; coming as you progress.
 </p>
 
 </body>

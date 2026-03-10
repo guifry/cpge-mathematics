@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Multivariable Chain Rule — Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Multivariable Chain Rule</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 2</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    A particle moves through a temperature field: its position at time $t$ is
+    $\gamma(t) = (x(t), y(t), z(t))$, and the temperature at each point is $T(x, y, z)$.
+    The temperature the particle experiences is $T(x(t), y(t), z(t))$ &mdash; a function
+    of $t$ alone. How fast does it change?
+  </p>
+  <p>
+    In one variable, the chain rule says $(f \circ g)'(t) = f'(g(t)) \cdot g'(t)$
+    (<a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>). But here $T$
+    takes three inputs, each depending on $t$. The answer turns out to be the dot product
+    $\nabla T \cdot \dot{\gamma}(t)$ &mdash; the chain rule becomes matrix multiplication.
+  </p>
+</div>
+
+<h2>1. Recall: the single-variable chain rule</h2>
+
+<p>
+  If $g: \mathbb{R} \to \mathbb{R}$ is differentiable at $t$ and
+  $f: \mathbb{R} \to \mathbb{R}$ is differentiable at $g(t)$, then
+</p>
+<div class="display-math">$$(f \circ g)'(t) = f'(g(t)) \cdot g'(t)$$</div>
+<p>
+  The key insight: the derivative of a composition is the product of the derivatives. In
+  the multivariable world, "product" becomes "matrix product."
+</p>
+
+<h2>2. The multivariable setup</h2>
+
+<p>
+  Now let $g: \mathbb{R}^p \to \mathbb{R}^n$ and $f: \mathbb{R}^n \to \mathbb{R}^m$ be
+  differentiable maps. The composition $f \circ g: \mathbb{R}^p \to \mathbb{R}^m$ sends
+  $x \mapsto f(g(x))$. Each of these maps has a total derivative &mdash; a linear map.
+  The total derivative of $g$ at $a$ is $Dg(a): \mathbb{R}^p \to \mathbb{R}^n$, and
+  the total derivative of $f$ at $g(a)$ is $Df(g(a)): \mathbb{R}^n \to \mathbb{R}^m$.
+</p>
+
+<h2>3. The Jacobian matrix</h2>
+
+<div class="theorem-box">
+  <div class="label">Definition &mdash; Jacobian matrix</div>
+  <p>
+    If $f = (f_1, \ldots, f_m): \mathbb{R}^n \to \mathbb{R}^m$ is differentiable at $a$,
+    the <strong>Jacobian matrix</strong> of $f$ at $a$ is the $m \times n$ matrix
+  </p>
+  <div class="display-math">$$J_f(a) = \begin{pmatrix} \dfrac{\partial f_1}{\partial x_1}(a) & \cdots & \dfrac{\partial f_1}{\partial x_n}(a) \\ \vdots & \ddots & \vdots \\ \dfrac{\partial f_m}{\partial x_1}(a) & \cdots & \dfrac{\partial f_m}{\partial x_n}(a) \end{pmatrix}$$</div>
+  <p>
+    Row $i$ is the gradient of $f_i$; column $j$ is the partial derivative of $f$ with
+    respect to $x_j$. This matrix <em>is</em> the total derivative $Df(a)$, written in the
+    standard basis (<a href="../phase6/04-matrices.html">Phase 6, page 4</a>).
+  </p>
+</div>
+
+<p>
+  For a scalar-valued function $f: \mathbb{R}^n \to \mathbb{R}$, the Jacobian is a
+  $1 \times n$ row matrix &mdash; the gradient transposed. For a map
+  $\mathbb{R}^n \to \mathbb{R}^n$, the Jacobian is a square matrix.
+</p>
+
+<h2>4. The multivariable chain rule</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Multivariable chain rule</div>
+  <p>
+    Let $g: \mathbb{R}^p \to \mathbb{R}^n$ be differentiable at $a$, and
+    $f: \mathbb{R}^n \to \mathbb{R}^m$ be differentiable at $g(a)$. Then
+    $f \circ g$ is differentiable at $a$ and
+  </p>
+  <div class="display-math">$$D(f \circ g)(a) = Df(g(a)) \circ Dg(a)$$</div>
+  <p>
+    In matrix form: $J_{f \circ g}(a) = J_f(g(a)) \cdot J_g(a)$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Write the differentiability conditions. Since $g$ is
+    differentiable at $a$:
+  </p>
+  <div class="display-math">$$g(a + h) = g(a) + Dg(a) \cdot h + \|h\| \varepsilon_1(h)$$</div>
+  <p>
+    where $\varepsilon_1(h) \to 0$ as $h \to 0$. Since $f$ is differentiable at $b = g(a)$:
+  </p>
+  <div class="display-math">$$f(b + k) = f(b) + Df(b) \cdot k + \|k\| \varepsilon_2(k)$$</div>
+  <p>
+    where $\varepsilon_2(k) \to 0$ as $k \to 0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Set $k = g(a+h) - g(a) = Dg(a) \cdot h + \|h\|\varepsilon_1(h)$. Then:
+  </p>
+  <div class="display-math">$$f(g(a+h)) = f(b + k) = f(b) + Df(b) \cdot k + \|k\|\varepsilon_2(k)$$</div>
+  <p>
+    <strong>Step 3.</strong> Substitute $k$:
+  </p>
+  <div class="display-math">$$f(g(a+h)) = f(g(a)) + Df(b)\bigl[Dg(a) \cdot h + \|h\|\varepsilon_1(h)\bigr] + \|k\|\varepsilon_2(k)$$</div>
+  <div class="display-math">$$= f(g(a)) + Df(b) \circ Dg(a) \cdot h + \|h\| Df(b) \cdot \varepsilon_1(h) + \|k\|\varepsilon_2(k)$$</div>
+  <p>
+    <strong>Step 4.</strong> Show the remainder is $o(\|h\|)$. We need to check two terms.
+  </p>
+  <p>
+    First term: $\|h\| Df(b) \cdot \varepsilon_1(h)$. Since $Df(b)$ is a fixed linear map
+    (hence bounded) and $\varepsilon_1(h) \to 0$, this is $\|h\| \cdot o(1) = o(\|h\|)$.
+  </p>
+  <p>
+    Second term: $\|k\|\varepsilon_2(k)$. We have
+    $\|k\| = \|Dg(a) \cdot h + \|h\|\varepsilon_1(h)\| \leq (\|Dg(a)\| + \|\varepsilon_1(h)\|)\|h\|$,
+    so $\|k\| \leq C\|h\|$ for some constant $C$ when $h$ is small enough. As $h \to 0$,
+    $k \to 0$, so $\varepsilon_2(k) \to 0$. Thus $\|k\|\varepsilon_2(k) \leq C\|h\| \cdot o(1) = o(\|h\|)$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Combine: $f(g(a+h)) = f(g(a)) + [Df(b) \circ Dg(a)] \cdot h + o(\|h\|)$.
+    This is exactly the definition of differentiability with
+    $D(f \circ g)(a) = Df(g(a)) \circ Dg(a)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. A concrete example before the special cases</h2>
+
+<p>
+  Let $f(x, y) = x^2 + y^2$ and $g(t) = (\cos t, \sin t)$. Then
+  $f(g(t)) = \cos^2 t + \sin^2 t = 1$, a constant. The chain rule should give zero.
+  Let us check. The Jacobian of $f$ is the gradient $\nabla f = (2x, 2y)$. The Jacobian
+  of $g$ is $g'(t) = (-\sin t, \cos t)^T$. Their product:
+</p>
+<div class="display-math">$$J_f \cdot J_g = (2\cos t, 2\sin t) \begin{pmatrix} -\sin t \\ \cos t \end{pmatrix} = -2\cos t \sin t + 2\sin t \cos t = 0$$</div>
+<p>
+  Correct. The particle moves along a level set of $f$ (the unit circle), so the
+  temperature does not change. The gradient $\nabla f$ is perpendicular to the level set,
+  and the velocity $g'(t)$ is tangent to it &mdash; their dot product is zero.
+</p>
+<p>
+  A second example: $f(x, y) = xy$ and $g(t) = (e^t, e^{-t})$. Then
+  $f(g(t)) = e^t \cdot e^{-t} = 1$ again. The chain rule:
+  $\nabla f = (y, x) = (e^{-t}, e^t)$, $g'(t) = (e^t, -e^{-t})$, dot product
+  $= e^{-t} \cdot e^t + e^t \cdot (-e^{-t}) = 1 - 1 = 0$. The hyperbola $xy = 1$ is
+  a level set of $f$, and the curve $(e^t, e^{-t})$ traces along it.
+</p>
+
+<h2>6. Special cases</h2>
+
+<p>
+  <strong>Curve through a scalar field.</strong> Let $f: \mathbb{R}^2 \to \mathbb{R}$ and
+  $\gamma: \mathbb{R} \to \mathbb{R}^2$ with $\gamma(t) = (x(t), y(t))$. The Jacobian of
+  $f$ is $1 \times 2$: the gradient $(\partial f/\partial x,\; \partial f/\partial y)$.
+  The Jacobian of $\gamma$ is $2 \times 1$: the velocity $(x'(t),\; y'(t))^T$. Their
+  product is a $1 \times 1$ matrix:
+</p>
+<div class="display-math">$$\frac{d}{dt} f(\gamma(t)) = \frac{\partial f}{\partial x} x'(t) + \frac{\partial f}{\partial y} y'(t) = \nabla f \cdot \gamma'(t)$$</div>
+<p>
+  This is the formula from the problem box. The rate of temperature change equals the
+  gradient dotted with the velocity.
+</p>
+<p>
+  <strong>Change of variables.</strong> Let $f: \mathbb{R}^2 \to \mathbb{R}$ and
+  $g: \mathbb{R}^2 \to \mathbb{R}^2$ (e.g. a coordinate transformation). The chain rule
+  gives $J_{f \circ g} = J_f \cdot J_g$, a $1 \times 2$ matrix times a $2 \times 2$ matrix.
+  In terms of partial derivatives:
+</p>
+<div class="display-math">$$\frac{\partial (f \circ g)}{\partial u} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial u} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial u}$$</div>
+
+<p>
+  This formula has a beautiful geometric interpretation. If $\gamma$ moves along a level set
+  of $f$ (where $f$ is constant), then $\frac{d}{dt}f(\gamma(t)) = 0$, so
+  $\nabla f \cdot \gamma'(t) = 0$: the gradient is perpendicular to level sets. This is why
+  the gradient points in the direction of steepest ascent &mdash; it is orthogonal to the
+  contour lines, pointing directly from one level set to the next.
+</p>
+
+<h2>7. Example: polar coordinates</h2>
+
+<p>
+  Let $x = r\cos\theta$, $y = r\sin\theta$. This defines a map
+  $g(r, \theta) = (r\cos\theta, r\sin\theta)$. Its Jacobian is:
+</p>
+<div class="display-math">$$J_g = \begin{pmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{pmatrix}$$</div>
+<p>
+  For any $f(x,y)$, the chain rule gives:
+</p>
+<div class="display-math">$$\frac{\partial f}{\partial r} = \frac{\partial f}{\partial x}\cos\theta + \frac{\partial f}{\partial y}\sin\theta$$</div>
+<div class="display-math">$$\frac{\partial f}{\partial \theta} = -\frac{\partial f}{\partial x} r\sin\theta + \frac{\partial f}{\partial y} r\cos\theta$$</div>
+<p>
+  These are just the two entries of the $1 \times 2$ matrix
+  $J_f \cdot J_g = (\partial f/\partial x,\; \partial f/\partial y) \cdot J_g$.
+</p>
+<p>
+  Note the Jacobian determinant: $\det(J_g) = r\cos^2\theta + r\sin^2\theta = r$. This is
+  the factor $r$ that appears in polar area integrals $\iint f\, r\, dr\, d\theta$ &mdash;
+  it measures how much the coordinate transformation stretches area. We will return to this
+  when we study multiple integrals.
+</p>
+
+<h2>8. The chain rule in three variables — explicit form</h2>
+
+<p>
+  A common situation in applications: $f(x, y, z)$ where $x = x(s, t)$, $y = y(s, t)$,
+  $z = z(s, t)$. The chain rule gives a $1 \times 2$ Jacobian via a $1 \times 3$ times
+  $3 \times 2$ matrix product:
+</p>
+<div class="display-math">$$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial s} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial s} + \frac{\partial f}{\partial z}\frac{\partial z}{\partial s}$$</div>
+<div class="display-math">$$\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial t} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial t} + \frac{\partial f}{\partial z}\frac{\partial z}{\partial t}$$</div>
+<p>
+  Each formula sums over all intermediate variables. The pattern is always the same: the
+  partial derivative of $f$ with respect to an outer variable equals the sum over all
+  intermediate variables of $(\text{partial of } f) \times (\text{partial of the
+  intermediate variable})$. Leibniz notation makes this look like fraction cancellation
+  &mdash; $\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial s} + \cdots$ &mdash; which is suggestive but not literally true (you cannot
+  cancel $\partial x$). The matrix product formulation is what makes it rigorous.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Jacobi (1841) systematically studied the matrix of partial derivatives that now bears
+    his name. He recognised that the chain rule for compositions of multivariable functions
+    is simply matrix multiplication &mdash; a profound insight that unifies calculus and
+    linear algebra. The total derivative $Df(a)$ is a linear map
+    (<a href="../phase6/03-linear-maps.html">Phase 6, page 3</a>); composition of
+    differentiable functions corresponds to composition of their linearisations, and
+    composition of linear maps is matrix multiplication
+    (<a href="../phase6/04-matrices.html">Phase 6, page 4</a>). This viewpoint, where
+    calculus reduces to linear algebra at each point, is the foundation of differential
+    geometry.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>Without differentiability (only partial derivatives):</strong> the chain rule can
+    fail. From <a href="01-partial-derivatives.html">page 1</a>, the function
+    $f(x,y) = xy/\sqrt{x^2+y^2}$ has partial derivatives at the origin but is not
+    differentiable there. If $\gamma(t) = (t, t)$, then
+    $f(\gamma(t)) = t^2/(\sqrt{2}\,|t|) = |t|/\sqrt{2}$, which is not differentiable at
+    $t = 0$. The naive formula $\nabla f(0,0) \cdot \gamma'(0) = (0,0) \cdot (1,1) = 0$
+    predicts a derivative of $0$, but the actual left and right derivatives are
+    $\pm 1/\sqrt{2}$. The chain rule requires <em>differentiability</em>, not just existence
+    of partial derivatives.
+  </p>
+  <p>
+    <strong>Without differentiability of the outer function:</strong> even if $g$ is smooth,
+    composing with a non-differentiable $f$ gives a non-differentiable result. The linear
+    approximation step in the proof fails: there is no $Df(b)$ to multiply by.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The multivariable chain rule is matrix multiplication: the Jacobian of a composition is
+  the product of the Jacobians.
+</div>
+
+<div class="nav">
+  <a href="01-partial-derivatives.html">&larr; Previous: Partial Derivatives and the Gradient</a>
+  <a href="03-schwarz.html">Next: Schwarz's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

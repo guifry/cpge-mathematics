@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Implicit and Inverse Function Theorems — Phase 7</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Implicit and Inverse Function Theorems</h1>
+<p class="subtitle">Phase 7 &mdash; Multivariable Calculus, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The equation $x^2 + y^2 = 1$ defines a circle. Near the point $(0, 1)$, you can solve
+    for $y$: $y = \sqrt{1 - x^2}$. Near $(-1/\sqrt{2}, 1/\sqrt{2})$, you can too. But at
+    $(1, 0)$, the circle is vertical &mdash; any neighbourhood of that point contains two
+    values of $y$ for each $x$, and no single function $y = g(x)$ can describe the curve
+    there.
+  </p>
+  <p>
+    More generally: given an equation $F(x, y) = 0$, when can you "solve for $y$" as a
+    smooth function of $x$? The <strong>implicit function theorem</strong> gives the precise
+    answer: you can do it whenever $\partial F/\partial y \neq 0$. Its close relative, the
+    <strong>inverse function theorem</strong>, tells you when a map is locally invertible.
+  </p>
+</div>
+
+<h2>1. Motivating example</h2>
+
+<p>
+  Take $F(x, y) = x^2 + y^2 - 1$. The level set $F = 0$ is the unit circle. At the point
+  $(0, 1)$:
+</p>
+<div class="display-math">$$\frac{\partial F}{\partial y}(0, 1) = 2y\Big|_{(0,1)} = 2 \neq 0$$</div>
+<p>
+  The implicit function theorem will guarantee that near $(0, 1)$, we can write
+  $y = g(x)$ with $g(0) = 1$ and $F(x, g(x)) = 0$. Indeed, $g(x) = \sqrt{1 - x^2}$.
+</p>
+<p>
+  At the point $(1, 0)$:
+</p>
+<div class="display-math">$$\frac{\partial F}{\partial y}(1, 0) = 2y\Big|_{(1,0)} = 0$$</div>
+<p>
+  The theorem gives no guarantee &mdash; and indeed, the circle is vertical there. Near
+  $(1, 0)$, the curve cannot be written as $y = g(x)$. (You <em>can</em> write
+  $x = h(y)$ there, since $\partial F/\partial x = 2 \neq 0$ at that point.)
+</p>
+
+<h2>2. The implicit function theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Implicit function theorem</div>
+  <p>
+    Let $F: \mathbb{R}^{n+m} \to \mathbb{R}^m$ be $C^1$, and let $(a, b) \in \mathbb{R}^n \times \mathbb{R}^m$ with $F(a, b) = 0$.
+    If the $m \times m$ matrix
+  </p>
+  <div class="display-math">$$\frac{\partial F}{\partial y}(a, b) = \left(\frac{\partial F_i}{\partial y_j}(a, b)\right)_{1 \leq i, j \leq m}$$</div>
+  <p>
+    is invertible, then there exist open sets $U \ni a$ and $V \ni b$ and a unique $C^1$
+    function $g: U \to V$ such that
+  </p>
+  <div class="display-math">$$F(x, g(x)) = 0 \quad \text{for all } x \in U, \qquad g(a) = b$$</div>
+  <p>
+    Moreover, the derivative of $g$ is given by:
+  </p>
+  <div class="display-math">$$Dg(a) = -\left(\frac{\partial F}{\partial y}(a, b)\right)^{-1} \frac{\partial F}{\partial x}(a, b)$$</div>
+</div>
+
+<h2>3. Proof of the derivative formula</h2>
+
+<p>
+  Assuming $g$ exists and is $C^1$, we can derive its derivative by differentiating the
+  identity $F(x, g(x)) = 0$.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The identity $F(x, g(x)) = 0$ holds for all $x \in U$.
+    Define $\Phi(x) = F(x, g(x))$. Then $\Phi \equiv 0$, so $D\Phi(x) = 0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Apply the chain rule
+    (<a href="02-chain-rule.html">page 2</a>) to $\Phi(x) = F(x, g(x))$.
+    Write $H(x) = (x, g(x))$, so $\Phi = F \circ H$. The Jacobian of $H$ is:
+  </p>
+  <div class="display-math">$$J_H(x) = \begin{pmatrix} I_n \\ Dg(x) \end{pmatrix}$$</div>
+  <p>
+    where $I_n$ is the $n \times n$ identity. The chain rule gives:
+  </p>
+  <div class="display-math">$$0 = D\Phi(x) = DF(x, g(x)) \cdot J_H(x) = \frac{\partial F}{\partial x} \cdot I_n + \frac{\partial F}{\partial y} \cdot Dg(x)$$</div>
+  <p>
+    <strong>Step 3.</strong> Solve for $Dg(x)$:
+  </p>
+  <div class="display-math">$$\frac{\partial F}{\partial y} \cdot Dg(x) = -\frac{\partial F}{\partial x}$$</div>
+  <p>
+    Since $\frac{\partial F}{\partial y}$ is invertible (by hypothesis, at $(a, b)$, and by
+    continuity in a neighbourhood):
+  </p>
+  <div class="display-math">$$Dg(x) = -\left(\frac{\partial F}{\partial y}\right)^{-1} \frac{\partial F}{\partial x}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  For the circle example: $F(x,y) = x^2 + y^2 - 1$,
+  $\partial F/\partial x = 2x$, $\partial F/\partial y = 2y$. So
+  $g'(x) = -2x / (2y) = -x/y$. At $(0, 1)$: $g'(0) = 0$, consistent with
+  $g(x) = \sqrt{1 - x^2}$ having a horizontal tangent at $x = 0$.
+</p>
+
+<h2>4. Proof of existence</h2>
+
+<p>
+  The existence of $g$ is the hard part. The deep engine is the <strong>Banach fixed point
+  theorem</strong> (contraction mapping principle), which we will prove in full in Phase 9.
+  Here we outline the argument with the key steps justified. (IOU: the Banach fixed point
+  theorem itself will be proved in Phase 9 from the completeness of $\mathbb{R}^n$.)
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof (existence, key steps)</div>
+  <p>
+    <strong>Step 1. Reformulate as a fixed point problem.</strong>
+    We want to find $y$ with $F(x, y) = 0$. Define the iteration:
+  </p>
+  <div class="display-math">$$T_x(y) = y - \left(\frac{\partial F}{\partial y}(a, b)\right)^{-1} F(x, y)$$</div>
+  <p>
+    This is Newton's method with a <em>frozen</em> derivative (evaluated at the base point
+    $(a, b)$ rather than at the current iterate). A fixed point of $T_x$ satisfies
+    $T_x(y) = y$, i.e. $F(x, y) = 0$.
+  </p>
+  <p>
+    <strong>Step 2. Show $T_x$ is a contraction near $(a, b)$.</strong>
+    Write $A = \left(\frac{\partial F}{\partial y}(a, b)\right)^{-1}$. The derivative of
+    $T_x$ with respect to $y$ is:
+  </p>
+  <div class="display-math">$$\frac{\partial T_x}{\partial y}(y) = I_m - A \cdot \frac{\partial F}{\partial y}(x, y)$$</div>
+  <p>
+    At $(x, y) = (a, b)$: this is $I_m - A \cdot \frac{\partial F}{\partial y}(a, b) = I_m - I_m = 0$.
+    Since $F$ is $C^1$, $\frac{\partial F}{\partial y}$ is continuous, so
+    $\frac{\partial T_x}{\partial y}$ is continuous and equals $0$ at $(a, b)$. Therefore,
+    in a small ball around $(a, b)$:
+  </p>
+  <div class="display-math">$$\left\|\frac{\partial T_x}{\partial y}\right\| \leq \frac{1}{2}$$</div>
+  <p>
+    By the mean value inequality, for $y_1, y_2$ in this ball:
+  </p>
+  <div class="display-math">$$\|T_x(y_1) - T_x(y_2)\| \leq \frac{1}{2}\|y_1 - y_2\|$$</div>
+  <p>
+    So $T_x$ is a contraction with ratio $1/2$.
+  </p>
+  <p>
+    <strong>Step 3. Apply the contraction mapping principle.</strong>
+    A contraction on a complete metric space has a unique fixed point (Banach, 1922). We
+    work in a closed ball $\overline{B}(b, r) \subseteq \mathbb{R}^m$, which is complete.
+    We also need $T_x$ to map this ball into itself; this holds for $x$ sufficiently close
+    to $a$ because $T_a(b) = b - A \cdot F(a, b) = b - A \cdot 0 = b$, and by continuity
+    of $T_x$ in $x$.
+  </p>
+  <p>
+    <strong>Step 4. Conclude.</strong>
+    For each $x$ near $a$, the contraction mapping principle produces a unique $g(x)$ with
+    $F(x, g(x)) = 0$ and $g(a) = b$. The $C^1$ regularity of $g$ follows from the
+    derivative formula in section 3 and the continuity of all the quantities involved.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>5. The inverse function theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Inverse function theorem</div>
+  <p>
+    Let $f: \mathbb{R}^n \to \mathbb{R}^n$ be $C^1$ and let $a \in \mathbb{R}^n$. If
+    $Df(a)$ is invertible (equivalently, $\det J_f(a) \neq 0$), then:
+  </p>
+  <p>
+    (i) $f$ is locally invertible: there exist open sets $U \ni a$ and $V \ni f(a)$ such
+    that $f: U \to V$ is a bijection.
+  </p>
+  <p>
+    (ii) The inverse $f^{-1}: V \to U$ is $C^1$.
+  </p>
+  <p>
+    (iii) $D(f^{-1})(f(a)) = [Df(a)]^{-1}$.
+  </p>
+</div>
+
+<h2>6. Deriving the inverse function theorem from the implicit function theorem</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Define $F: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}^n$
+    by $F(x, y) = f(y) - x$. Then $F(f(a), a) = f(a) - f(a) = 0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Compute $\frac{\partial F}{\partial y}(f(a), a) = Df(a)$,
+    which is invertible by hypothesis.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Apply the implicit function theorem to $F(x, y) = 0$ with
+    "$x$" playing the role of the free variable and "$y$" the variable to solve for. The
+    IFT gives a $C^1$ function $g$ defined near $f(a)$ with $F(x, g(x)) = 0$, i.e.
+    $f(g(x)) = x$. This $g$ is the local inverse of $f$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> The derivative formula from the IFT gives:
+  </p>
+  <div class="display-math">$$Dg(f(a)) = -\left(\frac{\partial F}{\partial y}\right)^{-1} \frac{\partial F}{\partial x} = -(Df(a))^{-1} \cdot (-I_n) = [Df(a)]^{-1}$$</div>
+  <p>
+    since $\frac{\partial F}{\partial x} = -I_n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>7. Example: the exponential-polar map</h2>
+
+<p>
+  Define $f: \mathbb{R}^2 \to \mathbb{R}^2$ by $f(x, y) = (e^x \cos y,\; e^x \sin y)$.
+  The Jacobian matrix is:
+</p>
+<div class="display-math">$$J_f = \begin{pmatrix} e^x \cos y & -e^x \sin y \\ e^x \sin y & e^x \cos y \end{pmatrix}$$</div>
+<p>
+  The determinant is $e^{2x}\cos^2 y + e^{2x}\sin^2 y = e^{2x}$, which is positive
+  everywhere. By the inverse function theorem, $f$ is locally invertible at every point.
+</p>
+<p>
+  But $f$ is <em>not</em> globally invertible: $f(x, y) = f(x, y + 2\pi)$ since
+  $\cos$ and $\sin$ are $2\pi$-periodic. The inverse function theorem is a
+  <strong>local</strong> statement &mdash; it guarantees invertibility in some neighbourhood,
+  not globally. The image of $f$ is $\mathbb{R}^2 \setminus \{(0,0)\}$, and the map wraps
+  around infinitely many times.
+</p>
+
+<h2>8. Connection to the single-variable case</h2>
+
+<p>
+  In one variable, the inverse function theorem says: if $f'(a) \neq 0$, then $f$ is
+  locally invertible and $(f^{-1})'(f(a)) = 1/f'(a)$
+  (<a href="../phase3/02-differentiation-rules.html">Phase 3, page 2</a>). The
+  multivariable version generalises this: "$f'(a) \neq 0$" becomes "$Df(a)$ is invertible,"
+  which means "$\det J_f(a) \neq 0$"
+  (<a href="../phase6/05-determinants.html">Phase 6, page 5</a>). The scalar reciprocal
+  $1/f'(a)$ becomes the matrix inverse $[Df(a)]^{-1}$.
+</p>
+<p>
+  The condition "$\det J_f(a) \neq 0$" has a geometric meaning: the linear map $Df(a)$
+  does not collapse any direction to zero. It preserves dimension locally. When the
+  determinant is zero, some direction gets crushed, and you lose information &mdash; the map
+  is not invertible.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Cauchy (1831) proved early versions of both theorems for analytic functions. Dini (1878)
+    gave a rigorous proof of the implicit function theorem for $C^1$ functions, which is
+    why it is sometimes called the Dini theorem in Italian-speaking mathematics. The modern
+    proofs using the contraction mapping principle originate in the functional analysis
+    tradition &mdash; Banach's fixed point theorem (1922) provides the abstract engine. This
+    is not just elegance: the contraction mapping approach works in infinite-dimensional
+    spaces (Banach spaces), which is essential for proving existence of solutions to partial
+    differential equations. The finite-dimensional case we proved here is the prototype.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>When $\partial F/\partial y$ is singular (IFT):</strong> consider
+    $F(x, y) = y^2 - x^2$ at the origin. Here $\partial F/\partial y = 2y = 0$ at $(0, 0)$.
+    The level set $F = 0$ is the pair of lines $y = x$ and $y = -x$ &mdash; two branches
+    crossing at the origin. There is no single-valued function $y = g(x)$ near $(0, 0)$.
+    The level set has a <strong>node</strong> (a self-intersection), not a smooth curve.
+  </p>
+  <p>
+    <strong>When $Df(a)$ is singular (inverse FT):</strong> consider
+    $f(x, y) = (x^2, y)$ at the origin. $J_f = \begin{pmatrix} 2x & 0 \\ 0 & 1 \end{pmatrix}$,
+    which has $\det = 0$ at $x = 0$. Indeed $f$ is not locally invertible there: both
+    $(x, y)$ and $(-x, y)$ map to the same point $(x^2, y)$ for $x$ near $0$.
+  </p>
+  <p>
+    <strong>Local vs global:</strong> invertibility of $Df(a)$ everywhere does not guarantee
+    global invertibility. The exponential-polar map (section 7) has nonzero Jacobian
+    determinant everywhere but is not injective. The theorem is inherently local.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  You can locally solve $F(x, y) = 0$ for $y$ precisely when $\partial F / \partial y$ is
+  invertible &mdash; the implicit function theorem turns a nonlinear constraint into a
+  smooth function.
+</div>
+
+<div class="nav">
+  <a href="03-schwarz.html">&larr; Previous: Schwarz's Theorem</a>
+  <a href="05-lagrange-multipliers.html">Next: Lagrange Multipliers &rarr;</a>
+</div>
+
+</body>
+</html>
