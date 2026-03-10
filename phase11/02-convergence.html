@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convergence of Fourier Series — Phase 11</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Convergence of Fourier Series</h1>
+<p class="subtitle">Phase 11 — Fourier Analysis, Page 2</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>On <a href="01-fourier-series.html">page 1</a>, we computed Fourier coefficients and wrote the square wave as $f(x) = \frac{4}{\pi}\sum_{k=0}^{\infty} \frac{\sin((2k+1)x)}{2k+1}$. But does this infinite sum actually equal $f(x)$?</p>
+<p>At points where $f$ is continuous, yes — Dirichlet proved this in 1829. At the discontinuity $x = 0$, the partial sums converge to $0$, the average of the left and right limits ($-1$ and $+1$). But this averaging behaviour is not at all obvious from the formula. And for wilder functions, things can go badly wrong: there exist continuous functions whose Fourier series diverges at certain points.</p>
+<p>The central question of this page: <em>when exactly does a Fourier series converge, and to what value?</em></p>
+</div>
+
+<h2>1. Partial sums and the Dirichlet kernel</h2>
+
+<p>Write $S_N(f)$ for the $N$-th <b>partial sum</b> of the Fourier series of $f$:</p>
+
+<div class="display-math">$$S_N(f)(x) = \frac{a_0}{2} + \sum_{n=1}^{N}\bigl(a_n\cos(nx) + b_n\sin(nx)\bigr)$$</div>
+
+<p>This is a trigonometric polynomial of degree $N$: a finite sum of harmonics up to frequency $N$. As $N$ increases, we include higher and higher frequencies, and the approximation should improve.</p>
+
+<p>The convergence question: does $S_N(f)(x) \to f(x)$ as $N \to \infty$? And if so, in what sense — at each individual point (pointwise)? with the error shrinking uniformly across all $x$ (uniform convergence)? in some averaged sense ($L^2$ convergence)? These are genuinely different questions with different answers.</p>
+
+<p>To attack all of them, we need a more workable expression for $S_N$ — one that exposes its dependence on $f$ and $N$ simultaneously.</p>
+
+<p>We want to rewrite $S_N(f)(x)$ as an integral involving $f$ and some kernel function. Substitute the integral formulas for each coefficient from <a href="01-fourier-series.html">page 1</a>. For $n \geq 1$:</p>
+
+<div class="display-math">$$a_n\cos(nx) + b_n\sin(nx) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(t)\bigl[\cos(nt)\cos(nx) + \sin(nt)\sin(nx)\bigr]\,dt$$</div>
+
+<p>By the cosine subtraction formula (see <a href="../phase4/04-trig-identities.html">Phase 4, page 4</a>), $\cos(nt)\cos(nx) + \sin(nt)\sin(nx) = \cos(n(x - t))$. So:</p>
+
+<div class="display-math">$$a_n\cos(nx) + b_n\sin(nx) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(t)\cos\bigl(n(x-t)\bigr)\,dt$$</div>
+
+<p>Adding the $a_0/2$ term (which contributes $\frac{1}{2\pi}\int f(t)\,dt = \frac{1}{\pi}\int f(t) \cdot \frac{1}{2}\,dt$) and summing over $n = 1, \ldots, N$:</p>
+
+<div class="display-math">$$S_N(f)(x) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(t)\left[\frac{1}{2} + \sum_{n=1}^{N}\cos\bigl(n(x-t)\bigr)\right]dt$$</div>
+
+<p>The expression in brackets depends only on $u = x - t$. We give it a name:</p>
+
+<div class="theorem-box">
+<div class="label">Dirichlet kernel</div>
+<p>The <b>Dirichlet kernel</b> of order $N$ is:</p>
+<div class="display-math">$$D_N(u) = \frac{1}{2} + \sum_{n=1}^{N}\cos(nu)$$</div>
+</div>
+
+<p>With this definition, the partial sum becomes a <b>convolution</b>:</p>
+
+<div class="display-math">$$S_N(f)(x) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(t)\,D_N(x - t)\,dt$$</div>
+
+<p>This is a powerful rewriting. Instead of studying the partial sum directly (which involves all the coefficients $a_n, b_n$), we study the single kernel $D_N$. The convergence of $S_N(f)(x) \to f(x)$ depends entirely on the properties of $D_N$ as $N \to \infty$.</p>
+
+<h2>2. Closed form of the Dirichlet kernel</h2>
+
+<div class="theorem-box">
+<div class="label">Dirichlet kernel — closed form</div>
+<p>For $u$ not a multiple of $2\pi$ (i.e. $\sin(u/2) \neq 0$):</p>
+<div class="display-math">$$D_N(u) = \frac{\sin\bigl((N + \tfrac{1}{2})u\bigr)}{2\sin(u/2)}$$</div>
+<p>At $u = 0$ (and more generally $u = 2k\pi$), $D_N(0) = N + \frac{1}{2}$ by continuity.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>The trick is to multiply by $2\sin(u/2)$ and watch a telescoping cancellation. This is a standard technique for summing cosine series.</p>
+<p><b>Step 1.</b> Compute $2\sin(u/2) \cdot D_N(u)$:</p>
+<div class="display-math">$$2\sin(u/2)\,D_N(u) = 2\sin(u/2) \cdot \frac{1}{2} + 2\sin(u/2)\sum_{n=1}^{N}\cos(nu) = \sin(u/2) + \sum_{n=1}^{N} 2\sin(u/2)\cos(nu)$$</div>
+<p><b>Step 2.</b> Apply the product-to-sum identity $2\sin A\cos B = \sin(A + B) + \sin(A - B)$ with $A = u/2$ and $B = nu$:</p>
+<div class="display-math">$$2\sin(u/2)\cos(nu) = \sin\bigl(u/2 + nu\bigr) + \sin\bigl(u/2 - nu\bigr)$$</div>
+<p>Since $\sin(-\alpha) = -\sin(\alpha)$, we can write $\sin(u/2 - nu) = -\sin(nu - u/2) = -\sin((n - 1/2)u)$. So:</p>
+<div class="display-math">$$2\sin(u/2)\cos(nu) = \sin\bigl((n + \tfrac{1}{2})u\bigr) - \sin\bigl((n - \tfrac{1}{2})u\bigr)$$</div>
+<p><b>Step 3.</b> Sum from $n = 1$ to $N$. Write out the terms:</p>
+<div class="display-math">$$n = 1: \quad \sin(\tfrac{3}{2}u) - \sin(\tfrac{1}{2}u)$$</div>
+<div class="display-math">$$n = 2: \quad \sin(\tfrac{5}{2}u) - \sin(\tfrac{3}{2}u)$$</div>
+<div class="display-math">$$n = 3: \quad \sin(\tfrac{7}{2}u) - \sin(\tfrac{5}{2}u)$$</div>
+<div class="display-math">$$\vdots$$</div>
+<div class="display-math">$$n = N: \quad \sin\bigl((N + \tfrac{1}{2})u\bigr) - \sin\bigl((N - \tfrac{1}{2})u\bigr)$$</div>
+<p>Each $\sin((n+\frac{1}{2})u)$ in one line cancels with $-\sin((n+\frac{1}{2})u)$ from the next line (where it appears as $\sin(((n+1) - \frac{1}{2})u)$). Everything cancels except the very first subtracted term and the very last added term:</p>
+<div class="display-math">$$\sum_{n=1}^{N}\bigl[\sin\bigl((n + \tfrac{1}{2})u\bigr) - \sin\bigl((n - \tfrac{1}{2})u\bigr)\bigr] = \sin\bigl((N + \tfrac{1}{2})u\bigr) - \sin(u/2)$$</div>
+<p><b>Step 4.</b> Combine with the initial $\sin(u/2)$ term:</p>
+<div class="display-math">$$2\sin(u/2)\,D_N(u) = \sin(u/2) + \sin\bigl((N + \tfrac{1}{2})u\bigr) - \sin(u/2) = \sin\bigl((N + \tfrac{1}{2})u\bigr)$$</div>
+<p>Divide both sides by $2\sin(u/2)$ (valid when $\sin(u/2) \neq 0$, i.e. $u$ is not a multiple of $2\pi$).</p>
+<p>At $u = 0$, both sides have the form $0/0$. By L'H&ocirc;pital or by direct substitution into the series definition: $D_N(0) = \frac{1}{2} + N = N + \frac{1}{2}$, which agrees with $\lim_{u \to 0}\frac{\sin((N+1/2)u)}{2\sin(u/2)} = \frac{N + 1/2}{1} = N + \frac{1}{2}$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Two key properties of the Dirichlet kernel:</p>
+
+<p><b>Property 1: unit mass.</b> Integrating the series definition term by term:</p>
+
+<div class="display-math">$$\int_{-\pi}^{\pi} D_N(u)\,du = \int_{-\pi}^{\pi}\frac{1}{2}\,du + \sum_{n=1}^{N}\int_{-\pi}^{\pi}\cos(nu)\,du = \pi + 0 + 0 + \cdots = \pi$$</div>
+
+<p>So $\frac{1}{\pi}\int_{-\pi}^{\pi} D_N(u)\,du = 1$. If $D_N$ were non-negative and concentrated at $u = 0$, the convolution $\frac{1}{\pi}\int f(t)D_N(x-t)\,dt$ would simply pick out $f(x)$. But $D_N$ oscillates and takes negative values, which is what makes convergence non-trivial.</p>
+
+<p><b>Property 2: concentration.</b> As $N$ grows, $D_N$ develops a tall, narrow peak at $u = 0$. The height is $D_N(0) = N + \frac{1}{2}$ (set $u = 0$ in the series: $\frac{1}{2} + N$ terms each equal to $1$). The main peak has width approximately $2\pi/(2N+1)$, shrinking as $N$ increases.</p>
+
+<p>Outside the main peak, $D_N$ oscillates rapidly and the positive and negative lobes nearly cancel. Intuitively, $D_N$ concentrates more and more of its total mass near $u = 0$, so the convolution $\frac{1}{\pi}\int f(t)D_N(x-t)\,dt$ increasingly "samples" $f$ near $t = x$.</p>
+
+<p>If $D_N$ were non-negative (like a Gaussian bell curve), convergence would be automatic: the convolution would be an average of $f$ near $x$, and as the averaging window shrank (with increasing $N$), the result would tend to $f(x)$. But $D_N$ takes large negative values — its side lobes do not vanish and do not shrink relative to the main peak. This is the fundamental difficulty of Fourier convergence.</p>
+
+<p>In fact, $\int_{-\pi}^{\pi} |D_N(u)|\,du \sim C\log N$: the total variation of $D_N$ grows without bound. This is why convergence of Fourier series is a hard theorem rather than a trivial observation, and why it can fail for some continuous functions.</p>
+
+<h2>3. The Riemann-Lebesgue lemma</h2>
+
+<p>Before tackling Dirichlet's theorem, we need a fundamental fact about oscillatory integrals. This lemma appears everywhere in analysis — it is the engine behind most Fourier convergence results.</p>
+
+<div class="theorem-box">
+<div class="label">Riemann-Lebesgue lemma</div>
+<p>If $f$ is integrable on $[a, b]$, then</p>
+<div class="display-math">$$\lim_{N \to \infty}\int_a^b f(x)\sin(Nx)\,dx = 0 \qquad \text{and} \qquad \lim_{N \to \infty}\int_a^b f(x)\cos(Nx)\,dx = 0$$</div>
+</div>
+
+<p>The intuition is physical. Imagine $f$ as a slowly varying "envelope" and $\sin(Nx)$ as a rapidly oscillating carrier wave. Over each half-period of the oscillation (length $\pi/N$), $f$ is nearly constant, so the integral of $f(x)\sin(Nx)$ over that half-period is approximately $f(x_0) \int \sin(Nx)\,dx \approx 0$, since sine integrates to zero over a half-period. As $N \to \infty$, the cancellation becomes perfect.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>We prove the sine case; the cosine case is identical.</p>
+<p><b>Step 1.</b> First suppose $f = \mathbf{1}_{[c,d]}$ is the characteristic function of a subinterval $[c, d] \subseteq [a, b]$. Then:</p>
+<div class="display-math">$$\int_a^b f(x)\sin(Nx)\,dx = \int_c^d \sin(Nx)\,dx = \left[-\frac{\cos(Nx)}{N}\right]_c^d = \frac{\cos(Nc) - \cos(Nd)}{N}$$</div>
+<p>Since $|\cos(\alpha)| \leq 1$ for all $\alpha$, $|\cos(Nc) - \cos(Nd)| \leq 2$, so the whole expression is bounded by $\frac{2}{N}$, which tends to $0$ as $N \to \infty$.</p>
+<p><b>Step 2.</b> A <b>step function</b> is a finite linear combination $\phi = \sum_{k=1}^{m} \alpha_k\,\mathbf{1}_{[c_k, d_k]}$. By linearity of the integral:</p>
+<div class="display-math">$$\int_a^b \phi(x)\sin(Nx)\,dx = \sum_{k=1}^{m}\alpha_k \cdot \frac{\cos(Nc_k) - \cos(Nd_k)}{N}$$</div>
+<p>Each term is bounded by $2|\alpha_k|/N$, and a finite sum of terms each $O(1/N)$ is itself $O(1/N) \to 0$. The number of terms $m$ is fixed (independent of $N$), so we do not need uniform bounds.</p>
+<p><b>Step 3.</b> Now let $f$ be a general integrable function. Since $f$ is Riemann integrable (see <a href="../phase3/06-riemann-integral.html">Phase 3, page 6</a>), for any $\varepsilon > 0$ there exists a step function $\phi$ such that $\int_a^b |f(x) - \phi(x)|\,dx < \varepsilon$. Then:</p>
+<div class="display-math">$$\left|\int_a^b f(x)\sin(Nx)\,dx\right| \leq \left|\int_a^b \phi(x)\sin(Nx)\,dx\right| + \int_a^b |f(x) - \phi(x)| \cdot |\sin(Nx)|\,dx$$</div>
+<p>The first term tends to $0$ by Step 2 (choose $N$ large enough that it is less than $\varepsilon$). The second term is at most $\int_a^b |f(x) - \phi(x)| \cdot |\sin(Nx)|\,dx \leq \int_a^b |f - \phi|\,dx < \varepsilon$ (using $|\sin(Nx)| \leq 1$). So for all sufficiently large $N$:</p>
+<div class="display-math">$$\left|\int_a^b f(x)\sin(Nx)\,dx\right| < \varepsilon + \varepsilon = 2\varepsilon$$</div>
+<p>Since $\varepsilon$ was arbitrary, the integral tends to $0$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>In the language of Fourier coefficients: the Riemann-Lebesgue lemma says $a_n \to 0$ and $b_n \to 0$ as $n \to \infty$. The Fourier coefficients of any integrable function decay to zero.</p>
+
+<p>This has an immediate practical consequence: if a trigonometric series $\sum (a_n\cos nx + b_n\sin nx)$ has coefficients that do <em>not</em> tend to zero, it cannot be the Fourier series of any integrable function. For instance, the series $\sum \cos(nx)$ (all coefficients equal to $1$) is not the Fourier series of any integrable function.</p>
+
+<p>The lemma gives a quick "sanity check" on proposed Fourier representations. It is a necessary condition for being a Fourier series, though far from sufficient — the harmonic series $\sum 1/n$ has terms tending to zero but diverges.</p>
+
+<p>The lemma does <em>not</em> tell us how fast the coefficients decay. That depends on the smoothness of $f$: a discontinuous function like the square wave has $b_n = O(1/n)$, while a smooth function can have coefficients decaying like $1/n^k$ or even exponentially. We will see this interplay between smoothness and decay throughout this page.</p>
+
+<h2>4. Dirichlet's convergence theorem</h2>
+
+<div class="theorem-box">
+<div class="label">Dirichlet's theorem</div>
+<p>Let $f$ be a $2\pi$-periodic function that is <b>piecewise smooth</b> on $[-\pi, \pi]$ — meaning $f$ and $f'$ are piecewise continuous with at most finitely many jump discontinuities. Then for every $x$:</p>
+<div class="display-math">$$\lim_{N \to \infty} S_N(f)(x) = \frac{f(x^+) + f(x^-)}{2}$$</div>
+<p>where $f(x^+) = \lim_{t \to x^+} f(t)$ and $f(x^-) = \lim_{t \to x^-} f(t)$.</p>
+</div>
+
+<p>Let us unpack the hypotheses and conclusion carefully.</p>
+
+<p><b>Piecewise smooth</b> means: the interval $[-\pi, \pi]$ can be split into finitely many subintervals on each of which $f$ is continuously differentiable. At the endpoints of these subintervals, $f$ may have jump discontinuities, but the one-sided limits $f(x^+)$, $f(x^-)$, $f'(x^+)$, $f'(x^-)$ must all exist and be finite. This covers essentially every function you encounter in practice: polynomials, trig functions, the square wave, the sawtooth, piecewise linear functions, and any "reasonable" engineering signal.</p>
+
+<p>The key hypothesis is the existence of one-sided derivatives. At a jump discontinuity, $f$ must approach the jump from each side with a well-defined slope — it cannot oscillate infinitely as it approaches the discontinuity. The function $f(x) = \sin(1/x)$ near $x = 0$, for instance, oscillates infinitely often and does not satisfy the piecewise smooth condition.</p>
+
+<p><b>The conclusion</b> says two things:</p>
+
+<p><em>At a point of continuity:</em> $f(x^+) = f(x^-) = f(x)$, so the Fourier series converges to $f(x)$. This is the "normal" case — the series reconstructs the function.</p>
+
+<p><em>At a jump discontinuity:</em> if $f$ jumps from $L = f(x^-)$ on the left to $R = f(x^+)$ on the right, the series converges to $\frac{L + R}{2}$ — the midpoint of the jump. For the square wave at $x = 0$: $f(0^-) = -1$, $f(0^+) = +1$, so $S_N(f)(0) \to \frac{-1 + 1}{2} = 0$. This is why we defined $f(0) = 0$ on <a href="01-fourier-series.html">page 1</a> — the Fourier series "wants" the function to take the average value at discontinuities.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>Fix a point $x_0 \in [-\pi, \pi]$. We show $S_N(f)(x_0) \to \frac{f(x_0^+) + f(x_0^-)}{2}$. The strategy: rewrite $S_N(f)(x_0) - \frac{f(x_0^+) + f(x_0^-)}{2}$ as an oscillatory integral, then kill it with Riemann-Lebesgue.</p>
+<p><b>Step 1.</b> Using $S_N(f)(x_0) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x_0 - t)\,D_N(t)\,dt$ and the fact that $\frac{1}{\pi}\int_{-\pi}^{\pi} D_N(t)\,dt = 1$, write:</p>
+<div class="display-math">$$S_N(f)(x_0) - \frac{f(x_0^+) + f(x_0^-)}{2} = \frac{1}{\pi}\int_{-\pi}^{\pi}\left[f(x_0 - t) - \frac{f(x_0^+) + f(x_0^-)}{2}\right]D_N(t)\,dt$$</div>
+<p><b>Step 2.</b> Split the integral at $t = 0$. Since $D_N$ is even ($D_N(-t) = D_N(t)$, visible from the cosine series definition), we have $\frac{1}{\pi}\int_0^{\pi} D_N(t)\,dt = \frac{1}{\pi}\int_{-\pi}^{0} D_N(t)\,dt = \frac{1}{2}$. So:</p>
+<div class="display-math">$$S_N(f)(x_0) - \frac{f(x_0^+) + f(x_0^-)}{2} = \underbrace{\frac{1}{\pi}\int_0^{\pi}\bigl[f(x_0 - t) - f(x_0^-)\bigr]D_N(t)\,dt}_{I_1} + \underbrace{\frac{1}{\pi}\int_{-\pi}^{0}\bigl[f(x_0 - t) - f(x_0^+)\bigr]D_N(t)\,dt}_{I_2}$$</div>
+<p>This splitting is natural: when $t > 0$ (and small), $x_0 - t$ is slightly less than $x_0$, approaching from the left, so $f(x_0 - t) \to f(x_0^-)$. We subtract $f(x_0^-)$ so that the integrand vanishes as $t \to 0^+$. Similarly, when $t < 0$ (and small in absolute value), $x_0 - t > x_0$, approaching from the right, so we subtract $f(x_0^+)$.</p>
+<p><b>Step 3.</b> We show $I_1 \to 0$. Substitute $D_N(t) = \frac{\sin((N+1/2)t)}{2\sin(t/2)}$:</p>
+<div class="display-math">$$I_1 = \frac{1}{\pi}\int_0^{\pi}\frac{f(x_0 - t) - f(x_0^-)}{2\sin(t/2)}\,\sin\bigl((N + \tfrac{1}{2})t\bigr)\,dt$$</div>
+<p><b>Step 4.</b> Define $g(t) = \frac{f(x_0 - t) - f(x_0^-)}{2\sin(t/2)}$ for $t \in (0, \pi]$. The potential difficulty is at $t = 0$, where both numerator and denominator tend to zero. Factor:</p>
+<div class="display-math">$$g(t) = \frac{f(x_0 - t) - f(x_0^-)}{t} \cdot \frac{t}{2\sin(t/2)}$$</div>
+<p>As $t \to 0^+$: the first factor tends to $-f'(x_0^-)$ (the left derivative, which exists because $f$ is piecewise smooth). The second factor tends to $1$ (since $\sin(t/2) \sim t/2$). So $g$ has a removable singularity at $t = 0$, and after extending it continuously, $g$ is integrable on $[0, \pi]$.</p>
+<p><b>Step 5.</b> Since $g$ is integrable on $[0, \pi]$, we may apply the Riemann-Lebesgue lemma (with the role of $N$ played by $N + \frac{1}{2}$, which tends to $\infty$):</p>
+<div class="display-math">$$I_1 = \frac{1}{\pi}\int_0^{\pi} g(t)\,\sin\bigl((N + \tfrac{1}{2})t\bigr)\,dt \to 0 \quad \text{as } N \to \infty$$</div>
+<p><b>Step 6.</b> For the second integral $I_2$, substitute $s = -t$ (so the integral runs from $0$ to $\pi$). When $t < 0$, $x_0 - t > x_0$, so $f(x_0 - t) \to f(x_0^+)$ as $t \to 0^-$, i.e. $s \to 0^+$. Define $h(s) = \frac{f(x_0 + s) - f(x_0^+)}{2\sin(s/2)}$ for $s \in (0, \pi]$. By the same argument as for $g$, $h$ has a removable singularity at $s = 0$ (the limit is $f'(x_0^+)$), so $h$ is integrable. By Riemann-Lebesgue, $I_2 \to 0$.</p>
+<p><b>Step 7.</b> Since both $I_1 \to 0$ and $I_2 \to 0$, we conclude:</p>
+<div class="display-math">$$S_N(f)(x_0) \to \frac{f(x_0^+) + f(x_0^-)}{2}$$</div>
+<p>At a point of continuity, $f(x_0^+) = f(x_0^-) = f(x_0)$, so $S_N(f)(x_0) \to f(x_0)$. At a jump, the series converges to the midpoint of the jump.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Uniform convergence</h2>
+
+<p>Pointwise convergence tells you the series converges at each individual point. But for many applications — passing limits through integrals, exchanging sum and derivative — you need something stronger: <b>uniform convergence</b>, meaning $\sup_x |S_N(f)(x) - f(x)| \to 0$.</p>
+
+<p>Uniform convergence cannot hold near discontinuities. Each partial sum $S_N(f)$ is a finite sum of continuous functions, hence continuous. If $f$ has a jump of size $J$, then $\sup_x |S_N(f)(x) - f(x)| \geq J/2$ for all $N$, since the continuous $S_N$ cannot match the discontinuous $f$ uniformly.</p>
+
+<p>So uniform convergence requires $f$ to be continuous. But even continuity is not quite enough — we also need the periodic extension to be continuous, i.e. $f(-\pi) = f(\pi)$. The precise criterion:</p>
+
+<div class="theorem-box">
+<div class="label">Uniform convergence criterion</div>
+<p>If $f$ is continuous on $[-\pi, \pi]$, piecewise $C^1$, and satisfies $f(-\pi) = f(\pi)$, then the Fourier series converges uniformly to $f$.</p>
+</div>
+
+<p>The condition $f(-\pi) = f(\pi)$ ensures that the $2\pi$-periodic extension of $f$ is continuous at $x = \pm\pi$ (where the copies of $[-\pi, \pi]$ are "glued together"). If $f(-\pi) \neq f(\pi)$, the periodic extension has a jump discontinuity at every odd multiple of $\pi$, and uniform convergence fails there. The function $f(x) = x$ on $[-\pi, \pi]$ is a prime example: $f(-\pi) = -\pi \neq \pi = f(\pi)$, which is why the sawtooth wave's Fourier series converges only pointwise, not uniformly.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> We show the Fourier coefficients decay like $O(1/n)$ by integrating by parts. For $b_n$:</p>
+<div class="display-math">$$b_n = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin(nx)\,dx$$</div>
+<p>With $u = f(x)$ and $dv = \sin(nx)\,dx$:</p>
+<div class="display-math">$$b_n = \frac{1}{\pi}\left[-\frac{f(x)\cos(nx)}{n}\right]_{-\pi}^{\pi} + \frac{1}{\pi n}\int_{-\pi}^{\pi} f'(x)\cos(nx)\,dx$$</div>
+<p><b>Step 2.</b> Evaluate the boundary term:</p>
+<div class="display-math">$$\left[-\frac{f(x)\cos(nx)}{n}\right]_{-\pi}^{\pi} = -\frac{f(\pi)\cos(n\pi)}{n} + \frac{f(-\pi)\cos(-n\pi)}{n} = \frac{\cos(n\pi)}{n}\bigl[f(-\pi) - f(\pi)\bigr]$$</div>
+<p>Since $f(-\pi) = f(\pi)$ by hypothesis, this is zero. So:</p>
+<div class="display-math">$$b_n = \frac{1}{n}\left(\frac{1}{\pi}\int_{-\pi}^{\pi} f'(x)\cos(nx)\,dx\right) = \frac{\alpha_n}{n}$$</div>
+<p>where $\alpha_n$ is the $n$-th Fourier cosine coefficient of $f'$. The same argument gives $a_n = \beta_n / n$ where $\beta_n$ is a Fourier sine coefficient of $f'$.</p>
+<p><b>Step 3.</b> The derivative $f'$ is piecewise continuous and hence square-integrable: $\int_{-\pi}^{\pi} |f'(x)|^2\,dx < \infty$. By <b>Bessel's inequality</b> (IOU: proved on <a href="03-parseval.html">page 3</a>), the sum of squares of any set of Fourier coefficients is bounded by $\frac{1}{\pi}\int |f'|^2$. In particular, $\sum_{n=1}^{\infty} \alpha_n^2 < \infty$ and $\sum_{n=1}^{\infty} \beta_n^2 < \infty$.</p>
+<p><b>Step 4.</b> Apply Cauchy-Schwarz (see <a href="../phase6/07-inner-products.html">Phase 6, page 7</a>) to bound the sum of absolute values:</p>
+<div class="display-math">$$\sum_{n=1}^{\infty} |b_n| = \sum_{n=1}^{\infty} \frac{|\alpha_n|}{n} \leq \left(\sum_{n=1}^{\infty} \alpha_n^2\right)^{1/2}\left(\sum_{n=1}^{\infty}\frac{1}{n^2}\right)^{1/2} < \infty$$</div>
+<p>The series $\sum 1/n^2 = \pi^2/6$ converges (we established this as the Basel problem in <a href="../phase4/05-basel-problem.html">Phase 4, page 5</a>). So the right-hand side is finite, and $\sum |b_n| < \infty$. The identical argument (integrating by parts with $\cos(nx)$ instead of $\sin(nx)$) gives $\sum |a_n| < \infty$.</p>
+<p><b>Step 5.</b> For each $n$ and every $x$:</p>
+<div class="display-math">$$|a_n\cos(nx) + b_n\sin(nx)| \leq |a_n| + |b_n| =: M_n$$</div>
+<p>We have shown $\sum M_n < \infty$. By the <b>Weierstrass M-test</b> (see <a href="../phase5/07-weierstrass-m-test.html">Phase 5, page 7</a>), the Fourier series converges uniformly on $[-\pi, \pi]$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Notice the key mechanism: integration by parts transfers one power of $n$ from the coefficient to the derivative, turning $a_n$ into $\beta_n / n$. This is a general principle:</p>
+
+<p>If $f$ is $C^k$ (k-times continuously differentiable) and all derivatives up to order $k-1$ match at $\pm\pi$, then $a_n, b_n = O(1/n^{k+1})$. Each additional derivative you can integrate by parts buys one more power of decay. For a $C^\infty$ function with matching boundary conditions, the coefficients decay faster than any power of $1/n$ — they vanish "superpolynomially."</p>
+
+<p>Conversely, discontinuities slow down the decay. The square wave (a jump discontinuity in $f$) has coefficients $b_n = O(1/n)$. The sawtooth $f(x) = x$ on $(-\pi, \pi)$ also has $b_n = O(1/n)$, because although $f$ itself is continuous on the open interval, its periodic extension has a jump at $\pm\pi$. If $f$ is genuinely continuous with $f(-\pi) = f(\pi)$ and is piecewise $C^1$, then $a_n, b_n = O(1/n^2)$. For $C^2$ functions: $O(1/n^3)$, and so on.</p>
+
+<p>This smoothness-decay correspondence is one of the deepest principles in harmonic analysis. It explains why smooth signals are "low-frequency" (their Fourier coefficients are concentrated at small $n$) while rough signals spread their energy across all frequencies. In signal processing, this is the basis of low-pass filtering: removing high-frequency components smooths a signal, and adding them back sharpens it.</p>
+
+<p>The correspondence also has a converse flavour: if you know the Fourier coefficients decay like $O(1/n^k)$, you can deduce (under appropriate conditions) that $f$ has some degree of differentiability. The Fourier coefficients encode the regularity of the function — they are a "fingerprint" of smoothness.</p>
+
+<p>At the extreme end: for analytic functions (those with convergent Taylor series on a strip around the real axis in the complex plane), the Fourier coefficients decay <em>exponentially</em>: $|c_n| \leq Ce^{-\alpha|n|}$ for some $\alpha > 0$. The width of the analyticity strip determines $\alpha$. This is why analytic functions are so well-behaved from the Fourier perspective — even 5 or 10 terms of the series give an excellent approximation.</p>
+
+<p>At the other extreme: a function with a jump discontinuity has coefficients that decay like $1/n$ — the slowest possible rate for a bounded function. This is precisely why Fourier series struggle with discontinuities and why phenomena like Gibbs overshoot appear.</p>
+
+<p>For the sawtooth $f(x) = x$ on $(-\pi, \pi)$: $f$ is smooth on the open interval, but the periodic extension has a jump at $\pm\pi$, so $b_n = O(1/n)$. If instead we took $f(x) = x(\pi - x)(\pi + x)$ on $[-\pi, \pi]$ — a smooth function with $f(-\pi) = f(\pi) = 0$ — integration by parts gives $a_n, b_n = O(1/n^4)$, and the Fourier series converges very rapidly.</p>
+
+<p>The lesson is practical: if you want fast convergence, ensure the function and its periodic extension are as smooth as possible. Every discontinuity — whether in $f$ itself, its derivative, or its higher derivatives — shows up as a slower decay rate in the Fourier coefficients.</p>
+
+<p>We will make the smoothness-decay correspondence fully precise using Parseval's theorem on <a href="03-parseval.html">page 3</a>, which links the energy of $f$ in physical space to the energy of its Fourier coefficients in frequency space. That identity completes the circle: orthogonality gave us the coefficients, Dirichlet tells us the series converges, and Parseval tells us it converges with no energy lost.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Dirichlet published his convergence theorem in 1829 in Crelle's Journal (the first major German mathematics journal), under the title <em>Sur la convergence des s&eacute;ries trigonom&eacute;triques</em>. It was written in French, the international language of mathematics at the time. This was the first rigorous proof that a Fourier series converges to the function it represents, under explicit conditions. Before Dirichlet, Fourier's claims were unproved conjectures, and Lagrange had actively denied their validity.</p>
+<p>Dirichlet's work was a watershed for analysis. It forced mathematicians to think carefully about what "function" meant — Dirichlet himself gave his famous definition of "arbitrary function" (any assignment of values, not necessarily given by a formula) in this very paper. The question "for which functions does the Fourier series converge?" drove much of 19th-century analysis. Riemann extended the theory to broader function classes. Du Bois-Reymond (1876) shocked the community by constructing a continuous function whose Fourier series diverges at a point.</p>
+<p>The ultimate positive result came only in 1966, when Lennart Carleson proved that the Fourier series of any square-integrable function converges almost everywhere. This is one of the deepest results in 20th-century analysis — the proof is over 30 pages of intricate estimation. Carleson received the Abel Prize in 2006, largely for this work.</p>
+<p>Lebesgue's theory of integration (1901) was itself motivated in part by Fourier convergence problems. The question "what is the largest class of functions for which the Fourier series converges?" demanded a broader notion of integration, and Lebesgue provided it.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without piecewise smoothness:</b> there exist <em>continuous</em> functions whose Fourier series diverges at a point. Paul du Bois-Reymond constructed the first such example in 1876, and it shocked the mathematical community. It showed that continuity alone does not guarantee pointwise convergence.</p>
+<p>How bad can it get? Carleson (1966) proved the deepest positive result: for any $L^2$ function, the Fourier series converges <em>almost everywhere</em> (everywhere except on a set of measure zero). This includes all continuous functions. So for continuous functions, divergence can only happen on a "negligible" set.</p>
+<p>For merely $L^1$ functions (integrable but not square-integrable), the situation is worse: Kolmogorov (1926) constructed an integrable function whose Fourier series diverges <em>everywhere</em>. So some regularity beyond bare integrability is essential.</p>
+<p><b>Without periodicity matching ($f(-\pi) \neq f(\pi)$):</b> Dirichlet's theorem still applies, so the series converges pointwise everywhere. But it does <em>not</em> converge uniformly. Near the artificial jump at $\pm\pi$ (where the periodic extension glues together), the partial sums develop persistent overshoot of about $9\%$ of the jump height. This is the <b>Gibbs phenomenon</b>, which we study on page 4. The overshoot does not shrink as $N \to \infty$ — it just narrows.</p>
+<p><b>Pointwise convergence does not imply uniform convergence:</b> the square wave's Fourier series converges pointwise at every point (by Dirichlet's theorem), but <em>not</em> uniformly. The convergence is slowest near the discontinuities, where the partial sums always overshoot. For the square wave, $\sup_x |S_N(f)(x) - f(x)|$ does not tend to $0$ — it stays above $0.08$ no matter how large $N$ is. Uniform convergence requires the periodic extension to be continuous.</p>
+<p><b>The decay rate matters for applications.</b> The Riemann-Lebesgue lemma tells us $a_n, b_n \to 0$, but that alone does not guarantee convergence of the series $\sum(a_n\cos nx + b_n\sin nx)$. Compare with the harmonic series: $1/n \to 0$ but $\sum 1/n = \infty$. You need the coefficients to decay fast enough that $\sum(|a_n| + |b_n|) < \infty$. This absolute convergence is guaranteed when $a_n, b_n = O(1/n^{1+\varepsilon})$ for any $\varepsilon > 0$, and in particular when $a_n, b_n = O(1/n^2)$ — which is precisely the decay rate for $C^1$ functions with $f(-\pi) = f(\pi)$. This is the uniform convergence criterion proved above.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Dirichlet's theorem: the Fourier series of a piecewise smooth function converges at every point — to the function value at continuity points, and to the average of left and right limits at jumps.</div>
+
+<div class="nav">
+<a href="01-fourier-series.html">&larr; Previous: Fourier Series</a>
+<a href="03-parseval.html">Next: Bessel's Inequality and Parseval's Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

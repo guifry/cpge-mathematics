@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditional Probability and Bayes' Theorem — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Conditional Probability and Bayes' Theorem</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 2</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>
+A medical test for a rare disease is 99% accurate: it correctly identifies 99% of sick
+people and 99% of healthy people. You test positive. What is the probability you actually
+have the disease?
+</p>
+<p>
+Intuition screams 99%. But the correct answer depends on how rare the disease is. If only
+1 in 10,000 people have it, your probability of actually being sick is about 1% &mdash;
+not 99%. The rarity of the disease overwhelms the test's accuracy.
+</p>
+<p>
+This counterintuitive result comes from Bayes' theorem (1763), which tells you how to
+update beliefs in light of evidence. Getting it wrong has real consequences: unnecessary
+treatments, false accusations, flawed AI systems.
+</p>
+</div>
+
+<h2>1. Conditional probability</h2>
+
+<p>
+You know that event $B$ has occurred. How does this change the probability of $A$? The
+outcomes not in $B$ are now impossible, so the effective sample space shrinks from $\Omega$
+to $B$. We need the fraction of $B$ that also lies in $A$.
+</p>
+
+<div class="theorem-box">
+<div class="label">Definition &mdash; Conditional probability</div>
+<p>
+For events $A, B$ with $P(B) > 0$, the <strong>conditional probability of $A$ given $B$</strong> is:
+</p>
+<div class="display-math">$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$</div>
+</div>
+
+<p>
+This is not just notation &mdash; $P(\cdot|B)$ is itself a valid probability measure on
+$\Omega$. It satisfies all three Kolmogorov axioms (page 1):
+</p>
+<ul>
+<li><b>Normalisation:</b> $P(\Omega|B) = P(\Omega \cap B)/P(B) = P(B)/P(B) = 1$.</li>
+<li><b>Non-negativity:</b> inherited from $P$.</li>
+<li><b>Countable additivity:</b> for pairwise disjoint $A_n$,
+$P\bigl(\bigcup A_n \mid B\bigr) = P\bigl((\bigcup A_n) \cap B\bigr)/P(B) = \sum P(A_n \cap B)/P(B) = \sum P(A_n|B)$.</li>
+</ul>
+<p>
+So conditioning on $B$ gives a new, legitimate probability space &mdash; the original one
+restricted to outcomes inside $B$.
+</p>
+
+<p>
+<b>Example.</b> Roll a fair die. $P(\text{six} \mid \text{even}) = P(\{6\})/P(\{2,4,6\}) = (1/6)/(3/6) = 1/3$.
+Knowing the result is even restricts the sample space to three outcomes, one of which is six.
+</p>
+
+<h2>2. The multiplication rule</h2>
+
+<p>
+Rearranging the definition immediately gives:
+</p>
+<div class="display-math">$$P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$$</div>
+<p>
+The second equality follows by symmetry of intersection: $P(A \cap B) = P(B \cap A)$.
+</p>
+<p>
+This extends to three events. We want $P(A \cap B \cap C)$. Think of it as
+$P\bigl((A \cap B) \cap C\bigr)$:
+</p>
+<div class="display-math">$$P(A \cap B \cap C) = P(C \mid A \cap B) \cdot P(A \cap B) = P(C \mid A \cap B) \cdot P(B|A) \cdot P(A)$$</div>
+<p>
+Each factor conditions on everything that came before &mdash; a chain of conditional
+probabilities, each shrinking the sample space further.
+</p>
+
+<p>
+<b>Example.</b> An urn contains 3 red and 2 blue balls. Draw two without replacement. What
+is $P(\text{both red})$? Let $R_1$ = "first is red" and $R_2$ = "second is red." Then
+$P(R_1) = 3/5$ and $P(R_2|R_1) = 2/4 = 1/2$ (after removing one red ball, 2 red remain
+among 4). By the multiplication rule: $P(R_1 \cap R_2) = (3/5)(1/2) = 3/10$.
+</p>
+
+<h2>3. Independence</h2>
+
+<div class="theorem-box">
+<div class="label">Definition &mdash; Independence</div>
+<p>
+Events $A$ and $B$ are <strong>independent</strong> if $P(A \cap B) = P(A) \cdot P(B)$.
+</p>
+<p>
+Equivalently (when $P(B) > 0$): $P(A|B) = P(A)$. Knowing $B$ occurred tells you nothing
+about $A$.
+</p>
+</div>
+
+<p>
+For $n$ events $A_1, \ldots, A_n$, <strong>mutual independence</strong> requires the product
+rule for <em>every</em> sub-collection: for every subset $S \subseteq \{1,\ldots,n\}$
+with $|S| \geq 2$,
+</p>
+<div class="display-math">$$P\!\left(\bigcap_{i \in S} A_i\right) = \prod_{i \in S} P(A_i)$$</div>
+
+<p>
+<b>Warning: pairwise independence does not imply mutual independence.</b> Consider two
+fair coin flips. Let $A$ = "first is heads", $B$ = "second is heads",
+$C$ = "both coins show the same face." Each event has probability $1/2$. Check pairwise:
+$P(A \cap B) = P(HH) = 1/4 = P(A)P(B)$. Similarly $P(A \cap C) = P(HH) = 1/4$ and
+$P(B \cap C) = P(HH) = 1/4$. So any two are independent. But
+$P(A \cap B \cap C) = P(HH) = 1/4 \neq 1/8 = P(A)P(B)P(C)$. The triple is
+<em>not</em> mutually independent.
+</p>
+
+<h2>4. Bayes' theorem</h2>
+
+<div class="theorem-box">
+<div class="label">Theorem &mdash; Bayes' theorem</div>
+<p>For events $A, B$ with $P(A) > 0$ and $P(B) > 0$:</p>
+<div class="display-math">$$P(B|A) = \frac{P(A|B) \cdot P(B)}{P(A)}$$</div>
+<p>
+More generally, if $B_1, \ldots, B_n$ partition $\Omega$ with $P(B_i) > 0$ for all $i$:
+</p>
+<div class="display-math">$$P(B_i|A) = \frac{P(A|B_i) \cdot P(B_i)}{\displaystyle\sum_{j=1}^{n} P(A|B_j) \cdot P(B_j)}$$</div>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p>
+<b>Step 1.</b> By definition, $P(B|A) = P(A \cap B)/P(A)$.
+</p>
+<p>
+<b>Step 2.</b> By the multiplication rule, $P(A \cap B) = P(A|B) \cdot P(B)$.
+</p>
+<p>
+<b>Step 3.</b> Substituting: $P(B|A) = P(A|B) \cdot P(B) / P(A)$.
+</p>
+<p>
+<b>Step 4.</b> For the general form, expand $P(A)$ using total probability (page 1):
+$P(A) = \sum_{j=1}^{n} P(A|B_j) \cdot P(B_j)$. Substitute into the denominator.
+</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>
+The terminology: $P(B_i)$ is the <strong>prior</strong> (what you believed before seeing
+evidence), $P(A|B_i)$ is the <strong>likelihood</strong> (how probable the evidence is
+under each hypothesis), and $P(B_i|A)$ is the <strong>posterior</strong> (your updated
+belief after seeing evidence).
+</p>
+
+<h2>5. The medical test solved</h2>
+
+<p>
+Let $S$ = "sick" and $H$ = "healthy". The data: $P(S) = 1/10000 = 0.0001$, so
+$P(H) = 0.9999$. Test sensitivity: $P(+|S) = 0.99$. Test specificity:
+$P(-|H) = 0.99$, so $P(+|H) = 0.01$.
+</p>
+<p>
+We want $P(S|+)$. Apply Bayes with the partition $\{S, H\}$:
+</p>
+<div class="display-math">$$P(S|+) = \frac{P(+|S) \cdot P(S)}{P(+|S) \cdot P(S) + P(+|H) \cdot P(H)}$$</div>
+<p>
+<b>Step 1.</b> Numerator: $0.99 \times 0.0001 = 0.000099$.
+</p>
+<p>
+<b>Step 2.</b> Denominator: $0.000099 + 0.01 \times 0.9999 = 0.000099 + 0.009999 = 0.010098$.
+</p>
+<p>
+<b>Step 3.</b> Result: $P(S|+) = 0.000099 / 0.010098 \approx 0.0098$.
+</p>
+<p>
+About 1%. Out of every 10,000 people tested, roughly 1 is truly sick (and tests positive)
+while roughly 100 are healthy but test positive anyway. The true positive is drowned out by
+the false positives. The prior matters enormously.
+</p>
+
+<h2>6. The Monty Hall problem</h2>
+
+<p>
+A game show has three doors. Behind one is a car; behind the other two, goats. You pick
+door 1. The host, who knows where the car is, opens door 3 to reveal a goat. Should you
+switch to door 2?
+</p>
+<p>
+Let $C_i$ = "car is behind door $i$". Prior: $P(C_1) = P(C_2) = P(C_3) = 1/3$. Let
+$H_3$ = "host opens door 3." We want $P(C_2|H_3)$.
+</p>
+<p>
+<b>Step 1.</b> Compute the likelihoods. If the car is behind door 1 (your pick), the host
+chooses freely between doors 2 and 3: $P(H_3|C_1) = 1/2$. If the car is behind door 2,
+the host <em>must</em> open door 3: $P(H_3|C_2) = 1$. If the car is behind door 3, the
+host cannot open it: $P(H_3|C_3) = 0$.
+</p>
+<p>
+<b>Step 2.</b> Total probability:
+$P(H_3) = \frac{1}{2} \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} = \frac{1}{6} + \frac{1}{3} = \frac{1}{2}$.
+</p>
+<p>
+<b>Step 3.</b> Bayes:
+$P(C_2|H_3) = \frac{P(H_3|C_2) \cdot P(C_2)}{P(H_3)} = \frac{1 \cdot 1/3}{1/2} = \frac{2}{3}$.
+</p>
+<p>
+Switching wins with probability $2/3$. Staying wins with probability $1/3$. You should
+always switch.
+</p>
+<p>
+The intuition: when you first picked, you had a $1/3$ chance of being right. The host's
+reveal does not change that &mdash; it concentrates the remaining $2/3$ probability onto
+the single unopened door. Bayes' theorem makes this precise.
+</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>
+Thomas Bayes (1701&ndash;1761) was an English Presbyterian minister and mathematician. His
+theorem appeared posthumously in 1763, published by his friend Richard Price, in a paper
+titled "An Essay towards solving a Problem in the Doctrine of Chances." Bayes was trying
+to solve the "inverse probability" problem: given that something has happened, what can you
+infer about the cause?
+</p>
+<p>
+Pierre-Simon Laplace independently discovered the same result and used it extensively in
+his <em>Th&eacute;orie analytique des probabilit&eacute;s</em> (1812). The "Bayesian"
+approach to probability &mdash; treating probability as a measure of belief, updated by
+evidence &mdash; is now foundational in statistics, machine learning, and artificial
+intelligence.
+</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p>
+<b>Without the prior $P(B)$:</b> Bayes' theorem is meaningless. The posterior depends
+critically on the prior. Ignoring the base rate &mdash; like assuming $P(\text{sick}) = 1/2$
+instead of $1/10000$ &mdash; leads to wildly wrong conclusions. This is the
+<b>base rate fallacy</b>, one of the most common errors in probabilistic reasoning.
+</p>
+<p>
+<b>Conditioning on a zero-probability event:</b> $P(A|B)$ is undefined when $P(B) = 0$.
+For continuous distributions, the probability of any single value is zero, so
+"conditioning on $X = x$" requires conditional <em>density</em>, not conditional
+probability. This is a genuine subtlety, not just a technicality.
+</p>
+<p>
+<b>Independence is fragile under conditioning:</b> $A$ and $B$ can be independent yet
+become dependent once you condition on a third event $C$. This is called <b>explaining
+away</b> (or Berkson's paradox). If $A$ and $B$ are two independent causes of $C$,
+then observing $C$ creates a dependence between $A$ and $B$: if $C$ happened but $A$
+didn't cause it, then $B$ becomes more likely.
+</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Bayes' theorem inverts conditional probabilities &mdash; the posterior is the likelihood times the prior, normalised, and the base rate matters more than you think.</div>
+
+<div class="nav">
+<a href="01-probability-spaces.html">&larr; Previous: Probability Spaces</a>
+<a href="03-expectation.html">Next: Random Variables and Expectation &rarr;</a>
+</div>
+
+</body>
+</html>

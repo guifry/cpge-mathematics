@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Variables and Expectation — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Random Variables and Expectation</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 3</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>
+Pascal and Fermat's problem of points required computing "what you expect to win on
+average." If you bet on a fair coin &mdash; winning 2 on heads and 0 on tails &mdash; your
+expected gain is 1, the weighted average of outcomes. But can this idea be made precise?
+</p>
+<p>
+Christiaan Huygens (1657) formalised this as the "value of a chance" and made it the
+centrepiece of the first textbook on probability. The expected value is the single most
+important quantity in probability: it compresses an entire distribution into one number.
+This page defines it rigorously and proves the property that makes it so powerful &mdash;
+linearity.
+</p>
+</div>
+
+<h2>1. Random variables</h2>
+
+<p>
+A <strong>random variable</strong> $X$ is a function $X : \Omega \to \mathbb{R}$ that
+assigns a numerical value to each outcome. Roll a die: define $X(\omega) = \omega$, so
+$X$ just reads off the number shown. Roll two dice: $X(\omega_1, \omega_2) = \omega_1 + \omega_2$
+gives the sum.
+</p>
+<p>
+Formally, for continuous settings, $X$ must be <em>measurable</em> (inverse images of
+intervals must be events). For CPGE, we work with discrete random variables (finitely or
+countably many values) and well-behaved continuous ones, where this is automatic.
+</p>
+<p>
+<b>Examples:</b> $X$ = number of heads in $n$ coin flips. $X$ = waiting time until the
+first success. $X$ = height of a randomly selected person. In each case, $X$ converts a
+random outcome into a number we can compute with.
+</p>
+
+<h2>2. Distributions</h2>
+
+<p>
+The <strong>distribution</strong> of a discrete random variable $X$ is the function
+$p_X(x) = P(X = x)$, listing the probability of each value. For a continuous random
+variable, the distribution is described by a <strong>density</strong> $f_X$ with
+$P(a \leq X \leq b) = \int_a^b f_X(x)\,dx$.
+</p>
+
+<p>
+Key discrete distributions:
+</p>
+<ul>
+<li><b>Bernoulli($p$):</b> $X \in \{0,1\}$, $P(X=1)=p$, $P(X=0)=1-p$. A single yes/no trial.</li>
+<li><b>Binomial($n,p$):</b> $X$ = number of successes in $n$ independent Bernoulli trials. $P(X=k) = \binom{n}{k}p^k(1-p)^{n-k}$.</li>
+<li><b>Geometric($p$):</b> $X$ = number of trials until the first success. $P(X=k) = (1-p)^{k-1}p$ for $k = 1,2,\ldots$</li>
+<li><b>Poisson($\lambda$):</b> $P(X=k) = e^{-\lambda}\lambda^k/k!$. Counts rare events in a fixed interval.</li>
+</ul>
+
+<p>
+Key continuous distributions:
+</p>
+<ul>
+<li><b>Uniform($[a,b]$):</b> $f_X(x) = 1/(b-a)$ on $[a,b]$, zero elsewhere.</li>
+<li><b>Exponential($\lambda$):</b> $f_X(x) = \lambda e^{-\lambda x}$ for $x \geq 0$. Continuous analogue of geometric.</li>
+<li><b>Normal($\mu, \sigma^2$):</b> $f_X(x) = \frac{1}{\sigma\sqrt{2\pi}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$. The bell curve.</li>
+</ul>
+
+<h2>3. Expectation</h2>
+
+<div class="theorem-box">
+<div class="label">Definition &mdash; Expected value</div>
+<p>For a discrete random variable $X$ taking values $x_1, x_2, \ldots$:</p>
+<div class="display-math">$$E[X] = \sum_{i} x_i \cdot P(X = x_i)$$</div>
+<p>For a continuous random variable with density $f_X$:</p>
+<div class="display-math">$$E[X] = \int_{-\infty}^{\infty} x \, f_X(x)\,dx$$</div>
+<p>provided the sum (or integral) converges absolutely.</p>
+</div>
+
+<p>
+The expected value is the weighted average of all possible values, weighted by their
+probabilities. It is the "centre of mass" of the distribution.
+</p>
+<p>
+<b>Bernoulli($p$):</b> $E[X] = 0 \cdot (1-p) + 1 \cdot p = p$.
+</p>
+<p>
+<b>Binomial($n,p$):</b> we compute this directly.
+</p>
+<div class="display-math">$$E[X] = \sum_{k=0}^{n} k \binom{n}{k} p^k (1-p)^{n-k}$$</div>
+<p>
+<b>Step 1.</b> The $k=0$ term vanishes. For $k \geq 1$, use the identity
+$k\binom{n}{k} = n\binom{n-1}{k-1}$ (expand both sides using factorials to verify).
+</p>
+<p>
+<b>Step 2.</b> Substituting:
+$E[X] = \sum_{k=1}^{n} n\binom{n-1}{k-1} p^k (1-p)^{n-k} = np \sum_{k=1}^{n} \binom{n-1}{k-1} p^{k-1} (1-p)^{n-k}$.
+</p>
+<p>
+<b>Step 3.</b> Set $j = k - 1$:
+$E[X] = np \sum_{j=0}^{n-1} \binom{n-1}{j} p^{j} (1-p)^{(n-1)-j}$.
+</p>
+<p>
+<b>Step 4.</b> The sum is $(p + (1-p))^{n-1} = 1^{n-1} = 1$ by the binomial theorem.
+</p>
+<p>
+<b>Result:</b> $E[\text{Binomial}(n,p)] = np$. The expected number of successes in $n$
+trials, each with probability $p$, is exactly $np$. Clean and intuitive.
+</p>
+
+<h2>4. Linearity of expectation</h2>
+
+<div class="theorem-box">
+<div class="label">Theorem &mdash; Linearity of expectation</div>
+<p>
+For any random variables $X, Y$ (not necessarily independent) and constants $a, b \in \mathbb{R}$:
+</p>
+<div class="display-math">$$E[aX + bY] = aE[X] + bE[Y]$$</div>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof (discrete case)</div>
+<p>
+<b>Step 1.</b> Write the definition directly on the sample space:
+</p>
+<div class="display-math">$$E[X + Y] = \sum_{\omega \in \Omega} (X(\omega) + Y(\omega)) \cdot P(\{\omega\})$$</div>
+<p>
+<b>Step 2.</b> Split the sum:
+</p>
+<div class="display-math">$$= \sum_{\omega \in \Omega} X(\omega) \cdot P(\{\omega\}) + \sum_{\omega \in \Omega} Y(\omega) \cdot P(\{\omega\}) = E[X] + E[Y]$$</div>
+<p>
+<b>Step 3.</b> For the constant multiple: $E[aX] = \sum_\omega aX(\omega)P(\{\omega\}) = a\sum_\omega X(\omega)P(\{\omega\}) = aE[X]$.
+</p>
+<p>
+<b>Step 4.</b> Combining: $E[aX + bY] = E[aX] + E[bY] = aE[X] + bE[Y]$.
+</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>
+This is remarkable. We never used independence. The variables can be correlated, dependent,
+even deterministically linked &mdash; linearity always holds. By induction, it extends to
+any finite sum: $E\!\left[\sum_{i=1}^n a_i X_i\right] = \sum_{i=1}^n a_i E[X_i]$.
+</p>
+
+<h2>5. Applications of linearity</h2>
+
+<p>
+<b>Fixed points of a random permutation.</b> Take a random permutation $\sigma$ of
+$\{1, 2, \ldots, n\}$. A <strong>fixed point</strong> is an element with $\sigma(i) = i$.
+How many fixed points does a random permutation have, on average?
+</p>
+<p>
+Define indicator variables: $X_i = 1$ if $\sigma(i) = i$, and $X_i = 0$ otherwise.
+The total number of fixed points is $X = X_1 + X_2 + \cdots + X_n$.
+</p>
+<p>
+Each $X_i$ is Bernoulli with $E[X_i] = P(\sigma(i) = i) = 1/n$ (out of $n!$ permutations,
+$(n-1)!$ fix position $i$, so the probability is $(n-1)!/n! = 1/n$).
+</p>
+<p>
+By linearity: $E[X] = \sum_{i=1}^{n} E[X_i] = n \cdot (1/n) = 1$.
+</p>
+<p>
+A random permutation has, on average, exactly <em>one</em> fixed point &mdash; regardless
+of $n$. We never needed to know the joint distribution of the $X_i$'s, which is
+complicated. Linearity let us bypass the difficulty entirely.
+</p>
+
+<p>
+<b>The coupon collector problem.</b> There are $n$ types of coupons, each draw equally
+likely. How many draws until you have at least one of every type?
+</p>
+<p>
+After collecting $k-1$ distinct types, the probability of getting a new type on the next
+draw is $(n-k+1)/n$. The waiting time for the next new type is Geometric with success
+probability $p_k = (n-k+1)/n$, so its expectation is $n/(n-k+1)$.
+</p>
+<p>
+Let $T$ be the total number of draws. Then $T = T_1 + T_2 + \cdots + T_n$ where $T_k$ is
+the waiting time for the $k$th new type. By linearity:
+</p>
+<div class="display-math">$$E[T] = \sum_{k=1}^{n} \frac{n}{n-k+1} = n\sum_{j=1}^{n} \frac{1}{j} = n \cdot H_n$$</div>
+<p>
+where $H_n = 1 + 1/2 + 1/3 + \cdots + 1/n$ is the $n$th harmonic number (see Phase 2 for
+its divergence). For $n = 50$: $E[T] \approx 50 \times 4.499 \approx 225$ draws to collect
+all 50 coupons.
+</p>
+
+<h2>6. Expectation of a function</h2>
+
+<div class="theorem-box">
+<div class="label">Theorem &mdash; Law of the unconscious statistician (LOTUS)</div>
+<p>For a discrete random variable $X$ and a function $g : \mathbb{R} \to \mathbb{R}$:</p>
+<div class="display-math">$$E[g(X)] = \sum_{x} g(x) \cdot P(X = x)$$</div>
+<p>For continuous $X$ with density $f_X$:</p>
+<div class="display-math">$$E[g(X)] = \int_{-\infty}^{\infty} g(x) \, f_X(x)\,dx$$</div>
+</div>
+
+<p>
+The name is tongue-in-cheek: students use it "unconsciously" without realising it needs
+proof. The key point is that you do <em>not</em> need to find the distribution of the new
+random variable $g(X)$ first &mdash; you can compute the expectation directly from the
+distribution of $X$.
+</p>
+<p>
+We will use LOTUS on the next page to define variance: $\text{Var}(X) = E[(X - E[X])^2]$,
+applying $g(x) = (x - \mu)^2$.
+</p>
+
+<h2>7. When expectation does not exist</h2>
+
+<p>
+<b>The St. Petersburg paradox</b> (Daniel Bernoulli, 1738). A fair coin is flipped
+repeatedly until the first heads on flip $n$. You win $2^n$. What would you pay to play?
+</p>
+<p>
+The expected winnings:
+</p>
+<div class="display-math">$$E[X] = \sum_{n=1}^{\infty} 2^n \cdot \left(\frac{1}{2}\right)^n = \sum_{n=1}^{\infty} 1 = \infty$$</div>
+<p>
+Infinite expected value. Yet no sane person would pay even 100 to play this game. The
+probability of winning more than 100 is only $P(X > 64) = P(n \geq 7) = 1/64 \approx
+1.6\%$.
+</p>
+<p>
+The lesson: expectation can mislead when it does not converge, or when the distribution has
+heavy tails. The sum $\sum |x_i| P(X = x_i)$ must converge for $E[X]$ to be well-defined.
+Compare this with absolute convergence of series (Phase 2): just as a conditionally
+convergent series can be rearranged to any value (Riemann, Phase 5 page 4), an expectation
+that converges only conditionally is not a reliable summary.
+</p>
+<p>
+The Cauchy distribution (density $f(x) = 1/(\pi(1+x^2))$) is a continuous example: the
+integral $\int_{-\infty}^{\infty} x/(\pi(1+x^2))\,dx$ does not converge absolutely. The
+Cauchy distribution has no mean at all.
+</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>
+Christiaan Huygens published <em>De Ratiociniis in Ludo Aleae</em> (On Reasoning in Games
+of Chance) in 1657, the first textbook on probability. He defined expected value as "the
+value of a chance" and used it to solve several gambling problems. The idea that a single
+number &mdash; the weighted average &mdash; summarises an entire distribution became the
+foundation of probability, statistics, decision theory, and mathematical finance.
+</p>
+<p>
+Daniel Bernoulli's 1738 resolution of the St. Petersburg paradox &mdash; introducing
+<em>utility</em> (the subjective value of money, not its face value) &mdash; launched
+the field of decision theory, which remains central to economics and AI today.
+</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p>
+<b>Without absolute convergence:</b> $E[X]$ may not exist or may depend on the order of
+summation. Reference the Riemann rearrangement theorem (Phase 5, page 4): a conditionally
+convergent series can be rearranged to converge to any value. An "expected value" that
+changes depending on how you add up the terms is useless. The Cauchy distribution is the
+canonical continuous example of a distribution with no mean.
+</p>
+<p>
+<b>Without linearity:</b> most combinatorial probability arguments collapse. The fixed
+point and coupon collector calculations above would require the full joint distribution of
+all the indicator variables &mdash; a vastly harder problem. Linearity of expectation
+holding <em>without</em> independence is what makes it so powerful.
+</p>
+<p>
+<b>Equal expectations do not mean equal distributions:</b> the constant $X = 1$ and a
+fair coin flip $Y \in \{0, 2\}$ both have $E = 1$, but they behave entirely differently.
+To capture the spread, you need variance &mdash; the subject of the next page.
+</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Linearity of expectation holds always, even for dependent variables &mdash; the single most useful fact in probability.</div>
+
+<div class="nav">
+<a href="02-bayes.html">&larr; Previous: Conditional Probability and Bayes' Theorem</a>
+<a href="04-variance.html">Next: Variance and Covariance &rarr;</a>
+</div>
+
+</body>
+</html>

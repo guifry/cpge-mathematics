@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bessel's Inequality and Parseval's Theorem — Phase 11</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Bessel's Inequality and Parseval's Theorem</h1>
+<p class="subtitle">Phase 11 — Fourier Analysis, Page 3</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>When you decompose a signal into frequency components, does the total energy of the components equal the total energy of the original signal?</p>
+<p>In physics, energy is proportional to the square of the amplitude. The "energy" of a function $f$ is $\int_{-\pi}^{\pi} |f(x)|^2\,dx$, and the energy stored in its Fourier coefficients is $\pi\bigl(\frac{a_0^2}{2} + \sum_{n=1}^{\infty}(a_n^2 + b_n^2)\bigr)$.</p>
+<p>Parseval (1799) claimed these are equal. Bessel (1828) proved the inequality direction: the coefficients can capture <em>at most</em> the total energy. The equality — energy is conserved across representations — is one of the deepest facts in harmonic analysis. It also turns out to be a powerful computational tool: we will use it to evaluate $\sum 1/n^2$ and $\sum 1/n^4$ in closed form.</p>
+</div>
+
+<h2>1. Energy of the partial sum</h2>
+
+<p>Write the $N$-th <b>partial sum</b> of the Fourier series of $f$ as</p>
+
+<div class="display-math">$$S_N(f)(x) = \frac{a_0}{2} + \sum_{n=1}^{N}\bigl(a_n\cos(nx) + b_n\sin(nx)\bigr)$$</div>
+
+<p>We want to compute $\|S_N(f)\|^2 = \langle S_N(f), S_N(f) \rangle$, where the inner product is $\langle g, h \rangle = \int_{-\pi}^{\pi} g(x)h(x)\,dx$.</p>
+
+<p>When you square $S_N(f)$ and integrate, you get a double sum over all pairs of basis functions: products like $\cos(mx)\cos(nx)$, $\cos(mx)\sin(nx)$, $\sin(mx)\sin(nx)$, and mixed terms with the constant. But the orthogonality relations from <a href="01-fourier-series.html">page 1</a> kill every cross term — those integrals all vanish when $m \neq n$ or when the parity differs. The only surviving terms are the diagonal ones (squares).</p>
+
+<p>Explicitly: $\int_{-\pi}^{\pi} \cos(mx)\cos(nx)\,dx = \pi\delta_{mn}$, and $\int_{-\pi}^{\pi} \sin(mx)\sin(nx)\,dx = \pi\delta_{mn}$, and all $\cos$-$\sin$ cross products vanish. The constant term $a_0/2$ has norm $\int_{-\pi}^{\pi} (a_0/2)^2\,dx = a_0^2\pi/2$. So:</p>
+
+<div class="display-math">$$\|S_N(f)\|^2 = \frac{a_0^2}{4} \cdot 2\pi + \sum_{n=1}^{N}\bigl(a_n^2 \cdot \pi + b_n^2 \cdot \pi\bigr)$$</div>
+
+<div class="display-math">$$= \pi\left(\frac{a_0^2}{2} + \sum_{n=1}^{N}(a_n^2 + b_n^2)\right)$$</div>
+
+<p>Dividing both sides by $\pi$:</p>
+
+<div class="display-math">$$\frac{1}{\pi}\int_{-\pi}^{\pi} |S_N(f)(x)|^2\,dx = \frac{a_0^2}{2} + \sum_{n=1}^{N}(a_n^2 + b_n^2)$$</div>
+
+<p>So the normalised energy of the partial sum is exactly the sum of the squared coefficients. Each coefficient $a_n$ or $b_n$ measures how much of the function's energy lives at frequency $n$, and the partial sum captures exactly the energy in frequencies $1$ through $N$.</p>
+
+<p>The question is: does this account for <em>all</em> of $f$'s energy as $N \to \infty$? Could there be energy "hiding" at infinitely high frequencies, uncaptured by any finite partial sum? Bessel says no energy is overcounted. Parseval says none is missed.</p>
+
+<h2>2. Bessel's inequality</h2>
+
+<div class="theorem-box">
+<div class="label">Bessel's inequality</div>
+<p>For any square-integrable $2\pi$-periodic function $f$:</p>
+<div class="display-math">$$\frac{a_0^2}{2} + \sum_{n=1}^{\infty}(a_n^2 + b_n^2) \leq \frac{1}{\pi}\int_{-\pi}^{\pi} |f(x)|^2\,dx$$</div>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof (via projection)</div>
+<p><b>Step 1.</b> Let $V_N = \text{span}\{1, \cos x, \sin x, \ldots, \cos Nx, \sin Nx\}$. This is a $(2N+1)$-dimensional subspace of $L^2([-\pi, \pi])$, equipped with the orthogonal basis given by the trigonometric system.</p>
+<p><b>Step 2.</b> The partial sum $S_N(f)$ is the orthogonal projection of $f$ onto $V_N$. Why? By the projection theorem (<a href="../phase6/08-projections.html">Phase 6, page 8</a>), the projection of $f$ onto a subspace spanned by an orthogonal basis $\{e_k\}$ is $\sum_k \frac{\langle f, e_k \rangle}{\|e_k\|^2} e_k$. The Fourier coefficients are exactly these ratios: $a_n = \langle f, \cos(n\cdot) \rangle / \|\cos(n\cdot)\|^2$ with $\|\cos(n\cdot)\|^2 = \pi$. So $S_N(f)$ is the projection.</p>
+<p><b>Step 3.</b> Since $S_N(f)$ is the projection, the residual $f - S_N(f)$ is orthogonal to every element of $V_N$, and in particular to $S_N(f)$ itself. By the Pythagorean theorem:</p>
+<div class="display-math">$$\|f\|^2 = \|S_N(f)\|^2 + \|f - S_N(f)\|^2$$</div>
+<p><b>Step 4.</b> Since $\|f - S_N(f)\|^2 \geq 0$, we have $\|S_N(f)\|^2 \leq \|f\|^2$. From Section 1:</p>
+<div class="display-math">$$\pi\left(\frac{a_0^2}{2} + \sum_{n=1}^{N}(a_n^2 + b_n^2)\right) \leq \int_{-\pi}^{\pi} |f(x)|^2\,dx$$</div>
+<p><b>Step 5.</b> The left side is an increasing sequence (each new term $a_{N+1}^2 + b_{N+1}^2 \geq 0$ adds a non-negative amount) that is bounded above by $\|f\|^2/\pi$. So it converges as $N \to \infty$, and the inequality holds in the limit.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>Here is a second proof that avoids the projection theorem entirely, using nothing beyond the definition of Fourier coefficients.</p>
+
+<div class="proof-box">
+<div class="label">Direct proof</div>
+<p><b>Step 1.</b> Start from the obvious fact $\|f - S_N(f)\|^2 \geq 0$. Expand:</p>
+<div class="display-math">$$0 \leq \int_{-\pi}^{\pi} |f(x) - S_N(f)(x)|^2\,dx = \|f\|^2 - 2\langle f, S_N(f)\rangle + \|S_N(f)\|^2$$</div>
+<p><b>Step 2.</b> Compute $\langle f, S_N(f)\rangle$ by expanding $S_N$ and pulling constants out of the integral:</p>
+<div class="display-math">$$\langle f, S_N(f)\rangle = \frac{a_0}{2}\int_{-\pi}^{\pi}f(x)\,dx + \sum_{n=1}^{N}\left(a_n\int_{-\pi}^{\pi}f(x)\cos(nx)\,dx + b_n\int_{-\pi}^{\pi}f(x)\sin(nx)\,dx\right)$$</div>
+<p>By definition, $\int_{-\pi}^{\pi}f(x)\,dx = \pi a_0$, and $\int_{-\pi}^{\pi}f(x)\cos(nx)\,dx = \pi a_n$, and $\int_{-\pi}^{\pi}f(x)\sin(nx)\,dx = \pi b_n$. Substituting:</p>
+<div class="display-math">$$\langle f, S_N(f)\rangle = \frac{a_0}{2}\cdot\pi a_0 + \sum_{n=1}^{N}(a_n\cdot\pi a_n + b_n\cdot\pi b_n) = \pi\left(\frac{a_0^2}{2} + \sum_{n=1}^{N}(a_n^2 + b_n^2)\right) = \|S_N(f)\|^2$$</div>
+<p><b>Step 3.</b> Substituting $\langle f, S_N \rangle = \|S_N\|^2$ back into Step 1:</p>
+<div class="display-math">$$0 \leq \|f\|^2 - 2\|S_N\|^2 + \|S_N\|^2 = \|f\|^2 - \|S_N\|^2$$</div>
+<p>This gives $\|S_N\|^2 \leq \|f\|^2$, which is Bessel's inequality for finite $N$. Take $N \to \infty$ as before.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>An important corollary of Bessel's inequality: since the series $\sum_{n=1}^{\infty}(a_n^2 + b_n^2)$ converges (it is bounded above by $\|f\|^2/\pi$), we must have $a_n^2 + b_n^2 \to 0$ as $n \to \infty$. In particular, $a_n \to 0$ and $b_n \to 0$.</p>
+
+<p>This is the <b>Riemann-Lebesgue lemma</b> (in its trigonometric form): the Fourier coefficients of any square-integrable function tend to zero. Intuitively, higher and higher frequencies oscillate too rapidly to correlate with a fixed function. The function simply does not "contain" energy at arbitrarily high frequencies.</p>
+
+<p>Note how Bessel gives us this for free — it is a direct consequence of the convergent series having its general term tend to zero. The general Riemann-Lebesgue lemma (valid for merely integrable, not necessarily square-integrable functions) requires a separate argument involving approximation by step functions. But for $L^2$ functions, Bessel's inequality is all you need.</p>
+
+<p>The decay rate of the Fourier coefficients carries information about the smoothness of $f$. If $f$ is $C^k$ (i.e. $k$ times continuously differentiable), then $a_n, b_n = O(1/n^{k+1})$. If $f$ has a jump discontinuity, the coefficients decay like $1/n$ — the slowest possible rate. This slow decay is directly responsible for the Gibbs phenomenon we will study on <a href="04-gibbs.html">page 4</a>.</p>
+
+<h2>3. Best approximation property</h2>
+
+<div class="theorem-box">
+<div class="label">Best approximation</div>
+<p>Among all trigonometric polynomials of degree $\leq N$, the partial sum $S_N(f)$ minimises the mean-square error $\|f - T_N\|^2$. That is, for any $T_N \in V_N$:</p>
+<div class="display-math">$$\|f - S_N(f)\|^2 \leq \|f - T_N\|^2$$</div>
+<p>with equality if and only if $T_N = S_N(f)$.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> Let $T_N$ be any trigonometric polynomial of degree $\leq N$. Then $T_N \in V_N$, and $S_N(f) - T_N \in V_N$ (since $V_N$ is a vector space).</p>
+<p><b>Step 2.</b> Since $f - S_N(f)$ is orthogonal to every element of $V_N$ (this is the defining property of the projection), we have $f - S_N(f) \perp S_N(f) - T_N$.</p>
+<p><b>Step 3.</b> Decompose: $f - T_N = (f - S_N(f)) + (S_N(f) - T_N)$. The two summands are orthogonal, so by the Pythagorean theorem:</p>
+<div class="display-math">$$\|f - T_N\|^2 = \|f - S_N(f)\|^2 + \|S_N(f) - T_N\|^2$$</div>
+<p><b>Step 4.</b> Since $\|S_N(f) - T_N\|^2 \geq 0$, we get $\|f - T_N\|^2 \geq \|f - S_N(f)\|^2$. Equality holds if and only if $\|S_N(f) - T_N\| = 0$, i.e. $T_N = S_N(f)$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<p>This is the Fourier partial sum's defining virtue: it is the <em>best possible</em> trigonometric approximation in the $L^2$ sense. You cannot do better with the same number of harmonics, no matter how cleverly you choose the coefficients.</p>
+
+<p>If someone hands you a different set of coefficients and claims they give a better $L^2$ fit, the Pythagorean theorem guarantees they are wrong. This is the infinite-dimensional version of the fact that orthogonal projection gives the closest point in a subspace (<a href="../phase6/08-projections.html">Phase 6, page 8</a>).</p>
+
+<p>The best approximation property also gives us a practical test: if the Fourier partial sum is not converging fast enough, adding more terms is the <em>only</em> way to improve the $L^2$ approximation. You cannot redistribute the coefficients to do better. The slow convergence at discontinuities (which we will see in <a href="04-gibbs.html">page 4</a>) is a fundamental limitation, not a fixable inefficiency.</p>
+
+<p>The best approximation property also has a converse reading: if you <em>know</em> that $\|f - S_N(f)\|^2$ is large, then <em>no</em> trigonometric polynomial of degree $N$ can do better. This is the starting point for approximation theory, where one studies how fast the best approximation error decreases with $N$ for various classes of functions.</p>
+
+<h2>4. Parseval's theorem</h2>
+
+<div class="theorem-box">
+<div class="label">Parseval's theorem</div>
+<p>If $f$ is piecewise continuous on $[-\pi, \pi]$, then:</p>
+<div class="display-math">$$\frac{a_0^2}{2} + \sum_{n=1}^{\infty}(a_n^2 + b_n^2) = \frac{1}{\pi}\int_{-\pi}^{\pi} |f(x)|^2\,dx$$</div>
+</div>
+
+<p>This is Bessel's inequality promoted to an equality. The gap $\|f - S_N\|^2$ that was merely non-negative in Bessel's proof must actually tend to zero. Physically: no energy leaks out of the Fourier representation. Every bit of the signal's energy is accounted for by its frequency components. In quantum mechanics, this becomes the statement that a wave function's total probability is preserved under a change of basis — the deep reason Parseval matters far beyond Fourier analysis.</p>
+
+<p>The proof strategy is elegant: we already know $\|f\|^2 = \|S_N\|^2 + \|f - S_N\|^2$. For Parseval, we must show $\|f - S_N\|^2 \to 0$. The best approximation property (Section 3) is the key: it lets us bound $\|f - S_N\|$ by the error of <em>any</em> trigonometric polynomial, and Weierstrass guarantees good ones exist.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> From the Pythagorean decomposition in the proof of Bessel's inequality:</p>
+<div class="display-math">$$\|f\|^2 = \|S_N(f)\|^2 + \|f - S_N(f)\|^2$$</div>
+<p>Parseval's equality holds if and only if $\|f - S_N(f)\|^2 \to 0$ as $N \to \infty$.</p>
+<p><b>Step 2.</b> We first prove this for continuous $f$ with $f(-\pi) = f(\pi)$. By the trigonometric version of the Weierstrass approximation theorem (<a href="../phase5/08-weierstrass-approx.html">Phase 5, page 8</a>), any continuous periodic function can be uniformly approximated by trigonometric polynomials. That is, for any $\varepsilon > 0$, there exists a trigonometric polynomial $T_M$ of some degree $M$ such that $|f(x) - T_M(x)| < \varepsilon$ for all $x \in [-\pi, \pi]$.</p>
+<p><b>Step 3.</b> For any $N \geq M$, the best approximation property (Section 3) gives:</p>
+<div class="display-math">$$\|f - S_N(f)\|^2 \leq \|f - T_M\|^2$$</div>
+<p>since $T_M$ is a trigonometric polynomial of degree $M \leq N$. The right side is bounded by:</p>
+<div class="display-math">$$\|f - T_M\|^2 = \int_{-\pi}^{\pi} |f(x) - T_M(x)|^2\,dx \leq \int_{-\pi}^{\pi} \varepsilon^2\,dx = 2\pi\varepsilon^2$$</div>
+<p><b>Step 4.</b> Since $\varepsilon > 0$ was arbitrary, $\|f - S_N(f)\|^2 \to 0$ as $N \to \infty$. This proves Parseval's equality for continuous periodic functions.</p>
+<p><b>Step 5.</b> For piecewise continuous $f$: approximate $f$ by a continuous function $g$ that agrees with $f$ except in narrow intervals around the finitely many discontinuities. In each such interval, connect the left and right limits by a linear segment. By making these transition intervals of width $\delta$, the $L^2$ error is:</p>
+<div class="display-math">$$\|f - g\|_2^2 = \int_{\text{transitions}} |f - g|^2\,dx \leq C\delta$$</div>
+<p>where $C$ depends on the size of the jumps. This can be made as small as desired by choosing $\delta$ small.</p>
+<p><b>Step 6.</b> Now use the triangle inequality in $L^2$:</p>
+<div class="display-math">$$\|f - S_N(f)\|_2 \leq \|f - g\|_2 + \|g - S_N(g)\|_2 + \|S_N(g) - S_N(f)\|_2$$</div>
+<p>The first term is $< \varepsilon$ by choosing $\delta$ small. The second term tends to zero by Step 4 (since $g$ is continuous). The third term $= \|S_N(g - f)\|_2 \leq \|g - f\|_2 < \varepsilon$ by Bessel's inequality. So $\|f - S_N(f)\|_2 < 3\varepsilon$ for $N$ large enough.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<h2>5. Application: $\sum 1/n^2 = \pi^2/6$</h2>
+
+<p>Take $f(x) = x$ on $(-\pi, \pi)$ — the sawtooth wave from <a href="01-fourier-series.html">page 1</a>. We computed there that $a_n = 0$ for all $n$ (since $f$ is odd), and $b_n = 2(-1)^{n+1}/n$.</p>
+
+<p>Apply Parseval's theorem. The left side is:</p>
+
+<div class="display-math">$$\frac{a_0^2}{2} + \sum_{n=1}^{\infty}(a_n^2 + b_n^2) = 0 + \sum_{n=1}^{\infty}\left(\frac{2(-1)^{n+1}}{n}\right)^2 = \sum_{n=1}^{\infty}\frac{4}{n^2}$$</div>
+
+<p>The right side is:</p>
+
+<div class="display-math">$$\frac{1}{\pi}\int_{-\pi}^{\pi} x^2\,dx = \frac{1}{\pi}\left[\frac{x^3}{3}\right]_{-\pi}^{\pi} = \frac{1}{\pi}\left(\frac{\pi^3}{3} - \frac{-\pi^3}{3}\right) = \frac{1}{\pi} \cdot \frac{2\pi^3}{3} = \frac{2\pi^2}{3}$$</div>
+
+<p>Equating the two sides:</p>
+
+<div class="display-math">$$\sum_{n=1}^{\infty}\frac{4}{n^2} = \frac{2\pi^2}{3}$$</div>
+
+<p>Divide by $4$:</p>
+
+<div class="display-math">$$\sum_{n=1}^{\infty}\frac{1}{n^2} = \frac{\pi^2}{6}$$</div>
+
+<p>This is the <b>Basel problem</b>, posed by Pietro Mengoli in 1644 and famously solved by Euler in 1735. Parseval gives a clean, systematic proof. The answer falls directly out of energy conservation applied to the sawtooth wave.</p>
+
+<p>Let us verify the numerical plausibility. The partial sums $1 + 1/4 + 1/9 + 1/16 + \cdots$ converge slowly: the first ten terms give $\approx 1.5498$, while $\pi^2/6 \approx 1.6449$. But the exact answer is irrational and transcendental — you would never guess $\pi^2/6$ from the numerics alone. That it emerges from Parseval is remarkable: a sum over integers equals a quantity defined by a circle.</p>
+
+<h2>6. Application: $\sum 1/n^4 = \pi^4/90$</h2>
+
+<p>Take $f(x) = x^2$ on $(-\pi, \pi)$. This is an even function, so $b_n = 0$ for all $n$.</p>
+
+<p>The constant term:</p>
+
+<div class="display-math">$$a_0 = \frac{1}{\pi}\int_{-\pi}^{\pi} x^2\,dx = \frac{2\pi^2}{3}$$</div>
+
+<p>For $n \geq 1$, we use the evenness of $x^2\cos(nx)$ to write:</p>
+
+<div class="display-math">$$a_n = \frac{1}{\pi}\int_{-\pi}^{\pi} x^2\cos(nx)\,dx = \frac{2}{\pi}\int_0^{\pi} x^2\cos(nx)\,dx$$</div>
+
+<p>First integration by parts with $u = x^2$, $dv = \cos(nx)\,dx$, so $du = 2x\,dx$, $v = \sin(nx)/n$:</p>
+
+<div class="display-math">$$\frac{2}{\pi}\left(\left[\frac{x^2\sin(nx)}{n}\right]_0^{\pi} - \frac{2}{n}\int_0^{\pi} x\sin(nx)\,dx\right)$$</div>
+
+<p>The boundary term vanishes since $\sin(n\pi) = 0$. We are left with:</p>
+
+<div class="display-math">$$a_n = -\frac{4}{\pi n}\int_0^{\pi}x\sin(nx)\,dx$$</div>
+
+<p>Second integration by parts with $u = x$, $dv = \sin(nx)\,dx$, so $du = dx$, $v = -\cos(nx)/n$:</p>
+
+<div class="display-math">$$\int_0^{\pi}x\sin(nx)\,dx = \left[-\frac{x\cos(nx)}{n}\right]_0^{\pi} + \frac{1}{n}\int_0^{\pi}\cos(nx)\,dx = -\frac{\pi\cos(n\pi)}{n} + \frac{1}{n}\left[\frac{\sin(nx)}{n}\right]_0^{\pi}$$</div>
+
+<p>The last term vanishes ($\sin(n\pi) = 0$), and $\cos(n\pi) = (-1)^n$, so:</p>
+
+<div class="display-math">$$\int_0^{\pi}x\sin(nx)\,dx = -\frac{\pi(-1)^n}{n}$$</div>
+
+<p>Substituting back:</p>
+
+<div class="display-math">$$a_n = -\frac{4}{\pi n}\cdot\left(-\frac{\pi(-1)^n}{n}\right) = \frac{4(-1)^n}{n^2}$$</div>
+
+<p>Now apply Parseval. The left side:</p>
+
+<div class="display-math">$$\frac{a_0^2}{2} + \sum_{n=1}^{\infty}a_n^2 = \frac{1}{2}\cdot\frac{4\pi^4}{9} + \sum_{n=1}^{\infty}\frac{16}{n^4} = \frac{2\pi^4}{9} + 16\sum_{n=1}^{\infty}\frac{1}{n^4}$$</div>
+
+<p>The right side:</p>
+
+<div class="display-math">$$\frac{1}{\pi}\int_{-\pi}^{\pi}x^4\,dx = \frac{1}{\pi}\cdot\frac{2\pi^5}{5} = \frac{2\pi^4}{5}$$</div>
+
+<p>Equating and solving:</p>
+
+<div class="display-math">$$\frac{2\pi^4}{9} + 16\sum_{n=1}^{\infty}\frac{1}{n^4} = \frac{2\pi^4}{5}$$</div>
+
+<div class="display-math">$$16\sum_{n=1}^{\infty}\frac{1}{n^4} = \frac{2\pi^4}{5} - \frac{2\pi^4}{9} = 2\pi^4\left(\frac{1}{5} - \frac{1}{9}\right) = 2\pi^4\cdot\frac{4}{45} = \frac{8\pi^4}{45}$$</div>
+
+<div class="display-math">$$\sum_{n=1}^{\infty}\frac{1}{n^4} = \frac{\pi^4}{90}$$</div>
+
+<p>The pattern continues: by choosing $f(x) = x^{2k}$ and applying Parseval, you can compute $\sum 1/n^{2k}$ for any positive integer $k$. Each answer is a rational multiple of $\pi^{2k}$ — these are the values of the Riemann zeta function $\zeta(2k)$, first computed by Euler.</p>
+
+<p>The first few values are:</p>
+
+<div class="display-math">$$\zeta(2) = \frac{\pi^2}{6}, \quad \zeta(4) = \frac{\pi^4}{90}, \quad \zeta(6) = \frac{\pi^6}{945}, \quad \zeta(8) = \frac{\pi^8}{9450}$$</div>
+
+<p>The general formula is $\zeta(2k) = (-1)^{k+1}\frac{(2\pi)^{2k}B_{2k}}{2(2k)!}$ where $B_{2k}$ are the Bernoulli numbers. By contrast, the odd values $\zeta(3), \zeta(5), \zeta(7), \ldots$ remain deeply mysterious — even the irrationality of $\zeta(3)$ was only proved in 1978 by Apéry, and no closed form in terms of $\pi$ is known for any odd zeta value. Parseval's theorem gives you the even values for free; the odd values resist all known methods.</p>
+
+<h2>7. The complex form</h2>
+
+<p>In terms of the complex Fourier coefficients $c_n = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)e^{-inx}\,dx$ from <a href="01-fourier-series.html">page 1</a>, Parseval's theorem takes a particularly clean form:</p>
+
+<div class="display-math">$$\sum_{n=-\infty}^{\infty} |c_n|^2 = \frac{1}{2\pi}\int_{-\pi}^{\pi} |f(x)|^2\,dx$$</div>
+
+<p>To see why this is the same statement, recall that $c_0 = a_0/2$, $c_n = (a_n - ib_n)/2$, and $c_{-n} = (a_n + ib_n)/2$ for $n \geq 1$. Then $|c_n|^2 + |c_{-n}|^2 = (a_n^2 + b_n^2)/2$ and $|c_0|^2 = a_0^2/4$. Summing:</p>
+
+<div class="display-math">$$\sum_{n=-\infty}^{\infty}|c_n|^2 = \frac{a_0^2}{4} + \frac{1}{2}\sum_{n=1}^{\infty}(a_n^2 + b_n^2)$$</div>
+
+<p>And $\frac{1}{2\pi}\int |f|^2\,dx = \frac{1}{2}\cdot\frac{1}{\pi}\int|f|^2\,dx$, so the complex Parseval is exactly half the real Parseval. Both say the same thing: the Fourier transform is an <b>isometry</b> — it preserves the notion of distance.</p>
+
+<p>There is a generalisation worth knowing. For two functions $f$ and $g$ with Fourier coefficients $(a_n, b_n)$ and $(\alpha_n, \beta_n)$ respectively, the <b>Parseval identity for inner products</b> states:</p>
+
+<div class="display-math">$$\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)g(x)\,dx = \frac{a_0\alpha_0}{2} + \sum_{n=1}^{\infty}(a_n\alpha_n + b_n\beta_n)$$</div>
+
+<p>This follows from the energy version by polarisation: apply Parseval to $f + g$ and $f - g$, subtract, and divide by $4$. In complex notation: $\sum_{n=-\infty}^{\infty}c_n\overline{d_n} = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)\overline{g(x)}\,dx$. The Fourier transform preserves inner products, not just norms — it is a <b>unitary map</b> between $L^2([-\pi,\pi])$ and the sequence space $\ell^2(\mathbb{Z})$.</p>
+
+<p>This generalised identity is sometimes called the <b>Plancherel theorem</b> in the continuous Fourier transform setting. It is the foundation of signal processing: it tells you that correlating two signals in the time domain is equivalent to multiplying their spectra in the frequency domain.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Bessel proved his inequality in 1828 while studying planetary perturbations — Fourier analysis arose simultaneously from heat conduction (Fourier) and celestial mechanics (Bessel). The inequality was a tool for bounding errors in orbital calculations.</p>
+<p>Parseval stated his identity in 1799, a full eight years before Fourier's memoir, but without proof. The rigorous proof required the <b>completeness</b> of the trigonometric system: the fact that sines and cosines span all of $L^2$. This was established by Fischer and Riesz in 1907 as part of the creation of modern $L^2$ theory.</p>
+<p>The Basel problem ($\sum 1/n^2 = \pi^2/6$) was posed by Mengoli in 1644 and resisted attack for nearly a century. Euler cracked it in 1735 using a daring (and not fully rigorous) factorisation of $\sin x / x$, making his reputation overnight. Parseval's theorem gives a clean, conceptual proof: the answer falls out of energy conservation applied to $f(x) = x$.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without square-integrability:</b> the integrals defining the Fourier coefficients may not exist, and neither side of Bessel's inequality is well-defined. For instance, $f(x) = 1/\sqrt{|x|}$ is integrable on $[-\pi, \pi]$ (so the coefficients exist), but $f^2 = 1/|x|$ is not integrable, so the right side of Parseval diverges.</p>
+<p><b>Incomplete orthonormal systems:</b> Bessel's inequality is strict if you use only a subset of the trigonometric system. For example, decomposing $f$ using only $\cos$ terms (no $\sin$) captures only part of the energy — you miss the odd component of $f$. Parseval's <em>equality</em> is equivalent to the <b>completeness</b> of the trigonometric system: it says that sines and cosines together capture all the energy, with nothing left over.</p>
+<p><b>Parseval does not imply pointwise convergence:</b> $\|f - S_N\|_2 \to 0$ means the <em>average</em> squared error tends to zero. But the Fourier series can converge in energy while diverging at individual points. The Gibbs phenomenon (<a href="04-gibbs.html">page 4</a>) is a vivid example: the partial sums overshoot at discontinuities even as the $L^2$ error vanishes. $L^2$ convergence and pointwise convergence are genuinely different notions.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Parseval's theorem: the total energy of a signal equals the sum of the energies of its frequency components — nothing is lost in the decomposition.</div>
+
+<div class="nav">
+<a href="02-convergence.html">&larr; Previous: Convergence of Fourier Series</a>
+<a href="04-gibbs.html">Next: The Gibbs Phenomenon &rarr;</a>
+</div>
+
+</body>
+</html>

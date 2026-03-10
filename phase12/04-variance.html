@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variance and Covariance — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Variance and Covariance</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 4</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Two investments have the same expected return of 10%. The first is a government bond
+    that returns exactly 10% every year. The second is a startup stock that returns either
+    110% or &minus;90%, each with probability $\tfrac{1}{2}$. Compute the expected value of
+    each: both give $E[X] = 10\%$. Yet no sane person would call them equivalent.
+  </p>
+  <p>
+    The expected value tells you the centre. It says nothing about how spread out the
+    outcomes are around that centre. De Moivre (1718) introduced a measure of this
+    dispersion &mdash; the <strong>variance</strong> &mdash; while studying the binomial
+    distribution. This page develops variance, its companion <strong>covariance</strong>,
+    and the tools to compute them.
+  </p>
+</div>
+
+<h2>1. Variance</h2>
+
+<p>
+  Let $X$ be a random variable with finite expectation $\mu = E[X]$. The
+  <strong>variance</strong> of $X$ is
+</p>
+<div class="display-math">$$\text{Var}(X) = E\!\big[(X - \mu)^2\big]$$</div>
+<p>
+  This is the expected squared distance from the mean. Squaring ensures positive and
+  negative deviations don't cancel out.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Computational formula</div>
+  <p>$\text{Var}(X) = E[X^2] - (E[X])^2$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Expand the square: $(X - \mu)^2 = X^2 - 2\mu X + \mu^2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Take expectations, using linearity (page 3):
+    $E[(X - \mu)^2] = E[X^2] - 2\mu E[X] + \mu^2 = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Since $(X - \mu)^2 \geq 0$ always, we have $\text{Var}(X) \geq 0$. The
+  <strong>standard deviation</strong> is $\sigma(X) = \sqrt{\text{Var}(X)}$, which has
+  the same units as $X$.
+</p>
+
+<p>
+  <strong>Bernoulli($p$).</strong> $X$ takes value 1 with probability $p$ and 0 with
+  probability $1-p$. Then $E[X^2] = 1^2 \cdot p + 0^2 \cdot (1-p) = p$ and
+  $(E[X])^2 = p^2$, so $\text{Var}(X) = p - p^2 = p(1-p)$.
+</p>
+
+<p>
+  <strong>Poisson($\lambda$).</strong> We showed on page 3 that $E[X] = \lambda$. For
+  $E[X^2]$, note $E[X(X-1)] = \sum_{k=2}^{\infty} k(k-1)\frac{\lambda^k e^{-\lambda}}{k!}
+  = \lambda^2 \sum_{k=2}^{\infty}\frac{\lambda^{k-2} e^{-\lambda}}{(k-2)!} = \lambda^2$.
+  So $E[X^2] = E[X(X-1)] + E[X] = \lambda^2 + \lambda$, giving
+  $\text{Var}(X) = \lambda^2 + \lambda - \lambda^2 = \lambda$.
+</p>
+
+<h2>2. Variance under scaling</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>For constants $a, b \in \mathbb{R}$: $\text{Var}(aX + b) = a^2\,\text{Var}(X)$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> $E[aX + b] = aE[X] + b = a\mu + b$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> $(aX + b) - E[aX + b] = aX + b - a\mu - b = a(X - \mu)$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> $\text{Var}(aX + b) = E\!\big[a^2(X - \mu)^2\big] = a^2 E\!\big[(X - \mu)^2\big] = a^2\,\text{Var}(X)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Adding a constant $b$ shifts the entire distribution without changing its spread.
+  Multiplying by $a$ scales the spread, but since variance measures <em>squared</em>
+  deviations, it scales by $a^2$, not $a$.
+</p>
+
+<h2>3. Covariance</h2>
+
+<p>
+  To handle sums of random variables, we need a measure of how two variables move
+  together. The <strong>covariance</strong> of $X$ and $Y$ is
+</p>
+<div class="display-math">$$\text{Cov}(X, Y) = E\!\big[(X - E[X])(Y - E[Y])\big]$$</div>
+
+<div class="theorem-box">
+  <div class="label">Computational formula</div>
+  <p>$\text{Cov}(X, Y) = E[XY] - E[X]\,E[Y]$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Expand:
+    $(X - \mu_X)(Y - \mu_Y) = XY - \mu_X Y - \mu_Y X + \mu_X\mu_Y$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Take expectations:
+    $E[XY] - \mu_X E[Y] - \mu_Y E[X] + \mu_X\mu_Y = E[XY] - \mu_X\mu_Y$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p><strong>Properties.</strong></p>
+<ul>
+  <li><em>Symmetry:</em> $\text{Cov}(X, Y) = \text{Cov}(Y, X)$, immediate from the definition.</li>
+  <li><em>Self-covariance:</em> $\text{Cov}(X, X) = E[(X - \mu)^2] = \text{Var}(X)$.</li>
+  <li><em>Bilinearity:</em> $\text{Cov}(aX + bY, Z) = a\,\text{Cov}(X, Z) + b\,\text{Cov}(Y, Z)$,
+    which follows from linearity of expectation.</li>
+</ul>
+
+<h2>4. Variance of sums</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\,\text{Cov}(X, Y)$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Let $\mu = E[X + Y] = E[X] + E[Y]$. Then
+    $(X + Y) - \mu = (X - E[X]) + (Y - E[Y])$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Square both sides:
+    $\big((X - E[X]) + (Y - E[Y])\big)^2 = (X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Take expectations:
+    $\text{Var}(X+Y) = \text{Var}(X) + 2\,\text{Cov}(X,Y) + \text{Var}(Y)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  For $n$ variables, the same expansion gives the general formula:
+</p>
+<div class="display-math">$$\text{Var}\!\left(\sum_{i=1}^n X_i\right) = \sum_{i=1}^n \text{Var}(X_i) + 2\sum_{i < j} \text{Cov}(X_i, X_j)$$</div>
+
+<h2>5. Independent variables</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>If $X$ and $Y$ are independent, then $E[XY] = E[X]\,E[Y]$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (discrete case)</div>
+  <p>
+    <strong>Step 1.</strong> By definition of expectation for a function of two variables:
+    $E[XY] = \sum_x \sum_y xy\, P(X = x, Y = y)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> By independence, $P(X = x, Y = y) = P(X = x)\,P(Y = y)$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The double sum factors:
+    $\sum_x \sum_y xy\, P(X=x)\,P(Y=y) = \left(\sum_x x\,P(X=x)\right)\!\left(\sum_y y\,P(Y=y)\right) = E[X]\,E[Y]$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  <strong>Corollary.</strong> If $X, Y$ are independent, then
+  $\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 0$, so
+  $\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$.
+</p>
+
+<p>
+  <strong>Warning: the converse is false.</strong> Zero covariance does <em>not</em> imply
+  independence. Let $X$ be uniform on $\{-1, 0, 1\}$ and $Y = X^2$. Then $Y$ is
+  completely determined by $X$, so they are maximally dependent. Yet
+  $\text{Cov}(X, Y) = E[XY] - E[X]E[Y] = E[X^3] - 0 = 0$, since $X^3$ takes values
+  $-1, 0, 1$ with equal probability and its expectation vanishes.
+</p>
+
+<h2>6. Variance of the binomial</h2>
+
+<p>
+  Let $X \sim \text{Binomial}(n, p)$. We write $X = X_1 + \cdots + X_n$ where the $X_i$
+  are independent $\text{Bernoulli}(p)$ variables. Since they are independent:
+</p>
+<div class="display-math">$$\text{Var}(X) = \sum_{i=1}^n \text{Var}(X_i) = n \cdot p(1-p)$$</div>
+<p>
+  Try computing this directly from $\text{Var}(X) = \sum_{k=0}^n (k - np)^2 \binom{n}{k}
+  p^k(1-p)^{n-k}$. The decomposition into independent Bernoulli trials makes a
+  nightmarish computation trivial.
+</p>
+
+<h2>7. Correlation</h2>
+
+<p>
+  Covariance depends on the scale of $X$ and $Y$. To get a dimensionless measure, we
+  normalise. The <strong>correlation coefficient</strong> is
+</p>
+<div class="display-math">$$\rho(X, Y) = \frac{\text{Cov}(X, Y)}{\sigma_X\,\sigma_Y}$$</div>
+<p>
+  defined when both standard deviations are positive.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem</div>
+  <p>$|\rho(X, Y)| \leq 1$, with equality iff $Y = aX + b$ for some constants $a, b$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The map $(U, V) \mapsto E[UV]$ is an inner product on the
+    space of zero-mean, finite-variance random variables (we set $U = X - E[X]$,
+    $V = Y - E[Y]$).
+  </p>
+  <p>
+    <strong>Step 2.</strong> The Cauchy&ndash;Schwarz inequality (Phase 6, page 7) applies
+    to any inner product: $|E[UV]|^2 \leq E[U^2]\,E[V^2]$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> This gives $|\text{Cov}(X,Y)|^2 \leq \text{Var}(X)\,\text{Var}(Y)$,
+    i.e. $|\rho| \leq 1$. Equality in Cauchy&ndash;Schwarz holds iff $U$ and $V$ are
+    proportional, i.e. $Y - E[Y] = a(X - E[X])$ for some $a$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    De Moivre (1718) introduced the concept of deviation from the mean while studying
+    the binomial distribution in <em>The Doctrine of Chances</em>. The term
+    &ldquo;variance&rdquo; itself was coined by Ronald Fisher in 1918, nearly two
+    centuries later. The Cauchy&ndash;Schwarz inequality for random variables was used
+    by Chebyshev (1867) to prove his inequality (next page) &mdash; the same abstract
+    structure appears in geometry (Phase 6) and probability.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>(a) Variance zero iff constant.</strong> If $\text{Var}(X) = 0$, then
+    $E[(X - \mu)^2] = 0$. Since $(X - \mu)^2 \geq 0$, a non-negative random variable
+    with zero expectation must be zero almost surely. So $X = \mu$ a.s.
+  </p>
+  <p>
+    <strong>(b) Uncorrelated $\neq$ independent.</strong> The example $X$ uniform on
+    $\{-1, 0, 1\}$, $Y = X^2$ gives $\text{Cov}(X, Y) = 0$ while $Y$ is a deterministic
+    function of $X$. Covariance captures only <em>linear</em> association.
+  </p>
+  <p>
+    <strong>(c) Variance need not exist.</strong> The Cauchy distribution (density
+    $\frac{1}{\pi(1+x^2)}$) has no finite mean, let alone a finite variance.
+    $E[X^2] = \frac{1}{\pi}\int_{-\infty}^{\infty}\frac{x^2}{1+x^2}\,dx$ diverges.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Variance measures spread around the mean, and for independent variables, the variance of
+  a sum is the sum of the variances.
+</div>
+
+<div class="nav">
+  <a href="03-expectation.html">&larr; Previous: Random Variables and Expectation</a>
+  <a href="05-markov-chebyshev.html">Next: Markov and Chebyshev Inequalities &rarr;</a>
+</div>
+
+</body>
+</html>

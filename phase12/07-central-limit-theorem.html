@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Central Limit Theorem — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Central Limit Theorem</h1>
+<p class="subtitle">Phase 12 — Probability, Page 7</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    The law of large numbers (page 6) tells us that the sample mean $\bar{X}_n$ converges to
+    the true mean $\mu$. Good. But <em>how</em> does it converge? What is the shape of the
+    fluctuations around $\mu$? Are they symmetric? Concentrated? Spread out?
+  </p>
+  <p>
+    De Moivre (1733) discovered something extraordinary while studying coin flips. He found that
+    the distribution of the number of heads, properly centred and scaled, approaches a specific
+    bell-shaped curve — regardless of whether the coin is fair. Laplace later showed this holds
+    for <em>any</em> distribution with finite variance. The properly scaled sum
+    $\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}}$ always approaches the same bell curve: the
+    <b>Gaussian distribution</b>. Tall or short, rich or poor, the sum of many independent
+    random effects always looks Gaussian. This is why the bell curve is everywhere in nature.
+  </p>
+</div>
+
+<h2>1. The standard normal distribution</h2>
+
+<p>
+  We need to define the target: the bell curve itself. The <b>standard normal density</b> is
+</p>
+
+<div class="display-math">$$\phi(x) = \frac{1}{\sqrt{2\pi}}\,e^{-x^2/2}$$</div>
+
+<p>
+  and the <b>standard normal CDF</b> is $\Phi(x) = \int_{-\infty}^{x} \phi(t)\,dt$. For this to
+  be a valid density, we need $\int_{-\infty}^{\infty}\phi(x)\,dx = 1$, which amounts to showing
+  $\int_{-\infty}^{\infty} e^{-x^2/2}\,dx = \sqrt{2\pi}$. This follows from the Gaussian integral
+  $\int_{-\infty}^{\infty} e^{-t^2}\,dt = \sqrt{\pi}$ (Phase 7, page 6) by the substitution
+  $t = x/\sqrt{2}$, giving $dt = dx/\sqrt{2}$ and thus
+  $\int e^{-x^2/2}\,dx = \sqrt{2}\int e^{-t^2}\,dt = \sqrt{2\pi}$.
+</p>
+
+<p>
+  A random variable $Z$ with density $\phi$ is called <b>standard normal</b>, written
+  $Z \sim N(0,1)$. Its mean is zero by symmetry: $\phi(-x) = \phi(x)$, so $E[Z] = \int x\phi(x)\,dx = 0$
+  since the integrand is odd. For the variance, integrate by parts with $u = x$ and
+  $dv = xe^{-x^2/2}\,dx$ (so $v = -e^{-x^2/2}$):
+</p>
+
+<div class="display-math">$$E[Z^2] = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} x^2 e^{-x^2/2}\,dx
+= \frac{1}{\sqrt{2\pi}}\left[\underbrace{-xe^{-x^2/2}\Big|_{-\infty}^{\infty}}_{= 0} + \int_{-\infty}^{\infty} e^{-x^2/2}\,dx\right]
+= \frac{\sqrt{2\pi}}{\sqrt{2\pi}} = 1$$</div>
+
+<p>
+  So $\text{Var}(Z) = E[Z^2] - (E[Z])^2 = 1 - 0 = 1$. The standard normal has mean 0 and
+  variance 1 — hence the name $N(0,1)$.
+</p>
+
+<h2>2. Moment generating functions</h2>
+
+<p>
+  The <b>moment generating function</b> (MGF) of a random variable $X$ is
+</p>
+
+<div class="display-math">$$M_X(t) = E[e^{tX}]$$</div>
+
+<p>
+  defined for all $t$ where this expectation exists. Why "moment generating"? Expand
+  $e^{tX} = \sum_{k=0}^{\infty} \frac{(tX)^k}{k!}$ and take expectations term by term:
+  $M_X(t) = \sum_{k=0}^{\infty} \frac{t^k}{k!}E[X^k]$. Differentiating $k$ times and setting
+  $t = 0$ gives $M_X^{(k)}(0) = E[X^k]$. In particular:
+</p>
+
+<ul>
+  <li>$M_X(0) = 1$ (always),</li>
+  <li>$M_X'(0) = E[X]$,</li>
+  <li>$M_X''(0) = E[X^2]$.</li>
+</ul>
+
+<p>
+  The crucial property we need: if $M_{X_n}(t) \to M_X(t)$ for all $t$ in a neighbourhood of 0,
+  then $X_n \to X$ <b>in distribution</b>. That is, convergence of MGFs implies convergence of
+  CDFs. We state this without proof — it is a deep result from analysis (the continuity theorem
+  for Laplace transforms). This is our main tool for proving the CLT.
+</p>
+
+<h2>3. MGF of the standard normal</h2>
+
+<p>
+  Let $Z \sim N(0,1)$. We compute $M_Z(t)$ directly.
+</p>
+
+<div class="display-math">$$M_Z(t) = E[e^{tZ}] = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{tz}\,e^{-z^2/2}\,dz
+= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{tz - z^2/2}\,dz$$</div>
+
+<p>
+  <b>Step 1.</b> Complete the square in the exponent: $tz - z^2/2 = -\frac{1}{2}(z^2 - 2tz) =
+  -\frac{1}{2}(z - t)^2 + \frac{t^2}{2}$.
+</p>
+
+<p>
+  <b>Step 2.</b> Substitute back:
+  $M_Z(t) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{-(z-t)^2/2 + t^2/2}\,dz
+  = \frac{e^{t^2/2}}{\sqrt{2\pi}}\int_{-\infty}^{\infty} e^{-(z-t)^2/2}\,dz$.
+</p>
+
+<p>
+  <b>Step 3.</b> The remaining integral is $\int e^{-(z-t)^2/2}\,dz = \sqrt{2\pi}$ (it is the
+  Gaussian integral, shifted by $t$, which does not affect the value). Therefore:
+</p>
+
+<div class="display-math">$$M_Z(t) = e^{t^2/2}$$</div>
+
+<p>
+  This elegant formula is the fingerprint of the standard normal. If any sequence of random
+  variables has MGFs converging to $e^{t^2/2}$, that sequence converges in distribution to $N(0,1)$.
+</p>
+
+<h2>4. The Central Limit Theorem</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Central Limit Theorem</div>
+  <p>
+    Let $X_1, X_2, \ldots$ be i.i.d. random variables with $E[X_i] = \mu$ and
+    $\text{Var}(X_i) = \sigma^2 \in (0, \infty)$. Define
+  </p>
+  <div class="display-math">$$Z_n = \frac{\sum_{i=1}^{n} X_i - n\mu}{\sigma\sqrt{n}} = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}}$$</div>
+  <p>
+    Then $Z_n \xrightarrow{d} N(0,1)$, meaning $P(Z_n \leq x) \to \Phi(x)$ for all $x \in \mathbb{R}$.
+  </p>
+</div>
+
+<h2>5. Proof via moment generating functions</h2>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Without loss of generality, assume $\mu = 0$ and $\sigma = 1$. (Otherwise replace each $X_i$
+    by $(X_i - \mu)/\sigma$, which has mean 0 and variance 1, and note that
+    $Z_n = \frac{1}{\sqrt{n}}\sum_{i=1}^{n} \frac{X_i - \mu}{\sigma}$.)
+    So we have i.i.d. $X_i$ with $E[X_i] = 0$, $E[X_i^2] = 1$, and $Z_n = \frac{1}{\sqrt{n}}\sum X_i$.
+  </p>
+  <p>
+    <b>Step 1.</b> Since the $X_i$ are independent, the MGF of a sum is the product of the MGFs
+    (page 4). Since they are identically distributed:
+  </p>
+  <div class="display-math">$$M_{Z_n}(t) = M_{\frac{1}{\sqrt{n}}\sum X_i}(t)
+  = \prod_{i=1}^{n} M_{X_i}\!\left(\frac{t}{\sqrt{n}}\right) = \left[M_{X_1}\!\left(\frac{t}{\sqrt{n}}\right)\right]^n$$</div>
+  <p>
+    <b>Step 2.</b> Taylor-expand $M_{X_1}(s)$ around $s = 0$. Since $M_{X_1}(0) = 1$,
+    $M_{X_1}'(0) = E[X_1] = 0$, and $M_{X_1}''(0) = E[X_1^2] = 1$:
+  </p>
+  <div class="display-math">$$M_{X_1}(s) = 1 + s \cdot 0 + \frac{s^2}{2}\cdot 1 + O(s^3)
+  = 1 + \frac{s^2}{2} + O(s^3)$$</div>
+  <p>
+    <b>Step 3.</b> Substitute $s = t/\sqrt{n}$:
+  </p>
+  <div class="display-math">$$M_{X_1}\!\left(\frac{t}{\sqrt{n}}\right) = 1 + \frac{t^2}{2n} + O(n^{-3/2})$$</div>
+  <p>
+    <b>Step 4.</b> Take the $n$th power:
+  </p>
+  <div class="display-math">$$M_{Z_n}(t) = \left(1 + \frac{t^2}{2n} + O(n^{-3/2})\right)^n \longrightarrow e^{t^2/2} \quad \text{as } n \to \infty$$</div>
+  <p>
+    The limit uses $(1 + a/n + O(n^{-3/2}))^n \to e^a$, which is the classical exponential limit
+    from Phase 4, page 3.
+  </p>
+  <p>
+    <b>Step 5.</b> We showed in Section 3 that $e^{t^2/2} = M_Z(t)$ for $Z \sim N(0,1)$. By the
+    convergence theorem for MGFs (Section 2), $Z_n \to N(0,1)$ in distribution.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. The de Moivre–Laplace theorem</h2>
+
+<p>
+  The historically first version of the CLT is the special case for coin flips. Let
+  $X_i \sim \text{Bernoulli}(p)$, so $E[X_i] = p$ and $\text{Var}(X_i) = p(1-p)$. Then
+  $S_n = \sum_{i=1}^{n} X_i \sim \text{Binomial}(n, p)$, and the CLT says:
+</p>
+
+<div class="display-math">$$\frac{S_n - np}{\sqrt{np(1-p)}} \xrightarrow{d} N(0,1)$$</div>
+
+<p>
+  Since $S_n$ is discrete (integer-valued) while the normal is continuous, we use a
+  <b>continuity correction</b> for better accuracy:
+</p>
+
+<div class="display-math">$$P(a \leq S_n \leq b) \approx \Phi\!\left(\frac{b + 0.5 - np}{\sqrt{np(1-p)}}\right) - \Phi\!\left(\frac{a - 0.5 - np}{\sqrt{np(1-p)}}\right)$$</div>
+
+<p>
+  <b>Example.</b> Flip a fair coin 100 times. What is $P(45 \leq S_{100} \leq 55)$?
+  Here $n = 100$, $p = 1/2$, so $np = 50$ and $\sqrt{np(1-p)} = 5$. With the continuity correction:
+</p>
+
+<div class="display-math">$$P(45 \leq S_{100} \leq 55) \approx \Phi\!\left(\frac{55.5 - 50}{5}\right) - \Phi\!\left(\frac{44.5 - 50}{5}\right) = \Phi(1.1) - \Phi(-1.1)$$</div>
+
+<p>
+  By symmetry, $\Phi(-1.1) = 1 - \Phi(1.1)$. From standard tables, $\Phi(1.1) \approx 0.8643$,
+  so $P(45 \leq S_{100} \leq 55) \approx 2(0.8643) - 1 \approx 0.729$.
+</p>
+
+<h2>7. Why the Gaussian is everywhere</h2>
+
+<p>
+  The CLT explains a pattern you see across every science: measurements cluster around a
+  bell curve. This is not coincidence — it is a <em>theorem</em>. Any quantity that arises as the
+  sum of many small, independent effects will be approximately Gaussian:
+</p>
+
+<ul>
+  <li><b>Human heights</b> — the sum of many genetic and environmental factors.</li>
+  <li><b>Measurement errors</b> — the sum of many small instrumental fluctuations.</li>
+  <li><b>Stock returns</b> — the aggregate of many individual trades.</li>
+  <li><b>Exam scores</b> — the sum of scores on many independent questions.</li>
+</ul>
+
+<p>
+  The bell curve does not need to be postulated or assumed. Whenever many independent sources of
+  randomness add up, the Gaussian emerges by mathematical necessity.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    De Moivre (1733) proved the first CLT for coin flips — the de Moivre–Laplace theorem — as an
+    approximation to the binomial. Laplace (1812) extended the result to sums of general random
+    variables in his <em>Théorie analytique des probabilités</em>. The name "Central Limit
+    Theorem" was coined by Pólya (1920), reflecting the theorem's <em>central</em> importance in
+    probability theory. Lindeberg (1922) and Lévy (1935) gave the most general versions, weakening
+    the i.i.d. requirement to allow non-identically distributed summands (the Lindeberg condition).
+    The MGF proof we have given follows the approach of Laplace, made rigorous by Lévy.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Without finite variance.</b> The CLT fails completely. If $X_i$ are i.i.d. Cauchy (which
+    has no finite mean, let alone variance), then $\bar{X}_n$ is again Cauchy — not Gaussian.
+    Heavy-tailed distributions with infinite variance have their own limit theorems, converging to
+    stable distributions rather than the Gaussian.
+  </p>
+  <p>
+    <b>Without independence.</b> Take $X_1 = X_2 = \cdots = X_n$ (perfectly correlated). Then
+    $Z_n = \frac{nX_1 - n\mu}{\sigma\sqrt{n}} = \sqrt{n}\,\frac{X_1 - \mu}{\sigma}$, which
+    diverges — no convergence to anything. CLTs for dependent variables exist (mixing conditions,
+    martingale CLT) but require additional structure.
+  </p>
+  <p>
+    <b>Finite $n$ is not exact.</b> For any fixed $n$, $Z_n$ is <em>not</em> Gaussian — the CLT
+    is an asymptotic statement. The Berry–Esseen theorem quantifies the error:
+    $\sup_x |P(Z_n \leq x) - \Phi(x)| \leq \frac{C\,\rho}{\sigma^3\sqrt{n}}$, where
+    $\rho = E[|X_1|^3]$ and $C \leq 0.4748$. The convergence rate is $O(1/\sqrt{n})$.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The central limit theorem: the sum of many independent random variables, properly scaled, always
+  converges to a Gaussian — regardless of the original distribution.
+</div>
+
+<div class="nav">
+  <a href="06-law-of-large-numbers.html">&larr; Previous: The Law of Large Numbers</a>
+  <a href="08-conditional-expectation.html">Next: Conditional Expectation as Projection &rarr;</a>
+</div>
+
+</body>
+</html>

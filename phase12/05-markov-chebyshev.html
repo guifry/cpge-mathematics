@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markov and Chebyshev Inequalities — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Markov and Chebyshev Inequalities</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 5</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You know a random variable $X$ has $E[X] = 100$ and $\text{Var}(X) = 25$. Can $X$
+    reach 200? What is the probability that $X$ deviates from its mean by more than 50?
+    You know nothing about the shape of the distribution &mdash; it could be Gaussian,
+    uniform, discrete, anything. All you have is the mean and variance.
+  </p>
+  <p>
+    Chebyshev (1867) showed that these two numbers alone give universal bounds on the
+    probability of large deviations. The bounds are often crude, but they work for
+    <em>any</em> distribution. This is their power.
+  </p>
+</div>
+
+<h2>1. Markov's inequality</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Markov's inequality)</div>
+  <p>If $X \geq 0$ and $a > 0$, then $P(X \geq a) \leq \dfrac{E[X]}{a}$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> Split the expectation according to whether $X \geq a$:
+  </p>
+  <div class="display-math">$$E[X] = \sum_{x} x\,P(X = x) \geq \sum_{x \geq a} x\,P(X = x)$$</div>
+  <p>
+    since every omitted term has $x \geq 0$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> In the remaining sum, every $x$ satisfies $x \geq a$, so
+  </p>
+  <div class="display-math">$$\sum_{x \geq a} x\,P(X = x) \geq a \sum_{x \geq a} P(X = x) = a\,P(X \geq a)$$</div>
+  <p>
+    <strong>Step 3.</strong> Combining: $E[X] \geq a\,P(X \geq a)$, hence
+    $P(X \geq a) \leq E[X]/a$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The intuition is clean: if the average of a non-negative quantity is small, that
+  quantity cannot be large too often. A room of people with an average age of 30 cannot
+  have more than half the room over 60.
+</p>
+
+<h2>2. Examples of Markov</h2>
+
+<p>
+  <strong>(a)</strong> Let $X$ count the number of heads in 100 fair coin flips. Then
+  $E[X] = 50$. Markov gives $P(X \geq 75) \leq 50/75 = 2/3$. The true probability is
+  approximately $10^{-7}$ &mdash; Markov is wildly loose here because it uses only the
+  mean and ignores the variance entirely.
+</p>
+
+<p>
+  <strong>(b)</strong> If a factory produces items with an average defect rate of 5%,
+  Markov tells us that no more than $5\%/20\% = 1/4$ of production runs can have a
+  defect rate of 20% or higher. Crude, but obtained with zero knowledge of the
+  distribution of defect rates.
+</p>
+
+<p>
+  <strong>(c) Markov is tight.</strong> Define $X$ by: $X = 0$ with probability $1 - 1/a$
+  and $X = a$ with probability $1/a$. Then $E[X] = a \cdot (1/a) = 1$ and
+  $P(X \geq a) = 1/a = E[X]/a$ exactly. So no improvement on Markov is possible
+  without additional assumptions &mdash; the bound is achieved by this two-point
+  distribution.
+</p>
+
+<h2>3. Chebyshev's inequality</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Chebyshev's inequality)</div>
+  <p>
+    If $X$ has finite mean $\mu$ and finite variance $\sigma^2$, then for any $k > 0$:
+  </p>
+  <div class="display-math">$$P\!\big(|X - \mu| \geq k\big) \leq \frac{\sigma^2}{k^2}$$</div>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> The event $|X - \mu| \geq k$ is the same as
+    $(X - \mu)^2 \geq k^2$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> The variable $(X - \mu)^2$ is non-negative, so apply Markov
+    (Section 1) with threshold $k^2$:
+  </p>
+  <div class="display-math">$$P\!\big((X - \mu)^2 \geq k^2\big) \leq \frac{E[(X - \mu)^2]}{k^2} = \frac{\sigma^2}{k^2}$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  In terms of standard deviations, set $k = t\sigma$:
+</p>
+<div class="display-math">$$P(|X - \mu| \geq t\sigma) \leq \frac{1}{t^2}$$</div>
+<p>
+  This is the version to remember. The probability of being more than $t$ standard
+  deviations from the mean is at most $1/t^2$. Notice how the proof is a one-line
+  application of Markov to a transformed variable &mdash; this &ldquo;transform then
+  apply Markov&rdquo; strategy is one of the most powerful tricks in probability.
+</p>
+
+<h2>4. Chebyshev in practice</h2>
+
+<p>
+  Setting $t = 2$: at least $3/4$ of any distribution lies within 2 standard deviations
+  of the mean. Setting $t = 3$: at least $8/9$ lies within 3 standard deviations. These
+  are guaranteed for <em>every</em> distribution with finite variance.
+</p>
+
+<p>
+  For the normal distribution, the true probabilities are far better: about 95.4% within
+  $2\sigma$ and 99.7% within $3\sigma$. Chebyshev gives worst-case guarantees, not
+  typical-case estimates.
+</p>
+
+<p>
+  Back to our opening problem: $E[X] = 100$, $\text{Var}(X) = 25$, so $\sigma = 5$.
+  Chebyshev gives $P(|X - 100| \geq 50) \leq 25/2500 = 1/100$. Without knowing the
+  distribution, we can guarantee the probability of deviating by 50 is at most 1%.
+</p>
+
+<h2>5. One-sided Chebyshev (Cantelli's inequality)</h2>
+
+<p>
+  Chebyshev bounds deviation in both directions. What if we only care about one side?
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Cantelli's inequality)</div>
+  <p>
+    For $k > 0$: $P(X - \mu \geq k) \leq \dfrac{\sigma^2}{\sigma^2 + k^2}$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> For any $c > 0$:
+    $P(X - \mu \geq k) = P(X - \mu + c \geq k + c) \leq P\!\big((X - \mu + c)^2 \geq (k+c)^2\big)$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Apply Markov to the non-negative variable $(X - \mu + c)^2$:
+  </p>
+  <div class="display-math">$$P(X - \mu \geq k) \leq \frac{E[(X - \mu + c)^2]}{(k + c)^2} = \frac{\sigma^2 + c^2}{(k + c)^2}$$</div>
+  <p>
+    since $E[(X - \mu + c)^2] = \text{Var}(X) + c^2 = \sigma^2 + c^2$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> Minimise over $c$. Set $f(c) = (\sigma^2 + c^2)/(k+c)^2$.
+    Differentiating and setting to zero gives
+    $2c(k+c)^2 - 2(k+c)(\sigma^2 + c^2) = 0$, so $c(k+c) = \sigma^2 + c^2$, hence
+    $ck = \sigma^2$, i.e. $c = \sigma^2/k$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Substituting $c = \sigma^2/k$:
+    numerator $= \sigma^2 + \sigma^4/k^2 = \sigma^2(k^2 + \sigma^2)/k^2$;
+    denominator $= (k + \sigma^2/k)^2 = (k^2 + \sigma^2)^2/k^2$.
+    The ratio is $\sigma^2/(k^2 + \sigma^2)$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  Compare this with Chebyshev. Chebyshev gives the two-sided bound
+  $P(|X - \mu| \geq k) \leq \sigma^2/k^2$, so the one-sided probability is at most
+  $\sigma^2/k^2$ (and halving gives $\sigma^2/(2k^2)$, but that halving argument is
+  not rigorous for asymmetric distributions). Cantelli gives
+  $\sigma^2/(\sigma^2 + k^2)$, which is always at most $\sigma^2/k^2$ and often
+  substantially tighter.
+</p>
+
+<p>
+  <strong>Example.</strong> Let $\sigma^2 = 1$ and $k = 1$. Chebyshev gives
+  $P(|X - \mu| \geq 1) \leq 1$, which is trivial. Cantelli gives
+  $P(X - \mu \geq 1) \leq 1/2$. For $k = 2$: Chebyshev gives $1/4$ for the two-sided
+  bound; Cantelli gives $1/5$ for the one-sided bound. The improvement matters when
+  you care about deviations in one direction only &mdash; for instance, that a bridge
+  load exceeds its capacity.
+</p>
+
+<h2>6. Why these matter</h2>
+
+<p>
+  Markov and Chebyshev are the weakest possible tail bounds &mdash; they assume almost
+  nothing about the distribution. Their importance is not practical (for any specific
+  distribution you can do better) but theoretical. Chebyshev's inequality is the engine
+  behind the weak law of large numbers (next page). It is also the starting point for
+  sharper concentration inequalities (Hoeffding, Chernoff) that assume more structure.
+</p>
+
+<p>
+  The pattern is worth noting: apply a monotone transformation (squaring, exponentiation)
+  to convert a tail event into a moment bound via Markov. Chebyshev squares. Chernoff
+  exponentiates (using $P(X \geq a) = P(e^{tX} \geq e^{ta}) \leq E[e^{tX}]/e^{ta}$
+  for the optimal $t > 0$). Each transformation exploits more structure and yields
+  tighter bounds.
+</p>
+
+<p>
+  For practical computation, you will almost always use distribution-specific bounds
+  (Gaussian tail bounds, Hoeffding for bounded variables, etc.). But every one of those
+  sharper results is proved by the same Markov trick with a cleverer transformation.
+  Markov is the root of the entire tree of concentration inequalities.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Markov stated his inequality in 1884 as a tool in his probability-theoretic work.
+    Chebyshev proved his inequality in 1867, as part of his effort to prove the law
+    of large numbers in full generality. Chebyshev was Markov's doctoral supervisor in
+    St. Petersburg &mdash; the inequality chain goes from teacher to student.
+    Ir&eacute;n&eacute;e-Jules Bienaym&eacute; had proved an equivalent result in 1853,
+    so the result is sometimes called the Bienaym&eacute;&ndash;Chebyshev inequality.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>(a) Without non-negativity, Markov fails.</strong> Let $X$ take values
+    $-100$ and $1$ with equal probability. Then $E[X] = -49.5$, but
+    $P(X \geq 1) = 1/2$. A negative mean tells you nothing about $P(X \geq a)$ for
+    positive $a$.
+  </p>
+  <p>
+    <strong>(b) Chebyshev is sharp.</strong> The distribution that puts mass $1/(2t^2)$
+    at each of $\mu + t\sigma$ and $\mu - t\sigma$, and mass $1 - 1/t^2$ at $\mu$,
+    achieves $P(|X - \mu| \geq t\sigma) = 1/t^2$ exactly. No universal bound can do
+    better.
+  </p>
+  <p>
+    <strong>(c) Ignoring shape.</strong> These bounds treat all distributions with the
+    same mean and variance identically. For Gaussian, exponential, or bounded
+    distributions, far tighter bounds exist. The price of universality is looseness.
+    When you know the distribution, use its specific tail bounds instead.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Chebyshev's inequality: the probability of being more than $k$ standard deviations from
+  the mean is at most $1/k^2$ &mdash; regardless of the distribution.
+</div>
+
+<div class="nav">
+  <a href="04-variance.html">&larr; Previous: Variance and Covariance</a>
+  <a href="06-law-of-large-numbers.html">Next: The Law of Large Numbers &rarr;</a>
+</div>
+
+</body>
+</html>

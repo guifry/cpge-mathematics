@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditional Expectation as Projection — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Conditional Expectation as Projection</h1>
+<p class="subtitle">Phase 12 — Probability, Page 8</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    You want to predict someone's income $Y$ given their years of education $X$. Your prediction
+    will be some function $g(X)$, and you want to choose $g$ to minimise the average squared
+    error $E[(Y - g(X))^2]$. This is a minimisation problem — but over what space? The space of
+    all functions of $X$ is enormous.
+  </p>
+  <p>
+    The answer turns out to be the <b>conditional expectation</b> $E[Y|X]$. And the reason is
+    stunning: random variables with finite second moments form a vector space, with inner product
+    $\langle X, Y \rangle = E[XY]$, and $E[Y|X]$ is the <em>orthogonal projection</em> of $Y$
+    onto the subspace of functions of $X$. This is exactly the projection theorem from Phase 6,
+    page 8, applied in a different space. Probability and linear algebra converge.
+  </p>
+</div>
+
+<h2>1. Conditional expectation given an event</h2>
+
+<p>
+  Recall from page 2: for an event $B$ with $P(B) > 0$, the conditional expectation of $X$
+  given $B$ is
+</p>
+
+<div class="display-math">$$E[X|B] = \sum_x x \cdot P(X = x \mid B)$$</div>
+
+<p>
+  This is just the expected value of $X$, but computed using the conditional distribution
+  $P(\cdot|B)$ instead of the original $P(\cdot)$. We restrict attention to outcomes where $B$
+  occurred, and average over those.
+</p>
+
+<h2>2. Conditional expectation given a random variable</h2>
+
+<p>
+  Now we condition on a <em>random variable</em> rather than a single event. For discrete $X$ and $Y$,
+  define the conditional expectation of $Y$ given $X = x$ as:
+</p>
+
+<div class="display-math">$$E[Y \mid X = x] = \sum_y y \cdot P(Y = y \mid X = x)$$</div>
+
+<p>
+  This is a number, one for each value $x$ that $X$ can take. The <b>conditional expectation
+  $E[Y|X]$</b> is then the <em>random variable</em> that takes the value $E[Y|X = x]$ when
+  $X = x$. It is a function of $X$: if you know $X$, you know $E[Y|X]$. Think of it as the
+  "best guess" of $Y$ once you observe $X$.
+</p>
+
+<p>
+  For example, if $Y$ is income and $X$ is education level, then $E[Y|X = 16]$ is the average
+  income among people with 16 years of education. As $X$ varies, $E[Y|X]$ traces out this
+  conditional average — it is itself random because $X$ is random.
+</p>
+
+<h2>3. The tower property</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Law of iterated expectations</div>
+  <p>
+    For any random variables $X, Y$ with $E[|Y|] < \infty$:
+  </p>
+  <div class="display-math">$$E\big[E[Y|X]\big] = E[Y]$$</div>
+  <p>
+    Averaging the conditional averages gives the overall average.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <b>Step 1.</b> Write out the outer expectation. Since $E[Y|X]$ is a function of $X$:
+  </p>
+  <div class="display-math">$$E\big[E[Y|X]\big] = \sum_x E[Y|X = x] \cdot P(X = x)$$</div>
+  <p>
+    <b>Step 2.</b> Expand $E[Y|X = x]$:
+  </p>
+  <div class="display-math">$$= \sum_x \left(\sum_y y \cdot P(Y = y \mid X = x)\right) P(X = x)$$</div>
+  <p>
+    <b>Step 3.</b> Swap the sums and use $P(Y = y \mid X = x) \cdot P(X = x) = P(Y = y, X = x)$:
+  </p>
+  <div class="display-math">$$= \sum_y y \sum_x P(Y = y, X = x) = \sum_y y \cdot P(Y = y) = E[Y]$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The name "tower property" comes from stacking expectations: $E[E[\,\cdots\,]] = E[\,\cdots\,]$.
+  You can always "collapse" a tower of conditional expectations down to a single unconditional one.
+</p>
+
+<h2>4. Random variables as vectors</h2>
+
+<p>
+  Here is the key bridge to linear algebra. Consider the set $L^2$ of all random variables $X$
+  with $E[X^2] < \infty$. This is a <b>vector space</b>: if $E[X^2] < \infty$ and $E[Y^2] < \infty$,
+  then $E[(aX + bY)^2] < \infty$ for any constants $a, b$ (expand and use the triangle inequality).
+</p>
+
+<p>
+  Define the <b>inner product</b>:
+</p>
+
+<div class="display-math">$$\langle X, Y \rangle = E[XY]$$</div>
+
+<p>
+  We verify the inner product axioms (Phase 6, page 7):
+</p>
+
+<ul>
+  <li><b>Linearity:</b> $\langle aX + bY, Z \rangle = E[(aX + bY)Z] = aE[XZ] + bE[YZ]
+    = a\langle X, Z\rangle + b\langle Y, Z\rangle$, by linearity of expectation (page 3).</li>
+  <li><b>Symmetry:</b> $\langle X, Y \rangle = E[XY] = E[YX] = \langle Y, X \rangle$.</li>
+  <li><b>Positive definiteness:</b> $\langle X, X \rangle = E[X^2] \geq 0$, with equality iff
+    $X = 0$ almost surely.</li>
+</ul>
+
+<p>
+  The induced norm is $\|X\| = \sqrt{E[X^2]}$. The Cauchy–Schwarz inequality from Phase 6, page 7
+  immediately gives:
+</p>
+
+<div class="display-math">$$|E[XY]| \leq \sqrt{E[X^2]}\,\sqrt{E[Y^2]}$$</div>
+
+<p>
+  This <em>is</em> the Cauchy–Schwarz inequality for random variables — a result often proved
+  separately in probability courses, but here we see it is just one instance of the general
+  inner product inequality.
+</p>
+
+<h2>5. Conditional expectation as orthogonal projection</h2>
+
+<p>
+  Let $\mathcal{H}_X \subset L^2$ be the subspace of all functions of $X$: random variables of
+  the form $h(X)$ with $E[h(X)^2] < \infty$. This is a closed subspace, so the projection theorem
+  (Phase 6, page 8) guarantees a unique closest point in $\mathcal{H}_X$ to any $Y \in L^2$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem — Conditional expectation is projection</div>
+  <p>
+    $E[Y|X]$ is the orthogonal projection of $Y$ onto $\mathcal{H}_X$. Equivalently, $E[Y|X]$
+    minimises $E[(Y - g(X))^2]$ over all measurable functions $g$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    Let $\hat{Y} = E[Y|X]$. By the projection theorem, it suffices to show that $Y - \hat{Y}$
+    is orthogonal to every element $h(X) \in \mathcal{H}_X$, i.e., that
+    $\langle Y - \hat{Y},\, h(X) \rangle = 0$.
+  </p>
+  <p>
+    <b>Step 1.</b> Expand the inner product:
+  </p>
+  <div class="display-math">$$E[(Y - \hat{Y})\,h(X)] = E[Y\,h(X)] - E[\hat{Y}\,h(X)]$$</div>
+  <p>
+    <b>Step 2.</b> Since $\hat{Y} = E[Y|X]$ is a function of $X$, the product $\hat{Y}\,h(X)$
+    is also a function of $X$. Apply the tower property:
+  </p>
+  <div class="display-math">$$E[\hat{Y}\,h(X)] = E\big[E[Y|X]\,h(X)\big] = E\big[E[Y\,h(X) \mid X]\big]$$</div>
+  <p>
+    where we pulled $h(X)$ inside the conditional expectation (it is $X$-measurable, so it acts
+    as a constant when conditioning on $X$).
+  </p>
+  <p>
+    <b>Step 3.</b> By the tower property (Section 3):
+  </p>
+  <div class="display-math">$$E\big[E[Y\,h(X) \mid X]\big] = E[Y\,h(X)]$$</div>
+  <p>
+    <b>Step 4.</b> Combining Steps 1–3:
+  </p>
+  <div class="display-math">$$E[(Y - \hat{Y})\,h(X)] = E[Y\,h(X)] - E[Y\,h(X)] = 0$$</div>
+  <p>
+    Since $Y - \hat{Y}$ is orthogonal to every $h(X) \in \mathcal{H}_X$, the projection theorem
+    tells us $\hat{Y}$ is the unique closest point in $\mathcal{H}_X$ to $Y$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. The best predictor</h2>
+
+<p>
+  Section 5 says: the best predictor of $Y$ from $X$ (in the mean-squared-error sense) is
+  $\hat{Y} = E[Y|X]$. But what if you restrict yourself to <b>linear</b> predictors of the form
+  $\hat{Y} = a + bX$? Then you are projecting onto $\text{span}\{1, X\}$, a two-dimensional subspace.
+</p>
+
+<p>
+  The projection conditions are $E[(Y - a - bX) \cdot 1] = 0$ and $E[(Y - a - bX) \cdot X] = 0$.
+  The first gives $E[Y] - a - bE[X] = 0$, so $a = E[Y] - bE[X]$. The second gives
+  $E[XY] - aE[X] - bE[X^2] = 0$. Substituting $a$:
+</p>
+
+<div class="display-math">$$E[XY] - (E[Y] - bE[X])E[X] - bE[X^2] = 0$$</div>
+
+<div class="display-math">$$E[XY] - E[X]E[Y] = b(E[X^2] - (E[X])^2)$$</div>
+
+<div class="display-math">$$b = \frac{\text{Cov}(X, Y)}{\text{Var}(X)}$$</div>
+
+<p>
+  So the best linear predictor is:
+</p>
+
+<div class="display-math">$$\hat{Y} = E[Y] + \frac{\text{Cov}(X, Y)}{\text{Var}(X)}\,(X - E[X])$$</div>
+
+<p>
+  This is the <b>regression line</b> — the foundation of linear regression in statistics, derived
+  here as an orthogonal projection. If the relationship between $X$ and $Y$ is genuinely nonlinear,
+  the best linear predictor will be worse than the full conditional expectation $E[Y|X]$.
+</p>
+
+<h2>7. Phase 12 recap</h2>
+
+<p>
+  Eight pages have built probability from the ground up:
+</p>
+
+<ul>
+  <li><b>Page 1</b> — Probability spaces: the axioms (Kolmogorov's framework).</li>
+  <li><b>Page 2</b> — Bayes' theorem: updating beliefs with evidence.</li>
+  <li><b>Page 3</b> — Expectation and linearity: the most important property in probability.</li>
+  <li><b>Page 4</b> — Variance and covariance: measuring spread and dependence.</li>
+  <li><b>Page 5</b> — Markov and Chebyshev: tail bounds from moments.</li>
+  <li><b>Page 6</b> — Law of large numbers: sample means converge to true means.</li>
+  <li><b>Page 7</b> — Central limit theorem: sums of independent variables become Gaussian.</li>
+  <li><b>Page 8</b> — Conditional expectation: prediction as projection (this page).</li>
+</ul>
+
+<p>
+  The unifying theme: random quantities have structure. Expectations are linear, variances add
+  under independence, tail probabilities are bounded by moments, sums converge to a Gaussian,
+  and the best predictor is an orthogonal projection. Probability is not a catalogue of tricks —
+  it is linear algebra and analysis in disguise.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    The interpretation of conditional expectation as orthogonal projection was made precise by
+    Kolmogorov (1933) in his <em>Grundbegriffe der Wahrscheinlichkeitsrechnung</em>, which gave
+    probability its axiomatic foundation. Doob developed this connection systematically in the
+    1940s, using $L^2$ projections to build martingale theory. The idea that "best prediction =
+    projection" unifies three great traditions: linear regression (Gauss, 1809), the Wiener filter
+    in signal processing (1949), and modern financial mathematics (pricing by conditional
+    expectation). It is the same projection theorem from Phase 6 — just in a different inner
+    product space.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <b>Without square-integrability.</b> If $E[Y^2] = \infty$, the inner product $E[XY]$ may
+    not converge, and the projection interpretation collapses. Conditional expectation still
+    exists in full generality (defined via measure theory), but it can no longer be characterised
+    as the minimiser of mean-squared error.
+  </p>
+  <p>
+    <b>Confusing a random variable with a number.</b> $E[Y|X]$ is <em>not</em> a single number —
+    it is a random variable (a function of $X$). Two boundary cases clarify this: if $X$ is
+    constant (carries no information), then $E[Y|X] = E[Y]$ (a constant). If $X = Y$ (carries
+    perfect information), then $E[Y|X] = Y$ itself.
+  </p>
+  <p>
+    <b>Restricting to linear predictors.</b> The best linear predictor $a + bX$ is generally worse
+    than the full conditional expectation: $E[(Y - a - bX)^2] \geq E[(Y - E[Y|X])^2]$, with
+    equality only when the conditional expectation is itself linear in $X$ — for instance, when
+    $(X, Y)$ are jointly Gaussian.
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  Conditional expectation is orthogonal projection in the space of random variables — the best
+  predictor of $Y$ given $X$ minimises mean-squared error, exactly as in linear algebra.
+</div>
+
+<div class="nav">
+  <a href="07-central-limit-theorem.html">&larr; Previous: The Central Limit Theorem</a>
+  <a href="../index.html">Back to Index &rarr;</a>
+</div>
+
+</body>
+</html>

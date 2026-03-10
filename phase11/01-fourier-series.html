@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fourier Series — Phase 11</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Fourier Series</h1>
+<p class="subtitle">Phase 11 — Fourier Analysis, Page 1</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>In 1807, Joseph Fourier made a scandalous claim to the French Academy of Sciences: <em>any</em> periodic function — even a square wave with sharp corners — can be written as a sum of smooth sines and cosines. Lagrange, sitting on the review committee, declared this impossible. How could infinitely differentiable functions add up to something with a discontinuity?</p>
+<p>Fourier was right, mostly. The exceptions — functions whose Fourier series diverges — turned out to be more interesting than the rule, and the quest to understand them drove a century of mathematical progress.</p>
+<p>But the starting question is entirely concrete: given a periodic signal, how do you decompose it into pure frequencies? And once you have the decomposition, can you recover the original signal by summing up the pieces?</p>
+</div>
+
+<h2>1. Periodic functions</h2>
+
+<p>A function $f : \mathbb{R} \to \mathbb{R}$ is <b>periodic with period $T > 0$</b> if $f(x + T) = f(x)$ for all $x \in \mathbb{R}$. The smallest such $T$ is the <b>fundamental period</b>.</p>
+
+<p>The simplest examples: $\sin x$ and $\cos x$ have period $2\pi$, while $\sin(nx)$ has period $2\pi/n$. A constant function is periodic with every period (it has no fundamental period). The function $f(x) = x$ is not periodic at all.</p>
+
+<p>If $f$ has period $T$, define $g(u) = f(Tu/2\pi)$. Then $g(u + 2\pi) = f(T(u+2\pi)/2\pi) = f(Tu/2\pi + T) = f(Tu/2\pi) = g(u)$, so $g$ has period $2\pi$. Every result we prove for period-$2\pi$ functions transfers to period-$T$ functions via this substitution.</p>
+
+<p>We adopt this normalisation from now on: all functions are $2\pi$-periodic, and we study them on the interval $[-\pi, \pi]$.</p>
+
+<p>Why $[-\pi, \pi]$ and not $[0, 2\pi]$? Both choices work — for any $2\pi$-periodic function $f$, $\int_{-\pi}^{\pi} f(x)\,dx = \int_0^{2\pi} f(x)\,dx$ (shift the variable by $\pi$ and use periodicity). But $[-\pi, \pi]$ is symmetric about the origin, which makes symmetry arguments cleaner: odd functions integrate to zero, and even functions can be reduced to $[0, \pi]$. These parity tricks will halve our work in the examples below.</p>
+
+<p>We need a notion of "size" for functions. A function $f$ is <b>square-integrable</b> on $[-\pi, \pi]$ if</p>
+
+<div class="display-math">$$\int_{-\pi}^{\pi} |f(x)|^2\,dx < \infty$$</div>
+
+<p>The space of all such functions is written $L^2([-\pi, \pi])$. This is a large space: it includes all bounded functions, all piecewise continuous functions, and many unbounded ones (like $f(x) = 1/\sqrt{|x|}$, whose square is $1/|x|$, integrable near $0$). Square-integrability is weaker than boundedness but strong enough to guarantee that all the integrals in Fourier analysis converge.</p>
+
+<p>Why is $L^2$ the right space, rather than just "integrable functions"? Because $L^2$ has an <b>inner product</b> (defined in the next section), which gives us the geometry we need: orthogonality, projections, and the Pythagorean theorem. The space of merely integrable functions lacks this structure. The inner product space $L^2$ is the natural home for Fourier analysis.</p>
+
+<h2>2. The trigonometric system</h2>
+
+<p>Consider the infinite family of functions:</p>
+
+<div class="display-math">$$1, \cos x, \sin x, \cos 2x, \sin 2x, \cos 3x, \sin 3x, \ldots$$</div>
+
+<p>These are the building blocks we want to decompose signals into. Each $\cos(nx)$ and $\sin(nx)$ represents a "pure frequency" — an oscillation that completes exactly $n$ full cycles over the interval $[-\pi, \pi]$. The integer $n$ is called the <b>harmonic number</b> or <b>frequency</b>. The function $\cos(x)$ is the <b>fundamental</b> (one cycle per period), $\cos(2x)$ is the <b>second harmonic</b> (two cycles), and so on. The constant function $1$ is the "zero frequency" component, representing the average value of the signal.</p>
+
+<p>What makes this family useful is <b>orthogonality</b>. Define the inner product on $L^2([-\pi, \pi])$ by</p>
+
+<div class="display-math">$$\langle f, g \rangle = \int_{-\pi}^{\pi} f(x)g(x)\,dx$$</div>
+
+<p>This is a genuine inner product in the sense of <a href="../phase6/07-inner-products.html">Phase 6, page 7</a>: it is symmetric ($\langle f, g \rangle = \langle g, f \rangle$), bilinear ($\langle \alpha f + \beta g, h \rangle = \alpha\langle f, h \rangle + \beta\langle g, h \rangle$), and positive definite ($\langle f, f \rangle = \int_{-\pi}^{\pi} |f(x)|^2\,dx \geq 0$, with equality only if $f = 0$ almost everywhere).</p>
+
+<p>The induced <b>norm</b> is $\|f\| = \sqrt{\langle f, f \rangle} = \left(\int_{-\pi}^{\pi} |f(x)|^2\,dx\right)^{1/2}$. This measures the "energy" of the function. Two functions are <b>orthogonal</b> if their inner product is zero — they have "no overlap."</p>
+
+<p>The remarkable claim is that the trigonometric functions form an <b>orthogonal system</b>: every pair of distinct functions in the family has inner product zero. Different frequencies "do not interact" — they are completely independent, like perpendicular axes in Euclidean space.</p>
+
+<div class="theorem-box">
+<div class="label">Orthogonality relations</div>
+<p>For integers $m, n \geq 1$:</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \cos(mx)\cos(nx)\,dx = \pi\delta_{mn}$$</div>
+<div class="display-math">$$\int_{-\pi}^{\pi} \sin(mx)\sin(nx)\,dx = \pi\delta_{mn}$$</div>
+<div class="display-math">$$\int_{-\pi}^{\pi} \cos(mx)\sin(nx)\,dx = 0 \quad \text{for all } m, n$$</div>
+<div class="display-math">$$\int_{-\pi}^{\pi} 1\,dx = 2\pi$$</div>
+<p>Here $\delta_{mn}$ is the Kronecker delta: $1$ if $m = n$, and $0$ otherwise.</p>
+</div>
+
+<p>In words: different frequencies are orthogonal to each other, and same-frequency sine and cosine are orthogonal to each other. The norms are: $\|1\|^2 = \langle 1, 1 \rangle = 2\pi$, and $\|\cos(nx)\|^2 = \|\sin(nx)\|^2 = \pi$ for all $n \geq 1$.</p>
+
+<p>Notice the asymmetry: the constant function has norm-squared $2\pi$ while all other basis functions have norm-squared $\pi$. This factor-of-two difference will explain the $\frac{1}{2}$ in front of $a_0$ in the Fourier series formula.</p>
+
+<div class="proof-box">
+<div class="label">Proof</div>
+<p><b>Step 1.</b> For $\cos(mx)\cos(nx)$ with $m \neq n$, use the product-to-sum identity (see <a href="../phase4/04-trig-identities.html">Phase 4, page 4</a>):</p>
+<div class="display-math">$$\cos A \cos B = \frac{1}{2}\bigl[\cos(A - B) + \cos(A + B)\bigr]$$</div>
+<p>With $A = mx$ and $B = nx$:</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \cos(mx)\cos(nx)\,dx = \frac{1}{2}\int_{-\pi}^{\pi} \cos\bigl((m-n)x\bigr)\,dx + \frac{1}{2}\int_{-\pi}^{\pi} \cos\bigl((m+n)x\bigr)\,dx$$</div>
+<p>Since $m \neq n$, the integer $m - n$ is nonzero, so</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \cos(kx)\,dx = \left[\frac{\sin(kx)}{k}\right]_{-\pi}^{\pi} = \frac{\sin(k\pi) - \sin(-k\pi)}{k} = 0$$</div>
+<p>for any nonzero integer $k$ (since $\sin(k\pi) = 0$). The same holds for $m + n \neq 0$. Both terms vanish.</p>
+<p>When $m = n$, we instead have $\cos^2(nx) = \frac{1}{2}[1 + \cos(2nx)]$, giving</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \cos^2(nx)\,dx = \frac{1}{2}\int_{-\pi}^{\pi} 1\,dx + \frac{1}{2}\int_{-\pi}^{\pi} \cos(2nx)\,dx = \frac{1}{2}(2\pi) + 0 = \pi$$</div>
+<p><b>Step 2.</b> For $\sin(mx)\sin(nx)$, use $\sin A \sin B = \frac{1}{2}[\cos(A-B) - \cos(A+B)]$. When $m \neq n$, both integrals of cosines vanish exactly as above. When $m = n$:</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \sin^2(nx)\,dx = \frac{1}{2}\int_{-\pi}^{\pi} 1\,dx - \frac{1}{2}\int_{-\pi}^{\pi}\cos(2nx)\,dx = \pi - 0 = \pi$$</div>
+<p><b>Step 3.</b> For the cross terms $\cos(mx)\sin(nx)$, use $\cos A \sin B = \frac{1}{2}[\sin(A+B) - \sin(A-B)]$. We get integrals of sine over symmetric intervals:</p>
+<div class="display-math">$$\int_{-\pi}^{\pi} \sin(kx)\,dx = \left[-\frac{\cos(kx)}{k}\right]_{-\pi}^{\pi} = \frac{-\cos(k\pi) + \cos(-k\pi)}{k} = 0$$</div>
+<p>This holds for all integers $k$, including $k = 0$ (where $\sin(0 \cdot x) = 0$). So $\langle \cos(mx), \sin(nx) \rangle = 0$ for <em>all</em> $m, n$ — including $m = n$.</p>
+<div class="qed">&#8718;</div>
+</div>
+
+<h2>3. Fourier coefficients</h2>
+
+<p>We now have an orthogonal system. The natural question: can we expand any function in this system, the way we expand a vector in an orthogonal basis? The answer is yes — if we know how to find the expansion coefficients.</p>
+
+<p>Suppose a function $f$ can be written as a trigonometric series:</p>
+
+<div class="display-math">$$f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\bigl(a_n\cos(nx) + b_n\sin(nx)\bigr)$$</div>
+
+<p>The factor $\frac{1}{2}$ in front of $a_0$ is a convention whose purpose will become clear momentarily. It makes the formula for $a_0$ identical in shape to the formula for all other $a_n$.</p>
+
+<p>How do we find the coefficients $a_n$ and $b_n$? The idea is the same as finding coordinates in a finite-dimensional vector space: project onto each basis vector. Here, we "project" $f$ onto each trigonometric function by taking inner products.</p>
+
+<p>Take the inner product of both sides with $\cos(mx)$ for some fixed $m \geq 1$:</p>
+
+<div class="display-math">$$\int_{-\pi}^{\pi} f(x)\cos(mx)\,dx = \frac{a_0}{2}\underbrace{\int_{-\pi}^{\pi}\cos(mx)\,dx}_{= 0 \text{ for } m \geq 1} + \sum_{n=1}^{\infty} a_n\underbrace{\int_{-\pi}^{\pi}\cos(nx)\cos(mx)\,dx}_{= \pi\delta_{mn}} + \sum_{n=1}^{\infty} b_n\underbrace{\int_{-\pi}^{\pi}\sin(nx)\cos(mx)\,dx}_{= 0}$$</div>
+
+<p>By orthogonality, every term in the sum vanishes except the one where $n = m$. The cross terms $\langle \sin(nx), \cos(mx) \rangle = 0$ for all $n, m$, so the entire sine sum contributes nothing. From the cosine sum, only the $n = m$ term survives, giving $a_m \cdot \pi$. In detail:</p>
+
+<div class="display-math">$$\int_{-\pi}^{\pi} f(x)\cos(mx)\,dx = \frac{a_0}{2} \cdot 0 + \sum_{n=1}^{\infty} a_n \cdot \pi\delta_{nm} + \sum_{n=1}^{\infty} b_n \cdot 0 = a_m \cdot \pi$$</div>
+
+<p>Solving: $a_m = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos(mx)\,dx$.</p>
+
+<p>Similarly, taking the inner product with $\sin(mx)$ kills everything except $b_m \cdot \pi$, giving $b_m = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin(mx)\,dx$.</p>
+
+<p>For $a_0$: integrate both sides over $[-\pi, \pi]$ (equivalently, take the inner product with $1$). All cosine and sine terms integrate to zero, leaving $\frac{a_0}{2} \cdot 2\pi = a_0\pi$. The $\frac{1}{2}$ convention ensures that $a_0 = \frac{1}{\pi}\int f(x)\,dx$ — the same formula as the others, just with $\cos(0 \cdot x) = 1$.</p>
+
+<div class="theorem-box">
+<div class="label">Fourier coefficients</div>
+<p>The <b>Fourier coefficients</b> of a square-integrable $2\pi$-periodic function $f$ are:</p>
+<div class="display-math">$$a_0 = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\,dx$$</div>
+<div class="display-math">$$a_n = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos(nx)\,dx \qquad (n \geq 1)$$</div>
+<div class="display-math">$$b_n = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin(nx)\,dx \qquad (n \geq 1)$$</div>
+</div>
+
+<p>Note that $a_0/2 = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)\,dx$ is simply the <b>average value</b> of $f$ over one period. If $f$ represents a signal, $a_0/2$ is its DC component — the constant offset around which the oscillations happen.</p>
+
+<p>A crucial subtlety: we derived these formulas by <em>assuming</em> the series converges to $f$ and then extracting the coefficients. We have not proved that the series actually converges back to $f$. The Fourier coefficients are always well-defined (they are just integrals), but whether the series $\frac{a_0}{2} + \sum(a_n\cos nx + b_n\sin nx)$ converges to $f$ is a separate question — the subject of <a href="02-convergence.html">page 2</a>.</p>
+
+<p>This is the <b>projection theorem</b> from <a href="../phase6/08-projections.html">Phase 6, page 8</a> in action. In a finite-dimensional inner product space, the component of a vector $v$ along a unit vector $e$ is $\langle v, e \rangle$. Here, $a_n = \langle f, \cos(nx) \rangle / \|\cos(nx)\|^2 = \frac{1}{\pi}\int f(x)\cos(nx)\,dx$. Fourier analysis is nothing more than linear algebra in infinite dimensions. The only complication compared to finite-dimensional spaces is convergence: we need the infinite sum to converge back to $f$, which is the subject of <a href="02-convergence.html">page 2</a>.</p>
+
+<h2>4. Example: the square wave</h2>
+
+<p>Let us put the theory to work with the simplest interesting example. Define the <b>square wave</b>:</p>
+
+<div class="display-math">$$f(x) = \begin{cases} 1 & \text{if } 0 < x < \pi \\ -1 & \text{if } -\pi < x < 0 \\ 0 & \text{if } x = 0 \text{ or } x = \pm\pi \end{cases}$$</div>
+
+<p>extended to all of $\mathbb{R}$ with period $2\pi$. We assign $f = 0$ at the discontinuities for definiteness (the choice of value at finitely many points does not affect the integrals). This function is <b>odd</b>: $f(-x) = -f(x)$ for all $x$.</p>
+
+<p>Since $f$ is odd, the product $f(x)\cos(nx)$ is odd (odd times even = odd), and integrating an odd function over the symmetric interval $[-\pi, \pi]$ gives zero (the contribution from $[0, \pi]$ exactly cancels the contribution from $[-\pi, 0]$). So <b>all $a_n = 0$</b>. This is a general principle: odd functions have only sine terms in their Fourier series, even functions have only cosine terms.</p>
+
+<p>For the sine coefficients, the product $f(x)\sin(nx)$ is even (odd $\times$ odd = even). For an even function on a symmetric interval, $\int_{-a}^{a} g(x)\,dx = 2\int_0^{a} g(x)\,dx$. So:</p>
+
+<div class="display-math">$$b_n = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin(nx)\,dx = \frac{2}{\pi}\int_0^{\pi} f(x)\sin(nx)\,dx = \frac{2}{\pi}\int_0^{\pi} \sin(nx)\,dx$$</div>
+
+<p>since $f(x) = 1$ on $(0, \pi)$. Now we just need to integrate $\sin(nx)$ — one of the most basic integrals in calculus. Compute:</p>
+
+<div class="display-math">$$\int_0^{\pi} \sin(nx)\,dx = \left[-\frac{\cos(nx)}{n}\right]_0^{\pi} = -\frac{\cos(n\pi)}{n} + \frac{\cos(0)}{n} = \frac{1 - \cos(n\pi)}{n} = \frac{1 - (-1)^n}{n}$$</div>
+
+<p>When $n$ is even: $(-1)^n = 1$, so $1 - (-1)^n = 0$, and $b_n = 0$.</p>
+
+<p>When $n$ is odd: $(-1)^n = -1$, so $1 - (-1)^n = 2$, and $b_n = \frac{2}{\pi} \cdot \frac{2}{n} = \frac{4}{\pi n}$.</p>
+
+<p>The first several coefficients: $b_1 = 4/\pi \approx 1.27$, $b_2 = 0$, $b_3 = 4/(3\pi) \approx 0.42$, $b_4 = 0$, $b_5 = 4/(5\pi) \approx 0.25$, and so on. The coefficients decay like $1/n$ — slowly, reflecting the discontinuity of the square wave.</p>
+
+<p>The Fourier series of the square wave is:</p>
+
+<div class="display-math">$$f(x) = \frac{4}{\pi}\left(\sin x + \frac{\sin 3x}{3} + \frac{\sin 5x}{5} + \frac{\sin 7x}{7} + \cdots\right) = \frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin\bigl((2k+1)x\bigr)}{2k+1}$$</div>
+
+<p>Sharp corners assembled from smooth waves. Each additional sine term sharpens the approximation a little more — with 10 terms you can already see the square shape clearly — but the corners are never perfect with finitely many terms. The partial sums always overshoot slightly near the discontinuities (this is the Gibbs phenomenon, which we study on page 4 of this phase).</p>
+
+<p>Notice the pattern: only <em>odd</em> harmonics appear (frequencies $1, 3, 5, 7, \ldots$). This is because the square wave has a special symmetry: $f(x + \pi) = -f(x)$ (it is <b>half-wave antisymmetric</b>). You can verify: if $0 < x < \pi$, then $x + \pi$ lands in $(\pi, 2\pi)$, which by periodicity is the same as $(-\pi, 0)$, where $f = -1 = -f(x)$. Any function with this property has $a_{2k} = b_{2k} = 0$ for all $k$.</p>
+
+<p>The coefficients decay like $1/n$ — slowly. This slow decay is a direct consequence of the discontinuity. As a rule of thumb: the rougher the function, the slower its Fourier coefficients decay. Smooth functions have coefficients that vanish much faster (like $1/n^2$, $1/n^3$, or even exponentially). We make this precise on <a href="02-convergence.html">page 2</a>.</p>
+
+<h2>5. Example: the sawtooth wave</h2>
+
+<p>Take $f(x) = x$ on $(-\pi, \pi)$, extended with period $2\pi$. This creates a "sawtooth" shape: a linear ramp from $-\pi$ to $\pi$, then an abrupt jump back down. The function is odd ($f(-x) = -x = -f(x)$), so all $a_n = 0$ by the same symmetry argument as for the square wave.</p>
+
+<div class="display-math">$$b_n = \frac{1}{\pi}\int_{-\pi}^{\pi} x\sin(nx)\,dx = \frac{2}{\pi}\int_0^{\pi} x\sin(nx)\,dx$$</div>
+
+<p>We need integration by parts (see <a href="../phase3/07-integration-by-parts.html">Phase 3, page 7</a>). Take $u = x$ and $dv = \sin(nx)\,dx$, giving $du = dx$ and $v = -\cos(nx)/n$:</p>
+
+<div class="display-math">$$\int_0^{\pi} x\sin(nx)\,dx = \left[-\frac{x\cos(nx)}{n}\right]_0^{\pi} + \frac{1}{n}\int_0^{\pi}\cos(nx)\,dx$$</div>
+
+<p>The boundary term evaluates to $-\frac{\pi\cos(n\pi)}{n} - 0 = -\frac{\pi(-1)^n}{n}$, using $\cos(n\pi) = (-1)^n$. The remaining integral is:</p>
+
+<div class="display-math">$$\frac{1}{n}\int_0^{\pi}\cos(nx)\,dx = \frac{1}{n}\left[\frac{\sin(nx)}{n}\right]_0^{\pi} = \frac{\sin(n\pi)}{n^2} = 0$$</div>
+
+<p>So $\int_0^{\pi} x\sin(nx)\,dx = -\frac{\pi(-1)^n}{n} + 0 = \frac{\pi(-1)^{n+1}}{n}$, and therefore:</p>
+
+<div class="display-math">$$b_n = \frac{2}{\pi} \cdot \frac{\pi(-1)^{n+1}}{n} = \frac{2(-1)^{n+1}}{n}$$</div>
+
+<p>The first few coefficients: $b_1 = 2$, $b_2 = -1$, $b_3 = 2/3$, $b_4 = -1/2$, $b_5 = 2/5$. The signs alternate because of the factor $(-1)^{n+1}$. The Fourier series is:</p>
+
+<div class="display-math">$$x = 2\left(\sin x - \frac{\sin 2x}{2} + \frac{\sin 3x}{3} - \frac{\sin 4x}{4} + \cdots\right) \quad \text{for } x \in (-\pi, \pi)$$</div>
+
+<p>Now set $x = \pi/2$. The values $\sin(n\pi/2)$ cycle as $1, 0, -1, 0, 1, 0, -1, 0, \ldots$ for $n = 1, 2, 3, 4, \ldots$ Only the odd terms survive:</p>
+
+<div class="display-math">$$\frac{\pi}{2} = 2\left(1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots\right)$$</div>
+
+<p>Dividing both sides by $2$:</p>
+
+<div class="display-math">$$\frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots$$</div>
+
+<p>This is the Leibniz formula for $\pi/4$, which we derived by a completely different method (the arctangent series) in <a href="../phase4/06-leibniz-series.html">Phase 4, page 6</a>. Fourier analysis gives it for free as a substitution into a known series. This is a recurring theme: Fourier series often yield surprising number-theoretic identities when evaluated at specific points.</p>
+
+<p>We could also set $x = \pi/6$, where $\sin(n\pi/6)$ takes the values $1/2, \sqrt{3}/2, 1, \sqrt{3}/2, 1/2, 0, -1/2, \ldots$ to obtain yet another identity. Each substitution "reads off" a different numerical series from the same Fourier expansion.</p>
+
+<p>The sawtooth example also illustrates a general pattern: the Fourier coefficients $b_n = 2(-1)^{n+1}/n$ decay like $1/n$, not $1/n^2$. This is because $f(x) = x$ on $(-\pi, \pi)$ has a jump discontinuity in its periodic extension (at $x = \pm\pi$, the function jumps from $\pi$ to $-\pi$). As we will see on <a href="02-convergence.html">page 2</a>, the rate of decay of Fourier coefficients is directly tied to the smoothness of the function.</p>
+
+<h2>6. Complex form</h2>
+
+<p>The real Fourier series involves three families ($1$, $\cos$, $\sin$) and three coefficient formulas ($a_0$, $a_n$, $b_n$). There is a more compact formulation using complex exponentials.</p>
+
+<p>Recall Euler's formula $e^{inx} = \cos(nx) + i\sin(nx)$ (which we established in <a href="../phase4/03-euler-formula.html">Phase 4, page 3</a>). From it, $\cos(nx) = \frac{e^{inx} + e^{-inx}}{2}$ and $\sin(nx) = \frac{e^{inx} - e^{-inx}}{2i}$. Substituting into the real Fourier series, each pair $a_n\cos(nx) + b_n\sin(nx)$ can be rewritten in terms of $e^{inx}$ and $e^{-inx}$.</p>
+
+<p>Define the <b>complex Fourier coefficients</b>:</p>
+
+<div class="display-math">$$c_n = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)e^{-inx}\,dx \quad \text{for } n \in \mathbb{Z}$$</div>
+
+<p>Then the Fourier series takes the compact form:</p>
+
+<div class="display-math">$$f(x) = \sum_{n=-\infty}^{\infty} c_n e^{inx}$$</div>
+
+<p>The index $n$ now runs over all integers — positive, negative, and zero. Each $e^{inx}$ is a complex-valued function of $x$: it traces out a circle in the complex plane as $x$ goes from $-\pi$ to $\pi$, completing $|n|$ full rotations. Positive $n$ means anticlockwise rotation, negative $n$ means clockwise. Together, the pair $c_n e^{inx}$ and $c_{-n} e^{-inx}$ reconstructs $a_n\cos(nx) + b_n\sin(nx)$.</p>
+
+<p>The relation to the real coefficients is straightforward. For $n = 0$: $c_0 = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)\,dx = a_0/2$. For $n \geq 1$:</p>
+
+<div class="display-math">$$c_n = \frac{a_n - ib_n}{2}, \qquad c_{-n} = \frac{a_n + ib_n}{2}$$</div>
+
+<p>You can verify this by expanding $e^{-inx} = \cos(nx) - i\sin(nx)$ and $e^{inx} = \cos(nx) + i\sin(nx)$ in the definition and comparing with the real formulas. Notice that for real-valued $f$, we always have $c_{-n} = \overline{c_n}$ — the negative and positive coefficients are complex conjugates.</p>
+
+<p>The complex form is not just notational convenience. It unifies three formulas into one, replaces two sums (over cosines and sines) with a single sum over exponentials, and reveals the deep connection between Fourier series and the representation theory of the circle group. In modern analysis, the complex form is overwhelmingly preferred.</p>
+
+<p>The orthogonality of the complex exponentials takes a particularly clean form: $\frac{1}{2\pi}\int_{-\pi}^{\pi} e^{imx}e^{-inx}\,dx = \delta_{mn}$ for all integers $m, n$. This single identity encodes all the orthogonality relations we proved in Section 2.</p>
+
+<p>Let us verify the relation $c_n = (a_n - ib_n)/2$ for $n \geq 1$. Starting from the definition:</p>
+
+<div class="display-math">$$c_n = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)e^{-inx}\,dx = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)\bigl[\cos(nx) - i\sin(nx)\bigr]\,dx$$</div>
+
+<div class="display-math">$$= \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)\cos(nx)\,dx - \frac{i}{2\pi}\int_{-\pi}^{\pi} f(x)\sin(nx)\,dx = \frac{a_n}{2} - \frac{ib_n}{2}$$</div>
+
+<p>Similarly, replacing $n$ by $-n$ in the definition:</p>
+
+<div class="display-math">$$c_{-n} = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)e^{inx}\,dx = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(x)\bigl[\cos(nx) + i\sin(nx)\bigr]\,dx = \frac{a_n}{2} + \frac{ib_n}{2}$$</div>
+
+<p>When $f$ is real-valued, $c_{-n} = \overline{c_n}$ for all $n$ — the negative-frequency coefficients are the complex conjugates of the positive-frequency ones. This <b>conjugate symmetry</b> means that a real signal's Fourier representation is fully determined by the coefficients at non-negative frequencies. The negative frequencies carry no additional information; they are the "mirror image" needed to make the sum real.</p>
+
+<p>For our square wave example: the real coefficients were $a_n = 0$ and $b_n = 4/(\pi n)$ for odd $n$. In complex form, $c_n = (0 - i \cdot 4/(\pi n))/2 = -2i/(\pi n)$ for odd $n > 0$, and $c_{-n} = \overline{c_n} = 2i/(\pi n)$ for odd $n > 0$. For even $n$ and $n = 0$, all coefficients vanish.</p>
+
+<p>The complex notation also makes differentiation transparent. If $f(x) = \sum c_n e^{inx}$, then formally $f'(x) = \sum in\,c_n e^{inx}$: differentiating a Fourier series simply multiplies the $n$-th coefficient by $in$. This is the frequency-domain picture of differentiation — high frequencies are amplified, which is why derivatives detect sharp features.</p>
+
+<p>Similarly, integrating divides by $in$ (for $n \neq 0$), dampening high-frequency components. Integration smooths; differentiation roughens. The Fourier representation makes this reciprocal relationship quantitative. This interplay between smoothness and coefficient decay is the subject of <a href="02-convergence.html">page 2</a>.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Fourier presented his theory to the Institut de France in 1807, in a memoir on heat conduction. His goal was to solve the heat equation $\frac{\partial u}{\partial t} = k\frac{\partial^2 u}{\partial x^2}$ on a metal bar. The key insight: if you decompose the initial temperature distribution into sines and cosines, each frequency component evolves independently. Specifically, if the initial temperature is $u(x,0) = \sin(nx)$, then the solution is $u(x,t) = e^{-kn^2 t}\sin(nx)$ — the mode decays exponentially, with high frequencies vanishing fastest. For arbitrary initial data, decompose into Fourier modes, let each evolve, and sum up.</p>
+<p>This was the birth of Fourier analysis: a method for solving differential equations by decomposing into simpler components that each evolve independently.</p>
+<p>The review committee of Lagrange, Laplace, and Legendre was deeply sceptical. Lagrange, the most vocal critic, maintained that discontinuous functions could never be represented by sums of continuous ones. He had a point — the convergence theory did not exist yet.</p>
+<p>Fourier's full treatise, <em>Th&eacute;orie analytique de la chaleur</em>, was finally published in 1822. But it contained no rigorous convergence proofs. That gap was filled by Dirichlet in 1829, who gave the first conditions under which a Fourier series provably converges to the function it represents.</p>
+<p>The impact went far beyond physics. The convergence question for Fourier series drove 19th-century mathematicians to develop the modern theory of integration (Riemann, then Lebesgue), the theory of sets (Cantor), and the rigorous foundations of analysis (Weierstrass). A single question — "when does this trigonometric series converge?" — reshaped the whole of mathematics. We take up the convergence story on <a href="02-convergence.html">page 2</a>.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without periodicity:</b> the trigonometric system is orthogonal on $[-\pi, \pi]$ specifically because sine and cosine are periodic. The integrals $\int_{-\pi}^{\pi}\cos(mx)\cos(nx)\,dx = 0$ rely on cancellation over a full period. For a non-periodic function defined on all of $\mathbb{R}$, you cannot decompose into discrete frequencies. Instead, you need the <b>Fourier transform</b> — a continuous integral $\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)e^{-i\xi x}\,dx$ replacing the discrete sum of coefficients.</p>
+<p><b>Without square-integrability:</b> the Fourier coefficients are defined by integrals of the form $\int f(x)\cos(nx)\,dx$. For this integral to exist, we need at least $f \cdot \cos(nx)$ to be integrable, which requires $f$ itself to be integrable. If $f$ is not integrable — say $f(x) = 1/x^2$ near $0$, whose integral diverges — the coefficients do not exist. Square-integrability ($\int |f|^2 < \infty$) is actually stronger than what we need for the coefficients to exist (plain integrability $\int |f| < \infty$ suffices), but it is the right condition for the $L^2$ theory, where we can measure convergence in norm.</p>
+<p><b>Coefficients exist but convergence fails:</b> you can compute Fourier coefficients for any integrable function, but the resulting series $\frac{a_0}{2} + \sum(a_n\cos nx + b_n\sin nx)$ may not converge back to $f$. Du Bois-Reymond (1876) constructed a continuous function whose Fourier series diverges at a specific point. Having the coefficients is only half the story. The other half — convergence — is the subject of <a href="02-convergence.html">page 2</a>.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Fourier coefficients are projections onto sine and cosine — orthogonality turns an infinite decomposition into individual integrals.</div>
+
+<div class="nav">
+<a href="../phase10/08-galois-abel-ruffini.html">&larr; Previous: Galois Theory and Abel-Ruffini</a>
+<a href="02-convergence.html">Next: Convergence of Fourier Series &rarr;</a>
+</div>
+
+</body>
+</html>

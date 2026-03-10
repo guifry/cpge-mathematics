@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Law of Large Numbers — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Law of Large Numbers</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 6</p>
+
+<div class="problem-box">
+  <div class="label">The problem</div>
+  <p>
+    Flip a fair coin 10 times &mdash; you might get 7 heads (70%). Flip it 1000 times
+    &mdash; getting 700 heads (70%) is astronomically unlikely. As the number of flips
+    grows, the fraction of heads approaches $1/2$. Everyone believes this. But
+    <em>proving</em> it took Jacob Bernoulli twenty years.
+  </p>
+  <p>
+    This is the most fundamental fact in probability: averages of repeated experiments
+    stabilise. It is why polls work, why casinos profit, why insurance is possible.
+    Bernoulli proved the first version in 1713. This page gives his proof &mdash; and
+    the stronger version due to Kolmogorov.
+  </p>
+</div>
+
+<h2>1. Setup</h2>
+
+<p>
+  Let $X_1, X_2, \ldots$ be <strong>independent, identically distributed</strong>
+  (i.i.d.) random variables with $E[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2 < \infty$.
+  Define the <strong>sample mean</strong>:
+</p>
+<div class="display-math">$$\bar{X}_n = \frac{1}{n}\sum_{i=1}^{n} X_i$$</div>
+
+<div class="theorem-box">
+  <div class="label">Lemma</div>
+  <p>$E[\bar{X}_n] = \mu$ and $\text{Var}(\bar{X}_n) = \sigma^2/n$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> By linearity of expectation (page 3):
+    $E[\bar{X}_n] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n} \cdot n\mu = \mu$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since the $X_i$ are independent, $\text{Var}(\sum X_i) =
+    \sum \text{Var}(X_i) = n\sigma^2$ (page 4, Section 5). By the scaling rule (page 4,
+    Section 2): $\text{Var}(\bar{X}_n) = \frac{1}{n^2} \cdot n\sigma^2 = \sigma^2/n$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  The mean of the average is the true mean &mdash; no surprise. The crucial fact is that
+  the <em>variance</em> of the average shrinks like $1/n$. This is why averaging works:
+  the distribution of $\bar{X}_n$ concentrates around $\mu$ as $n$ grows.
+</p>
+
+<h2>2. The weak law of large numbers</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Weak law of large numbers)</div>
+  <p>
+    For any $\varepsilon > 0$:
+    $P\!\big(|\bar{X}_n - \mu| \geq \varepsilon\big) \to 0$ as $n \to \infty$.
+  </p>
+  <p>This is <strong>convergence in probability</strong>: $\bar{X}_n \xrightarrow{P} \mu$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof (Chebyshev)</div>
+  <p>
+    Apply Chebyshev's inequality (page 5) to $\bar{X}_n$:
+  </p>
+  <div class="display-math">$$P\!\big(|\bar{X}_n - \mu| \geq \varepsilon\big) \leq \frac{\text{Var}(\bar{X}_n)}{\varepsilon^2} = \frac{\sigma^2}{n\varepsilon^2} \to 0$$</div>
+  <div class="qed">&#8718;</div>
+</div>
+
+<p>
+  That is the entire proof. Three lines. Twenty years of Bernoulli's life, reduced to
+  a direct application of Chebyshev's inequality. The variance of the average is
+  $\sigma^2/n$; divide by $\varepsilon^2$; let $n \to \infty$.
+</p>
+
+<h2>3. What the weak law means</h2>
+
+<p>
+  As you average more data, the result concentrates around the true mean. This justifies
+  using sample averages to estimate population parameters. It is why Monte Carlo methods
+  converge, why clinical trials yield useful estimates, and why gambling houses always
+  win in the long run.
+</p>
+
+<p>
+  Note what the weak law does <em>not</em> say. It says that for each fixed
+  $\varepsilon$, the probability of a large deviation vanishes. It does not say the
+  entire sequence $\bar{X}_1, \bar{X}_2, \ldots$ converges in any pathwise sense.
+  That is the strong law.
+</p>
+
+<h2>4. The strong law of large numbers</h2>
+
+<div class="theorem-box">
+  <div class="label">Theorem (Strong law of large numbers)</div>
+  <p>
+    $P\!\Big(\bar{X}_n \to \mu \text{ as } n \to \infty\Big) = 1$.
+  </p>
+  <p>
+    This is <strong>almost sure convergence</strong>: the sample mean converges to $\mu$
+    with probability 1. Not just &ldquo;probably close&rdquo; for large $n$, but the
+    entire infinite sequence converges.
+  </p>
+</div>
+
+<p>
+  Before proving this, we need a technical tool.
+</p>
+
+<h2>5. The Borel&ndash;Cantelli lemma</h2>
+
+<p>
+  Let $A_1, A_2, \ldots$ be events. We write $\{A_n \text{ i.o.}\}$ (infinitely often)
+  for the event that infinitely many of the $A_n$ occur. Formally,
+  $\{A_n \text{ i.o.}\} = \limsup_{n} A_n = \bigcap_{n=1}^{\infty}\bigcup_{k=n}^{\infty} A_k$.
+</p>
+
+<div class="theorem-box">
+  <div class="label">First Borel&ndash;Cantelli lemma</div>
+  <p>If $\sum_{n=1}^{\infty} P(A_n) < \infty$, then $P(A_n \text{ i.o.}) = 0$.</p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> For each $n$,
+    $P\!\big(\bigcup_{k=n}^{\infty} A_k\big) \leq \sum_{k=n}^{\infty} P(A_k)$
+    by subadditivity.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Since $\sum P(A_k)$ converges, the tail
+    $\sum_{k=n}^{\infty} P(A_k) \to 0$ as $n \to \infty$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> The events $B_n = \bigcup_{k=n}^{\infty} A_k$ are nested
+    downward: $B_1 \supseteq B_2 \supseteq \cdots$. By continuity of probability
+    (Phase 12, page 1), $P(\bigcap B_n) = \lim P(B_n) = 0$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<div class="theorem-box">
+  <div class="label">Second Borel&ndash;Cantelli lemma</div>
+  <p>
+    If the events $A_n$ are independent and $\sum_{n=1}^{\infty} P(A_n) = \infty$,
+    then $P(A_n \text{ i.o.}) = 1$.
+  </p>
+</div>
+
+<div class="proof-box">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Step 1.</strong> We show $P\!\big(\bigcap_{k=n}^{m} A_k^c\big) \to 0$ as
+    $m \to \infty$. By independence:
+    $P\!\big(\bigcap_{k=n}^{m} A_k^c\big) = \prod_{k=n}^{m}(1 - P(A_k))$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> Using $1 - x \leq e^{-x}$ for $x \geq 0$:
+    $\prod_{k=n}^{m}(1 - P(A_k)) \leq \exp\!\big(-\sum_{k=n}^{m} P(A_k)\big) \to 0$
+    since $\sum P(A_k) = \infty$.
+  </p>
+  <p>
+    <strong>Step 3.</strong> So $P\!\big(\bigcup_{k=n}^{\infty} A_k\big) = 1$ for every
+    $n$. Hence $P(\bigcap_n \bigcup_{k \geq n} A_k) = 1$.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>6. Proof of the strong law</h2>
+
+<p>
+  We prove the strong law under the additional assumption that $E[X_i^4] < \infty$.
+  The full proof without this assumption uses truncation arguments; we omit it.
+</p>
+
+<div class="proof-box">
+  <div class="label">Proof (fourth moment method)</div>
+  <p>
+    <strong>Step 1.</strong> Let $S_n = \sum_{i=1}^n (X_i - \mu)$. We bound
+    $E[S_n^4]$. Expanding $(X_1 - \mu + \cdots + X_n - \mu)^4$ produces terms
+    $E[(X_i - \mu)(X_j - \mu)(X_k - \mu)(X_\ell - \mu)]$.
+  </p>
+  <p>
+    <strong>Step 2.</strong> By independence, any term where some index appears exactly
+    once vanishes (since $E[X_i - \mu] = 0$). The surviving terms are:
+  </p>
+  <ul>
+    <li>$E[(X_i - \mu)^4]$: there are $n$ such terms, each bounded by some constant
+      $M = E[(X_1 - \mu)^4]$.</li>
+    <li>$E[(X_i - \mu)^2(X_j - \mu)^2] = \sigma^4$ for $i \neq j$: there are
+      $\binom{n}{2} \cdot \binom{4}{2} = 3n(n-1)$ such terms.</li>
+  </ul>
+  <p>
+    <strong>Step 3.</strong> So $E[S_n^4] \leq nM + 3n(n-1)\sigma^4 = O(n^2)$.
+    Therefore $E[(\bar{X}_n - \mu)^4] = E[S_n^4]/n^4 = O(1/n^2)$.
+  </p>
+  <p>
+    <strong>Step 4.</strong> Apply Markov's inequality (page 5) to
+    $(\bar{X}_n - \mu)^4$:
+  </p>
+  <div class="display-math">$$P\!\big(|\bar{X}_n - \mu| \geq \varepsilon\big) = P\!\big((\bar{X}_n - \mu)^4 \geq \varepsilon^4\big) \leq \frac{E[(\bar{X}_n - \mu)^4]}{\varepsilon^4} \leq \frac{C}{n^2\varepsilon^4}$$</div>
+  <p>
+    for some constant $C$.
+  </p>
+  <p>
+    <strong>Step 5.</strong> Since $\sum_{n=1}^{\infty} 1/n^2 < \infty$ (Phase 5,
+    page 1), we have $\sum P(|\bar{X}_n - \mu| \geq \varepsilon) < \infty$. By the
+    first Borel&ndash;Cantelli lemma, $P(|\bar{X}_n - \mu| \geq \varepsilon \text{ i.o.}) = 0$.
+  </p>
+  <p>
+    <strong>Step 6.</strong> This holds for every $\varepsilon > 0$. Take
+    $\varepsilon = 1/m$ for $m = 1, 2, 3, \ldots$ and use countable subadditivity:
+    $P(\bar{X}_n \not\to \mu) \leq \sum_{m=1}^{\infty} P(|\bar{X}_n - \mu| \geq 1/m
+    \text{ i.o.}) = 0$. So $\bar{X}_n \to \mu$ almost surely.
+  </p>
+  <div class="qed">&#8718;</div>
+</div>
+
+<h2>7. Application: Monte Carlo estimation</h2>
+
+<p>
+  To estimate $\pi$: generate random points $(U, V)$ uniformly in $[0, 1]^2$. Define
+  $X_i = 1$ if $U_i^2 + V_i^2 \leq 1$ and $X_i = 0$ otherwise. Then
+  $E[X_i] = \pi/4$ (the area of the quarter-circle). By the law of large numbers,
+  $\bar{X}_n \to \pi/4$ almost surely. After $n$ samples, the typical error is
+  $O(1/\sqrt{n})$ &mdash; from the central limit theorem (next page).
+</p>
+
+<p>
+  This idea generalises vastly. Any quantity expressible as an expectation can be
+  estimated by averaging random samples. The law of large numbers guarantees
+  convergence; the rate $O(1/\sqrt{n})$ comes from the CLT. This is the foundation
+  of all Monte Carlo methods.
+</p>
+
+<div class="history-box">
+  <div class="label">Historical note</div>
+  <p>
+    Jacob Bernoulli proved the weak law in his <em>Ars Conjectandi</em> (1713, published
+    posthumously). He called it the &ldquo;golden theorem&rdquo; and worked on it for
+    twenty years. The strong law was proved by &Eacute;mile Borel (1909) for the special
+    case of coin flips, and by Kolmogorov (1930) in full generality. The
+    Borel&ndash;Cantelli lemma (Borel 1909, Cantelli 1917) is the technical workhorse
+    behind almost-sure convergence results throughout probability theory.
+  </p>
+</div>
+
+<div class="break-box">
+  <div class="label">What breaks</div>
+  <p>
+    <strong>(a) Without finite variance.</strong> Chebyshev's proof fails, but the weak
+    law can still hold under weaker conditions. Without <em>any</em> moment condition,
+    the LLN fails entirely: the Cauchy distribution has no mean, and the sample mean of
+    i.i.d. Cauchy variables has the same Cauchy distribution for every $n$ &mdash; no
+    convergence at all.
+  </p>
+  <p>
+    <strong>(b) Without independence.</strong> Let $X_i = X_1$ for all $i$ (perfect
+    dependence). Then $\bar{X}_n = X_1$ for every $n$ &mdash; the average never moves.
+    It stays random, with no convergence to any constant. Independence (or at least
+    weak dependence) is essential.
+  </p>
+  <p>
+    <strong>(c) Weak vs strong.</strong> The weak law says
+    $P(|\bar{X}_n - \mu| > \varepsilon) \to 0$ for each fixed $\varepsilon$. The strong
+    law says the <em>entire sequence</em> converges, with probability 1. The strong law
+    is strictly stronger: there exist sequences satisfying the weak but not the strong
+    law. The gap is the difference between &ldquo;unlikely to be far away right now&rdquo;
+    and &ldquo;the path eventually stays close forever.&rdquo;
+  </p>
+</div>
+
+<hr>
+
+<div class="oneliner">
+  The law of large numbers: the sample mean converges to the true mean &mdash; in
+  probability (weak) and almost surely (strong) &mdash; because the variance of the
+  average vanishes.
+</div>
+
+<div class="nav">
+  <a href="05-markov-chebyshev.html">&larr; Previous: Markov and Chebyshev Inequalities</a>
+  <a href="07-central-limit-theorem.html">Next: The Central Limit Theorem &rarr;</a>
+</div>
+
+</body>
+</html>

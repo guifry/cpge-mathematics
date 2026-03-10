@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gibbs Phenomenon — Phase 11</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>The Gibbs Phenomenon</h1>
+<p class="subtitle">Phase 11 — Fourier Analysis, Page 4</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>Look at the partial sums of the square wave's Fourier series near $x = 0$ — the point of discontinuity. As $N$ increases, the partial sums develop a sharp spike that overshoots the jump. You might expect this overshoot to shrink as $N \to \infty$, but it does not. It approaches a fixed height of about 9% above and below the true value.</p>
+<p>This is the <b>Gibbs phenomenon</b>, first correctly explained by J. Willard Gibbs in 1899. Fourier series approximate the function closer and closer in an average sense (Parseval, <a href="03-parseval.html">page 3</a>), but near discontinuities, they permanently overshoot. The ringing narrows but never diminishes. Understanding exactly why this happens — and computing the precise overshoot — is the goal of this page.</p>
+</div>
+
+<h2>1. The overshoot in pictures</h2>
+
+<p>Recall the <b>sign function</b> $f(x) = \text{sgn}(x)$ on $(-\pi, \pi)$: it equals $1$ for $x > 0$ and $-1$ for $x < 0$, with a jump of size $2$ at the origin. From <a href="01-fourier-series.html">page 1</a>, its Fourier series is</p>
+
+<div class="display-math">$$f(x) = \frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin\bigl((2k+1)x\bigr)}{2k+1} = \frac{4}{\pi}\left(\sin x + \frac{\sin 3x}{3} + \frac{\sin 5x}{5} + \cdots\right)$$</div>
+
+<p>Only odd harmonics appear because the sign function is odd and has the same symmetry as $\sin((2k+1)x)$. The $N$-th partial sum uses harmonics $1, 3, 5, \ldots, 2N-1$:</p>
+
+<div class="display-math">$$S_N(x) = \frac{4}{\pi}\sum_{k=0}^{N-1}\frac{\sin\bigl((2k+1)x\bigr)}{2k+1}$$</div>
+
+<p>Near $x = 0^+$, each partial sum overshoots the value $1$ that $f$ takes. The overshoot is tallest at the first local maximum of $S_N$, which sits near $x = \pi/(2N)$. As $N$ grows, this maximum creeps closer to $0$ but stays at the same height. That persistent spike is the Gibbs phenomenon.</p>
+
+<p>Think about what this means concretely. With $N = 10$, the spike sits at $x \approx \pi/20 \approx 0.157$ and peaks at about $1.18$. With $N = 100$, the spike moves to $x \approx 0.0157$ — ten times closer to the discontinuity — but still peaks at about $1.18$. With $N = 1000$, it is at $x \approx 0.00157$, and the peak is <em>still</em> about $1.18$. The spike narrows but never shrinks.</p>
+
+<p>If you were plotting $S_N$ on a computer screen, the ringing would always be visible near the jump, no matter how many terms you used. You would see oscillations that compress into the discontinuity as $N$ grows, like waves piling up against a wall, with the tallest wave always the same height. The oscillations themselves form a characteristic pattern: the first overshoot is the tallest, followed by a slightly smaller undershoot, then a smaller overshoot, and so on — a decaying oscillation that mirrors the behaviour of $\sin(t)/t$ for large $t$.</p>
+
+<h2>2. Computing the maximum</h2>
+
+<p>We need to find the precise location and height of the first overshoot. To find the first maximum of $S_N$, differentiate term by term:</p>
+
+<div class="display-math">$$S_N'(x) = \frac{4}{\pi}\sum_{k=0}^{N-1}\cos\bigl((2k+1)x\bigr)$$</div>
+
+<p>This sum of cosines at odd multiples has a closed form. Write each cosine using complex exponentials: $\cos\theta = \text{Re}(e^{i\theta})$. Then</p>
+
+<div class="display-math">$$\sum_{k=0}^{N-1}\cos\bigl((2k+1)x\bigr) = \text{Re}\left(\sum_{k=0}^{N-1}e^{i(2k+1)x}\right) = \text{Re}\left(e^{ix}\sum_{k=0}^{N-1}e^{2ikx}\right)$$</div>
+
+<p>The inner sum is a geometric series: $\sum_{k=0}^{N-1}e^{2ikx} = \frac{e^{2iNx} - 1}{e^{2ix} - 1}$. After simplification — multiply numerator and denominator by $e^{-ix}$ to get $\frac{e^{i(2N-1)x} - e^{-ix}}{e^{ix} - e^{-ix}} = \frac{e^{i(2N-1)x} - e^{-ix}}{2i\sin x}$, then combine with the factor $e^{ix}$ — we arrive at:</p>
+
+<div class="display-math">$$\sum_{k=0}^{N-1}\cos\bigl((2k+1)x\bigr) = \frac{\sin(2Nx)}{2\sin x}$$</div>
+
+<p>So:</p>
+
+<div class="display-math">$$S_N'(x) = \frac{4}{\pi}\cdot\frac{\sin(2Nx)}{2\sin x} = \frac{2\sin(2Nx)}{\pi\sin x}$$</div>
+
+<p>Setting $S_N'(x) = 0$ requires $\sin(2Nx) = 0$ (we exclude $x = 0$ where $\sin x = 0$ as well). This gives $2Nx = m\pi$ for positive integer $m$, i.e. $x = m\pi/(2N)$. The first positive critical point is $x^* = \pi/(2N)$.</p>
+
+<p>To confirm this is a maximum (not a minimum), check the sign of $S_N'$ on either side. For $0 < x < \pi/(2N)$, we have $0 < 2Nx < \pi$, so $\sin(2Nx) > 0$ and $\sin x > 0$, giving $S_N'(x) > 0$. For $\pi/(2N) < x < 2\pi/(2N) = \pi/N$, we have $\pi < 2Nx < 2\pi$, so $\sin(2Nx) < 0$ and $\sin x > 0$, giving $S_N'(x) < 0$. The function increases then decreases: $x^* = \pi/(2N)$ is indeed a local maximum.</p>
+
+<p>Moreover, this is the <em>tallest</em> maximum to the right of the discontinuity. The subsequent maxima occur at $x = 3\pi/(2N), 5\pi/(2N), \ldots$, and they are progressively smaller. To see why, think ahead to the Riemann sum in Section 3: the value of $S_N$ at each maximum is determined by how much of the $\sin(t)/t$ integral gets captured. The first maximum captures the integral from $0$ to $\pi$, where $\sin(t)/t$ is mostly positive. Later maxima correspond to integrals that include more of the oscillatory tail, where positive and negative contributions largely cancel.</p>
+
+<p>There are also local <em>minima</em> between the maxima, producing the characteristic ringing pattern. The entire oscillatory structure compresses towards $x = 0$ as $N$ increases, but the amplitude of each successive oscillation stays fixed relative to the jump size.</p>
+
+<h2>3. The limiting value as a Riemann sum</h2>
+
+<p>Now comes the crucial computation. Evaluate $S_N$ at the maximum $x^* = \pi/(2N)$:</p>
+
+<div class="display-math">$$S_N\!\left(\frac{\pi}{2N}\right) = \frac{4}{\pi}\sum_{k=0}^{N-1}\frac{\sin\bigl((2k+1)\pi/(2N)\bigr)}{2k+1}$$</div>
+
+<p>To recognise this as a Riemann sum, introduce the substitution $t_k = (2k+1)\pi/(2N)$. The points $t_0, t_1, \ldots, t_{N-1}$ run from $\pi/(2N)$ (just above $0$) to $(2N-1)\pi/(2N)$ (just below $\pi$). As $N$ grows, these points fill the interval $(0, \pi)$ densely. The spacing between consecutive $t_k$ values is constant: $\Delta t = t_{k+1} - t_k = \pi/N$.</p>
+
+<p>Notice that $\frac{1}{2k+1} = \frac{\pi/(2N)}{t_k} \cdot \frac{1}{1} = \frac{\pi}{2Nt_k}$, since $t_k = (2k+1)\pi/(2N)$. So:</p>
+
+<div class="display-math">$$S_N\!\left(\frac{\pi}{2N}\right) = \frac{4}{\pi}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k}\cdot\frac{\pi}{2N} = \frac{4}{\pi}\cdot\frac{\pi}{2N}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k}$$</div>
+
+<p>Since $\Delta t = \pi/N$, we have $\pi/(2N) = \Delta t / 2$. Rewriting the sum more transparently:</p>
+
+<div class="display-math">$$S_N\!\left(\frac{\pi}{2N}\right) = \frac{2}{N}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k}$$</div>
+
+<p>As $N \to \infty$, the points $t_k$ fill the interval $(0, \pi)$ with spacing $\pi/N$. Rewriting:</p>
+
+<div class="display-math">$$\frac{2}{N}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k} = \frac{2}{\pi}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k}\cdot\frac{\pi}{N} = \frac{2}{\pi}\sum_{k=0}^{N-1}\frac{\sin(t_k)}{t_k}\cdot\Delta t$$</div>
+
+<p>This is precisely a Riemann sum for $\frac{2}{\pi}\int_0^{\pi}\frac{\sin t}{t}\,dt$, with sample points $t_k$ and uniform step size $\Delta t = \pi/N$. Since $\sin(t)/t$ is continuous on $(0, \pi]$ and has a removable singularity at $t = 0$ (with value $1$), the Riemann sum converges to the integral. We conclude:</p>
+
+<div class="display-math">$$\lim_{N \to \infty} S_N\!\left(\frac{\pi}{2N}\right) = \frac{2}{\pi}\int_0^{\pi}\frac{\sin t}{t}\,dt$$</div>
+
+<p>This is the key equation of the entire page. The overshoot of the Fourier partial sums, as $N \to \infty$, is controlled entirely by a single definite integral. Everything reduces to evaluating $\int_0^{\pi}\frac{\sin t}{t}\,dt$ — a fixed number that does not depend on the function $f$ or the size of the jump.</p>
+
+<p>Let us verify the Riemann sum interpretation with a small example. For $N = 3$, the partial sum is $S_3(x) = \frac{4}{\pi}\bigl(\sin x + \frac{\sin 3x}{3} + \frac{\sin 5x}{5}\bigr)$. The first maximum is at $x^* = \pi/6$. Computing:</p>
+
+<div class="display-math">$$S_3(\pi/6) = \frac{4}{\pi}\left(\sin\frac{\pi}{6} + \frac{\sin\frac{\pi}{2}}{3} + \frac{\sin\frac{5\pi}{6}}{5}\right) = \frac{4}{\pi}\left(\frac{1}{2} + \frac{1}{3} + \frac{1}{10}\right) = \frac{4}{\pi}\cdot\frac{28}{30} \approx 1.1891$$</div>
+
+<p>Already for just three terms, the overshoot is about $18.9\%$ above $1$ — close to the limiting value of $17.9\%$. The convergence of the overshoot height to its limiting value is itself quite rapid.</p>
+
+<p>For $N = 5$ (five odd harmonics), the maximum is at $x^* = \pi/10$:</p>
+
+<div class="display-math">$$S_5(\pi/10) = \frac{4}{\pi}\left(\sin\frac{\pi}{10} + \frac{\sin\frac{3\pi}{10}}{3} + \frac{\sin\frac{\pi}{2}}{5} + \frac{\sin\frac{7\pi}{10}}{7} + \frac{\sin\frac{9\pi}{10}}{9}\right)$$</div>
+
+<p>Computing numerically: $\sin(\pi/10) \approx 0.309$, $\sin(3\pi/10) \approx 0.809$, $\sin(\pi/2) = 1$, $\sin(7\pi/10) \approx 0.809$, $\sin(9\pi/10) \approx 0.309$. The sum is approximately $0.309 + 0.270 + 0.200 + 0.116 + 0.034 = 0.929$, giving $S_5(\pi/10) \approx \frac{4}{\pi}\cdot 0.929 \approx 1.183$. The overshoot is $18.3\%$, already very close to the limiting $17.9\%$.</p>
+
+<h2>4. The sine integral and the Gibbs constant</h2>
+
+<p>Define the <b>sine integral</b>:</p>
+
+<div class="display-math">$$\text{Si}(x) = \int_0^x \frac{\sin t}{t}\,dt$$</div>
+
+<p>This function has no closed form in terms of elementary functions — it is one of those "named" special functions that arise naturally in analysis. It can be expanded as a convergent power series:</p>
+
+<div class="display-math">$$\text{Si}(x) = x - \frac{x^3}{3!\cdot 3} + \frac{x^5}{5!\cdot 5} - \frac{x^7}{7!\cdot 7} + \cdots = \sum_{k=0}^{\infty}\frac{(-1)^k x^{2k+1}}{(2k+1)!\cdot(2k+1)}$$</div>
+
+<p>which converges for all $x$ (the radius of convergence is infinite, since $\sin t / t$ is entire). The numerical evaluation at $t = \pi$ gives</p>
+
+<div class="display-math">$$\text{Si}(\pi) = \int_0^{\pi}\frac{\sin t}{t}\,dt \approx 1.8519$$</div>
+
+<p>To get a feel for this number: $\sin t / t$ starts at $1$ when $t = 0$, decreases to $0$ at $t = \pi$, passing through the value $2/\pi \approx 0.637$ at $t = \pi/2$. The function is positive throughout $(0, \pi)$, so the integral is the area under a smooth curve that starts at height $1$ and decays to $0$. A rough estimate by the trapezoidal rule gives $\frac{\pi}{2}(1 + 0) = \pi/2 \approx 1.571$, which undershoots the true value because $\sin t / t$ is concave on this interval.</p>
+
+<p>So the limiting height of the first maximum is:</p>
+
+<div class="display-math">$$\frac{2}{\pi}\,\text{Si}(\pi) \approx \frac{2}{\pi}\times 1.8519 \approx 1.1790$$</div>
+
+<p>The function $f = \text{sgn}(x)$ jumps to $1$ for $x > 0$, but the partial sums peak at approximately $1.1790$. The <b>Gibbs constant</b> is the relative overshoot as a fraction of the jump:</p>
+
+<div class="display-math">$$G = \frac{2}{\pi}\,\text{Si}(\pi) - 1 \approx 0.0895$$</div>
+
+<p>That is, the overshoot is about <b>8.95%</b> of the half-jump. Since the total jump is $2$ (from $-1$ to $1$), the absolute overshoot above $1$ is about $0.179$, which is $0.179/2 = 8.95\%$ of the full jump height.</p>
+
+<p>By symmetry, there is an identical undershoot just below $x = 0$: the partial sums dip to about $-1.179$, overshooting $-1$ by the same 9%.</p>
+
+<p>Note the remarkable universality of this number. If we replaced the sign function by <em>any</em> function with a jump discontinuity of size $J$ — a square wave with different amplitude, a sawtooth, a step function — the overshoot would be $\approx 0.0895 \cdot J$. The 9% is a property of the Fourier method itself, not of any particular function. It depends only on the value of $\text{Si}(\pi)$, which is determined by the sinc function's behaviour and has nothing to do with the specific signal being approximated.</p>
+
+<h2>5. Why it does not go away</h2>
+
+<p>This is the most counterintuitive aspect of the Gibbs phenomenon. Your intuition says: "I am adding more and more terms to a converging series, so the approximation should get better everywhere." And it <em>does</em> get better — in the $L^2$ sense, and at every point away from the discontinuity. But at the spike itself, the approximation never improves.</p>
+
+<p>As $N$ increases, two things happen simultaneously:</p>
+
+<p>The overshoot spike <b>narrows</b>. It is concentrated in an interval of width $\sim \pi/N$ around the discontinuity, and this interval shrinks to zero as $N \to \infty$.</p>
+
+<p>But the spike's <b>height stays fixed</b> at $\sim 9\%$ of the jump. No matter how many terms you add — a thousand, a million, a trillion — the peak does not come down. This is because the height is determined by $\frac{2}{\pi}\text{Si}(\pi)$, a fixed constant that does not involve $N$ at all.</p>
+
+<p>How does this square with Parseval's theorem (<a href="03-parseval.html">page 3</a>), which says $\|f - S_N\|_2 \to 0$? There is no contradiction. The $L^2$ norm measures the <em>total area</em> of the error squared:</p>
+
+<div class="display-math">$$\|f - S_N\|_2^2 = \int_{-\pi}^{\pi}|f(x) - S_N(x)|^2\,dx$$</div>
+
+<p>The Gibbs spike has fixed height $\sim 0.18$ but vanishing width $\sim \pi/N$. Its contribution to this integral is roughly:</p>
+
+<div class="display-math">$$\text{spike energy} \approx (0.18)^2 \times \frac{\pi}{N} = \frac{0.032\pi}{N} \to 0$$</div>
+
+<p>So the total $L^2$ error still vanishes — the spike contributes negligible energy even though it is tall. This is the key distinction: a tall, narrow error can have small $L^2$ norm. The $L^2$ norm weights both height and width, so a spike that gets thinner fast enough will have vanishing norm even if its peak stays fixed.</p>
+
+<p>The distinction is between two notions of convergence:</p>
+
+<p><b>$L^2$ convergence</b> ($\|f - S_N\|_2 \to 0$): the average squared error over the whole interval tends to zero. This holds for all square-integrable functions, by Parseval.</p>
+
+<p><b>Uniform convergence</b> ($\sup_x |f(x) - S_N(x)| \to 0$): the worst-case pointwise error tends to zero. This <em>fails</em> at discontinuities, and the Gibbs phenomenon is exactly the mechanism of failure.</p>
+
+<p>Fourier series of discontinuous functions converge in $L^2$ but not uniformly. The Gibbs phenomenon is the sharpest possible illustration of the gap between these two fundamentally different notions of convergence. A sequence of functions can converge "on average" ($L^2$ sense) while permanently failing to converge at specific points (uniform sense). This distinction between modes of convergence — which may seem pedantic in a first analysis course — turns out to be one of the most important ideas in modern mathematics.</p>
+
+<p>To make this quantitative: the $L^2$ error $\|f - S_N\|_2^2$ decreases at a rate determined by how fast the Fourier coefficients decay. For the sign function, $b_n \sim 1/n$, so the tail $\sum_{n>N} b_n^2 \sim \sum_{n>N} 1/n^2 \sim 1/N$. The mean-square error is $O(1/N)$, tending to zero — but the pointwise error at the spike stays fixed at $\sim 0.18$, independent of $N$.</p>
+
+<p>In signal processing, the Gibbs phenomenon is sometimes called <b>ringing</b>. It appears whenever a signal with sharp transitions is reconstructed from a finite bandwidth — this is a fundamental limitation of bandlimited approximation, not a defect in any particular algorithm.</p>
+
+<p>To understand <em>why</em> the overshoot persists and never diminishes, we need to examine the underlying mechanism. The partial sum $S_N(f)$ can be expressed as a <b>convolution</b> — a weighted sliding average — of $f$ against a kernel function called the <b>Dirichlet kernel</b>:</p>
+
+<div class="display-math">$$S_N(f)(x) = \frac{1}{2\pi}\int_{-\pi}^{\pi} f(t)\,D_N(x - t)\,dt$$</div>
+
+<p>where the Dirichlet kernel is</p>
+
+<div class="display-math">$$D_N(u) = \frac{\sin\bigl((N + 1/2)u\bigr)}{\sin(u/2)}$$</div>
+
+<p>This kernel oscillates wildly — it has $2N$ lobes, alternately positive and negative, with the central lobe dominating. It takes large negative values. It is not a "moving average" in the usual sense — a true moving average would use non-negative weights, guaranteeing that the output lies between $f$'s minimum and maximum. The Dirichlet kernel's negative lobes give negative weight to parts of $f$, which is how $S_N(f)$ can exceed $f$'s actual values near a discontinuity.</p>
+
+<p>The Fejér kernel (used in Cesàro means) is $F_N(u) = \frac{1}{N+1}\bigl(\frac{\sin((N+1)u/2)}{\sin(u/2)}\bigr)^2$. Being a perfect square, it is non-negative everywhere. This is precisely why Cesàro means avoid the Gibbs phenomenon: they compute a genuine weighted average of $f$, which must lie between $f$'s extreme values.</p>
+
+<h2>6. Preventing Gibbs — smoothing</h2>
+
+<p>If $f$ is <b>continuous</b> and periodic, there is no Gibbs phenomenon. Under mild smoothness conditions (for instance, if $f$ has a piecewise continuous derivative and satisfies $f(-\pi) = f(\pi)$), the Fourier series converges uniformly. The phenomenon is strictly tied to jump discontinuities.</p>
+
+<p>In fact, the smoother $f$ is, the faster its Fourier coefficients decay, and the better the partial sums behave. If $f$ is $C^k$ (i.e. $k$ times continuously differentiable), then $a_n$ and $b_n$ decay like $O(1/n^{k+1})$. For $C^\infty$ functions, the coefficients decay faster than any power of $1/n$. For analytic functions (those expressible as convergent power series), they decay exponentially: $|a_n|, |b_n| \leq Ce^{-\alpha n}$ for some constants $C, \alpha > 0$. Better decay means faster convergence and no oscillatory artefacts.</p>
+
+<p>The sign function has coefficients $b_n \sim 1/n$ — the slowest possible decay rate for an $L^2$ function. This slow decay is why the Gibbs overshoot is so stubborn: the partial sums are trying to build a sharp corner from slowly decaying harmonics, and each new term adds only a small correction.</p>
+
+<p>Compare with $f(x) = x^2$ on $(-\pi, \pi)$: this function is continuous (no jumps), has $a_n \sim 1/n^2$, and its Fourier series converges uniformly without overshoot. Or consider a $C^\infty$ periodic function: its coefficients decay faster than any power of $1/n$, and the partial sums converge with breathtaking speed. The more regular the function, the better Fourier analysis performs — and the Gibbs phenomenon is specifically the penalty for discontinuity.</p>
+
+<p>Even for discontinuous functions, there are ways to tame the overshoot. The key idea is to <b>average the partial sums</b> instead of taking them individually. Define the <b>Cesàro mean</b> (or <b>Fejér mean</b>):</p>
+
+<div class="display-math">$$\sigma_N(f)(x) = \frac{1}{N+1}\sum_{k=0}^{N} S_k(f)(x)$$</div>
+
+<p>This averages the first $N+1$ partial sums.</p>
+
+<div class="theorem-box">
+<div class="label">Fejér's theorem (1904)</div>
+<p>For any continuous $2\pi$-periodic function $f$, the Cesàro means $\sigma_N(f)$ converge uniformly to $f$. More generally, for any integrable periodic function, $\sigma_N(f)(x) \to \frac{1}{2}\bigl(f(x^+) + f(x^-)\bigr)$ at every point where both one-sided limits exist — <em>without</em> overshoot.</p>
+</div>
+
+<p>Why does averaging help? Each partial sum $S_k$ has the Gibbs overshoot at a slightly different position (near $\pi/(2k)$). When you average many partial sums, the overshoots are spread across different positions. The spike from $S_{10}$ is at $x \approx 0.157$, the spike from $S_{100}$ is at $x \approx 0.016$, the spike from $S_{1000}$ is at $x \approx 0.0016$. When you average all of these, no single position gets a concentrated overshoot — the individual spikes cancel out through destructive interference.</p>
+
+<p>More precisely, the Cesàro mean can be written as a convolution $\sigma_N(f)(x) = \frac{1}{2\pi}\int_{-\pi}^{\pi}f(t)\,F_N(x-t)\,dt$ with the <b>Fejér kernel</b>:</p>
+
+<div class="display-math">$$F_N(u) = \frac{1}{N+1}\left(\frac{\sin((N+1)u/2)}{\sin(u/2)}\right)^2$$</div>
+
+<p>Unlike the Dirichlet kernel (which drives ordinary partial sums and takes large negative values), the Fejér kernel is non-negative everywhere — it is a perfect square. A non-negative kernel cannot produce overshoot. The convolution $\sigma_N(f)(x)$ computes a genuine weighted average of $f$'s values near $x$, which must lie between $f$'s minimum and maximum. No weighted average can overshoot.</p>
+
+<p>This is the cleanest explanation of why Cesàro means eliminate Gibbs: the problem is not with Fourier analysis itself, but with the Dirichlet kernel's negativity. Replace it with a non-negative kernel and the overshoot vanishes. The price you pay is speed: Cesàro means converge more slowly than ordinary partial sums for smooth functions, because the averaging smooths out the higher-order corrections along with the ringing.</p>
+
+<p>This connects to the theory of Cesàro summation (IOU: Phase 5, page 5 covers Cesàro means for sequences; the Fejér kernel is the Fourier-analytic version of the same idea).</p>
+
+<p>Other approaches to eliminating Gibbs include <b>Lanczos sigma factors</b>, which multiply each Fourier coefficient by $\text{sinc}(n/N)$, and various <b>windowing functions</b> used in signal processing (Hamming, Hanning, Blackman). All of these sacrifice some resolution in exchange for suppressing the overshoot. There is a fundamental trade-off: sharp frequency cutoffs produce ringing, and smooth cutoffs produce blurring.</p>
+
+<p>The Gibbs phenomenon also arises in other contexts beyond Fourier series. Whenever you approximate a discontinuous function by a sequence of smooth ones — whether using polynomials, wavelets, or any other basis — similar overshoot behaviour can appear. The precise overshoot constant (9% for trigonometric series) depends on the basis, but the qualitative phenomenon is universal: smooth approximations to discontinuous functions must overshoot.</p>
+
+<p>
+  In digital audio, the Gibbs phenomenon manifests as ringing artefacts near sharp transients
+  — the "click" at the start of a note, for instance. Audio engineers use windowed filters
+  specifically designed to minimise this effect. In medical imaging (MRI, CT scans), the same
+  phenomenon produces artefacts near sharp tissue boundaries. The mathematical theory you have
+  just seen is the foundation of all digital signal processing.
+</p>
+
+<p>
+  The situation is analogous to what we saw with uniform convergence in
+  <a href="../phase5/06-uniform-convergence.html">Phase 5, page 6</a>: there, the limit of
+  continuous functions need not be continuous unless the convergence is uniform. Here, the limit
+  of smooth partial sums need not be smooth — and the overshoot is exactly where the smoothness
+  breaks down.
+</p>
+
+<p>From a theoretical standpoint, the Gibbs phenomenon illustrates a deep theme: <em>no single summation method can simultaneously give fast convergence for smooth functions and exact reconstruction for discontinuous ones</em>. Ordinary partial sums are optimal for smooth functions (they converge faster when $f$ is smoother, since the coefficients decay faster). Cesàro means handle discontinuities gracefully (no overshoot) but converge more slowly for smooth functions. You choose your summation method based on the properties of your signal.</p>
+
+<p>This trade-off between frequency resolution and time-domain ringing is sometimes called the <b>uncertainty principle of signal processing</b>. A sharp cutoff in the frequency domain (using only finitely many Fourier coefficients, setting all higher ones to zero) produces ringing in the time domain — that is Gibbs. A smooth cutoff (tapering the coefficients gradually towards zero, as Cesàro or windowed sums do) eliminates ringing but blurs sharp features in the time domain. You cannot have perfect localisation in both domains simultaneously.</p>
+
+<p>This principle reappears in quantum mechanics as the Heisenberg uncertainty principle: a particle cannot have both a precise position and a precise momentum, because position and momentum are related by a Fourier transform. The Gibbs phenomenon is, in a sense, the earliest mathematical manifestation of this fundamental trade-off.</p>
+
+<h2>7. Phase 11 recap</h2>
+
+<p><b>Fourier series</b> (<a href="01-fourier-series.html">page 1</a>): decompose periodic functions into pure frequencies via projection onto the orthogonal trigonometric system. The coefficients are computed as inner products with the basis functions.</p>
+
+<p><b>Convergence</b> (<a href="02-convergence.html">page 2</a>): Dirichlet's conditions ensure pointwise convergence for piecewise smooth functions. At discontinuities, the series converges to the midpoint of the jump — but this pointwise statement hides the Gibbs oscillation happening in the partial sums.</p>
+
+<p><b>Parseval</b> (<a href="03-parseval.html">page 3</a>): energy is conserved — the sum of the squared coefficients equals the integral of $|f|^2$. This yielded $\sum 1/n^2 = \pi^2/6$ and $\sum 1/n^4 = \pi^4/90$ as corollaries.</p>
+
+<p><b>Gibbs</b> (this page): at discontinuities, Fourier partial sums permanently overshoot by $\frac{2}{\pi}\text{Si}(\pi) - 1 \approx 8.95\%$ of the jump. This does not contradict $L^2$ convergence because the spike's width vanishes. Cesàro averaging (Fejér means) eliminates the overshoot entirely by replacing the oscillatory Dirichlet kernel with the non-negative Fejér kernel.</p>
+
+<p>Together, these four pages give you the complete toolkit for periodic signals: decomposition, convergence guarantees, energy conservation, and a precise understanding of the limitations.</p>
+
+<p>The trigonometric system does everything you could ask of an orthogonal basis — but you need to know where it misbehaves (at jump discontinuities) and why (the Gibbs phenomenon), so you can choose the right summation method. For smooth signals, ordinary partial sums converge rapidly. For discontinuous signals, Cesàro means or windowed sums avoid ringing while still capturing the function in the $L^2$ sense.</p>
+
+<p>The next phase moves to probability theory, where we will use many of the same tools — integrals, convergence, and series — in a new setting. The Fourier transform will return when we study characteristic functions of random variables, providing yet another bridge between analysis and probability.</p>
+
+<p>Looking back at all four pages, notice the interplay between different modes of convergence. Pointwise convergence (Dirichlet) is the most intuitive but the hardest to guarantee. $L^2$ convergence (Parseval) is the most robust — it always holds for square-integrable functions. Uniform convergence is the strongest but fails at discontinuities. Each mode answers a different question about how well the Fourier series represents the original function, and the Gibbs phenomenon is the sharpest illustration of why these questions have genuinely different answers. Mastering these distinctions is essential for all subsequent analysis — in probability theory, in PDEs, and in functional analysis.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>In 1898, Albert Michelson and Samuel Stratton built a mechanical harmonic analyser that could compute Fourier partial sums up to 80 terms. When they synthesised a square wave, they noticed persistent "horns" near the discontinuities and assumed their machine was defective.</p>
+<p>J. Willard Gibbs responded in a letter to <em>Nature</em> in 1899, explaining that the overshoot was a mathematical feature, not an instrumental flaw. The partial sums genuinely oscillate this way — the machine was working perfectly.</p>
+<p>Henry Wilbraham had actually observed the same phenomenon in 1848 in a paper on Fourier series, fifty years before Gibbs. His work was entirely forgotten — it appeared in an obscure Cambridge journal and was not cited by anyone until the 20th century. The precise value of the Gibbs constant — $2\,\text{Si}(\pi)/\pi - 1$ — was computed by Maxime Bôcher in 1906. The name "Gibbs phenomenon" stuck despite Wilbraham's half-century priority, an all-too-common pattern in the history of mathematics.</p>
+<p>Gibbs himself was better known as a physicist — one of the founders of statistical mechanics and the inventor of vector notation still used today. His contribution to Fourier analysis was incidental: a brief letter to a scientific journal. But it clarified a genuine confusion that had persisted for decades about the behaviour of Fourier series near discontinuities.</p>
+<p>The story of Michelson's harmonic analyser is worth savouring. Michelson (of Michelson-Morley fame, the experiment that paved the way for special relativity) was a brilliant experimentalist who trusted his instruments. When the machine produced overshoots, he blamed mathematics for being wrong about Fourier convergence. Gibbs showed the mathematics was subtler than Michelson assumed — the convergence is real, but it is convergence in a weaker sense than Michelson expected.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><b>Without discontinuities:</b> no Gibbs phenomenon at all. If $f$ is continuous and periodic with a piecewise continuous derivative, the Fourier series converges uniformly — the worst-case error over the whole interval tends to zero. For smoother functions, the convergence is faster. The 9% overshoot is exclusively a feature of jump discontinuities, where the function makes an instantaneous transition that smooth sines and cosines cannot replicate without oscillation.</p>
+<p><b>The 9% is universal:</b> regardless of the shape of the function or the size of the jump, the relative overshoot is always the same fraction $2\,\text{Si}(\pi)/\pi - 1 \approx 8.95\%$. A larger jump produces a proportionally larger absolute overshoot, but the ratio is fixed by the sine integral. This universality is a consequence of the computation being a Riemann sum that always converges to the same integral.</p>
+<p><b>Gibbs does not contradict Parseval:</b> the overshoot has shrinking width, so its $L^2$ contribution vanishes. Parseval says $\|f - S_N\|_2 \to 0$; Gibbs says $\|f - S_N\|_\infty \not\to 0$ near jumps. These measure different things — total energy error versus worst-case pointwise error. Both statements are true simultaneously, and understanding when each notion is appropriate is one of the central lessons of functional analysis.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">The Gibbs phenomenon: at a discontinuity, Fourier partial sums overshoot by about 9% of the jump, and no amount of additional terms makes the ringing disappear.</div>
+
+<div class="nav">
+<a href="03-parseval.html">&larr; Previous: Bessel's Inequality and Parseval's Theorem</a>
+<a href="../phase12/01-probability-spaces.html">Next: Probability Spaces &rarr;</a>
+</div>
+
+</body>
+</html>
