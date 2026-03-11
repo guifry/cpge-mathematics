@@ -113,12 +113,27 @@
 
   // --- UI ---
 
+  var STORAGE_KEY = 'tutor-width';
+  var MIN_WIDTH = 280;
+  var MAX_WIDTH = 800;
+  var drawerWidth = parseInt(localStorage.getItem(STORAGE_KEY), 10) || 380;
+
   var drawer, messagesEl, textarea, sendBtn, titleEl, tokensEl, listPanel, listItems;
+
+  function applyWidth(w) {
+    drawerWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, w));
+    drawer.style.setProperty('--tutor-width', drawerWidth + 'px');
+    if (drawer.classList.contains('open')) {
+      document.body.style.paddingRight = drawerWidth + 'px';
+    }
+  }
 
   function createDrawer() {
     drawer = document.createElement('div');
     drawer.className = 'tutor-drawer';
+    drawer.style.setProperty('--tutor-width', drawerWidth + 'px');
     drawer.innerHTML =
+      '<div class="tutor-resize-handle"></div>' +
       '<div class="tutor-header">' +
         '<div class="tutor-header-title" title="View conversations">Tutor</div>' +
         '<span class="tutor-tokens"></span>' +
@@ -156,6 +171,27 @@
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
     textarea.addEventListener('input', autoResize);
+
+    var handle = drawer.querySelector('.tutor-resize-handle');
+    handle.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      handle.classList.add('active');
+      drawer.classList.add('resizing');
+      document.body.classList.add('tutor-resizing');
+      var onMove = function (e) {
+        applyWidth(window.innerWidth - e.clientX);
+      };
+      var onUp = function () {
+        handle.classList.remove('active');
+        drawer.classList.remove('resizing');
+        document.body.classList.remove('tutor-resizing');
+        localStorage.setItem(STORAGE_KEY, String(drawerWidth));
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
   }
 
   function autoResize() {
@@ -165,7 +201,12 @@
 
   function toggleDrawer() {
     drawer.classList.toggle('open');
-    if (drawer.classList.contains('open')) textarea.focus();
+    if (drawer.classList.contains('open')) {
+      document.body.style.paddingRight = drawerWidth + 'px';
+      textarea.focus();
+    } else {
+      document.body.style.paddingRight = '';
+    }
   }
 
   function toggleList() {
