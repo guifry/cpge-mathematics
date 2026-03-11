@@ -111,185 +111,173 @@
 <h2>3. Why does this work? &mdash; The proof</h2>
 
 <p>
-  The proof strategy goes back to <a href="../mathematicians/euclid.html">Euclid</a> (<em>Elements</em>, Book VI, Proposition 2). The key idea is:
-  a line drawn parallel to one side of a triangle cuts the other two sides proportionally.
-  This is sometimes called the <strong>intercept theorem</strong>, or, fittingly, <strong>Thales' theorem</strong>.
+  The proof goes back to <a href="../mathematicians/euclid.html">Euclid</a> (<em>Elements</em>, Book VI).
+  We follow his structure exactly. The strategy is to route everything through <strong>areas</strong>,
+  which are established in Book I from congruence and parallelism alone &mdash;
+  no proportions, no similar triangles, no circular reasoning.
 </p>
 
-<h3>Step 1 &mdash; The intercept theorem</h3>
+<h3>Step 1 &mdash; Two facts about areas</h3>
+
+<p>
+  Before the main proof, we need two results about triangle areas. Both come from Euclid's Book I.
+</p>
 
 <div class="theorem-box">
-  <div class="label">Lemma &mdash; Intercept Theorem</div>
+  <div class="label">Fact 1 &mdash; Equal areas from parallelism (Euclid I.37)</div>
   <p>
-    In triangle $ABC$, let $D$ be a point on side $AB$ and $E$ a point on side $AC$, such that $DE \parallel BC$.
-    Then:
+    Triangles on the same base, lying between the same pair of parallel lines, have equal area.
+  </p>
+</div>
+
+<p>
+  Why? Two triangles sharing base $\ell$ with their opposite vertices on a line parallel to $\ell$
+  have the same height (the perpendicular distance between the parallels). Same base, same height,
+  same area. Euclid proves this formally from parallelogram properties (I.34&ndash;I.36), which
+  themselves follow from congruence (SAS). No proportions are used.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Fact 2 &mdash; Area ratio equals base ratio (Euclid VI.1)</div>
+  <p>
+    Triangles with the same height have areas in the ratio of their bases.
+    That is, if $\triangle PQR$ and $\triangle PQS$ share vertex $P$, with $R$ and $S$ on the same line,
+    then:
   </p>
   <div class="display-math">
-    $$\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$$
+    $$\frac{\text{Area}(PQR)}{\text{Area}(PQS)} = \frac{QR}{QS}$$
+  </div>
+</div>
+
+<p>
+  This is Euclid's bridge between geometry and proportion. The proof uses the
+  <strong>Eudoxus definition of proportion</strong> (Book V): two ratios $a:b$ and $c:d$ are equal
+  if, for every pair of positive integers $m$ and $n$, the comparison $ma$ vs $nb$ goes the same way
+  as $mc$ vs $nd$. To verify this for area ratio vs base ratio: take any multiples $m \cdot QR$ and $n \cdot QS$,
+  build triangles on those extended bases (all with the same vertex $P$, so the same height).
+  By Fact 1 applied repeatedly, a triangle on base $m \cdot QR$ has $m$ times the area of the triangle
+  on base $QR$. So the comparison of $m \cdot \text{Area}(PQR)$ vs $n \cdot \text{Area}(PQS)$ reduces to
+  comparing $m \cdot QR$ vs $n \cdot QS$. The Eudoxus criterion is satisfied. No similar triangles are involved.
+</p>
+
+<h3>Step 2 &mdash; The intercept theorem</h3>
+
+<div class="theorem-box">
+  <div class="label">Lemma &mdash; Intercept Theorem (Euclid VI.2)</div>
+  <p>
+    In triangle $ABC$, let $D$ be a point on side $AB$ and $E$ a point on side $AC$,
+    such that $DE \parallel BC$. Then:
+  </p>
+  <div class="display-math">
+    $$\frac{AD}{DB} = \frac{AE}{EC}$$
   </div>
 </div>
 
 <div class="proof-box" id="proof-intercept-theorem">
-  <div class="label">Proof of the Intercept Theorem</div>
+  <div class="label">Proof (Euclid VI.2)</div>
   <p>
-    Draw $DE$ parallel to $BC$, with $D$ on $AB$ and $E$ on $AC$. We must show
-    $\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$.
+    <strong>Construction.</strong> Join $BE$ and $CD$. This creates four triangles
+    inside $ABC$: namely $ADE$, $BDE$, $CDE$, and $BCE$.
   </p>
   <p>
-    <strong>Step 1: equal angles.</strong>
-    Because $DE \parallel BC$, the angle $\angle ADE$ equals $\angle ABC$ (corresponding angles formed by
-    a transversal cutting parallel lines). Similarly, $\angle AED = \angle ACB$. Angle $A$ is shared.
-    So $\triangle ADE$ has the same three angles as $\triangle ABC$.
-  </p>
-  <p>
-    <strong>Step 2: an area fact.</strong>
-    Recall that the area of a triangle equals $\tfrac{1}{2} \times \text{base} \times \text{height}$.
-    Two triangles sharing the same base have areas in the ratio of their heights.
-  </p>
-  <p>
-    One more fact we will use repeatedly: if two points $P$ and $Q$ lie on a line through a point $D$
-    that sits on another line $\ell$, then the perpendicular distances from $P$ and $Q$ to $\ell$ are in
-    ratio $DP : DQ$. This is because the perpendicular distance from $\ell$ is zero at $D$ and grows
-    proportionally as you move away from $D$ along a straight line. (Formally: drop perpendiculars
-    $PP'$ and $QQ'$ to $\ell$. Then $PP' \parallel QQ'$, so triangles $DPP'$ and $DQQ'$ are right triangles
-    sharing the angle at $D$. Their hypotenuses are $DP$ and $DQ$, and the legs $PP'$ and $QQ'$ scale in
-    the same ratio.)
-  </p>
-  <p>
-    <strong>Step 3: $AD/AB = AE/AC$.</strong>
-    Consider four triangles: $ADE$, $BDE$, $CDE$, and note that
-    $\text{Area}(ABE) = \text{Area}(ADE) + \text{Area}(BDE)$ and
-    $\text{Area}(ACD) = \text{Area}(ADE) + \text{Area}(CDE)$.
-  </p>
-  <p>
-    Triangles $ADE$ and $BDE$ share base $DE$. Point $D$ lies on both $DE$ and $AB$,
-    so the perpendicular distances from $A$ and $B$ to line $DE$ are in ratio $DA : DB$
-    (by the area fact above, since both points lie on line $AB$ through $D$ on $DE$). So:
-  </p>
-  <div class="display-math">
-    $$\frac{\text{Area}(ADE)}{\text{Area}(BDE)} = \frac{AD}{DB}$$
-  </div>
-  <p>
-    Triangles $ADE$ and $CDE$ share base $DE$. Point $E$ lies on both $DE$ and $AC$,
-    so the distances from $A$ and $C$ to line $DE$ are in ratio $EA : EC$. So:
-  </p>
-  <div class="display-math">
-    $$\frac{\text{Area}(ADE)}{\text{Area}(CDE)} = \frac{AE}{EC}$$
-  </div>
-  <p>
-    Now the key step. Triangles $BDE$ and $CDE$ share base $DE$.
-    Points $B$ and $C$ both lie on line $BC$, which is parallel to $DE$.
-    Parallel lines are everywhere equidistant, so $B$ and $C$ are the same
-    perpendicular distance from line $DE$. Therefore:
+    <strong>(1)</strong> Triangles $BDE$ and $CDE$ share base $DE$.
+    Their opposite vertices $B$ and $C$ lie on line $BC$, which is parallel to $DE$.
+    By Fact 1 (Euclid I.37):
   </p>
   <div class="display-math">
     $$\text{Area}(BDE) = \text{Area}(CDE)$$
   </div>
   <p>
-    From the two ratio equations and this equality: $\frac{AD}{DB} = \frac{AE}{EC}$.
-    Adding $1$ to both sides: $\frac{AD + DB}{DB} = \frac{AE + EC}{EC}$, i.e. $\frac{AB}{DB} = \frac{AC}{EC}$.
-    Inverting: $\frac{DB}{AB} = \frac{EC}{AC}$. Subtracting from $1$:
+    <strong>(2)</strong> Triangles $BDE$ and $ADE$ share vertex $E$. Their bases $BD$ and $AD$ lie on line $AB$,
+    so both triangles have the same height (the perpendicular distance from $E$ to line $AB$).
+    By Fact 2 (Euclid VI.1):
   </p>
   <div class="display-math">
-    $$\frac{AD}{AB} = \frac{AE}{AC}$$
+    $$\frac{\text{Area}(BDE)}{\text{Area}(ADE)} = \frac{BD}{AD}$$
   </div>
   <p>
-    Call this common ratio $r$.
-  </p>
-  <p>
-    <strong>Step 4: $DE/BC = r$.</strong>
-    We need a second equation. Drop the perpendicular from $A$ to line $BC$; call its foot $H$
-    and its length $h$. Since $DE \parallel BC$, this perpendicular is also perpendicular to $DE$.
-    Let it cross line $DE$ at $P$, and write $h' = AP$.
-  </p>
-  <p>
-    <strong>Claim:</strong> $h'/h = r$. To see this, apply the result of Step 3 to a different triangle.
-    In triangle $ABH$: the point $D$ lies on side $AB$, and the segment $DP$ is parallel to $BH$
-    (since $DP$ lies on line $DE$ and $BH$ lies on line $BC$, and $DE \parallel BC$).
-    Step 3 tells us that a line parallel to one side of a triangle divides the other two sides proportionally.
-    Applied to triangle $ABH$ with $DP \parallel BH$:
+    <strong>(3)</strong> Triangles $CDE$ and $ADE$ share vertex $D$. Their bases $CE$ and $AE$ lie on line $AC$,
+    so both triangles have the same height (the perpendicular distance from $D$ to line $AC$).
+    By Fact 2:
   </p>
   <div class="display-math">
-    $$\frac{AD}{AB} = \frac{AP}{AH}$$
+    $$\frac{\text{Area}(CDE)}{\text{Area}(ADE)} = \frac{CE}{AE}$$
   </div>
   <p>
-    The left side is $r$, so $h'/h = AP/AH = r$.
-  </p>
-  <p>
-    Now compute the area ratio of $\triangle ADE$ to $\triangle ABC$ in two ways.
-  </p>
-  <p>
-    <em>First way</em> (using base and height):
-    $\text{Area}(ADE) = \tfrac{1}{2} \cdot DE \cdot h'$ and $\text{Area}(ABC) = \tfrac{1}{2} \cdot BC \cdot h$.
-    So:
+    <strong>(4)</strong> From (1), $\text{Area}(BDE) = \text{Area}(CDE)$.
+    Equal magnitudes have the same ratio to the same magnitude (Euclid V.7).
+    So the left-hand sides of (2) and (3) are equal. Therefore:
   </p>
   <div class="display-math">
-    $$\frac{\text{Area}(ADE)}{\text{Area}(ABC)} = \frac{DE \cdot h'}{BC \cdot h} = \frac{DE}{BC} \cdot r$$
+    $$\frac{BD}{AD} = \frac{CE}{AE}$$
   </div>
   <p>
-    <em>Second way</em> (chaining shared-base ratios).
-    Triangles $ADE$ and $ABE$ share base $AE$. Points $D$ and $B$ lie on line $AB$;
-    $A$ lies on line $AE$, so the distances from $D$ and $B$ to line $AE$ are in ratio $AD : AB$
-    (both measured from line $AE$ along the direction of $AB$, starting from $A$ which is on $AE$).
-    So $\text{Area}(ADE) / \text{Area}(ABE) = AD/AB = r$.
+    Equivalently, $\frac{AD}{DB} = \frac{AE}{EC}$, which gives
+    $\frac{AD}{AB} = \frac{AE}{AC}$.
   </p>
-  <p>
-    Triangles $ABE$ and $ABC$ share base $AB$. By the same reasoning with $E$ and $C$ on line $AC$
-    (and $A$ on line $AB$): $\text{Area}(ABE) / \text{Area}(ABC) = AE/AC = r$.
-  </p>
-  <p>
-    Multiplying: $\text{Area}(ADE) / \text{Area}(ABC) = r^2$.
-  </p>
-  <p>
-    Equating the two expressions:
-  </p>
-  <div class="display-math">
-    $$\frac{DE}{BC} \cdot r = r^2$$
-  </div>
-  <p>
-    Since $r \neq 0$ (because $D \neq A$), divide both sides by $r$:
-  </p>
-  <div class="display-math">
-    $$\frac{DE}{BC} = r = \frac{AD}{AB} = \frac{AE}{AC}$$
-  </div>
   <div class="qed">&marker;</div>
 </div>
 
-<h3>Step 2 &mdash; From the lemma to the theorem</h3>
+<p>
+  That is Euclid's proof, essentially word for word. Notice what it does <em>not</em> use:
+  no height-scaling argument, no similar triangles, no trigonometry. Only areas (Book I)
+  and the abstract theory of proportion (Book V). The entire logic flows through area as an intermediary.
+</p>
+
+<h3>Step 3 &mdash; The similar triangles theorem</h3>
+
+<p>
+  The intercept theorem gives us $\frac{AD}{AB} = \frac{AE}{AC}$ but says nothing yet about $\frac{DE}{BC}$.
+  To get the full similar triangles theorem &mdash; all three pairs of sides proportional &mdash;
+  we need one more step. This is Euclid VI.4.
+</p>
 
 <div class="proof-box" id="proof-of-the-similar-triangles-theorem">
-  <div class="label">Proof of the Similar Triangles theorem</div>
+  <div class="label">Proof of the Similar Triangles theorem (Euclid VI.4)</div>
   <p>
     Take two triangles with equal corresponding angles: $\triangle ABC$ and $\triangle DEF$,
     with $\angle A = \angle D$, $\angle B = \angle E$, $\angle C = \angle F$.
-  </p>
-  <p>
     We want to show $\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF}$.
   </p>
   <p>
     <strong>Construction.</strong> Place $\triangle DEF$ inside $\triangle ABC$ by
     marking a point $D'$ on $AB$ such that $AD' = DE$, and a point $F'$ on $AC$ such that $AF' = DF$.
     Since $\angle A = \angle D$ and we matched two sides, the triangle $\triangle AD'F'$ is congruent to
-    $\triangle DEF$ (by side-angle-side).
+    $\triangle DEF$ (by SAS).
   </p>
   <p>
     So $\angle AD'F' = \angle DEF = \angle ABC$ (since $\angle B = \angle E$). This means $D'F' \parallel BC$
     (corresponding angles equal implies parallel lines).
   </p>
   <p>
-    Now apply the intercept theorem to triangle $ABC$ with the parallel line $D'F'$:
+    Apply the intercept theorem (VI.2) to triangle $ABC$ with the parallel line $D'F'$:
   </p>
   <div class="display-math">
-    $$\frac{AD'}{AB} = \frac{AF'}{AC} = \frac{D'F'}{BC}$$
+    $$\frac{AD'}{AB} = \frac{AF'}{AC}$$
   </div>
   <p>
-    But $AD' = DE$, $AF' = DF$, and $D'F' = EF$ (from the congruence). Substituting:
+    Since $AD' = DE$ and $AF' = DF$, this gives $\frac{DE}{AB} = \frac{DF}{AC}$.
+  </p>
+  <p>
+    Now repeat the construction from a different vertex. Mark $D''$ on $BA$ with $BD'' = EF$,
+    and $G$ on $BC$ with $BG = ED$. Since $\angle B = \angle E$ and we matched two sides,
+    $\triangle BD''G \cong \triangle EFD$ (by SAS). So $\angle BD''G = \angle EFD = \angle ACB$,
+    which gives $D''G \parallel AC$. The intercept theorem applied to triangle $ABC$ with $D''G \parallel AC$:
+  </p>
+  <div class="display-math">
+    $$\frac{BD''}{BA} = \frac{BG}{BC}$$
+  </div>
+  <p>
+    Since $BD'' = EF$ and $BG = ED$, this gives $\frac{EF}{BA} = \frac{ED}{BC}$, i.e. $\frac{DE}{BC} = \frac{EF}{AB}$.
+  </p>
+  <p>
+    Combining both results:
   </p>
   <div class="display-math">
     $$\frac{DE}{AB} = \frac{DF}{AC} = \frac{EF}{BC}$$
   </div>
   <p>
-    Flip the fractions and you have $\frac{AB}{DE} = \frac{AC}{DF} = \frac{BC}{EF}$. Done.
+    Flip the fractions: $\frac{AB}{DE} = \frac{AC}{DF} = \frac{BC}{EF}$.
   </p>
   <div class="qed">&marker;</div>
 </div>
