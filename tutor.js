@@ -101,14 +101,33 @@
     var html = text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/```(\w*)\n([\s\S]*?)```/g, function (_, lang, code) {
-        return '<pre><code>' + code.trim() + '</code></pre>';
+        return '\n<pre><code>' + code.trim() + '</code></pre>\n';
       })
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-      .replace(/\n{2,}/g, '</p><p>')
-      .replace(/\n/g, '<br>');
-    return '<p>' + html + '</p>';
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    var lines = html.split('\n');
+    var out = [];
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (/^### (.+)/.test(l)) { out.push('<h4>' + l.substring(4) + '</h4>'); }
+      else if (/^## (.+)/.test(l)) { out.push('<h3>' + l.substring(3) + '</h3>'); }
+      else if (/^# (.+)/.test(l)) { out.push('<h2>' + l.substring(2) + '</h2>'); }
+      else if (/^- (.+)/.test(l)) { out.push('<li>' + l.substring(2) + '</li>'); }
+      else if (l.trim() === '') { out.push('</p><p>'); }
+      else { out.push(l + '<br>'); }
+    }
+    var result = '<p>' + out.join('') + '</p>';
+    result = result
+      .replace(/<p><\/p>/g, '')
+      .replace(/<p>(<h[234]>)/g, '$1')
+      .replace(/(<\/h[234]>)<\/p>/g, '$1')
+      .replace(/<p>(<pre>)/g, '$1')
+      .replace(/(<\/pre>)<\/p>/g, '$1')
+      .replace(/<br><\/p>/g, '</p>')
+      .replace(/<p>(<li>)/g, '<ul>$1')
+      .replace(/(<\/li>)(?!<li>)/g, '$1</ul>');
+    return result;
   }
 
   // --- UI ---
