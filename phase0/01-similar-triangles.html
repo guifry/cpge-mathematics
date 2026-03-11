@@ -129,37 +129,129 @@
   </div>
 </div>
 
-<div class="proof-box" id="proof-sketch">
-  <div class="label">Proof sketch</div>
+<div class="proof-box" id="proof-intercept-theorem">
+  <div class="label">Proof of the Intercept Theorem</div>
   <p>
-    Draw $DE$ parallel to $BC$, hitting $AB$ at $D$ and $AC$ at $E$. Consider triangles $ADE$ and $ABC$.
+    Draw $DE$ parallel to $BC$, with $D$ on $AB$ and $E$ on $AC$. We must show
+    $\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$.
   </p>
   <p>
+    <strong>Step 1: equal angles.</strong>
     Because $DE \parallel BC$, the angle $\angle ADE$ equals $\angle ABC$ (corresponding angles formed by
     a transversal cutting parallel lines). Similarly, $\angle AED = \angle ACB$. Angle $A$ is shared.
     So $\triangle ADE$ has the same three angles as $\triangle ABC$.
   </p>
   <p>
-    Now for the proportionality. Draw the height from $A$ perpendicular to $BC$, and call its length $h$.
-    This height also passes through the line $DE$ (since $DE$ is parallel to $BC$), hitting $DE$ at some point,
-    with the portion from $A$ to $DE$ being $h'$.
+    <strong>Step 2: an area fact.</strong>
+    Recall that the area of a triangle equals $\tfrac{1}{2} \times \text{base} \times \text{height}$.
+    Two triangles sharing the same base have areas in the ratio of their heights.
   </p>
   <p>
-    The area of $\triangle ABC$ is $\tfrac{1}{2} \cdot BC \cdot h$. The area of $\triangle ADE$ is $\tfrac{1}{2} \cdot DE \cdot h'$.
-    But we can also express these areas using the sides $AB$ and $AD$: triangles $ADE$ and $DBC$ share the base $DE$ and $BC$
-    on parallel lines, so their area ratio equals the ratio of their heights from $A$, which equals $\frac{AD}{AB}$.
+    One more fact we will use repeatedly: if two points $P$ and $Q$ lie on a line through a point $D$
+    that sits on another line $\ell$, then the perpendicular distances from $P$ and $Q$ to $\ell$ are in
+    ratio $DP : DQ$. This is because the perpendicular distance from $\ell$ is zero at $D$ and grows
+    proportionally as you move away from $D$ along a straight line. (Formally: drop perpendiculars
+    $PP'$ and $QQ'$ to $\ell$. Then $PP' \parallel QQ'$, so triangles $DPP'$ and $DQQ'$ are right triangles
+    sharing the angle at $D$. Their hypotenuses are $DP$ and $DQ$, and the legs $PP'$ and $QQ'$ scale in
+    the same ratio.)
   </p>
   <p>
-    By carefully equating the two ways of computing the area ratio (via bases $DE/BC$ and via heights $h'/h$
-    and via side ratios $AD/AB$), you get:
+    <strong>Step 3: $AD/AB = AE/AC$.</strong>
+    Consider four triangles: $ADE$, $BDE$, $CDE$, and note that
+    $\text{Area}(ABE) = \text{Area}(ADE) + \text{Area}(BDE)$ and
+    $\text{Area}(ACD) = \text{Area}(ADE) + \text{Area}(CDE)$.
+  </p>
+  <p>
+    Triangles $ADE$ and $BDE$ share base $DE$. Point $D$ lies on both $DE$ and $AB$,
+    so the perpendicular distances from $A$ and $B$ to line $DE$ are in ratio $DA : DB$
+    (by the area fact above, since both points lie on line $AB$ through $D$ on $DE$). So:
   </p>
   <div class="display-math">
-    $$\frac{AD}{AB} = \frac{AE}{AC} = \frac{DE}{BC}$$
+    $$\frac{\text{Area}(ADE)}{\text{Area}(BDE)} = \frac{AD}{DB}$$
   </div>
   <p>
-    Euclid's original proof uses the theory of equal-area parallelograms rather than our algebraic area
-    formula, but the underlying logic is the same: parallel lines create equal ratios.
+    Triangles $ADE$ and $CDE$ share base $DE$. Point $E$ lies on both $DE$ and $AC$,
+    so the distances from $A$ and $C$ to line $DE$ are in ratio $EA : EC$. So:
   </p>
+  <div class="display-math">
+    $$\frac{\text{Area}(ADE)}{\text{Area}(CDE)} = \frac{AE}{EC}$$
+  </div>
+  <p>
+    Now the key step. Triangles $BDE$ and $CDE$ share base $DE$.
+    Points $B$ and $C$ both lie on line $BC$, which is parallel to $DE$.
+    Parallel lines are everywhere equidistant, so $B$ and $C$ are the same
+    perpendicular distance from line $DE$. Therefore:
+  </p>
+  <div class="display-math">
+    $$\text{Area}(BDE) = \text{Area}(CDE)$$
+  </div>
+  <p>
+    From the two ratio equations and this equality: $\frac{AD}{DB} = \frac{AE}{EC}$.
+    Adding $1$ to both sides: $\frac{AD + DB}{DB} = \frac{AE + EC}{EC}$, i.e. $\frac{AB}{DB} = \frac{AC}{EC}$.
+    Inverting: $\frac{DB}{AB} = \frac{EC}{AC}$. Subtracting from $1$:
+  </p>
+  <div class="display-math">
+    $$\frac{AD}{AB} = \frac{AE}{AC}$$
+  </div>
+  <p>
+    Call this common ratio $r$.
+  </p>
+  <p>
+    <strong>Step 4: $DE/BC = r$.</strong>
+    We need a second equation. Drop the perpendicular from $A$ to line $BC$; call its foot $H$
+    and its length $h$. Since $DE \parallel BC$, this perpendicular is also perpendicular to $DE$.
+    Let it cross line $DE$ at $P$, and write $h' = AP$.
+  </p>
+  <p>
+    <strong>Claim:</strong> $h'/h = r$. To see this, apply the result of Step 3 to a different triangle.
+    In triangle $ABH$: the point $D$ lies on side $AB$, and the segment $DP$ is parallel to $BH$
+    (since $DP$ lies on line $DE$ and $BH$ lies on line $BC$, and $DE \parallel BC$).
+    Step 3 tells us that a line parallel to one side of a triangle divides the other two sides proportionally.
+    Applied to triangle $ABH$ with $DP \parallel BH$:
+  </p>
+  <div class="display-math">
+    $$\frac{AD}{AB} = \frac{AP}{AH}$$
+  </div>
+  <p>
+    The left side is $r$, so $h'/h = AP/AH = r$.
+  </p>
+  <p>
+    Now compute the area ratio of $\triangle ADE$ to $\triangle ABC$ in two ways.
+  </p>
+  <p>
+    <em>First way</em> (using base and height):
+    $\text{Area}(ADE) = \tfrac{1}{2} \cdot DE \cdot h'$ and $\text{Area}(ABC) = \tfrac{1}{2} \cdot BC \cdot h$.
+    So:
+  </p>
+  <div class="display-math">
+    $$\frac{\text{Area}(ADE)}{\text{Area}(ABC)} = \frac{DE \cdot h'}{BC \cdot h} = \frac{DE}{BC} \cdot r$$
+  </div>
+  <p>
+    <em>Second way</em> (chaining shared-base ratios).
+    Triangles $ADE$ and $ABE$ share base $AE$. Points $D$ and $B$ lie on line $AB$;
+    $A$ lies on line $AE$, so the distances from $D$ and $B$ to line $AE$ are in ratio $AD : AB$
+    (both measured from line $AE$ along the direction of $AB$, starting from $A$ which is on $AE$).
+    So $\text{Area}(ADE) / \text{Area}(ABE) = AD/AB = r$.
+  </p>
+  <p>
+    Triangles $ABE$ and $ABC$ share base $AB$. By the same reasoning with $E$ and $C$ on line $AC$
+    (and $A$ on line $AB$): $\text{Area}(ABE) / \text{Area}(ABC) = AE/AC = r$.
+  </p>
+  <p>
+    Multiplying: $\text{Area}(ADE) / \text{Area}(ABC) = r^2$.
+  </p>
+  <p>
+    Equating the two expressions:
+  </p>
+  <div class="display-math">
+    $$\frac{DE}{BC} \cdot r = r^2$$
+  </div>
+  <p>
+    Since $r \neq 0$ (because $D \neq A$), divide both sides by $r$:
+  </p>
+  <div class="display-math">
+    $$\frac{DE}{BC} = r = \frac{AD}{AB} = \frac{AE}{AC}$$
+  </div>
   <div class="qed">&marker;</div>
 </div>
 
