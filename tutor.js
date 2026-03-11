@@ -124,7 +124,7 @@
     drawerWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, w));
     drawer.style.setProperty('--tutor-width', drawerWidth + 'px');
     if (drawer.classList.contains('open')) {
-      document.body.style.paddingRight = drawerWidth + 'px';
+      document.body.style.marginRight = drawerWidth + 'px';
     }
   }
 
@@ -202,10 +202,10 @@
   function toggleDrawer() {
     drawer.classList.toggle('open');
     if (drawer.classList.contains('open')) {
-      document.body.style.paddingRight = drawerWidth + 'px';
+      document.body.style.marginRight = drawerWidth + 'px';
       textarea.focus();
     } else {
-      document.body.style.paddingRight = '';
+      document.body.style.marginRight = '';
     }
   }
 

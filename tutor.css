@@ -33,7 +33,7 @@
   opacity: 0.3;
 }
 
-body { transition: padding-right 0.25s ease; }
+body { transition: margin-right 0.25s ease; }
 body.tutor-resizing { transition: none; }
 
 .tutor-header {
