@@ -1,0 +1,37 @@
+CPGE Mathematics — Hybrid Curriculum Summary
+
+A self-study site covering the full CPGE (French preparatory school) mathematics curriculum in historical order with Bourbaki rigour. Every concept is motivated by the problem that created it. Every tool is proved before use. No black boxes.
+
+Phase 0 — Geometry and Measurement: Similar triangles (Thales), Pythagorean theorem, √2 irrationality (the first crisis — rationals have holes), trigonometry as ratios in right triangles, unit circle extension, area.
+
+Phase 1 — Number Theory and Arithmetic: Divisibility, Euclidean algorithm, Bézout's identity, primes and FTA, modular arithmetic, Fermat's little theorem, Euler's totient, Chinese Remainder Theorem, Diophantine equations.
+
+Phase 2 — Limits and Basic Convergence: Completeness of ℝ (supremum axiom), squeeze theorem, monotone convergence theorem, Bolzano-Weierstrass, Cauchy criterion, intermediate value theorem via connectedness, dense subsets (ℚ dense in ℝ).
+
+Phase 3 — Calculus (Derivatives and Integration): Derivative as a limit, differentiation rules proved from definition, derivatives of elementary functions, Rolle's theorem, mean value theorem, L'Hôpital's rule. Riemann integral from upper/lower sums, continuous functions are integrable, FTC parts 1 and 2, substitution and integration by parts as differentiation rules reversed.
+
+Phase 4 — Power Series and Taylor: Taylor's theorem with remainder, radius of convergence, Abel's theorem, term-by-term differentiation/integration. Payoff: sin, cos, exp derived from scratch as power series. Closes IOUs from Phase 0 trig.
+
+Phase 5 — Convergence Toolkit: Comparison test, ratio/root tests, alternating series test, absolute vs conditional convergence, Riemann rearrangement, Cesàro means, uniform convergence, Weierstrass M-test, Weierstrass approximation theorem.
+
+Phase 6 — Linear Algebra: Vector spaces, basis and dimension, linear maps, matrices, determinants as volume, eigenvalues, Gram-Schmidt, projection theorem, spectral theorem (real symmetric), Cayley-Hamilton, Jordan normal form.
+
+Phase 7 — Multivariable Calculus: Partial derivatives, multivariable chain rule (Jacobian), Schwarz's theorem, implicit/inverse function theorems, Lagrange multipliers, Fubini's theorem, Green's theorem, Stokes and divergence theorems.
+
+Phase 8 — Differential Equations: Cauchy-Lipschitz (existence/uniqueness), Picard iteration, Gronwall's inequality, linear ODE solution structure, variation of parameters, matrix exponential, Lyapunov stability, Poincaré-Bendixson theorem.
+
+Phase 9 — Topology of Metric Spaces: Heine-Borel, sequential compactness, extreme value theorem, uniform continuity on compact sets, Banach fixed point theorem (powers Cauchy-Lipschitz), Baire category theorem, Arzelà-Ascoli.
+
+Phase 10 — Abstract Algebra: Euclidean division for polynomials, FTA, Eisenstein's criterion, Lagrange's theorem, Cayley's theorem, first isomorphism theorem, Sylow theorems, classification of finitely generated abelian groups, Galois correspondence, Abel-Ruffini (quintic unsolvable by radicals).
+
+Phase 11 — Fourier Analysis: Fourier series, Dirichlet convergence conditions, Parseval's theorem, Bessel's inequality, Gibbs phenomenon.
+
+Phase 12 — Probability: Probability spaces, Bayes' theorem, expectation (linearity), variance and covariance, Markov and Chebyshev inequalities, weak and strong law of large numbers, central limit theorem, moment generating functions, conditional expectation as projection.
+
+Phase 13 — Bilinear Algebra and Spectral Theory: Spectral theorem for symmetric/normal operators, SVD, Rayleigh quotient, Courant-Fischer min-max, Sylvester's law of inertia, positive definiteness, principal axis theorem.
+
+Phase 14 — Normed Spaces and Functional Analysis: Norm equivalence in finite dimension, Banach spaces, Riesz's lemma, operator norms, Banach-Steinhaus (uniform boundedness), open mapping theorem, closed graph theorem, Hahn-Banach, best approximation in Hilbert spaces.
+
+Phase 15 — Game Theory (Bonus): Combinatorial games, minimax theorem (von Neumann), Nash equilibrium, dominant strategies, repeated games and Folk theorem, mechanism design.
+
+Cross-references: Phase 0 trig IOUs closed in Phase 4. Phase 1 CRT reappears in Phase 10 polynomial rings. Phase 6 eigenvalues used in Phases 7-9, 11, 13. Phase 9 Banach fixed point powers Phase 8 Cauchy-Lipschitz. Phase 12 conditional expectation uses Phase 6 projection theorem.
