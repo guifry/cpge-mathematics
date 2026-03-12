@@ -104,12 +104,17 @@
   Now apply the triangle definitions from page 04:
 </p>
 
+<p>
+  Let the coordinates of $P$ be $(x, y)$. The triangle has hypotenuse $1$ (the radius),
+  adjacent side $x$, and opposite side $y$. By the triangle definition from page 04:
+</p>
+
 <div class="display-math">
-  $$\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\sin\theta}{1} = \sin\theta \quad \checkmark$$
+  $$\sin_{\text{triangle}}(\theta) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{y}{1} = y = \sin_{\text{circle}}(\theta) \quad \checkmark$$
 </div>
 
 <div class="display-math">
-  $$\cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{\cos\theta}{1} = \cos\theta \quad \checkmark$$
+  $$\cos_{\text{triangle}}(\theta) = \frac{\text{adjacent}}{\text{hypotenuse}} = \frac{x}{1} = x = \cos_{\text{circle}}(\theta) \quad \checkmark$$
 </div>
 
 <p>
@@ -156,51 +161,74 @@
   the values the triangle definition could not touch.
 </p>
 
+<p>
+  Before computing specific values, we need to establish the symmetry identities that make these
+  calculations systematic. All follow directly from the unit circle definition.
+</p>
+
+<div class="theorem-box">
+  <div class="label">Theorem &mdash; Reflection symmetries</div>
+  <p>For all $\theta$:</p>
+  <div class="display-math">
+    $$\sin(-\theta) = -\sin\theta, \qquad \cos(-\theta) = \cos\theta \quad \text{(reflection across } x\text{-axis)}$$
+  </div>
+  <div class="display-math">
+    $$\sin(180° - \theta) = \sin\theta, \qquad \cos(180° - \theta) = -\cos\theta \quad \text{(reflection across } y\text{-axis)}$$
+  </div>
+  <div class="display-math">
+    $$\sin(180° + \theta) = -\sin\theta, \qquad \cos(180° + \theta) = -\cos\theta \quad \text{(reflection through origin)}$$
+  </div>
+</div>
+
+<div class="proof-box" id="proof-reflection-symmetries">
+  <div class="label">Proof</div>
+  <p>
+    <strong>Negation.</strong> Rotating by $-\theta$ (clockwise) from $(1,0)$ reaches the point
+    that is the mirror image of the $\theta$-point across the $x$-axis.
+    Reflecting $(x, y)$ across the $x$-axis gives $(x, -y)$.
+    So $\cos(-\theta) = x = \cos\theta$ and $\sin(-\theta) = -y = -\sin\theta$.
+  </p>
+  <p>
+    <strong>Supplementary.</strong> The point at angle $180° - \theta$ is the reflection of the
+    $\theta$-point across the $y$-axis: reflecting $(x, y)$ across the $y$-axis gives $(-x, y)$.
+    So $\cos(180° - \theta) = -x = -\cos\theta$ and $\sin(180° - \theta) = y = \sin\theta$.
+  </p>
+  <p>
+    <strong>Opposite.</strong> The point at angle $180° + \theta$ is the reflection of the
+    $\theta$-point through the origin: $(x, y) \mapsto (-x, -y)$.
+    So $\cos(180° + \theta) = -\cos\theta$ and $\sin(180° + \theta) = -\sin\theta$.
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<p>
+  The first pair says sine is an <strong>odd function</strong> and cosine is an <strong>even function</strong>.
+  These are not observations from examples &mdash; they follow directly from the geometry of reflection.
+</p>
+
 <h3>$\sin(150°)$</h3>
 
 <p>
-  $150° = 180° - 30°$. The point is in the second quadrant &mdash; past $90°$ but before $180°$.
-  It has the same height above the $x$-axis as the $30°$ point, but its $x$-coordinate is negative
-  (it is on the left side of the $y$-axis).
-</p>
-
-<p>
-  So the point is $\left(-\tfrac{\sqrt{3}}{2},\; \tfrac{1}{2}\right)$.
-  Therefore $\sin(150°) = \tfrac{1}{2}$ and $\cos(150°) = -\tfrac{\sqrt{3}}{2}$.
-</p>
-
-<p>
-  The sine is positive (the point is above the $x$-axis) and the cosine is negative
-  (the point is to the left of the $y$-axis). This is consistent and natural.
-  The triangle definition would have given you nothing.
+  $150° = 180° - 30°$. By the supplementary identity:
+  $\sin(150°) = \sin(30°) = \tfrac{1}{2}$ and
+  $\cos(150°) = -\cos(30°) = -\tfrac{\sqrt{3}}{2}$.
+  The point is $\left(-\tfrac{\sqrt{3}}{2},\; \tfrac{1}{2}\right)$, in the second quadrant.
 </p>
 
 <h3>$\sin(240°)$</h3>
 
 <p>
-  $240° = 180° + 60°$. The point is in the third quadrant &mdash; both coordinates negative.
-  It mirrors the $60°$ point across the origin: $\left(-\tfrac{1}{2},\; -\tfrac{\sqrt{3}}{2}\right)$.
-</p>
-
-<p>
-  So $\sin(240°) = -\tfrac{\sqrt{3}}{2}$ and $\cos(240°) = -\tfrac{1}{2}$.
+  $240° = 180° + 60°$. By the opposite-angle identity:
+  $\sin(240°) = -\sin(60°) = -\tfrac{\sqrt{3}}{2}$ and
+  $\cos(240°) = -\cos(60°) = -\tfrac{1}{2}$.
   Both negative, as expected for the third quadrant.
 </p>
 
 <h3>$\sin(-30°)$</h3>
 
 <p>
-  A negative angle means clockwise rotation. Going $30°$ clockwise from $(1, 0)$ lands at
-  $\left(\tfrac{\sqrt{3}}{2},\; -\tfrac{1}{2}\right)$ &mdash; same $x$-coordinate as $30°$,
-  but the $y$-coordinate flips sign.
-</p>
-
-<p>
-  So $\sin(-30°) = -\tfrac{1}{2}$ and $\cos(-30°) = \tfrac{\sqrt{3}}{2}$.
-  This immediately tells you that sine is an <strong>odd function</strong>: $\sin(-\theta) = -\sin(\theta)$.
-  And cosine is an <strong>even function</strong>: $\cos(-\theta) = \cos(\theta)$.
-  These symmetries are obvious from the circle &mdash; reflecting across the $x$-axis
-  preserves the $x$-coordinate and negates the $y$-coordinate.
+  By the negation identity: $\sin(-30°) = -\sin(30°) = -\tfrac{1}{2}$
+  and $\cos(-30°) = \cos(30°) = \tfrac{\sqrt{3}}{2}$.
 </p>
 
 <h3>$\sin(720°)$</h3>
@@ -258,7 +286,7 @@
     The argument for cosine is identical: $\sin^2\theta \geq 0$ forces $\cos^2\theta \leq 1$,
     so $|\cos\theta| \leq 1$.
   </p>
-  <div class="qed">&marker;</div>
+  <div class="qed">∎</div>
 </div>
 
 <p>
@@ -301,7 +329,9 @@
 </p>
 
 <p>
-  A full circle has circumference $2\pi r = 2\pi \cdot 1 = 2\pi$. So a full turn is $2\pi$ radians.
+  A full circle has circumference $2\pi r = 2\pi \cdot 1 = 2\pi$
+  (IOU: the circumference formula $C = 2\pi r$ will be derived from arc length integrals in Phase 3;
+  for now we take it as a known geometric fact). So a full turn is $2\pi$ radians.
   Conversions:
 </p>
 
@@ -317,7 +347,7 @@
   Why bother? Because the formulas of calculus are cleaner in radians.
   In particular, the derivative $\frac{d}{dx}\sin(x) = \cos(x)$ is only true when $x$ is in radians.
   If $x$ is in degrees, a conversion factor of $\frac{\pi}{180}$ creeps in everywhere.
-  The power series for sine (Phase 3) will use radians. For this page, degrees are fine.
+  The power series for sine (Phase 4) will use radians. For this page, degrees are fine.
 </p>
 
 <div class="history-box">

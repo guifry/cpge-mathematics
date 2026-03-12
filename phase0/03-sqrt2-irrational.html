@@ -248,9 +248,10 @@
 
 <p>
   Notice the proof would work just as well for $\sqrt{3}$, $\sqrt{5}$, or $\sqrt{p}$ for any
-  prime $p$. The argument generalises: $\sqrt{n}$ is irrational whenever $n$ is not a perfect
-  square. The mechanism is always the same — a prime factor that contaminates both numerator
-  and denominator.
+  prime $p$: the parity argument generalises to "$p$ divides $n^2$ implies $p$ divides $n$."
+  More broadly, $\sqrt{n}$ is irrational whenever $n$ is not a perfect square, but proving this
+  in full generality requires the Fundamental Theorem of Arithmetic (unique prime factorisation),
+  which we will establish in Phase 1 (IOU).
 </p>
 
 <!-- ─── 9. CONSEQUENCES ─────────────────────────────── -->
@@ -296,12 +297,20 @@
 <div class="break-box">
   <div class="label">What breaks</div>
   <p>
-    If $\sqrt{2}$ were rational, $\mathbb{Q}$ would have no holes (at least not this one), and
-    the real numbers might never have been invented. But $\sqrt{2}$ <em>isn't</em> rational, and
-    $\mathbb{Q}$ is riddled with gaps. The entire apparatus of analysis — limits, continuity,
-    the derivative, the integral, every theorem in calculus — is built on $\mathbb{R}$, which
-    exists precisely because $\mathbb{Q}$ is incomplete. This one proof is the crack in the
-    foundation that forced mathematics to build a new one.
+    <strong>Weaken "lowest terms."</strong> The proof assumes we can reduce $p/q$ to lowest terms.
+    If fractions could not be reduced (i.e. if we had no division algorithm), the contradiction
+    machinery has no foothold. The well-ordering of the natural numbers (every non-empty set of
+    positive integers has a smallest element) is what guarantees reduction to lowest terms.
+  </p>
+  <p>
+    <strong>Weaken "odd squared is odd."</strong> The key step uses the fact that squaring preserves
+    parity: odd $\times$ odd $=$ odd. If we worked in a number system where this failed (e.g.
+    modular arithmetic with composite modulus), the proof would break.
+  </p>
+  <p>
+    <strong>Remove the Pythagorean theorem.</strong> Without it, $\sqrt{2}$ never arises as a
+    geometric length in the first place. The crisis only exists because the diagonal of a unit square
+    is a constructible, undeniable length that turns out not to be rational.
   </p>
 </div>
 

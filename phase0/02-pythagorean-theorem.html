@@ -147,7 +147,14 @@
   <p>
     <strong>Step 1.</strong> Arrange the four triangles inside a large square of side length
     $(a + b)$, with their hypotenuses facing inward. They fit perfectly, leaving a tilted
-    square in the centre whose side is $c$.
+    quadrilateral in the centre whose sides are all $c$ (each is a hypotenuse).
+  </p>
+  <p>
+    <em>Why is this quadrilateral a square?</em> Its four sides are equal (all $c$). At each corner,
+    the two acute angles of adjacent right triangles meet: one is $\alpha$, the other is
+    $(90° - \alpha)$ (the complementary angle from the other triangle). So each interior angle
+    of the quadrilateral is $180° - \alpha - (90° - \alpha) = 90°$. Four equal sides and four
+    right angles: it is a square.
   </p>
   <p>
     <strong>Step 2.</strong> Compute the area of the large square two ways.
@@ -208,15 +215,17 @@
 
 <!-- ============================== PROOF 2 ============================== -->
 
-<h2>Proof 2 &mdash; Euclid's proof (I.47)</h2>
+<h2>Proof 2 &mdash; Via similar triangles</h2>
 
-<div class="proof-box" id="proof-2-via-similar-triangles-euclid">
-  <div class="label">Proof 2 &mdash; Via similar triangles (Euclid)</div>
+<div class="proof-box" id="proof-2-via-similar-triangles">
+  <div class="label">Proof 2 &mdash; Via similar triangles</div>
   <p>
-    This is the proof in Euclid's <em>Elements</em>, Proposition I.47, from around 300 BC.
-    It connects directly to what we saw on the
-    <a href="01-similar-triangles.html" style="color:#4a9;">previous page</a>
-    about similar triangles.
+    This proof uses the similar triangles theorem from the
+    <a href="01-similar-triangles.html" style="color:#4a9;">previous page</a>.
+    It is often presented in modern textbooks and appears in Euclid's <em>Elements</em> as
+    Proposition VI.31. (Euclid's original proof of the Pythagorean theorem, I.47, is a different
+    argument using purely area-based reasoning &mdash; the famous "windmill" construction with
+    squares on each side.)
   </p>
   <p>
     <strong>Setup.</strong> Take right triangle $ABC$ with the right angle at $C$.
@@ -258,7 +267,7 @@
 <p>
   Notice how different this feels from Proof 1. No area rearrangement, no binomial expansion.
   Just similar triangles and the fact that the two segments of the hypotenuse add back to the whole.
-  Euclid's proof makes the Pythagorean theorem a <em>consequence</em> of similarity &mdash;
+  This proof makes the Pythagorean theorem a <em>consequence</em> of similarity &mdash;
   which is arguably the deeper insight.
 </p>
 
@@ -308,6 +317,25 @@
     If a triangle has sides $a$, $b$, $c$ with $a^2 + b^2 = c^2$,
     then the angle opposite side $c$ is a right angle.
   </p>
+</div>
+
+<div class="proof-box" id="proof-converse-of-pythagoras">
+  <div class="label">Proof (Euclid I.48)</div>
+  <p>
+    <strong>Given:</strong> triangle $ABC$ with sides $a$, $b$, $c$ satisfying $a^2 + b^2 = c^2$.
+    We want to show the angle at $C$ (opposite side $c$) is $90°$.
+  </p>
+  <p>
+    <strong>Construction.</strong> Build a new right triangle $DEF$ with legs $DE = a$ and $EF = b$
+    and a right angle at $E$. By the Pythagorean theorem (which we have already proved), its
+    hypotenuse satisfies $DF^2 = a^2 + b^2 = c^2$, so $DF = c$.
+  </p>
+  <p>
+    Now triangles $ABC$ and $DEF$ have three pairs of equal sides: $a = a$, $b = b$, $c = c$.
+    By SSS congruence (Euclid I.8), $\triangle ABC \cong \triangle DEF$.
+    Since $\angle E = 90°$ in triangle $DEF$, the corresponding angle $\angle C = 90°$ in triangle $ABC$.
+  </p>
+  <div class="qed">∎</div>
 </div>
 
 <p>
