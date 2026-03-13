@@ -158,9 +158,10 @@
   </p>
   <p>
     <strong>Step 2.</strong> Under this bijection, $\gcd(a, mn) = 1$ if and only if
-    $\gcd(a, m) = 1$ <em>and</em> $\gcd(a, n) = 1$. Why? Because $mn$ has no prime factor
-    that isn't already a factor of $m$ or of $n$. So $a$ is coprime to $mn$ precisely when
-    it's coprime to both.
+    $\gcd(a, m) = 1$ <em>and</em> $\gcd(a, n) = 1$. Why? By the fundamental theorem of
+    arithmetic (page 2), every prime factor of $mn$ divides $m$ or $n$. So $a$ shares a
+    prime factor with $mn$ iff it shares one with $m$ or $n$. Equivalently, $a$ is coprime
+    to $mn$ precisely when it's coprime to both.
   </p>
   <p>
     <strong>Step 3.</strong> The invertible elements of $\mathbb{Z}/mn\mathbb{Z}$ are
@@ -292,9 +293,14 @@
 <div class="display-math">$$c^d = (m^e)^d = m^{ed} = m^{1 + k\varphi(n)} = m \cdot (m^{\varphi(n)})^k \equiv m \cdot 1^k = m \pmod{n}$$</div>
 
 <p>
-  The last step uses Euler's theorem: $m^{\varphi(n)} \equiv 1 \pmod{n}$ (assuming
-  $\gcd(m, n) = 1$, which holds for almost all messages since $n = pq$ with $p, q$ huge).
-  Euler's 18th-century pure mathematics is what guarantees decryption works.
+  When $\gcd(m, n) = 1$, the last step uses Euler's theorem: $m^{\varphi(n)} \equiv 1 \pmod{n}$.
+  When $\gcd(m, n) \neq 1$, we have $p \mid m$ or $q \mid m$ (since $n = pq$). Suppose
+  $p \mid m$. Then $m \equiv 0 \pmod{p}$, so $m^{ed} \equiv 0 \equiv m \pmod{p}$.
+  Meanwhile $\gcd(m, q) = 1$ (since $m < n = pq$ and $q \nmid m$), so by Fermat's little
+  theorem $m^{q-1} \equiv 1 \pmod{q}$, giving $m^{ed} = m^{1 + k(p-1)(q-1)} \equiv m \pmod{q}$.
+  Since $p \mid (m^{ed} - m)$ and $q \mid (m^{ed} - m)$ with $\gcd(p,q) = 1$, we get
+  $n \mid (m^{ed} - m)$, i.e. $m^{ed} \equiv m \pmod{n}$.
+  Decryption works for all valid messages.
 </p>
 
 <p>

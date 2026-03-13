@@ -260,10 +260,13 @@
   </p>
 
   <p>
-    <strong>Step 2.</strong> Consider $p_1$. Since $p_1 \mid n = q_1 \, q_2 \cdots q_s$, we can
-    apply Euclid's lemma. First: $p_1 \mid q_1 \cdot (q_2 \cdots q_s)$, so either $p_1 \mid q_1$
-    or $p_1 \mid q_2 \cdots q_s$. If the latter, apply the lemma again. Repeating, we eventually
-    find some $q_j$ such that $p_1 \mid q_j$.
+    <strong>Step 2.</strong> Consider $p_1$. We claim: if $p \mid q_1 q_2 \cdots q_s$ then
+    $p \mid q_j$ for some $j$. Proof by induction on $s$. If $s = 1$, this is trivial.
+    For $s \geq 2$, write $q_1 q_2 \cdots q_s = q_1 \cdot (q_2 \cdots q_s)$.
+    By Euclid's lemma, $p \mid q_1$ or $p \mid q_2 \cdots q_s$. In the first case we are done;
+    in the second, the induction hypothesis gives $p \mid q_j$ for some $j \geq 2$.
+    Applying this to $p_1$: since $p_1 \mid n = q_1 q_2 \cdots q_s$, we get
+    $p_1 \mid q_j$ for some $j$.
   </p>
 
   <p>

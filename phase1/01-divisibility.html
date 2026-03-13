@@ -266,11 +266,16 @@
     So $21 = 252 \cdot (-2) + 105 \cdot 5$, giving $x = -2$ and $y = 5$.
   </p>
   <p>
-    <strong>General argument.</strong> The back-substitution always works because each remainder
-    in the Euclidean algorithm is an integer linear combination of the two remainders from the
-    previous step ($r_i = r_{i-2} - r_{i-1} q_i$). Working backwards, each remainder is a linear
-    combination of the original $a$ and $b$. The last nonzero remainder is $\gcd(a, b)$, so it
-    too is a linear combination of $a$ and $b$.
+    <strong>General argument.</strong> Label the Euclidean algorithm steps
+    $r_0 = a$, $r_1 = b$, $r_2, \ldots, r_n$ where $r_n = \gcd(a,b)$ and
+    $r_i = r_{i-2} - q_i \, r_{i-1}$. We prove by induction that every $r_i$ is an integer
+    linear combination of $a$ and $b$.
+    <em>Base:</em> $r_0 = 1 \cdot a + 0 \cdot b$ and $r_1 = 0 \cdot a + 1 \cdot b$.
+    <em>Step:</em> if $r_{i-2} = x_{i-2}\, a + y_{i-2}\, b$ and
+    $r_{i-1} = x_{i-1}\, a + y_{i-1}\, b$, then
+    $r_i = r_{i-2} - q_i\, r_{i-1} = (x_{i-2} - q_i\, x_{i-1})\, a + (y_{i-2} - q_i\, y_{i-1})\, b$.
+    So $r_i$ is also a linear combination of $a$ and $b$. In particular, the last nonzero
+    remainder $r_n = \gcd(a,b)$ is a linear combination of $a$ and $b$.
   </p>
   <div class="qed">&#8718;</div>
 </div>
