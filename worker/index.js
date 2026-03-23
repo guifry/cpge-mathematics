@@ -1,4 +1,4 @@
-const ALLOWED_ORIGINS = ['https://guifry.github.io'];
+const ALLOWED_ORIGINS = ['https://guifry.github.io', 'https://strategic-networking.vercel.app'];
 const MODEL = 'claude-haiku-4-5-20251001';
 const MAX_TOKENS = 4096;
 
