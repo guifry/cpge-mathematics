@@ -113,6 +113,7 @@
   var tools = document.createElement('div');
   tools.className = 'sidebar-tools';
   var toolLinks = [
+    [prefix + 'fast-track.html', 'Fast Track (12 months)'],
     [prefix + 'mathematicians/index.html', 'Mathematicians'],
     [prefix + 'proofs/index.html', 'Proof Registry']
   ];
@@ -120,6 +121,7 @@
     var a = document.createElement('a');
     a.href = t[0];
     a.className = 'sidebar-tool';
+    if (currentPath.indexOf('fast-track') > -1 && t[0].indexOf('fast-track') > -1) a.classList.add('active');
     if (currentPath.indexOf(t[0].replace(prefix, '').replace('index.html', '')) > -1 && t[0].indexOf('mathematicians') > -1 && currentPath.indexOf('mathematicians') > -1) a.classList.add('active');
     if (currentPath.indexOf('proofs') > -1 && t[0].indexOf('proofs') > -1) a.classList.add('active');
     a.textContent = t[1];
