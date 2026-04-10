@@ -20,11 +20,55 @@
 <h1>Polynomials and Factoring</h1>
 <p class="subtitle">Refresher &mdash; Pen-and-paper fluency</p>
 
-<p>How to solve polynomial equations by hand. The workflow: spot a root, factor it out, reduce the degree, repeat.</p>
+<p>What a polynomial is, its key forms, and how to solve polynomial equations by hand.</p>
 
 <hr>
 
-<h2>1. The quadratic formula</h2>
+<h2>1. What is a polynomial</h2>
+
+<p>A <strong>polynomial</strong> in $x$ is an expression of the form:</p>
+<div class="display-math">$$P(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0$$</div>
+
+<p>The $a_i$ are called <strong>coefficients</strong>. The highest power with a nonzero coefficient is the <strong>degree</strong> (written $\deg P = n$). The coefficient $a_n$ is the <strong>leading coefficient</strong>. The coefficient $a_0$ is the <strong>constant term</strong>.</p>
+
+<p><strong>Examples:</strong> $3x^4 - 2x + 7$ has degree 4, leading coefficient 3, constant term 7. $\;x^2 - 1$ has degree 2, leading coefficient 1, constant term $-1$.</p>
+
+<p><strong>Not polynomials:</strong> $\frac{1}{x}$ (negative power), $\sqrt{x}$ (fractional power), $2^x$ (variable in exponent).</p>
+
+<h2>2. The three forms of a quadratic</h2>
+
+<p>A degree-2 polynomial $ax^2 + bx + c$ can be written in three equivalent ways. Each reveals different information.</p>
+
+<h3>Expanded form (standard form)</h3>
+<div class="display-math">$$P(x) = ax^2 + bx + c$$</div>
+<p>You read off the coefficients directly. Easy to add polynomials and compute $P(0) = c$.</p>
+
+<h3>Canonical form (vertex form)</h3>
+<div class="display-math">$$P(x) = a(x - h)^2 + k \qquad\text{where}\quad h = -\frac{b}{2a}, \quad k = P(h) = c - \frac{b^2}{4a}$$</div>
+<p>This reveals the <strong>vertex</strong> $(h, k)$ &mdash; the minimum (if $a > 0$) or maximum (if $a < 0$) of the parabola. Obtained by <strong>completing the square</strong>.</p>
+
+<p><strong>Completing the square</strong> (the technique):</p>
+<div class="display-math">$$2x^2 + 12x + 7 = 2(x^2 + 6x) + 7 = 2(x^2 + 6x + 9 - 9) + 7 = 2(x+3)^2 - 18 + 7 = 2(x+3)^2 - 11$$</div>
+<p>Vertex: $(-3, -11)$. Minimum value of $P(x)$ is $-11$, achieved at $x = -3$.</p>
+
+<h3>Factored form</h3>
+<div class="display-math">$$P(x) = a(x - r_1)(x - r_2) \qquad\text{where } r_1, r_2 \text{ are the roots}$$</div>
+<p>This reveals the <strong>roots</strong> (where $P(x) = 0$) directly. Only exists over $\mathbb{R}$ when $\Delta \geq 0$. Over $\mathbb{C}$ it always exists.</p>
+<p>If $\Delta = 0$: $P(x) = a(x - r)^2$ (double root). If $\Delta < 0$: the factored form uses complex conjugate roots $r_1 = \alpha + \beta i$, $r_2 = \alpha - \beta i$.</p>
+
+<h2>3. Key properties of polynomials</h2>
+
+<p><strong>Degree of a product:</strong> $\deg(PQ) = \deg P + \deg Q$. Multiplying a degree-2 by a degree-3 gives degree 5.</p>
+
+<p><strong>Number of roots:</strong> a degree-$n$ polynomial has at most $n$ roots (counting multiplicities, exactly $n$ roots over $\mathbb{C}$).</p>
+
+<p><strong>If $r$ is a root, $(x-r)$ is a factor.</strong> This is the <strong>factor theorem</strong>: $P(r) = 0 \;\Longleftrightarrow\; (x-r)$ divides $P(x)$. It's the foundation of the solve-by-factoring workflow below.</p>
+
+<p><strong>Behaviour at $\pm\infty$:</strong> for large $|x|$, the leading term dominates. $3x^4 - 100x^3 + \cdots \approx 3x^4$ when $|x|$ is large. Sign of the leading coefficient + parity of the degree tells you the end behaviour.</p>
+
+<hr>
+
+<h2>4. The quadratic formula</h2>
 
 <p>For $ax^2 + bx + c = 0$ with $a \neq 0$:</p>
 <div class="display-math">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
@@ -40,7 +84,7 @@
 
 <hr>
 
-<h2>2. Factoring patterns</h2>
+<h2>5. Factoring patterns</h2>
 
 <p>Recognise these on sight:</p>
 
@@ -58,7 +102,7 @@
 
 <hr>
 
-<h2>3. The rational root theorem</h2>
+<h2>6. The rational root theorem</h2>
 
 <p>For a polynomial with integer coefficients $a_n x^n + \cdots + a_0$, any rational root $p/q$ (in lowest terms) satisfies:</p>
 <ul>
@@ -72,7 +116,7 @@
 
 <hr>
 
-<h2>4. Polynomial long division</h2>
+<h2>7. Polynomial long division</h2>
 
 <p>Once you know $x = r$ is a root, divide the polynomial by $(x - r)$ to reduce the degree.</p>
 
@@ -88,7 +132,7 @@
 
 <hr>
 
-<h2>5. The complete workflow for degree $\geq 3$</h2>
+<h2>8. The complete workflow for degree $\geq 3$</h2>
 
 <ol>
 <li><strong>Try obvious roots:</strong> $x = 0, \pm 1, \pm 2$ cover most exam cases.</li>
@@ -101,13 +145,13 @@
 
 <hr>
 
-<h2>6. Why degree $\geq 5$ is different</h2>
+<h2>9. Why degree $\geq 5$ is different</h2>
 
 <p>There is no general formula in radicals for degree 5 or higher &mdash; this is the Abel-Ruffini theorem (proved rigorously in <a href="../phase10/08-galois-abel-ruffini.html">Phase 10, page 8</a>). For specific equations you can still find roots by inspection, numerical methods, or the rational root theorem. But no universal formula like the quadratic formula exists.</p>
 
 <hr>
 
-<h2>7. Quick reference: the binomial theorem</h2>
+<h2>10. Quick reference: the binomial theorem</h2>
 
 <p>For expanding $(a+b)^n$:</p>
 <div class="display-math">$$(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k$$</div>
