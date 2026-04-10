@@ -6,7 +6,8 @@
     { n: 0, name: 'Geometry', pages: [
       ['01-similar-triangles', 'Similar Triangles'], ['02-pythagorean-theorem', 'Pythagorean Theorem'],
       ['03-sqrt2-irrational', '\u221a2 is Irrational'], ['04-trigonometry', 'Trigonometry'],
-      ['05-unit-circle', 'The Unit Circle'], ['06-area', 'Area']
+      ['05-unit-circle', 'The Unit Circle'], ['06-coordinate-geometry', 'Coordinate Geometry'],
+      ['07-trig-identities', 'Trig Identities']
     ]},
     { n: 1, name: 'Number Theory', pages: [
       ['01-divisibility', 'Divisibility'], ['02-primes', 'Primes & FTA'],
@@ -15,7 +16,7 @@
       ['07-diophantine', 'Diophantine Equations']
     ]},
     { n: 2, name: 'Limits', pages: [
-      ['01-limits', 'Limits'], ['02-squeeze-theorem', 'Squeeze Theorem'],
+      ['00-inequalities', 'Inequalities'], ['01-completeness', 'Completeness'], ['02-squeeze-theorem', 'Squeeze Theorem'],
       ['03-monotone-convergence', 'Monotone Convergence'], ['04-bolzano-weierstrass', 'Bolzano\u2013Weierstrass'],
       ['05-cauchy-criterion', 'Cauchy Criterion'], ['06-ivt', 'IVT'],
       ['07-dense-subsets', 'Dense Subsets']
@@ -39,7 +40,7 @@
       ['07-weierstrass-m-test', 'Weierstrass M-test'], ['08-weierstrass-approximation', 'Weierstrass Approximation']
     ]},
     { n: 6, name: 'Linear Algebra', pages: [
-      ['01-vector-spaces', 'Vector Spaces'], ['02-basis-dimension', 'Basis & Dimension'],
+      ['00-systems-of-equations', 'Systems of Equations'], ['01-vector-spaces', 'Vector Spaces'], ['02-basis-dimension', 'Basis & Dimension'],
       ['03-linear-maps', 'Linear Maps'], ['04-matrices', 'Matrices'],
       ['05-determinants', 'Determinants'], ['06-eigenvalues', 'Eigenvalues'],
       ['07-inner-products', 'Inner Products'], ['08-projection', 'Projection'],
@@ -75,7 +76,7 @@
       ['03-parseval', "Parseval's Theorem"]
     ]},
     { n: 12, name: 'Probability', pages: [
-      ['01-probability-spaces', 'Probability Spaces'], ['02-bayes', "Bayes' Theorem"],
+      ['00-counting', 'Counting'], ['01-probability-spaces', 'Probability Spaces'], ['02-bayes', "Bayes' Theorem"],
       ['03-expectation', 'Expectation'], ['04-variance', 'Variance & Covariance'],
       ['05-markov-chebyshev', 'Markov & Chebyshev'], ['06-law-of-large-numbers', 'Law of Large Numbers'],
       ['07-central-limit-theorem', 'Central Limit Theorem'], ['08-conditional-expectation', 'Conditional Expectation']
@@ -113,7 +114,8 @@
   tools.className = 'sidebar-tools';
   var toolLinks = [
     [prefix + 'mathematicians/index.html', 'Mathematicians'],
-    [prefix + 'proofs/index.html', 'Proof Registry']
+    [prefix + 'proofs/index.html', 'Proof Registry'],
+    [prefix + 'refresher/01-equation-solving.html', 'Refresher']
   ];
   toolLinks.forEach(function (t) {
     var a = document.createElement('a');
@@ -121,6 +123,7 @@
     a.className = 'sidebar-tool';
     if (currentPath.indexOf(t[0].replace(prefix, '').replace('index.html', '')) > -1 && t[0].indexOf('mathematicians') > -1 && currentPath.indexOf('mathematicians') > -1) a.classList.add('active');
     if (currentPath.indexOf('proofs') > -1 && t[0].indexOf('proofs') > -1) a.classList.add('active');
+    if (currentPath.indexOf('refresher') > -1 && t[0].indexOf('refresher') > -1) a.classList.add('active');
     a.textContent = t[1];
     tools.appendChild(a);
   });

@@ -70,6 +70,17 @@ hr { border: none; border-top: 1px solid var(--accent2); margin: 2.5rem 0; }
 .index-list li a:hover { text-decoration: underline; }
 .index-list li .desc { color: var(--dim); font-size: 0.9rem; margin-top: 0.2rem; }
 .phase-label { color: var(--dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2rem; margin-bottom: 0.5rem; }
+.refresher-box { background: var(--surface); border-left: 3px solid #4a9; padding: 1.2rem 1.5rem; margin: 1.2rem 0; border-radius: 0 6px 6px 0; }
+.refresher-box .label { font-weight: bold; color: #4a9; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.refresher-label { color: #4a9; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: bold; }
+.exercise { background: var(--surface); border-left: 3px solid #6a9; padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+.exercise .exercise-label { font-weight: bold; color: #6a9; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.exercise details { margin-top: 0.8rem; }
+.exercise summary { cursor: pointer; color: #4a9; font-size: 0.9rem; font-weight: bold; padding: 0.4rem 0; user-select: none; }
+.exercise summary:hover { color: #6cb; }
+.exercise summary::marker { color: #4a9; }
+.exercise details[open] summary { margin-bottom: 0.5rem; }
+.exercise .solution { background: rgba(74, 153, 102, 0.08); border-radius: 4px; padding: 0.8rem 1rem; margin-top: 0.3rem; }
 figure { margin: 1.5rem 0; text-align: center; }
 figure svg { max-width: 100%; }
 figcaption { color: var(--dim); font-size: 0.85rem; margin-top: 0.5rem; }

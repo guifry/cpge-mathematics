@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counting — Phase 12</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Counting</h1>
+<p class="subtitle">Phase 12 &mdash; Probability, Page 0</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>The Chevalier de M&eacute;r&eacute; (1654) asked <a href="../mathematicians/pascal.html">Pascal</a>: in a game of dice, how many times must you throw to have better than even odds of rolling at least one six? He had a conjecture from experience, but couldn't prove it. The answer requires counting the number of ways things can happen &mdash; and the total number of ways things can happen &mdash; then dividing.</p>
+<p>Probability is fundamentally about counting. Before you can compute $P(A) = |A|/|\Omega|$, you need to know how to count $|A|$ and $|\Omega|$.</p>
+</div>
+
+<h2>1. The multiplication principle</h2>
+
+<div class="theorem-box">
+<div class="label">Multiplication principle</div>
+<p>If a process has two stages, the first with $m$ outcomes and the second with $n$ outcomes, the total number of combined outcomes is $m \times n$.</p>
+</div>
+
+<p>This extends to any number of stages: $k$ stages with $n_1, n_2, \ldots, n_k$ outcomes give $n_1 \times n_2 \times \cdots \times n_k$ total outcomes.</p>
+
+<p><strong>Example:</strong> a licence plate has 2 letters followed by 3 digits. Number of plates: $26^2 \times 10^3 = 676{,}000$.</p>
+
+<h2>2. Permutations</h2>
+
+<div class="theorem-box">
+<div class="label">Definition</div>
+<p>A <strong>permutation</strong> of $n$ objects is an arrangement of all $n$ in a specific order. The number of permutations of $n$ distinct objects is:</p>
+<div class="display-math">$$n! = n \times (n-1) \times (n-2) \times \cdots \times 2 \times 1$$</div>
+<p>By convention, $0! = 1$.</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Why</div>
+<p>The first position has $n$ choices. The second has $n-1$ (one object is used). The third has $n-2$. Continue: the total is $n \times (n-1) \times \cdots \times 1 = n!$. This is the multiplication principle applied $n$ times.</p>
+<div class="qed">∎</div>
+</div>
+
+<p><strong>$k$-permutations:</strong> the number of ways to arrange $k$ objects chosen from $n$ (order matters):</p>
+<div class="display-math">$$P(n, k) = \frac{n!}{(n-k)!} = n(n-1)(n-2)\cdots(n-k+1)$$</div>
+
+<p><strong>Example:</strong> how many ways can 3 runners finish in 1st, 2nd, 3rd from a race of 10? $P(10, 3) = 10 \times 9 \times 8 = 720$.</p>
+
+<h2>3. Combinations</h2>
+
+<div class="theorem-box">
+<div class="label">Definition</div>
+<p>A <strong>combination</strong> is a selection of $k$ objects from $n$ where order doesn't matter. The number of such selections is the <strong>binomial coefficient</strong>:</p>
+<div class="display-math">$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</div>
+<p>Read: "$n$ choose $k$."</p>
+</div>
+
+<div class="proof-box">
+<div class="label">Why</div>
+<p>Start with the $k$-permutations $P(n,k)$. Each group of $k$ objects appears $k!$ times (once for each ordering). So the number of unordered groups is $P(n,k)/k! = n!/(k!(n-k)!)$.</p>
+<div class="qed">∎</div>
+</div>
+
+<p><strong>Example:</strong> a poker hand is 5 cards from 52. Number of hands: $\binom{52}{5} = \frac{52!}{5!\,47!} = 2{,}598{,}960$.</p>
+
+<h2>4. Properties of $\binom{n}{k}$</h2>
+
+<div class="theorem-box">
+<div class="label">Key properties</div>
+<ul>
+<li><strong>Symmetry:</strong> $\binom{n}{k} = \binom{n}{n-k}$. Choosing $k$ to include is the same as choosing $n-k$ to exclude.</li>
+<li><strong>Pascal's rule:</strong> $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$. Either the new element is in the subset or it isn't.</li>
+<li><strong>Boundary:</strong> $\binom{n}{0} = \binom{n}{n} = 1$.</li>
+<li><strong>Sum:</strong> $\sum_{k=0}^{n}\binom{n}{k} = 2^n$. Total number of subsets of an $n$-element set.</li>
+</ul>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof of the sum</div>
+<p>Each of the $n$ elements is either in or out of the subset: $2$ choices per element, $2^n$ total by the multiplication principle. Alternatively, set $x=1$ in the binomial theorem (see <a href="../refresher/02-polynomials.html">Refresher, page 2</a>): $(1+1)^n = \sum_{k=0}^n \binom{n}{k}$.</p>
+<div class="qed">∎</div>
+</div>
+
+<h2>5. Stars and bars</h2>
+
+<div class="theorem-box">
+<div class="label">Stars and bars</div>
+<p>The number of ways to distribute $n$ identical objects into $k$ distinct bins is:</p>
+<div class="display-math">$$\binom{n+k-1}{k-1}$$</div>
+</div>
+
+<p><strong>Example:</strong> distribute 10 identical sweets among 3 children. Answer: $\binom{12}{2} = 66$.</p>
+
+<p>The name: represent objects as stars ($\star\star\star\star$) and bin separators as bars ($|$). A distribution of 10 sweets into 3 bins is a sequence of 10 stars and 2 bars, e.g. $\star\star\star|\star\star\star\star\star|\star\star$ means (3, 5, 2). The number of such sequences is $\binom{12}{2}$: choose where to place the 2 bars among 12 positions.</p>
+
+<h2>6. The de M&eacute;r&eacute; problem</h2>
+
+<p>Back to the opening question. Throw a die $n$ times. The probability of <em>no</em> sixes is $(5/6)^n$ (multiplication principle: each throw is independent). So the probability of <em>at least one</em> six is $1 - (5/6)^n$.</p>
+
+<p>For this to exceed $1/2$: $(5/6)^n < 1/2$, so $n > \ln(1/2)/\ln(5/6) \approx 3.80$. You need $n \geq 4$ throws.</p>
+
+<p>De M&eacute;r&eacute; knew this empirically. Pascal and <a href="../mathematicians/fermat.html">Fermat</a> proved it &mdash; and in doing so, founded probability theory.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>The binomial coefficient $\binom{n}{k}$ appears in Pingala's work (India, ~200 BC), in Al-Karaji (Persia, ~1000 AD), and in Yang Hui's triangle (China, 1261) &mdash; all before Pascal's 1654 <em>Trait&eacute; du triangle arithm&eacute;tique</em>. The name "Pascal's triangle" is European-centric. Stars and bars was formalised by Feller (1950s) but the technique is implicit in Euler's work on partitions (1748).</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><strong>Confusing permutations and combinations:</strong> "How many 3-letter words from ABCDE?" is $P(5,3) = 60$ (order matters: ABC $\neq$ BCA). "How many 3-element subsets of $\{A,B,C,D,E\}$?" is $\binom{5}{3} = 10$ (order doesn't matter: $\{A,B,C\} = \{B,C,A\}$). Always ask: does order matter?</p>
+<p><strong>Stars and bars with restrictions:</strong> the formula $\binom{n+k-1}{k-1}$ allows empty bins. If each bin must have at least 1 object, give 1 to each bin first, then distribute the remaining $n-k$: $\binom{n-1}{k-1}$.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Counting is the foundation of probability &mdash; $P(A) = |A|/|\Omega|$ requires knowing how to count both.</div>
+
+<div class="nav">
+  <a href="../phase11/03-parseval.html">&larr; Previous: Parseval's Theorem</a>
+  <a href="01-probability-spaces.html">Next: Probability Spaces &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>

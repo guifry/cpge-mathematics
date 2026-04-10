@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equation Solving Exercises — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Equation Solving Exercises</h1>
+<p class="subtitle">Refresher &mdash; 10 exercises, easy to hard</p>
+
+<p>Work each problem on paper before opening the solution. Reference: <a href="01-equation-solving.html">Equation Solving Toolkit</a>.</p>
+
+<hr>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 1 &mdash; Linear</div>
+<p>Solve for $x$: $\;5x - 3 = 2x + 9$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Move $x$-terms to one side: $5x - 2x = 9 + 3$, so $3x = 12$, giving $x = 4$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 2 &mdash; Fractions</div>
+<p>Solve for $x$: $\;\dfrac{2}{x+1} + \dfrac{3}{x-1} = 1$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Restrictions: $x \neq 1$ and $x \neq -1$. Multiply both sides by $(x+1)(x-1)$:</p>
+<div class="display-math">$$2(x-1) + 3(x+1) = (x+1)(x-1)$$</div>
+<div class="display-math">$$2x - 2 + 3x + 3 = x^2 - 1$$</div>
+<div class="display-math">$$5x + 1 = x^2 - 1$$</div>
+<div class="display-math">$$x^2 - 5x - 2 = 0$$</div>
+<p>Discriminant: $\Delta = 25 + 8 = 33$. Solutions: $x = \dfrac{5 \pm \sqrt{33}}{2}$. Neither equals $\pm 1$, so both are valid.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 3 &mdash; Absolute value</div>
+<p>Solve for $x$: $\;|3x - 7| = 2x + 1$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>The right side must be $\geq 0$, so $x \geq -1/2$.</p>
+<p><strong>Case 1:</strong> $3x - 7 \geq 0$ (i.e. $x \geq 7/3$). Then $3x - 7 = 2x + 1$, so $x = 8$. Check: $|24-7| = 17$ and $2(8)+1 = 17$. Valid.</p>
+<p><strong>Case 2:</strong> $3x - 7 < 0$ (i.e. $x < 7/3$). Then $-(3x-7) = 2x+1$, so $7-3x = 2x+1$, giving $5x = 6$, $x = 6/5$. Check: $|18/5 - 7| = |{-17/5}| = 17/5$ and $12/5 + 1 = 17/5$. Valid.</p>
+<p>Solutions: $x = 8$ and $x = 6/5$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 4 &mdash; Square root</div>
+<p>Solve for $x$: $\;\sqrt{2x+3} = x - 1$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Restrictions: $2x + 3 \geq 0$ (so $x \geq -3/2$) and $x - 1 \geq 0$ (so $x \geq 1$, since the left side is non-negative).</p>
+<p>Square both sides: $2x + 3 = x^2 - 2x + 1$, so $x^2 - 4x - 2 = 0$.</p>
+<p>$\Delta = 16 + 8 = 24$. $x = \dfrac{4 \pm 2\sqrt{6}}{2} = 2 \pm \sqrt{6}$.</p>
+<p>$2 - \sqrt{6} \approx -0.45 < 1$, rejected. $2 + \sqrt{6} \approx 4.45 \geq 1$, valid.</p>
+<p>Check: $\sqrt{2(2+\sqrt{6})+3} = \sqrt{7+2\sqrt{6}} = \sqrt{(\sqrt{6}+1)^2} = \sqrt{6}+1 = (2+\sqrt{6})-1$. Confirmed.</p>
+<p>Solution: $x = 2 + \sqrt{6}$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 5 &mdash; Exponential</div>
+<p>Solve for $x$: $\;3^{2x-1} = 27^x \cdot 9$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Write everything in base 3: $27 = 3^3$ and $9 = 3^2$. So $3^{2x-1} = 3^{3x} \cdot 3^2 = 3^{3x+2}$.</p>
+<p>Exponents must match: $2x - 1 = 3x + 2$, so $x = -3$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 6 &mdash; Logarithm</div>
+<p>Solve for $x$: $\;\ln(x+2) + \ln(x-1) = \ln(10)$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Domain: $x + 2 > 0$ and $x - 1 > 0$, so $x > 1$.</p>
+<p>Combine: $\ln((x+2)(x-1)) = \ln(10)$. Exponentiate: $(x+2)(x-1) = 10$.</p>
+<p>$x^2 + x - 2 = 10$, so $x^2 + x - 12 = 0$. Factor: $(x+4)(x-3) = 0$.</p>
+<p>$x = -4$ violates $x > 1$. $x = 3$: check $\ln(5) + \ln(2) = \ln(10)$. Valid.</p>
+<p>Solution: $x = 3$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 7 &mdash; Exponent and logarithm combined</div>
+<p>Solve for $x$: $\;2^x + 2^{-x} = 5/2$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Let $u = 2^x$ (so $u > 0$ and $2^{-x} = 1/u$). The equation becomes $u + 1/u = 5/2$.</p>
+<p>Multiply by $u$: $u^2 + 1 = 5u/2$, so $2u^2 - 5u + 2 = 0$.</p>
+<p>$\Delta = 25 - 16 = 9$. $u = \dfrac{5 \pm 3}{4}$. So $u = 2$ or $u = 1/2$.</p>
+<p>$2^x = 2 \Rightarrow x = 1$. $\;2^x = 1/2 \Rightarrow x = -1$.</p>
+<p>Solutions: $x = 1$ and $x = -1$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 8 &mdash; System of equations</div>
+<p>Solve the system:</p>
+<div class="display-math">$$\begin{cases} 3x - 2y = 7 \\ x^2 + y^2 = 25 \end{cases}$$</div>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>From the first equation: $x = (7 + 2y)/3$. Substitute into the second:</p>
+<div class="display-math">$$\frac{(7+2y)^2}{9} + y^2 = 25$$</div>
+<div class="display-math">$$49 + 28y + 4y^2 + 9y^2 = 225$$</div>
+<div class="display-math">$$13y^2 + 28y - 176 = 0$$</div>
+<p>$\Delta = 784 + 4(13)(176) = 784 + 9152 = 9936 = 16 \times 621$. Hmm &mdash; let's check: $\sqrt{9936} = 4\sqrt{621}$. This doesn't simplify nicely, suggesting a computation check.</p>
+<p>Actually, let's try integer solutions on the circle $x^2 + y^2 = 25$: the points are $(\pm 3, \pm 4)$, $(\pm 4, \pm 3)$, $(\pm 5, 0)$, $(0, \pm 5)$.</p>
+<p>Test $3x - 2y = 7$: $(3, 4) \to 9-8=1$ no. $(4, 3) \to 12-6=6$ no. $(5, 0) \to 15$ no. $(-3, -4) \to -9+8=-1$ no. $(-4, 3) \to -12-6=-18$ no. $(3, -4) \to 9+8=17$ no. $(4, -3) \to 12+6=18$ no. $(-3, 4) \to -9-8=-17$ no.</p>
+<p>No integer solutions, so the solutions are indeed irrational: $y = \dfrac{-28 \pm 4\sqrt{621}}{26} = \dfrac{-14 \pm 2\sqrt{621}}{13}$, with $x = (7+2y)/3$.</p>
+<p>The lesson: not every textbook-looking system has clean answers. The technique (substitution from linear into quadratic) is always the same.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 9 &mdash; Inequality</div>
+<p>Solve: $\;\dfrac{x+3}{x-2} \leq 1$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Never cross-multiply when you don't know the sign of the denominator. Instead, move everything to one side:</p>
+<div class="display-math">$$\frac{x+3}{x-2} - 1 \leq 0 \quad\Longrightarrow\quad \frac{x+3 - (x-2)}{x-2} \leq 0 \quad\Longrightarrow\quad \frac{5}{x-2} \leq 0$$</div>
+<p>The numerator $5 > 0$ always. So we need $x - 2 < 0$, i.e. $x < 2$. (Not $x \leq 2$ because $x = 2$ makes the denominator zero.)</p>
+<p>Solution: $x \in (-\infty, 2)$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 10 &mdash; Trigonometric equation</div>
+<p>Solve for $x \in [0, 2\pi)$: $\;2\sin^2(x) - 3\sin(x) + 1 = 0$</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Let $u = \sin(x)$. Then $2u^2 - 3u + 1 = 0$. Factor: $(2u - 1)(u - 1) = 0$.</p>
+<p>$u = 1/2$: $\sin(x) = 1/2$, so $x = \pi/6$ or $x = 5\pi/6$.</p>
+<p>$u = 1$: $\sin(x) = 1$, so $x = \pi/2$.</p>
+<p>Solutions: $x \in \{\pi/6, \;\pi/2, \;5\pi/6\}$.</p>
+</div>
+</details>
+</div>
+
+<div class="nav">
+  <a href="01-equation-solving.html">&larr; Equation Solving Toolkit</a>
+  <a href="05-polynomial-exercises.html">Next: Polynomial Exercises &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+</body>
+</html>

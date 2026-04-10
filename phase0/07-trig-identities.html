@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometric Identities — Phase 0</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Trigonometric Identities</h1>
+<p class="subtitle">Phase 0 &mdash; Geometry and Measurement, Page 7</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>You can compute $\sin(30°)$ and $\sin(45°)$ from the triangles you already know. But what about $\sin(75°)$? You don't have a right triangle with a 75° angle memorised. However, $75° = 45° + 30°$. If you had a formula for $\sin(\alpha + \beta)$ in terms of $\sin\alpha$, $\cos\alpha$, $\sin\beta$, $\cos\beta$, you could compute any angle from a few known ones.</p>
+<p>This is why the addition formulae were invented &mdash; they turn a small table of known values into an engine for computing any angle.</p>
+</div>
+
+<h2>1. The addition formulae</h2>
+
+<div class="theorem-box">
+<div class="label">Theorem &mdash; Addition formulae</div>
+<p>For all $\alpha, \beta \in \mathbb{R}$:</p>
+<div class="display-math">$$\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$$</div>
+<div class="display-math">$$\cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$$</div>
+</div>
+
+<div class="proof-box">
+<div class="label">Proof (geometric, using the unit circle)</div>
+<p>Consider three points on the unit circle: $A$ at angle $0$, $B$ at angle $\alpha + \beta$, $C$ at angle $\alpha$, and $D$ at angle $-\beta$.</p>
+<p>The chord from $A$ to $B$ has the same length as the chord from $D$ to $C$, because both subtend an arc of $\alpha + \beta$.</p>
+<p>Chord $AB$: from $(1, 0)$ to $(\cos(\alpha+\beta), \sin(\alpha+\beta))$. Squared length:</p>
+<div class="display-math">$$|AB|^2 = (\cos(\alpha+\beta) - 1)^2 + \sin^2(\alpha+\beta)$$</div>
+<div class="display-math">$$= \cos^2(\alpha+\beta) - 2\cos(\alpha+\beta) + 1 + \sin^2(\alpha+\beta) = 2 - 2\cos(\alpha+\beta)$$</div>
+<p>Chord $DC$: from $(\cos\beta, -\sin\beta)$ to $(\cos\alpha, \sin\alpha)$. Squared length:</p>
+<div class="display-math">$$|DC|^2 = (\cos\alpha - \cos\beta)^2 + (\sin\alpha + \sin\beta)^2$$</div>
+<div class="display-math">$$= \cos^2\alpha - 2\cos\alpha\cos\beta + \cos^2\beta + \sin^2\alpha + 2\sin\alpha\sin\beta + \sin^2\beta$$</div>
+<div class="display-math">$$= 2 - 2(\cos\alpha\cos\beta - \sin\alpha\sin\beta)$$</div>
+<p>Setting $|AB|^2 = |DC|^2$ gives $\cos(\alpha+\beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$.</p>
+<p>For sine: use $\sin(\alpha+\beta) = \cos(\pi/2 - \alpha - \beta) = \cos((\pi/2 - \alpha) - \beta)$. Apply the cosine formula just proved, then use $\cos(\pi/2 - \alpha) = \sin\alpha$ and $\sin(\pi/2 - \alpha) = \cos\alpha$ (from the unit circle, Phase 0 page 5).</p>
+<div class="qed">∎</div>
+</div>
+
+<h2>2. Everything else follows</h2>
+
+<p>Every identity below is a direct consequence of the addition formulae. No new ideas &mdash; just substitution.</p>
+
+<div class="theorem-box">
+<div class="label">Subtraction formulae</div>
+<p>Replace $\beta$ with $-\beta$ and use $\sin(-\beta) = -\sin\beta$, $\cos(-\beta) = \cos\beta$:</p>
+<div class="display-math">$$\sin(\alpha - \beta) = \sin\alpha\cos\beta - \cos\alpha\sin\beta$$</div>
+<div class="display-math">$$\cos(\alpha - \beta) = \cos\alpha\cos\beta + \sin\alpha\sin\beta$$</div>
+</div>
+
+<div class="theorem-box">
+<div class="label">Double angle formulae</div>
+<p>Set $\beta = \alpha$:</p>
+<div class="display-math">$$\sin(2\alpha) = 2\sin\alpha\cos\alpha$$</div>
+<div class="display-math">$$\cos(2\alpha) = \cos^2\alpha - \sin^2\alpha = 2\cos^2\alpha - 1 = 1 - 2\sin^2\alpha$$</div>
+<p>The three forms of $\cos(2\alpha)$ come from $\sin^2\alpha + \cos^2\alpha = 1$.</p>
+</div>
+
+<div class="theorem-box">
+<div class="label">Half-angle formulae</div>
+<p>Rearrange the double angle formulae with $\alpha = \theta/2$:</p>
+<div class="display-math">$$\cos^2\frac{\theta}{2} = \frac{1 + \cos\theta}{2} \qquad\qquad \sin^2\frac{\theta}{2} = \frac{1 - \cos\theta}{2}$$</div>
+</div>
+
+<div class="theorem-box">
+<div class="label">Product-to-sum</div>
+<p>Add/subtract the addition formulae:</p>
+<div class="display-math">$$\cos\alpha\cos\beta = \tfrac{1}{2}[\cos(\alpha-\beta) + \cos(\alpha+\beta)]$$</div>
+<div class="display-math">$$\sin\alpha\sin\beta = \tfrac{1}{2}[\cos(\alpha-\beta) - \cos(\alpha+\beta)]$$</div>
+<div class="display-math">$$\sin\alpha\cos\beta = \tfrac{1}{2}[\sin(\alpha+\beta) + \sin(\alpha-\beta)]$$</div>
+</div>
+
+<div class="theorem-box">
+<div class="label">Sum-to-product</div>
+<p>Let $p = \alpha + \beta$ and $q = \alpha - \beta$, so $\alpha = (p+q)/2$ and $\beta = (p-q)/2$:</p>
+<div class="display-math">$$\sin p + \sin q = 2\sin\frac{p+q}{2}\cos\frac{p-q}{2}$$</div>
+<div class="display-math">$$\cos p + \cos q = 2\cos\frac{p+q}{2}\cos\frac{p-q}{2}$$</div>
+</div>
+
+<h2>3. Tangent</h2>
+
+<div class="theorem-box">
+<div class="label">Tangent addition</div>
+<p>From $\tan\theta = \sin\theta/\cos\theta$ and the addition formulae:</p>
+<div class="display-math">$$\tan(\alpha + \beta) = \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta}$$</div>
+<p>Double angle: $\tan(2\alpha) = \dfrac{2\tan\alpha}{1 - \tan^2\alpha}$.</p>
+</div>
+
+<h2>4. The values you should know</h2>
+
+<table>
+<tr><th>$\theta$</th><th>$0$</th><th>$\pi/6$</th><th>$\pi/4$</th><th>$\pi/3$</th><th>$\pi/2$</th></tr>
+<tr><td>$\sin\theta$</td><td>$0$</td><td>$1/2$</td><td>$\sqrt{2}/2$</td><td>$\sqrt{3}/2$</td><td>$1$</td></tr>
+<tr><td>$\cos\theta$</td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$\sqrt{2}/2$</td><td>$1/2$</td><td>$0$</td></tr>
+<tr><td>$\tan\theta$</td><td>$0$</td><td>$1/\sqrt{3}$</td><td>$1$</td><td>$\sqrt{3}$</td><td>undef</td></tr>
+</table>
+
+<p>With the addition formulae, these five angles generate every multiple of $\pi/12$ (i.e. every 15°).</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>Ptolemy (c. 150 AD) derived the addition formulae geometrically in the <em>Almagest</em> to build his chord tables &mdash; the ancient equivalent of a sine table. His method used cyclic quadrilaterals (Ptolemy's theorem). The unit-circle proof above is essentially Euler's modernisation (1748). The product-to-sum identities were crucial for astronomers before calculators: they converted expensive multiplications into cheap additions (the technique called <strong>prosthaphaeresis</strong>).</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><strong>If you forget the sign in the cosine formula</strong> &mdash; writing $\cos(\alpha+\beta) = \cos\alpha\cos\beta + \sin\alpha\sin\beta$ &mdash; then $\cos(\pi) = \cos^2(\pi/2) + \sin^2(\pi/2) = 0 + 1 = 1$. But $\cos(\pi) = -1$. The minus sign is load-bearing.</p>
+<p><strong>If you confuse product-to-sum with sum-to-product</strong> &mdash; they go in opposite directions. Product-to-sum is for integrating $\sin(mx)\cos(nx)$ (Phase 3, page 9). Sum-to-product is for solving equations like $\sin(3x) + \sin(x) = 0$.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">The addition formulae are the only trig identity &mdash; everything else is a substitution into $\sin(\alpha \pm \beta)$ and $\cos(\alpha \pm \beta)$.</div>
+
+<div class="nav">
+  <a href="06-coordinate-geometry.html">&larr; Previous: Coordinate Geometry</a>
+  <a href="../phase2/00-inequalities.html">Next: Inequalities &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>

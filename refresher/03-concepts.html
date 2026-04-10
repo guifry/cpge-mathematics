@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concepts Refresher — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Concepts Refresher</h1>
+<p class="subtitle">Refresher &mdash; Complex numbers, combinatorics, elementary statistics</p>
+
+<p>Three topics the course uses but never teaches from zero. This page fills the gap.</p>
+
+<hr>
+
+<h2>1. Complex numbers</h2>
+
+<h3>The idea</h3>
+<p>Define $i$ as a number satisfying $i^2 = -1$. A <strong>complex number</strong> is $z = a + bi$ where $a, b \in \mathbb{R}$. We call $a = \operatorname{Re}(z)$ the <strong>real part</strong> and $b = \operatorname{Im}(z)$ the <strong>imaginary part</strong>.</p>
+
+<h3>Arithmetic</h3>
+<table>
+<tr><th>Operation</th><th>Rule</th></tr>
+<tr><td>Addition</td><td>$(a+bi) + (c+di) = (a+c) + (b+d)i$</td></tr>
+<tr><td>Multiplication</td><td>$(a+bi)(c+di) = (ac - bd) + (ad + bc)i$</td></tr>
+<tr><td>Conjugate</td><td>$\overline{a+bi} = a - bi$</td></tr>
+<tr><td>Modulus</td><td>$|a+bi| = \sqrt{a^2 + b^2}$</td></tr>
+<tr><td>Division</td><td>$\dfrac{z}{w} = \dfrac{z\bar{w}}{|w|^2}$</td></tr>
+</table>
+
+<p><strong>Key identity:</strong> $z\bar{z} = |z|^2$. This is how you divide &mdash; multiply numerator and denominator by $\bar{w}$.</p>
+
+<p><strong>Example:</strong></p>
+<div class="display-math">$$\frac{3+2i}{1-i} = \frac{(3+2i)(1+i)}{(1-i)(1+i)} = \frac{3+3i+2i+2i^2}{1+1} = \frac{1+5i}{2} = \frac{1}{2} + \frac{5}{2}i$$</div>
+
+<h3>Modulus-argument form (polar form)</h3>
+<p>Every complex number can be written as $z = r(\cos\theta + i\sin\theta)$ where $r = |z|$ and $\theta = \arg(z)$ is the angle from the positive real axis.</p>
+
+<p><strong>Euler's formula:</strong> $e^{i\theta} = \cos\theta + i\sin\theta$. So $z = re^{i\theta}$.</p>
+
+<p><strong>Multiplication in polar form:</strong> multiply moduli, add arguments.</p>
+<div class="display-math">$$z_1 z_2 = r_1 r_2 \, e^{i(\theta_1 + \theta_2)}$$</div>
+
+<p><strong>De Moivre's formula:</strong> $(\cos\theta + i\sin\theta)^n = \cos(n\theta) + i\sin(n\theta)$.</p>
+
+<h3>Roots of unity</h3>
+<p>The $n$-th roots of unity are the $n$ solutions to $z^n = 1$:</p>
+<div class="display-math">$$z_k = e^{2\pi i k/n}, \quad k = 0, 1, \ldots, n-1$$</div>
+<p>They're equally spaced around the unit circle.</p>
+
+<h3>Solving quadratics with $\Delta < 0$</h3>
+<p>When $b^2 - 4ac < 0$, the roots are complex conjugates:</p>
+<div class="display-math">$$x = \frac{-b \pm i\sqrt{4ac - b^2}}{2a}$$</div>
+
+<hr>
+
+<h2>2. Combinatorics</h2>
+
+<h3>Factorial</h3>
+<p>$n! = n \times (n-1) \times \cdots \times 2 \times 1$. By convention, $0! = 1$.</p>
+
+<h3>Permutations</h3>
+<p>The number of ways to arrange $k$ objects from a set of $n$ (order matters):</p>
+<div class="display-math">$$P(n, k) = \frac{n!}{(n-k)!}$$</div>
+
+<h3>Combinations (binomial coefficient)</h3>
+<p>The number of ways to choose $k$ objects from $n$ (order doesn't matter):</p>
+<div class="display-math">$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</div>
+
+<p><strong>Key properties:</strong></p>
+<ul>
+<li>$\binom{n}{0} = \binom{n}{n} = 1$</li>
+<li>$\binom{n}{k} = \binom{n}{n-k}$ (symmetry)</li>
+<li>$\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$ (Pascal's rule)</li>
+</ul>
+
+<h3>Counting principles</h3>
+<ul>
+<li><strong>Multiplication principle:</strong> if task A has $m$ outcomes and task B has $n$ outcomes, doing both has $m \times n$ outcomes.</li>
+<li><strong>Addition principle:</strong> if task A has $m$ outcomes and task B has $n$ outcomes (mutually exclusive), doing one or the other has $m + n$ outcomes.</li>
+</ul>
+
+<hr>
+
+<h2>3. Elementary statistics</h2>
+
+<h3>Mean (average)</h3>
+<div class="display-math">$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</div>
+
+<h3>Median</h3>
+<p>Sort the data. The median is the middle value (or the average of the two middle values if $n$ is even).</p>
+
+<h3>Variance and standard deviation</h3>
+<div class="display-math">$$\text{Var}(X) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2 = \overline{x^2} - \bar{x}^2$$</div>
+<p>The second form ($\overline{x^2} - \bar{x}^2$) is the computational shortcut &mdash; "mean of squares minus square of mean."</p>
+<p><strong>Standard deviation:</strong> $\sigma = \sqrt{\text{Var}(X)}$.</p>
+
+<h3>What these become in the course</h3>
+<p>Phase 12 replaces these with rigorous definitions: the mean becomes <strong>expectation</strong> $E[X]$, variance becomes $\text{Var}(X) = E[(X - E[X])^2]$, and "data set" becomes "random variable." The formulas are the same &mdash; the conceptual framework is deeper.</p>
+
+<p><strong>Ready to practise?</strong> <a href="06-concept-exercises.html">10 exercises, easy to hard &rarr;</a></p>
+
+<div class="nav">
+  <a href="02-polynomials.html">&larr; Previous: Polynomials &amp; Factoring</a>
+  <a href="../fast-track.html">Fast Track &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+</body>
+</html>

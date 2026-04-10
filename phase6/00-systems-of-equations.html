@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systems of Linear Equations — Phase 6</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Systems of Linear Equations</h1>
+<p class="subtitle">Phase 6 &mdash; Linear Algebra, Page 0</p>
+
+<div class="problem-box">
+<div class="label">The problem</div>
+<p>A merchant in 2nd-century China records: <em>"Certain items of top grade, middle grade, and low grade are sold together. Three items of top, two of middle, one of low cost 39 coins. Two of top, three of middle, one of low cost 34 coins. One of top, two of middle, three of low cost 26 coins."</em></p>
+<p>This is from the <em>Jiuzhang Suanshu</em> (Nine Chapters, ~200 BC). The method of solution &mdash; systematically eliminating unknowns by combining equations &mdash; is what we now call <strong>Gaussian elimination</strong>. It was invented 2000 years before Gauss.</p>
+<p>The question: given several linear equations in several unknowns, when does a solution exist? Is it unique? And how do you find it systematically?</p>
+</div>
+
+<h2>1. Setting up the problem</h2>
+
+<p>A <strong>system of linear equations</strong> is a collection of equations, each linear in the unknowns. The Chinese merchant's problem:</p>
+<div class="display-math">$$\begin{cases} 3x + 2y + z = 39 \\ 2x + 3y + z = 34 \\ x + 2y + 3z = 26 \end{cases}$$</div>
+
+<p>We can write this more compactly using a matrix of coefficients and a column of unknowns:</p>
+<div class="display-math">$$\begin{pmatrix} 3 & 2 & 1 \\ 2 & 3 & 1 \\ 1 & 2 & 3 \end{pmatrix} \begin{pmatrix} x \\ y \\ z \end{pmatrix} = \begin{pmatrix} 39 \\ 34 \\ 26 \end{pmatrix}$$</div>
+
+<p>This is the notation $A\mathbf{x} = \mathbf{b}$. The rest of Phase 6 will study the matrix $A$ abstractly. This page studies the concrete algorithm for solving the system.</p>
+
+<h2>2. Gaussian elimination</h2>
+
+<p>Write the <strong>augmented matrix</strong> &mdash; the coefficient matrix with the right-hand side appended:</p>
+<div class="display-math">$$\left(\begin{array}{ccc|c} 3 & 2 & 1 & 39 \\ 2 & 3 & 1 & 34 \\ 1 & 2 & 3 & 26 \end{array}\right)$$</div>
+
+<p>Three operations are allowed (they don't change the solution set):</p>
+<ol>
+<li><strong>Swap two rows</strong></li>
+<li><strong>Multiply a row by a nonzero constant</strong></li>
+<li><strong>Add a multiple of one row to another</strong></li>
+</ol>
+
+<p>The goal: transform the matrix into <strong>row echelon form</strong> (upper triangular), then back-substitute.</p>
+
+<p><strong>Step 1:</strong> swap $R_1$ and $R_3$ (put the simplest leading coefficient on top):</p>
+<div class="display-math">$$\left(\begin{array}{ccc|c} 1 & 2 & 3 & 26 \\ 2 & 3 & 1 & 34 \\ 3 & 2 & 1 & 39 \end{array}\right)$$</div>
+
+<p><strong>Step 2:</strong> $R_2 \leftarrow R_2 - 2R_1$ and $R_3 \leftarrow R_3 - 3R_1$:</p>
+<div class="display-math">$$\left(\begin{array}{ccc|c} 1 & 2 & 3 & 26 \\ 0 & -1 & -5 & -18 \\ 0 & -4 & -8 & -39 \end{array}\right)$$</div>
+
+<p><strong>Step 3:</strong> $R_3 \leftarrow R_3 - 4R_2$:</p>
+<div class="display-math">$$\left(\begin{array}{ccc|c} 1 & 2 & 3 & 26 \\ 0 & -1 & -5 & -18 \\ 0 & 0 & 12 & 33 \end{array}\right)$$</div>
+
+<p><strong>Back-substitution:</strong> from $R_3$: $12z = 33$, so $z = 33/12 = 11/4$. From $R_2$: $-y - 5(11/4) = -18$, so $y = 18 - 55/4 = 17/4$. From $R_1$: $x + 2(17/4) + 3(11/4) = 26$, so $x = 26 - 34/4 - 33/4 = 37/4$.</p>
+
+<p>Solution: $(x, y, z) = (37/4, 17/4, 11/4)$.</p>
+
+<h2>3. What can happen</h2>
+
+<p>After elimination, exactly one of three outcomes occurs:</p>
+
+<div class="theorem-box">
+<div class="label">Three cases</div>
+<ol>
+<li><strong>Unique solution:</strong> every column has a pivot (leading 1). One solution.</li>
+<li><strong>Infinitely many solutions:</strong> some columns have no pivot. Free variables parametrise a family of solutions.</li>
+<li><strong>No solution:</strong> a row reads $0 = c$ with $c \neq 0$. The equations are contradictory.</li>
+</ol>
+</div>
+
+<p><strong>Example of no solution:</strong></p>
+<div class="display-math">$$\begin{cases} x + y = 3 \\ x + y = 5 \end{cases} \quad\longrightarrow\quad \left(\begin{array}{cc|c} 1 & 1 & 3 \\ 0 & 0 & 2 \end{array}\right)$$</div>
+<p>The second row says $0 = 2$. No solution.</p>
+
+<p><strong>Example of infinitely many:</strong></p>
+<div class="display-math">$$\begin{cases} x + y + z = 6 \\ x + 2y + 3z = 14 \end{cases} \quad\longrightarrow\quad \left(\begin{array}{ccc|c} 1 & 1 & 1 & 6 \\ 0 & 1 & 2 & 8 \end{array}\right)$$</div>
+<p>Let $z = t$ (free variable). Then $y = 8 - 2t$ and $x = 6 - y - z = t - 2$. Solution: $(t-2, \; 8-2t, \; t)$ for any $t \in \mathbb{R}$.</p>
+
+<h2>4. Cramer's rule (small systems)</h2>
+
+<div class="theorem-box">
+<div class="label">Cramer's rule</div>
+<p>For a square system $A\mathbf{x} = \mathbf{b}$ with $\det(A) \neq 0$, the unique solution is:</p>
+<div class="display-math">$$x_i = \frac{\det(A_i)}{\det(A)}$$</div>
+<p>where $A_i$ is $A$ with column $i$ replaced by $\mathbf{b}$.</p>
+</div>
+
+<p>For $2 \times 2$: $\det\begin{pmatrix} a & b \\ c & d \end{pmatrix} = ad - bc$.</p>
+
+<p><strong>Example:</strong> $\begin{cases} 2x + 3y = 8 \\ x - y = 1 \end{cases}$</p>
+<div class="display-math">$$\det(A) = 2(-1) - 3(1) = -5 \qquad x = \frac{8(-1) - 3(1)}{-5} = \frac{-11}{-5} = \frac{11}{5} \qquad y = \frac{2(1) - 8(1)}{-5} = \frac{-6}{-5} = \frac{6}{5}$$</div>
+
+<p>Cramer's rule is elegant but computationally expensive for large systems. Use Gaussian elimination for $n \geq 4$. Determinants are studied properly in Phase 6, page 5.</p>
+
+<div class="history-box">
+<div class="label">Historical note</div>
+<p>The <em>Jiuzhang Suanshu</em> (Nine Chapters on the Mathematical Art, c. 200 BC) describes what we now call Gaussian elimination using counting rods on a board. Chapter 8, <em>Fangcheng</em> (rectangular arrays), solves systems of up to 5 equations. Gauss reinvented the method in 1809 for least-squares problems in astronomy. Cramer published his rule in 1750; Leibniz had essentially the same idea in a 1693 letter to l'H&ocirc;pital.</p>
+</div>
+
+<div class="break-box">
+<div class="label">What breaks</div>
+<p><strong>If $\det(A) = 0$:</strong> Cramer's rule divides by zero. The system either has no solution or infinitely many &mdash; you must use elimination to find out which.</p>
+<p><strong>If you forget to apply row operations to the augmented column:</strong> the right-hand side changes too. Operating only on the coefficient matrix gives a wrong answer.</p>
+<p><strong>If you scale a row by zero:</strong> you lose information (the equation is destroyed). Only nonzero scaling is allowed.</p>
+</div>
+
+<hr>
+
+<div class="oneliner">Gaussian elimination is the algorithm; the rest of linear algebra explains why it works.</div>
+
+<div class="nav">
+  <a href="../phase5/08-weierstrass-approximation.html">&larr; Previous: Weierstrass Approximation</a>
+  <a href="01-vector-spaces.html">Next: Vector Spaces &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polynomials and Factoring — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Polynomials and Factoring</h1>
+<p class="subtitle">Refresher &mdash; Pen-and-paper fluency</p>
+
+<p>How to solve polynomial equations by hand. The workflow: spot a root, factor it out, reduce the degree, repeat.</p>
+
+<hr>
+
+<h2>1. The quadratic formula</h2>
+
+<p>For $ax^2 + bx + c = 0$ with $a \neq 0$:</p>
+<div class="display-math">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+
+<p>The <strong>discriminant</strong> $\Delta = b^2 - 4ac$ tells you everything:</p>
+<ul>
+<li>$\Delta > 0$: two distinct real roots</li>
+<li>$\Delta = 0$: one repeated real root ($x = -b/2a$)</li>
+<li>$\Delta < 0$: no real roots (two complex conjugate roots)</li>
+</ul>
+
+<p><strong>Vieta's formulas</strong> (useful shortcut): if $r_1, r_2$ are the roots, then $r_1 + r_2 = -b/a$ and $r_1 \cdot r_2 = c/a$.</p>
+
+<hr>
+
+<h2>2. Factoring patterns</h2>
+
+<p>Recognise these on sight:</p>
+
+<table>
+<tr><th>Pattern</th><th>Factorisation</th></tr>
+<tr><td>$a^2 - b^2$</td><td>$(a-b)(a+b)$</td></tr>
+<tr><td>$a^2 + 2ab + b^2$</td><td>$(a+b)^2$</td></tr>
+<tr><td>$a^2 - 2ab + b^2$</td><td>$(a-b)^2$</td></tr>
+<tr><td>$a^3 - b^3$</td><td>$(a-b)(a^2 + ab + b^2)$</td></tr>
+<tr><td>$a^3 + b^3$</td><td>$(a+b)(a^2 - ab + b^2)$</td></tr>
+</table>
+
+<p><strong>Factoring by grouping:</strong> if a four-term expression has a common structure, group in pairs.</p>
+<div class="display-math">$$x^3 + 3x^2 - x - 3 = x^2(x+3) - 1(x+3) = (x^2 - 1)(x+3) = (x-1)(x+1)(x+3)$$</div>
+
+<hr>
+
+<h2>3. The rational root theorem</h2>
+
+<p>For a polynomial with integer coefficients $a_n x^n + \cdots + a_0$, any rational root $p/q$ (in lowest terms) satisfies:</p>
+<ul>
+<li>$p$ divides $a_0$ (the constant term)</li>
+<li>$q$ divides $a_n$ (the leading coefficient)</li>
+</ul>
+
+<p><strong>Workflow:</strong> list candidates, test them, factor out the ones that work.</p>
+
+<p><strong>Example:</strong> $x^3 - 6x^2 + 11x - 6 = 0$. Candidates: $\pm 1, \pm 2, \pm 3, \pm 6$. Test $x=1$: $1 - 6 + 11 - 6 = 0$. It works. Factor out $(x-1)$.</p>
+
+<hr>
+
+<h2>4. Polynomial long division</h2>
+
+<p>Once you know $x = r$ is a root, divide the polynomial by $(x - r)$ to reduce the degree.</p>
+
+<p><strong>Example:</strong> divide $x^3 - 6x^2 + 11x - 6$ by $(x - 1)$.</p>
+
+<ol>
+<li>$x^3 \div x = x^2$. Multiply: $x^2(x-1) = x^3 - x^2$. Subtract: $-5x^2 + 11x - 6$.</li>
+<li>$-5x^2 \div x = -5x$. Multiply: $-5x(x-1) = -5x^2 + 5x$. Subtract: $6x - 6$.</li>
+<li>$6x \div x = 6$. Multiply: $6(x-1) = 6x - 6$. Subtract: $0$.</li>
+</ol>
+
+<p>Result: $x^3 - 6x^2 + 11x - 6 = (x-1)(x^2 - 5x + 6) = (x-1)(x-2)(x-3)$.</p>
+
+<hr>
+
+<h2>5. The complete workflow for degree $\geq 3$</h2>
+
+<ol>
+<li><strong>Try obvious roots:</strong> $x = 0, \pm 1, \pm 2$ cover most exam cases.</li>
+<li><strong>Use the rational root theorem</strong> if obvious guesses fail.</li>
+<li><strong>Divide out</strong> each root you find (polynomial long division).</li>
+<li><strong>Repeat</strong> until you reach a quadratic, then use the formula.</li>
+</ol>
+
+<p><strong>Degree 4+ tip:</strong> sometimes you can spot a substitution. E.g. $x^4 - 5x^2 + 4 = 0$ &mdash; let $u = x^2$, solve $u^2 - 5u + 4 = 0$, get $u = 1$ or $u = 4$, then $x = \pm 1$ or $x = \pm 2$.</p>
+
+<hr>
+
+<h2>6. Why degree $\geq 5$ is different</h2>
+
+<p>There is no general formula in radicals for degree 5 or higher &mdash; this is the Abel-Ruffini theorem (proved rigorously in <a href="../phase10/08-galois-abel-ruffini.html">Phase 10, page 8</a>). For specific equations you can still find roots by inspection, numerical methods, or the rational root theorem. But no universal formula like the quadratic formula exists.</p>
+
+<hr>
+
+<h2>7. Quick reference: the binomial theorem</h2>
+
+<p>For expanding $(a+b)^n$:</p>
+<div class="display-math">$$(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k$$</div>
+
+<p>First few cases to know by heart:</p>
+<ul>
+<li>$(a+b)^2 = a^2 + 2ab + b^2$</li>
+<li>$(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$</li>
+<li>$(a+b)^4 = a^4 + 4a^3b + 6a^2b^2 + 4ab^3 + b^4$</li>
+</ul>
+
+<p><strong>Ready to practise?</strong> <a href="05-polynomial-exercises.html">10 exercises, easy to hard &rarr;</a></p>
+
+<div class="nav">
+  <a href="01-equation-solving.html">&larr; Previous: Equation Solving</a>
+  <a href="03-concepts.html">Next: Concepts Refresher &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept Exercises — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Concept Exercises</h1>
+<p class="subtitle">Refresher &mdash; Complex numbers, combinatorics, statistics</p>
+
+<p>Work each problem on paper before opening the solution. Reference: <a href="03-concepts.html">Concepts Refresher</a>.</p>
+
+<hr>
+
+<h2>Complex numbers</h2>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 1 &mdash; Arithmetic</div>
+<p>Compute $(3 + 4i)(2 - i)$ and express in the form $a + bi$.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>$(3+4i)(2-i) = 6 - 3i + 8i - 4i^2 = 6 + 5i + 4 = 10 + 5i$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 2 &mdash; Division</div>
+<p>Compute $\dfrac{5 + i}{2 - 3i}$ and express in the form $a + bi$.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Multiply by the conjugate of the denominator:</p>
+<div class="display-math">$$\frac{5+i}{2-3i} \cdot \frac{2+3i}{2+3i} = \frac{(5+i)(2+3i)}{4+9} = \frac{10 + 15i + 2i + 3i^2}{13} = \frac{7 + 17i}{13} = \frac{7}{13} + \frac{17}{13}i$$</div>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 3 &mdash; Modulus and argument</div>
+<p>Find the modulus and argument of $z = -1 + i\sqrt{3}$. Write $z$ in polar form.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>$|z| = \sqrt{(-1)^2 + (\sqrt{3})^2} = \sqrt{1+3} = 2$.</p>
+<p>$\cos\theta = -1/2$ and $\sin\theta = \sqrt{3}/2$. So $\theta = 2\pi/3$.</p>
+<p>Polar form: $z = 2e^{i \cdot 2\pi/3} = 2\left(\cos\frac{2\pi}{3} + i\sin\frac{2\pi}{3}\right)$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 4 &mdash; De Moivre</div>
+<p>Compute $(1+i)^8$.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>First, polar form: $|1+i| = \sqrt{2}$ and $\arg(1+i) = \pi/4$. So $1+i = \sqrt{2}\,e^{i\pi/4}$.</p>
+<p>$(1+i)^8 = (\sqrt{2})^8 \cdot e^{i \cdot 8\pi/4} = 2^4 \cdot e^{i \cdot 2\pi} = 16 \cdot 1 = 16$.</p>
+<p>The answer is real! You can verify: $(1+i)^2 = 2i$, $(2i)^2 = -4$, $(-4)^2 = 16$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 5 &mdash; Quadratic with complex roots</div>
+<p>Solve: $\;x^2 + 2x + 5 = 0$.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>$\Delta = 4 - 20 = -16$. $\sqrt{\Delta} = 4i$.</p>
+<p>$x = \dfrac{-2 \pm 4i}{2} = -1 \pm 2i$.</p>
+<p>Check: the roots are conjugates (as they must be for a polynomial with real coefficients). Their sum is $-2 = -b/a$ and their product is $(-1+2i)(-1-2i) = 1 + 4 = 5 = c/a$. Vieta confirmed.</p>
+</div>
+</details>
+</div>
+
+<hr>
+
+<h2>Combinatorics</h2>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 6 &mdash; Counting basics</div>
+<p>A PIN code is 4 digits (0&ndash;9), digits can repeat. (a) How many PINs are there? (b) How many if no digit repeats?</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>(a) Multiplication principle: $10^4 = 10{,}000$.</p>
+<p>(b) First digit: 10 choices. Second: 9. Third: 8. Fourth: 7. Total: $10 \times 9 \times 8 \times 7 = P(10,4) = 5{,}040$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 7 &mdash; Combinations</div>
+<p>A committee of 4 must be chosen from 10 people. (a) How many committees? (b) How many if one specific person must be included?</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>(a) $\binom{10}{4} = \dfrac{10!}{4!\,6!} = \dfrac{10 \times 9 \times 8 \times 7}{4 \times 3 \times 2 \times 1} = 210$.</p>
+<p>(b) Fix that person in the committee. Choose the remaining 3 from the other 9: $\binom{9}{3} = 84$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 8 &mdash; Binomial coefficient identity</div>
+<p>Prove that $\displaystyle\sum_{k=0}^{n} \binom{n}{k}^2 = \binom{2n}{n}$.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Consider choosing $n$ people from a group of $2n$ (split into $n$ men and $n$ women). The answer is $\binom{2n}{n}$.</p>
+<p>Alternatively: choose $k$ men from $n$ (giving $\binom{n}{k}$) and $n-k$ women from $n$ (giving $\binom{n}{n-k} = \binom{n}{k}$ by symmetry). Sum over $k$:</p>
+<div class="display-math">$$\sum_{k=0}^{n} \binom{n}{k}\binom{n}{n-k} = \sum_{k=0}^{n} \binom{n}{k}^2 = \binom{2n}{n}$$</div>
+<p>This is the <strong>Vandermonde identity</strong> (special case). The combinatorial proof is more illuminating than the algebraic one &mdash; you count the same thing two different ways.</p>
+</div>
+</details>
+</div>
+
+<hr>
+
+<h2>Elementary statistics</h2>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 9 &mdash; Mean and variance</div>
+<p>A data set has values: $2, 5, 7, 8, 13$. Compute the mean, variance, and standard deviation.</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p><strong>Mean:</strong> $\bar{x} = (2+5+7+8+13)/5 = 35/5 = 7$.</p>
+<p><strong>Variance</strong> (using $\overline{x^2} - \bar{x}^2$):</p>
+<p>$\overline{x^2} = (4 + 25 + 49 + 64 + 169)/5 = 311/5 = 62.2$.</p>
+<p>$\text{Var} = 62.2 - 49 = 13.2$.</p>
+<p><strong>Standard deviation:</strong> $\sigma = \sqrt{13.2} \approx 3.63$.</p>
+<p>Alternatively: $(2-7)^2 + (5-7)^2 + (7-7)^2 + (8-7)^2 + (13-7)^2 = 25+4+0+1+36 = 66$. Divide by 5: $13.2$. Same answer &mdash; the shortcut formula always works.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 10 &mdash; Probability with counting</div>
+<p>A bag contains 5 red and 3 blue balls. You draw 3 balls without replacement. What is the probability that exactly 2 are red?</p>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Total ways to draw 3 from 8: $\binom{8}{3} = 56$.</p>
+<p>Ways to get exactly 2 red and 1 blue: $\binom{5}{2}\binom{3}{1} = 10 \times 3 = 30$.</p>
+<p>$P = 30/56 = 15/28 \approx 0.536$.</p>
+<p>This is a <strong>hypergeometric</strong> probability problem. The structure is always the same: $\dfrac{\binom{\text{good}}{k}\binom{\text{bad}}{n-k}}{\binom{\text{total}}{n}}$.</p>
+</div>
+</details>
+</div>
+
+<div class="nav">
+  <a href="05-polynomial-exercises.html">&larr; Previous: Polynomial Exercises</a>
+  <a href="../fast-track.html">Fast Track &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+</body>
+</html>

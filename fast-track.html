@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fast Track — 12-Month Curriculum</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Fast Track</h1>
+<p class="subtitle">12-Month Curriculum &mdash; concours fluency + stochastic calc readiness</p>
+
+<p>A focused path through the <a href="index.html">full curriculum</a> for part-time study (~1.5h/day). Same pages, different order, phases triaged by relevance. <strong>70% of your time should go to problem-solving, not reading proofs.</strong></p>
+
+<p>See <a href="FAST_TRACK_CURRICULUM.md">FAST_TRACK_CURRICULUM.md</a> for the full rationale.</p>
+
+<hr>
+
+<h2>How to study each page</h2>
+
+<ol>
+<li><strong>Read the problem box only.</strong> Stop. Spend 5&ndash;10 minutes trying to see why it&rsquo;s hard.</li>
+<li><strong>Read the theorem statement.</strong> Stop. Try to prove it yourself for 10&ndash;15 minutes.</li>
+<li><strong>Read the proof.</strong> Compare against your failed attempt.</li>
+<li><strong>Close the page. Reproduce the proof from memory</strong> on paper.</li>
+<li><strong>Do 3&ndash;5 exercises</strong> that use this theorem. Same session or next day.</li>
+<li><strong>One week later: 2&ndash;3 harder exercises</strong> without rereading. Spaced retrieval.</li>
+</ol>
+
+<hr>
+
+<p class="refresher-label">Month 0 &mdash; Refresher (before you start)</p>
+<p><em>Pen-and-paper fluency assumed by the course. Read in one sitting (~45 minutes). Come back as a reference when rusty.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="refresher/01-equation-solving.html">1. Equation Solving Toolkit</a>
+    <div class="desc">Isolating $x$, exponent/log rules, fraction arithmetic, inequalities, systems.</div>
+  </li>
+  <li>
+    <a href="refresher/02-polynomials.html">2. Polynomials and Factoring</a>
+    <div class="desc">Quadratic formula, factoring patterns, polynomial division, rational root theorem.</div>
+  </li>
+  <li>
+    <a href="refresher/03-concepts.html">3. Concepts Refresher</a>
+    <div class="desc">Complex numbers, combinatorics ($n!$, $\binom{n}{k}$), elementary statistics.</div>
+  </li>
+  <li>
+    <a href="refresher/04-equation-exercises.html">4. Equation Solving Exercises</a>
+    <div class="desc">10 exercises with hidden solutions. Linear to trigonometric.</div>
+  </li>
+  <li>
+    <a href="refresher/05-polynomial-exercises.html">5. Polynomial Exercises</a>
+    <div class="desc">10 exercises with hidden solutions. Factoring, division, Vieta, partial fractions.</div>
+  </li>
+  <li>
+    <a href="refresher/06-concept-exercises.html">6. Concept Exercises</a>
+    <div class="desc">10 exercises with hidden solutions. Complex numbers, counting, statistics.</div>
+  </li>
+</ul>
+
+<hr>
+
+<p class="phase-label">Month 1 &mdash; Foundations</p>
+<p><em>Skim the geometry, then build the real analysis foundation. Epsilon-delta fluency is non-negotiable.</em></p>
+
+<h3>Phase 0 &mdash; Geometry (skim)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase0/01-similar-triangles.html">1. Similar Triangles and Measurement</a>
+    <div class="desc">Thales measures the Great Pyramid. Same angles &rarr; same ratios.</div>
+  </li>
+  <li>
+    <a href="phase0/02-pythagorean-theorem.html">2. The Pythagorean Theorem</a>
+    <div class="desc">$a^2 + b^2 = c^2$. Two proofs. Why it's about areas, not algebra.</div>
+  </li>
+  <li>
+    <a href="phase0/03-sqrt2-irrational.html">3. $\sqrt{2}$ is Irrational</a>
+    <div class="desc">The rationals have holes. Why $\mathbb{R}$ was invented.</div>
+  </li>
+  <li>
+    <a href="phase0/04-trigonometry.html">4. Trigonometry from Scratch</a>
+    <div class="desc">Sine and cosine as angle-to-ratio converters.</div>
+  </li>
+  <li>
+    <a href="phase0/05-unit-circle.html">5. The Unit Circle</a>
+    <div class="desc">$\sin^2\theta + \cos^2\theta = 1$. Proves $|\sin\theta| \leq 1$.</div>
+  </li>
+  <li>
+    <a href="phase0/06-coordinate-geometry.html">6. Coordinate Geometry</a>
+    <div class="desc">Descartes turns points into numbers and curves into equations.</div>
+  </li>
+  <li>
+    <a href="phase0/07-trig-identities.html">7. Trigonometric Identities</a>
+    <div class="desc">Addition formulae, double angle, sum-to-product. The trig manipulation toolkit.</div>
+  </li>
+</ul>
+
+<h3>Phase 2 &mdash; Limits and Convergence (thorough)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase2/00-inequalities.html">0. Inequalities</a>
+    <div class="desc">Triangle inequality, AM-GM, Bernoulli, Cauchy-Schwarz. The engine of every convergence proof.</div>
+  </li>
+  <li>
+    <a href="phase2/01-completeness.html">1. Completeness of $\mathbb{R}$</a>
+    <div class="desc">The supremum axiom fills the holes in $\mathbb{Q}$.</div>
+  </li>
+  <li>
+    <a href="phase2/02-squeeze-theorem.html">2. The Squeeze Theorem</a>
+    <div class="desc">Archimedes traps $\pi$ between polygons.</div>
+  </li>
+  <li>
+    <a href="phase2/03-monotone-convergence.html">3. Monotone Convergence Theorem</a>
+    <div class="desc">Bounded + monotone &rArr; converges.</div>
+  </li>
+  <li>
+    <a href="phase2/04-bolzano-weierstrass.html">4. Bolzano&ndash;Weierstrass Theorem</a>
+    <div class="desc">Every bounded sequence hides a convergent subsequence.</div>
+  </li>
+  <li>
+    <a href="phase2/05-cauchy-criterion.html">5. The Cauchy Criterion</a>
+    <div class="desc">Convergence without knowing the limit.</div>
+  </li>
+  <li>
+    <a href="phase2/06-ivt.html">6. Intermediate Value Theorem</a>
+    <div class="desc">Continuous + sign change &rArr; zero crossing.</div>
+  </li>
+  <li>
+    <a href="phase2/07-dense-subsets.html">7. Dense Subsets of $\mathbb{R}$</a>
+    <div class="desc">$\mathbb{Q}$ is everywhere dense yet full of holes.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> prove 10 limits from scratch using epsilon-delta. Squeeze theorem exercises. Prove convergence of 5 recursive sequences.</p>
+
+<hr>
+
+<p class="phase-label">Months 2&ndash;3 &mdash; Calculus</p>
+<p><em>Derivatives, then integration. Every rule proved from the limit definition. Month 2 = Part A, Month 3 = Part B.</em></p>
+
+<h3>Part A &mdash; Derivatives (month 2)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase3/01-derivative.html">1. The Derivative</a>
+    <div class="desc">The slope of a curve at a point, as a limit of secant slopes.</div>
+  </li>
+  <li>
+    <a href="phase3/02-differentiation-rules.html">2. Differentiation Rules</a>
+    <div class="desc">Sum, product, quotient, chain rule &mdash; each from the definition.</div>
+  </li>
+  <li>
+    <a href="phase3/03-trig-derivatives.html">3. Derivatives of Sine and Cosine</a>
+    <div class="desc">The geometric squeeze: $\sin(h)/h \to 1$.</div>
+  </li>
+  <li>
+    <a href="phase3/04-mean-value-theorem.html">4. The Mean Value Theorem</a>
+    <div class="desc">Local information (derivative) &rarr; global information (total change).</div>
+  </li>
+  <li>
+    <a href="phase3/05-lhopital.html">5. L'H&ocirc;pital's Rule</a>
+    <div class="desc">When $0/0$ blocks you, compare rates of vanishing.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> differentiation drills (50+ functions). MVT application problems. L'H&ocirc;pital limit exercises.</p>
+
+<h3>Part B &mdash; Integration (month 3)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase3/06-riemann-integral.html">6. The Riemann Integral</a>
+    <div class="desc">Partitions, upper and lower sums, the definition from scratch.</div>
+  </li>
+  <li>
+    <a href="phase3/07-integrability.html">7. Integrability and Properties</a>
+    <div class="desc">Continuous on a closed interval &rArr; integrable.</div>
+  </li>
+  <li>
+    <a href="phase3/08-fundamental-theorem.html">8. The Fundamental Theorem of Calculus</a>
+    <div class="desc">Differentiation and integration are inverse operations.</div>
+  </li>
+  <li>
+    <a href="phase3/09-integration-techniques.html">9. Integration Techniques</a>
+    <div class="desc">Substitution = chain rule backwards. Parts = product rule backwards.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> 50+ integrals. Substitution, parts, partial fractions. This is where muscle memory forms.</p>
+
+<hr>
+
+<p class="phase-label">Month 4 &mdash; Power Series and Taylor</p>
+<p><em>Write complicated functions as infinite polynomials. Taylor expansions are concours bread and butter.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase4/01-taylor-theorem.html">1. Taylor's Theorem</a>
+    <div class="desc">Matching derivatives to find coefficients. The Lagrange remainder.</div>
+  </li>
+  <li>
+    <a href="phase4/02-power-series.html">2. Power Series and Radius of Convergence</a>
+    <div class="desc">Ratio test, Cauchy-Hadamard. Why $1/(1+x^2)$ has radius $1$.</div>
+  </li>
+  <li>
+    <a href="phase4/03-exponential.html">3. The Exponential Function</a>
+    <div class="desc">$e^x = \sum x^n/n!$ &mdash; defined by the series, all properties proved.</div>
+  </li>
+  <li>
+    <a href="phase4/04-trig-series.html">4. Sine and Cosine from Scratch</a>
+    <div class="desc">Trig functions from pure arithmetic. $\sin^2 + \cos^2 = 1$ proved algebraically.</div>
+  </li>
+  <li>
+    <a href="phase4/05-term-by-term.html">5. Term-by-Term Operations</a>
+    <div class="desc">Differentiating and integrating power series term by term.</div>
+  </li>
+  <li>
+    <a href="phase4/06-abel-theorem.html">6. Abel's Theorem</a>
+    <div class="desc">Boundary behaviour. $\ln(2) = 1 - 1/2 + 1/3 - \cdots$</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> Taylor-expand 20 functions. Remainder estimation problems. Find radius of convergence for 15 power series.</p>
+
+<hr>
+
+<p class="phase-label">Month 5 &mdash; Convergence Toolkit</p>
+<p><em>Systematic tools for taming series. Every exam has at least one "determine convergence" problem.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase5/01-comparison-test.html">1. The Comparison Test</a>
+    <div class="desc">Compare with a series you already know.</div>
+  </li>
+  <li>
+    <a href="phase5/02-ratio-test.html">2. The Ratio and Root Tests</a>
+    <div class="desc">d'Alembert and Cauchy automate comparison.</div>
+  </li>
+  <li>
+    <a href="phase5/03-alternating-series.html">3. The Alternating Series Test</a>
+    <div class="desc">Alternating signs rescue the harmonic series.</div>
+  </li>
+  <li>
+    <a href="phase5/04-absolute-conditional.html">4. Absolute and Conditional Convergence</a>
+    <div class="desc">Riemann rearrangement theorem. Absolute convergence is the safe notion.</div>
+  </li>
+  <li>
+    <a href="phase5/05-cesaro-means.html">5. Ces&agrave;ro Means</a>
+    <div class="desc">When averages converge even if the sequence doesn't.</div>
+  </li>
+  <li>
+    <a href="phase5/06-uniform-convergence.html">6. Uniform Convergence</a>
+    <div class="desc">Cauchy's error and Weierstrass's fix.</div>
+  </li>
+  <li>
+    <a href="phase5/07-weierstrass-m-test.html">7. The Weierstrass M-Test</a>
+    <div class="desc">The practical shortcut for uniform convergence.</div>
+  </li>
+  <li>
+    <a href="phase5/08-weierstrass-approximation.html">8. The Weierstrass Approximation Theorem</a>
+    <div class="desc">Polynomials approximate any continuous function.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> classify 30+ series (converge/diverge, absolute/conditional). Uniform convergence problems.</p>
+
+<hr>
+
+<p class="phase-label">Months 6&ndash;7 &mdash; Linear Algebra</p>
+<p><em>~40% of CPGE exams. Eigenvalues, diagonalisation, projections. This needs two months.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase6/00-systems-of-equations.html">0. Systems of Linear Equations</a>
+    <div class="desc">Gaussian elimination, row echelon form, Cramer's rule. The motivating problem.</div>
+  </li>
+  <li>
+    <a href="phase6/01-vector-spaces.html">1. Vector Spaces</a>
+    <div class="desc">Grassmann's abstraction &mdash; the 8 axioms.</div>
+  </li>
+  <li>
+    <a href="phase6/02-basis-dimension.html">2. Basis and Dimension</a>
+    <div class="desc">All bases have the same size. Dimension is well-defined.</div>
+  </li>
+  <li>
+    <a href="phase6/03-linear-maps.html">3. Linear Maps and Rank-Nullity</a>
+    <div class="desc">Kernel + image = what you started with.</div>
+  </li>
+  <li>
+    <a href="phase6/04-matrices.html">4. Matrices and Change of Basis</a>
+    <div class="desc">Linear maps as arrays. $P^{-1}AP$ translates between bases.</div>
+  </li>
+  <li>
+    <a href="phase6/05-determinants.html">5. Determinants</a>
+    <div class="desc">Detects invertibility and measures volume scaling.</div>
+  </li>
+  <li>
+    <a href="phase6/06-eigenvalues.html">6. Eigenvalues and the Characteristic Polynomial</a>
+    <div class="desc">Special directions a map merely stretches. Diagonalisability.</div>
+  </li>
+  <li>
+    <a href="phase6/07-inner-products.html">7. Inner Products and Gram-Schmidt</a>
+    <div class="desc">Length and angle in abstract spaces. Cauchy-Schwarz. Orthonormalisation.</div>
+  </li>
+  <li>
+    <a href="phase6/08-projection.html">8. Orthogonal Projection</a>
+    <div class="desc">The closest point in a subspace.</div>
+  </li>
+  <li>
+    <a href="phase6/09-spectral-theorem.html">9. The Spectral Theorem</a>
+    <div class="desc">Symmetric matrices always diagonalise with orthonormal eigenbasis.</div>
+  </li>
+  <li>
+    <a href="phase6/10-cayley-hamilton.html">10. The Cayley-Hamilton Theorem</a>
+    <div class="desc">Every matrix satisfies its own characteristic polynomial.</div>
+  </li>
+  <li>
+    <a href="phase6/11-jordan-normal-form.html">11. Jordan Normal Form</a>
+    <div class="desc">When diagonalisation fails, Jordan provides the next best thing.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> diagonalise 20 matrices. Eigenvalue computations. Gram-Schmidt by hand. Projection problems. Jordan form exercises.</p>
+
+<hr>
+
+<p class="phase-label">Month 8 &mdash; Differential Equations</p>
+<p><em>Central to concours and stochastic calculus. Solve equations relating a function to its derivatives.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase8/01-first-order-odes.html">1. First-Order ODEs</a>
+    <div class="desc">Separable and linear equations. The integrating factor.</div>
+  </li>
+  <li>
+    <a href="phase8/02-cauchy-lipschitz.html">2. The Cauchy-Lipschitz Theorem</a>
+    <div class="desc">Existence and uniqueness. Picard iteration.</div>
+  </li>
+  <li>
+    <a href="phase8/03-gronwall.html">3. Gronwall's Inequality</a>
+    <div class="desc">The universal growth bound for solutions.</div>
+  </li>
+  <li>
+    <a href="phase8/04-linear-odes.html">4. Linear ODE Solution Structure</a>
+    <div class="desc">Solutions form a vector space. Wronskian, characteristic polynomial.</div>
+  </li>
+  <li>
+    <a href="phase8/05-variation-of-parameters.html">5. Variation of Parameters</a>
+    <div class="desc">Lagrange's method for non-homogeneous equations.</div>
+  </li>
+  <li>
+    <a href="phase8/06-matrix-exponential.html">6. Systems and the Matrix Exponential</a>
+    <div class="desc">$\mathbf{y}(t) = e^{At}\mathbf{y}(0)$. Where linear algebra meets ODEs.</div>
+  </li>
+  <li>
+    <a href="phase8/07-stability.html">7. Stability and Lyapunov's Method</a>
+    <div class="desc">Prove stability without solving the ODE.</div>
+  </li>
+  <li>
+    <a href="phase8/08-poincare-bendixson.html">8. The Poincar&eacute;-Bendixson Theorem</a>
+    <div class="desc">No chaos below three dimensions.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> solve 30+ ODEs. Phase portrait sketching. Stability analysis. Matrix exponential computations.</p>
+
+<hr>
+
+<p class="phase-label">Month 9 &mdash; Multivariable Calculus (focused)</p>
+<p><em>Partial derivatives, Jacobians, Lagrange multipliers. Skip vector calculus proofs &mdash; focus on computation.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase7/01-partial-derivatives.html">1. Partial Derivatives and the Gradient</a>
+    <div class="desc">Differentiate in each direction separately. The gradient points uphill.</div>
+  </li>
+  <li>
+    <a href="phase7/02-chain-rule.html">2. The Multivariable Chain Rule</a>
+    <div class="desc">The chain rule is matrix multiplication &mdash; the Jacobian.</div>
+  </li>
+  <li>
+    <a href="phase7/03-schwarz.html">3. Schwarz's Theorem</a>
+    <div class="desc">Mixed partials commute when continuous.</div>
+  </li>
+  <li>
+    <a href="phase7/04-implicit-inverse.html">4. The Implicit and Inverse Function Theorems</a>
+    <div class="desc">Solve $F(x,y) = 0$ for $y$ when the Jacobian is invertible.</div>
+  </li>
+  <li>
+    <a href="phase7/05-lagrange-multipliers.html">5. Lagrange Multipliers and the Second Derivative Test</a>
+    <div class="desc">Optimise under constraints. The Hessian classifies critical points.</div>
+  </li>
+  <li>
+    <a href="phase7/06-multiple-integrals.html">6. Multiple Integrals and Fubini's Theorem</a>
+    <div class="desc">Double integrals as iterated single integrals. Change of variables.</div>
+  </li>
+</ul>
+
+<p><em>Pages 7&ndash;8 (Green, Stokes, divergence) &mdash; read if time permits, not priority.</em></p>
+
+<p><strong>Practice:</strong> gradient/Jacobian computations. Lagrange multiplier optimisation problems. Double integral exercises.</p>
+
+<hr>
+
+<p class="phase-label">Months 10&ndash;11 &mdash; Probability</p>
+<p><em>Non-negotiable for quant finance. CLT, conditional expectation, moment generating functions.</em></p>
+
+<ul class="index-list">
+  <li>
+    <a href="phase12/00-counting.html">0. Counting</a>
+    <div class="desc">Factorials, permutations, combinations, binomial coefficients, stars and bars.</div>
+  </li>
+  <li>
+    <a href="phase12/01-probability-spaces.html">1. Probability Spaces</a>
+    <div class="desc">Kolmogorov's axioms, counting, law of total probability.</div>
+  </li>
+  <li>
+    <a href="phase12/02-bayes.html">2. Conditional Probability and Bayes' Theorem</a>
+    <div class="desc">Updating beliefs with evidence.</div>
+  </li>
+  <li>
+    <a href="phase12/03-expectation.html">3. Random Variables and Expectation</a>
+    <div class="desc">Linearity of expectation &mdash; the single most useful fact in probability.</div>
+  </li>
+  <li>
+    <a href="phase12/04-variance.html">4. Variance and Covariance</a>
+    <div class="desc">Measuring spread. Independence and correlation.</div>
+  </li>
+  <li>
+    <a href="phase12/05-markov-chebyshev.html">5. Markov and Chebyshev Inequalities</a>
+    <div class="desc">Universal tail bounds from moments alone.</div>
+  </li>
+  <li>
+    <a href="phase12/06-law-of-large-numbers.html">6. The Law of Large Numbers</a>
+    <div class="desc">Sample means converge to true means.</div>
+  </li>
+  <li>
+    <a href="phase12/07-central-limit-theorem.html">7. The Central Limit Theorem</a>
+    <div class="desc">Sums of independent variables &rarr; Gaussian.</div>
+  </li>
+  <li>
+    <a href="phase12/08-conditional-expectation.html">8. Conditional Expectation as Projection</a>
+    <div class="desc">The best predictor minimises mean-squared error.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> conditional probability problems. Expectation/variance computations. CLT applications. Past concours probability papers.</p>
+
+<hr>
+
+<p class="phase-label">Month 12 &mdash; Fourier Basics + Spectral Theory</p>
+<p><em>Light month. Focus on computation and key results, not deep proofs.</em></p>
+
+<h3>Phase 11 &mdash; Fourier (basics)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase11/01-fourier-series.html">1. Fourier Series</a>
+    <div class="desc">Decompose periodic functions into pure frequencies.</div>
+  </li>
+  <li>
+    <a href="phase11/02-convergence.html">2. Convergence of Fourier Series</a>
+    <div class="desc">Dirichlet conditions. When does the series converge?</div>
+  </li>
+  <li>
+    <a href="phase11/03-parseval.html">3. Bessel's Inequality and Parseval's Theorem</a>
+    <div class="desc">Energy conservation. $\sum 1/n^2 = \pi^2/6$ as a corollary.</div>
+  </li>
+</ul>
+
+<h3>Phase 13 &mdash; Spectral Theory (highlights)</h3>
+<ul class="index-list">
+  <li>
+    <a href="phase13/03-spectral-theorem.html">3. The Spectral Theorem</a>
+    <div class="desc">$A = Q\Lambda Q^T$ for symmetric matrices.</div>
+  </li>
+  <li>
+    <a href="phase13/04-svd.html">4. Singular Value Decomposition</a>
+    <div class="desc">Any matrix: $A = U\Sigma V^T$. Rotate-stretch-rotate.</div>
+  </li>
+  <li>
+    <a href="phase13/05-rayleigh-courant-fischer.html">5. The Rayleigh Quotient</a>
+    <div class="desc">Eigenvalues as extrema of $x^TAx/x^Tx$.</div>
+  </li>
+</ul>
+
+<p><strong>Practice:</strong> compute Fourier coefficients. SVD by hand for small matrices. Parseval identity applications.</p>
+
+<hr>
+
+<h2>Phases skipped (come back later)</h2>
+
+<p>These become much easier once the essential core is mastered:</p>
+
+<table>
+<tr><th>Phase</th><th>Topic</th><th>Why it waits</th></tr>
+<tr><td>1</td><td><a href="index.html">Number Theory</a></td><td>Rarely on analysis concours. Doesn't feed into stochastic calc.</td></tr>
+<tr><td>9</td><td><a href="index.html">Topology of Metric Spaces</a></td><td>Banach fixed point is the only must-know &mdash; already in Phase 8.</td></tr>
+<tr><td>10</td><td><a href="index.html">Abstract Algebra</a></td><td>Galois theory won't help solve SDEs.</td></tr>
+<tr><td>14</td><td><a href="index.html">Normed Spaces</a></td><td>Graduate-level. Revisit alongside measure theory.</td></tr>
+<tr><td>15</td><td><a href="index.html">Game Theory</a></td><td>Bonus &mdash; skip.</td></tr>
+</table>
+
+<hr>
+
+<h2>Exercise sources</h2>
+
+<p>The course pages are exposition-only. You need external problems:</p>
+
+<ul>
+<li><strong>Past CPGE concours papers</strong> &mdash; "annales concours X MP/PC maths", or e3a/CCINP for easier. Do them timed.</li>
+<li><strong>Oral exam problems</strong> &mdash; "oraux X ENS maths". Shorter, more targeted.</li>
+<li><strong>Gourdon, <em>Les maths en t&ecirc;te</em></strong> (Analyse + Alg&egrave;bre) &mdash; gold standard for CPGE problems with solutions.</li>
+<li><strong>Francinou-Gianella-Nicolas, <em>Oraux X-ENS</em></strong> series.</li>
+</ul>
+
+<hr>
+
+<h2>After the 12 months</h2>
+
+<p>For stochastic calculus, you'll still need: measure theory (Lebesgue integral, sigma-algebras), martingales, Brownian motion, It&ocirc; calculus. But the essential core gives you the prerequisites. The jump is ~3&ndash;4 months additional.</p>
+
+<div class="nav">
+  <a href="index.html">&larr; Full Curriculum</a>
+</div>
+
+<script src="nav.js"></script>
+</body>
+</html>
