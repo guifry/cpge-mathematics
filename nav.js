@@ -114,8 +114,7 @@
   tools.className = 'sidebar-tools';
   var toolLinks = [
     [prefix + 'mathematicians/index.html', 'Mathematicians'],
-    [prefix + 'proofs/index.html', 'Proof Registry'],
-    [prefix + 'refresher/01-equation-solving.html', 'Refresher']
+    [prefix + 'proofs/index.html', 'Proof Registry']
   ];
   toolLinks.forEach(function (t) {
     var a = document.createElement('a');
@@ -123,7 +122,6 @@
     a.className = 'sidebar-tool';
     if (currentPath.indexOf(t[0].replace(prefix, '').replace('index.html', '')) > -1 && t[0].indexOf('mathematicians') > -1 && currentPath.indexOf('mathematicians') > -1) a.classList.add('active');
     if (currentPath.indexOf('proofs') > -1 && t[0].indexOf('proofs') > -1) a.classList.add('active');
-    if (currentPath.indexOf('refresher') > -1 && t[0].indexOf('refresher') > -1) a.classList.add('active');
     a.textContent = t[1];
     tools.appendChild(a);
   });
@@ -133,8 +131,56 @@
   hr.className = 'sidebar-hr';
   sidebar.appendChild(hr);
 
+  var refresherPages = [
+    ['01-equation-solving', 'Equation Solving'],
+    ['02-polynomials', 'Polynomials & Factoring'],
+    ['03-concepts', 'Concepts Refresher'],
+    ['04-equation-exercises', 'Equation Exercises'],
+    ['05-polynomial-exercises', 'Polynomial Exercises'],
+    ['06-concept-exercises', 'Concept Exercises']
+  ];
+
   var list = document.createElement('div');
   list.className = 'sidebar-phases';
+
+  var refresherDiv = document.createElement('div');
+  refresherDiv.className = 'sidebar-phase';
+  var refresherToggle = document.createElement('button');
+  refresherToggle.className = 'sidebar-phase-toggle';
+  refresherToggle.style.color = '#4a9';
+  refresherToggle.textContent = 'Refresher';
+  var isRefresher = currentPath.indexOf('/refresher/') > -1;
+  if (isRefresher) { refresherToggle.classList.add('active'); refresherToggle.classList.add('expanded'); }
+  var refresherList = document.createElement('div');
+  refresherList.className = 'sidebar-pages';
+  if (isRefresher) refresherList.classList.add('open');
+
+  var refresherIndex = document.createElement('a');
+  refresherIndex.href = prefix + 'refresher/index.html';
+  refresherIndex.className = 'sidebar-page';
+  if (currentPath.indexOf('refresher/index') > -1) refresherIndex.classList.add('active');
+  refresherIndex.textContent = 'Overview';
+  refresherList.appendChild(refresherIndex);
+
+  refresherPages.forEach(function (p) {
+    var a = document.createElement('a');
+    a.href = prefix + 'refresher/' + p[0] + '.html';
+    a.className = 'sidebar-page';
+    if (currentPath.indexOf(p[0]) > -1 && isRefresher) a.classList.add('active');
+    a.textContent = p[1];
+    refresherList.appendChild(a);
+  });
+  refresherToggle.addEventListener('click', function () {
+    refresherList.classList.toggle('open');
+    refresherToggle.classList.toggle('expanded');
+  });
+  refresherDiv.appendChild(refresherToggle);
+  refresherDiv.appendChild(refresherList);
+  list.appendChild(refresherDiv);
+
+  var refresherHr = document.createElement('hr');
+  refresherHr.className = 'sidebar-hr';
+  list.appendChild(refresherHr);
 
   phases.forEach(function (phase) {
     var phaseDiv = document.createElement('div');
