@@ -64,7 +64,8 @@ Yes, genuinely easier — the essential core is load-bearing for all of them:
 
 | Month | Theory (read pages) | Problem practice |
 |-------|-------------------|-----------------|
-| 1 | Phase 0 (skim) + Phase 2 (thorough) | Epsilon-delta exercises. Prove 10 limits from scratch. |
+| 0 (before you start) | Refresher: equation solving (especially factoring), polynomials, concepts | Do all 30 refresher exercises (~3-4 hours total). **Gate:** you should be able to factor any quadratic on sight before moving on. Factoring is the prerequisite for everything. |
+| 1 | Phase 0 (skim, including trig identities) + Phase 2 (thorough, starting with inequalities) | Epsilon-delta exercises. Prove 10 limits from scratch. |
 | 2 | Phase 3 Part A (derivatives) | Differentiation drills. MVT application problems. |
 | 3 | Phase 3 Part B (integration) | Integration techniques — do 50+ integrals. Muscle memory. |
 | 4 | Phase 4 (Taylor + power series) | Taylor expand everything. Remainder estimation problems. |
