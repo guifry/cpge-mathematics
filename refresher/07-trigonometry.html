@@ -50,6 +50,171 @@
 
 <p><strong>Mnemonic for signs:</strong> "All Students Take Calculus" &mdash; All positive in Q1, Sine in Q2, Tangent in Q3, Cosine in Q4.</p>
 
+<h3>Interactive: sin, cos, tan on the unit circle</h3>
+
+<p>Watch how $\sin\theta$, $\cos\theta$, and $\tan\theta$ change as $\theta$ sweeps around the circle. Click to pause/resume.</p>
+
+<canvas id="trig-circle" width="520" height="400" style="display:block; margin:1rem auto; cursor:pointer; max-width:100%;"></canvas>
+
+<script>
+(function() {
+  var c = document.getElementById('trig-circle');
+  var ctx = c.getContext('2d');
+  var running = true;
+  var angle = 0;
+  var speed = 0.008;
+  var cx = 200, cy = 200, r = 150;
+  var tanLineX = cx + r + 120;
+
+  c.addEventListener('click', function() { running = !running; });
+
+  function draw() {
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    var cosVal = Math.cos(angle);
+    var sinVal = Math.sin(angle);
+    var tanVal = Math.tan(angle);
+    var px = cx + r * cosVal;
+    var py = cy - r * sinVal;
+
+    // axes
+    ctx.strokeStyle = 'rgba(136,136,160,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - r - 30, cy);
+    ctx.lineTo(cx + r + 30, cy);
+    ctx.moveTo(cx, cy - r - 30);
+    ctx.lineTo(cx, cy + r + 30);
+    ctx.stroke();
+
+    // circle
+    ctx.strokeStyle = 'rgba(136,136,160,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // tangent vertical line at x = cx + r
+    ctx.strokeStyle = 'rgba(136,136,160,0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx + r, cy - r - 40);
+    ctx.lineTo(cx + r, cy + r + 40);
+    ctx.stroke();
+
+    // angle arc
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 25, 0, -angle, angle > 0);
+    ctx.stroke();
+
+    // radius line
+    ctx.strokeStyle = '#e0e0e0';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    // cos line (horizontal, on x-axis)
+    ctx.strokeStyle = '#5b9bd5';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(px, cy);
+    ctx.stroke();
+
+    // sin line (vertical, from x-axis to point)
+    ctx.strokeStyle = '#e94560';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(px, cy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    // tan line (vertical from circle edge to intersection with radius extension)
+    var tanClipped = Math.max(-3, Math.min(3, tanVal));
+    var tanPy = cy - r * tanClipped;
+    ctx.strokeStyle = '#4a9';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx + r, cy);
+    ctx.lineTo(cx + r, tanPy);
+    ctx.stroke();
+
+    // dashed line from point to tan line
+    if (Math.abs(cosVal) > 0.05) {
+      ctx.strokeStyle = 'rgba(74,170,153,0.4)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r, tanPy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // point on circle
+    ctx.fillStyle = '#e0e0e0';
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // point at tan
+    ctx.fillStyle = '#4a9';
+    ctx.beginPath();
+    ctx.arc(cx + r, tanPy, 4, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // labels
+    ctx.font = '13px Georgia';
+
+    // cos label
+    ctx.fillStyle = '#5b9bd5';
+    ctx.textAlign = 'center';
+    ctx.fillText('cos θ = ' + cosVal.toFixed(2), (cx + px) / 2, cy + 18);
+
+    // sin label
+    ctx.fillStyle = '#e94560';
+    ctx.textAlign = 'left';
+    ctx.fillText('sin θ = ' + sinVal.toFixed(2), px + 8, (cy + py) / 2 + 4);
+
+    // tan label
+    ctx.fillStyle = '#4a9';
+    ctx.textAlign = 'left';
+    if (Math.abs(tanVal) < 3) {
+      ctx.fillText('tan θ = ' + tanVal.toFixed(2), cx + r + 8, (cy + tanPy) / 2 + 4);
+    } else {
+      ctx.fillText('tan θ → ∞', cx + r + 8, cy - r - 10);
+    }
+
+    // angle label
+    ctx.fillStyle = '#888';
+    ctx.textAlign = 'left';
+    var deg = ((angle * 180 / Math.PI) % 360);
+    if (deg < 0) deg += 360;
+    ctx.fillText('θ = ' + deg.toFixed(0) + '°', cx + 30, cy - 8);
+
+    // legend
+    ctx.font = '12px Georgia';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#5b9bd5';
+    ctx.fillText('■ cos θ', 10, 20);
+    ctx.fillStyle = '#e94560';
+    ctx.fillText('■ sin θ', 10, 36);
+    ctx.fillStyle = '#4a9';
+    ctx.fillText('■ tan θ', 10, 52);
+    ctx.fillStyle = '#888';
+    ctx.fillText('click to pause', 10, c.height - 10);
+
+    if (running) angle += speed;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
 <hr>
 
 <h2>3. Degrees vs radians</h2>
