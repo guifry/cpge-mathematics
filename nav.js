@@ -134,6 +134,7 @@
   sidebar.appendChild(hr);
 
   var refresherPages = [
+    ['00a-arithmetic-rules', 'Arithmetic Rules'],
     ['00-factoring', 'Factoring'],
     ['01-equation-solving', 'Equation Solving'],
     ['02-polynomials', 'Polynomials & Factoring'],

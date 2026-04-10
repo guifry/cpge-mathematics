@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arithmetic Rules — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Arithmetic Rules</h1>
+<p class="subtitle">Refresher &mdash; The building blocks of all algebra</p>
+
+<p>Exponents, logarithms, fractions, square roots. These rules are used on every page of the course. They must be instant recall &mdash; no thinking, just pattern recognition.</p>
+
+<hr>
+
+<h2>1. Exponent rules</h2>
+
+<p>Let $a, b > 0$ and $m, n \in \mathbb{R}$.</p>
+
+<table>
+<tr><th>Rule</th><th>Example</th></tr>
+<tr><td>$a^m \cdot a^n = a^{m+n}$</td><td>$2^3 \cdot 2^4 = 2^7 = 128$</td></tr>
+<tr><td>$a^m / a^n = a^{m-n}$</td><td>$5^6 / 5^2 = 5^4 = 625$</td></tr>
+<tr><td>$(a^m)^n = a^{mn}$</td><td>$(3^2)^4 = 3^8 = 6561$</td></tr>
+<tr><td>$(ab)^n = a^n b^n$</td><td>$(2 \cdot 3)^3 = 2^3 \cdot 3^3 = 216$</td></tr>
+<tr><td>$a^0 = 1$</td><td>$7^0 = 1$</td></tr>
+<tr><td>$a^{-n} = 1/a^n$</td><td>$2^{-3} = 1/8$</td></tr>
+<tr><td>$a^{1/n} = \sqrt[n]{a}$</td><td>$8^{1/3} = 2$</td></tr>
+</table>
+
+<hr>
+
+<h2>2. Logarithm rules</h2>
+
+<p>The logarithm $\ln$ is the inverse of $e^x$. So $\ln(e^x) = x$ and $e^{\ln x} = x$ for $x > 0$.</p>
+
+<table>
+<tr><th>Rule</th><th>Example</th></tr>
+<tr><td>$\ln(ab) = \ln a + \ln b$</td><td>$\ln(6) = \ln(2) + \ln(3)$</td></tr>
+<tr><td>$\ln(a/b) = \ln a - \ln b$</td><td>$\ln(5/3) = \ln 5 - \ln 3$</td></tr>
+<tr><td>$\ln(a^n) = n\ln a$</td><td>$\ln(8) = 3\ln(2)$</td></tr>
+<tr><td>$\ln(1) = 0$</td><td></td></tr>
+<tr><td>$\ln(e) = 1$</td><td></td></tr>
+<tr><td>$\log_b(a) = \ln a / \ln b$</td><td>$\log_2(8) = \ln 8 / \ln 2 = 3$</td></tr>
+</table>
+
+<p><strong>Domain:</strong> $\ln(x)$ is only defined for $x > 0$. Always check.</p>
+
+<hr>
+
+<h2>3. Fraction arithmetic</h2>
+
+<table>
+<tr><th>Operation</th><th>Rule</th></tr>
+<tr><td>Addition</td><td>$\dfrac{a}{b} + \dfrac{c}{d} = \dfrac{ad + bc}{bd}$</td></tr>
+<tr><td>Multiplication</td><td>$\dfrac{a}{b} \cdot \dfrac{c}{d} = \dfrac{ac}{bd}$</td></tr>
+<tr><td>Division</td><td>$\dfrac{a/b}{c/d} = \dfrac{a}{b} \cdot \dfrac{d}{c} = \dfrac{ad}{bc}$</td></tr>
+<tr><td>Cross-multiply</td><td>$\dfrac{a}{b} = \dfrac{c}{d} \;\Longleftrightarrow\; ad = bc$</td></tr>
+</table>
+
+<hr>
+
+<h2>4. Square root rules</h2>
+
+<h3>Basic identities</h3>
+<p>For $a, b \geq 0$:</p>
+<ul>
+<li>$\sqrt{ab} = \sqrt{a}\,\sqrt{b}$</li>
+<li>$\sqrt{a/b} = \sqrt{a}/\sqrt{b}$ (for $b > 0$)</li>
+<li>$(\sqrt{a})^2 = a$</li>
+<li>$\sqrt{a^2} = |a|$ &mdash; not $a$, because $a$ might be negative</li>
+</ul>
+
+<h3>Simplifying square roots</h3>
+<p>Factor out the largest perfect square:</p>
+<div class="display-math">$$\sqrt{48} = \sqrt{16 \cdot 3} = 4\sqrt{3} \qquad\qquad \sqrt{72} = \sqrt{36 \cdot 2} = 6\sqrt{2} \qquad\qquad \sqrt{200} = \sqrt{100 \cdot 2} = 10\sqrt{2}$$</div>
+
+<h3>Addition and subtraction</h3>
+<p>You can only combine square roots with the <strong>same radicand</strong> (the number under the root). Treat $\sqrt{n}$ like a variable:</p>
+<div class="display-math">$$3\sqrt{5} + 7\sqrt{5} = 10\sqrt{5} \qquad\qquad 2\sqrt{3} - 5\sqrt{3} = -3\sqrt{3}$$</div>
+<p><strong>You cannot add different roots:</strong> $\sqrt{2} + \sqrt{3} \neq \sqrt{5}$. There is no simplification &mdash; leave it as is.</p>
+<p>Sometimes you need to simplify first to combine: $\sqrt{12} + \sqrt{27} = 2\sqrt{3} + 3\sqrt{3} = 5\sqrt{3}$.</p>
+
+<h3>Multiplication</h3>
+<p>Roots multiply freely:</p>
+<div class="display-math">$$\sqrt{3} \cdot \sqrt{7} = \sqrt{21} \qquad\qquad 2\sqrt{5} \cdot 3\sqrt{2} = 6\sqrt{10}$$</div>
+<p>Expanding products with roots works like any binomial:</p>
+<div class="display-math">$$(1 + \sqrt{3})(2 - \sqrt{3}) = 2 - \sqrt{3} + 2\sqrt{3} - 3 = -1 + \sqrt{3}$$</div>
+<p>Conjugate pairs kill the root: $(a + \sqrt{b})(a - \sqrt{b}) = a^2 - b$.</p>
+
+<h3>Rationalising the denominator</h3>
+<p>Multiply top and bottom by the conjugate to remove roots from the denominator:</p>
+<div class="display-math">$$\frac{1}{\sqrt{a}} = \frac{\sqrt{a}}{a} \qquad\qquad \frac{1}{\sqrt{a} + \sqrt{b}} = \frac{\sqrt{a} - \sqrt{b}}{a - b}$$</div>
+<p><strong>Worked example:</strong></p>
+<div class="display-math">$$\frac{4}{3 + \sqrt{5}} = \frac{4(3 - \sqrt{5})}{(3+\sqrt{5})(3-\sqrt{5})} = \frac{4(3 - \sqrt{5})}{9 - 5} = \frac{4(3-\sqrt{5})}{4} = 3 - \sqrt{5}$$</div>
+
+<h3>Roots and powers</h3>
+<p>The key identity: $\sqrt[n]{a} = a^{1/n}$. This means every root is just a fractional exponent, and all exponent rules apply.</p>
+
+<table>
+<tr><th>Expression</th><th>As a power</th><th>Simplified</th></tr>
+<tr><td>$\sqrt{x^3}$</td><td>$(x^3)^{1/2}$</td><td>$x^{3/2}$</td></tr>
+<tr><td>$(\sqrt{x})^3$</td><td>$(x^{1/2})^3$</td><td>$x^{3/2}$ (same thing)</td></tr>
+<tr><td>$\sqrt{x} \cdot x^2$</td><td>$x^{1/2} \cdot x^2$</td><td>$x^{5/2}$</td></tr>
+<tr><td>$\dfrac{x^3}{\sqrt{x}}$</td><td>$x^3 \cdot x^{-1/2}$</td><td>$x^{5/2}$</td></tr>
+<tr><td>$\sqrt[3]{x^2}$</td><td>$(x^2)^{1/3}$</td><td>$x^{2/3}$</td></tr>
+<tr><td>$\sqrt{\sqrt{x}}$</td><td>$(x^{1/2})^{1/2}$</td><td>$x^{1/4}$</td></tr>
+</table>
+
+<p><strong>The rule of thumb:</strong> convert every root to a fractional exponent, then use $a^m \cdot a^n = a^{m+n}$ and $(a^m)^n = a^{mn}$. Convert back to root notation at the end if needed.</p>
+
+<p><strong>Worked example:</strong> simplify $\dfrac{\sqrt{x^5}}{\sqrt[3]{x^2}}$.</p>
+<div class="display-math">$$\frac{x^{5/2}}{x^{2/3}} = x^{5/2 - 2/3} = x^{15/6 - 4/6} = x^{11/6} = \sqrt[6]{x^{11}}$$</div>
+
+<div class="nav">
+  <a href="index.html">&larr; Refresher Overview</a>
+  <a href="00-factoring.html">Next: Factoring &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>
