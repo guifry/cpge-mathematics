@@ -43,26 +43,65 @@
 <div class="display-math">$$P(x) = ax^2 + bx + c$$</div>
 <p>You read off the coefficients directly. Easy to add polynomials and compute $P(0) = c$.</p>
 
+<p><strong>What $a$, $b$, $c$ control visually:</strong></p>
+<ul>
+<li><strong>$a$</strong> &mdash; the shape and direction. $a > 0$: opens upward (has a minimum). $a < 0$: opens downward (has a maximum). Larger $|a|$: narrower parabola. Smaller $|a|$: wider.</li>
+<li><strong>$b$</strong> &mdash; shifts the vertex horizontally, but not by itself. The vertex sits at $x = -b/(2a)$, so $b$ is entangled with $a$. Same $b$, different $a$ = different position.</li>
+<li><strong>$c$</strong> &mdash; the y-intercept. $P(0) = c$, so the parabola crosses the y-axis at $(0, c)$.</li>
+</ul>
+
 <h3>Canonical form (vertex form)</h3>
 <div class="display-math">$$P(x) = a(x - h)^2 + k \qquad\text{where}\quad h = -\frac{b}{2a}, \quad k = P(h) = c - \frac{b^2}{4a}$$</div>
-<p>This reveals the <strong>vertex</strong> $(h, k)$ &mdash; the minimum (if $a > 0$) or maximum (if $a < 0$) of the parabola. Obtained by <strong>completing the square</strong>.</p>
+<p>This reveals the <strong>vertex</strong> $(h, k)$ &mdash; the turning point of the parabola. If $a > 0$, it's the minimum; if $a < 0$, the maximum.</p>
 
-<p><strong>Completing the square</strong> (the technique):</p>
-<div class="display-math">$$2x^2 + 12x + 7 = 2(x^2 + 6x) + 7 = 2(x^2 + 6x + 9 - 9) + 7 = 2(x+3)^2 - 18 + 7 = 2(x+3)^2 - 11$$</div>
-<p>Vertex: $(-3, -11)$. Minimum value of $P(x)$ is $-11$, achieved at $x = -3$.</p>
+<p><strong>What $a$, $h$, $k$ control visually</strong> (cleaner than $a$, $b$, $c$):</p>
+<ul>
+<li><strong>$a$</strong> &mdash; shape and direction (same as above)</li>
+<li><strong>$h$</strong> &mdash; the horizontal shift. The axis of symmetry is the vertical line $x = h$.</li>
+<li><strong>$k$</strong> &mdash; the vertical shift. The vertex sits at height $k$.</li>
+</ul>
+<p>Together, $(h, k)$ is the vertex. This is why the canonical form is more useful than the expanded form for understanding the graph.</p>
+
+<p><strong>Completing the square</strong> (how to get from expanded to canonical form):</p>
+<ol>
+<li>Factor out $a$ from the first two terms: $2x^2 + 12x + 7 = 2(x^2 + 6x) + 7$</li>
+<li>Take half the coefficient of $x$ inside the brackets, square it: half of $6$ is $3$, and $3^2 = 9$</li>
+<li>Add and subtract it inside: $2(x^2 + 6x + 9 - 9) + 7$</li>
+<li>The first three terms form a perfect square: $2[(x+3)^2 - 9] + 7$</li>
+<li>Distribute and simplify: $2(x+3)^2 - 18 + 7 = 2(x+3)^2 - 11$</li>
+</ol>
+<p>Result: vertex at $(-3, -11)$. Minimum value is $-11$, achieved at $x = -3$.</p>
+
+<p><strong>Shortcut:</strong> if you've memorised $h = -b/(2a)$ and $k = P(h)$, you can skip the algebra. But completing the square is a portable technique that comes back in calculus (e.g. integrating $1/(x^2 + 2x + 5)$), so it's worth knowing.</p>
 
 <h3>Factored form</h3>
 <div class="display-math">$$P(x) = a(x - r_1)(x - r_2) \qquad\text{where } r_1, r_2 \text{ are the roots}$$</div>
-<p>This reveals the <strong>roots</strong> (where $P(x) = 0$) directly. Only exists over $\mathbb{R}$ when $\Delta \geq 0$. Over $\mathbb{C}$ it always exists.</p>
-<p>If $\Delta = 0$: $P(x) = a(x - r)^2$ (double root). If $\Delta < 0$: the factored form uses complex conjugate roots $r_1 = \alpha + \beta i$, $r_2 = \alpha - \beta i$.</p>
+<p>A <strong>root</strong> (or zero) of $P(x)$ is a value $r$ where $P(r) = 0$. Visually: where the parabola crosses (or touches) the x-axis.</p>
+
+<p><strong>How many roots:</strong></p>
+<ul>
+<li>$\Delta > 0$: two distinct real roots &mdash; parabola crosses the x-axis twice</li>
+<li>$\Delta = 0$: one repeated root ($P(x) = a(x-r)^2$) &mdash; parabola touches the x-axis at one point</li>
+<li>$\Delta < 0$: no real roots &mdash; parabola never touches the x-axis. But two complex conjugate roots $r_1 = \alpha + \beta i$, $r_2 = \alpha - \beta i$ always exist.</li>
+</ul>
+
+<h3>How the three forms connect</h3>
+
+<p>The canonical form is the bridge between the other two:</p>
+
+<div class="display-math">$$\text{Expanded } (a, b, c) \;\xrightarrow{\text{completing the square}}\; \text{Canonical } (a, h, k) \;\xrightarrow{\text{solve } (x-h)^2 = -k/a}\; \text{Factored } (a, r_1, r_2)$$</div>
+
+<p>Going backwards: if you know the roots, $h = (r_1 + r_2)/2$ (midpoint = axis of symmetry) and $k = P(h)$.</p>
+
+<p><strong>The canonical form always exists</strong> (even with no real roots). The factored form over $\mathbb{R}$ only exists when $\Delta \geq 0$. Over $\mathbb{C}$ it always exists.</p>
 
 <h2>3. Key properties of polynomials</h2>
 
 <p><strong>Degree of a product:</strong> $\deg(PQ) = \deg P + \deg Q$. Multiplying a degree-2 by a degree-3 gives degree 5.</p>
 
-<p><strong>Number of roots:</strong> a degree-$n$ polynomial has at most $n$ roots (counting multiplicities, exactly $n$ roots over $\mathbb{C}$).</p>
+<p><strong>Number of roots:</strong> a degree-$n$ polynomial has at most $n$ real roots. Over $\mathbb{C}$, exactly $n$ roots counting multiplicities (the Fundamental Theorem of Algebra, <a href="../phase10/07-irreducibility-fta.html">Phase 10, page 7</a>).</p>
 
-<p><strong>If $r$ is a root, $(x-r)$ is a factor.</strong> This is the <strong>factor theorem</strong>: $P(r) = 0 \;\Longleftrightarrow\; (x-r)$ divides $P(x)$. It's the foundation of the solve-by-factoring workflow below.</p>
+<p><strong>Factor theorem:</strong> $P(r) = 0 \;\Longleftrightarrow\; (x-r)$ divides $P(x)$. Why? Because when $x = r$, the factor $(x-r)$ is zero, making the product zero. This is the foundation of the solve-by-factoring workflow below.</p>
 
 <p><strong>Behaviour at $\pm\infty$:</strong> for large $|x|$, the leading term dominates. $3x^4 - 100x^3 + \cdots \approx 3x^4$ when $|x|$ is large. Sign of the leading coefficient + parity of the degree tells you the end behaviour.</p>
 
