@@ -134,9 +134,11 @@
   sidebar.appendChild(hr);
 
   var refresherPages = [
+    ['00-factoring', 'Factoring'],
     ['01-equation-solving', 'Equation Solving'],
     ['02-polynomials', 'Polynomials & Factoring'],
     ['03-concepts', 'Concepts Refresher'],
+    ['00-factoring-exercises', 'Factoring Exercises'],
     ['04-equation-exercises', 'Equation Exercises'],
     ['05-polynomial-exercises', 'Polynomial Exercises'],
     ['06-concept-exercises', 'Concept Exercises']

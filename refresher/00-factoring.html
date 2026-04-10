@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factoring — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Factoring</h1>
+<p class="subtitle">Refresher &mdash; The prerequisite for everything</p>
+
+<p>Factoring means rewriting an expression as a product. This is the reverse of expanding. It's the single most important algebraic manipulation skill &mdash; you'll use it to solve equations, simplify fractions, find restrictions on denominators, and prepare expressions for calculus. <strong>Master this before moving on.</strong></p>
+
+<hr>
+
+<h2>1. Expanding (the forward direction)</h2>
+
+<p>Before you can factor, you need to be fluent at expanding &mdash; multiplying out brackets. Factoring is just this process in reverse.</p>
+
+<h3>Single bracket</h3>
+<div class="display-math">$$a(b + c) = ab + ac$$</div>
+<p><strong>Example:</strong> $3(x + 4) = 3x + 12$. And $x(x - 5) = x^2 - 5x$.</p>
+
+<h3>Two brackets (FOIL)</h3>
+<div class="display-math">$$(a + b)(c + d) = ac + ad + bc + bd$$</div>
+<p><strong>Example:</strong> $(x + 3)(x - 2) = x^2 - 2x + 3x - 6 = x^2 + x - 6$.</p>
+
+<h3>Perfect squares</h3>
+<div class="display-math">$$(a + b)^2 = a^2 + 2ab + b^2 \qquad\qquad (a - b)^2 = a^2 - 2ab + b^2$$</div>
+<p><strong>Common mistake:</strong> $(a + b)^2 \neq a^2 + b^2$. The middle term $2ab$ is always there.</p>
+
+<p>If you can expand confidently, you can check every factoring result by multiplying it back out.</p>
+
+<hr>
+
+<h2>2. Pull out common factors</h2>
+
+<p><strong>Always do this first.</strong> Look for something that appears in every term &mdash; a number, a variable, or both.</p>
+
+<div class="display-math">$$x^2 + 6x = x(x + 6)$$</div>
+<p>Both terms contain $x$, so pull it out. You're left with $(x + 6)$ inside.</p>
+
+<div class="display-math">$$3x^3 - 9x^2 = 3x^2(x - 3)$$</div>
+<p>Both terms share $3x^2$. Factor it out.</p>
+
+<div class="display-math">$$4x^2 + 8x + 12 = 4(x^2 + 2x + 3)$$</div>
+<p>All three terms share $4$.</p>
+
+<div class="display-math">$$6x^3y - 15x^2y^2 + 9xy = 3xy(2x^2 - 5xy + 3)$$</div>
+<p>The greatest common factor is $3xy$. Take the largest power of each variable that appears in <em>every</em> term.</p>
+
+<p><strong>How to find the common factor:</strong> for each variable, take the <em>lowest</em> power across all terms. For the numerical coefficient, take the GCD.</p>
+
+<hr>
+
+<h2>3. Recognise standard patterns</h2>
+
+<p>These should be instant:</p>
+
+<table>
+<tr><th>Pattern</th><th>Factorisation</th><th>Example</th></tr>
+<tr><td>$a^2 - b^2$</td><td>$(a-b)(a+b)$</td><td>$x^2 - 9 = (x-3)(x+3)$</td></tr>
+<tr><td>$a^2 + 2ab + b^2$</td><td>$(a+b)^2$</td><td>$x^2 + 10x + 25 = (x+5)^2$</td></tr>
+<tr><td>$a^2 - 2ab + b^2$</td><td>$(a-b)^2$</td><td>$4x^2 - 12x + 9 = (2x-3)^2$</td></tr>
+<tr><td>$a^3 - b^3$</td><td>$(a-b)(a^2+ab+b^2)$</td><td>$x^3 - 8 = (x-2)(x^2+2x+4)$</td></tr>
+<tr><td>$a^3 + b^3$</td><td>$(a+b)(a^2-ab+b^2)$</td><td>$27x^3 + 1 = (3x+1)(9x^2-3x+1)$</td></tr>
+</table>
+
+<p><strong>Tip for $a^2 - b^2$:</strong> the "squares" can be anything. $x^4 - 16 = (x^2)^2 - 4^2 = (x^2 - 4)(x^2 + 4) = (x-2)(x+2)(x^2+4)$.</p>
+
+<hr>
+
+<h2>4. Factor a quadratic $x^2 + bx + c$</h2>
+
+<p>Find two numbers $r_1$ and $r_2$ such that:</p>
+<ul>
+<li>$r_1 + r_2 = -b$ (they add to the negative of the middle coefficient)</li>
+<li>$r_1 \cdot r_2 = c$ (they multiply to the constant term)</li>
+</ul>
+<p>Then $x^2 + bx + c = (x - r_1)(x - r_2)$.</p>
+
+<p><strong>Example:</strong> factor $x^2 - 5x + 6$.</p>
+<p>Need two numbers that add to $5$ and multiply to $6$: that's $2$ and $3$.</p>
+<div class="display-math">$$x^2 - 5x + 6 = (x - 2)(x - 3)$$</div>
+<p>Check: $(x-2)(x-3) = x^2 - 3x - 2x + 6 = x^2 - 5x + 6$. Correct.</p>
+
+<p><strong>Example:</strong> factor $x^2 + x - 12$.</p>
+<p>Need two numbers that add to $-1$ and multiply to $-12$: that's $3$ and $-4$.</p>
+<div class="display-math">$$x^2 + x - 12 = (x - 3)(x + 4)$$</div>
+
+<p><strong>Example:</strong> factor $x^2 - 4x - 21$.</p>
+<p>Need two numbers that add to $4$ and multiply to $-21$: that's $7$ and $-3$.</p>
+<div class="display-math">$$x^2 - 4x - 21 = (x - 7)(x + 3)$$</div>
+
+<p><strong>If you can't spot them:</strong> use the <a href="02-polynomials.html#quadratic-formula">quadratic formula</a> to find $r_1$ and $r_2$, then write $(x - r_1)(x - r_2)$. This always works, even when the roots aren't integers.</p>
+
+<hr>
+
+<h2>5. Factor $ax^2 + bx + c$ when $a \neq 1$</h2>
+
+<p><strong>Method A (find the roots):</strong> use the quadratic formula to get $r_1$ and $r_2$, then write $a(x - r_1)(x - r_2)$. Reliable, always works.</p>
+
+<p><strong>Method B (the ac-method):</strong> find two numbers that add to $b$ and multiply to $a \cdot c$. Use them to split the middle term, then factor by grouping.</p>
+
+<p><strong>Example:</strong> factor $2x^2 + 7x + 3$.</p>
+<p>$a \cdot c = 2 \times 3 = 6$. Need two numbers that add to $7$ and multiply to $6$: that's $1$ and $6$.</p>
+<div class="display-math">$$2x^2 + 7x + 3 = 2x^2 + x + 6x + 3 = x(2x + 1) + 3(2x + 1) = (x + 3)(2x + 1)$$</div>
+
+<p><strong>Example:</strong> factor $6x^2 - 7x - 3$.</p>
+<p>$a \cdot c = 6 \times (-3) = -18$. Need two numbers that add to $-7$ and multiply to $-18$: that's $-9$ and $2$.</p>
+<div class="display-math">$$6x^2 - 7x - 3 = 6x^2 - 9x + 2x - 3 = 3x(2x - 3) + 1(2x - 3) = (3x + 1)(2x - 3)$$</div>
+
+<hr>
+
+<h2>6. Factoring by grouping (4+ terms)</h2>
+
+<p>Group terms in pairs and look for a common bracket.</p>
+<div class="display-math">$$x^3 + 3x^2 - x - 3 = x^2(x + 3) - 1(x + 3) = (x^2 - 1)(x + 3) = (x-1)(x+1)(x+3)$$</div>
+
+<p>The last step uses $a^2 - b^2$ on $(x^2 - 1)$. Always check if you can factor further.</p>
+
+<hr>
+
+<h2>7. The complete checklist</h2>
+
+<ol>
+<li><strong>Common factor?</strong> Pull it out. Always first.</li>
+<li><strong>Two terms?</strong> Check for $a^2 - b^2$, $a^3 \pm b^3$.</li>
+<li><strong>Three terms (quadratic)?</strong> Find two numbers that add/multiply correctly. If stuck, use the quadratic formula.</li>
+<li><strong>Four terms?</strong> Group in pairs.</li>
+<li><strong>Can you factor further?</strong> Check each factor. $(x^2 - 4)$ is not fully factored &mdash; it's $(x-2)(x+2)$.</li>
+<li><strong>Check by expanding.</strong> Multiply your answer back out. If you get the original expression, you're done.</li>
+</ol>
+
+<p><strong>Ready to practise?</strong> <a href="00-factoring-exercises.html">10 factoring exercises, easy to hard &rarr;</a></p>
+
+<div class="nav">
+  <a href="index.html">&larr; Refresher Overview</a>
+  <a href="01-equation-solving.html">Next: Equation Solving Toolkit &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>
