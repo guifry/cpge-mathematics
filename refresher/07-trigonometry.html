@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigonometry Refresher — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Trigonometry Refresher</h1>
+<p class="subtitle">Refresher &mdash; High-school level essentials</p>
+
+<p>What sine, cosine, and tangent are, the key values, the unit circle, the identities you need, and how to solve trig equations. The course covers trig rigorously from scratch in <a href="../phase0/04-trigonometry.html">Phase 0</a> &mdash; this page is just to reactivate what you learnt in lyc&eacute;e.</p>
+
+<hr>
+
+<h2>1. What are sine, cosine, tangent?</h2>
+
+<p>In a <strong>right triangle</strong> with an angle $\theta$ (not the right angle):</p>
+
+<div class="display-math">$$\sin\theta = \frac{\text{opposite}}{\text{hypotenuse}} \qquad \cos\theta = \frac{\text{adjacent}}{\text{hypotenuse}} \qquad \tan\theta = \frac{\text{opposite}}{\text{adjacent}} = \frac{\sin\theta}{\cos\theta}$$</div>
+
+<p><strong>Mnemonic:</strong> SOH-CAH-TOA (Sine = Opposite/Hypotenuse, Cosine = Adjacent/Hypotenuse, Tangent = Opposite/Adjacent).</p>
+
+<p>This definition only works for angles between $0$ and $90°$. For all other angles, we use the unit circle.</p>
+
+<hr>
+
+<h2>2. The unit circle</h2>
+
+<p>Draw a circle of radius 1 centred at the origin. For any angle $\theta$ (measured anticlockwise from the positive x-axis), the point on the circle is $(\cos\theta, \sin\theta)$.</p>
+
+<p>This extends trig to <strong>all angles</strong>, not just $0$ to $90°$:</p>
+<ul>
+<li><strong>Quadrant I</strong> ($0$ to $\pi/2$): $\sin > 0$, $\cos > 0$</li>
+<li><strong>Quadrant II</strong> ($\pi/2$ to $\pi$): $\sin > 0$, $\cos < 0$</li>
+<li><strong>Quadrant III</strong> ($\pi$ to $3\pi/2$): $\sin < 0$, $\cos < 0$</li>
+<li><strong>Quadrant IV</strong> ($3\pi/2$ to $2\pi$): $\sin < 0$, $\cos > 0$</li>
+</ul>
+
+<p><strong>Mnemonic for signs:</strong> "All Students Take Calculus" &mdash; All positive in Q1, Sine in Q2, Tangent in Q3, Cosine in Q4.</p>
+
+<hr>
+
+<h2>3. Degrees vs radians</h2>
+
+<p>Radians are the standard in all mathematics beyond high school. The conversion:</p>
+<div class="display-math">$$\pi \text{ radians} = 180° \qquad\Longrightarrow\qquad 1° = \frac{\pi}{180} \qquad\text{and}\qquad 1 \text{ rad} = \frac{180°}{\pi} \approx 57.3°$$</div>
+
+<table>
+<tr><th>Degrees</th><th>$0°$</th><th>$30°$</th><th>$45°$</th><th>$60°$</th><th>$90°$</th><th>$180°$</th><th>$270°$</th><th>$360°$</th></tr>
+<tr><td>Radians</td><td>$0$</td><td>$\pi/6$</td><td>$\pi/4$</td><td>$\pi/3$</td><td>$\pi/2$</td><td>$\pi$</td><td>$3\pi/2$</td><td>$2\pi$</td></tr>
+</table>
+
+<p><strong>From now on, always use radians.</strong> The entire course is in radians.</p>
+
+<hr>
+
+<h2>4. Key values to memorise</h2>
+
+<table>
+<tr><th>$\theta$</th><th>$0$</th><th>$\pi/6$</th><th>$\pi/4$</th><th>$\pi/3$</th><th>$\pi/2$</th></tr>
+<tr><td>$\sin\theta$</td><td>$0$</td><td>$\dfrac{1}{2}$</td><td>$\dfrac{\sqrt{2}}{2}$</td><td>$\dfrac{\sqrt{3}}{2}$</td><td>$1$</td></tr>
+<tr><td>$\cos\theta$</td><td>$1$</td><td>$\dfrac{\sqrt{3}}{2}$</td><td>$\dfrac{\sqrt{2}}{2}$</td><td>$\dfrac{1}{2}$</td><td>$0$</td></tr>
+<tr><td>$\tan\theta$</td><td>$0$</td><td>$\dfrac{1}{\sqrt{3}}$</td><td>$1$</td><td>$\sqrt{3}$</td><td>undef</td></tr>
+</table>
+
+<p><strong>Pattern for sine:</strong> $\frac{\sqrt{0}}{2}, \frac{\sqrt{1}}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, \frac{\sqrt{4}}{2}$. That's $0, \frac{1}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, 1$. Cosine is the same sequence reversed.</p>
+
+<p>For other quadrants, use the unit circle signs. E.g. $\sin(5\pi/6) = \sin(\pi - \pi/6) = \sin(\pi/6) = 1/2$ (Q2, sine positive).</p>
+
+<hr>
+
+<h2>5. The fundamental identity</h2>
+
+<div class="display-math">$$\sin^2\theta + \cos^2\theta = 1$$</div>
+
+<p>This is the Pythagorean theorem on the unit circle. It's the single most important trig identity. From it:</p>
+<ul>
+<li>$\sin^2\theta = 1 - \cos^2\theta$</li>
+<li>$\cos^2\theta = 1 - \sin^2\theta$</li>
+</ul>
+
+<p>Dividing through by $\cos^2\theta$: $\;\tan^2\theta + 1 = \dfrac{1}{\cos^2\theta}$.</p>
+
+<hr>
+
+<h2>6. Symmetry relations</h2>
+
+<p>These let you reduce any angle to the first quadrant:</p>
+
+<table>
+<tr><th>Relation</th><th>$\sin$</th><th>$\cos$</th><th>Meaning</th></tr>
+<tr><td>$\pi - \theta$</td><td>$\sin\theta$</td><td>$-\cos\theta$</td><td>Reflect across y-axis</td></tr>
+<tr><td>$\pi + \theta$</td><td>$-\sin\theta$</td><td>$-\cos\theta$</td><td>Rotate 180°</td></tr>
+<tr><td>$-\theta$</td><td>$-\sin\theta$</td><td>$\cos\theta$</td><td>Reflect across x-axis</td></tr>
+<tr><td>$\pi/2 - \theta$</td><td>$\cos\theta$</td><td>$\sin\theta$</td><td>Complementary angle</td></tr>
+</table>
+
+<p><strong>Example:</strong> $\cos(3\pi/4) = \cos(\pi - \pi/4) = -\cos(\pi/4) = -\sqrt{2}/2$.</p>
+
+<hr>
+
+<h2>7. Essential identities</h2>
+
+<h3>Double angle</h3>
+<div class="display-math">$$\sin(2\theta) = 2\sin\theta\cos\theta$$</div>
+<div class="display-math">$$\cos(2\theta) = \cos^2\theta - \sin^2\theta = 2\cos^2\theta - 1 = 1 - 2\sin^2\theta$$</div>
+
+<h3>Addition formulae</h3>
+<div class="display-math">$$\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$$</div>
+<div class="display-math">$$\cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$$</div>
+
+<p>These are proved rigorously in <a href="../phase0/07-trig-identities.html">Phase 0, page 7</a>. For now, just know them.</p>
+
+<h3>Half-angle (from double angle)</h3>
+<div class="display-math">$$\cos^2\frac{\theta}{2} = \frac{1 + \cos\theta}{2} \qquad\qquad \sin^2\frac{\theta}{2} = \frac{1 - \cos\theta}{2}$$</div>
+
+<hr>
+
+<h2>8. Solving trig equations</h2>
+
+<h3>$\sin(x) = a$</h3>
+<p>If $|a| \leq 1$, the solutions are:</p>
+<div class="display-math">$$x = \arcsin(a) + 2k\pi \qquad\text{or}\qquad x = \pi - \arcsin(a) + 2k\pi, \quad k \in \mathbb{Z}$$</div>
+<p><strong>Example:</strong> $\sin(x) = 1/2$. $\arcsin(1/2) = \pi/6$. Solutions: $x = \pi/6 + 2k\pi$ or $x = 5\pi/6 + 2k\pi$.</p>
+
+<h3>$\cos(x) = a$</h3>
+<div class="display-math">$$x = \pm\arccos(a) + 2k\pi, \quad k \in \mathbb{Z}$$</div>
+<p><strong>Example:</strong> $\cos(x) = -\sqrt{2}/2$. $\arccos(-\sqrt{2}/2) = 3\pi/4$. Solutions: $x = \pm 3\pi/4 + 2k\pi$.</p>
+
+<h3>$\tan(x) = a$</h3>
+<div class="display-math">$$x = \arctan(a) + k\pi, \quad k \in \mathbb{Z}$$</div>
+<p>Tangent has period $\pi$ (not $2\pi$), so only one family of solutions.</p>
+
+<h3>The substitution trick</h3>
+<p>Equations like $2\sin^2(x) - 3\sin(x) + 1 = 0$ are quadratics in disguise. Let $u = \sin(x)$, solve the quadratic for $u$, then solve $\sin(x) = u$ for each value.</p>
+
+<hr>
+
+<h2>9. Inverse trig functions</h2>
+
+<p>The inverse functions "undo" sine, cosine, tangent:</p>
+<ul>
+<li>$\arcsin(x)$: takes $x \in [-1, 1]$, returns angle in $[-\pi/2, \pi/2]$</li>
+<li>$\arccos(x)$: takes $x \in [-1, 1]$, returns angle in $[0, \pi]$</li>
+<li>$\arctan(x)$: takes $x \in \mathbb{R}$, returns angle in $(-\pi/2, \pi/2)$</li>
+</ul>
+
+<p><strong>Key point:</strong> these return <em>one</em> angle (the principal value). Trig equations have infinitely many solutions; the inverse function gives you the starting point, and you add $2k\pi$ (or $k\pi$ for tangent) to get all solutions.</p>
+
+<hr>
+
+<h2>10. Graphs</h2>
+
+<p>$\sin(x)$ and $\cos(x)$ are waves with:</p>
+<ul>
+<li><strong>Period:</strong> $2\pi$ (one full cycle)</li>
+<li><strong>Amplitude:</strong> $1$ (oscillates between $-1$ and $1$)</li>
+<li><strong>Phase:</strong> $\cos(x) = \sin(x + \pi/2)$ (cosine is sine shifted left by $\pi/2$)</li>
+</ul>
+
+<p>For $A\sin(Bx + C) + D$:</p>
+<ul>
+<li>$|A|$ = amplitude</li>
+<li>$2\pi/|B|$ = period</li>
+<li>$-C/B$ = phase shift (horizontal)</li>
+<li>$D$ = vertical shift</li>
+</ul>
+
+<p>$\tan(x)$ has period $\pi$ and vertical asymptotes at $x = \pi/2 + k\pi$.</p>
+
+<p><strong>Ready to practise?</strong> <a href="07-trigonometry-exercises.html">10 trig exercises, easy to hard &rarr;</a></p>
+
+<div class="nav">
+  <a href="03-concepts.html">&larr; Previous: Concepts Refresher</a>
+  <a href="index.html">Refresher Overview &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>

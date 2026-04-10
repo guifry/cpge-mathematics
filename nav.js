@@ -138,10 +138,12 @@
     ['01-equation-solving', 'Equation Solving'],
     ['02-polynomials', 'Polynomials & Factoring'],
     ['03-concepts', 'Concepts Refresher'],
+    ['07-trigonometry', 'Trigonometry'],
     ['00-factoring-exercises', 'Factoring Exercises'],
     ['04-equation-exercises', 'Equation Exercises'],
     ['05-polynomial-exercises', 'Polynomial Exercises'],
-    ['06-concept-exercises', 'Concept Exercises']
+    ['06-concept-exercises', 'Concept Exercises'],
+    ['07-trigonometry-exercises', 'Trig Exercises']
   ];
 
   var list = document.createElement('div');
