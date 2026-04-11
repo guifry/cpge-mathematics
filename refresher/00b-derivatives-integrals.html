@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivatives &amp; Integrals Cheat Sheet — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Derivatives &amp; Integrals Cheat Sheet</h1>
+<p class="subtitle">Refresher &mdash; Know these by heart</p>
+
+<p>Every standard function, its derivative, and its antiderivative in one table. The course proves all of these from scratch (<a href="../phase3/01-derivative.html">Phase 3</a>), but you should already recognise them on sight.</p>
+
+<hr>
+
+<h2>1. Derivatives</h2>
+
+<table>
+<tr><th>$f(x)$</th><th>$f'(x)$</th><th>Notes</th></tr>
+<tr><td>$c$ (constant)</td><td>$0$</td><td></td></tr>
+<tr><td>$x^n$</td><td>$nx^{n-1}$</td><td>Works for any $n \in \mathbb{R}$, including negative and fractional</td></tr>
+<tr><td>$\sqrt{x} = x^{1/2}$</td><td>$\dfrac{1}{2\sqrt{x}}$</td><td>Special case of power rule with $n = 1/2$</td></tr>
+<tr><td>$\dfrac{1}{x} = x^{-1}$</td><td>$-\dfrac{1}{x^2}$</td><td>Special case with $n = -1$</td></tr>
+<tr><td>$e^x$</td><td>$e^x$</td><td>The only function equal to its own derivative</td></tr>
+<tr><td>$a^x$</td><td>$a^x \ln a$</td><td>Generalises $e^x$ (where $\ln e = 1$)</td></tr>
+<tr><td>$\ln x$</td><td>$\dfrac{1}{x}$</td><td>$x > 0$</td></tr>
+<tr><td>$\log_a x$</td><td>$\dfrac{1}{x \ln a}$</td><td>$x > 0$</td></tr>
+<tr><td>$\sin x$</td><td>$\cos x$</td><td></td></tr>
+<tr><td>$\cos x$</td><td>$-\sin x$</td><td>Note the minus sign</td></tr>
+<tr><td>$\tan x$</td><td>$\dfrac{1}{\cos^2 x} = 1 + \tan^2 x$</td><td></td></tr>
+<tr><td>$\arcsin x$</td><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
+<tr><td>$\arccos x$</td><td>$-\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
+<tr><td>$\arctan x$</td><td>$\dfrac{1}{1+x^2}$</td><td></td></tr>
+</table>
+
+<hr>
+
+<h2>2. Differentiation rules</h2>
+
+<table>
+<tr><th>Rule</th><th>Formula</th></tr>
+<tr><td>Constant multiple</td><td>$(cf)' = c \cdot f'$</td></tr>
+<tr><td>Sum</td><td>$(f + g)' = f' + g'$</td></tr>
+<tr><td>Product</td><td>$(fg)' = f'g + fg'$</td></tr>
+<tr><td>Quotient</td><td>$\left(\dfrac{f}{g}\right)' = \dfrac{f'g - fg'}{g^2}$</td></tr>
+<tr><td>Chain rule</td><td>$(f \circ g)' = f'(g(x)) \cdot g'(x)$</td></tr>
+</table>
+
+<p><strong>The chain rule in words:</strong> derivative of the outside (evaluated at the inside) times derivative of the inside.</p>
+
+<p><strong>Example:</strong> $\dfrac{d}{dx}\, e^{3x^2} = e^{3x^2} \cdot 6x$. Outside: $e^u$, derivative $e^u$. Inside: $3x^2$, derivative $6x$.</p>
+
+<hr>
+
+<h2>3. Standard antiderivatives (integrals)</h2>
+
+<p>Each row is the reverse of the derivative table. Don't forget $+ C$.</p>
+
+<table>
+<tr><th>$f(x)$</th><th>$\int f(x)\,dx$</th><th>Notes</th></tr>
+<tr><td>$x^n$ ($n \neq -1$)</td><td>$\dfrac{x^{n+1}}{n+1} + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{x}$</td><td>$\ln|x| + C$</td><td>Note the absolute value</td></tr>
+<tr><td>$e^x$</td><td>$e^x + C$</td><td></td></tr>
+<tr><td>$a^x$</td><td>$\dfrac{a^x}{\ln a} + C$</td><td></td></tr>
+<tr><td>$\sin x$</td><td>$-\cos x + C$</td><td>Note the minus sign</td></tr>
+<tr><td>$\cos x$</td><td>$\sin x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{\cos^2 x}$</td><td>$\tan x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$\arcsin x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{1+x^2}$</td><td>$\arctan x + C$</td><td></td></tr>
+</table>
+
+<hr>
+
+<h2>4. Quick patterns</h2>
+
+<p>When the inside function's derivative appears as a factor, the integral is immediate:</p>
+
+<table>
+<tr><th>Pattern</th><th>Result</th><th>Example</th></tr>
+<tr><td>$\int f'(x) \cdot e^{f(x)}\,dx$</td><td>$e^{f(x)} + C$</td><td>$\int 2x\, e^{x^2}\,dx = e^{x^2} + C$</td></tr>
+<tr><td>$\int \dfrac{f'(x)}{f(x)}\,dx$</td><td>$\ln|f(x)| + C$</td><td>$\int \dfrac{2x}{x^2+1}\,dx = \ln(x^2+1) + C$</td></tr>
+<tr><td>$\int f'(x) [f(x)]^n\,dx$</td><td>$\dfrac{[f(x)]^{n+1}}{n+1} + C$</td><td>$\int 3x^2(x^3+1)^4\,dx = \dfrac{(x^3+1)^5}{5} + C$</td></tr>
+</table>
+
+<p><strong>Ready to practise?</strong> <a href="00b-derivatives-integrals-exercises.html">3 quick exercises &rarr;</a></p>
+
+<div class="nav">
+  <a href="00a-arithmetic-rules.html">&larr; Previous: Arithmetic Rules</a>
+  <a href="00-factoring.html">Next: Factoring &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>

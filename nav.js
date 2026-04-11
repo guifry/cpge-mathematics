@@ -135,11 +135,13 @@
 
   var refresherPages = [
     ['00a-arithmetic-rules', 'Arithmetic Rules'],
+    ['00b-derivatives-integrals', 'Derivatives & Integrals'],
     ['00-factoring', 'Factoring'],
     ['01-equation-solving', 'Equation Solving'],
     ['02-polynomials', 'Polynomials & Factoring'],
     ['03-concepts', 'Concepts Refresher'],
     ['07-trigonometry', 'Trigonometry'],
+    ['00b-derivatives-integrals-exercises', 'Deriv/Integral Exercises'],
     ['00-factoring-exercises', 'Factoring Exercises'],
     ['04-equation-exercises', 'Equation Exercises'],
     ['05-polynomial-exercises', 'Polynomial Exercises'],
