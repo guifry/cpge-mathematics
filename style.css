@@ -80,6 +80,12 @@ hr { border: none; border-top: 1px solid var(--accent2); margin: 2.5rem 0; }
 .exercise summary:hover { color: #6cb; }
 .exercise summary::marker { color: #4a9; }
 .exercise details[open] summary { margin-bottom: 0.5rem; }
+.quiz-toggle { display: inline-block; background: rgba(74,153,102,0.12); border: 1px solid #4a9; color: #4a9; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 0.8rem; margin-bottom: 0.5rem; transition: background 0.2s, color 0.2s; letter-spacing: 0.03em; }
+.quiz-toggle:hover { background: rgba(74,153,102,0.25); }
+.quiz-toggle.active { background: #4a9; color: var(--bg); }
+.quiz-active .qa { visibility: hidden; }
+.quiz-hard .qa-full { visibility: hidden; }
+.quiz-hint .qa-part { visibility: hidden; }
 .exercise .solution { background: rgba(74, 153, 102, 0.08); border-radius: 4px; padding: 0.8rem 1rem; margin-top: 0.3rem; }
 figure { margin: 1.5rem 0; text-align: center; }
 figure svg { max-width: 100%; }

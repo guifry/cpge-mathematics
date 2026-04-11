@@ -26,35 +26,35 @@
 
 <h2>1. Derivatives</h2>
 
-<table>
+<table class="quiz-table">
 <tr><th>$f(x)$</th><th>$f'(x)$</th><th>Notes</th></tr>
-<tr><td>$c$ (constant)</td><td>$0$</td><td></td></tr>
-<tr><td>$x^n$</td><td>$nx^{n-1}$</td><td>Works for any $n \in \mathbb{R}$, including negative and fractional</td></tr>
-<tr><td>$\sqrt{x} = x^{1/2}$</td><td>$\dfrac{1}{2\sqrt{x}}$</td><td>Special case of power rule with $n = 1/2$</td></tr>
-<tr><td>$\dfrac{1}{x} = x^{-1}$</td><td>$-\dfrac{1}{x^2}$</td><td>Special case with $n = -1$</td></tr>
-<tr><td>$e^x$</td><td>$e^x$</td><td>The only function equal to its own derivative</td></tr>
-<tr><td>$a^x$</td><td>$a^x \ln a$</td><td>Generalises $e^x$ (where $\ln e = 1$)</td></tr>
-<tr><td>$\ln x$</td><td>$\dfrac{1}{x}$</td><td>$x > 0$</td></tr>
-<tr><td>$\log_a x$</td><td>$\dfrac{1}{x \ln a}$</td><td>$x > 0$</td></tr>
-<tr><td>$\sin x$</td><td>$\cos x$</td><td></td></tr>
-<tr><td>$\cos x$</td><td>$-\sin x$</td><td>Note the minus sign</td></tr>
-<tr><td>$\tan x$</td><td>$\dfrac{1}{\cos^2 x} = 1 + \tan^2 x$</td><td></td></tr>
-<tr><td>$\arcsin x$</td><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
-<tr><td>$\arccos x$</td><td>$-\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
-<tr><td>$\arctan x$</td><td>$\dfrac{1}{1+x^2}$</td><td></td></tr>
+<tr><td>$c$ (constant)</td><td class="qa">$0$</td><td></td></tr>
+<tr><td>$x^n$</td><td class="qa">$nx^{n-1}$</td><td>Works for any $n \in \mathbb{R}$, including negative and fractional</td></tr>
+<tr><td>$\sqrt{x} = x^{1/2}$</td><td class="qa">$\dfrac{1}{2\sqrt{x}}$</td><td>Special case of power rule with $n = 1/2$</td></tr>
+<tr><td>$\dfrac{1}{x} = x^{-1}$</td><td class="qa">$-\dfrac{1}{x^2}$</td><td>Special case with $n = -1$</td></tr>
+<tr><td>$e^x$</td><td class="qa">$e^x$</td><td>The only function equal to its own derivative</td></tr>
+<tr><td>$a^x$</td><td class="qa">$a^x \ln a$</td><td>Generalises $e^x$ (where $\ln e = 1$)</td></tr>
+<tr><td>$\ln x$</td><td class="qa">$\dfrac{1}{x}$</td><td>$x > 0$</td></tr>
+<tr><td>$\log_a x$</td><td class="qa">$\dfrac{1}{x \ln a}$</td><td>$x > 0$</td></tr>
+<tr><td>$\sin x$</td><td class="qa">$\cos x$</td><td></td></tr>
+<tr><td>$\cos x$</td><td class="qa">$-\sin x$</td><td>Note the minus sign</td></tr>
+<tr><td>$\tan x$</td><td class="qa">$\dfrac{1}{\cos^2 x} = 1 + \tan^2 x$</td><td></td></tr>
+<tr><td>$\arcsin x$</td><td class="qa">$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
+<tr><td>$\arccos x$</td><td class="qa">$-\dfrac{1}{\sqrt{1-x^2}}$</td><td>$|x| < 1$</td></tr>
+<tr><td>$\arctan x$</td><td class="qa">$\dfrac{1}{1+x^2}$</td><td></td></tr>
 </table>
 
 <hr>
 
 <h2>2. Differentiation rules</h2>
 
-<table>
+<table class="quiz-table">
 <tr><th>Rule</th><th>Formula</th></tr>
-<tr><td>Constant multiple</td><td>$(cf)' = c \cdot f'$</td></tr>
-<tr><td>Sum</td><td>$(f + g)' = f' + g'$</td></tr>
-<tr><td>Product</td><td>$(fg)' = f'g + fg'$</td></tr>
-<tr><td>Quotient</td><td>$\left(\dfrac{f}{g}\right)' = \dfrac{f'g - fg'}{g^2}$</td></tr>
-<tr><td>Chain rule</td><td>$(f \circ g)' = f'(g(x)) \cdot g'(x)$</td></tr>
+<tr><td>Constant multiple</td><td class="qa">$(cf)' = c \cdot f'$</td></tr>
+<tr><td>Sum</td><td class="qa">$(f + g)' = f' + g'$</td></tr>
+<tr><td>Product</td><td class="qa">$(fg)' = f'g + fg'$</td></tr>
+<tr><td>Quotient</td><td class="qa">$\left(\dfrac{f}{g}\right)' = \dfrac{f'g - fg'}{g^2}$</td></tr>
+<tr><td>Chain rule</td><td class="qa">$(f \circ g)' = f'(g(x)) \cdot g'(x)$</td></tr>
 </table>
 
 <p><strong>The chain rule in words:</strong> derivative of the outside (evaluated at the inside) times derivative of the inside.</p>
@@ -67,17 +67,17 @@
 
 <p>Each row is the reverse of the derivative table. Don't forget $+ C$.</p>
 
-<table>
+<table class="quiz-table">
 <tr><th>$f(x)$</th><th>$\int f(x)\,dx$</th><th>Notes</th></tr>
-<tr><td>$x^n$ ($n \neq -1$)</td><td>$\dfrac{x^{n+1}}{n+1} + C$</td><td></td></tr>
-<tr><td>$\dfrac{1}{x}$</td><td>$\ln|x| + C$</td><td>Note the absolute value</td></tr>
-<tr><td>$e^x$</td><td>$e^x + C$</td><td></td></tr>
-<tr><td>$a^x$</td><td>$\dfrac{a^x}{\ln a} + C$</td><td></td></tr>
-<tr><td>$\sin x$</td><td>$-\cos x + C$</td><td>Note the minus sign</td></tr>
-<tr><td>$\cos x$</td><td>$\sin x + C$</td><td></td></tr>
-<tr><td>$\dfrac{1}{\cos^2 x}$</td><td>$\tan x + C$</td><td></td></tr>
-<tr><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td>$\arcsin x + C$</td><td></td></tr>
-<tr><td>$\dfrac{1}{1+x^2}$</td><td>$\arctan x + C$</td><td></td></tr>
+<tr><td>$x^n$ ($n \neq -1$)</td><td class="qa">$\dfrac{x^{n+1}}{n+1} + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{x}$</td><td class="qa">$\ln|x| + C$</td><td>Note the absolute value</td></tr>
+<tr><td>$e^x$</td><td class="qa">$e^x + C$</td><td></td></tr>
+<tr><td>$a^x$</td><td class="qa">$\dfrac{a^x}{\ln a} + C$</td><td></td></tr>
+<tr><td>$\sin x$</td><td class="qa">$-\cos x + C$</td><td>Note the minus sign</td></tr>
+<tr><td>$\cos x$</td><td class="qa">$\sin x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{\cos^2 x}$</td><td class="qa">$\tan x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{\sqrt{1-x^2}}$</td><td class="qa">$\arcsin x + C$</td><td></td></tr>
+<tr><td>$\dfrac{1}{1+x^2}$</td><td class="qa">$\arctan x + C$</td><td></td></tr>
 </table>
 
 <hr>
@@ -86,11 +86,11 @@
 
 <p>When the inside function's derivative appears as a factor, the integral is immediate:</p>
 
-<table>
+<table class="quiz-table">
 <tr><th>Pattern</th><th>Result</th><th>Example</th></tr>
-<tr><td>$\int f'(x) \cdot e^{f(x)}\,dx$</td><td>$e^{f(x)} + C$</td><td>$\int 2x\, e^{x^2}\,dx = e^{x^2} + C$</td></tr>
-<tr><td>$\int \dfrac{f'(x)}{f(x)}\,dx$</td><td>$\ln|f(x)| + C$</td><td>$\int \dfrac{2x}{x^2+1}\,dx = \ln(x^2+1) + C$</td></tr>
-<tr><td>$\int f'(x) [f(x)]^n\,dx$</td><td>$\dfrac{[f(x)]^{n+1}}{n+1} + C$</td><td>$\int 3x^2(x^3+1)^4\,dx = \dfrac{(x^3+1)^5}{5} + C$</td></tr>
+<tr><td>$\int f'(x) \cdot e^{f(x)}\,dx$</td><td class="qa">$e^{f(x)} + C$</td><td class="qa">$\int 2x\, e^{x^2}\,dx = e^{x^2} + C$</td></tr>
+<tr><td>$\int \dfrac{f'(x)}{f(x)}\,dx$</td><td class="qa">$\ln|f(x)| + C$</td><td class="qa">$\int \dfrac{2x}{x^2+1}\,dx = \ln(x^2+1) + C$</td></tr>
+<tr><td>$\int f'(x) [f(x)]^n\,dx$</td><td class="qa">$\dfrac{[f(x)]^{n+1}}{n+1} + C$</td><td class="qa">$\int 3x^2(x^3+1)^4\,dx = \dfrac{(x^3+1)^5}{5} + C$</td></tr>
 </table>
 
 <p><strong>Ready to practise?</strong> <a href="00b-derivatives-integrals-exercises.html">3 quick exercises &rarr;</a></p>
@@ -102,5 +102,6 @@
 
 <script src="../nav.js"></script>
 <script src="../tutor.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>

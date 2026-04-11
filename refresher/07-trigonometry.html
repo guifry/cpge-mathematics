@@ -222,9 +222,9 @@
 <p>Radians are the standard in all mathematics beyond high school. The conversion:</p>
 <div class="display-math">$$\pi \text{ radians} = 180° \qquad\Longrightarrow\qquad 1° = \frac{\pi}{180} \qquad\text{and}\qquad 1 \text{ rad} = \frac{180°}{\pi} \approx 57.3°$$</div>
 
-<table>
+<table class="quiz-table">
 <tr><th>Degrees</th><th>$0°$</th><th>$30°$</th><th>$45°$</th><th>$60°$</th><th>$90°$</th><th>$180°$</th><th>$270°$</th><th>$360°$</th></tr>
-<tr><td>Radians</td><td>$0$</td><td>$\pi/6$</td><td>$\pi/4$</td><td>$\pi/3$</td><td>$\pi/2$</td><td>$\pi$</td><td>$3\pi/2$</td><td>$2\pi$</td></tr>
+<tr><td>Radians</td><td class="qa">$0$</td><td class="qa">$\pi/6$</td><td class="qa">$\pi/4$</td><td class="qa">$\pi/3$</td><td class="qa">$\pi/2$</td><td class="qa">$\pi$</td><td class="qa">$3\pi/2$</td><td class="qa">$2\pi$</td></tr>
 </table>
 
 <p><strong>From now on, always use radians.</strong> The entire course is in radians.</p>
@@ -233,11 +233,11 @@
 
 <h2>4. Key values to memorise</h2>
 
-<table>
+<table class="quiz-table">
 <tr><th>$\theta$</th><th>$0$</th><th>$\pi/6$</th><th>$\pi/4$</th><th>$\pi/3$</th><th>$\pi/2$</th></tr>
-<tr><td>$\sin\theta$</td><td>$0$</td><td>$\dfrac{1}{2}$</td><td>$\dfrac{\sqrt{2}}{2}$</td><td>$\dfrac{\sqrt{3}}{2}$</td><td>$1$</td></tr>
-<tr><td>$\cos\theta$</td><td>$1$</td><td>$\dfrac{\sqrt{3}}{2}$</td><td>$\dfrac{\sqrt{2}}{2}$</td><td>$\dfrac{1}{2}$</td><td>$0$</td></tr>
-<tr><td>$\tan\theta$</td><td>$0$</td><td>$\dfrac{1}{\sqrt{3}}$</td><td>$1$</td><td>$\sqrt{3}$</td><td>undef</td></tr>
+<tr><td>$\sin\theta$</td><td class="qa">$0$</td><td class="qa">$\dfrac{1}{2}$</td><td class="qa">$\dfrac{\sqrt{2}}{2}$</td><td class="qa">$\dfrac{\sqrt{3}}{2}$</td><td class="qa">$1$</td></tr>
+<tr><td>$\cos\theta$</td><td class="qa">$1$</td><td class="qa">$\dfrac{\sqrt{3}}{2}$</td><td class="qa">$\dfrac{\sqrt{2}}{2}$</td><td class="qa">$\dfrac{1}{2}$</td><td class="qa">$0$</td></tr>
+<tr><td>$\tan\theta$</td><td class="qa">$0$</td><td class="qa">$\dfrac{1}{\sqrt{3}}$</td><td class="qa">$1$</td><td class="qa">$\sqrt{3}$</td><td class="qa">undef</td></tr>
 </table>
 
 <p><strong>Pattern for sine:</strong> $\frac{\sqrt{0}}{2}, \frac{\sqrt{1}}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, \frac{\sqrt{4}}{2}$. That's $0, \frac{1}{2}, \frac{\sqrt{2}}{2}, \frac{\sqrt{3}}{2}, 1$. Cosine is the same sequence reversed.</p>
@@ -264,12 +264,12 @@
 
 <p>These let you reduce any angle to the first quadrant:</p>
 
-<table>
+<table class="quiz-table">
 <tr><th>Relation</th><th>$\sin$</th><th>$\cos$</th><th>Meaning</th></tr>
-<tr><td>$\pi - \theta$</td><td>$\sin\theta$</td><td>$-\cos\theta$</td><td>Reflect across y-axis</td></tr>
-<tr><td>$\pi + \theta$</td><td>$-\sin\theta$</td><td>$-\cos\theta$</td><td>Rotate 180°</td></tr>
-<tr><td>$-\theta$</td><td>$-\sin\theta$</td><td>$\cos\theta$</td><td>Reflect across x-axis</td></tr>
-<tr><td>$\pi/2 - \theta$</td><td>$\cos\theta$</td><td>$\sin\theta$</td><td>Complementary angle</td></tr>
+<tr><td>$\pi - \theta$</td><td class="qa">$\sin\theta$</td><td class="qa">$-\cos\theta$</td><td>Reflect across y-axis</td></tr>
+<tr><td>$\pi + \theta$</td><td class="qa">$-\sin\theta$</td><td class="qa">$-\cos\theta$</td><td>Rotate 180°</td></tr>
+<tr><td>$-\theta$</td><td class="qa">$-\sin\theta$</td><td class="qa">$\cos\theta$</td><td>Reflect across x-axis</td></tr>
+<tr><td>$\pi/2 - \theta$</td><td class="qa">$\cos\theta$</td><td class="qa">$\sin\theta$</td><td>Complementary angle</td></tr>
 </table>
 
 <p><strong>Example:</strong> $\cos(3\pi/4) = \cos(\pi - \pi/4) = -\cos(\pi/4) = -\sqrt{2}/2$.</p>
@@ -354,5 +354,6 @@
 
 <script src="../nav.js"></script>
 <script src="../tutor.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>

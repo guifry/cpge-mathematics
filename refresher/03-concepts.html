@@ -30,13 +30,13 @@
 <p>Define $i$ as a number satisfying $i^2 = -1$. A <strong>complex number</strong> is $z = a + bi$ where $a, b \in \mathbb{R}$. We call $a = \operatorname{Re}(z)$ the <strong>real part</strong> and $b = \operatorname{Im}(z)$ the <strong>imaginary part</strong>.</p>
 
 <h3>Arithmetic</h3>
-<table>
+<table class="quiz-table" data-quiz-type="F">
 <tr><th>Operation</th><th>Rule</th></tr>
-<tr><td>Addition</td><td>$(a+bi) + (c+di) = (a+c) + (b+d)i$</td></tr>
-<tr><td>Multiplication</td><td>$(a+bi)(c+di) = (ac - bd) + (ad + bc)i$</td></tr>
-<tr><td>Conjugate</td><td>$\overline{a+bi} = a - bi$</td></tr>
-<tr><td>Modulus</td><td>$|a+bi| = \sqrt{a^2 + b^2}$</td></tr>
-<tr><td>Division</td><td>$\dfrac{z}{w} = \dfrac{z\bar{w}}{|w|^2}$</td></tr>
+<tr><td>Addition</td><td class="qa-full">$(a+bi) + (c+di)$ <span class="qa-part">$= (a+c) + (b+d)i$</span></td></tr>
+<tr><td>Multiplication</td><td class="qa-full">$(a+bi)(c+di)$ <span class="qa-part">$= (ac - bd) + (ad + bc)i$</span></td></tr>
+<tr><td>Conjugate</td><td class="qa-full">$\overline{a+bi}$ <span class="qa-part">$= a - bi$</span></td></tr>
+<tr><td>Modulus</td><td class="qa-full">$|a+bi|$ <span class="qa-part">$= \sqrt{a^2 + b^2}$</span></td></tr>
+<tr><td>Division</td><td class="qa-full">$\dfrac{z}{w}$ <span class="qa-part">$= \dfrac{z\bar{w}}{|w|^2}$</span></td></tr>
 </table>
 
 <p><strong>Key identity:</strong> $z\bar{z} = |z|^2$. This is how you divide &mdash; multiply numerator and denominator by $\bar{w}$.</p>
@@ -118,5 +118,6 @@
 
 <script src="../nav.js"></script>
 <script src="../tutor.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>
