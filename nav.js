@@ -133,22 +133,27 @@
   hr.className = 'sidebar-hr';
   sidebar.appendChild(hr);
 
-  var refresherPages = [
+  var refresherTheory = [
     ['00a-arithmetic-rules', 'Arithmetic Rules'],
     ['00b-derivatives-integrals', 'Derivatives & Integrals'],
     ['00-factoring', 'Factoring'],
     ['01-equation-solving', 'Equation Solving'],
-    ['02-polynomials', 'Polynomials & Factoring'],
-    ['03-concepts', 'Concepts Refresher'],
-    ['07-trigonometry', 'Trigonometry'],
-    ['00a-arithmetic-exercises', 'Arithmetic Exercises'],
-    ['00b-derivatives-integrals-exercises', 'Deriv/Integral Exercises'],
-    ['00-factoring-exercises', 'Factoring Exercises'],
-    ['04-equation-exercises', 'Equation Exercises'],
-    ['05-polynomial-exercises', 'Polynomial Exercises'],
-    ['06-concept-exercises', 'Concept Exercises'],
-    ['07-trigonometry-exercises', 'Trig Exercises']
+    ['02-polynomials', 'Polynomials'],
+    ['03-concepts', 'Concepts'],
+    ['07-trigonometry', 'Trigonometry']
   ];
+  var refresherExercises = [
+    ['00a-arithmetic-exercises', 'Arithmetic'],
+    ['00b-derivatives-integrals-exercises', 'Derivatives & Integrals'],
+    ['00-factoring-exercises', 'Factoring'],
+    ['04-equation-exercises', 'Equation Solving'],
+    ['05-polynomial-exercises', 'Polynomials'],
+    ['06-concept-exercises', 'Concepts'],
+    ['07-trigonometry-exercises', 'Trigonometry']
+  ];
+
+  var isRefresher = currentPath.indexOf('/refresher/') > -1;
+  var isExercisePage = isRefresher && currentPath.indexOf('exercises') > -1;
 
   var list = document.createElement('div');
   list.className = 'sidebar-phases';
@@ -159,7 +164,6 @@
   refresherToggle.className = 'sidebar-phase-toggle';
   refresherToggle.style.color = '#4a9';
   refresherToggle.textContent = 'Refresher';
-  var isRefresher = currentPath.indexOf('/refresher/') > -1;
   if (isRefresher) { refresherToggle.classList.add('active'); refresherToggle.classList.add('expanded'); }
   var refresherList = document.createElement('div');
   refresherList.className = 'sidebar-pages';
@@ -172,14 +176,40 @@
   refresherIndex.textContent = 'Overview';
   refresherList.appendChild(refresherIndex);
 
-  refresherPages.forEach(function (p) {
-    var a = document.createElement('a');
-    a.href = prefix + 'refresher/' + p[0] + '.html';
-    a.className = 'sidebar-page';
-    if (currentPath.indexOf(p[0]) > -1 && isRefresher) a.classList.add('active');
-    a.textContent = p[1];
-    refresherList.appendChild(a);
-  });
+  function buildSubSection(label, pages, parentEl, openByDefault) {
+    var subToggle = document.createElement('button');
+    subToggle.className = 'sidebar-phase-toggle';
+    subToggle.style.fontSize = '0.72rem';
+    subToggle.style.paddingLeft = '1.4rem';
+    subToggle.style.color = '#6a9';
+    subToggle.textContent = label;
+    var isOpen = openByDefault && isRefresher;
+    if (isOpen) subToggle.classList.add('expanded');
+    var subPages = document.createElement('div');
+    subPages.className = 'sidebar-pages';
+    if (isOpen) subPages.classList.add('open');
+    var hasActive = false;
+    pages.forEach(function (p) {
+      var a = document.createElement('a');
+      a.href = prefix + 'refresher/' + p[0] + '.html';
+      a.className = 'sidebar-page';
+      a.style.paddingLeft = '2.2rem';
+      if (currentPath.indexOf(p[0]) > -1 && isRefresher) { a.classList.add('active'); hasActive = true; }
+      a.textContent = p[1];
+      subPages.appendChild(a);
+    });
+    if (hasActive && !isOpen) { subPages.classList.add('open'); subToggle.classList.add('expanded'); }
+    subToggle.addEventListener('click', function () {
+      subPages.classList.toggle('open');
+      subToggle.classList.toggle('expanded');
+    });
+    parentEl.appendChild(subToggle);
+    parentEl.appendChild(subPages);
+  }
+
+  buildSubSection('Theory', refresherTheory, refresherList, true);
+  buildSubSection('Exercises', refresherExercises, refresherList, false);
+
   refresherToggle.addEventListener('click', function () {
     refresherList.classList.toggle('open');
     refresherToggle.classList.toggle('expanded');
