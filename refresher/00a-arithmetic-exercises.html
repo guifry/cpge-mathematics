@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arithmetic Rules Exercises — Refresher</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+</head>
+<body>
+
+<h1>Arithmetic Rules Exercises</h1>
+<p class="subtitle">Refresher &mdash; 2 easy + 3 hard</p>
+
+<p>Reference: <a href="00a-arithmetic-rules.html">Arithmetic Rules</a>. The easy exercises check each category. The hard ones combine everything.</p>
+
+<hr>
+
+<h2>Easy</h2>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 1 &mdash; One from each category</div>
+<p>Simplify each expression to a single number or simplest form:</p>
+<ol>
+<li><strong>Exponents:</strong> $\;\dfrac{2^5 \cdot 2^{-3}}{4}$</li>
+<li><strong>Logarithms:</strong> $\;\ln(e^3) + \ln(1) - 2\ln(e)$</li>
+<li><strong>Fractions:</strong> $\;\dfrac{2}{3} + \dfrac{5}{6}$</li>
+<li><strong>Square roots:</strong> $\;\sqrt{75} - 2\sqrt{27}$</li>
+<li><strong>Roots &amp; powers:</strong> $\;\left(x^{1/3}\right)^6$</li>
+</ol>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p><strong>(a)</strong> $\dfrac{2^5 \cdot 2^{-3}}{4} = \dfrac{2^{5-3}}{2^2} = \dfrac{2^2}{2^2} = 1$.</p>
+<p><strong>(b)</strong> $\ln(e^3) + \ln(1) - 2\ln(e) = 3 + 0 - 2 = 1$.</p>
+<p><strong>(c)</strong> $\dfrac{2}{3} + \dfrac{5}{6} = \dfrac{4}{6} + \dfrac{5}{6} = \dfrac{9}{6} = \dfrac{3}{2}$.</p>
+<p><strong>(d)</strong> $\sqrt{75} = 5\sqrt{3}$ and $\sqrt{27} = 3\sqrt{3}$. So $5\sqrt{3} - 2(3\sqrt{3}) = 5\sqrt{3} - 6\sqrt{3} = -\sqrt{3}$.</p>
+<p><strong>(e)</strong> $(x^{1/3})^6 = x^{6/3} = x^2$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 2 &mdash; Another from each category</div>
+<p>Simplify:</p>
+<ol>
+<li><strong>Exponents:</strong> $\;\left(\dfrac{3^4}{3^{-2}}\right)^{1/3}$</li>
+<li><strong>Logarithms:</strong> $\;\ln\!\left(\dfrac{e^5}{\sqrt{e}}\right)$</li>
+<li><strong>Fractions:</strong> $\;\dfrac{\;\frac{2}{x}\;}{\;\frac{4}{x^2}\;}$</li>
+<li><strong>Square roots:</strong> $\;\dfrac{6}{\sqrt{3}}$</li>
+<li><strong>Roots &amp; powers:</strong> $\;\sqrt{x} \cdot \sqrt[3]{x}$</li>
+</ol>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p><strong>(a)</strong> $\dfrac{3^4}{3^{-2}} = 3^{4-(-2)} = 3^6$. Then $(3^6)^{1/3} = 3^2 = 9$.</p>
+<p><strong>(b)</strong> $\ln\!\left(\dfrac{e^5}{\sqrt{e}}\right) = \ln(e^5) - \ln(e^{1/2}) = 5 - \dfrac{1}{2} = \dfrac{9}{2}$.</p>
+<p><strong>(c)</strong> Dividing fractions: $\dfrac{2}{x} \cdot \dfrac{x^2}{4} = \dfrac{2x^2}{4x} = \dfrac{x}{2}$.</p>
+<p><strong>(d)</strong> Rationalise: $\dfrac{6}{\sqrt{3}} = \dfrac{6\sqrt{3}}{3} = 2\sqrt{3}$.</p>
+<p><strong>(e)</strong> $x^{1/2} \cdot x^{1/3} = x^{1/2 + 1/3} = x^{5/6}$.</p>
+</div>
+</details>
+</div>
+
+<hr>
+
+<h2>Hard</h2>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 3 &mdash; Is this correct?</div>
+<p>A student simplifies the following expression. For each step, say whether it's <strong>correct</strong> or <strong>wrong</strong>. If wrong, give the correct result.</p>
+
+<div class="display-math">$$\frac{\sqrt{8} \cdot 3^2}{\sqrt{2} \cdot 9} \quad\xrightarrow{\text{step 1}}\quad \frac{\sqrt{4} \cdot 9}{\sqrt{2} \cdot 9} \quad\xrightarrow{\text{step 2}}\quad \frac{\sqrt{4}}{\sqrt{2}} \quad\xrightarrow{\text{step 3}}\quad \sqrt{4/2} \quad\xrightarrow{\text{step 4}}\quad \sqrt{2}$$</div>
+
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p><strong>Step 1: WRONG.</strong> $\sqrt{8} \neq \sqrt{4}$. The student confused $\sqrt{8}$ with $\sqrt{4}$. Correct: $\sqrt{8} = 2\sqrt{2}$. And $3^2 = 9$. So the numerator is $2\sqrt{2} \cdot 9 = 18\sqrt{2}$.</p>
+<p><strong>Let's redo it correctly from the start:</strong></p>
+<div class="display-math">$$\frac{\sqrt{8} \cdot 3^2}{\sqrt{2} \cdot 9} = \frac{2\sqrt{2} \cdot 9}{\sqrt{2} \cdot 9} = \frac{2\sqrt{2}}{\sqrt{2}} = 2$$</div>
+<p>The $9$'s cancel, the $\sqrt{2}$'s cancel. Answer is $2$, not $\sqrt{2}$.</p>
+<p><strong>Steps 2, 3, 4</strong> are all individually valid operations ($9$ cancels, $\sqrt{a}/\sqrt{b} = \sqrt{a/b}$, $\sqrt{4/2} = \sqrt{2}$) but they're applied to a wrong starting point. The error was in step 1.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 4 &mdash; Which simplification is correct?</div>
+<p>Simplify: $\;\;\ln\!\left(\dfrac{x^3\sqrt{x}}{e^{2x}}\right)$</p>
+<p>Three students give three answers. Which is correct?</p>
+<ul>
+<li><strong>A:</strong> $\;3\ln x + \frac{1}{2}\ln x - 2x$</li>
+<li><strong>B:</strong> $\;\frac{7}{2}\ln x - 2x$</li>
+<li><strong>C:</strong> $\;\frac{3}{2}\ln x - 2x$</li>
+</ul>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p>Apply log rules step by step:</p>
+<div class="display-math">$$\ln\!\left(\frac{x^3\sqrt{x}}{e^{2x}}\right) = \ln(x^3\sqrt{x}) - \ln(e^{2x})$$</div>
+<div class="display-math">$$= \ln(x^3) + \ln(\sqrt{x}) - 2x$$</div>
+<div class="display-math">$$= 3\ln x + \tfrac{1}{2}\ln x - 2x$$</div>
+<div class="display-math">$$= \tfrac{7}{2}\ln x - 2x$$</div>
+<p><strong>A is correct</strong> (unsimplified form). <strong>B is correct</strong> (simplified form). They're the same thing.</p>
+<p><strong>C is wrong.</strong> The student wrote $\ln(x^3 \cdot x^{1/2})$ as $\ln(x^{3/2})$ instead of $\ln(x^{7/2})$. They multiplied the exponents instead of adding them: $x^3 \cdot x^{1/2} = x^{3 + 1/2} = x^{7/2}$, not $x^{3 \cdot 1/2}$.</p>
+</div>
+</details>
+</div>
+
+<div class="exercise">
+<div class="exercise-label">Exercise 5 &mdash; Simplify this monster</div>
+<p>Simplify to a single fraction with no roots in the denominator:</p>
+<div class="display-math">$$\frac{\;\dfrac{1}{\sqrt{x}} - \dfrac{\sqrt{x}}{x^2}\;}{1 + \dfrac{1}{x}}$$</div>
+<details>
+<summary>Show solution</summary>
+<div class="solution">
+<p><strong>Step 1: convert everything to powers of $x$.</strong></p>
+<div class="display-math">$$\frac{x^{-1/2} - x^{1/2} \cdot x^{-2}}{1 + x^{-1}} = \frac{x^{-1/2} - x^{-3/2}}{1 + x^{-1}}$$</div>
+
+<p><strong>Step 2: simplify numerator.</strong> Factor out $x^{-3/2}$ (the smaller power):</p>
+<div class="display-math">$$x^{-3/2}(x^1 - 1) = \frac{x - 1}{x^{3/2}}$$</div>
+
+<p><strong>Step 3: simplify denominator.</strong> $1 + x^{-1} = \dfrac{x + 1}{x}$.</p>
+
+<p><strong>Step 4: divide.</strong></p>
+<div class="display-math">$$\frac{(x-1)/x^{3/2}}{(x+1)/x} = \frac{x-1}{x^{3/2}} \cdot \frac{x}{x+1} = \frac{x(x-1)}{x^{3/2}(x+1)} = \frac{x-1}{x^{1/2}(x+1)} = \frac{(x-1)\sqrt{x}}{x(x+1)}$$</div>
+
+<p>The last step rationalises the denominator: multiply top and bottom by $\sqrt{x}$.</p>
+
+<p><strong>Final answer:</strong> $\;\dfrac{(x-1)\sqrt{x}}{x(x+1)}$</p>
+
+<p>This exercise uses: fractional exponents, factoring out common powers, fraction division (flip and multiply), and rationalising. All from the cheat sheet &mdash; no new concepts, just fluency under pressure.</p>
+</div>
+</details>
+</div>
+
+<div class="nav">
+  <a href="00a-arithmetic-rules.html">&larr; Arithmetic Rules</a>
+  <a href="00b-derivatives-integrals.html">Next: Derivatives &amp; Integrals &rarr;</a>
+</div>
+
+<script src="../nav.js"></script>
+<script src="../tutor.js"></script>
+</body>
+</html>
